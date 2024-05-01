@@ -1,0 +1,124 @@
+{
+    "locations": [
+        {
+            "title": "Near Ras id-Dawwara",
+            "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
+            "img": "/assets/images/places/6.png",
+            "lon": 14.355620,
+            "lat": 35.866722,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
+        },
+        {
+            "title": "Blue Grotto",
+            "description": "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of Żurrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
+            "img": "/assets/images/places/3.png",
+            "lon": 14.4562387,
+            "lat": 35.8207177,
+            "url": "https://www.instagram.com/reel/CzWSytWM385/embed"
+        },
+        {
+            "title": "Il-Mara",
+            "description": "Il Mara, located between Fort Benghajsa and Ghar Hasan beneath the impressive cliffs, is a beautiful but less-traveled spot ideal for hiking. The area's remote location means fewer visitors and a peaceful hiking experience. The cliffs offer dramatic views of the surrounding landscape, and the terrain provides a moderate challenge suitable for most hikers looking for an adventure off the beaten path.",
+            "img": "/assets/images/places/2.png",
+            "lon": 14.5305347,
+            "lat": 35.8065369,
+            "url": "https://www.instagram.com/reel/C2zz_hjMcY-/embed"
+        },
+        {
+            "title": "Għar ir-Riħ",
+            "description": "<b>Għar ir-Riħ</b> is in front of one of the cliff passages whose mouth is hidden behind a large rock. As you enter it you will find various rock formations that have formed over the years. At the end of it comes to another mouth that overlooks the sea with wonderful views.",
+            "img": "/assets/images/places/0.png",
+            "lon": 14.525437010570169,
+            "lat": 35.80702570126614,
+            "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed"
+        },
+        {
+            "title": "Ras Il-Mignuna Window",
+            "description": "This is a Natural Arch at <b>Ras Il-Mignuna</b> located on the coast of Qrendi, between Wied iż-Żurrieq and Għar Lapsi",
+            "img": "/assets/images/places/1.jpg",
+            "lon": 14.438552453233333,
+            "lat": 35.822497835426105,
+            "url": "https://www.instagram.com/reel/C4vmiFnorW3/embed"
+        },
+        {
+            "title": "Ras id-Dawwara",
+            "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
+            "img": "/assets/images/places/4.jpg",
+            "lon": 14.3536699,
+            "lat": 35.8681994,
+            "url": "https://www.instagram.com/reel/C4GkCUZM1Zp/embed"
+        },
+        {
+            "title": "Popeye Village",
+            "description": "Originally constructed as a film set for the 1980 movie 'Popeye', <b>Popeye Village</b> has since transformed into a colorful and vibrant amusement park. Located at Anchor Bay in the north-west of Malta, this unique attraction offers a glimpse into the quirky world of Popeye the Sailor. Visitors can explore the rustic wooden buildings, take part in various themed activities, and enjoy shows and boat rides. The bay also offers stunning views, making it a fun and picturesque destination for families and tourists alike.",
+            "img": "/assets/images/places/5.jpg",
+            "lon": 14.341693,
+            "lat": 35.960651,
+            "url": "https://www.instagram.com/reel/C4OF8cKMavp/embed"
+        },
+        {
+            "title": "Elephant Rock",
+            "description": "Elephant Rock is a stunning natural rock formation that resembles the shape of an elephant. Located along Malta's picturesque coastline, this geological wonder is a favorite spot for photographers and nature lovers. The area around Elephant Rock offers scenic walks and the opportunity to explore secluded coves and crystal-clear waters.",
+            "img": "/assets/images/places/7.jpg",
+            "lon": 14.346907885575565,
+            "lat": 36.01422213881614,
+            "url": "https://www.instagram.com/reel/C6BwwfTIXFm/embed"
+        },
+        {
+            "title": "Munxar Path",
+            "description": "Munxar Path is a scenic coastal walk in Marsaskala, offering breathtaking views of the Mediterranean Sea and the rugged Maltese coastline. This trail is perfect for nature enthusiasts and walkers who enjoy peaceful, picturesque landscapes. Along the path, hikers can observe local flora and fauna, explore small, hidden coves, and enjoy tranquil moments by the sea.",
+            "img": "/assets/images/places/8.jpg",
+            "lon": 14.570848,
+            "lat": 35.849367,
+            "url": "https://www.instagram.com/reel/C5ftOgOIvYz/embed"
+        },
+        {
+            "title": "Munxar Window",
+            "description": "The Munxar Window is a striking natural arch located along the rugged coastline of Malta, near Marsaskala. This impressive geological formation offers a unique sight, especially popular among photographers and nature enthusiasts. The area around the Munxar Window is ideal for scenic hikes and provides panoramic views of the surrounding sea and landscape, making it a must-visit for those seeking the beauty of Malta's natural wonders.",
+            "img": "/assets/images/places/9.JPG",
+            "lon": 14.5698237,
+            "lat": 35.8499062,
+            "url": "https://www.instagram.com/reel/C38LNq3McjE/embed"
+        },
+        {
+            "title": "Hofriet Window",
+            "description": "Hofriet Window, also known as the 'Blue Cave', is one of Malta's lesser-known yet captivating natural arches, located near the southern coast. This secluded spot is accessible primarily by boat and offers a unique blend of azure waters and dramatic rock formations. The tranquility and natural beauty of the area make it an ideal destination for those looking to escape the more crowded tourist spots and enjoy some of Malta's pristine marine environment.",
+            "img": "/assets/images/places/10.jpg",
+            "lon": 14.563689974293295,
+            "lat": 35.83819204033,
+            "url": "https://www.instagram.com/reel/C3nYoDeMwf_/embed"
+        },
+        {
+            "title": "Bighi Cot-Lift",
+            "description": "The Bighi Cot-Lift, part of the historical Bighi Royal Naval Hospital in Kalkara, is a remarkable example of early 20th-century engineering. Initially used to transport patients and goods between the hospital and the waterfront, the cot-lift is now a unique cultural heritage site that attracts visitors interested in the technological innovations of the past. The surrounding area offers stunning views of the Grand Harbour, making it a worthwhile visit for history buffs and those enjoying scenic landscapes.",
+            "img": "/assets/images/places/11.jpg",
+            "lon": 14.5244437,
+            "lat": 35.8919094,
+            "url": "https://www.instagram.com/reel/C7XgkJsMjFp/embed"
+        },
+        {
+            "title": "Wied il-Għasel",
+            "description": "Wied il-Għasel, which translates to 'Valley of Honey' in Maltese, is one of the longest valleys located in the northern region of Malta, near Mosta. This picturesque valley is renowned for its lush vegetation, seasonal streams, and historical significance, including several ancient cart ruts and a mysterious network of tunnels. It is a favorite among hikers and nature lovers for its serene environment and the diverse flora and fauna that can be explored throughout the year.",
+            "img": "/assets/images/places/12.jpg",
+            "lon": 14.4250258,
+            "lat": 35.9155058,
+            "url": "https://www.instagram.com/reel/C30t3rOMBVB/embed"
+        },
+        {
+            "title": "Coral Lagoon",
+            "description": "Coral Lagoon, located near Mellieħa on the northern coast of Malta, is a stunning natural wonder renowned for its crystal-clear waters and unique circular shape. This secluded lagoon is accessible via a hole in its rocky roof or by sea kayak, making it an adventurous spot for explorers and water sports enthusiasts. The Coral Lagoon is a perfect location for snorkeling, where one can observe a variety of marine life in a tranquil, almost untouched environment.",
+            "img": "/assets/images/places/13.jpg",
+            "lon": 14.3598449,
+            "lat": 35.9937992,
+            "url": "https://www.instagram.com/reel/CxQMcHHsWk4/embed"
+        },
+        {
+            "title": "L-Għar ta’ Bla Saqaf",
+            "description": "L-Għar ta’ Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellieħa. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
+            "img": "/assets/images/places/14.jpg",
+            "lon": 14.329411,
+            "lat": 36.009697,
+            "url": "https://www.instagram.com/reel/C7fHgZsMvjW/embed"
+        }
+    ]
+}
