@@ -1,1 +1,149 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$fpv-pilot-page-primary: mat.define-palette(mat.$indigo-palette);
+$fpv-pilot-page-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$fpv-pilot-page-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$fpv-pilot-page-theme: mat.define-light-theme((color: (primary: $fpv-pilot-page-primary,
+        accent: $fpv-pilot-page-accent,
+        warn: $fpv-pilot-page-warn,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($fpv-pilot-page-theme);
+
 /* You can add global styles to this file, and also import other style files */
+body {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  --mat-dialog-container-min-width: 100% !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+  padding: 25px !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  max-height: 80dvh;
+}
+
+
+@mixin xxl {
+  @media (min-width: 1400px) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: 992px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: 767px) and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: 576px) and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin xs {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
+@mixin mobileDevice {
+  @include md {
+    @content;
+  }
+
+  @include sm {
+    @content;
+  }
+
+  @include xs {
+    @content;
+  }
+}
+
+@mixin tabletAndDesktop {
+  @include xxl {
+    @content;
+  }
+
+  @include xl {
+    @content;
+  }
+
+  @include lg {
+    @content;
+  }
+}
+
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #262626 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #262626;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }

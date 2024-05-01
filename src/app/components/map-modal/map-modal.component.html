@@ -1,0 +1,28 @@
+<div class="map-modal">
+    <div class="header">
+        <i (click)="onNoClick()" class="fa fa-arrow-left"></i>
+    </div>
+    <div  class="body">
+        <div class="title">
+            {{ data.title }}
+          </div>
+          <div class="actions">
+            <div (click)="googleMaps()" class="button">Open on <b>Google Maps</b> </div>
+            <div (click)="explore()" class="button">Explore <b>Malta</b>  <i class="fa fa-map"></i></div>
+          </div>
+        <div class="section-1">
+            <div class="head">
+                  <div class="img">
+                    <img [src]="data.img | safe" width="100%" alt="">
+                  </div>
+            </div>
+          <div [innerHTML]="data.description" class="description"></div>
+        </div>
+        <div #content class="section-2">
+            <iframe #frame (load)="loaded()"  [src]="data.url | safe" width="100%" height="auto" frameborder="0" scrolling="no" allowtransparency="true">
+            </iframe>    
+        </div>
+    </div>
+    
+</div>
+

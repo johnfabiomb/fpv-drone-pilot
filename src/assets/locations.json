@@ -1,0 +1,60 @@
+{
+    "locations": [
+        {
+            "title": "Near Ras id-Dawwara",
+            "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
+            "img": "/assets/images/places/6.png",
+            "lon": 14.355620,
+            "lat": 35.866722,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
+        },
+        {
+            "title": "Blue Grotto",
+            "description": "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of Żurrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
+            "img": "/assets/images/places/3.png",
+            "lon": 14.4562387,
+            "lat": 35.8207177,
+            "url": "https://www.instagram.com/reel/CzWSytWM385/embed"
+        },
+        {
+            "title": "Il-Mara",
+            "description": "Il Mara, located between Fort Benghajsa and Ghar Hasan beneath the impressive cliffs, is a beautiful but less-traveled spot ideal for hiking. The area's remote location means fewer visitors and a peaceful hiking experience. The cliffs offer dramatic views of the surrounding landscape, and the terrain provides a moderate challenge suitable for most hikers looking for an adventure off the beaten path.",
+            "img": "/assets/images/places/2.png",
+            "lon": 14.5305347,
+            "lat": 35.8065369,
+            "url": "https://www.instagram.com/reel/C2zz_hjMcY-/embed"
+        },
+        {
+            "title": "Għar ir-Riħ",
+            "description": "<b>Għar ir-Riħ</b> is in front of one of the cliff passages whose mouth is hidden behind a large rock. As you enter it you will find various rock formations that have formed over the years. At the end of it comes to another mouth that overlooks the sea with wonderful views.",
+            "img": "/assets/images/places/0.png",
+            "lon": 14.525437010570169,
+            "lat": 35.80702570126614,
+            "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed"
+        },
+        {
+            "title": "Ras Il-Mignuna Window",
+            "description": "This is a Natural Arch at <b>Ras Il-Mignuna</b> located on the coast of Qrendi, between Wied iż-Żurrieq and Għar Lapsi",
+            "img": "/assets/images/places/1.jpg",
+            "lon": 14.438552453233333,
+            "lat": 35.822497835426105,
+            "url": "https://www.instagram.com/reel/C4vmiFnorW3/embed"
+        },
+        {
+            "title": "Ras id-Dawwara",
+            "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
+            "img": "/assets/images/places/4.jpg",
+            "lon": 14.3536699,
+            "lat": 35.8681994,
+            "url": "https://www.instagram.com/reel/C4GkCUZM1Zp/embed"
+        },
+        {
+            "title": "Popeye Village",
+            "description": "Originally constructed as a film set for the 1980 movie 'Popeye', <b>Popeye Village</b> has since transformed into a colorful and vibrant amusement park. Located at Anchor Bay in the north-west of Malta, this unique attraction offers a glimpse into the quirky world of Popeye the Sailor. Visitors can explore the rustic wooden buildings, take part in various themed activities, and enjoy shows and boat rides. The bay also offers stunning views, making it a fun and picturesque destination for families and tourists alike.",
+            "img": "/assets/images/places/5.jpg",
+            "lon": 14.341693,
+            "lat": 35.960651,
+            "url": "https://www.instagram.com/reel/C4OF8cKMavp/embed"
+        }
+    ]
+}
