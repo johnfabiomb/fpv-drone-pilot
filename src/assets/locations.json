@@ -108,17 +108,33 @@
             "title": "Coral Lagoon",
             "description": "Coral Lagoon, located near Mellieħa on the northern coast of Malta, is a stunning natural wonder renowned for its crystal-clear waters and unique circular shape. This secluded lagoon is accessible via a hole in its rocky roof or by sea kayak, making it an adventurous spot for explorers and water sports enthusiasts. The Coral Lagoon is a perfect location for snorkeling, where one can observe a variety of marine life in a tranquil, almost untouched environment.",
             "img": "/assets/images/places/13.jpg",
-            "lon": 14.3598449,
-            "lat": 35.9937992,
+            "lon": 14.367659,
+            "lat": 35.997909,
             "url": "https://www.instagram.com/reel/CxQMcHHsWk4/embed"
+        },
+        {
+            "title": "Il-Ġebla l-Imtaqqba",
+            "description": "Il-Ġebla l-Imtaqqba, also known as the 'Punctured Rock', is a striking natural landmark located along the picturesque coast of Malta. This unique rock formation is noted for its distinctive hole that goes right through it, creating a natural window to the sea beyond. The site is a popular spot for photographers and nature enthusiasts, offering breathtaking views especially at sunset. The area around Il-Ġebla l-Imtaqqba also provides excellent opportunities for hiking and enjoying the tranquil Mediterranean landscape.",
+            "img": "/assets/images/places/16.jpg",
+            "lon": 14.325799,
+            "lat": 36.010848,
+            "url": "https://www.instagram.com/reel/C5yJsAaIdk4/embed"
+        },
+        {
+            "title": "Paradise Bay",
+            "description": "Paradise Bay, located at the northern tip of Malta near Ċirkewwa, is one of the island's most picturesque beaches. Known for its crystal-clear waters and fine sandy beach, this secluded cove is surrounded by rugged cliffs that provide shelter and create a tranquil, almost private beach atmosphere. Paradise Bay is ideal for swimming, sunbathing, and snorkeling, making it a favorite among both locals and tourists seeking a serene getaway. The bay also features amenities such as a restaurant and beach equipment rentals, enhancing the comfort and convenience of your visit.",
+            "img": "/assets/images/places/17.png",
+            "lon": 14.332826579817256,
+            "lat": 35.98227580320132,
+            "url": "https://www.instagram.com/reel/CxBX5csMihe/embed"
         },
         {
             "title": "L-Għar ta’ Bla Saqaf",
             "description": "L-Għar ta’ Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellieħa. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
-            "img": "/assets/images/places/14.jpg",
+            "img": "/assets/images/places/15.jpg",
             "lon": 14.329411,
             "lat": 36.009697,
-            "url": "https://www.instagram.com/reel/C7fHgZsMvjW/embed"
+            "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed"
         }
     ]
 }
