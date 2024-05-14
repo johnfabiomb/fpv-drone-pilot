@@ -57,6 +57,10 @@
                 align-items: center;
                 gap: 5px;
                 font-size: 14px;
+                &:first-child{
+                    background-color: #0d6ad4;
+                    color:white;
+                }
             }
         }
         .section-1 {
