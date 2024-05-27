@@ -110,7 +110,7 @@
             "img": "/assets/images/places/13.jpg",
             "lon": 14.367659,
             "lat": 35.997909,
-            "url": "https://www.instagram.com/reel/CxQMcHHsWk4/embed"
+            "url": "https://www.instagram.com/reel/C7M0_gtOLJN/embed"
         },
         {
             "title": "Il-Ġebla l-Imtaqqba",
@@ -142,7 +142,47 @@
             "img": "/assets/images/places/18.jpg",
             "lon": 14.347281410906533,
             "lat": 36.00631138767528,
+            "url": "https://www.instagram.com/reel/C6_Sb24oiEs/embed"
+        },
+        {
+            "title": "Mistra Bay",
+            "description": "Mistra Bay, located in the northern part of Malta, is a tranquil and picturesque bay known for its clear, shallow waters and pebble beach. This serene spot is ideal for swimming, snorkeling, and relaxing by the sea. Surrounded by natural beauty and historical sites, such as the Mistra Battery, the bay offers a perfect blend of leisure and exploration. The calm waters and peaceful atmosphere make Mistra Bay a hidden gem, providing a great escape from the more crowded tourist spots.",
+            "img": "/assets/images/places/22.JPG",
+            "lon": 14.391039725356249,
+            "lat": 35.957417736969006,
+            "url": "https://www.instagram.com/reel/CuxB6E-N3nR/embed"
+        },              
+        {
+            "title": "Dingli Cliffs",
+            "description": "Dingli Cliffs, located on the western coast of Malta, are one of the island's most breathtaking natural landmarks. Rising over 250 meters above sea level, these dramatic cliffs offer stunning panoramic views of the Mediterranean Sea and the surrounding countryside. The area is perfect for hiking and enjoying spectacular sunsets. Visitors can also explore nearby attractions, such as the small chapel of St. Mary Magdalene, perched right on the edge of the cliffs. Dingli Cliffs provide a serene and awe-inspiring experience for nature lovers and photographers alike.",
+            "img": "/assets/images/places/21.JPG",
+            "lon": 14.39847475818653,
+            "lat": 35.84141667763579,
+            "url": "https://www.instagram.com/reel/Cty1LJ5MPQj/embed"
+        },
+        {
+            "title": "White Rocks",
+            "description": "White Rocks is a stunning coastal area located on the northeastern coast of Malta. Known for its striking white limestone formations, this area offers breathtaking views of the Mediterranean Sea and a unique landscape perfect for photography and exploration. The White Rocks area is a popular spot for hikers and nature enthusiasts who come to enjoy the scenic beauty and the serene atmosphere. Whether you're looking to take a leisurely walk along the coast or explore the rocky terrain, White Rocks provides a memorable outdoor experience.",
+            "img": "/assets/images/places/20.png",
+            "lon": 14.469458617253675,
+            "lat": 35.93356783527314,
+            "url": "https://www.instagram.com/reel/C9fGqT3MlKT/embed"
+        },
+        {
+            "title": "St. Mark's Tower",
+            "description": "St. Mark's Tower, also known as Qalet Marku Tower, is a historic watchtower located on the northeastern coast of Malta. Built in the 17th century by the Order of Saint John, this coastal fortification was part of a network of towers used to defend the island against invaders. Today, St. Mark's Tower stands as a testament to Malta's rich history, offering visitors a glimpse into the past. The tower is situated in a scenic area with beautiful views of the Mediterranean Sea, making it a popular spot for history enthusiasts and photographers.",
+            "img": "/assets/images/places/23.jpg",
+            "lon": 14.453294928876327,
+            "lat": 35.94647468280512,
+            "url": "https://www.instagram.com/reel/CpGJ1gggRbR/embed"
+        },  
+        {
+            "title": "Għar iċ-Ċomb",
+            "description": "Għar iċ-Ċomb, also known as the 'Lead Cave', is a fascinating natural cave located in the scenic countryside of Malta. This cave is renowned for its intriguing rock formations and historical significance, having been used in ancient times for various purposes. Visitors to Għar iċ-Ċomb can explore its depths and admire the natural beauty and geological features that make it a unique spot. The surrounding area also offers picturesque views and opportunities for hiking and nature walks.",
+            "img": "/assets/images/places/19.JPG",
+            "lon": 14.372112708186386,
+            "lat": 35.99309133941263,
             "url": "https://www.instagram.com/johnfabiomb/embed"
-        }
+        }        
     ]
 }
