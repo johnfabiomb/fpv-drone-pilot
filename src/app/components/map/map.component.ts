@@ -87,14 +87,17 @@ export class MapComponent implements AfterViewInit {
   clickon(data:any){
     console.log(data)
     const queryParams = { title: encodeURIComponent(data.title) };
-    this.router.navigate(
-      [], 
-      {
-        relativeTo: this.activatedRoute,
-        queryParams, 
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      }
-    );
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
+      this.router.navigate(
+        [], 
+        {
+          relativeTo: this.activatedRoute,
+          queryParams, 
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        }
+      );
+    });
+
 
   }
 
