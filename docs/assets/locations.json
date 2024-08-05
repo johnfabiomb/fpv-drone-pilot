@@ -1,7 +1,7 @@
 {
     "locations": [
         {
-            "id":0,
+            "id": 0,
             "title": "Near Ras id-Dawwara",
             "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
             "img": "/assets/images/places/6.png",
@@ -10,16 +10,16 @@
             "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
         },
         {
-            "id":1,
+            "id": 1,
             "title": "Blue Grotto",
             "description": "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of Żurrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
-            "img": "/assets/images/places/3.png",
+            "img": "/assets/images/places/3.jpg",
             "lon": 14.4562387,
             "lat": 35.8207177,
-            "url": "https://www.instagram.com/reel/CzWSytWM385/embed"
+            "url": "https://www.instagram.com/reel/C-C4kIjoFnZ/embed"
         },
         {
-            "id":2,
+            "id": 2,
             "title": "Il-Mara",
             "description": "Il Mara, located between Fort Benghajsa and Ghar Hasan beneath the impressive cliffs, is a beautiful but less-traveled spot ideal for hiking. The area's remote location means fewer visitors and a peaceful hiking experience. The cliffs offer dramatic views of the surrounding landscape, and the terrain provides a moderate challenge suitable for most hikers looking for an adventure off the beaten path.",
             "img": "/assets/images/places/2.png",
@@ -28,7 +28,7 @@
             "url": "https://www.instagram.com/reel/C2zz_hjMcY-/embed"
         },
         {
-            "id":3,
+            "id": 3,
             "title": "Għar ir-Riħ",
             "description": "<b>Għar ir-Riħ</b> is in front of one of the cliff passages whose mouth is hidden behind a large rock. As you enter it you will find various rock formations that have formed over the years. At the end of it comes to another mouth that overlooks the sea with wonderful views.",
             "img": "/assets/images/places/0.png",
@@ -37,7 +37,7 @@
             "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed"
         },
         {
-            "id":4,
+            "id": 4,
             "title": "Ras Il-Mignuna Window",
             "description": "This is a Natural Arch at <b>Ras Il-Mignuna</b> located on the coast of Qrendi, between Wied iż-Żurrieq and Għar Lapsi",
             "img": "/assets/images/places/1.jpg",
@@ -46,7 +46,7 @@
             "url": "https://www.instagram.com/reel/C4vmiFnorW3/embed"
         },
         {
-            "id":5,
+            "id": 5,
             "title": "Ras id-Dawwara",
             "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
             "img": "/assets/images/places/4.jpg",
@@ -55,7 +55,7 @@
             "url": "https://www.instagram.com/reel/C4GkCUZM1Zp/embed"
         },
         {
-            "id":6,
+            "id": 6,
             "title": "Popeye Village",
             "description": "Originally constructed as a film set for the 1980 movie 'Popeye', <b>Popeye Village</b> has since transformed into a colorful and vibrant amusement park. Located at Anchor Bay in the north-west of Malta, this unique attraction offers a glimpse into the quirky world of Popeye the Sailor. Visitors can explore the rustic wooden buildings, take part in various themed activities, and enjoy shows and boat rides. The bay also offers stunning views, making it a fun and picturesque destination for families and tourists alike.",
             "img": "/assets/images/places/5.jpg",
@@ -64,7 +64,7 @@
             "url": "https://www.instagram.com/reel/C4OF8cKMavp/embed"
         },
         {
-            "id":7,
+            "id": 7,
             "title": "Elephant Rock",
             "description": "Elephant Rock is a stunning natural rock formation that resembles the shape of an elephant. Located along Malta's picturesque coastline, this geological wonder is a favorite spot for photographers and nature lovers. The area around Elephant Rock offers scenic walks and the opportunity to explore secluded coves and crystal-clear waters.",
             "img": "/assets/images/places/7.jpg",
@@ -73,7 +73,7 @@
             "url": "https://www.instagram.com/reel/C6BwwfTIXFm/embed"
         },
         {
-            "id":8,
+            "id": 8,
             "title": "Munxar Path",
             "description": "Munxar Path is a scenic coastal walk in Marsaskala, offering breathtaking views of the Mediterranean Sea and the rugged Maltese coastline. This trail is perfect for nature enthusiasts and walkers who enjoy peaceful, picturesque landscapes. Along the path, hikers can observe local flora and fauna, explore small, hidden coves, and enjoy tranquil moments by the sea.",
             "img": "/assets/images/places/8.jpg",
@@ -82,16 +82,16 @@
             "url": "https://www.instagram.com/reel/C5ftOgOIvYz/embed"
         },
         {
-            "id":9,
+            "id": 9,
             "title": "Munxar Window",
             "description": "The Munxar Window is a striking natural arch located along the rugged coastline of Malta, near Marsaskala. This impressive geological formation offers a unique sight, especially popular among photographers and nature enthusiasts. The area around the Munxar Window is ideal for scenic hikes and provides panoramic views of the surrounding sea and landscape, making it a must-visit for those seeking the beauty of Malta's natural wonders.",
             "img": "/assets/images/places/9.JPG",
             "lon": 14.5698237,
             "lat": 35.8499062,
-            "url": "https://www.instagram.com/reel/C38LNq3McjE/embed"
+            "url": "https://www.instagram.com/reel/C9ruKhgOCEo/embed"
         },
         {
-            "id":10,
+            "id": 10,
             "title": "Hofriet Window",
             "description": "Hofriet Window, also known as the 'Blue Cave', is one of Malta's lesser-known yet captivating natural arches, located near the southern coast. This secluded spot is accessible primarily by boat and offers a unique blend of azure waters and dramatic rock formations. The tranquility and natural beauty of the area make it an ideal destination for those looking to escape the more crowded tourist spots and enjoy some of Malta's pristine marine environment.",
             "img": "/assets/images/places/10.jpg",
@@ -100,7 +100,7 @@
             "url": "https://www.instagram.com/reel/C3nYoDeMwf_/embed"
         },
         {
-            "id":11,
+            "id": 11,
             "title": "Bighi Cot-Lift",
             "description": "The Bighi Cot-Lift, part of the historical Bighi Royal Naval Hospital in Kalkara, is a remarkable example of early 20th-century engineering. Initially used to transport patients and goods between the hospital and the waterfront, the cot-lift is now a unique cultural heritage site that attracts visitors interested in the technological innovations of the past. The surrounding area offers stunning views of the Grand Harbour, making it a worthwhile visit for history buffs and those enjoying scenic landscapes.",
             "img": "/assets/images/places/11.jpg",
@@ -109,7 +109,7 @@
             "url": "https://www.instagram.com/reel/C7XgkJsMjFp/embed"
         },
         {
-            "id":12,
+            "id": 12,
             "title": "Wied il-Għasel",
             "description": "Wied il-Għasel, which translates to 'Valley of Honey' in Maltese, is one of the longest valleys located in the northern region of Malta, near Mosta. This picturesque valley is renowned for its lush vegetation, seasonal streams, and historical significance, including several ancient cart ruts and a mysterious network of tunnels. It is a favorite among hikers and nature lovers for its serene environment and the diverse flora and fauna that can be explored throughout the year.",
             "img": "/assets/images/places/12.jpg",
@@ -118,7 +118,7 @@
             "url": "https://www.instagram.com/reel/C30t3rOMBVB/embed"
         },
         {
-            "id":13,
+            "id": 13,
             "title": "Coral Lagoon",
             "description": "Coral Lagoon, located near Mellieħa on the northern coast of Malta, is a stunning natural wonder renowned for its crystal-clear waters and unique circular shape. This secluded lagoon is accessible via a hole in its rocky roof or by sea kayak, making it an adventurous spot for explorers and water sports enthusiasts. The Coral Lagoon is a perfect location for snorkeling, where one can observe a variety of marine life in a tranquil, almost untouched environment.",
             "img": "/assets/images/places/13.jpg",
@@ -127,7 +127,7 @@
             "url": "https://www.instagram.com/reel/C7M0_gtOLJN/embed"
         },
         {
-            "id":14,
+            "id": 14,
             "title": "Il-Ġebla l-Imtaqqba",
             "description": "Il-Ġebla l-Imtaqqba, also known as the 'Punctured Rock', is a striking natural landmark located along the picturesque coast of Malta. This unique rock formation is noted for its distinctive hole that goes right through it, creating a natural window to the sea beyond. The site is a popular spot for photographers and nature enthusiasts, offering breathtaking views especially at sunset. The area around Il-Ġebla l-Imtaqqba also provides excellent opportunities for hiking and enjoying the tranquil Mediterranean landscape.",
             "img": "/assets/images/places/16.jpg",
@@ -136,7 +136,7 @@
             "url": "https://www.instagram.com/reel/C5yJsAaIdk4/embed"
         },
         {
-            "id":15,
+            "id": 15,
             "title": "Paradise Bay",
             "description": "Paradise Bay, located at the northern tip of Malta near Ċirkewwa, is one of the island's most picturesque beaches. Known for its crystal-clear waters and fine sandy beach, this secluded cove is surrounded by rugged cliffs that provide shelter and create a tranquil, almost private beach atmosphere. Paradise Bay is ideal for swimming, sunbathing, and snorkeling, making it a favorite among both locals and tourists seeking a serene getaway. The bay also features amenities such as a restaurant and beach equipment rentals, enhancing the comfort and convenience of your visit.",
             "img": "/assets/images/places/17.png",
@@ -145,7 +145,7 @@
             "url": "https://www.instagram.com/reel/CxBX5csMihe/embed"
         },
         {
-            "id":16,
+            "id": 16,
             "title": "L-Għar ta’ Bla Saqaf",
             "description": "L-Għar ta’ Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellieħa. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
             "img": "/assets/images/places/15.jpg",
@@ -154,7 +154,7 @@
             "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed"
         },
         {
-            "id":17,
+            "id": 17,
             "title": "Natural Window",
             "description": "This natural window is located in Comino near a historic coastal fortification on the northern coast of Malta, called 'Il-Batterija ta' Santa Marija'",
             "img": "/assets/images/places/18.jpg",
@@ -163,25 +163,25 @@
             "url": "https://www.instagram.com/reel/C6_Sb24oiEs/embed"
         },
         {
-            "id":18,
+            "id": 18,
             "title": "Mistra Bay",
             "description": "Mistra Bay, located in the northern part of Malta, is a tranquil and picturesque bay known for its clear, shallow waters and pebble beach. This serene spot is ideal for swimming, snorkeling, and relaxing by the sea. Surrounded by natural beauty and historical sites, such as the Mistra Battery, the bay offers a perfect blend of leisure and exploration. The calm waters and peaceful atmosphere make Mistra Bay a hidden gem, providing a great escape from the more crowded tourist spots.",
             "img": "/assets/images/places/22.JPG",
             "lon": 14.391039725356249,
             "lat": 35.957417736969006,
             "url": "https://www.instagram.com/reel/CuxB6E-N3nR/embed"
-        },              
+        },
         {
-            "id":19,
+            "id": 19,
             "title": "Dingli Cliffs",
             "description": "Dingli Cliffs, located on the western coast of Malta, are one of the island's most breathtaking natural landmarks. Rising over 250 meters above sea level, these dramatic cliffs offer stunning panoramic views of the Mediterranean Sea and the surrounding countryside. The area is perfect for hiking and enjoying spectacular sunsets. Visitors can also explore nearby attractions, such as the small chapel of St. Mary Magdalene, perched right on the edge of the cliffs. Dingli Cliffs provide a serene and awe-inspiring experience for nature lovers and photographers alike.",
             "img": "/assets/images/places/21.JPG",
             "lon": 14.39847475818653,
             "lat": 35.84141667763579,
-            "url": "https://www.instagram.com/reel/Cty1LJ5MPQj/embed"
+            "url": "https://www.instagram.com/reel/C9-ITjtIirm/embed"
         },
         {
-            "id":20,
+            "id": 20,
             "title": "White Rocks",
             "description": "White Rocks is a stunning coastal area located on the northeastern coast of Malta. Known for its striking white limestone formations, this area offers breathtaking views of the Mediterranean Sea and a unique landscape perfect for photography and exploration. The White Rocks area is a popular spot for hikers and nature enthusiasts who come to enjoy the scenic beauty and the serene atmosphere. Whether you're looking to take a leisurely walk along the coast or explore the rocky terrain, White Rocks provides a memorable outdoor experience.",
             "img": "/assets/images/places/20.png",
@@ -190,22 +190,49 @@
             "url": "https://www.instagram.com/reel/C9fGqT3MlKT/embed"
         },
         {
-            "id":21,
+            "id": 21,
             "title": "St. Mark's Tower",
             "description": "St. Mark's Tower, also known as Qalet Marku Tower, is a historic watchtower located on the northeastern coast of Malta. Built in the 17th century by the Order of Saint John, this coastal fortification was part of a network of towers used to defend the island against invaders. Today, St. Mark's Tower stands as a testament to Malta's rich history, offering visitors a glimpse into the past. The tower is situated in a scenic area with beautiful views of the Mediterranean Sea, making it a popular spot for history enthusiasts and photographers.",
             "img": "/assets/images/places/23.jpg",
             "lon": 14.453294928876327,
             "lat": 35.94647468280512,
             "url": "https://www.instagram.com/reel/CpGJ1gggRbR/embed"
-        },  
+        },
         {
-            "id":22,
+            "id": 22,
             "title": "Għar iċ-Ċomb",
             "description": "Għar iċ-Ċomb, also known as the 'Lead Cave', is a fascinating natural cave located in the scenic countryside of Malta. This cave is renowned for its intriguing rock formations and historical significance, having been used in ancient times for various purposes. Visitors to Għar iċ-Ċomb can explore its depths and admire the natural beauty and geological features that make it a unique spot. The surrounding area also offers picturesque views and opportunities for hiking and nature walks.",
             "img": "/assets/images/places/19.JPG",
             "lon": 14.372112708186386,
             "lat": 35.99309133941263,
             "url": "https://www.instagram.com/reel/C7eUdnoI6L1/embed"
-        }        
+        },
+        {
+            "id": 23,
+            "title": "Wied il-Mielaħ Window",
+            "description": "Wied il-Mielaħ Window is a natural limestone arch located on the north-western coast of the island of Gozo, Malta. It is a lesser-known but equally stunning counterpart to the famous Azure Window. The arch offers breathtaking views of the Mediterranean Sea and is a favorite spot for photographers and nature enthusiasts. The area around Wied il-Mielaħ is perfect for hiking and exploring the rugged coastal landscape. Visitors can enjoy the serene beauty of this natural wonder while taking in the fresh sea breeze.",
+            "img": "/assets/images/places/22.jpg",
+            "lon": 14.2045948,
+            "lat": 36.0710816,
+            "url": "https://www.instagram.com/reel/C9fAQhIoq2Q/embed"
+        },
+        {
+            "id": 24,
+            "title": "IX-Xaqqa",
+            "description": "IX-Xaqqa is a picturesque coastal feature located on the southwestern coast of Malta. Known for its rugged cliffs and clear blue waters, IX-Xaqqa offers spectacular views and a peaceful environment away from the more touristy areas. It is a great spot for hiking, rock climbing, and diving, with its dramatic landscape and rich marine life. The area's natural beauty and tranquility make it an ideal destination for outdoor enthusiasts and photographers seeking to capture the essence of Malta's coastal charm.",
+            "img": "/assets/images/places/24.jpg",
+            "lon": 14.4155089,
+            "lat": 35.8337247,
+            "url": "https://www.instagram.com/reel/C-P-EmKIEtq/embed"
+        },
+        {
+            "id": 25,
+            "title": "Fungus Rock",
+            "description": "Fungus Rock, also known as Il-Ġebla tal-Ġeneral, is a small islet located at the entrance of the Dwejra Bay on the west coast of Gozo, Malta. This 60-meter high rock is renowned for the rare medicinal fungus that once grew there, which was highly prized by the Knights of St. John. The area around Fungus Rock is popular for its dramatic coastal scenery, crystal clear waters, and excellent diving spots. It is a protected nature reserve, offering visitors a unique glimpse into Malta's natural and historical heritage.",
+            "img": "/assets/images/places/Fungus.jpg",
+            "lon": 14.1876756,
+            "lat": 36.0478154,
+            "url": "https://www.instagram.com/reel/C9kUr9Vo8mX/embed"
+        }
     ]
 }

@@ -47,7 +47,7 @@ export class MapComponent implements AfterViewInit {
         var overlayelement = new Overlay({
           stopEvent: false,
           positioning: 'bottom-center',
-          element: document.getElementById(location.img) as HTMLElement
+          element: document.getElementById(`${location.id}`) as HTMLElement
         });
         
         overlayelement.setPosition( getCoordinatesfromLonLat(location.lon, location.lat));
@@ -65,7 +65,7 @@ export class MapComponent implements AfterViewInit {
 
     this.activatedRoute.queryParams.subscribe((params:Params)=>{
       if(params['title']){
-        const place = locations.find(loc=> encodeURIComponent(loc.title) === params['title']);
+        const place = locations.find(loc=> encodeURIComponent(loc.title) === params['title']) ?? locations.find(loc=> encodeURIComponent(loc.title.replace(' ','-')) === params['title']);
         this.openDialog(place, getCoordinatesfromLonLat(place?.lon as number, place?.lat as number))
       }
     })
@@ -86,7 +86,7 @@ export class MapComponent implements AfterViewInit {
 
   clickon(data:any){
     console.log(data)
-    const queryParams = { title: encodeURIComponent(data.title) };
+    const queryParams = { title: encodeURIComponent(data.title.replace(' ','-')) };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
       this.router.navigate(
         [], 
