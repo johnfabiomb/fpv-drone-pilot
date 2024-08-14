@@ -233,6 +233,24 @@
             "lon": 14.1876756,
             "lat": 36.0478154,
             "url": "https://www.instagram.com/reel/C9kUr9Vo8mX/embed"
+        },
+        {
+            "id": 26,
+            "title": "Birgu (Vittoriosa)",
+            "description": "<b>Birgu</b>, also known as Vittoriosa, is one of Malta's historic Three Cities, famed for its rich history and vibrant maritime heritage. This charming city is a tapestry of narrow cobbled streets, ancient dwellings, and baroque buildings, inviting visitors to step back in time. Explore the picturesque waterfront, enjoy the bustling market squares, and soak in the local culture and cuisine at quaint cafes and eateries. Birgu is a living museum, offering an immersive experience into the heart of Maltese history and tradition.",
+            "img": "/assets/images/places/26.jpg",
+            "lon": 14.521621366602675,
+            "lat": 35.88986318933959,
+            "url": "https://www.instagram.com/reel/C-iD05doMJg/embed"
+        },
+        {
+            "id": 27,
+            "title": "Fort of St. Angelo",
+            "description": "<b>Fort of St. Angelo</b> stands majestically at the tip of the Birgu Peninsula, guarding the entrance to the Grand Harbour with its formidable walls and storied past. This iconic fortress is a cornerstone of Malta’s military history, offering panoramic views of the surrounding harbor and cities. Visitors can explore its ancient ramparts, dungeons, and chapels, each layer telling a story of knights, sieges, and battles. The fort's strategic importance and architectural grandeur make it a must-visit for anyone interested in Malta's defensive heritage.",
+            "img": "/assets/images/places/27.jpg",
+            "lon": 14.518716107448817,
+            "lat": 35.891786702482676,
+            "url": "https://www.instagram.com/reel/C-p-agxIuuZ/embed"
         }
     ]
 }
