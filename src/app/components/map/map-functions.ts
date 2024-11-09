@@ -10,7 +10,7 @@ import * as source from 'ol/source';
 import * as proj from 'ol/proj';
 import RenderFeature from 'ol/render/Feature';
 import { Coordinate } from 'ol/coordinate';
-import { MapBrowserEvent } from 'ol';
+import { MapBrowserEvent, Overlay } from 'ol';
 
 /**
  * fromLonLat
@@ -61,9 +61,8 @@ export const getImageMapPinStyle = (src: string) => new style.Style({
     image: new style.Icon({
         width: 40,
         height: 40,
-        
         src
-    })
+    }),
 });
 
 /**
@@ -79,6 +78,13 @@ export const createMapPin = (location: Coordinate, id: number, src: string): Fea
     });
     feature.setStyle(getImageMapPinStyle(src));
     feature.setId(id);
+
+    // var overlayelement = new Overlay({
+    //     stopEvent: false,
+    //     positioning: 'center-center',
+    //     element: document.getElementById('slika')
+    //   });
+    //   overlayelement.setPosition(featuresArr[i].getGeometry().getCoordinates());
     return feature;
 };
 
@@ -101,7 +107,7 @@ export const createVectorLayer = (features: Feature<geom.Point>[]) => new layer.
  */
 export const clickOnMapPin = (map: Map, even: (pinClicked: FeatureLike, event: MapBrowserEvent<any>) => void) => map.on('singleclick', (evt) => {
     const pinClicked = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => ({feature, layer}));
-    console.log(getCoordinatesfromPixel(evt.coordinate));
+    console.log(getCoordinatesfromPixel(evt.coordinate), pinClicked);
     if (pinClicked) {
         even(pinClicked.feature, evt);
     }

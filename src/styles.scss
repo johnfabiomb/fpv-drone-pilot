@@ -52,13 +52,6 @@ body {
 }
 
 
-::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
-  padding: 25px !important;
-}
-
-::ng-deep .mat-mdc-dialog-container {
-  max-height: 80dvh;
-}
 
 
 @mixin xxl {

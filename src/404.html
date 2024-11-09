@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>John Montano | FPV Drone Pilot</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+        color: #333;
+        gap:20px;
+      }
+      .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .message {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .message h1 {
+        font-size: 2em;
+        margin: 0;
+      }
+      .message p {
+        margin: 10px 0 0;
+        font-size: 1.2em;
+      }
+    </style>
+    <script type="text/javascript">
+      // Redirect to index.html
+      var target = window.location.pathname;
+      var newLocation = window.location.origin + '/index.html';
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', newLocation, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // Ensure the path is only included if it's a valid route
+          window.location.href = newLocation + '#' + target;
+        }else{
+          window.location.href = newLocation + '#';
+        }
+      };
+      xhr.send();
+    </script>
+  </head>
+  <body>
+    <div class="loader"></div>
+    <div class="message">
+      <h1>Welcome</h1>
+      <p>Redirecting...</p>
+    </div>
+  </body>
+</html>
