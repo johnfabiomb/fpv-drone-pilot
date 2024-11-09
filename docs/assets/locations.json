@@ -67,10 +67,10 @@
             "id": 7,
             "title": "Elephant Rock",
             "description": "Elephant Rock is a stunning natural rock formation that resembles the shape of an elephant. Located along Malta's picturesque coastline, this geological wonder is a favorite spot for photographers and nature lovers. The area around Elephant Rock offers scenic walks and the opportunity to explore secluded coves and crystal-clear waters.",
-            "img": "/assets/images/places/7.jpg",
+            "img": "/assets/images/places/elephant-rock.png",
             "lon": 14.346907885575565,
             "lat": 36.01422213881614,
-            "url": "https://www.instagram.com/reel/C6BwwfTIXFm/embed"
+            "url": "https://www.instagram.com/reel/DB6wKPUOiLK/embed"
         },
         {
             "id": 8,
@@ -181,15 +181,6 @@
             "url": "https://www.instagram.com/reel/C9-ITjtIirm/embed"
         },
         {
-            "id": 20,
-            "title": "White Rocks",
-            "description": "White Rocks is a stunning coastal area located on the northeastern coast of Malta. Known for its striking white limestone formations, this area offers breathtaking views of the Mediterranean Sea and a unique landscape perfect for photography and exploration. The White Rocks area is a popular spot for hikers and nature enthusiasts who come to enjoy the scenic beauty and the serene atmosphere. Whether you're looking to take a leisurely walk along the coast or explore the rocky terrain, White Rocks provides a memorable outdoor experience.",
-            "img": "/assets/images/places/20.png",
-            "lon": 14.469458617253675,
-            "lat": 35.93356783527314,
-            "url": "https://www.instagram.com/reel/C9fGqT3MlKT/embed"
-        },
-        {
             "id": 21,
             "title": "St. Mark's Tower",
             "description": "St. Mark's Tower, also known as Qalet Marku Tower, is a historic watchtower located on the northeastern coast of Malta. Built in the 17th century by the Order of Saint John, this coastal fortification was part of a network of towers used to defend the island against invaders. Today, St. Mark's Tower stands as a testament to Malta's rich history, offering visitors a glimpse into the past. The tower is situated in a scenic area with beautiful views of the Mediterranean Sea, making it a popular spot for history enthusiasts and photographers.",
@@ -253,23 +244,40 @@
             "url": "https://www.instagram.com/reel/C-p-agxIuuZ/embed"
         },
         {
+            "id": 33,
+            "title": "Shrine of Our Lady of Mount Carmel",
+            "description": "The Shrine of Our Lady of Mount Carmel, located in the heart of Valletta, Malta, is one of the most significant and revered religious sites on the island. The shrine is dedicated to the Blessed Virgin Mary under the title of Our Lady of Mount Carmel, the patroness of the Carmelite Order. The church, with its stunning Baroque architecture, is a place of peace and reflection for both locals and visitors. Its iconic dome and beautiful interior, which includes intricate altarpieces and statues, attract both pilgrims and tourists alike. The Shrine of Our Lady of Mount Carmel is also famous for its annual feast, which includes processions and celebrations, drawing large crowds. With its historical significance and spiritual importance, the shrine remains a key landmark in Valletta.",
+            "img": "/assets/images/places/our_lady_of_mount_carmel.png",
+            "lon": 14.512278,
+            "lat": 35.900194,
+            "url": "https://www.instagram.com/reel/DBsuHPIuYyB/embed"
+        },
+        {
             "id": 28,
             "title": "La Guardiola",
             "description": "La Guardiola, located at the tip of Senglea in Malta, is a historical watchtower offering breathtaking views of the Grand Harbour. Built as part of the city's fortifications, this iconic lookout point once played a crucial role in protecting Malta from potential invaders. Today, La Guardiola is a serene spot where visitors can enjoy the panoramic views of Valletta, the Three Cities, and the surrounding seascape, making it a must-see for history lovers and those seeking scenic vistas.",
-            "img": "/assets/images/places/12.jpg",
+            "img": "/assets/images/places/guardiola.jpg",
             "lon": 14.513937913495793,
             "lat": 35.89074420324843,
-            "url": "https://www.instagram.com/reel/C_7b6G6udei/embed"
+            "url": "https://www.instagram.com/reel/C-5PV5ko3md/embed"
         },
         {
-            "id": 29,
-            "title": "Mercury Tower",
-            "description": "Mercury Tower is the tallest building in Malta, located in the bustling district of St. Julian's. Designed by world-renowned architect Zaha Hadid, this modern skyscraper stands as a symbol of Malta's forward-thinking development and architectural ambition. With its sleek design and stunning views over the island, Mercury Tower has quickly become an iconic landmark. Visitors can explore the surrounding area, which is filled with restaurants, shops, and nightlife, making it a perfect spot for both locals and tourists to enjoy Malta's vibrant city life.",
-            "img": "/assets/images/places/mercury_tower.jpg",
-            "lon": 14.489268894113534,
-            "lat": 35.922811493727934,
-            "url": "https://www.instagram.com/reel/DAq9mCqoznm/embed"
+            "id": 31,
+            "title": "Mdina - The Silent City",
+            "description": "Mdina, also known as the 'Silent City', is a fortified medieval town located at the heart of Malta. Known for its narrow winding streets, stunning architecture, and rich history, Mdina served as the island's capital for centuries before Valletta took over. The city offers visitors a step back in time, with its well-preserved medieval walls, palaces, and churches. Mdina is also famous for its tranquil atmosphere, earning it the nickname 'Silent City.' From the city’s bastions, visitors can enjoy panoramic views of the surrounding countryside and the distant Mediterranean Sea. It’s a must-visit destination for anyone interested in history, architecture, and the charm of Malta's ancient past.",
+            "img": "/assets/images/places/mdina.png",
+            "lon": 14.403191,
+            "lat": 35.886778,
+            "url": "https://www.instagram.com/reel/DB3IhDQOA_-/embed"
+        },
+        {
+            "id": 32,
+            "title": "Victoria Lines - Top of the World",
+            "description": "The Victoria Lines, known as the 'Great Wall of Malta', stretch across the island, but one of the most breathtaking parts lies near the 'Top of the World' in Għargħur. This location offers some of the most panoramic views on the island, where visitors can gaze across valleys, hills, and the distant Mediterranean Sea. The area near the 'Top of the World' is particularly significant, with a series of fortifications and military structures built by the British in the 19th century. Hiking along this stretch of the Victoria Lines takes you through stunning landscapes and provides insight into Malta's military history, making it a perfect spot for history enthusiasts and nature lovers alike.",
+            "img": "/assets/images/places/victoria_lines.png",
+            "lon": 14.450382750314956,
+            "lat": 35.930597034999735,
+            "url": "https://www.instagram.com/reel/DCFEbXNumDO/embed"
         }
-        
     ]
 }
