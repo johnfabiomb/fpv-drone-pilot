@@ -16,7 +16,7 @@
             "img": "/assets/images/places/3.jpg",
             "lon": 14.4562387,
             "lat": 35.8207177,
-            "url": "https://www.instagram.com/reel/C-C4kIjoFnZ/embed"
+            "url": "https://www.instagram.com/reel/DF2X8k0uvta/embed"
         },
         {
             "id": 2,
@@ -278,6 +278,24 @@
             "lon": 14.450382750314956,
             "lat": 35.930597034999735,
             "url": "https://www.instagram.com/reel/DCFEbXNumDO/embed"
+        },
+        {
+            "id": 34,
+            "title": "Miġra l-Ferħa",
+            "description": "Perched beneath the dramatic Dingli Cliffs on Malta's southwestern coast, **Miġra l-Ferħa** is a hidden gem offering breathtaking panoramic views of the Mediterranean Sea. This secluded spot is a haven for nature enthusiasts, hikers, and adventure seekers. The area features a unique ravine leading down to the sea, providing a serene environment for exploration and relaxation. For thrill-seekers, Miġra l-Ferħa offers exhilarating ziplining experiences over its rugged cliffs. The location is also renowned for its stunning sunsets, making it an ideal spot for photography and tranquil evening retreats.",
+            "img": "/assets/images/places/migra-l-ferha.png",
+            "lon": 14.3535,
+            "lat": 35.8615,
+            "url": "https://www.instagram.com/reel/DFdROwYOZrS/embed"
+        },
+        {
+            "id": 35,
+            "title": "Ras id-Dawwara Cave",
+            "description": "Nestled within the rugged coastline of Malta’s western shore, a hidden cave awaits discovery at Ras id-Dawwara. This coastal promontory is celebrated for its panoramic views and serene landscapes, making it a prime spot for hiking and photography. Visitors can enjoy sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, offering the perfect setting for evening walks and nature appreciation.",
+            "img": "/assets/images/places/id-ras-cave.png",
+            "lon": 14.35627521847218,
+            "lat": 35.86739484580184,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
         }
     ]
 }
