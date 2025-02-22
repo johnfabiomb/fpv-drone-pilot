@@ -34,7 +34,8 @@
             "img": "/assets/images/places/0.png",
             "lon": 14.525437010570169,
             "lat": 35.80702570126614,
-            "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed"
+            "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-ghar-ir-rih.png"
         },
         {
             "id": 4,
@@ -295,7 +296,8 @@
             "img": "/assets/images/places/id-ras-cave.png",
             "lon": 14.35627521847218,
             "lat": 35.86739484580184,
-            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-ras-id.png"
         }
     ]
 }
