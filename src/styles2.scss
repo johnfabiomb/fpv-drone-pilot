@@ -64,9 +64,11 @@
 }
 
 ::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
-  padding: 25px !important;
+  position: absolute !important;
+  padding: 15px !important;
+  top: 0px;
 }
 
 ::ng-deep .mat-mdc-dialog-container {
-  max-height: 80dvh;
+  max-height: calc(100dvh - 90px);
 }

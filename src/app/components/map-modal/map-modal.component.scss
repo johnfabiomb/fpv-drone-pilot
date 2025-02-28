@@ -1,16 +1,18 @@
 @import '../../../styles2.scss';
 
 .map-modal {
+    --border-radius: 10px;
     overflow-y: scroll;
     height: 100dvh;
     position: relative;
+    border-radius: var(--border-radius);
     
     .header {
         width: auto;
         height: 40px;
         display: flex;
-        justify-content: space-between;
-        padding: 0 10px 0 10px;
+        justify-content: end;
+        padding: 0 15px 0 15px;
         box-sizing: border-box;
         align-items: center;
         background-color: white;
@@ -77,8 +79,14 @@
 
             .description{
             }
+           .head{
+            .img{
+                img{
+                  border-radius: var(--border-radius);
+                }
+              }
+           }
            
-            
 
         }
 
