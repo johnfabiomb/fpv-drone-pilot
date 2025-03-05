@@ -6,7 +6,7 @@
     height: 100dvh;
     position: relative;
     border-radius: var(--border-radius);
-    
+
     .header {
         width: auto;
         height: 40px;
@@ -37,7 +37,7 @@
         flex-direction: column;
         height: 100%;
         gap: 10px;
-        
+
         .title {
             font-size: 25px;
             padding-inline: 10px;
@@ -45,10 +45,11 @@
             font-weight: 500;
         }
 
-        .actions{
+        .actions {
             display: flex;
             gap: 10px;
-            .button{
+
+            .button {
                 width: 100%;
                 text-align: center;
                 border-radius: 8px;
@@ -59,40 +60,45 @@
                 align-items: center;
                 gap: 5px;
                 font-size: 12px;
-                &:first-child{
+
+                &:first-child {
                     background-color: #0d6ad4;
-                    color:white;
+                    color: white;
                 }
             }
         }
+
         .section-1 {
             display: flex;
             flex-direction: column;
             gap: 10px;
+
             @include tabletAndDesktop {
                 flex-direction: row;
             }
-            .head{
+
+            .head {
                 display: contents;
 
             }
 
-            .description{
-            }
-           .head{
-            .img{
-                img{
-                  border-radius: var(--border-radius);
+            .description {}
+
+            .head {
+                .img {
+                    img {
+                        border-radius: var(--border-radius);
+                    }
                 }
-              }
-           }
-           
+            }
+
 
         }
 
         .section-2 {
             display: flex;
             flex-direction: column;
+
             @include tabletAndDesktop {
                 flex: 0 0 50%;
             }
@@ -103,6 +109,23 @@
         }
     }
 
+    .recommendation-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+
+        .location {
+            img {
+                width: 90px;
+                height: 90px;
+                border-radius: var(--border-radius);
+            }
+        }
+    }
+
+    .mb-4 {
+        margin-bottom: 20px;
+    }
 
 }
-

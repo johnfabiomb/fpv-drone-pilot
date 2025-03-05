@@ -298,6 +298,14 @@
             "lat": 35.86739484580184,
             "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-ras-id.png"
+        },
+        {
+            "id": 36,
+            "title": "Fomm ir-Rih",
+            "description": "Fomm ir-Rih is one of Malta’s most secluded and breathtaking coastal spots. Known for its crystal-clear waters, rugged cliffs, and peaceful surroundings, it offers a perfect escape for nature lovers and adventure seekers. The area is ideal for hiking, swimming, and photography, with stunning panoramic views of the Mediterranean Sea. Its untouched beauty and tranquil atmosphere make it a hidden gem worth exploring.",
+            "img": "/assets/images/places/fomm.png",
+            "lon": 14.336813277007945,
+            "lat": 35.90531475488335
         }
     ]
 }

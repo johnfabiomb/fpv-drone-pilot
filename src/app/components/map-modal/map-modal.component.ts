@@ -1,19 +1,18 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, ElementRef, HostListener, Inject, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, ViewChild } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import {MatDialogModule} from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ComponentsModule } from '../components.module';
+import { MatDialogModule } from '@angular/material/dialog';
 import { PipesModule } from '../../shared/pipes/pipes.module';
+import { locations } from '../../../assets/locations.json';
+import { ActivatedRoute, Router } from '@angular/router';
 
-
-export enum ModalActions{
-  EXPLORE= 'EXPLORE',
-  GOOGLE_MAPS= 'GOOGLE_MAPS'
+export enum ModalActions {
+  EXPLORE = 'EXPLORE',
+  GOOGLE_MAPS = 'GOOGLE_MAPS'
 }
 
 @Component({
@@ -35,32 +34,37 @@ export class MapModalComponent {
 
 
   @HostListener('document:click', ['$event'])
-  clickout(event:Event) {
-    if(this.eRef.nativeElement.contains(event.target)) {
+  clickout(event: Event) {
+    if (this.eRef.nativeElement.contains(event.target)) {
       console.log("clicked inside");
     } else {
       this.dialogRef.close();
     }
   }
 
+  public recommendedLocations:any[] = [];
+
   constructor(
     public dialogRef: MatDialogRef<MapModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private eRef: ElementRef,
-    @Inject(DOCUMENT) public document: Document){
-       document.body.style.overflow = 'hidden';
-    }
-    
-      ngOnDestroy(): void {
-        document.body.style.overflow = 'auto';
-      }
+      public router: Router,
+          public activatedRoute:ActivatedRoute,
+    @Inject(DOCUMENT) public document: Document) {
+    document.body.style.overflow = 'hidden';
+    this.recommendedLocations = this.getRandomLocations
+  }
 
-  ngAfterViewInit(){
+  ngOnDestroy(): void {
+    document.body.style.overflow = 'auto';
+  }
+
+  ngAfterViewInit() {
     this.frame.nativeElement.style.display = 'none'
     this.content.nativeElement.style.flexDirection = 'row';
   }
 
-  loaded(){
+  loaded() {
     setTimeout(() => {
       this.frame.nativeElement.style.display = 'block'
       this.content.nativeElement.style.flexDirection = 'column';
@@ -71,11 +75,43 @@ export class MapModalComponent {
     this.dialogRef.close();
   }
 
-  explore(){
+  explore() {
     this.dialogRef.close(ModalActions.EXPLORE);
   }
-  
-  googleMaps(){
+
+  googleMaps() {
     this.dialogRef.close(ModalActions.GOOGLE_MAPS);
+  }
+
+  clickon(data:any){
+    console.log(data)
+    const queryParams = { title: encodeURIComponent(data.title.replace(' ','-')) };
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
+      this.router.navigate(
+        [], 
+        {
+          relativeTo: this.activatedRoute,
+          queryParams, 
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        }
+      );
+    });
+
+
+  }
+  
+  public get getRandomLocations() {
+    const uniqueLocations = [...new Set(locations)]; // Ensure unique values
+    if (uniqueLocations.length <= 9) {
+      return uniqueLocations; // Return all if fewer than 10 locations exist
+    }
+
+    // Fisher-Yates Shuffle Algorithm for randomness
+    for (let i = uniqueLocations.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [uniqueLocations[i], uniqueLocations[j]] = [uniqueLocations[j], uniqueLocations[i]];
+    }
+
+    return uniqueLocations.slice(0, 9);// Return first 10 unique items 
   }
 }

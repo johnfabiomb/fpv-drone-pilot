@@ -29,6 +29,15 @@
                   </div>
             </div>
         </div>
+        <div class="mb-4">
+          <h4>Explore Another Locations</h4>
+          <div class="recommendation-section">
+            <div *ngFor="let item of recommendedLocations" class="location">
+              <img (click)="clickon(item)" [src]="item.img" alt="">
+            </div>
+        </div>
+       
+        </div>
         <div #content class="section-2">
             <iframe #frame (load)="loaded()"  [src]="data.url | safe" width="100%" height="auto" frameborder="0" scrolling="no" allowtransparency="true">
             </iframe>    
