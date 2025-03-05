@@ -1,48 +1,48 @@
 <div class="map-modal">
-    <div class="header">
-        <i (click)="onNoClick()" class="fa fa-times pull-right"></i>
+  <div class="header">
+    <i (click)="onNoClick()" class="fa fa-times pull-right"></i>
+  </div>
+  <div class="body">
+    <div class="title">
+      {{ data.title }}
     </div>
-    <div  class="body">
-        <div class="title">
-            {{ data.title }}
-          </div>
-        <div class="section-1">
-            <div class="head">
-                  <div class="img">
-                    <img [src]="data.img | safe" width="100%" alt="">
-                  </div>
-            </div>
-          <div [innerHTML]="data.description" class="description"></div>
+    <div class="section-1">
+      <div class="head">
+        <div class="img">
+          <img [src]="data.img | safe" width="100%" alt="">
         </div>
-        <br>
-        <div class="actions">
-          <div (click)="googleMaps()" class="button">Open on <b>Google Maps</b> </div>
-          <div (click)="explore()" class="button">Explore <b>Malta</b>  <i class="fa fa-map"></i></div>
-        </div>
-        <div *ngIf="data?.recommendedRoute"  class="section-1">
-          <div class="description"><b>What's the best route to take?</b>
-            Google Maps isn’t always accurate—you might hit restricted areas. Here’s the route I took.
-          </div>
-            <div class="head">
-                  <div class="img">
-                    <img [src]="data.recommendedRoute | safe" width="100%" alt="">
-                  </div>
-            </div>
-        </div>
-        <div class="mb-4">
-          <h4>Explore Another Locations</h4>
-          <div class="recommendation-section">
-            <div *ngFor="let item of recommendedLocations" class="location">
-              <img (click)="clickon(item)" [src]="item.img" alt="">
-            </div>
-        </div>
-       
-        </div>
-        <div #content class="section-2">
-            <iframe #frame (load)="loaded()"  [src]="data.url | safe" width="100%" height="auto" frameborder="0" scrolling="no" allowtransparency="true">
-            </iframe>    
-        </div>
+      </div>
+      <div [innerHTML]="data.description" class="description"></div>
     </div>
-    
-</div>
+    <br>
+    <div class="actions">
+      <div (click)="googleMaps()" class="button">Open on <b>Google Maps</b> </div>
+      <div (click)="explore()" class="button">Explore <b>Malta</b> <i class="fa fa-map"></i></div>
+    </div>
+    <div *ngIf="data?.recommendedRoute" class="section-1">
+      <div class="description"><b>What's the best route to take?</b>
+        Google Maps isn’t always accurate—you might hit restricted areas. Here’s the route I took.
+      </div>
+      <div class="head">
+        <div class="img">
+          <img [src]="data.recommendedRoute | safe" width="100%" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <h4>Explore Another Locations</h4>
+      <div class="recommendation-section">
+        <div *ngFor="let item of recommendedLocations" class="location">
+          <img (click)="clickon(item)" [src]="item.img" alt="">
+        </div>
+      </div>
 
+    </div>
+    <div #content class="section-2">
+      <iframe #frame (load)="loaded()" src="https://www.instagram.com/johnfabiomb/embed" width="100%" height="auto"
+        frameborder="0" scrolling="no" allowtransparency="true">
+      </iframe>
+    </div>
+  </div>
+
+</div>
