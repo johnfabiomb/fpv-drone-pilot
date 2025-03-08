@@ -11,11 +11,14 @@
         width: auto;
         height: 40px;
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
         padding: 0 15px 0 15px;
         box-sizing: border-box;
         align-items: center;
         background-color: white;
+        .tip{
+            font-size: 10px;
+        }
 
         i {
             font-size: 25px;
@@ -36,7 +39,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        gap: 10px;
+        gap: 15px;
 
         .title {
             font-size: 25px;
@@ -82,7 +85,7 @@
 
             }
 
-            .description {}
+            .recommendedRoute { font-size: 12px;}
 
             .head {
                 .img {

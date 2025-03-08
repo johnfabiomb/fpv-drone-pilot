@@ -1,5 +1,6 @@
 <div class="map-modal">
   <div class="header">
+    <div class="tip">Google Maps link provided below ↓</div>
     <i (click)="onNoClick()" class="fa fa-times pull-right"></i>
   </div>
   <div class="body">
@@ -14,13 +15,12 @@
       </div>
       <div [innerHTML]="data.description" class="description"></div>
     </div>
-    <br>
     <div class="actions">
       <div (click)="googleMaps()" class="button">Open on <b>Google Maps</b> </div>
       <div (click)="explore()" class="button">Explore <b>Malta</b> <i class="fa fa-map"></i></div>
     </div>
     <div *ngIf="data?.recommendedRoute" class="section-1">
-      <div class="description"><b>What's the best route to take?</b>
+      <div class="description recommendedRoute"><b>What's the best route to take?</b>
         Google Maps isn’t always accurate—you might hit restricted areas. Here’s the route I took.
       </div>
       <div class="head">

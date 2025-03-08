@@ -306,6 +306,15 @@
             "img": "/assets/images/places/fomm.png",
             "lon": 14.336813277007945,
             "lat": 35.90531475488335
+        },
+        {
+            "id": 37,
+            "title": "Għajn Tuffieħa Cave",
+            "description": "Perched on the cliffs overlooking Għajn Tuffieħa, a hidden cave offers stunning views. This bay is known for its golden sands, dramatic cliffs, and breathtaking sunsets. Perfect for swimming, hiking, and capturing postcard-worthy views, it’s a must-visit for nature lovers and adventurers alike.",
+            "img": "/assets/images/places/riviera.jpg",
+            "lon": 14.344843932841767,
+            "lat": 35.93064940552566,
+            "recommendedRoute": "/assets/images/recommendedRoute-riviera-route.png"
         }
     ]
 }
