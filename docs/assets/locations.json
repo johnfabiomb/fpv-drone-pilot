@@ -420,6 +420,19 @@
             "keywords": "Għajn Tuffieħa Cave, Malta, coastal cave, golden sands, dramatic cliffs, sunsets",
             "category": "Caves & Natural Wonders",
             "rating": 4.6
+        },
+        {
+            "id": 38,
+            "title": "Inland Sea",
+            "description": "The Inland Sea, known as 'Il-Qawra' in Maltese, is a stunning natural lagoon in Dwejra, Gozo. Connected to the Mediterranean by a narrow tunnel through the cliffs, this unique formation offers calm, shallow waters perfect for swimming and boating. The surrounding landscape, with its rugged rock formations and clear blue waters, makes it an excellent spot for photography and relaxation. Boat trips through the tunnel reveal breathtaking coastal views and hidden sea caves, making it a must-visit attraction in Gozo.",
+            "img": "/assets/images/places/inland.png",
+            "lon": 14.19111912006006,
+            "lat": 36.053948723531946,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Inland Sea, Il-Qawra, Gozo, Malta, lagoon, boat trips, sea caves, natural wonders",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.8
         }
+        
     ]
 }
