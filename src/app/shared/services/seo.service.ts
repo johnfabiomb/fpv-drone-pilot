@@ -12,7 +12,7 @@ export class SeoService {
    * Updates the page title and metadata dynamically based on a given location object.
    * @param location - The location object from the JSON data.
    */
-  updateMetaData(location: any): void {
+  updateMetaData(location?: any): void {
     if (location) {
       const title = location.title;
       const description = location.description.replace(/<b>|<\/b>/g, ''); // Remove HTML tags
@@ -37,9 +37,9 @@ export class SeoService {
       this.metaService.updateTag({ name: 'twitter:image', content: image });
     } else {
       // Default SEO metadata if location is not found
-      this.titleService.setTitle('Explore Malta - Discover Breathtaking Places');
-      this.metaService.updateTag({ name: 'description', content: 'Discover the best natural wonders and cultural sites in Malta.' });
-      this.metaService.updateTag({ name: 'keywords', content: 'Malta, travel, tourism, nature, sightseeing, hiking' });
+      this.titleService.setTitle('Explore Malta - Your Guide to the Best Spots on the Island');
+      this.metaService.updateTag({ name: 'description', content: 'Discover hidden gems, scenic landscapes, and top attractions in Malta. Use our interactive map to explore the island’s best beaches, historic sites, and natural wonders.' });
+      this.metaService.updateTag({ name: 'keywords', content: 'Malta, travel, nature, sightseeing, Malta, Explore Malta, Malta map, travel, attractions, beaches, historic sites, local guide' });
     }
   }
 }

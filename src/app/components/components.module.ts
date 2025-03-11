@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MapComponent } from './map/map.component';
 
 
 
 @NgModule({
   declarations: [
-    MapComponent
+    MapComponent,
   ],
   exports: [
     MapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgOptimizedImage
   ]
 })
 export class ComponentsModule { }

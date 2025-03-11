@@ -3,10 +3,20 @@
 
 <head>
   <meta charset="utf-8">
-  <title>@johnfabiomb | FPV Drone Pilot</title>
+  <title>Explore Malta - Your Guide to the Best Spots on the Island</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary SEO Meta Tags -->
+  <meta name="description"
+    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
+  <meta name="keywords"
+    content="Malta, hidden gems, explore Malta, free custom map, secret spots, natural wonders, cultural sites" />
+  <link rel="canonical" href="https://johnfabiomb.com/" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Preconnect & Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -17,19 +27,51 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WGS589LGV9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
 
-  gtag('config', 'G-WGS589LGV9');
-</script>
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Explore Malta - Your Guide to the Best Spots on the Island">
+  <meta property="og:description"
+    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://johnfabiomb.com/">
+  <meta property="og:image" content="https://johnfabiomb.com/assets/map-min.png">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Explore Malta - Your Guide to the Best Spots on the Island">
+  <meta name="twitter:description"
+    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
+  <meta name="twitter:image" content="https://johnfabiomb.com/assets/map-min.png">
+
+  <!-- Structured Data with JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    "name": "Explore Malta - Your Guide to the Best Spots on the Island",
+    "description": "Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer.",
+    "url": "https://johnfabiomb.com/",
+    "image":"https://johnfabiomb.com/assets/map-min.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Malta"
+    }
+  }
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WGS589LGV9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WGS589LGV9');
+  </script>
+</head>
+
 <body>
   <app-root></app-root>
   <script async src="//www.instagram.com/embed.js"></script>
 </body>
-
 
 </html>

@@ -59,6 +59,12 @@ export class MapModalComponent {
 
   ngOnDestroy(): void {
     document.body.style.overflow = 'auto';
+    this.router.navigate(
+      [], 
+      {
+        relativeTo: this.activatedRoute,
+      }
+    );
   }
 
   ngAfterViewInit() {
