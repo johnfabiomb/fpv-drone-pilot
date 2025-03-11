@@ -18,9 +18,10 @@ import { Overlay } from 'ol';
 import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
+    standalone: false
 })
 export class MapComponent implements AfterViewInit {
   public map!: Map;

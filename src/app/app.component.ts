@@ -4,11 +4,11 @@ import { ComponentsModule } from './components/components.module';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
+    selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ComponentsModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    imports: [RouterOutlet, CommonModule, ComponentsModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'fpv-pilot';

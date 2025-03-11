@@ -17,16 +17,16 @@ export enum ModalActions {
 }
 
 @Component({
-  selector: 'app-map-modal',
+    selector: 'app-map-modal',
   standalone: true,
-  imports: [
-    MatDialogModule,
-    CommonModule,
-    PipesModule
-    // ComponentsModule
-  ],
-  templateUrl: './map-modal.component.html',
-  styleUrl: './map-modal.component.scss'
+    imports: [
+        MatDialogModule,
+        CommonModule,
+        PipesModule
+        // ComponentsModule
+    ],
+    templateUrl: './map-modal.component.html',
+    styleUrl: './map-modal.component.scss'
 })
 export class MapModalComponent {
 
