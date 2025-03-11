@@ -67,6 +67,8 @@
   position: absolute !important;
   padding: 15px !important;
   top: 0px;
+  max-width: 470px !important;
+  min-width: 0px !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container {

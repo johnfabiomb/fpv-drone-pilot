@@ -15,6 +15,7 @@ import { MapModalComponent, ModalActions } from '../map-modal/map-modal.componen
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Overlay } from 'ol';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-map',
@@ -29,7 +30,8 @@ export class MapComponent implements AfterViewInit {
   constructor(
     public dialog: MatDialog, 
     public activatedRoute:ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public seoService: SeoService
   ) {
     
   }
@@ -66,6 +68,7 @@ export class MapComponent implements AfterViewInit {
     this.activatedRoute.queryParams.subscribe((params:Params)=>{
       if(params['title']){
         const place = locations.find(loc=> encodeURIComponent(loc.title) === params['title']) ?? locations.find(loc=> encodeURIComponent(loc.title.replace(' ','-')) === params['title']);
+        this.seoService.updateMetaData(place);
         this.openDialog(place, getCoordinatesfromLonLat(place?.lon as number, place?.lat as number))
       }
     })

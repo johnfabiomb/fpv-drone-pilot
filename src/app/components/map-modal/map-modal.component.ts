@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SeoService } from '../../shared/services/seo.service';
 
 export enum ModalActions {
   EXPLORE = 'EXPLORE',
@@ -50,6 +51,7 @@ export class MapModalComponent {
     private eRef: ElementRef,
       public router: Router,
           public activatedRoute:ActivatedRoute,
+          public seoService: SeoService,
     @Inject(DOCUMENT) public document: Document) {
     document.body.style.overflow = 'hidden';
     this.recommendedLocations = this.getRandomLocations
@@ -84,7 +86,6 @@ export class MapModalComponent {
   }
 
   clickon(data:any){
-    console.log(data)
     const queryParams = { title: encodeURIComponent(data.title.replace(' ','-')) };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
       this.router.navigate(
