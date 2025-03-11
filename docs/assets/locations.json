@@ -5,9 +5,12 @@
             "title": "Near Ras id-Dawwara",
             "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
             "img": "/assets/images/places/6.png",
-            "lon": 14.355620,
+            "lon": 14.35562,
             "lat": 35.866722,
-            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed"
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Ras id-Dawwara, Malta, hiking, photography, cliffs, sunset, Mediterranean views",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         },
         {
             "id": 1,
@@ -16,7 +19,10 @@
             "img": "/assets/images/places/3.jpg",
             "lon": 14.4562387,
             "lat": 35.8207177,
-            "url": "https://www.instagram.com/reel/DF2X8k0uvta/embed"
+            "url": "https://www.instagram.com/reel/DF2X8k0uvta/embed",
+            "keywords": "Blue Grotto, Malta, sea caves, snorkeling, diving, adventure, clear waters",
+            "category": "Nature & Water Attractions",
+            "rating": 4.9
         },
         {
             "id": 2,
@@ -25,7 +31,10 @@
             "img": "/assets/images/places/2.png",
             "lon": 14.5305347,
             "lat": 35.8065369,
-            "url": "https://www.instagram.com/reel/C2zz_hjMcY-/embed"
+            "url": "https://www.instagram.com/reel/C2zz_hjMcY-/embed",
+            "keywords": "Il-Mara, Malta, hiking, adventure, cliffs, remote trails, exploration",
+            "category": "Hiking & Trails",
+            "rating": 4.7
         },
         {
             "id": 3,
@@ -35,7 +44,10 @@
             "lon": 14.525437010570169,
             "lat": 35.80702570126614,
             "url": "https://www.instagram.com/reel/C4_IILpoxRx/embed",
-            "recommendedRoute": "/assets/images/recommendedRoute-ghar-ir-rih.png"
+            "recommendedRoute": "/assets/images/recommendedRoute-ghar-ir-rih.png",
+            "keywords": "Għar ir-Riħ, Malta, caves, rock formations, sea views, adventure",
+            "category": "Caves & Rock Formations",
+            "rating": 4.6
         },
         {
             "id": 4,
@@ -44,7 +56,10 @@
             "img": "/assets/images/places/1.jpg",
             "lon": 14.438552453233333,
             "lat": 35.822497835426105,
-            "url": "https://www.instagram.com/reel/C4vmiFnorW3/embed"
+            "url": "https://www.instagram.com/reel/C4vmiFnorW3/embed",
+            "keywords": "Ras Il-Mignuna Window, Malta, natural arch, coastal views, rock formations",
+            "category": "Rock Formations & Coastal Views",
+            "rating": 4.7
         },
         {
             "id": 5,
@@ -53,7 +68,10 @@
             "img": "/assets/images/places/4.jpg",
             "lon": 14.3536699,
             "lat": 35.8681994,
-            "url": "https://www.instagram.com/reel/C4GkCUZM1Zp/embed"
+            "url": "https://www.instagram.com/reel/C4GkCUZM1Zp/embed",
+            "keywords": "Ras id-Dawwara, Malta, coastal views, hiking, photography, sunset",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         },
         {
             "id": 6,
@@ -62,7 +80,10 @@
             "img": "/assets/images/places/5.jpg",
             "lon": 14.341693,
             "lat": 35.960651,
-            "url": "https://www.instagram.com/reel/C4OF8cKMavp/embed"
+            "url": "https://www.instagram.com/reel/C4OF8cKMavp/embed",
+            "keywords": "Popeye Village, Malta, film set, amusement park, family attraction, colorful",
+            "category": "Cultural & Entertainment",
+            "rating": 4.5
         },
         {
             "id": 7,
@@ -71,7 +92,10 @@
             "img": "/assets/images/places/elephant-rock.png",
             "lon": 14.346907885575565,
             "lat": 36.01422213881614,
-            "url": "https://www.instagram.com/reel/DB6wKPUOiLK/embed"
+            "url": "https://www.instagram.com/reel/DB6wKPUOiLK/embed",
+            "keywords": "Elephant Rock, Malta, natural rock formation, coastal, photography, scenic",
+            "category": "Nature & Landmarks",
+            "rating": 4.7
         },
         {
             "id": 8,
@@ -80,7 +104,10 @@
             "img": "/assets/images/places/8.jpg",
             "lon": 14.570848,
             "lat": 35.849367,
-            "url": "https://www.instagram.com/reel/C5ftOgOIvYz/embed"
+            "url": "https://www.instagram.com/reel/C5ftOgOIvYz/embed",
+            "keywords": "Munxar Path, Malta, coastal walk, hiking, nature, scenic, Mediterranean",
+            "category": "Hiking & Trails",
+            "rating": 4.6
         },
         {
             "id": 9,
@@ -89,7 +116,10 @@
             "img": "/assets/images/places/9.JPG",
             "lon": 14.5698237,
             "lat": 35.8499062,
-            "url": "https://www.instagram.com/reel/C9ruKhgOCEo/embed"
+            "url": "https://www.instagram.com/reel/C9ruKhgOCEo/embed",
+            "keywords": "Munxar Window, Malta, natural arch, coastal views, hiking, photography",
+            "category": "Rock Formations & Coastal Views",
+            "rating": 4.7
         },
         {
             "id": 10,
@@ -98,7 +128,10 @@
             "img": "/assets/images/places/10.jpg",
             "lon": 14.563689974293295,
             "lat": 35.83819204033,
-            "url": "https://www.instagram.com/reel/C3nYoDeMwf_/embed"
+            "url": "https://www.instagram.com/reel/C3nYoDeMwf_/embed",
+            "keywords": "Hofriet Window, Malta, Blue Cave, natural arch, boat access, serene",
+            "category": "Nature & Water Attractions",
+            "rating": 4.6
         },
         {
             "id": 11,
@@ -107,7 +140,10 @@
             "img": "/assets/images/places/11.jpg",
             "lon": 14.5244437,
             "lat": 35.8919094,
-            "url": "https://www.instagram.com/reel/C_7b6G6udei/embed"
+            "url": "https://www.instagram.com/reel/C_7b6G6udei/embed",
+            "keywords": "Bighi Cot-Lift, Malta, historical, engineering, cultural heritage, Grand Harbour",
+            "category": "Historical & Cultural",
+            "rating": 4.5
         },
         {
             "id": 12,
@@ -116,7 +152,10 @@
             "img": "/assets/images/places/12.jpg",
             "lon": 14.4250258,
             "lat": 35.9155058,
-            "url": "https://www.instagram.com/reel/C30t3rOMBVB/embed"
+            "url": "https://www.instagram.com/reel/C30t3rOMBVB/embed",
+            "keywords": "Wied il-Għasel, Malta, valley, lush vegetation, historical, hiking, scenic",
+            "category": "Nature & Landmarks",
+            "rating": 4.7
         },
         {
             "id": 13,
@@ -125,7 +164,10 @@
             "img": "/assets/images/places/13.jpg",
             "lon": 14.367659,
             "lat": 35.997909,
-            "url": "https://www.instagram.com/reel/C7M0_gtOLJN/embed"
+            "url": "https://www.instagram.com/reel/C7M0_gtOLJN/embed",
+            "keywords": "Coral Lagoon, Malta, natural lagoon, snorkeling, marine life, adventure",
+            "category": "Nature & Water Attractions",
+            "rating": 4.8
         },
         {
             "id": 14,
@@ -134,7 +176,10 @@
             "img": "/assets/images/places/16.jpg",
             "lon": 14.325799,
             "lat": 36.010848,
-            "url": "https://www.instagram.com/reel/C5yJsAaIdk4/embed"
+            "url": "https://www.instagram.com/reel/C5yJsAaIdk4/embed",
+            "keywords": "Il-Ġebla l-Imtaqqba, Malta, punctured rock, natural landmark, sunset, photography",
+            "category": "Rock Formations & Scenic Views",
+            "rating": 4.7
         },
         {
             "id": 15,
@@ -143,7 +188,10 @@
             "img": "/assets/images/places/17.png",
             "lon": 14.332826579817256,
             "lat": 35.98227580320132,
-            "url": "https://www.instagram.com/reel/CxBX5csMihe/embed"
+            "url": "https://www.instagram.com/reel/CxBX5csMihe/embed",
+            "keywords": "Paradise Bay, Malta, beach, crystal-clear waters, snorkeling, family, scenic",
+            "category": "Beaches & Water Attractions",
+            "rating": 4.8
         },
         {
             "id": 16,
@@ -152,7 +200,10 @@
             "img": "/assets/images/places/15.jpg",
             "lon": 14.329411,
             "lat": 36.009697,
-            "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed"
+            "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed",
+            "keywords": "L-Għar ta’ Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.7
         },
         {
             "id": 17,
@@ -161,7 +212,10 @@
             "img": "/assets/images/places/18.jpg",
             "lon": 14.347281410906533,
             "lat": 36.00631138767528,
-            "url": "https://www.instagram.com/reel/C6_Sb24oiEs/embed"
+            "url": "https://www.instagram.com/reel/C6_Sb24oiEs/embed",
+            "keywords": "Natural Window, Malta, coastal, natural arch, historic fortification, scenic",
+            "category": "Historical & Natural Landmarks",
+            "rating": 4.6
         },
         {
             "id": 18,
@@ -170,7 +224,10 @@
             "img": "/assets/images/places/minstra.JPG",
             "lon": 14.391039725356249,
             "lat": 35.957417736969006,
-            "url": "https://www.instagram.com/reel/CuxB6E-N3nR/embed"
+            "url": "https://www.instagram.com/reel/CuxB6E-N3nR/embed",
+            "keywords": "Mistra Bay, Malta, tranquil bay, pebble beach, snorkeling, relaxation",
+            "category": "Beaches & Water Attractions",
+            "rating": 4.7
         },
         {
             "id": 19,
@@ -179,7 +236,10 @@
             "img": "/assets/images/places/21.JPG",
             "lon": 14.39847475818653,
             "lat": 35.84141667763579,
-            "url": "https://www.instagram.com/reel/C9-ITjtIirm/embed"
+            "url": "https://www.instagram.com/reel/C9-ITjtIirm/embed",
+            "keywords": "Dingli Cliffs, Malta, dramatic cliffs, panoramic views, hiking, sunset, nature",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         },
         {
             "id": 21,
@@ -188,7 +248,10 @@
             "img": "/assets/images/places/23.jpg",
             "lon": 14.453294928876327,
             "lat": 35.94647468280512,
-            "url": "https://www.instagram.com/reel/CpGJ1gggRbR/embed"
+            "url": "https://www.instagram.com/reel/CpGJ1gggRbR/embed",
+            "keywords": "St. Mark's Tower, Malta, historic watchtower, coastal fortification, panoramic views",
+            "category": "Historical & Cultural",
+            "rating": 4.6
         },
         {
             "id": 22,
@@ -197,7 +260,10 @@
             "img": "/assets/images/places/19.JPG",
             "lon": 14.372112708186386,
             "lat": 35.99309133941263,
-            "url": "https://www.instagram.com/reel/C7eUdnoI6L1/embed"
+            "url": "https://www.instagram.com/reel/C7eUdnoI6L1/embed",
+            "keywords": "Għar iċ-Ċomb, Malta, lead cave, natural formation, historical, exploration",
+            "category": "Caves & Historical Sites",
+            "rating": 4.5
         },
         {
             "id": 24,
@@ -206,7 +272,10 @@
             "img": "/assets/images/places/24.jpg",
             "lon": 14.4155089,
             "lat": 35.8337247,
-            "url": "https://www.instagram.com/reel/C-P-EmKIEtq/embed"
+            "url": "https://www.instagram.com/reel/C-P-EmKIEtq/embed",
+            "keywords": "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
+            "category": "Nature & Water Attractions",
+            "rating": 4.7
         },
         {
             "id": 25,
@@ -215,7 +284,10 @@
             "img": "/assets/images/places/Fungus.jpg",
             "lon": 14.1876756,
             "lat": 36.0478154,
-            "url": "https://www.instagram.com/reel/C9kUr9Vo8mX/embed"
+            "url": "https://www.instagram.com/reel/C9kUr9Vo8mX/embed",
+            "keywords": "Fungus Rock, Malta, islet, coastal, historical, dramatic scenery, diving",
+            "category": "Nature & Landmarks",
+            "rating": 4.6
         },
         {
             "id": 26,
@@ -224,7 +296,10 @@
             "img": "/assets/images/places/26.jpg",
             "lon": 14.521621366602675,
             "lat": 35.88986318933959,
-            "url": "https://www.instagram.com/reel/C-iD05doMJg/embed"
+            "url": "https://www.instagram.com/reel/C-iD05doMJg/embed",
+            "keywords": "Birgu, Vittoriosa, Malta, historical, maritime heritage, narrow streets, culture",
+            "category": "Historical & Cultural",
+            "rating": 4.7
         },
         {
             "id": 23,
@@ -233,7 +308,10 @@
             "img": "/assets/images/places/rock.jpg",
             "lon": 14.21306462050238,
             "lat": 36.0798010892607,
-            "url": "https://www.instagram.com/reel/C9fAQhIoq2Q/embed"
+            "url": "https://www.instagram.com/reel/C9fAQhIoq2Q/embed",
+            "keywords": "Wied il-Mielaħ Window, Malta, natural arch, limestone, coastal, photography",
+            "category": "Rock Formations & Scenic Views",
+            "rating": 4.7
         },
         {
             "id": 27,
@@ -242,7 +320,10 @@
             "img": "/assets/images/places/27.jpg",
             "lon": 14.518716107448817,
             "lat": 35.891786702482676,
-            "url": "https://www.instagram.com/reel/C-p-agxIuuZ/embed"
+            "url": "https://www.instagram.com/reel/C-p-agxIuuZ/embed",
+            "keywords": "Fort of St. Angelo, Malta, historic fortress, coastal, military history, panoramic views",
+            "category": "Historical & Cultural",
+            "rating": 4.8
         },
         {
             "id": 33,
@@ -251,7 +332,10 @@
             "img": "/assets/images/places/our_lady_of_mount_carmel.png",
             "lon": 14.512278,
             "lat": 35.900194,
-            "url": "https://www.instagram.com/reel/DBsuHPIuYyB/embed"
+            "url": "https://www.instagram.com/reel/DBsuHPIuYyB/embed",
+            "keywords": "Shrine of Our Lady of Mount Carmel, Malta, religious site, Baroque, pilgrimage, history",
+            "category": "Religious & Historical",
+            "rating": 4.6
         },
         {
             "id": 28,
@@ -260,7 +344,10 @@
             "img": "/assets/images/places/guardiola.jpg",
             "lon": 14.513937913495793,
             "lat": 35.89074420324843,
-            "url": "https://www.instagram.com/reel/C-5PV5ko3md/embed"
+            "url": "https://www.instagram.com/reel/C-5PV5ko3md/embed",
+            "keywords": "La Guardiola, Malta, historical watchtower, panoramic views, Grand Harbour, fortifications",
+            "category": "Historical & Cultural",
+            "rating": 4.7
         },
         {
             "id": 31,
@@ -269,7 +356,10 @@
             "img": "/assets/images/places/mdina.png",
             "lon": 14.403191,
             "lat": 35.886778,
-            "url": "https://www.instagram.com/reel/DB3IhDQOA_-/embed"
+            "url": "https://www.instagram.com/reel/DB3IhDQOA_-/embed",
+            "keywords": "Mdina, Silent City, Malta, medieval, history, architecture, panoramic views",
+            "category": "Historical & Cultural",
+            "rating": 4.9
         },
         {
             "id": 32,
@@ -278,7 +368,10 @@
             "img": "/assets/images/places/victoria_lines.png",
             "lon": 14.450382750314956,
             "lat": 35.930597034999735,
-            "url": "https://www.instagram.com/reel/DCFEbXNumDO/embed"
+            "url": "https://www.instagram.com/reel/DCFEbXNumDO/embed",
+            "keywords": "Victoria Lines, Malta, Great Wall of Malta, panoramic views, military history, hiking",
+            "category": "Historical & Natural Landmarks",
+            "rating": 4.8
         },
         {
             "id": 34,
@@ -287,7 +380,10 @@
             "img": "/assets/images/places/migra-l-ferha.png",
             "lon": 14.341744699003474,
             "lat": 35.87498389580119,
-            "url": "https://www.instagram.com/reel/DFdROwYOZrS/embed"
+            "url": "https://www.instagram.com/reel/DFdROwYOZrS/embed",
+            "keywords": "Miġra l-Ferħa, Malta, coastal, hidden gem, ziplining, scenic, sunsets",
+            "category": "Adventure & Scenic Views",
+            "rating": 4.7
         },
         {
             "id": 35,
@@ -297,7 +393,10 @@
             "lon": 14.35627521847218,
             "lat": 35.86739484580184,
             "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
-            "recommendedRoute": "/assets/images/recommendedRoute-ras-id.png"
+            "recommendedRoute": "/assets/images/recommendedRoute-ras-id.png",
+            "keywords": "Ras id-Dawwara Cave, Malta, hidden cave, coastal, hiking, panoramic, nature",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.6
         },
         {
             "id": 36,
@@ -305,7 +404,10 @@
             "description": "Fomm ir-Rih is one of Malta’s most secluded and breathtaking coastal spots. Known for its crystal-clear waters, rugged cliffs, and peaceful surroundings, it offers a perfect escape for nature lovers and adventure seekers. The area is ideal for hiking, swimming, and photography, with stunning panoramic views of the Mediterranean Sea. Its untouched beauty and tranquil atmosphere make it a hidden gem worth exploring.",
             "img": "/assets/images/places/fomm.png",
             "lon": 14.336813277007945,
-            "lat": 35.90531475488335
+            "lat": 35.90531475488335,
+            "keywords": "Fomm ir-Rih, Malta, secluded coastal spot, clear waters, rugged cliffs, hiking",
+            "category": "Nature & Landmarks",
+            "rating": 4.7
         },
         {
             "id": 37,
@@ -314,7 +416,10 @@
             "img": "/assets/images/places/riviera.jpg",
             "lon": 14.344843932841767,
             "lat": 35.93064940552566,
-            "recommendedRoute": "/assets/images/recommendedRoute-riviera-route.png"
+            "recommendedRoute": "/assets/images/recommendedRoute-riviera-route.png",
+            "keywords": "Għajn Tuffieħa Cave, Malta, coastal cave, golden sands, dramatic cliffs, sunsets",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.6
         }
     ]
 }
