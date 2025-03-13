@@ -432,7 +432,18 @@
             "keywords": "Inland Sea, Il-Qawra, Gozo, Malta, lagoon, boat trips, sea caves, natural wonders",
             "category": "Caves & Natural Wonders",
             "rating": 4.8
+        },
+        {
+            "id": 40,
+            "title": "Blata tal-Melħ",
+            "description": "Nestled within the rugged landscape of Blata tal-Melħ, this striking rock formation captivates visitors with its dramatic setting. Positioned under a natural overhang, the rock appears as if delicately placed by nature itself. This hidden gem, overlooking the vast Mediterranean Sea, offers a perfect spot for photography, exploration, and moments of solitude. The surrounding area, known for its salt pans and scenic cliffs, enhances the experience of visiting this untouched part of Malta's coastline. A must-visit for adventurers and nature enthusiasts seeking a unique landscape away from the crowds.",
+            "img": "/assets/images/places/blata.png",
+            "lon": 14.3312708,
+            "lat": 35.9014008,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Blata tal-Melħ, Malta, balanced rock, coastal cliffs, nature photography, scenic views, hidden gem",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         }
-        
     ]
 }

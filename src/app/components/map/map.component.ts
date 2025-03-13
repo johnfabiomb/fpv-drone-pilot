@@ -71,6 +71,8 @@ export class MapComponent implements AfterViewInit {
         const place = locations.find(loc=> encodeURIComponent(loc.title) === params['title']) ?? locations.find(loc=> encodeURIComponent(loc.title.replace(' ','-')) === params['title']);
         this.seoService.updateMetaData(place);
         this.openDialog(place, getCoordinatesfromLonLat(place?.lon as number, place?.lat as number))
+      }else{
+        this.seoService.updateMetaData();
       }
     })
   }
