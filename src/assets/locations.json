@@ -444,6 +444,19 @@
             "keywords": "Blata tal-Melħ, Malta, balanced rock, coastal cliffs, nature photography, scenic views, hidden gem",
             "category": "Nature & Landmarks",
             "rating": 4.8
+        },
+        {
+            "id": 41,
+            "title": "Tal-Mixta Cave",
+            "description": "Tal-Mixta Cave offers one of the most iconic views in all of Gozo. Perched high above Ramla Bay, this natural cave frames the vivid red sands and turquoise waters below like a painting. Accessible via a short hike or drive, the cave provides a cool, shaded spot to relax while enjoying panoramic views of Gozo's coastline. It's a favorite among photographers and adventurers alike, especially during sunrise or sunset when the light floods the cave's opening with a warm glow.",
+            "img": "/assets/images/places/tal-mixta.png",
+            "lon": 14.289447484500228,
+            "lat": 36.06329636848929,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Tal-Mixta Cave, Gozo, Ramla Bay, Malta, coastal cave, panoramic views, nature photography, hidden gem",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.9
         }
+        
     ]
 }
