@@ -456,7 +456,21 @@
             "keywords": "Tal-Mixta Cave, Gozo, Ramla Bay, Malta, coastal cave, panoramic views, nature photography, hidden gem",
             "category": "Caves & Natural Wonders",
             "rating": 4.9
+        },
+        {
+            "id": 42,
+            "title": "Secret Spot: Cliffside Cave above Pullicino’s Cove",
+            "description": "Tucked away on Malta’s northern coast, this hidden cave sits quietly above Pullicino’s Cove, accessible only by a rugged coastal trail. It’s the kind of place where time slows down — raw, untouched, and far from the usual tourist paths. The cave, carved naturally into the cliffs, offers sweeping sea views and complete solitude. Ideal for hikers, nature lovers, and explorers seeking a moment of calm surrounded by wild beauty. Bring good shoes, water, and a spirit for adventure — there are no signs here, just pure, unfiltered Malta.",
+            "img": "/assets/images/places/pullicinos-cove-cave.png",
+            "lon": 14.33430,
+            "lat": 35.92110,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendation-42.png",
+            "keywords": "Pullicino’s Cove, hidden cave, Malta, secret trail, wild coast, off the path, nature, hiking, solitude, secret spot",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.9
         }
+        
         
     ]
 }
