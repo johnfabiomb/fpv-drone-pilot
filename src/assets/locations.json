@@ -469,7 +469,20 @@
             "keywords": "Pullicino’s Cove, hidden cave, Malta, secret trail, wild coast, off the path, nature, hiking, solitude, secret spot",
             "category": "Caves & Natural Wonders",
             "rating": 4.9
+        },
+        {
+            "id": 43,
+            "title": "Lower Kalkara Gardens",
+            "description": "Lower Kalkara Gardens is a peaceful green space tucked along the waterfront of Kalkara, offering stunning views across the Grand Harbour. This hidden oasis blends natural beauty with history, featuring quiet paths, palm trees, and stone benches perfect for relaxing or enjoying a moment of solitude. With the majestic Fort Ricasoli in the distance and boats gently gliding by, it's a favorite spot for locals who want to escape the crowds and connect with Malta’s coastal charm.",
+            "img": "/assets/images/places/lower-kalkara.png",
+            "lon": 14.517744082259632,
+            "lat": 35.897522917358,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Lower Kalkara Gardens, Kalkara, Malta, hidden gem, gardens, Grand Harbour views, relaxing, nature spot, historical setting",
+            "category": "Parks & Scenic Spots",
+            "rating": 4.5
         }
+        
         
         
     ]
