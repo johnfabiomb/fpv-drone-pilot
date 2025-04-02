@@ -481,9 +481,19 @@
             "keywords": "Lower Kalkara Gardens, Kalkara, Malta, hidden gem, gardens, Grand Harbour views, relaxing, nature spot, historical setting",
             "category": "Parks & Scenic Spots",
             "rating": 4.5
-        }
-        
-        
-        
+        },
+        {
+            "id": 44,
+            "title": "Ta’ Marija Cave",
+            "description": "Ta’ Marija Cave is a secluded sea-level cave located along the northern coast of Malta, near Mellieħa. Tucked between rugged cliffs and crystal-clear waters, this natural gem is only accessible by a coastal hike or boat, making it a true hidden treasure. The cave offers a serene escape surrounded by raw limestone formations, perfect for adventurous swimmers, snorkelers, or those seeking solitude in nature. Its peaceful vibe and remote feel make it ideal for exploring, meditating, or just taking in the sounds of the sea.",
+            "img": "/assets/images/places/TaMarijaCave.png",
+            "lon": 14.332866509633169,
+            "lat": 35.918123816986494,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendation-44.png",
+            "keywords": "Ta’ Marija Cave, Malta, Mellieħa, hidden cave, snorkeling, sea-level cave, coastal hike, nature escape",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.7
+        }        
     ]
 }
