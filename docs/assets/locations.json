@@ -494,6 +494,18 @@
             "keywords": "Ta’ Marija Cave, Malta, Mellieħa, hidden cave, snorkeling, sea-level cave, coastal hike, nature escape",
             "category": "Caves & Natural Wonders",
             "rating": 4.7
-        }        
+        } ,
+        {
+            "id": 46,
+            "title": "Cave Facing Fungus Rock",
+            "description": "Hidden along the coastal trail between Dwejra Tower and Fungus Rock, this small cave offers one of Gozo’s most dramatic lookout points. Carved into the cliffside, it’s easy to miss—but step inside and you'll be rewarded with a direct, cinematic view of Fungus Rock rising from the sea. This cave is closer to Dwejra Tower, making it an ideal pitstop for hikers exploring the area. With shade, solitude, and an unbeatable vantage point, it's the perfect place to take a break and soak in the coastal magic of Gozo.",
+            "img": "/assets/images/places/fungus-rock-cave.png",
+            "lon": 14.19115394037567,
+            "lat": 36.04861690374233,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Fungus Rock, hidden cave, Dwejra, Gozo, viewpoint, Malta, coastal trail, cliffside cave, natural lookout",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.9
+        }              
     ]
 }
