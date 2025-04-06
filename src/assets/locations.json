@@ -280,13 +280,13 @@
         {
             "id": 25,
             "title": "Fungus Rock",
-            "description": "Fungus Rock, also known as Il-Ġebla tal-Ġeneral, is a small islet located at the entrance of the Dwejra Bay on the west coast of Gozo, Malta. This 60-meter high rock is renowned for the rare medicinal fungus that once grew there, which was highly prized by the Knights of St. John. The area around Fungus Rock is popular for its dramatic coastal scenery, crystal clear waters, and excellent diving spots. It is a protected nature reserve, offering visitors a unique glimpse into Malta's natural and historical heritage.",
-            "img": "/assets/images/places/Fungus.jpg",
-            "lon": 14.1876756,
-            "lat": 36.0478154,
+            "description": "Fungus Rock is one of Gozo’s most iconic natural landmarks, rising dramatically from the sea at the entrance of Dwejra Bay. Known locally as 'Il-Ġebla tal-Ġeneral,' this massive limestone islet has a rich history and was once guarded for its rare medicinal fungus. Today, it remains a symbol of raw coastal beauty, surrounded by deep blue waters and towering cliffs. It’s a breathtaking viewpoint for hikers, photographers, and anyone seeking a front-row seat to Gozo’s wild side.",
+            "img": "/assets/images/places/fungusrock.png",
+            "lon": 14.189024797827258,
+            "lat": 36.04631591357665,
             "url": "https://www.instagram.com/reel/C9kUr9Vo8mX/embed",
-            "keywords": "Fungus Rock, Malta, islet, coastal, historical, dramatic scenery, diving",
-            "category": "Nature & Landmarks",
+            "keywords": "Fungus Rock, Gozo, Malta, Dwejra Bay, Il-Ġebla tal-Ġeneral, cliffs, sea views, coastal landmark, natural wonders",
+            "category": "Caves & Natural Wonders",
             "rating": 4.6
         },
         {
