@@ -506,6 +506,18 @@
             "keywords": "Fungus Rock, hidden cave, Dwejra, Gozo, viewpoint, Malta, coastal trail, cliffside cave, natural lookout",
             "category": "Caves & Natural Wonders",
             "rating": 4.9
+        },
+        {
+            "id": 47,
+            "title": "Chinese Garden of Serenity",
+            "description": "Tucked away in the town of Santa Lucija, the Chinese Garden of Serenity is a peaceful oasis inspired by classical Chinese design. Filled with stone bridges, koi ponds, bamboo groves, and decorative pavilions, it offers a tranquil escape from Malta’s urban buzz. Each area of the garden represents a different element of harmony—connecting visitors with nature, balance, and reflection. Whether you're meditating, strolling, or just relaxing under the trees, this garden is a serene cultural gem worth exploring.",
+            "img": "/assets/images/places/chinese-garden.jpeg",
+            "lon": 14.503171203810455,
+            "lat": 35.863760535112775,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Chinese Garden of Serenity, Santa Lucija, Malta, garden, peaceful, koi pond, bamboo, Chinese culture, hidden gem",
+            "category": "Parks & Scenic Spots",
+            "rating": 4.6
         }              
     ]
 }
