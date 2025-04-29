@@ -518,6 +518,19 @@
             "keywords": "Chinese Garden of Serenity, Santa Lucija, Malta, garden, peaceful, koi pond, bamboo, Chinese culture, hidden gem",
             "category": "Parks & Scenic Spots",
             "rating": 4.6
-        }              
+        } ,
+        {
+            "id": 49,
+            "title": "Ta' Kalanka Sea Cave",
+            "description": "Hidden along the coastline of Delimara, Ta' Kalanka Sea Cave is a natural wonder known mostly to locals and adventurous swimmers. The cave opens out into bright turquoise waters, surrounded by dramatic cliffs and raw limestone formations. It's a perfect spot for cliff jumping, snorkeling, or simply floating in crystal-clear waters under the shelter of the rock. Remote, rugged, and stunning, Ta' Kalanka captures the wild beauty of Malta’s untouched coast.",
+            "img": "/assets/images/places/ta-kalanka-sea-cave.png",
+            "lon": 14.569030649361185,
+            "lat": 35.84060494147958,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Ta' Kalanka Sea Cave, Delimara, Malta, sea cave, cliff jumping, hidden swimming spot, snorkeling, rugged coast, turquoise waters",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.7
+        }
+                  
     ]
 }
