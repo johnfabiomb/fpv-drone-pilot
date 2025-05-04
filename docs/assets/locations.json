@@ -530,7 +530,18 @@
             "keywords": "Ta' Kalanka Sea Cave, Delimara, Malta, sea cave, cliff jumping, hidden swimming spot, snorkeling, rugged coast, turquoise waters",
             "category": "Caves & Natural Wonders",
             "rating": 4.7
-        }
-                  
+        },
+        {
+            "id": 50,
+            "title": "Xlendi Bay",
+            "description": "Xlendi Bay is a picturesque coastal village in Gozo, famous for its turquoise water, seaside cliffs, and relaxing atmosphere. The small bay is surrounded by towering limestone walls and is perfect for swimming, sunset walks, and cliffside dining. It’s a local favorite for both day trips and peaceful evenings, with easy water access, snorkel spots, and a charming promenade. Whether you're diving into the sea or just sipping coffee by the shore, Xlendi is all about slowing down and soaking in the beauty of Gozo.",
+            "img": "/assets/images/places/Xlendi.png",
+            "lon": 14.217098921852433,
+            "lat": 36.02974630449464,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Xlendi, Gozo, Xlendi Bay, Malta, coastal village, swimming, cliffs, snorkeling, sunset spot, local favorite",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
+        }       
     ]
 }
