@@ -193,18 +193,7 @@
             "category": "Beaches & Water Attractions",
             "rating": 4.8
         },
-        {
-            "id": 16,
-            "title": "L-Għar ta’ Bla Saqaf",
-            "description": "L-Għar ta’ Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellieħa. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
-            "img": "/assets/images/places/15.jpg",
-            "lon": 14.329411,
-            "lat": 36.009697,
-            "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed",
-            "keywords": "L-Għar ta’ Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
-            "category": "Caves & Natural Wonders",
-            "rating": 4.7
-        },
+
         {
             "id": 17,
             "title": "Natural Window",
@@ -542,6 +531,18 @@
             "keywords": "Xlendi, Gozo, Xlendi Bay, Malta, coastal village, swimming, cliffs, snorkeling, sunset spot, local favorite",
             "category": "Nature & Landmarks",
             "rating": 4.8
-        }       
+        },
+        {
+            "id": 16,
+            "title": "L-Għar ta’ Bla Saqaf",
+            "description": "L-Għar ta’ Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellieħa. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
+            "img": "/assets/images/places/15.png",
+            "lon": 14.329411,
+            "lat": 36.009697,
+            "url": "https://www.instagram.com/reel/C6eVS0GoPf9/embed",
+            "keywords": "L-Għar ta’ Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.7
+        }
     ]
 }
