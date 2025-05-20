@@ -543,6 +543,20 @@
             "keywords": "L-Għar ta’ Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
             "category": "Caves & Natural Wonders",
             "rating": 4.7
+        },
+        {
+            "id": 52,
+            "title": "Mini Inland Sea",
+            "description": "Just below the ancient Mnajdra Temples lies one of Malta’s hidden coastal secrets—the Mini Inland Sea. This secluded lagoon is partially enclosed by rugged rock and connected to the open sea through an underwater cave. With its clear, still water and surrounding cliffs, it feels like a natural amphitheater sculpted by the sea. Ideal for explorers, swimmers, or quiet wanderers, it offers a surreal contrast between land, sea, and history—just steps away from one of Malta’s most iconic heritage sites.",
+            "img": "/assets/images/places/mini-inland-sea.jpg",
+            "lon": 14.433511144031606,
+            "lat": 35.82613626289459,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-mini-inland-sea.png",
+            "keywords": "Mini Inland Sea, Malta, Qrendi, Mnajdra, hidden spot, natural inlet, underwater cave, secret swim, Malta lagoon",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.8
         }
+        
     ]
 }
