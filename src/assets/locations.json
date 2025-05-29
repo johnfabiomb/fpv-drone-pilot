@@ -556,7 +556,18 @@
             "keywords": "Mini Inland Sea, Malta, Qrendi, Mnajdra, hidden spot, natural inlet, underwater cave, secret swim, Malta lagoon",
             "category": "Caves & Natural Wonders",
             "rating": 4.8
-        }
-        
+        },
+        {
+            "id": 53,
+            "title": "St. Michael Bastion",
+            "description": "St. Michael Bastion is one of Senglea’s most historic and peaceful spots—built in the 1500s to guard the Grand Harbour. Today, it offers panoramic views across Valletta, Birgu, and the sea, with wide stone terraces perfect for sitting, walking, or just watching the city glow at sunset. Unlike more crowded viewpoints, this bastion remains calm and local, blending raw stone, history, and sky. It's a powerful reminder of Malta’s past and a perfect escape in the heart of the Three Cities.",
+            "img": "/assets/images/places/st-bastion.png",
+            "lon": 14.51876658864401,
+            "lat": 35.884555521002994,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "St. Michael Bastion, Senglea, Malta, Grand Harbour, Three Cities, history, bastion, viewpoint, local spot, hidden gem",
+            "category": "Parks & Scenic Spots",
+            "rating": 4.7
+        }  
     ]
 }
