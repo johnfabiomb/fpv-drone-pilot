@@ -568,6 +568,19 @@
             "keywords": "St. Michael Bastion, Senglea, Malta, Grand Harbour, Three Cities, history, bastion, viewpoint, local spot, hidden gem",
             "category": "Parks & Scenic Spots",
             "rating": 4.7
-        }  
+        },
+        {
+            "id": 54,
+            "title": "L-Għawseġ",
+            "description": "Tucked below the cliffs near Popeye Village, L-Għawseġ is a quiet coastal inlet that offers wild views and raw nature. It’s a perfect detour for hikers exploring the Anchor Bay cliffs, with jagged limestone, dramatic rock formations, and a direct descent to the sea. While not an official beach, the rocky shore is swimmable in calm conditions—making it a peaceful, off-grid swim and sunset spot. Bring good shoes, water, and curiosity—you won’t find crowds here.",
+            "img": "/assets/images/places/L-Ghawseg.png",
+            "lon": 14.341577929256182,
+            "lat": 35.95369720364465,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-l-ghawseg.png",
+            "keywords": "L-Għawseġ, Anchor Bay, Popeye Village, Malta, hike, hidden spot, cliff walk, wild swim, off path Malta, nature",
+            "category": "Nature & Landmarks",
+            "rating": 4.7
+        }
     ]
 }
