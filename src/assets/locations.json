@@ -182,19 +182,6 @@
             "rating": 4.7
         },
         {
-            "id": 15,
-            "title": "Paradise Bay",
-            "description": "Paradise Bay, located at the northern tip of Malta near Ċirkewwa, is one of the island's most picturesque beaches. Known for its crystal-clear waters and fine sandy beach, this secluded cove is surrounded by rugged cliffs that provide shelter and create a tranquil, almost private beach atmosphere. Paradise Bay is ideal for swimming, sunbathing, and snorkeling, making it a favorite among both locals and tourists seeking a serene getaway. The bay also features amenities such as a restaurant and beach equipment rentals, enhancing the comfort and convenience of your visit.",
-            "img": "/assets/images/places/17.png",
-            "lon": 14.332826579817256,
-            "lat": 35.98227580320132,
-            "url": "https://www.instagram.com/reel/CxBX5csMihe/embed",
-            "keywords": "Paradise Bay, Malta, beach, crystal-clear waters, snorkeling, family, scenic",
-            "category": "Beaches & Water Attractions",
-            "rating": 4.8
-        },
-
-        {
             "id": 17,
             "title": "Natural Window",
             "description": "This natural window is located in Comino near a historic coastal fortification on the northern coast of Malta, called 'Il-Batterija ta' Santa Marija'",
@@ -581,6 +568,32 @@
             "keywords": "L-Għawseġ, Anchor Bay, Popeye Village, Malta, hike, hidden spot, cliff walk, wild swim, off path Malta, nature",
             "category": "Nature & Landmarks",
             "rating": 4.7
+        },
+        {
+            "id": 55,
+            "title": "Paradise Bay",
+            "description": "Paradise Bay is one of Malta’s most loved sandy beaches, tucked into a deep cove at the island’s northern tip. Surrounded by cliffs and offering clear, turquoise waters, it’s perfect for swimming, sunbathing, or grabbing a cocktail at the beach bar. Popular but still relaxing, this beach is ideal for a full day of seaside escape with views of Comino in the distance. It’s also a great snorkeling spot, especially around the edges of the bay.",
+            "img": "/assets/images/places/paradise-bay.png",
+            "lon": 14.332826579817256,
+            "lat": 35.98227580320132,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Paradise Bay, Malta, sandy beach, swimming, snorkeling, beach bar, northern Malta, Comino view, popular beach",
+            "category": "Beaches & Swimming Spots",
+            "rating": 4.6
+        },
+        {
+            "id": 56,
+            "title": "Rock Window at Paradise Bay",
+            "description": "Tucked beside the popular Paradise Bay beach lies a hidden rocky shoreline where adventure meets raw beauty. Carved into the cliffside, this dramatic natural rock window opens to the sea—framing the horizon like a secret portal. Few beachgoers make it past the sand to explore this rugged stretch, but those who do find quiet sun spots, epic views, and a perfect spot for photos, climbing, or just soaking in the wild side of Malta’s coast. It's just a few minutes’ walk from the main beach, but feels like another world entirely.",
+            "img": "/assets/images/places/paradise-rock-window.png",
+            "lon": 14.330971532112834,
+            "lat": 35.98255194029342,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Paradise Bay, rock window, Malta, cliff view, hidden spot, natural arch, photography, rocky shore, coastal walk",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         }
+        
+        
     ]
 }
