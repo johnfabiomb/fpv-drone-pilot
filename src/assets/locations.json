@@ -592,7 +592,21 @@
             "keywords": "Paradise Bay, rock window, Malta, cliff view, hidden spot, natural arch, photography, rocky shore, coastal walk",
             "category": "Nature & Landmarks",
             "rating": 4.8
+        },
+        {
+            "id": 57,
+            "title": "Anchor Bay & Popeye Cliffs",
+            "description": "Anchor Bay and the surrounding cliffs offer one of Malta’s most cinematic coastal scenes. Perched above the famous Popeye Village, these dramatic cliffs provide sweeping views over turquoise waters and the quirky film set below. The best part? Walk just beyond the village and you’ll find yourself in a quiet, open stretch of cliffside trail where the sea glows golden at sunset. Whether you're here for photography, a peaceful walk, or just that movie-set feeling, this spot delivers pure visual magic.",
+            "img": "/assets/images/places/anchor-bay-popeye-cliffs.png",
+            "lon": 14.340354095476421,
+            "lat": 35.959680889449785,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-anchorbay-cliffs.png",
+            "keywords": "Anchor Bay, Popeye Cliffs, Popeye Village, Malta, sunset view, cliff walk, cinematic view, hidden Malta, coastal trail, golden hour",
+            "category": "Nature & Landmarks",
+            "rating": 4.9
         }
+        
         
         
     ]
