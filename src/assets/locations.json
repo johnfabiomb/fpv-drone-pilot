@@ -604,7 +604,22 @@
             "keywords": "Anchor Bay, Popeye Cliffs, Popeye Village, Malta, sunset view, cliff walk, cinematic view, hidden Malta, coastal trail, golden hour",
             "category": "Nature & Landmarks",
             "rating": 4.9
+        },
+        {
+            "id": 58,
+            "title": "Carolina Grotto",
+            "description": "Carolina Grotto is a secret sea-level cave tucked beneath the chapel cliffs of Xlendi Bay, Gozo. Once used as a private bathing spot, it’s carved directly into the rock and partially enclosed—making it feel intimate and hidden. Accessible by swimming or kayak, the grotto features carved stone steps, calm waters, and a quiet atmosphere that contrasts beautifully with the bustle of the beach nearby. If you’re seeking a peaceful, lesser-known place to pause and float, this is one of Xlendi’s most serene corners.",
+            "img": "/assets/images/places/carolina-grotto.png",
+            "lon": 14.215643060941806,
+            "lat": 36.03011185439489,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-carolina-grotto.png",
+            "keywords": "Carolina Grotto, Xlendi, Gozo, sea cave, grotto, hidden swim spot, private bathing cave, Malta, kayaking, peaceful corner",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.7
         }
+        
+        
         
         
         
