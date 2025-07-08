@@ -617,6 +617,18 @@
             "keywords": "Carolina Grotto, Xlendi, Gozo, sea cave, grotto, hidden swim spot, private bathing cave, Malta, kayaking, peaceful corner",
             "category": "Caves & Natural Wonders",
             "rating": 4.7
+        },
+        {
+            "id": 59,
+            "title": "Babu Valley",
+            "description": "Babu Valley is one of Malta’s quietest and greenest hidden trails, nestled just above the cliffs of Żurrieq. With views toward the sea and Blue Grotto, this valley offers a scenic walk through terraced land, rocky slopes, and wild Mediterranean plants. It’s perfect for a peaceful hike or sunset stroll, especially if you want to escape the more crowded nearby viewpoints. Babu’s winding trail connects nature, landscape, and coastal silence all in one beautiful path.",
+            "img": "/assets/images/places/babu.png",
+            "lon": 14.458520482908382,
+            "lat": 35.8220381153492,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Babu Valley, Żurrieq, Malta, Blue Grotto, hidden trail, hiking Malta, nature walk, secret valley, scenic view, coastal path",
+            "category": "Nature & Landmarks",
+            "rating": 4.6
         }
         
         
