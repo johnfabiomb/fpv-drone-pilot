@@ -470,7 +470,7 @@
             "keywords": "Ta’ Marija Cave, Malta, Mellieħa, hidden cave, snorkeling, sea-level cave, coastal hike, nature escape",
             "category": "Caves & Natural Wonders",
             "rating": 4.7
-        } ,
+        },
         {
             "id": 46,
             "title": "Cave Facing Fungus Rock",
@@ -494,7 +494,7 @@
             "keywords": "Chinese Garden of Serenity, Santa Lucija, Malta, garden, peaceful, koi pond, bamboo, Chinese culture, hidden gem",
             "category": "Parks & Scenic Spots",
             "rating": 4.6
-        } ,
+        },
         {
             "id": 49,
             "title": "Ta' Kalanka Sea Cave",
@@ -629,11 +629,18 @@
             "keywords": "Babu Valley, Żurrieq, Malta, Blue Grotto, hidden trail, hiking Malta, nature walk, secret valley, scenic view, coastal path",
             "category": "Nature & Landmarks",
             "rating": 4.6
+        },
+        {
+            "id": 60,
+            "title": "Għar Ħasan Trail & Irdum ta’ Ħal Far",
+            "description": "This wild coastal trail in south Malta starts near the legendary Għar Ħasan Cave and continues along the untouched cliffs of Ħal Far. Though the cave itself is sealed, its mythical presence adds depth to the hike. As you follow the unmarked trail west, you'll pass jagged ridgelines, wind-blasted plateaus, and sweeping sea views. Perfect for solo hikers, photographers, or anyone craving quiet and raw coastal energy. No crowds, no fences—just nature, legend, and horizon.",
+            "img": "/assets/images/places/ghar-hasan-hal-far.png",
+            "lon": 14.5156606,
+            "lat": 35.8062448,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Għar Ħasan, Irdum ta’ Ħal Far, Malta, cliff trail, hidden hike, southern coast, secret spots, cave legends, sea cliffs, wild Malta, Birżebbuġa",
+            "category": "Nature & Landmarks",
+            "rating": 4.8
         }
-        
-        
-        
-        
-        
     ]
 }
