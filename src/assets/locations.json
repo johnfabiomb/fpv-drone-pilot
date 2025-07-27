@@ -641,6 +641,19 @@
             "keywords": "Għar Ħasan, Irdum ta’ Ħal Far, Malta, cliff trail, hidden hike, southern coast, secret spots, cave legends, sea cliffs, wild Malta, Birżebbuġa",
             "category": "Nature & Landmarks",
             "rating": 4.8
+        },
+        {
+            "id": 61,
+            "title": "Hidden Sea Cave near Fort Ricasoli",
+            "description": "Tucked beneath the towering walls of Fort Ricasoli, this unnamed sea cave is accessible only by kayak or a confident swim. Inside, you’ll find crystal‑clear water, perfect reflections, and a quiet stone alcove bathed in morning light. No footpaths, no crowds—just pure coastal magic.",
+            "img": "/assets/images/places/hidden-fort-ricasoli-cave.png",
+            "lon": 14.52721934757467,
+            "lat": 35.8972558894685,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-hidden-ricasoli-cave.png",
+            "keywords": "Hidden Sea Cave, Fort Ricasoli, Malta, sea cave, kayaking, swimming spot, secret cave, coastal adventure",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.8
         }
     ]
 }
