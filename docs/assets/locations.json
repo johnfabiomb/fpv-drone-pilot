@@ -242,18 +242,6 @@
             "rating": 4.5
         },
         {
-            "id": 24,
-            "title": "IX-Xaqqa",
-            "description": "IX-Xaqqa is a picturesque coastal feature located on the southwestern coast of Malta. Known for its rugged cliffs and clear blue waters, IX-Xaqqa offers spectacular views and a peaceful environment away from the more touristy areas. It is a great spot for hiking, rock climbing, and diving, with its dramatic landscape and rich marine life. The area's natural beauty and tranquility make it an ideal destination for outdoor enthusiasts and photographers seeking to capture the essence of Malta's coastal charm.",
-            "img": "/assets/images/places/24.jpg",
-            "lon": 14.4155089,
-            "lat": 35.8337247,
-            "url": "https://www.instagram.com/reel/C-P-EmKIEtq/embed",
-            "keywords": "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
-            "category": "Nature & Water Attractions",
-            "rating": 4.7
-        },
-        {
             "id": 25,
             "title": "Fungus Rock",
             "description": "Fungus Rock is one of Gozo’s most iconic natural landmarks, rising dramatically from the sea at the entrance of Dwejra Bay. Known locally as 'Il-Ġebla tal-Ġeneral,' this massive limestone islet has a rich history and was once guarded for its rare medicinal fungus. Today, it remains a symbol of raw coastal beauty, surrounded by deep blue waters and towering cliffs. It’s a breathtaking viewpoint for hikers, photographers, and anyone seeking a front-row seat to Gozo’s wild side.",
@@ -654,6 +642,18 @@
             "keywords": "Hidden Sea Cave, Fort Ricasoli, Malta, sea cave, kayaking, swimming spot, secret cave, coastal adventure",
             "category": "Caves & Natural Wonders",
             "rating": 4.8
+        },
+        {
+            "id": 24,
+            "title": "IX-Xaqqa",
+            "description": "IX-Xaqqa is a picturesque coastal feature located on the southwestern coast of Malta. Known for its rugged cliffs and clear blue waters, IX-Xaqqa offers spectacular views and a peaceful environment away from the more touristy areas. It is a great spot for hiking, rock climbing, and diving, with its dramatic landscape and rich marine life. The area's natural beauty and tranquility make it an ideal destination for outdoor enthusiasts and photographers seeking to capture the essence of Malta's coastal charm.",
+            "img": "/assets/images/places/Ix-Xaqqa-Valley.png",
+            "lon": 14.4155089,
+            "lat": 35.8337247,
+            "url": "https://www.instagram.com/reel/C-P-EmKIEtq/embed",
+            "keywords": "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
+            "category": "Nature & Water Attractions",
+            "rating": 4.7
         }
     ]
 }
