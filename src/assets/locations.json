@@ -654,6 +654,19 @@
             "keywords": "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
             "category": "Nature & Water Attractions",
             "rating": 4.7
+        },
+        {
+            "id": 62,
+            "title": "Santa Maria Caves (Comino)",
+            "description": "A network of light-filled sea caves on the north side of Comino, famous for easy swim‑throughs, natural tunnels, and shoals of fish. Best explored by boat or kayak, the caves offer calm, clear water for snorkeling and beginner dives, with dramatic limestone entrances and beautiful reflections.",
+            "img": "/assets/images/places/santa-maria-caves.jpg",
+            "lon": 14.34050708347769,
+            "lat": 36.01822697957711,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "recommendedRoute": "/assets/images/recommendedRoute-santa-maria-caves.png",
+            "keywords": "Santa Maria Caves, Santa Marija Caves, Comino, Malta, sea caves, swim-throughs, snorkeling, diving, kayak",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.8
         }
     ]
 }
