@@ -667,6 +667,18 @@
             "keywords": "Santa Maria Caves, Santa Marija Caves, Comino, Malta, sea caves, swim-throughs, snorkeling, diving, kayak",
             "category": "Caves & Natural Wonders",
             "rating": 4.8
-        }
+        },
+        {
+  "id": 63,
+  "title": "Wied il-Għasri",
+  "description": "A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo’s north coast. Wied il-Għasri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta’s most photogenic hidden spots.",
+  "img": "/assets/images/places/wied-il-ghasri.png",
+  "lon": 14.228241487512033,
+  "lat": 36.07868696547658,
+  "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+  "keywords": "Wied il-Għasri, Gozo, Malta, hidden valley, swimming spot, snorkeling, sea caves, nature, cliffs, adventure",
+  "category": "Caves & Natural Wonders",
+  "rating": 4.9
+}
     ]
 }
