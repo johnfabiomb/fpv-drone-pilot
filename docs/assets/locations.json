@@ -669,16 +669,28 @@
             "rating": 4.8
         },
         {
-  "id": 63,
-  "title": "Wied il-Għasri",
-  "description": "A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo’s north coast. Wied il-Għasri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta’s most photogenic hidden spots.",
-  "img": "/assets/images/places/wied-il-ghasri.png",
-  "lon": 14.228241487512033,
-  "lat": 36.07868696547658,
-  "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
-  "keywords": "Wied il-Għasri, Gozo, Malta, hidden valley, swimming spot, snorkeling, sea caves, nature, cliffs, adventure",
-  "category": "Caves & Natural Wonders",
-  "rating": 4.9
-}
+            "id": 63,
+            "title": "Wied il-Għasri",
+            "description": "A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo’s north coast. Wied il-Għasri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta’s most photogenic hidden spots.",
+            "img": "/assets/images/places/wied-il-ghasri.png",
+            "lon": 14.228241487512033,
+            "lat": 36.07868696547658,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Wied il-Għasri, Gozo, Malta, hidden valley, swimming spot, snorkeling, sea caves, nature, cliffs, adventure",
+            "category": "Caves & Natural Wonders",
+            "rating": 4.9
+        },
+        {
+            "id": 64,
+            "title": "Cittadella (Victoria, Gozo)",
+            "description": "Perched above Victoria, the Cittadella is Gozo’s ancient hilltop fortress. It’s a peaceful place filled with narrow golden streets, quiet squares, and wide views across the island. Walk along the walls, explore old chapels, and enjoy the calm beauty of Gozo’s history.",
+            "img": "/assets/images/places/cittadella-gozo.png",
+            "lon": 14.239692599336166,
+            "lat": 36.04619855306464,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Cittadella, Citadel, Victoria, Gozo, Malta, fortress, bastions, panoramic views, historic site, medieval streets, heritage",
+            "category": "Historic & Cultural Sites",
+            "rating": 4.8
+        }
     ]
 }
