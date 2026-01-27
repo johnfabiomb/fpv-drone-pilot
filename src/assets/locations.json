@@ -691,6 +691,18 @@
             "keywords": "Cittadella, Citadel, Victoria, Gozo, Malta, fortress, bastions, panoramic views, historic site, medieval streets, heritage",
             "category": "Historic & Cultural Sites",
             "rating": 4.8
+        },
+        {
+            "id": 65,
+            "title": "Gozo Salt Pans (Xwejni)",
+            "description": "Along Gozo’s northern coast, the salt pans near Xwejni form a striking geometric landscape carved directly into the rock. Still used today by local families, these shallow pools fill with seawater and slowly turn it into sea salt under the sun. The area is quiet, scenic, and perfect for a coastal walk with uninterrupted sea views and a strong sense of tradition.",
+            "img": "/assets/images/places/gozo-salt-pans.jpg",
+            "lon": 14.246784722313562,
+            "lat": 36.07957876800282,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Gozo salt pans, Xwejni, Malta, sea salt, coastal walk, tradition, limestone pools, Mediterranean, photography spot",
+            "category": "Nature & Cultural Landscapes",
+            "rating": 4.7
         }
     ]
 }
