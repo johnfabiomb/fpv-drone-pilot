@@ -703,6 +703,18 @@
             "keywords": "Gozo salt pans, Xwejni, Malta, sea salt, coastal walk, tradition, limestone pools, Mediterranean, photography spot",
             "category": "Nature & Cultural Landscapes",
             "rating": 4.7
+        },
+        {
+            "id": 66,
+            "title": "Ramla Bay (Gozo)",
+            "description": "Ramla Bay is Gozo’s most iconic beach, known for its unique reddish-golden sand and wide open shoreline. Surrounded by gentle hills and natural landscapes, it offers calm waters ideal for swimming and relaxing. The area feels spacious and peaceful, making it perfect for slow walks, morning swims, and enjoying Gozo’s natural colors.",
+            "img": "/assets/images/places/ramla-bay-gozo.png",
+            "lon": 14.283815437475868,
+            "lat": 36.0615465214957,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Ramla Bay, Gozo, Malta, red sand beach, swimming, nature, coastal walk, peaceful beach, island life",
+            "category": "Beaches & Coastal Spots",
+            "rating": 4.8
         }
     ]
 }
