@@ -715,6 +715,18 @@
             "keywords": "Ramla Bay, Gozo, Malta, red sand beach, swimming, nature, coastal walk, peaceful beach, island life",
             "category": "Beaches & Coastal Spots",
             "rating": 4.8
+        },
+        {
+            "id": 67,
+            "title": "Argotti Botanic Gardens",
+            "description": "Located in Floriana near Valletta, Argotti Botanic Gardens is a peaceful green escape filled with rare plants, palm trees, and Mediterranean species. Originally created in the 18th century for the study of botany, the gardens offer quiet paths, shaded corners, and elevated views over the Grand Harbour area. It’s a calm and refreshing break from the city’s busy streets.",
+            "img": "/assets/images/places/argotti-botanic-gardens.png",
+            "lon": 14.5024164,
+            "lat": 35.8924255,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Argotti Botanic Gardens, Floriana, Malta, botanical garden, plants, peaceful park, green space, Valletta, Grand Harbour views",
+            "category": "Gardens & Scenic Walks",
+            "rating": 4.6
         }
     ]
 }
