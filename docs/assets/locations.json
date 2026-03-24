@@ -739,6 +739,18 @@
             "keywords": "Hondoq ir-Rummien, Gozo, Malta, turquoise water, swimming, snorkeling, beach, coastal views, Comino",
             "category": "Beaches & Water Attractions",
             "rating": 4.8
+        },
+        {
+            "id": 69,
+            "title": "Rdum il-Qammieh Viewpoint",
+            "description": "Perched on Malta’s northern cliffs, Rdum il-Qammieh is a simple but powerful viewpoint known for a bench facing the open sea. With wide, uninterrupted views and complete silence, it’s a place to slow down and take in the horizon. Whether you visit at sunrise or sunset, the atmosphere here is calm, raw, and unforgettable.",
+            "img": "/assets/images/places/rdum-il-qammieh.jpg",
+            "lon": 14.333700098346794,
+            "lat": 35.97229128888981,
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
+            "keywords": "Rdum il-Qammieh, Malta, viewpoint, bench, cliffs, sunset, northern Malta, scenic view, peaceful spot",
+            "category": "Viewpoints",
+            "rating": 4.9
         }
     ]
 }
