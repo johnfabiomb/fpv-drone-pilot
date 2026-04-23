@@ -735,7 +735,7 @@
             "img": "/assets/images/places/hondoq-ir-rummien.png",
             "lon": 14.322285709701077,
             "lat": 36.027896947001096,
-            "url": "https://www.instagram.com/reel/YOUR_REEL_ID/embed",
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
             "keywords": "Hondoq ir-Rummien, Gozo, Malta, turquoise water, swimming, snorkeling, beach, coastal views, Comino",
             "category": "Beaches & Water Attractions",
             "rating": 4.8
@@ -751,6 +751,18 @@
             "keywords": "Rdum il-Qammieh, Malta, viewpoint, bench, cliffs, sunset, northern Malta, scenic view, peaceful spot",
             "category": "Viewpoints",
             "rating": 4.9
+        },
+        {
+            "id": 70,
+            "title": "Hidden Rocky Beach near Gnejna",
+            "description": "A hidden rocky beach tucked along the coastline near Gnejna Bay, this spot offers a raw and untouched experience of Malta’s natural beauty. Surrounded by cliffs and accessible only by a coastal walk, it features clear blue water, rugged limestone formations, and complete silence away from the usual crowds. It’s an ideal place for swimming, exploring, and disconnecting in one of Malta’s lesser-known coastal corners.",
+            "img": "/assets/images/places/hidden-rocky-beach-gnejna.png",
+            "lon": 14.336092753697839,
+            "lat": 35.92229016523285,
+            "url": "https://www.instagram.com/reel/YOUR_REEL_ID/embed",
+            "keywords": "hidden rocky beach, Gnejna, Malta, secret beach, coastal walk, swimming spot, cliffs, raw coastline, hidden Malta",
+            "category": "Beaches & Coastal Spots",
+            "rating": 4.8
         }
     ]
 }
