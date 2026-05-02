@@ -50,6 +50,7 @@
 
         .actions {
             display: flex;
+            flex-direction: column;
             gap: 10px;
 
             .button {
@@ -64,10 +65,10 @@
                 gap: 5px;
                 font-size: 12px;
 
-                &:first-child {
-                    background-color: #0d6ad4;
-                    color: white;
-                }
+                // &:first-child {
+                //     background-color: #0d6ad4;
+                //     color: white;
+                // }
             }
         }
 
@@ -125,5 +126,11 @@
     .mb-4 {
         margin-bottom: 20px;
     }
+
+    .blue-btn{
+                    background-color: #0d6ad4 !important;
+                    color: white;
+    }
+
 
 }

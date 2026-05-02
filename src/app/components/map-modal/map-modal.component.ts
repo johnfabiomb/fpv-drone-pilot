@@ -17,16 +17,16 @@ export enum ModalActions {
 }
 
 @Component({
-    selector: 'app-map-modal',
+  selector: 'app-map-modal',
   standalone: true,
-    imports: [
-        MatDialogModule,
-        CommonModule,
-        PipesModule
-        // ComponentsModule
-    ],
-    templateUrl: './map-modal.component.html',
-    styleUrl: './map-modal.component.scss'
+  imports: [
+    MatDialogModule,
+    CommonModule,
+    PipesModule
+    // ComponentsModule
+  ],
+  templateUrl: './map-modal.component.html',
+  styleUrl: './map-modal.component.scss'
 })
 export class MapModalComponent {
 
@@ -43,15 +43,15 @@ export class MapModalComponent {
     }
   }
 
-  public recommendedLocations:any[] = [];
+  public recommendedLocations: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<MapModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private eRef: ElementRef,
-      public router: Router,
-          public activatedRoute:ActivatedRoute,
-          public seoService: SeoService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute,
+    public seoService: SeoService,
     @Inject(DOCUMENT) public document: Document) {
     document.body.style.overflow = 'hidden';
     this.recommendedLocations = this.getRandomLocations
@@ -60,7 +60,7 @@ export class MapModalComponent {
   ngOnDestroy(): void {
     document.body.style.overflow = 'auto';
     this.router.navigate(
-      [], 
+      [],
       {
         relativeTo: this.activatedRoute,
       }
@@ -91,14 +91,19 @@ export class MapModalComponent {
     this.dialogRef.close(ModalActions.GOOGLE_MAPS);
   }
 
-  clickon(data:any){
-    const queryParams = { title: encodeURIComponent(data.title.replace(' ','-')) };
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
+  openPointOnMap(point: any) {
+    const url = `https://maps.google.com/?q=${point.lat},${point.lon}`;
+    window.open(url, '_blank');
+  }
+
+  clickon(data: any) {
+    const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res => {
       this.router.navigate(
-        [], 
+        [],
         {
           relativeTo: this.activatedRoute,
-          queryParams, 
+          queryParams,
           queryParamsHandling: 'merge', // remove to replace all query params by provided
         }
       );
@@ -106,7 +111,7 @@ export class MapModalComponent {
 
 
   }
-  
+
   public get getRandomLocations() {
     const uniqueLocations = [...new Set(locations)]; // Ensure unique values
     if (uniqueLocations.length <= 9) {

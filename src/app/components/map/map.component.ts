@@ -18,60 +18,61 @@ import { Overlay } from 'ol';
 import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
-    selector: 'app-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    standalone: false
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  standalone: false
 })
 export class MapComponent implements AfterViewInit {
   public map!: Map;
-  private maltaCoordinates = [14.363354400245052, 35.95195406978092]; // Central coordinates for Malta
+  private maltaCoordinates = [14.363354400245052, 35.95195406978092];
   locations = locations.reverse();
+  markerSize = 10;
+  markerMode: 'dot' | 'image' = 'dot';
 
   constructor(
-    public dialog: MatDialog, 
-    public activatedRoute:ActivatedRoute,
+    public dialog: MatDialog,
+    public activatedRoute: ActivatedRoute,
     public router: Router,
     public seoService: SeoService
   ) {
-    
+
   }
 
   ngAfterViewInit(): void {
-    // Initialize the map with predefined coordinates and zoom level
     this.map = createMap(
       getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]),
       10.2,
       'ol-map'
     );
 
-    // Create map pins for each location stored in the locations array
-    locations.forEach((location, index) => {
-        var overlayelement = new Overlay({
-          stopEvent: false,
-          positioning: 'bottom-center',
-          element: document.getElementById(`${location.id}`) as HTMLElement
-        });
-        
-        overlayelement.setPosition( getCoordinatesfromLonLat(location.lon, location.lat));
-        this.map.addOverlay(overlayelement);
+    this.updateMarkerStyle();
 
-      }
+    this.map.getView().on('change:resolution', () => {
+      this.updateMarkerStyle();
+    });
+
+    locations.forEach((location, index) => {
+      var overlayelement = new Overlay({
+        stopEvent: false,
+        positioning: 'bottom-center',
+        element: document.getElementById(`${location.id}`) as HTMLElement
+      });
+
+      overlayelement.setPosition(this.getLocationMapCoordinates(location));
+      this.map.addOverlay(overlayelement);
+
+    }
     );
 
-    // Add a vector layer containing all pins to the map
-    // const vectorLayer = createVectorLayer(pins);
-   
-
-    // Set up event handling for clicking on map pins
     this.handleClickOnMapPin();
 
-    this.activatedRoute.queryParams.subscribe((params:Params)=>{
-      if(params['title']){
-        const place = locations.find(loc=> encodeURIComponent(loc.title) === params['title']) ?? locations.find(loc=> encodeURIComponent(loc.title.replace(' ','-')) === params['title']);
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      if (params['title']) {
+        const place = locations.find(loc => encodeURIComponent(loc.title) === params['title']) ?? locations.find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title']);
         this.seoService.updateMetaData(place);
-        this.openDialog(place, getCoordinatesfromLonLat(place?.lon as number, place?.lat as number))
-      }else{
+        this.openDialog(place, this.getLocationMapCoordinates(place))
+      } else {
         this.seoService.updateMetaData();
       }
     })
@@ -81,25 +82,25 @@ export class MapComponent implements AfterViewInit {
     clickOnMapPin(this.map, (pinClicked, event) => {
       const geometry = pinClicked?.getGeometry() as RenderFeature;
       const flatCoordinates = geometry?.getFlatCoordinates();
-      
-      const num = pinClicked.getId() as number; // Assuming the ID is a number
+
+      const num = pinClicked.getId() as number;
 
       console.log(getCoordinatesfromPixel(flatCoordinates));
 
-      
+
     });
   }
 
-  clickon(data:any){
+  clickon(data: any) {
     console.log(data)
-    const queryParams = { title: encodeURIComponent(data.title.replace(' ','-')) };
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res=>{
+    const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res => {
       this.router.navigate(
-        [], 
+        [],
         {
           relativeTo: this.activatedRoute,
-          queryParams, 
-          queryParamsHandling: 'merge', // remove to replace all query params by provided
+          queryParams,
+          queryParamsHandling: 'merge',
         }
       );
     });
@@ -107,29 +108,72 @@ export class MapComponent implements AfterViewInit {
 
   }
 
-  private openDialog(location:any, flatCoordinates:number[]){
+  private openDialog(location: any, flatCoordinates: number[]) {
     setTimeout(() => {
-      
-      // Open a modal dialog with the location details when a pin is clicked
+
       this.dialog.open(MapModalComponent, {
         data: location
       }).afterClosed().subscribe(res => {
-        // On modal close, check if the user wants to explore more (reset view)
         if (res === ModalActions.EXPLORE) {
           this.map.setView(
             createView(this.getMaltaViewCoordinates(), 10.2)
           );
         }
-        if(res === ModalActions.GOOGLE_MAPS){
-          const url = "https://maps.google.com/?q="+  getCoordinatesfromPixel(flatCoordinates).reverse().join(',');
-          window.open(url, '_blank');
+        if (res === ModalActions.GOOGLE_MAPS) {
+          window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
         }
       });
     }, 1);
 
-    // // Optionally adjust the map view to zoom closer to the selected pin
     if ((this.map.getView().getZoom() ?? 0) <= 13) {
       this.map.setView(createView(flatCoordinates, 13));
+    }
+  }
+
+  private getLocationMapCoordinates(location: any) {
+    const locationPoint = this.getFinalLocationPoint(location);
+
+    return getCoordinatesfromLonLat(locationPoint.lon, locationPoint.lat);
+  }
+
+  private getFinalLocationPoint(location: any) {
+    if (location?.mapPoints?.length) {
+      return location.mapPoints.find((point: any) => point.type === 'destination') ?? location.mapPoints[location.mapPoints.length - 1];
+    }
+
+    return location;
+  }
+
+  private getGoogleMapsUrl(location: any, flatCoordinates: number[]) {
+    if (location?.mapPoints?.length > 1) {
+      const origin = location.mapPoints[0];
+      const destination = location.mapPoints[location.mapPoints.length - 1];
+      const waypoints = location.mapPoints.slice(1, -1).map((point: any) => `${point.lat},${point.lon}`).join('|');
+
+      return `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lon}&destination=${destination.lat},${destination.lon}${waypoints ? `&waypoints=${waypoints}` : ''}`;
+    }
+
+    return "https://maps.google.com/?q=" + getCoordinatesfromPixel(flatCoordinates).reverse().join(',');
+  }
+
+  private updateMarkerStyle() {
+    const zoom = this.map.getView().getZoom() ?? 10;
+
+    if (zoom <= 10.8) {
+      this.markerMode = 'dot';
+      this.markerSize = 10;
+    } else if (zoom <= 11.5) {
+      this.markerMode = 'dot';
+      this.markerSize = 14;
+    } else if (zoom <= 12.3) {
+      this.markerMode = 'image';
+      this.markerSize = 28;
+    } else if (zoom <= 13.3) {
+      this.markerMode = 'image';
+      this.markerSize = 42;
+    } else {
+      this.markerMode = 'image';
+      this.markerSize = 68;
     }
   }
 
@@ -137,5 +181,5 @@ export class MapComponent implements AfterViewInit {
     return getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]);
   }
 
-  
+
 }

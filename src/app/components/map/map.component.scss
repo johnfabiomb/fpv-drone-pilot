@@ -8,3 +8,22 @@
         flex: 1 1 auto;
     }
 }
+
+.marker-dot {
+  padding: 0;
+  border-radius: 50% !important;
+  background: #ffffff;
+  border: 2px solid #222222;
+  object-fit: cover;
+  opacity: 0.9;
+  filter: none;
+}
+
+.marker-dot {
+  content-visibility: auto;
+}
+
+.marker-image {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}

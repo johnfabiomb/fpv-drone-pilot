@@ -759,10 +759,35 @@
             "img": "/assets/images/places/hidden-rocky-beach-gnejna.png",
             "lon": 14.336092753697839,
             "lat": 35.92229016523285,
-            "url": "https://www.instagram.com/reel/YOUR_REEL_ID/embed",
+            "url": "https://www.instagram.com/reel/C6UC2RUoSjx/embed",
             "keywords": "hidden rocky beach, Gnejna, Malta, secret beach, coastal walk, swimming spot, cliffs, raw coastline, hidden Malta",
             "category": "Beaches & Coastal Spots",
             "rating": 4.8
+        },
+        {
+            "id": 71,
+            "title": "Blata tal-Melħ Rock Passage",
+            "description": "Blata tal-Melħ features a narrow, man-made cut through the coastal limestone that forms a straight corridor leading from the cliff edge toward the sea. Likely created for access by fishermen, this unique formation stands out for its symmetry and raw appearance. The passage is surrounded by rugged cliffs and offers a striking visual line toward the open Mediterranean. Access is challenging and requires careful movement across uneven terrain, making it suitable only for experienced explorers.",
+            "img": "/assets/images/places/blata-tal-melh-passage.png",
+            "lon": 14.330087005026344,
+            "lat": 35.89534595568553,
+            "recommendedRoute": "/assets/images/recommendedRoute-blata.png",
+            "mapPoints": [
+                {
+                    "label": "Parking spot",
+                    "description": "Park here. Google Maps may try to send you through private or rough paths.",
+                    "lon": 14.334066172771909,
+                    "lat": 35.90319495943615,
+                    "type": "parking"
+                },
+                {
+                    "label": "Final location",
+                    "description": "Walk from the parking spot to this exact rock passage.",
+                    "lon": 14.330087005026344,
+                    "lat": 35.89534595568553,
+                    "type": "destination"
+                }
+            ]
         }
     ]
 }
