@@ -48,7 +48,7 @@ export class MapComponent implements AfterViewInit {
 
     this.updateMarkerStyle();
 
-    this.map.getView().on('change:resolution', () => {
+    this.map.on('moveend', () => {
       this.updateMarkerStyle();
     });
 
@@ -118,6 +118,7 @@ export class MapComponent implements AfterViewInit {
           this.map.setView(
             createView(this.getMaltaViewCoordinates(), 10.2)
           );
+          this.updateMarkerStyle();
         }
         if (res === ModalActions.GOOGLE_MAPS) {
           window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
@@ -127,6 +128,7 @@ export class MapComponent implements AfterViewInit {
 
     if ((this.map.getView().getZoom() ?? 0) <= 13) {
       this.map.setView(createView(flatCoordinates, 13));
+      this.updateMarkerStyle();
     }
   }
 
@@ -161,10 +163,10 @@ export class MapComponent implements AfterViewInit {
 
     if (zoom <= 10.8) {
       this.markerMode = 'dot';
-      this.markerSize = 10;
+      this.markerSize = 14;
     } else if (zoom <= 11.5) {
       this.markerMode = 'dot';
-      this.markerSize = 14;
+      this.markerSize = 20;
     } else if (zoom <= 12.3) {
       this.markerMode = 'image';
       this.markerSize = 28;
