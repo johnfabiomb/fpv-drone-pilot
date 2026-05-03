@@ -10,6 +10,7 @@ import { PipesModule } from '../../shared/pipes/pipes.module';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
+import { AnalyticsService } from '../../shared/services/analytics.service';
 
 export enum ModalActions {
   EXPLORE = 'EXPLORE',
@@ -52,6 +53,7 @@ export class MapModalComponent {
     public router: Router,
     public activatedRoute: ActivatedRoute,
     public seoService: SeoService,
+    public analyticsService: AnalyticsService,
     @Inject(DOCUMENT) public document: Document) {
     document.body.style.overflow = 'hidden';
     this.recommendedLocations = this.getRandomLocations
@@ -85,19 +87,23 @@ export class MapModalComponent {
   }
 
   explore() {
+    this.analyticsService.event('explore_malta_click', { from_location: this.data?.title });
     this.dialogRef.close(ModalActions.EXPLORE);
   }
 
   googleMaps() {
+    this.analyticsService.event('google_maps_open', { location_title: this.data?.title, location_id: this.data?.id });
     this.dialogRef.close(ModalActions.GOOGLE_MAPS);
   }
 
   openPointOnMap(point: any) {
+    this.analyticsService.event('map_point_open', { location_title: this.data?.title, point_label: point.label });
     const url = `https://maps.google.com/?q=${point.lat},${point.lon}`;
     window.open(url, '_blank');
   }
 
   clickon(data: any) {
+    this.analyticsService.event('recommendation_click', { from_location: this.data?.title, to_location: data?.title });
     const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }

@@ -14,6 +14,7 @@ import { MapModalComponent, ModalActions } from '../map-modal/map-modal.componen
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
+import { AnalyticsService } from '../../shared/services/analytics.service';
 
 const ICON_CANVAS_SIZE = 80;
 
@@ -34,7 +35,8 @@ export class MapComponent implements AfterViewInit {
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
     public router: Router,
-    public seoService: SeoService
+    public seoService: SeoService,
+    public analyticsService: AnalyticsService
   ) {}
 
   ngAfterViewInit(): void {
@@ -78,9 +80,16 @@ export class MapComponent implements AfterViewInit {
         const place = locations.find(loc => encodeURIComponent(loc.title) === params['title'])
           ?? locations.find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title']);
         this.seoService.updateMetaData(place);
+        this.analyticsService.pageView(window.location.href, place?.title ?? params['title']);
+        this.analyticsService.event('location_view', {
+          location_title: place?.title,
+          location_id: place?.id,
+          location_category: place?.category,
+        });
         this.openDialog(place, this.getLocationMapCoordinates(place));
       } else {
         this.seoService.updateMetaData();
+        this.analyticsService.pageView(window.location.href, 'Explore Malta - Map');
       }
     });
   }
