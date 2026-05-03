@@ -1,7 +1,7 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+import XYZ from 'ol/source/XYZ';
 import Feature, { FeatureLike } from 'ol/Feature';
 import * as layer from 'ol/layer';
 import * as geom from 'ol/geom';
@@ -31,8 +31,11 @@ export const getCoordinatesfromPixel = (arr: Array<number>) => proj.toLonLat(arr
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({
     target,
     layers: [
-        new layer.Tile({
-            source: new source.OSM()
+        new TileLayer({
+            source: new XYZ({
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                attributions: 'Tiles © <a href="https://www.esri.com/">Esri</a>',
+            })
         })
     ],
     view: createView(center, zoom)

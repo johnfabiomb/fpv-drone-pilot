@@ -61,7 +61,7 @@ export class MapComponent implements AfterViewInit {
       if (subFeatures.length > 1) {
         const coords = subFeatures.map(f => (f.getGeometry() as Point).getCoordinates());
         const extent = boundingExtent(coords);
-        this.map.getView().fit(extent, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 14 });
+        this.map.getView().fit(extent, { padding: [100, 100, 100, 100], duration: 400, maxZoom: 17 });
       } else {
         const location = subFeatures[0].get('location');
         this.clickon(location);
@@ -106,7 +106,7 @@ export class MapComponent implements AfterViewInit {
         ctx.beginPath();
         ctx.arc(r, r, r - 2, 0, Math.PI * 2);
         ctx.strokeStyle = 'white';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         this.iconCache.set(location.img, canvas);
@@ -173,7 +173,8 @@ export class MapComponent implements AfterViewInit {
       image: new CircleStyle({
         radius,
         fill: new Fill({ color: '#1B5E99' }),
-        stroke: new Stroke({ color: '#ffffff', width: 2 }),
+        stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
+        displacement: [0, 0],
       }),
       text: new Text({
         text: size.toString(),
@@ -181,14 +182,17 @@ export class MapComponent implements AfterViewInit {
         font: 'bold 13px Roboto, sans-serif',
         offsetY: 1,
       }),
+      zIndex: 10,
     });
   }
 
   private getClusterDistance(zoom: number): number {
     if (zoom <= 11) return 50;
     if (zoom <= 12) return 35;
-    if (zoom <= 13) return 20;
-    return 0;
+    if (zoom <= 13) return 25;
+    if (zoom <= 14) return 18;
+    if (zoom <= 15) return 10;
+    return 5;
   }
 
   private getIconSize(zoom: number): number {

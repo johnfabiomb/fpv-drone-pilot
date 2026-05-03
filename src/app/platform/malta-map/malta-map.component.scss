@@ -108,19 +108,14 @@ a:active {
         }
 
         .profile-picture {
-            padding: 3px;
+            border-radius: 50%;
+            border: 2px solid var(--color-blue);
             box-sizing: border-box;
-            border-radius: 20px;
         }
 
         .fa-instagram {
-            font-size: 30px;
+            font-size: 26px;
             color: #1a1a1a;
-        }
-
-        .pb {
-            font-weight: 200;
-            color: #555;
         }
     }
 }

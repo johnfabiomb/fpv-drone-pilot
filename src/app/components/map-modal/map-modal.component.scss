@@ -41,7 +41,7 @@
     }
 
     .body {
-        padding: 0 20px;
+        padding: 15px 20px 0;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -54,6 +54,36 @@
             font-weight: 600;
             color: var(--color-text);
             letter-spacing: -0.3px;
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            .category {
+                font-size: 11px;
+                font-weight: 500;
+                color: var(--color-blue);
+                background: rgba(27, 94, 153, 0.08);
+                border: 1px solid rgba(27, 94, 153, 0.2);
+                border-radius: 20px;
+                padding: 3px 10px;
+                letter-spacing: 0.3px;
+            }
+
+            .rating {
+                font-size: 12px;
+                font-weight: 600;
+                color: #1a1a1a;
+
+                .fa-star {
+                    color: var(--color-sand);
+                    font-size: 11px;
+                }
+            }
         }
 
         .actions {
@@ -111,8 +141,26 @@
             }
 
             .head {
-                .img {
+                .img--hero {
+                    aspect-ratio: 16 / 9;
+                    overflow: hidden;
+                    border-radius: var(--border-radius);
+
                     img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                .img--full {
+                    border-radius: var(--border-radius);
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                        display: block;
                         border-radius: var(--border-radius);
                     }
                 }
@@ -152,6 +200,12 @@
                 }
             }
         }
+    }
+
+    .divider {
+        border: none;
+        border-top: 1px solid #f0f0f0;
+        margin: 0;
     }
 
     .mb-4 {
