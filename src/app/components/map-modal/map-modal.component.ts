@@ -59,24 +59,25 @@ export class MapModalComponent {
 
   ngOnDestroy(): void {
     document.body.style.overflow = 'auto';
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.activatedRoute,
-      }
-    );
+    clearTimeout(this.frameTimer);
   }
 
+  private frameTimer: any;
+
   ngAfterViewInit() {
-    this.frame.nativeElement.style.display = 'none'
+    this.frame.nativeElement.style.display = 'none';
     this.content.nativeElement.style.flexDirection = 'row';
+    this.frameTimer = setTimeout(() => this.showFrame(), 5000);
   }
 
   loaded() {
-    setTimeout(() => {
-      this.frame.nativeElement.style.display = 'block'
-      this.content.nativeElement.style.flexDirection = 'column';
-    }, 1500);
+    clearTimeout(this.frameTimer);
+    setTimeout(() => this.showFrame(), 800);
+  }
+
+  private showFrame() {
+    this.frame.nativeElement.style.display = 'block';
+    this.content.nativeElement.style.flexDirection = 'column';
   }
 
   onNoClick(): void {
@@ -98,18 +99,7 @@ export class MapModalComponent {
 
   clickon(data: any) {
     const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(res => {
-      this.router.navigate(
-        [],
-        {
-          relativeTo: this.activatedRoute,
-          queryParams,
-          queryParamsHandling: 'merge', // remove to replace all query params by provided
-        }
-      );
-    });
-
-
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
   public get getRandomLocations() {

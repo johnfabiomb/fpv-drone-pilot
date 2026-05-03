@@ -56,7 +56,7 @@
 
     </div>
     <div #content class="section-2">
-      <iframe #frame (load)="loaded()" src="https://www.instagram.com/johnfabiomb/embed" width="100%" height="auto"
+      <iframe #frame (load)="loaded()" [src]="data.url | safe" width="100%" height="560"
         frameborder="0" scrolling="no" allowtransparency="true">
       </iframe>
     </div>

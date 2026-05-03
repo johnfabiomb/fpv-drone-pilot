@@ -205,13 +205,7 @@ export class MapComponent implements AfterViewInit {
 
   clickon(data: any): void {
     const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} }).then(() => {
-      this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams,
-        queryParamsHandling: 'merge',
-      });
-    });
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
   private openDialog(location: any, flatCoordinates: number[]): void {
