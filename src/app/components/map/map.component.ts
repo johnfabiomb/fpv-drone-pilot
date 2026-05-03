@@ -172,7 +172,7 @@ export class MapComponent implements AfterViewInit {
     return new Style({
       image: new CircleStyle({
         radius,
-        fill: new Fill({ color: '#1B5E99' }),
+        fill: new Fill({ color: '#F4A922' }),
         stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
         displacement: [0, 0],
       }),
