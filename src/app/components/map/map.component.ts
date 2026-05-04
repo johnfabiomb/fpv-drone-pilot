@@ -253,13 +253,13 @@ export class MapComponent implements AfterViewInit {
       this.currentDialogRef = null;
     }
 
-    this.modalOpenChange.emit(true);
+    setTimeout(() => this.modalOpenChange.emit(true), 0);
     setTimeout(() => {
       this.currentDialogRef = this.dialog.open(MapModalComponent, { data: location });
       this.currentDialogRef.afterClosed().subscribe(res => {
         this.currentDialogRef = null;
-        this.modalOpenChange.emit(false);
         if (res !== '__navigated__') {
+          setTimeout(() => this.modalOpenChange.emit(false), 0);
           this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
         }
         if (res === ModalActions.EXPLORE) {

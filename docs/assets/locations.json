@@ -9,7 +9,6 @@
             "lat": 35.866722,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Ras id-Dawwara, Malta, hiking, photography, cliffs, sunset, Mediterranean views",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -19,6 +18,17 @@
                     "lat": 35.866722,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "nature",
+                "landmark",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -30,7 +40,6 @@
             "lat": 35.8207177,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Blue Grotto, Malta, sea caves, snorkeling, diving, adventure, clear waters",
-            "category": "Nature & Water Attractions",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -40,6 +49,17 @@
                     "lat": 35.8207177,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "boat-trip",
+                "nature",
+                "easy"
             ]
         },
         {
@@ -51,7 +71,6 @@
             "lat": 35.8065369,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Il-Mara, Malta, hiking, adventure, cliffs, remote trails, exploration",
-            "category": "Hiking & Trails",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -61,6 +80,16 @@
                     "lat": 35.8065369,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "hiking",
+                "trail",
+                "nature",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -73,7 +102,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-ghar-ir-rih.png",
             "keywords": "Għar ir-Riħ, Malta, caves, rock formations, sea views, adventure",
-            "category": "Caves & Rock Formations",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -83,6 +111,16 @@
                     "lat": 35.80702570126614,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "rock-formation",
+                "viewpoint",
+                "hiking",
+                "moderate"
             ]
         },
         {
@@ -94,7 +132,6 @@
             "lat": 35.822497835426105,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Ras Il-Mignuna Window, Malta, natural arch, coastal views, rock formations",
-            "category": "Rock Formations & Coastal Views",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -104,6 +141,16 @@
                     "lat": 35.822497835426105,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "hiking",
+                "hard"
             ]
         },
         {
@@ -115,7 +162,6 @@
             "lat": 35.8681994,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Ras id-Dawwara, Malta, coastal views, hiking, photography, sunset",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -125,6 +171,16 @@
                     "lat": 35.8681994,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": false,
+            "tags": [
+                "nature",
+                "landmark",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "moderate"
             ]
         },
         {
@@ -136,7 +192,6 @@
             "lat": 35.960651,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Popeye Village, Malta, film set, amusement park, family attraction, colorful",
-            "category": "Cultural & Entertainment",
             "rating": 4.5,
             "mapPoints": [
                 {
@@ -146,6 +201,15 @@
                     "lat": 35.960651,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "cultural",
+                "entertainment",
+                "family",
+                "film-set",
+                "easy"
             ]
         },
         {
@@ -157,7 +221,6 @@
             "lat": 36.01422213881614,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Elephant Rock, Malta, natural rock formation, coastal, photography, scenic",
-            "category": "Nature & Landmarks",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -167,6 +230,17 @@
                     "lat": 36.01422213881614,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "landmark",
+                "viewpoint",
+                "boat-trip",
+                "comino",
+                "moderate"
             ]
         },
         {
@@ -178,7 +252,6 @@
             "lat": 35.849367,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Munxar Path, Malta, coastal walk, hiking, nature, scenic, Mediterranean",
-            "category": "Hiking & Trails",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -188,6 +261,16 @@
                     "lat": 35.849367,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": false,
+            "tags": [
+                "hiking",
+                "trail",
+                "nature",
+                "coastal-walk",
+                "viewpoint",
+                "moderate"
             ]
         },
         {
@@ -199,7 +282,6 @@
             "lat": 35.8499062,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Munxar Window, Malta, natural arch, coastal views, hiking, photography",
-            "category": "Rock Formations & Coastal Views",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -209,6 +291,16 @@
                     "lat": 35.8499062,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "hiking",
+                "moderate"
             ]
         },
         {
@@ -220,7 +312,6 @@
             "lat": 35.83819204033,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Hofriet Window, Malta, Blue Cave, natural arch, boat access, serene",
-            "category": "Nature & Water Attractions",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -230,6 +321,17 @@
                     "lat": 35.83819204033,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "rock-formation",
+                "natural-arch",
+                "boat-trip",
+                "hard"
             ]
         },
         {
@@ -241,7 +343,6 @@
             "lat": 35.8919094,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Bighi Cot-Lift, Malta, historical, engineering, cultural heritage, Grand Harbour",
-            "category": "Historical & Cultural",
             "rating": 4.5,
             "mapPoints": [
                 {
@@ -251,6 +352,16 @@
                     "lat": 35.8919094,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "historical",
+                "cultural",
+                "engineering",
+                "viewpoint",
+                "easy"
             ]
         },
         {
@@ -262,7 +373,6 @@
             "lat": 35.9155058,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Wied il-Għasel, Malta, valley, lush vegetation, historical, hiking, scenic",
-            "category": "Nature & Landmarks",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -272,6 +382,17 @@
                     "lat": 35.9155058,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "hiking",
+                "trail",
+                "nature",
+                "valley",
+                "historical",
+                "moderate"
             ]
         },
         {
@@ -283,7 +404,6 @@
             "lat": 35.997909,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Coral Lagoon, Malta, natural lagoon, snorkeling, marine life, adventure",
-            "category": "Nature & Water Attractions",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -293,6 +413,17 @@
                     "lat": 35.997909,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "kayak",
+                "moderate"
             ]
         },
         {
@@ -304,7 +435,6 @@
             "lat": 36.010848,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Il-Ġebla l-Imtaqqba, Malta, punctured rock, natural landmark, sunset, photography",
-            "category": "Rock Formations & Scenic Views",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -314,6 +444,17 @@
                     "lat": 36.010848,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "landmark",
+                "viewpoint",
+                "photography",
+                "comino",
+                "moderate"
             ]
         },
         {
@@ -325,7 +466,6 @@
             "lat": 36.00631138767528,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Natural Window, Malta, coastal, natural arch, historic fortification, scenic",
-            "category": "Historical & Natural Landmarks",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -335,6 +475,17 @@
                     "lat": 36.00631138767528,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "historical",
+                "comino",
+                "moderate"
             ]
         },
         {
@@ -346,7 +497,6 @@
             "lat": 35.957417736969006,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Mistra Bay, Malta, tranquil bay, pebble beach, snorkeling, relaxation",
-            "category": "Beaches & Water Attractions",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -356,6 +506,16 @@
                     "lat": 35.957417736969006,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "snorkeling",
+                "bay",
+                "easy"
             ]
         },
         {
@@ -367,7 +527,6 @@
             "lat": 35.84141667763579,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Dingli Cliffs, Malta, dramatic cliffs, panoramic views, hiking, sunset, nature",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -377,6 +536,16 @@
                     "lat": 35.84141667763579,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "nature",
+                "landmark",
+                "viewpoint",
+                "cliffs",
+                "sunset",
+                "easy"
             ]
         },
         {
@@ -388,7 +557,6 @@
             "lat": 35.94647468280512,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "St. Mark's Tower, Malta, historic watchtower, coastal fortification, panoramic views",
-            "category": "Historical & Cultural",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -398,6 +566,16 @@
                     "lat": 35.94647468280512,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "historical",
+                "cultural",
+                "tower",
+                "viewpoint",
+                "easy"
             ]
         },
         {
@@ -409,7 +587,6 @@
             "lat": 35.99309133941263,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Għar iċ-Ċomb, Malta, lead cave, natural formation, historical, exploration",
-            "category": "Caves & Historical Sites",
             "rating": 4.5,
             "mapPoints": [
                 {
@@ -419,6 +596,16 @@
                     "lat": 35.99309133941263,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "historical",
+                "nature",
+                "hiking",
+                "moderate"
             ]
         },
         {
@@ -430,7 +617,6 @@
             "lat": 36.04631591357665,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Fungus Rock, Gozo, Malta, Dwejra Bay, Il-Ġebla tal-Ġeneral, cliffs, sea views, coastal landmark, natural wonders",
-            "category": "Caves & Natural Wonders",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -440,6 +626,16 @@
                     "lat": 36.04631591357665,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "rock-formation",
+                "landmark",
+                "viewpoint",
+                "nature",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -451,7 +647,6 @@
             "lat": 35.88986318933959,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Birgu, Vittoriosa, Malta, historical, maritime heritage, narrow streets, culture",
-            "category": "Historical & Cultural",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -461,6 +656,15 @@
                     "lat": 35.88986318933959,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "urban-walk",
+                "waterfront",
+                "easy"
             ]
         },
         {
@@ -472,7 +676,6 @@
             "lat": 36.0798010892607,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Wied il-Mielaħ Window, Malta, natural arch, limestone, coastal, photography",
-            "category": "Rock Formations & Scenic Views",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -482,6 +685,16 @@
                     "lat": 36.0798010892607,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -493,7 +706,6 @@
             "lat": 35.891786702482676,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Fort of St. Angelo, Malta, historic fortress, coastal, military history, panoramic views",
-            "category": "Historical & Cultural",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -503,6 +715,15 @@
                     "lat": 35.891786702482676,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "fortification",
+                "viewpoint",
+                "easy"
             ]
         },
         {
@@ -514,7 +735,6 @@
             "lat": 35.900194,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Shrine of Our Lady of Mount Carmel, Malta, religious site, Baroque, pilgrimage, history",
-            "category": "Religious & Historical",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -524,6 +744,15 @@
                     "lat": 35.900194,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "religious",
+                "historical",
+                "cultural",
+                "church",
+                "easy"
             ]
         },
         {
@@ -535,7 +764,6 @@
             "lat": 35.89074420324843,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "La Guardiola, Malta, historical watchtower, panoramic views, Grand Harbour, fortifications",
-            "category": "Historical & Cultural",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -545,6 +773,15 @@
                     "lat": 35.89074420324843,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "viewpoint",
+                "garden",
+                "easy"
             ]
         },
         {
@@ -556,7 +793,6 @@
             "lat": 35.886778,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Mdina, Silent City, Malta, medieval, history, architecture, panoramic views",
-            "category": "Historical & Cultural",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -566,6 +802,15 @@
                     "lat": 35.886778,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "city",
+                "viewpoint",
+                "easy"
             ]
         },
         {
@@ -577,7 +822,6 @@
             "lat": 35.930597034999735,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Victoria Lines, Malta, Great Wall of Malta, panoramic views, military history, hiking",
-            "category": "Historical & Natural Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -587,6 +831,16 @@
                     "lat": 35.930597034999735,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "nature",
+                "hiking",
+                "viewpoint",
+                "fortification",
+                "hard"
             ]
         },
         {
@@ -598,7 +852,6 @@
             "lat": 35.87498389580119,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Miġra l-Ferħa, Malta, coastal, hidden gem, ziplining, scenic, sunsets",
-            "category": "Adventure & Scenic Views",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -608,6 +861,17 @@
                     "lat": 35.87498389580119,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "adventure",
+                "hiking",
+                "viewpoint",
+                "cliffs",
+                "sunset",
+                "hard"
             ]
         },
         {
@@ -620,7 +884,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-ras-id.png",
             "keywords": "Ras id-Dawwara Cave, Malta, hidden cave, coastal, hiking, panoramic, nature",
-            "category": "Caves & Natural Wonders",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -630,6 +893,17 @@
                     "lat": 35.86739484580184,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "nature",
+                "hiking",
+                "viewpoint",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -640,7 +914,6 @@
             "lon": 14.342532638405096,
             "lat": 35.90818780766874,
             "keywords": "Fomm ir-Rih, Malta, secluded coastal spot, clear waters, rugged cliffs, hiking",
-            "category": "Nature & Landmarks",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -651,7 +924,18 @@
                     "type": "destination"
                 }
             ],
-            "url": "https://www.instagram.com/johnfabiomb/embed"
+            "url": "https://www.instagram.com/johnfabiomb/embed",
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "hiking",
+                "cliffs",
+                "nature",
+                "hard"
+            ]
         },
         {
             "id": 37,
@@ -662,7 +946,6 @@
             "lat": 35.93064940552566,
             "recommendedRoute": "/assets/images/recommendedRoute-riviera-route.png",
             "keywords": "Għajn Tuffieħa Cave, Malta, coastal cave, golden sands, dramatic cliffs, sunsets",
-            "category": "Caves & Natural Wonders",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -673,7 +956,17 @@
                     "type": "destination"
                 }
             ],
-            "url": "https://www.instagram.com/johnfabiomb/embed"
+            "url": "https://www.instagram.com/johnfabiomb/embed",
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "moderate"
+            ]
         },
         {
             "id": 38,
@@ -684,7 +977,6 @@
             "lat": 36.053948723531946,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Inland Sea, Il-Qawra, Gozo, Malta, lagoon, boat trips, sea caves, natural wonders",
-            "category": "Caves & Natural Wonders",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -694,6 +986,16 @@
                     "lat": 36.053948723531946,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "beach",
+                "swimming",
+                "lagoon",
+                "boat-trip",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -705,7 +1007,6 @@
             "lat": 35.9014008,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Blata tal-Melħ, Malta, balanced rock, coastal cliffs, nature photography, scenic views, hidden gem",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -715,6 +1016,16 @@
                     "lat": 35.9014008,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -726,7 +1037,6 @@
             "lat": 36.06329636848929,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Tal-Mixta Cave, Gozo, Ramla Bay, Malta, coastal cave, panoramic views, nature photography, hidden gem",
-            "category": "Caves & Natural Wonders",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -736,6 +1046,16 @@
                     "lat": 36.06329636848929,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "cave",
+                "viewpoint",
+                "landmark",
+                "photography",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -748,7 +1068,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendation-42.png",
             "keywords": "Pullicino’s Cove, hidden cave, Malta, secret trail, wild coast, off the path, nature, hiking, solitude, secret spot",
-            "category": "Caves & Natural Wonders",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -758,6 +1077,16 @@
                     "lat": 35.9211,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "hiking",
+                "viewpoint",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -769,7 +1098,6 @@
             "lat": 35.897522917358,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Lower Kalkara Gardens, Kalkara, Malta, hidden gem, gardens, Grand Harbour views, relaxing, nature spot, historical setting",
-            "category": "Parks & Scenic Spots",
             "rating": 4.5,
             "mapPoints": [
                 {
@@ -779,19 +1107,28 @@
                     "lat": 35.897522917358,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "park",
+                "garden",
+                "viewpoint",
+                "waterfront",
+                "easy"
             ]
         },
         {
             "id": 44,
             "title": "Ta’ Marija Cave",
             "description": "Ta’ Marija Cave is a secluded sea-level cave located along the northern coast of Malta, near Mellieħa. Tucked between rugged cliffs and crystal-clear waters, this natural gem is only accessible by a coastal hike or boat, making it a true hidden treasure. The cave offers a serene escape surrounded by raw limestone formations, perfect for adventurous swimmers, snorkelers, or those seeking solitude in nature. Its peaceful vibe and remote feel make it ideal for exploring, meditating, or just taking in the sounds of the sea.",
-            "img": "/assets/images/places/TaMarijaCave.png",
+            "img": "/assets/images/places/ta-maria-cave/TaMarijaCave.png",
             "lon": 14.332866509633169,
             "lat": 35.918123816986494,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendation-44.png",
             "keywords": "Ta’ Marija Cave, Malta, Mellieħa, hidden cave, snorkeling, sea-level cave, coastal hike, nature escape",
-            "category": "Caves & Natural Wonders",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -808,6 +1145,22 @@
                     "lat": 35.918123816986494,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "kayak",
+                "hard"
+            ],
+            "images": [
+                "/assets/images/places/ta-maria-cave/TaMarijaCave.png",
+                "/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg",
+                "/assets/images/places/ta-maria-cave/ta-maria-cave-3.jpg"
             ]
         },
         {
@@ -819,7 +1172,6 @@
             "lat": 36.04861690374233,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Fungus Rock, hidden cave, Dwejra, Gozo, viewpoint, Malta, coastal trail, cliffside cave, natural lookout",
-            "category": "Caves & Natural Wonders",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -829,6 +1181,16 @@
                     "lat": 36.04861690374233,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "viewpoint",
+                "hiking",
+                "gozo",
+                "hard"
             ]
         },
         {
@@ -840,7 +1202,6 @@
             "lat": 35.863760535112775,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Chinese Garden of Serenity, Santa Lucija, Malta, garden, peaceful, koi pond, bamboo, Chinese culture, hidden gem",
-            "category": "Parks & Scenic Spots",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -850,6 +1211,15 @@
                     "lat": 35.863760535112775,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "park",
+                "garden",
+                "cultural",
+                "easy"
             ]
         },
         {
@@ -861,7 +1231,6 @@
             "lat": 35.84060494147958,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Ta' Kalanka Sea Cave, Delimara, Malta, sea cave, cliff jumping, hidden swimming spot, snorkeling, rugged coast, turquoise waters",
-            "category": "Caves & Natural Wonders",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -871,6 +1240,17 @@
                     "lat": 35.84060494147958,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "cliff-jumping",
+                "hard"
             ]
         },
         {
@@ -882,7 +1262,6 @@
             "lat": 36.02974630449464,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Xlendi, Gozo, Xlendi Bay, Malta, coastal village, swimming, cliffs, snorkeling, sunset spot, local favorite",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -892,6 +1271,16 @@
                     "lat": 36.02974630449464,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "beach",
+                "swimming",
+                "bay",
+                "snorkeling",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -903,7 +1292,6 @@
             "lat": 36.009697,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "L-Għar ta’ Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
-            "category": "Caves & Natural Wonders",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -913,6 +1301,16 @@
                     "lat": 36.009697,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "rock-formation",
+                "viewpoint",
+                "comino",
+                "moderate"
             ]
         },
         {
@@ -925,7 +1323,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-mini-inland-sea.png",
             "keywords": "Mini Inland Sea, Malta, Qrendi, Mnajdra, hidden spot, natural inlet, underwater cave, secret swim, Malta lagoon",
-            "category": "Caves & Natural Wonders",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -935,6 +1332,16 @@
                     "lat": 35.82613626289459,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "swimming",
+                "lagoon",
+                "hiking",
+                "hard"
             ]
         },
         {
@@ -946,7 +1353,6 @@
             "lat": 35.884555521002994,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "St. Michael Bastion, Senglea, Malta, Grand Harbour, Three Cities, history, bastion, viewpoint, local spot, hidden gem",
-            "category": "Parks & Scenic Spots",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -956,6 +1362,16 @@
                     "lat": 35.884555521002994,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "historical",
+                "cultural",
+                "viewpoint",
+                "bastion",
+                "easy"
             ]
         },
         {
@@ -968,7 +1384,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-l-ghawseg.png",
             "keywords": "L-Għawseġ, Anchor Bay, Popeye Village, Malta, hike, hidden spot, cliff walk, wild swim, off path Malta, nature",
-            "category": "Nature & Landmarks",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -978,6 +1393,16 @@
                     "lat": 35.95369720364465,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "hiking",
+                "cliffs",
+                "hard"
             ]
         },
         {
@@ -989,7 +1414,6 @@
             "lat": 35.98227580320132,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Paradise Bay, Malta, sandy beach, swimming, snorkeling, beach bar, northern Malta, Comino view, popular beach",
-            "category": "Beaches & Swimming Spots",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -999,6 +1423,15 @@
                     "lat": 35.98227580320132,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "beach",
+                "swimming",
+                "snorkeling",
+                "bay",
+                "easy"
             ]
         },
         {
@@ -1010,7 +1443,6 @@
             "lat": 35.98255194029342,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Paradise Bay, rock window, Malta, cliff view, hidden spot, natural arch, photography, rocky shore, coastal walk",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1020,6 +1452,16 @@
                     "lat": 35.98255194029342,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "hiking",
+                "hard"
             ]
         },
         {
@@ -1031,7 +1473,6 @@
             "lat": 35.959680889449785,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Anchor Bay, Popeye Cliffs, Popeye Village, Malta, sunset view, cliff walk, cinematic view, hidden Malta, coastal trail, golden hour",
-            "category": "Nature & Landmarks",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -1041,6 +1482,17 @@
                     "lat": 35.959680889449785,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "nature",
+                "landmark",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "moderate"
             ]
         },
         {
@@ -1053,7 +1505,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-carolina-grotto.png",
             "keywords": "Carolina Grotto, Xlendi, Gozo, sea cave, grotto, hidden swim spot, private bathing cave, Malta, kayaking, peaceful corner",
-            "category": "Caves & Natural Wonders",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -1063,6 +1514,17 @@
                     "lat": 36.03011185439489,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "kayak",
+                "gozo",
+                "moderate"
             ]
         },
         {
@@ -1074,7 +1536,6 @@
             "lat": 35.8220381153492,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Babu Valley, Żurrieq, Malta, Blue Grotto, hidden trail, hiking Malta, nature walk, secret valley, scenic view, coastal path",
-            "category": "Nature & Landmarks",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -1084,6 +1545,17 @@
                     "lat": 35.8220381153492,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "hiking",
+                "trail",
+                "nature",
+                "valley",
+                "viewpoint",
+                "moderate"
             ]
         },
         {
@@ -1095,7 +1567,6 @@
             "lat": 35.8062448,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Għar Ħasan, Irdum ta’ Ħal Far, Malta, cliff trail, hidden hike, southern coast, secret spots, cave legends, sea cliffs, wild Malta, Birżebbuġa",
-            "category": "Nature & Landmarks",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1105,6 +1576,17 @@
                     "lat": 35.8062448,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "hiking",
+                "trail",
+                "cliffs",
+                "nature",
+                "cave",
+                "hard"
             ]
         },
         {
@@ -1117,7 +1599,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-hidden-ricasoli-cave.png",
             "keywords": "Hidden Sea Cave, Fort Ricasoli, Malta, sea cave, kayaking, swimming spot, secret cave, coastal adventure",
-            "category": "Caves & Natural Wonders",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1127,6 +1608,16 @@
                     "lat": 35.8972558894685,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "kayak",
+                "hard"
             ]
         },
         {
@@ -1138,7 +1629,6 @@
             "lat": 35.8337247,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
-            "category": "Nature & Water Attractions",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -1148,6 +1638,17 @@
                     "lat": 35.8337247,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "nature",
+                "landmark",
+                "cliffs",
+                "hiking",
+                "diving",
+                "hard"
             ]
         },
         {
@@ -1160,7 +1661,6 @@
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "recommendedRoute": "/assets/images/recommendedRoute-santa-maria-caves.png",
             "keywords": "Santa Maria Caves, Santa Marija Caves, Comino, Malta, sea caves, swim-throughs, snorkeling, diving, kayak",
-            "category": "Caves & Natural Wonders",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1170,6 +1670,17 @@
                     "lat": 36.01822697957711,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": false,
+            "tags": [
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "kayak",
+                "comino",
+                "moderate"
             ]
         },
         {
@@ -1181,7 +1692,6 @@
             "lat": 36.07868696547658,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Wied il-Għasri, Gozo, Malta, hidden valley, swimming spot, snorkeling, sea caves, nature, cliffs, adventure",
-            "category": "Caves & Natural Wonders",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -1191,6 +1701,17 @@
                     "lat": 36.07868696547658,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "snorkeling",
+                "valley",
+                "gozo",
+                "moderate"
             ]
         },
         {
@@ -1202,7 +1723,6 @@
             "lat": 36.04619855306464,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Cittadella, Citadel, Victoria, Gozo, Malta, fortress, bastions, panoramic views, historic site, medieval streets, heritage",
-            "category": "Historic & Cultural Sites",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1212,6 +1732,16 @@
                     "lat": 36.04619855306464,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "fortress",
+                "viewpoint",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -1223,7 +1753,6 @@
             "lat": 36.07957876800282,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Gozo salt pans, Xwejni, Malta, sea salt, coastal walk, tradition, limestone pools, Mediterranean, photography spot",
-            "category": "Nature & Cultural Landscapes",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -1233,6 +1762,17 @@
                     "lat": 36.07957876800282,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "nature",
+                "cultural",
+                "landscape",
+                "coastal-walk",
+                "photography",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -1244,7 +1784,6 @@
             "lat": 36.0615465214957,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Ramla Bay, Gozo, Malta, red sand beach, swimming, nature, coastal walk, peaceful beach, island life",
-            "category": "Beaches & Coastal Spots",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1254,6 +1793,15 @@
                     "lat": 36.0615465214957,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "beach",
+                "swimming",
+                "nature",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -1265,7 +1813,6 @@
             "lat": 35.8924255,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Argotti Botanic Gardens, Floriana, Malta, botanical garden, plants, peaceful park, green space, Valletta, Grand Harbour views",
-            "category": "Gardens & Scenic Walks",
             "rating": 4.6,
             "mapPoints": [
                 {
@@ -1275,6 +1822,15 @@
                     "lat": 35.8924255,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "garden",
+                "park",
+                "nature",
+                "scenic-walk",
+                "easy"
             ]
         },
         {
@@ -1286,7 +1842,6 @@
             "lat": 36.027896947001096,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Hondoq ir-Rummien, Gozo, Malta, turquoise water, swimming, snorkeling, beach, coastal views, Comino",
-            "category": "Beaches & Water Attractions",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1296,6 +1851,15 @@
                     "lat": 36.027896947001096,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "beach",
+                "swimming",
+                "snorkeling",
+                "gozo",
+                "easy"
             ]
         },
         {
@@ -1307,7 +1871,6 @@
             "lat": 35.97229128888981,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Rdum il-Qammieh, Malta, viewpoint, bench, cliffs, sunset, northern Malta, scenic view, peaceful spot",
-            "category": "Viewpoints",
             "rating": 4.9,
             "mapPoints": [
                 {
@@ -1317,6 +1880,16 @@
                     "lat": 35.97229128888981,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "viewpoint",
+                "cliffs",
+                "nature",
+                "sunset",
+                "hard"
             ]
         },
         {
@@ -1328,7 +1901,6 @@
             "lat": 35.92229016523285,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "hidden rocky beach, Gnejna, Malta, secret beach, coastal walk, swimming spot, cliffs, raw coastline, hidden Malta",
-            "category": "Beaches & Coastal Spots",
             "rating": 4.8,
             "mapPoints": [
                 {
@@ -1338,16 +1910,25 @@
                     "lat": 35.92229016523285,
                     "type": "destination"
                 }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "hiking",
+                "cliffs",
+                "hard"
             ]
         },
         {
             "id": 71,
             "title": "Blata tal-Melħ Rock Passage",
             "description": "Blata tal-Melħ features a narrow, man-made cut through the coastal limestone that forms a straight corridor leading from the cliff edge toward the sea. Likely created for access by fishermen, this unique formation stands out for its symmetry and raw appearance. The passage is surrounded by rugged cliffs and offers a striking visual line toward the open Mediterranean. Access is challenging and requires careful movement across uneven terrain, making it suitable only for experienced explorers.",
-            "img": "/assets/images/places/blata-tal-melh-passage.png",
+            "img": "/assets/images/places/blata/blata-tal-melh-passage.png",
             "lon": 14.330087005026344,
             "lat": 35.89534595568553,
-            "category": "Nature & Landmarks",
             "rating": 4.7,
             "recommendedRoute": "/assets/images/recommendedRoute-blata.png",
             "mapPoints": [
@@ -1366,7 +1947,22 @@
                     "type": "destination"
                 }
             ],
-            "url": "https://www.instagram.com/johnfabiomb/embed"
+            "url": "https://www.instagram.com/johnfabiomb/embed",
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "viewpoint",
+                "hiking",
+                "cliffs",
+                "hard"
+            ],
+            "images": [
+                "/assets/images/places/blata/blata-tal-melh-passage.png",
+                "/assets/images/places/blata/batal-stairs-2.jpg",
+                "/assets/images/places/blata/batal-stairs-3.png"
+            ]
         }
     ]
 }

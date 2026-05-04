@@ -3,59 +3,113 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Explore Malta - Your Guide to the Best Spots on the Island</title>
+  <title>Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Primary SEO Meta Tags -->
-  <meta name="description"
-    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
-  <meta name="keywords"
-    content="Malta, hidden gems, explore Malta, free custom map, secret spots, natural wonders, cultural sites" />
+  <!-- Primary SEO -->
+  <meta name="description" content="Discover Malta's best hidden gems, secret caves, beaches and historical sites with a free interactive map by FPV drone pilot John Montaño. 60+ curated locations with routes and photos." />
+  <meta name="keywords" content="Malta hidden gems, Malta caves, Malta beaches, Malta secret spots, Malta hiking, Malta FPV, explore Malta, Malta interactive map, Gozo hidden spots, Malta travel guide" />
+  <meta name="author" content="John Montaño">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#F4A922">
+
+  <!-- Geo -->
+  <meta name="geo.region" content="MT">
+  <meta name="geo.placename" content="Malta">
+  <meta name="geo.position" content="35.9375;14.3754">
+  <meta name="ICBM" content="35.9375, 14.3754">
+
+  <!-- Canonical -->
   <link rel="canonical" href="https://johnfabiomb.com/" />
 
-  <!-- Favicon -->
+  <!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- Preconnect & Fonts -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="msapplication-TileColor" content="#F4A922">
+
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
 
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Explore Malta - Your Guide to the Best Spots on the Island">
-  <meta property="og:description"
-    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Explore Malta">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Explore Malta - Hidden Gems, Caves & Secret Spots">
+  <meta property="og:description" content="Discover Malta's best hidden gems, secret caves, beaches and historical sites with a free interactive map by FPV drone pilot John Montaño. 60+ curated locations.">
   <meta property="og:url" content="https://johnfabiomb.com/">
   <meta property="og:image" content="https://johnfabiomb.com/assets/map-min.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="Interactive map of Malta showing hidden gems and secret spots">
 
-  <!-- Twitter Card Meta Tags -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Explore Malta - Your Guide to the Best Spots on the Island">
-  <meta name="twitter:description"
-    content="Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer." />
+  <meta name="twitter:site" content="@johnfabiomb">
+  <meta name="twitter:creator" content="@johnfabiomb">
+  <meta name="twitter:title" content="Explore Malta - Hidden Gems, Caves & Secret Spots">
+  <meta name="twitter:description" content="Discover Malta's best hidden gems, secret caves, beaches and historical sites with a free interactive map. 60+ curated locations with routes and photos.">
   <meta name="twitter:image" content="https://johnfabiomb.com/assets/map-min.png">
+  <meta name="twitter:image:alt" content="Interactive map of Malta showing hidden gems and secret spots">
 
-  <!-- Structured Data with JSON-LD -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "TouristAttraction",
-    "name": "Explore Malta - Your Guide to the Best Spots on the Island",
-    "description": "Discover Malta like never before with my FREE custom map. Uncover hidden wonders, secret spots, and the best natural and cultural gems the island has to offer.",
-    "url": "https://johnfabiomb.com/",
-    "image":"https://johnfabiomb.com/assets/map-min.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Malta"
-    }
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://johnfabiomb.com/#website",
+        "url": "https://johnfabiomb.com/",
+        "name": "Explore Malta",
+        "description": "Interactive map of Malta's best hidden gems, caves, beaches and historical sites curated by FPV drone pilot John Montaño.",
+        "inLanguage": "en",
+        "author": { "@id": "https://johnfabiomb.com/#person" },
+        "image": "https://johnfabiomb.com/assets/map-min.png"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://johnfabiomb.com/#person",
+        "name": "John Montaño",
+        "jobTitle": "FPV Drone Pilot & Content Creator",
+        "url": "https://johnfabiomb.com/",
+        "sameAs": [
+          "https://www.instagram.com/johnfabiomb/"
+        ]
+      },
+      {
+        "@type": "TouristInformationCenter",
+        "@id": "https://johnfabiomb.com/#map",
+        "name": "Explore Malta - Interactive Map",
+        "description": "Free interactive map featuring 60+ hidden gems, caves, beaches and historical sites across Malta and Gozo.",
+        "url": "https://johnfabiomb.com/",
+        "image": "https://johnfabiomb.com/assets/map-min.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Malta",
+          "addressCountry": "MT"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.9375,
+          "longitude": 14.3754
+        },
+        "creator": { "@id": "https://johnfabiomb.com/#person" }
+      }
+    ]
   }
   </script>
 
@@ -65,7 +119,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-WGS589LGV9');
+    gtag('config', 'G-WGS589LGV9', { send_page_view: false });
   </script>
 </head>
 

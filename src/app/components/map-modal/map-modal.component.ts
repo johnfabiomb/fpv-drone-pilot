@@ -38,9 +38,7 @@ export class MapModalComponent {
 
   @HostListener('document:click', ['$event'])
   clickout(event: Event) {
-    if (this.eRef.nativeElement.contains(event.target)) {
-      console.log("clicked inside");
-    } else {
+    if (!this.eRef.nativeElement.contains(event.target)) {
       this.dialogRef.close();
     }
   }

@@ -1123,7 +1123,7 @@
             "id": 44,
             "title": "Ta’ Marija Cave",
             "description": "Ta’ Marija Cave is a secluded sea-level cave located along the northern coast of Malta, near Mellieħa. Tucked between rugged cliffs and crystal-clear waters, this natural gem is only accessible by a coastal hike or boat, making it a true hidden treasure. The cave offers a serene escape surrounded by raw limestone formations, perfect for adventurous swimmers, snorkelers, or those seeking solitude in nature. Its peaceful vibe and remote feel make it ideal for exploring, meditating, or just taking in the sounds of the sea.",
-            "img": "/assets/images/places/TaMarijaCave.png",
+            "img": "/assets/images/places/ta-maria-cave/TaMarijaCave.png",
             "lon": 14.332866509633169,
             "lat": 35.918123816986494,
             "url": "https://www.instagram.com/johnfabiomb/embed",
@@ -1156,6 +1156,11 @@
                 "snorkeling",
                 "kayak",
                 "hard"
+            ],
+            "images": [
+                "/assets/images/places/ta-maria-cave/TaMarijaCave.png",
+                "/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg",
+                "/assets/images/places/ta-maria-cave/ta-maria-cave-3.jpg"
             ]
         },
         {

@@ -38,6 +38,16 @@
                 "glob": "sitemap.xml",
                 "input": "src",
                 "output": "/"
+              },
+              {
+                "glob": "site.webmanifest",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "*.png",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [
