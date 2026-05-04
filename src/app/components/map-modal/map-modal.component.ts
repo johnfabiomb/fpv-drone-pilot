@@ -7,6 +7,7 @@ import {
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { PipesModule } from '../../shared/pipes/pipes.module';
+import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
@@ -23,8 +24,8 @@ export enum ModalActions {
   imports: [
     MatDialogModule,
     CommonModule,
-    PipesModule
-    // ComponentsModule
+    PipesModule,
+    ImageGalleryComponent,
   ],
   templateUrl: './map-modal.component.html',
   styleUrl: './map-modal.component.scss'

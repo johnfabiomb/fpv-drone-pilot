@@ -1921,7 +1921,7 @@
             "id": 71,
             "title": "Blata tal-Melħ Rock Passage",
             "description": "Blata tal-Melħ features a narrow, man-made cut through the coastal limestone that forms a straight corridor leading from the cliff edge toward the sea. Likely created for access by fishermen, this unique formation stands out for its symmetry and raw appearance. The passage is surrounded by rugged cliffs and offers a striking visual line toward the open Mediterranean. Access is challenging and requires careful movement across uneven terrain, making it suitable only for experienced explorers.",
-            "img": "/assets/images/places/blata-tal-melh-passage.png",
+            "img": "/assets/images/places/blata/blata-tal-melh-passage.png",
             "lon": 14.330087005026344,
             "lat": 35.89534595568553,
             "rating": 4.7,
@@ -1952,6 +1952,11 @@
                 "hiking",
                 "cliffs",
                 "hard"
+            ],
+            "images": [
+                "/assets/images/places/blata/blata-tal-melh-passage.png",
+                "/assets/images/places/blata/batal-stairs-2.jpg",
+                "/assets/images/places/blata/batal-stairs-3.png"
             ]
         }
     ]

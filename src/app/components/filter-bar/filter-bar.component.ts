@@ -18,10 +18,10 @@ export class FilterBarComponent {
   activeFilters = new Set<string>();
 
   filters: FilterOption[] = [
-    { id: 'beach',      label: 'Beaches',      emoji: '🏖️' },
-    { id: 'cave',       label: 'Caves',        emoji: '🪨' },
-    { id: 'historical', label: 'Historical',   emoji: '🏛️' },
     { id: 'hidden',     label: 'Hidden Gems',  emoji: '💎' },
+    { id: 'cave',       label: 'Caves',        emoji: '🪨' },
+    { id: 'beach',      label: 'Beaches',      emoji: '🏖️' },
+    { id: 'historical', label: 'Historical',   emoji: '🏛️' },
     { id: 'easy',       label: 'Easy Access',  emoji: '🚶' },
     { id: 'hard',       label: 'Hard Access',  emoji: '🥾' },
   ];

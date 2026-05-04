@@ -7,7 +7,7 @@ import Cluster from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { createMap, createView, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
 import { MapModalComponent, ModalActions } from '../map-modal/map-modal.component';
@@ -31,6 +31,7 @@ export class MapComponent implements AfterViewInit {
   private clusterLayer!: any;
   private iconCache = new Map<string, HTMLCanvasElement>();
   private allFeatures: Feature[] = [];
+  private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
 
   @Input() set activeFilters(value: string[]) {
     if (this.clusterSource) this.applyFilters(value);
@@ -247,18 +248,27 @@ export class MapComponent implements AfterViewInit {
   }
 
   private openDialog(location: any, flatCoordinates: number[]): void {
+    if (this.currentDialogRef) {
+      this.currentDialogRef.close('__navigated__');
+      this.currentDialogRef = null;
+    }
+
     this.modalOpenChange.emit(true);
     setTimeout(() => {
-      this.dialog.open(MapModalComponent, { data: location })
-        .afterClosed().subscribe(res => {
-          this.modalOpenChange.emit(false);
-          if (res === ModalActions.EXPLORE) {
-            this.map.setView(createView(this.getMaltaViewCoordinates(), 10.2));
-          }
-          if (res === ModalActions.GOOGLE_MAPS) {
-            window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
-          }
-        });
+      this.currentDialogRef = this.dialog.open(MapModalComponent, { data: location });
+      this.currentDialogRef.afterClosed().subscribe(res => {
+        this.currentDialogRef = null;
+        this.modalOpenChange.emit(false);
+        if (res !== '__navigated__') {
+          this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
+        }
+        if (res === ModalActions.EXPLORE) {
+          this.map.setView(createView(this.getMaltaViewCoordinates(), 10.2));
+        }
+        if (res === ModalActions.GOOGLE_MAPS) {
+          window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
+        }
+      });
     }, 1);
 
     if ((this.map.getView().getZoom() ?? 0) <= 13) {
