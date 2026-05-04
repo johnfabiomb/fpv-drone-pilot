@@ -12,4 +12,6 @@ import { ComponentsModule } from '../../components/components.module';
 })
 export class MaltaMapComponent {
   map = true;
+  activeFilters: string[] = [];
+  isModalOpen = false;
 }

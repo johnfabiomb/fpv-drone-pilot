@@ -108,6 +108,10 @@ export class MapModalComponent {
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
+  formatTag(tag: string): string {
+    return tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
+
   public get getRandomLocations() {
     const uniqueLocations = [...new Set(locations)]; // Ensure unique values
     if (uniqueLocations.length <= 9) {

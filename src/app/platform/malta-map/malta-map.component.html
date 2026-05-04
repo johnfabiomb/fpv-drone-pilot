@@ -1,21 +1,5 @@
 <div class="app">
-    <!-- <div class="header">
-      <div class="group">
-        <div class="title">Malta <div class="icon">
-          </div>
-          <img src="/assets/images/mt.png" alt="" srcset="">
-        </div>
-        <div class="text">FROM ANOTHER POINT OF VIEW</div>
-      </div>
-    </div> -->
-    <app-map *ngIf="map"></app-map>
-    <a href="/">
-      <div class="profile">
-        <img class="profile-picture" src="/assets/images/profile.jpg" width="auto" height="100%" alt="" srcset="">
-        <div class="text">
-          <span class="name">John Montaño</span><br>
-          <span class="title">FPV Drone Pilot · Malta</span><br>
-        </div>
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-      </div>
-    </a>
+    <app-map *ngIf="map" [activeFilters]="activeFilters" (modalOpenChange)="isModalOpen = $event"></app-map>
+    <app-filter-bar *ngIf="!isModalOpen" (filterChange)="activeFilters = $event"></app-filter-bar>
+    <app-footer></app-footer>
+</div>

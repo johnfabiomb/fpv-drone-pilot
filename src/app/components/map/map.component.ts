@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
 import { Point } from 'ol/geom';
@@ -30,6 +30,13 @@ export class MapComponent implements AfterViewInit {
   private clusterSource!: any;
   private clusterLayer!: any;
   private iconCache = new Map<string, HTMLCanvasElement>();
+  private allFeatures: Feature[] = [];
+
+  @Input() set activeFilters(value: string[]) {
+    if (this.clusterSource) this.applyFilters(value);
+  }
+
+  @Output() modalOpenChange = new EventEmitter<boolean>();
 
   constructor(
     public dialog: MatDialog,
@@ -84,7 +91,7 @@ export class MapComponent implements AfterViewInit {
         this.analyticsService.event('location_view', {
           location_title: place?.title,
           location_id: place?.id,
-          location_category: place?.category,
+          location_tags: place?.tags,
         });
         this.openDialog(place, this.getLocationMapCoordinates(place));
       } else {
@@ -126,7 +133,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setupClusterLayer(): void {
-    const features = locations.map(location =>
+    this.allFeatures = locations.map(location =>
       new Feature({
         geometry: new Point(getCoordinatesfromLonLat(location.lon, location.lat)),
         location,
@@ -136,7 +143,7 @@ export class MapComponent implements AfterViewInit {
     this.clusterSource = new Cluster({
       distance: this.getClusterDistance(10.2),
       minDistance: 25,
-      source: new VectorSource({ features }),
+      source: new VectorSource({ features: [...this.allFeatures] }),
     });
 
     this.clusterLayer = new VectorLayer({
@@ -145,6 +152,28 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.addLayer(this.clusterLayer);
+  }
+
+  private applyFilters(filters: string[]): void {
+    const filtered = filters.length === 0
+      ? this.allFeatures
+      : this.allFeatures.filter(f => filters.some(filter => this.matchesFilter(f.get('location'), filter)));
+    const source = this.clusterSource.getSource();
+    source.clear(true);
+    source.addFeatures(filtered);
+  }
+
+  private matchesFilter(location: any, filter: string): boolean {
+    const tags: string[] = location.tags ?? [];
+    switch (filter) {
+      case 'beach':      return tags.includes('beach') || tags.includes('bay');
+      case 'cave':       return tags.includes('cave') || tags.includes('sea-cave') || tags.includes('grotto');
+      case 'historical': return tags.includes('historical') || tags.includes('religious') || tags.includes('fortress') || tags.includes('fortification') || tags.includes('church') || tags.includes('cultural');
+      case 'hidden':     return tags.includes('hidden');
+      case 'easy':       return tags.includes('easy');
+      case 'hard':       return tags.includes('hard');
+      default:           return true;
+    }
   }
 
   private clusterStyle(feature: any): Style {
@@ -218,9 +247,11 @@ export class MapComponent implements AfterViewInit {
   }
 
   private openDialog(location: any, flatCoordinates: number[]): void {
+    this.modalOpenChange.emit(true);
     setTimeout(() => {
       this.dialog.open(MapModalComponent, { data: location })
         .afterClosed().subscribe(res => {
+          this.modalOpenChange.emit(false);
           if (res === ModalActions.EXPLORE) {
             this.map.setView(createView(this.getMaltaViewCoordinates(), 10.2));
           }

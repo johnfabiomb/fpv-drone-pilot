@@ -6,8 +6,8 @@
   </div>
   <div class="body">
     <div class="title">{{ data.title }}</div>
-    <div class="meta" *ngIf="data?.category || data?.rating">
-      <span class="category" *ngIf="data?.category">{{ data.category }}</span>
+    <div class="meta" *ngIf="data?.tags?.length || data?.rating">
+      <span class="tag" *ngFor="let tag of data?.tags">{{ formatTag(tag) }}</span>
       <span class="rating" *ngIf="data?.rating"><i class="fa fa-star"></i> {{ data.rating }}</span>
     </div>
     <div class="section-1">

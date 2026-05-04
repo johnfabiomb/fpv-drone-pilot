@@ -35,6 +35,7 @@ export const createMap = (center: Coordinate, zoom: number, target: string) => n
             source: new XYZ({
                 url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
                 attributions: 'Tiles © <a href="https://www.esri.com/">Esri</a>',
+                maxZoom: 17,
             })
         })
     ],
@@ -50,7 +51,8 @@ export const createMap = (center: Coordinate, zoom: number, target: string) => n
  */
 export const createView = (center: Coordinate, zoom: number) => new View({
     center,
-    zoom
+    zoom,
+    maxZoom: 17,
 })
 
 /**

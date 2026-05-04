@@ -1,0 +1,61 @@
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chip {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 14px;
+        border-radius: 24px;
+        border: 1.5px solid #e0e0e0;
+        background: #ffffff;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        transition: border-color 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s;
+        user-select: none;
+
+        &:hover {
+            border-color: #bbb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &.active {
+            background: var(--color-blue);
+            border-color: var(--color-blue);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(244, 169, 34, 0.35);
+        }
+
+        &.clear {
+            border-color: var(--color-blue);
+            color: var(--color-blue);
+            background: rgba(244, 169, 34, 0.08);
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .chip-x {
+            font-size: 12px;
+            line-height: 1;
+            opacity: 0.8;
+        }
+    }
+}

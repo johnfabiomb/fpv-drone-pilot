@@ -1,121 +1,14 @@
-a:link {
-    text-decoration: none;
-}
-
-a:visited {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-a:active {
-    text-decoration: none;
-}
-
 .app {
     height: 100dvh;
     display: flex;
     flex-direction: column;
+    position: relative;
 
-    .header {
-        height: auto;
-        padding: 10px 20px;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        background-color: black;
-        color: white;
-
-        .group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            .title {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 0;
-                font-size: 30px;
-                gap: 5px;
-
-                .icon {
-                    display: flex;
-                    border-radius: 50%;
-                    overflow: hidden;
-
-                }
-
-                img {
-                    width: 30px;
-                    border-radius: 50%;
-                    height: 30px;
-                }
-            }
-
-            .text {
-                font-size: 10px;
-                font-weight: 300;
-            }
-        }
-
-
-
-    }
-
-    .footer {}
-
-    .profile {
-        bottom: 0;
-        width: 100%;
-        height: 60px;
-        padding: 10px 20px;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: end;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
-        color: #1a1a1a;
-        gap: 10px;
-
-        .text {
-            text-align: start;
-
-            .name {
-                font-size: 14px;
-                font-weight: 600;
-                color: #1a1a1a;
-            }
-
-            .title {
-                font-size: 12px;
-                color: #555;
-                font-weight: 300;
-            }
-
-            .user {
-                font-size: 14px;
-                font-weight: 300;
-            }
-        }
-
-        .profile-picture {
-            border-radius: 50%;
-            border: 2px solid var(--color-blue);
-            box-sizing: border-box;
-        }
-
-        .fa-instagram {
-            font-size: 26px;
-            color: #1a1a1a;
-        }
+    app-filter-bar {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        z-index: 10;
     }
 }

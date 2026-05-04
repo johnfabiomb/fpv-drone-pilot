@@ -99,6 +99,24 @@ img {
 }
 
 
+/* Ensure Material dialogs always render above everything */
+.cdk-overlay-container {
+  z-index: 10000;
+}
+
+/* Move OL zoom controls to right side, aligned with the attribution button */
+.ol-zoom {
+  top: auto !important;
+  bottom: 50px;
+  left: auto !important;
+  right: 8px;
+}
+
+.ol-attribution {
+  right: 8px;
+  bottom: 8px;
+}
+
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
   * {
