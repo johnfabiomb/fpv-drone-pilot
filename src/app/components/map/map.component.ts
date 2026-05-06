@@ -9,7 +9,7 @@ import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { createMap, createView, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
+import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
 import { MapModalComponent, ModalActions } from '../map-modal/map-modal.component';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
 
 const ICON_CANVAS_SIZE = 80;
+const ICON_TAIL_H = 18;
 
 @Component({
   selector: 'app-map',
@@ -106,24 +107,54 @@ export class MapComponent implements AfterViewInit {
     locations.forEach(location => {
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = ICON_CANVAS_SIZE;
-        canvas.height = ICON_CANVAS_SIZE;
-        const ctx = canvas.getContext('2d')!;
-        const r = ICON_CANVAS_SIZE / 2;
+        const W = ICON_CANVAS_SIZE;
+        const H = ICON_CANVAS_SIZE + ICON_TAIL_H;
+        const cx = W / 2;
+        const cy = W / 2;
+        const r = W / 2 - 2;
+        const tailAngle = Math.PI / 8; // narrow tail ~22.5°
 
+        const canvas = document.createElement('canvas');
+        canvas.width = W;
+        canvas.height = H;
+        const ctx = canvas.getContext('2d')!;
+
+        // Teardrop background with soft shadow
         ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.22)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 3;
         ctx.beginPath();
-        ctx.arc(r, r, r - 2, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+        ctx.lineTo(cx, H - 1);
         ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(img, 0, 0, ICON_CANVAS_SIZE, ICON_CANVAS_SIZE);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
         ctx.restore();
 
+        // Subtle stroke to define edges
         ctx.beginPath();
-        ctx.arc(r, r, r - 2, 0, Math.PI * 2);
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 2;
+        ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+        ctx.lineTo(cx, H - 1);
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(0,0,0,0.10)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Photo clipped to circle
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, r - 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(img, 0, 0, W, W);
+        ctx.restore();
+
+        // Border ring around photo
+        ctx.beginPath();
+        ctx.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
         ctx.stroke();
 
         this.iconCache.set(location.img, canvas);
@@ -188,12 +219,17 @@ export class MapComponent implements AfterViewInit {
       const canvas = this.iconCache.get(location.img);
 
       if (canvas) {
+        const coords = (subFeatures[0].getGeometry() as Point).getCoordinates();
         return new Style({
           image: new Icon({
             img: canvas,
-            size: [ICON_CANVAS_SIZE, ICON_CANVAS_SIZE],
+            size: [canvas.width, canvas.height],
             scale: iconSize / ICON_CANVAS_SIZE,
+            anchor: [0.5, 1.0],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
           }),
+          zIndex: -Math.round(coords[1] / 1000),
         });
       }
 
@@ -211,13 +247,12 @@ export class MapComponent implements AfterViewInit {
     return new Style({
       image: new CircleStyle({
         radius,
-        fill: new Fill({ color: '#F4A922' }),
-        stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
-        displacement: [0, 0],
+        fill: new Fill({ color: '#ffffff' }),
+        stroke: new Stroke({ color: '#F4A922', width: 2.5 }),
       }),
       text: new Text({
         text: size.toString(),
-        fill: new Fill({ color: '#ffffff' }),
+        fill: new Fill({ color: '#F4A922' }),
         font: 'bold 13px Roboto, sans-serif',
         offsetY: 1,
       }),
@@ -242,6 +277,17 @@ export class MapComponent implements AfterViewInit {
     return 60;
   }
 
+  locateMe(): void {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
+        this.map.getView().animate({ center: coords, zoom: 14, duration: 500 });
+      },
+      () => {}
+    );
+  }
+
   clickon(data: any): void {
     const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
@@ -263,7 +309,7 @@ export class MapComponent implements AfterViewInit {
           this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
         }
         if (res === ModalActions.EXPLORE) {
-          this.map.setView(createView(this.getMaltaViewCoordinates(), 10.2));
+          this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
         }
         if (res === ModalActions.GOOGLE_MAPS) {
           window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
@@ -272,7 +318,7 @@ export class MapComponent implements AfterViewInit {
     }, 1);
 
     if ((this.map.getView().getZoom() ?? 0) <= 13) {
-      this.map.setView(createView(flatCoordinates, 13));
+      this.map.getView().animate({ center: flatCoordinates, zoom: 13, duration: 500 });
     }
   }
 

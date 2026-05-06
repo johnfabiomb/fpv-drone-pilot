@@ -2,6 +2,8 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
+import ScaleLine from 'ol/control/ScaleLine';
+import { defaults as defaultControls } from 'ol/control';
 import Feature, { FeatureLike } from 'ol/Feature';
 import * as layer from 'ol/layer';
 import * as geom from 'ol/geom';
@@ -30,12 +32,20 @@ export const getCoordinatesfromPixel = (arr: Array<number>) => proj.toLonLat(arr
  */
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({
     target,
+    controls: defaultControls({ rotate: false }).extend([
+        new ScaleLine({ units: 'metric', minWidth: 80 }),
+    ]),
     layers: [
         new TileLayer({
             source: new XYZ({
-                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-                attributions: 'Tiles © <a href="https://www.esri.com/">Esri</a>',
-                maxZoom: 17,
+                urls: [
+                    'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+                    'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+                    'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+                    'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+                ],
+                attributions: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+                maxZoom: 19,
             })
         })
     ],
