@@ -14,5 +14,9 @@ export const routes: Routes = [
     {
         path: 'malta',
         loadComponent: () => import('./platform/malta-map/malta-map.component').then(mod => mod.MaltaMapComponent)
+    },
+    {
+        path: 'plan',
+        loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)
     }
 ];

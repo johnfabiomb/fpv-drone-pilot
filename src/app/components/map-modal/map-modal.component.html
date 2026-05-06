@@ -38,7 +38,8 @@
     </div>
     <hr class="divider">
     <div class="actions">
-      <div *ngIf="!data?.mapPoints?.length" (click)="googleMaps()" class="button blue-btn">Open on <b>Google Maps</b> </div>
+      <div (click)="buildTripFrom()" class="button trip-btn">🗺️ Plan a Trip From Here</div>
+      <div *ngIf="!data?.mapPoints?.length" (click)="googleMaps()" class="button blue-btn">Open on <b>Google Maps</b></div>
       <div (click)="explore()" class="button">Explore <b>Malta</b> <i class="fa fa-map"></i></div>
     </div>
 

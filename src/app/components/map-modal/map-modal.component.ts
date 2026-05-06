@@ -95,6 +95,12 @@ export class MapModalComponent {
     this.dialogRef.close(ModalActions.GOOGLE_MAPS);
   }
 
+  buildTripFrom() {
+    this.analyticsService.event('build_trip_from', { location_title: this.data?.title, location_id: this.data?.id });
+    this.router.navigate(['/plan'], { queryParams: { from: this.data.id } });
+    this.dialogRef.close('__navigated__');
+  }
+
   openPointOnMap(point: any) {
     this.analyticsService.event('map_point_open', { location_title: this.data?.title, point_label: point.label });
     const url = `https://maps.google.com/?q=${point.lat},${point.lon}`;

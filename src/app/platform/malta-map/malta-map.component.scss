@@ -1,3 +1,31 @@
+.offline-pill {
+    position: absolute;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(30, 30, 30, 0.88);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+}
+
+.offline-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f87171;
+    flex-shrink: 0;
+}
+
 .app {
     height: 100dvh;
     display: flex;

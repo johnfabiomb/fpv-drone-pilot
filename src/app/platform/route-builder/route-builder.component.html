@@ -1,0 +1,234 @@
+<div class="planner">
+
+  <!-- Header -->
+  <div class="planner__header">
+    <button class="back-btn" (click)="prev()">← Back</button>
+    <div class="title">
+      <ng-container *ngIf="view === 'list'">My Plans</ng-container>
+      <ng-container *ngIf="view === 'wizard'">Build My Route</ng-container>
+      <ng-container *ngIf="view === 'result'">Your Route</ng-container>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <!-- Progress bar (wizard only) -->
+  <div class="progress-bar" *ngIf="view === 'wizard'">
+    <div class="progress-fill" [style.width]="progressWidth"></div>
+  </div>
+
+  <!-- Anchor banner: shown throughout wizard when starting from a specific location -->
+  <div class="anchor-banner" *ngIf="view === 'wizard' && anchorLocation">
+    <img
+      class="anchor-banner__img"
+      [src]="anchorLocation.img"
+      [alt]="anchorLocation.title"
+      onerror="this.src='/assets/images/places/1.jpg'"
+    />
+    <div class="anchor-banner__info">
+      <div class="anchor-banner__label">📍 Starting from</div>
+      <div class="anchor-banner__name">{{ anchorLocation.title }}</div>
+      <div class="anchor-banner__meta">{{ anchorTagLine() }}</div>
+    </div>
+    <button class="anchor-banner__remove" (click)="clearAnchor()" title="Remove anchor">×</button>
+  </div>
+
+  <!-- MY PLANS VIEW -->
+  <div class="plans-view" *ngIf="view === 'list'">
+
+    <div class="plans-empty" *ngIf="savedPlans.length === 0">
+      <div class="plans-empty__icon">🗺️</div>
+      <div class="plans-empty__text">No routes yet</div>
+      <div class="plans-empty__sub">Build your first Malta itinerary below</div>
+    </div>
+
+    <div class="plans-list" *ngIf="savedPlans.length > 0">
+      <div
+        class="plan-card"
+        *ngFor="let plan of sortedPlans"
+        [class.confirming]="pendingDeleteId === plan.id"
+        (click)="openPlan(plan)"
+      >
+        <div class="plan-card__main">
+          <button
+            class="plan-card__fav"
+            [class.active]="plan.isFavorite"
+            (click)="toggleFavorite(plan.id, $event)"
+            [title]="plan.isFavorite ? 'Remove favourite' : 'Mark as favourite'"
+          >{{ plan.isFavorite ? '⭐' : '☆' }}</button>
+          <div class="plan-card__info">
+            <div class="plan-card__name">{{ plan.name }}</div>
+            <div class="plan-card__meta">
+              {{ plan.inputs.days }} {{ plan.inputs.days === 1 ? 'day' : 'days' }} ·
+              {{ plan.inputs.difficulty | titlecase }} ·
+              {{ formatPace(plan.inputs.pace) }}
+              <span *ngIf="plan.inputs.preferences.length > 0"> · {{ plan.inputs.preferences.length }} interest{{ plan.inputs.preferences.length === 1 ? '' : 's' }}</span>
+            </div>
+            <div class="plan-card__date">{{ formatSavedDate(plan.savedAt) }}</div>
+          </div>
+          <div class="plan-card__actions">
+            <button
+            class="plan-card__close-btn mb-4"
+            (click)="requestDelete(plan.id, $event)"
+            title="Delete route"
+            >×</button>
+            <button class="plan-card__view-btn" (click)="openPlan(plan)">View →</button>
+          </div>
+        </div>
+        <div class="plan-card__confirm" *ngIf="pendingDeleteId === plan.id">
+          <span class="plan-card__confirm-text">Delete this route?</span>
+          <button class="plan-card__confirm-keep" (click)="cancelDelete($event)">Keep</button>
+          <button class="plan-card__confirm-del" (click)="confirmDelete(plan.id, $event)">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="plans-footer">
+      <button class="btn btn--primary plans-create-btn" (click)="createNew()">+ Create New Route</button>
+    </div>
+
+  </div>
+
+  <!-- STEP 1: Days -->
+  <div class="step" *ngIf="view === 'wizard' && step === 1">
+    <div class="step__title">How many days are you exploring Malta?</div>
+    <div class="step__subtitle">Choose the duration of your trip</div>
+    <div class="options-list">
+      <div
+        class="option-card"
+        *ngFor="let opt of dayOptions"
+        [class.selected]="selectedDays === opt.value"
+        (click)="selectedDays = opt.value"
+      >
+        <div class="option-card__label">{{ opt.label }}</div>
+        <div class="option-card__sublabel">{{ opt.sublabel }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Preferences -->
+  <div class="step" *ngIf="view === 'wizard' && step === 2">
+    <div class="step__title">What interests you most?</div>
+    <div class="step__subtitle">Select all that apply — or skip to explore everything</div>
+    <div class="pref-grid">
+      <div
+        class="pref-chip"
+        *ngFor="let opt of preferenceOptions"
+        [class.selected]="isPreferenceSelected(opt.value)"
+        (click)="togglePreference(opt.value)"
+      >
+        <span class="pref-chip__emoji">{{ opt.emoji }}</span>
+        <span class="pref-chip__label">{{ opt.label }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Difficulty -->
+  <div class="step" *ngIf="view === 'wizard' && step === 3">
+    <div class="step__title">What's your fitness level?</div>
+    <div class="step__subtitle">We'll filter locations to match your comfort zone</div>
+    <div class="options-list">
+      <div
+        class="option-card"
+        *ngFor="let opt of difficultyOptions"
+        [class.selected]="selectedDifficulty === opt.value"
+        (click)="selectedDifficulty = opt.value"
+      >
+        <div class="option-card__icon">{{ opt.icon }}</div>
+        <div class="option-card__content">
+          <div class="option-card__label">{{ opt.label }}</div>
+          <div class="option-card__sublabel">{{ opt.sublabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Pace -->
+  <div class="step" *ngIf="view === 'wizard' && step === 4">
+    <div class="step__title">How do you like to explore?</div>
+    <div class="step__subtitle">This sets how many stops you get per day</div>
+    <div class="options-list">
+      <div
+        class="option-card"
+        *ngFor="let opt of paceOptions"
+        [class.selected]="selectedPace === opt.value"
+        (click)="selectedPace = opt.value"
+      >
+        <div class="option-card__icon">{{ opt.icon }}</div>
+        <div class="option-card__content">
+          <div class="option-card__label">{{ opt.label }}</div>
+          <div class="option-card__sublabel">{{ opt.sublabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT VIEW -->
+  <div class="step step--result" *ngIf="view === 'result'">
+
+    <!-- Loading state -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Building your route...</div>
+    </div>
+
+    <!-- Itinerary result -->
+    <div class="result" *ngIf="!loading">
+      <div class="saved-indicator">✓ Route saved to My Plans</div>
+
+      <div class="result__header">
+        <div class="result__title">Your Malta Route</div>
+        <div class="result__summary">
+          {{ selectedDays }} {{ selectedDays === 1 ? 'day' : 'days' }} ·
+          {{ selectedDifficulty | titlecase }} ·
+          {{ selectedPace === 'full-explorer' ? 'Full Explorer' : (selectedPace | titlecase) }}
+          <span *ngIf="selectedPreferences.length > 0"> · {{ selectedPreferences.length }} interest{{ selectedPreferences.length === 1 ? '' : 's' }}</span>
+        </div>
+      </div>
+
+      <!-- Day cards -->
+      <div class="day-card" *ngFor="let day of itinerary">
+        <div class="day-card__header">
+          <span class="day-card__day">{{ day.label }}</span>
+          <span class="day-card__theme">{{ day.theme }}</span>
+        </div>
+        <div class="day-card__stops">
+          <div class="stop" *ngFor="let stop of day.stops; let last = last" [class.stop--last]="last">
+            <img
+              class="stop__thumb"
+              [src]="stop.location.img"
+              [alt]="stop.location.title"
+              onerror="this.src='/assets/images/places/1.jpg'"
+            />
+            <div class="stop__details">
+              <div class="stop__name">{{ stop.location.title }}</div>
+              <div class="stop__anchor-badge" *ngIf="anchorLocation && stop.location.id === anchorLocation.id">📍 Your starting point</div>
+              <div class="stop__time">⏱ {{ stop.estimatedTime }}</div>
+              <div class="stop__reason">{{ stop.reason }}</div>
+              <div class="stop__safety" *ngIf="stop.safetyNote">
+                <span class="stop__safety-icon">⚠️</span>
+                {{ stop.safetyNote }}
+              </div>
+              <button class="stop__map-btn" (click)="openOnMap(stop.location)">View on Map →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="result__actions">
+        <button class="btn btn--secondary" (click)="prev()">My Plans</button>
+        <button class="btn btn--primary" (click)="goToMap()">Back to Map 🗺️</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom navigation (wizard only) -->
+  <div class="planner__nav" *ngIf="view === 'wizard'">
+    <button class="btn btn--secondary" (click)="prev()">Back</button>
+    <button class="btn btn--primary" (click)="next()">
+      {{ step === 4 ? 'Build My Route 🗺️' : 'Continue →' }}
+    </button>
+  </div>
+
+</div>

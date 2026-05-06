@@ -18,7 +18,10 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "baseHref": "/",
-            "outputPath": "docs",
+            "outputPath": {
+              "base": "docs",
+              "browser": ""
+            },
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -29,6 +32,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              {
+                "glob": "sw.js",
+                "input": "src",
+                "output": "/"
+              },
               {
                 "glob": "robots.txt",
                 "input": "src",
@@ -46,6 +54,16 @@
               },
               {
                 "glob": "*.png",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "CNAME",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "googlead59dfa09fcacaec.html",
                 "input": "src",
                 "output": "/"
               }
@@ -66,8 +84,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "12kb"
                 }
               ],
               "outputHashing": "all"

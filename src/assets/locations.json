@@ -1,37 +1,6 @@
 {
     "locations": [
         {
-            "id": 0,
-            "title": "Near Ras id-Dawwara",
-            "description": "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
-            "img": "/assets/images/places/6.png",
-            "lon": 14.35562,
-            "lat": 35.866722,
-            "url": "https://www.instagram.com/johnfabiomb/embed",
-            "keywords": "Ras id-Dawwara, Malta, hiking, photography, cliffs, sunset, Mediterranean views",
-            "rating": 4.8,
-            "mapPoints": [
-                {
-                    "label": "Final location",
-                    "description": "Open this exact spot in Google Maps.",
-                    "lon": 14.35562,
-                    "lat": 35.866722,
-                    "type": "destination"
-                }
-            ],
-            "difficulty": "hard",
-            "hidden": true,
-            "tags": [
-                "hidden",
-                "nature",
-                "landmark",
-                "viewpoint",
-                "hiking",
-                "cliffs",
-                "hard"
-            ]
-        },
-        {
             "id": 1,
             "title": "Blue Grotto",
             "description": "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of Żurrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
@@ -1432,36 +1401,6 @@
                 "snorkeling",
                 "bay",
                 "easy"
-            ]
-        },
-        {
-            "id": 56,
-            "title": "Rock Window at Paradise Bay",
-            "description": "Tucked beside the popular Paradise Bay beach lies a hidden rocky shoreline where adventure meets raw beauty. Carved into the cliffside, this dramatic natural rock window opens to the sea—framing the horizon like a secret portal. Few beachgoers make it past the sand to explore this rugged stretch, but those who do find quiet sun spots, epic views, and a perfect spot for photos, climbing, or just soaking in the wild side of Malta’s coast. It's just a few minutes’ walk from the main beach, but feels like another world entirely.",
-            "img": "/assets/images/places/paradise-rock-window.png",
-            "lon": 14.330971532112834,
-            "lat": 35.98255194029342,
-            "url": "https://www.instagram.com/johnfabiomb/embed",
-            "keywords": "Paradise Bay, rock window, Malta, cliff view, hidden spot, natural arch, photography, rocky shore, coastal walk",
-            "rating": 4.8,
-            "mapPoints": [
-                {
-                    "label": "Final location",
-                    "description": "Open this exact spot in Google Maps.",
-                    "lon": 14.330971532112834,
-                    "lat": 35.98255194029342,
-                    "type": "destination"
-                }
-            ],
-            "difficulty": "hard",
-            "hidden": true,
-            "tags": [
-                "hidden",
-                "rock-formation",
-                "natural-arch",
-                "viewpoint",
-                "hiking",
-                "hard"
             ]
         },
         {

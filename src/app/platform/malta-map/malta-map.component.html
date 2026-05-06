@@ -1,5 +1,8 @@
 <div class="app">
     <app-map *ngIf="map" [activeFilters]="activeFilters" (modalOpenChange)="isModalOpen = $event"></app-map>
     <app-filter-bar *ngIf="!isModalOpen" (filterChange)="activeFilters = $event"></app-filter-bar>
+    <div class="offline-pill" *ngIf="!isOnline">
+        <span class="offline-dot"></span> Offline — cached map active
+    </div>
     <app-footer></app-footer>
 </div>

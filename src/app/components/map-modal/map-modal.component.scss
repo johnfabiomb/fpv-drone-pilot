@@ -17,7 +17,7 @@
         background-color: var(--color-surface);
         border-top: 3px solid var(--color-blue);
         border-bottom: 1px solid #f0f0f0;
-
+        
         .close-btn {
             width: 32px;
             height: 32px;
@@ -121,6 +121,18 @@
                 &:hover {
                     opacity: 0.9;
                     box-shadow: 0 4px 12px rgba(244, 169, 34, 0.35);
+                }
+            }
+
+            .trip-btn {
+                background: #F4A922 !important;
+                border-color: #F4A922 !important;
+                color: white !important;
+                font-weight: 600 !important;
+
+                &:hover {
+                    opacity: 0.9;
+                    box-shadow: 0 4px 12px rgba(244, 169, 34, 0.4);
                 }
             }
         }
