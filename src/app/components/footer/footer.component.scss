@@ -4,7 +4,7 @@
     padding: 0 16px;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(14px);
@@ -35,6 +35,7 @@
 
 .profile {
     display: flex;
+    margin-left: auto;
     align-items: center;
     gap: 10px;
     text-decoration: none;
@@ -59,7 +60,7 @@
 
     .profile-picture {
         border-radius: 50%;
-        border: 2px solid #1b5e99;
+        border: 2px solid #F4A922;
         box-sizing: border-box;
         object-fit: cover;
     }

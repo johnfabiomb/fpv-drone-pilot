@@ -12,6 +12,7 @@ import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
+import { FEATURES } from '../../feature-flags';
 
 export enum ModalActions {
   EXPLORE = 'EXPLORE',
@@ -31,6 +32,8 @@ export enum ModalActions {
   styleUrl: './map-modal.component.scss'
 })
 export class MapModalComponent {
+
+  readonly features = FEATURES;
 
   @ViewChild('content') content!: ElementRef<any>;
   @ViewChild('frame') frame!: ElementRef<any>;

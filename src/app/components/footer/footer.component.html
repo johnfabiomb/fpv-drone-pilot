@@ -1,5 +1,5 @@
 <div class="bottom-bar">
-  <a class="route-btn" routerLink="/plan">🗺️ Build My Route</a>
+  <a *ngIf="features.ROUTE_BUILDER" class="route-btn" routerLink="/plan">🗺️ Build My Route</a>
   <a class="profile" href="/">
     <div class="text">
       <span class="name">John Montaño</span>

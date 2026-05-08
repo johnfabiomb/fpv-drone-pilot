@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
-import { Point } from 'ol/geom';
+import { Point, Circle as OlCircle } from 'ol/geom';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
 import Cluster from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
@@ -25,7 +25,7 @@ const ICON_TAIL_H = 18;
   styleUrls: ['./map.component.scss'],
   standalone: false
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnDestroy {
   public map!: OlMap;
   private maltaCoordinates = [14.363354400245052, 35.95195406978092];
   private clusterSource!: any;
@@ -33,6 +33,14 @@ export class MapComponent implements AfterViewInit {
   private iconCache = new Map<string, HTMLCanvasElement>();
   private allFeatures: Feature[] = [];
   private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
+
+  private locationFeature = new Feature<Point>();
+  private accuracyFeature = new Feature<OlCircle>();
+  private headingFeature = new Feature<Point>();
+  private watchId: number | null = null;
+  private lastKnownCoords: number[] | null = null;
+  private currentHeadingRad = 0;
+  private coneCanvas: HTMLCanvasElement | null = null;
 
   @Input() set activeFilters(value: string[]) {
     if (this.clusterSource) this.applyFilters(value);
@@ -56,6 +64,7 @@ export class MapComponent implements AfterViewInit {
     );
 
     this.setupClusterLayer();
+    this.setupLocationLayer();
     this.preloadIcons();
 
     this.map.on('moveend', () => {
@@ -277,12 +286,109 @@ export class MapComponent implements AfterViewInit {
     return 60;
   }
 
+  private setupLocationLayer(): void {
+    const source = new VectorSource({
+      features: [this.accuracyFeature, this.headingFeature, this.locationFeature],
+    });
+
+    const locationLayer = new VectorLayer({
+      source,
+      style: (feature) => {
+        if (feature === this.locationFeature) {
+          return new Style({
+            image: new CircleStyle({
+              radius: 9,
+              fill: new Fill({ color: '#4285F4' }),
+              stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
+            }),
+            zIndex: 200,
+          });
+        }
+        if (feature === this.headingFeature) {
+          return new Style({
+            image: new Icon({
+              img: this.getConeCanvas(),
+              size: [60, 60],
+              anchor: [0.5, 0.5],
+              rotation: this.currentHeadingRad,
+            }),
+            zIndex: 198,
+          });
+        }
+        // accuracy ring
+        return new Style({
+          fill: new Fill({ color: 'rgba(66,133,244,0.10)' }),
+          stroke: new Stroke({ color: 'rgba(66,133,244,0.30)', width: 1.5 }),
+          zIndex: 197,
+        });
+      },
+      zIndex: 200,
+    });
+
+    this.map.addLayer(locationLayer);
+    this.startWatchingLocation();
+  }
+
+  private getConeCanvas(): HTMLCanvasElement {
+    if (this.coneCanvas) return this.coneCanvas;
+    const size = 60;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+    const cx = size / 2;
+    const cy = size / 2;
+    // Cone fans upward from center (~70° wide)
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, size / 2 - 2, -Math.PI / 2 - Math.PI / 2.6, -Math.PI / 2 + Math.PI / 2.6);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(66,133,244,0.35)';
+    ctx.fill();
+    this.coneCanvas = canvas;
+    return canvas;
+  }
+
+  private startWatchingLocation(): void {
+    if (!navigator.geolocation) return;
+    this.watchId = navigator.geolocation.watchPosition(
+      pos => this.updateLocationDot(pos),
+      () => {},
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
+    );
+  }
+
+  private updateLocationDot(pos: GeolocationPosition): void {
+    const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
+    this.lastKnownCoords = coords;
+    this.locationFeature.setGeometry(new Point(coords));
+    if (pos.coords.accuracy) {
+      this.accuracyFeature.setGeometry(new OlCircle(coords, pos.coords.accuracy));
+    }
+    if (pos.coords.heading != null && !isNaN(pos.coords.heading)) {
+      this.currentHeadingRad = (pos.coords.heading * Math.PI) / 180;
+      this.headingFeature.setGeometry(new Point(coords));
+    } else {
+      this.headingFeature.setGeometry(null as any);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.watchId !== null) {
+      navigator.geolocation.clearWatch(this.watchId);
+    }
+  }
+
   locateMe(): void {
+    if (this.lastKnownCoords) {
+      this.map.getView().animate({ center: this.lastKnownCoords, zoom: 15, duration: 500 });
+      return;
+    }
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
       pos => {
         const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
-        this.map.getView().animate({ center: coords, zoom: 14, duration: 500 });
+        this.map.getView().animate({ center: coords, zoom: 15, duration: 500 });
       },
       () => {}
     );

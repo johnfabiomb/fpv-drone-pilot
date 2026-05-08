@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MaltaMapComponent } from './platform/malta-map/malta-map.component';
+import { FEATURES } from './feature-flags';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,7 @@ export const routes: Routes = [
     },
     {
         path: 'plan',
+        canMatch: [() => FEATURES.ROUTE_BUILDER],
         loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)
     }
 ];
