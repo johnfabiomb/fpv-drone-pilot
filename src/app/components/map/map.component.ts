@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
 import { Point } from 'ol/geom';
@@ -10,6 +10,8 @@ import { boundingExtent } from 'ol/extent';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
+import { buildRouteFeatures } from '../../shared/utils/route-drawing';
+import { LocationTracker } from '../../shared/utils/location-tracker';
 import { MapModalComponent, ModalActions } from '../map-modal/map-modal.component';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -25,7 +27,7 @@ const ICON_TAIL_H = 18;
   styleUrls: ['./map.component.scss'],
   standalone: false
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnDestroy {
   public map!: OlMap;
   private maltaCoordinates = [14.363354400245052, 35.95195406978092];
   private clusterSource!: any;
@@ -33,6 +35,9 @@ export class MapComponent implements AfterViewInit {
   private iconCache = new Map<string, HTMLCanvasElement>();
   private allFeatures: Feature[] = [];
   private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
+
+  private routeSource = new VectorSource();
+  private tracker!: LocationTracker;
 
   @Input() set activeFilters(value: string[]) {
     if (this.clusterSource) this.applyFilters(value);
@@ -56,6 +61,8 @@ export class MapComponent implements AfterViewInit {
     );
 
     this.setupClusterLayer();
+    this.setupLocationLayer();
+    this.setupRouteLayer();
     this.preloadIcons();
 
     this.map.on('moveend', () => {
@@ -64,6 +71,8 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('click', (evt: any) => {
+      const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
+      console.log(`📍 lat: ${lat}, lon: ${lon}`);
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
       if (!feature) return;
       const subFeatures: Feature[] = feature.get('features');
@@ -277,15 +286,35 @@ export class MapComponent implements AfterViewInit {
     return 60;
   }
 
+  private setupRouteLayer(): void {
+    this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
+  }
+
+  private drawRoute(location: any): void {
+    this.routeSource.clear();
+    const features = buildRouteFeatures(location.mapPoints ?? []);
+    if (!features.length) return;
+    this.routeSource.addFeatures(features);
+    this.map.getView().fit(this.routeSource.getExtent(), { padding: [120, 40, 40, 40], duration: 500, maxZoom: 16 });
+  }
+
+  private clearRoute(): void {
+    this.routeSource.clear();
+  }
+
+  private setupLocationLayer(): void {
+    const source = new VectorSource();
+    this.map.addLayer(new VectorLayer({ source, zIndex: 200 }));
+    this.tracker = new LocationTracker(source, this.map, { showHeadingCone: true, followZoom: 15 });
+    this.tracker.start();
+  }
+
+  ngOnDestroy(): void {
+    this.tracker?.destroy();
+  }
+
   locateMe(): void {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
-        this.map.getView().animate({ center: coords, zoom: 14, duration: 500 });
-      },
-      () => {}
-    );
+    this.tracker.locateMe();
   }
 
   clickon(data: any): void {
@@ -302,7 +331,9 @@ export class MapComponent implements AfterViewInit {
     setTimeout(() => this.modalOpenChange.emit(true), 0);
     setTimeout(() => {
       this.currentDialogRef = this.dialog.open(MapModalComponent, { data: location });
+      this.drawRoute(location);
       this.currentDialogRef.afterClosed().subscribe(res => {
+        this.clearRoute();
         this.currentDialogRef = null;
         if (res !== '__navigated__') {
           setTimeout(() => this.modalOpenChange.emit(false), 0);
@@ -311,13 +342,10 @@ export class MapComponent implements AfterViewInit {
         if (res === ModalActions.EXPLORE) {
           this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
         }
-        if (res === ModalActions.GOOGLE_MAPS) {
-          window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
-        }
       });
     }, 1);
 
-    if ((this.map.getView().getZoom() ?? 0) <= 13) {
+    if ((location.mapPoints?.length ?? 0) < 2 && (this.map.getView().getZoom() ?? 0) <= 13) {
       this.map.getView().animate({ center: flatCoordinates, zoom: 13, duration: 500 });
     }
   }
@@ -331,16 +359,6 @@ export class MapComponent implements AfterViewInit {
     return getCoordinatesfromLonLat(location.lon, location.lat);
   }
 
-  private getGoogleMapsUrl(location: any, flatCoordinates: number[]): string {
-    if (location?.mapPoints?.length > 1) {
-      const origin = location.mapPoints[0];
-      const destination = location.mapPoints[location.mapPoints.length - 1];
-      const waypoints = location.mapPoints.slice(1, -1)
-        .map((p: any) => `${p.lat},${p.lon}`).join('|');
-      return `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lon}&destination=${destination.lat},${destination.lon}${waypoints ? `&waypoints=${waypoints}` : ''}`;
-    }
-    return 'https://maps.google.com/?q=' + getCoordinatesfromPixel(flatCoordinates).reverse().join(',');
-  }
 
   private getMaltaViewCoordinates(): number[] {
     return getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]);

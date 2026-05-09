@@ -1,9 +1,11 @@
-<a href="/">
-  <div class="profile">
-    <img class="profile-picture" src="/assets/images/profile.jpg" width="auto" height="100%" alt="">
+<div class="bottom-bar">
+  <a *ngIf="features.ROUTE_BUILDER" class="route-btn" routerLink="/plan">🗺️ Build My Route</a>
+  <a class="list-btn" routerLink="/list">📍 Browse All</a>
+  <a class="profile" href="/">
     <div class="text">
-      <span class="name">John Montaño</span><br>
+      <span class="name">John Montaño</span>
       <span class="title">FPV Drone Pilot · Malta</span>
     </div>
-  </div>
-</a>
+    <img class="profile-picture" src="/assets/images/profile.jpg" width="36" height="36" alt="John Montaño">
+  </a>
+</div>

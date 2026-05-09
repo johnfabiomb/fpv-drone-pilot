@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule, Location } from '@angular/common';
+import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
 
 @Component({
     selector: 'app-root',
   standalone: true,
-    imports: [RouterOutlet, CommonModule, ComponentsModule],
+    imports: [RouterOutlet, CommonModule, ComponentsModule, PwaPromptComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

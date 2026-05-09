@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MapComponent } from './map/map.component';
 import { FooterComponent } from './footer/footer.component';
 import { FilterBarComponent } from './filter-bar/filter-bar.component';
@@ -19,7 +20,8 @@ import { FilterBarComponent } from './filter-bar/filter-bar.component';
   ],
   imports: [
     CommonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    RouterModule,
   ]
 })
 export class ComponentsModule { }
