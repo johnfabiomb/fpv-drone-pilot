@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Blue Grotto",
       "description": "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of Żurrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
-      "img": "/assets/images/places/3.jpg",
+      "img": "/assets/images/places/blue-grotto.png",
       "lon": 14.4562387,
       "lat": 35.8207177,
       "url": "https://www.instagram.com/johnfabiomb/embed",
@@ -1564,8 +1564,13 @@
     {
       "id": 59,
       "title": "Babu Valley",
-      "description": "Babu Valley is one of Malta’s quietest and greenest hidden trails, nestled just above the cliffs of Żurrieq. With views toward the sea and Blue Grotto, this valley offers a scenic walk through terraced land, rocky slopes, and wild Mediterranean plants. It’s perfect for a peaceful hike or sunset stroll, especially if you want to escape the more crowded nearby viewpoints. Babu’s winding trail connects nature, landscape, and coastal silence all in one beautiful path.",
-      "img": "/assets/images/places/babu.png",
+      "description": "Babu Valley, also known as Wied Babu, is a canyon-like valley in Żurrieq, close to the Blue Grotto area. Known for its steep limestone sides, wild greenery, and peaceful walking paths, it offers a different side of Malta away from the beaches and busy viewpoints. The route is best enjoyed early in the morning, with proper shoes, as some sections can be uneven, narrow, and slippery after rain.",
+        "img": "/assets/images/places/babu/babu-1.png",
+      "images": [
+          "/assets/images/places/babu/babu-3.png",
+        "/assets/images/places/babu/babu-1.png",
+        "/assets/images/places/babu/babu-2.png"
+      ],
       "lon": 14.458520482908382,
       "lat": 35.8220381153492,
       "url": "https://www.instagram.com/johnfabiomb/embed",
@@ -1573,10 +1578,27 @@
       "rating": 4.6,
       "mapPoints": [
         {
-          "label": "Final location",
+          "label": "Parking",
+          "description": "Park here and continue on foot.",
+          "lon": 14.457569691494976,
+          "lat": 35.82255508785779,
+          "type": "parking"
+        },
+        { "lon": 14.458213828578499, "lat": 35.8235858447874,   "type": "waypoint" },
+        { "lon": 14.45920855093738,  "lat": 35.824394865011286, "type": "waypoint" },
+        { "lon": 14.46023794464109,  "lat": 35.82565486638816, "type": "waypoint" },
+        { "lon": 14.46040688189951,  "lat": 35.82552105180842, "type": "waypoint" },
+        { "lon": 14.460516014278806, "lat": 35.82526059185379, "type": "waypoint" },
+        { "lon": 14.460436553836738, "lat": 35.82474721309609, "type": "waypoint" },
+        { "lon": 14.460230275199686, "lat": 35.82441090539413, "type": "waypoint" },
+        { "lon": 14.459919641868149, "lat": 35.82360137561588, "type": "waypoint" },
+        { "lon": 14.459116362177705, "lat": 35.823270737941556, "type": "waypoint" },
+        { "lon": 14.458656111874548, "lat": 35.82278062367307, "type": "waypoint" },
+        {
+          "label": "Babu Valley",
           "description": "Open this exact spot in Google Maps.",
-          "lon": 14.458520482908382,
-          "lat": 35.8220381153492,
+          "lon": 14.458535580106942,
+          "lat": 35.82201032633934,
           "type": "destination"
         }
       ],
