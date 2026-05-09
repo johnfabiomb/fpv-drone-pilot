@@ -8,6 +8,7 @@ import VectorSource from 'ol/source/Vector';
 export interface LocationTrackerOptions {
   showHeadingCone?: boolean;
   followZoom?: number;
+  onFirstFix?: (coord: [number, number]) => void;
 }
 
 export class LocationTracker {
@@ -18,14 +19,17 @@ export class LocationTracker {
   private watchId: number | null = null;
   private source: VectorSource;
   private map: OlMap;
-  private opts: Required<LocationTrackerOptions>;
+  private opts: LocationTrackerOptions & { showHeadingCone: boolean; followZoom: number };
   private coneCanvas: HTMLCanvasElement | null = null;
+  private firstFixFired = false;
 
   constructor(source: VectorSource, map: OlMap, options: LocationTrackerOptions = {}) {
     this.source = source;
     this.map = map;
     this.opts = { showHeadingCone: false, followZoom: 17, ...options };
   }
+
+  get hasGps(): boolean { return this.lastCoord !== null; }
 
   start(): void {
     if (!navigator.geolocation) { this.unavailable = true; return; }
@@ -59,6 +63,10 @@ export class LocationTracker {
     const coord = fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
     this.lastCoord = coord;
     this.updateFeatures(coord, pos.coords.accuracy, pos.coords.heading ?? null);
+    if (!this.firstFixFired) {
+      this.firstFixFired = true;
+      this.opts.onFirstFix?.(coord);
+    }
     if (this.following) {
       this.map.getView().animate({ center: coord, duration: 300 });
     }

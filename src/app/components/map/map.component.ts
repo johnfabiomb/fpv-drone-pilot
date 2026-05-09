@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { fromLonLat } from 'ol/proj';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
 import { Point } from 'ol/geom';
@@ -37,7 +38,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
 
   private routeSource = new VectorSource();
-  private tracker!: LocationTracker;
+  tracker: LocationTracker | null = null;
 
   @Input() set activeFilters(value: string[]) {
     if (this.clusterSource) this.applyFilters(value);
@@ -305,7 +306,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setupLocationLayer(): void {
     const source = new VectorSource();
     this.map.addLayer(new VectorLayer({ source, zIndex: 200 }));
-    this.tracker = new LocationTracker(source, this.map, { showHeadingCone: true, followZoom: 15 });
+    this.tracker = new LocationTracker(source, this.map, {
+      showHeadingCone: true,
+      followZoom: 15,
+      onFirstFix: (coord) => {
+        // Don't auto-pan if the user is already viewing a specific location
+        if (!this.activatedRoute.snapshot.queryParams['title']) {
+          this.map.getView().animate({ center: coord, zoom: 15, duration: 800 });
+        }
+      },
+    });
     this.tracker.start();
   }
 
@@ -314,7 +324,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   locateMe(): void {
-    this.tracker.locateMe();
+    const last = this.tracker?.lastCoord;
+    if (last) {
+      this.map.getView().animate({ center: last, zoom: 15, duration: 400 });
+    } else if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const coord = this.tracker?.lastCoord
+          ?? fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
+        this.map.getView().animate({ center: coord, zoom: 15, duration: 400 });
+      }, () => {});
+    }
   }
 
   clickon(data: any): void {
@@ -345,8 +364,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       });
     }, 1);
 
-    if ((location.mapPoints?.length ?? 0) < 2 && (this.map.getView().getZoom() ?? 0) <= 13) {
-      this.map.getView().animate({ center: flatCoordinates, zoom: 13, duration: 500 });
+    if ((location.mapPoints?.length ?? 0) < 2) {
+      const currentZoom = this.map.getView().getZoom() ?? 10;
+      this.map.getView().animate({ center: flatCoordinates, zoom: Math.max(currentZoom, 13), duration: 500 });
     }
   }
 

@@ -1,5 +1,5 @@
 <div id="ol-map" class="map-container">
-  <button class="locate-btn" (click)="locateMe()" title="My location">
+  <button class="locate-btn" [class.has-gps]="tracker?.hasGps ?? false" (click)="locateMe()" title="My location">
     <i class="fa fa-location-arrow"></i>
   </button>
 </div>
