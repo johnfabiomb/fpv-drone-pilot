@@ -9,6 +9,7 @@ export interface LocationTrackerOptions {
   showHeadingCone?: boolean;
   followZoom?: number;
   onFirstFix?: (coord: [number, number]) => void;
+  onPositionUpdate?: (lat: number, lon: number) => void;
 }
 
 export class LocationTracker {
@@ -63,6 +64,7 @@ export class LocationTracker {
     const coord = fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
     this.lastCoord = coord;
     this.updateFeatures(coord, pos.coords.accuracy, pos.coords.heading ?? null);
+    this.opts.onPositionUpdate?.(pos.coords.latitude, pos.coords.longitude);
     if (!this.firstFixFired) {
       this.firstFixFired = true;
       this.opts.onFirstFix?.(coord);

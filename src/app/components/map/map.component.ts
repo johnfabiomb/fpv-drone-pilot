@@ -8,12 +8,10 @@ import Cluster from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
-import { buildRouteFeatures } from '../../shared/utils/route-drawing';
+import { buildRouteFeatures, makePinStyle } from '../../shared/utils/route-drawing';
 import { LocationTracker } from '../../shared/utils/location-tracker';
-import { MapModalComponent, ModalActions } from '../map-modal/map-modal.component';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
@@ -35,19 +33,24 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private clusterLayer!: any;
   private iconCache = new Map<string, HTMLCanvasElement>();
   private allFeatures: Feature[] = [];
-  private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
 
   private routeSource = new VectorSource();
+  private currentLocation: any = null;
+  private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
 
-  @Input() set activeFilters(value: string[]) {
-    if (this.clusterSource) this.applyFilters(value);
+  @Input() set activeFilters(filters: string[]) {
+    this.applyFilters(filters);
+    if (this.map) {
+      this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
+    }
   }
 
-  @Output() modalOpenChange = new EventEmitter<boolean>();
+  @Output() locationSelected = new EventEmitter<any | null>();
+  @Output() mapTapped = new EventEmitter<void>();
+  @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
 
   constructor(
-    public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
     public router: Router,
     public seoService: SeoService,
@@ -65,6 +68,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.setupLocationLayer();
     this.setupRouteLayer();
     this.preloadIcons();
+    requestAnimationFrame(() => this.map.updateSize());
 
     this.map.on('moveend', () => {
       const zoom = this.map.getView().getZoom() ?? 10;
@@ -75,7 +79,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
       console.log(`📍 lat: ${lat}, lon: ${lon}`);
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
-      if (!feature) return;
+      if (!feature) { this.mapTapped.emit(); return; }
       const subFeatures: Feature[] = feature.get('features');
       if (!subFeatures?.length) return;
 
@@ -105,12 +109,32 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           location_id: place?.id,
           location_tags: place?.tags,
         });
-        this.openDialog(place, this.getLocationMapCoordinates(place));
+        this.showLocation(place ?? null);
+        setTimeout(() => this.locationSelected.emit(place ?? null));
       } else {
         this.seoService.updateMetaData();
         this.analyticsService.pageView(window.location.href, 'Explore Malta - Map');
+        this.clearRoute();
+        setTimeout(() => this.locationSelected.emit(null));
       }
     });
+  }
+
+  private showLocation(location: any): void {
+    if (!location) return;
+    this.currentLocation = location;
+    this.clusterLayer.setVisible(false);
+    this.drawRoute(location);
+    // Primary refit — fires after current paint so OL state is settled
+    requestAnimationFrame(() => this.refitRoute());
+  }
+
+  closeLocation(): void {
+    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
+  }
+
+  resetToMalta(): void {
+    this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
   }
 
   private preloadIcons(): void {
@@ -122,14 +146,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const cx = W / 2;
         const cy = W / 2;
         const r = W / 2 - 2;
-        const tailAngle = Math.PI / 8; // narrow tail ~22.5°
+        const tailAngle = Math.PI / 8;
 
         const canvas = document.createElement('canvas');
         canvas.width = W;
         canvas.height = H;
         const ctx = canvas.getContext('2d')!;
 
-        // Teardrop background with soft shadow
         ctx.save();
         ctx.shadowColor = 'rgba(0,0,0,0.22)';
         ctx.shadowBlur = 8;
@@ -143,7 +166,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         ctx.fill();
         ctx.restore();
 
-        // Subtle stroke to define edges
         ctx.beginPath();
         ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
         ctx.lineTo(cx, H - 1);
@@ -152,7 +174,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Photo clipped to circle
         ctx.save();
         ctx.beginPath();
         ctx.arc(cx, cy, r - 2, 0, Math.PI * 2);
@@ -160,7 +181,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         ctx.drawImage(img, 0, 0, W, W);
         ctx.restore();
 
-        // Border ring around photo
         ctx.beginPath();
         ctx.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
         ctx.strokeStyle = '#fff';
@@ -196,27 +216,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.addLayer(this.clusterLayer);
   }
 
-  private applyFilters(filters: string[]): void {
-    const filtered = filters.length === 0
-      ? this.allFeatures
-      : this.allFeatures.filter(f => filters.some(filter => this.matchesFilter(f.get('location'), filter)));
-    const source = this.clusterSource.getSource();
-    source.clear(true);
-    source.addFeatures(filtered);
-  }
-
-  private matchesFilter(location: any, filter: string): boolean {
-    const tags: string[] = location.tags ?? [];
-    switch (filter) {
-      case 'beach':      return tags.includes('beach') || tags.includes('bay');
-      case 'cave':       return tags.includes('cave') || tags.includes('sea-cave') || tags.includes('grotto');
-      case 'historical': return tags.includes('historical') || tags.includes('religious') || tags.includes('fortress') || tags.includes('fortification') || tags.includes('church') || tags.includes('cultural');
-      case 'hidden':     return tags.includes('hidden');
-      case 'easy':       return tags.includes('easy');
-      case 'hard':       return tags.includes('hard');
-      default:           return true;
-    }
-  }
 
   private clusterStyle(feature: any): Style {
     const subFeatures: Feature[] = feature.get('features');
@@ -243,7 +242,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         });
       }
 
-      // placeholder while image loads
       return new Style({
         image: new CircleStyle({
           radius: iconSize / 2,
@@ -294,13 +292,39 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private drawRoute(location: any): void {
     this.routeSource.clear();
     const features = buildRouteFeatures(location.mapPoints ?? []);
-    if (!features.length) return;
-    this.routeSource.addFeatures(features);
-    this.map.getView().fit(this.routeSource.getExtent(), { padding: [120, 40, 40, 40], duration: 500, maxZoom: 16 });
+    this.hasRouteFeatures = features.length > 0;
+    if (this.hasRouteFeatures) {
+      this.routeSource.addFeatures(features);
+    } else {
+      // No route — show a single pin so the map isn't empty
+      const pin = new Feature({ geometry: new Point(getCoordinatesfromLonLat(location.lon, location.lat)) });
+      pin.setStyle(makePinStyle('#F4A922'));
+      this.routeSource.addFeature(pin);
+    }
   }
 
   private clearRoute(): void {
     this.routeSource.clear();
+    this.currentLocation = null;
+    this.hasRouteFeatures = false;
+    this.clusterLayer.setVisible(true);
+  }
+
+  // Called by parent after updateSize() so the fit uses the correct viewport dimensions
+  refitRoute(): void {
+    if (!this.currentLocation) return;
+    if (this.hasRouteFeatures) {
+      this.map.getView().fit(this.routeSource.getExtent(), {
+        padding: [70, 40, 50, 40],
+        duration: 450,
+        maxZoom: 16,
+      });
+    } else {
+      // Fixed zoom — never inherit current zoom so switching from a zoomed-in
+      // location always resets to a sensible level for a single point
+      const flatCoords = this.getLocationMapCoordinates(this.currentLocation);
+      this.map.getView().animate({ center: flatCoords, zoom: 14, duration: 450 });
+    }
   }
 
   private setupLocationLayer(): void {
@@ -309,18 +333,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.tracker = new LocationTracker(source, this.map, {
       showHeadingCone: true,
       followZoom: 15,
-      onFirstFix: (coord) => {
-        // Don't auto-pan if the user is already viewing a specific location
-        if (!this.activatedRoute.snapshot.queryParams['title']) {
-          this.map.getView().animate({ center: coord, zoom: 15, duration: 800 });
-        }
-      },
+      onPositionUpdate: (lat, lon) => this.gpsCoord.emit({ lat, lon }),
     });
     this.tracker.start();
   }
 
   ngOnDestroy(): void {
     this.tracker?.destroy();
+  }
+
+  updateSize(): void {
+    this.map?.updateSize();
   }
 
   locateMe(): void {
@@ -341,35 +364,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
-  private openDialog(location: any, flatCoordinates: number[]): void {
-    if (this.currentDialogRef) {
-      this.currentDialogRef.close('__navigated__');
-      this.currentDialogRef = null;
-    }
-
-    setTimeout(() => this.modalOpenChange.emit(true), 0);
-    setTimeout(() => {
-      this.currentDialogRef = this.dialog.open(MapModalComponent, { data: location });
-      this.drawRoute(location);
-      this.currentDialogRef.afterClosed().subscribe(res => {
-        this.clearRoute();
-        this.currentDialogRef = null;
-        if (res !== '__navigated__') {
-          setTimeout(() => this.modalOpenChange.emit(false), 0);
-          this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
-        }
-        if (res === ModalActions.EXPLORE) {
-          this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
-        }
-      });
-    }, 1);
-
-    if ((location.mapPoints?.length ?? 0) < 2) {
-      const currentZoom = this.map.getView().getZoom() ?? 10;
-      this.map.getView().animate({ center: flatCoordinates, zoom: Math.max(currentZoom, 13), duration: 500 });
-    }
-  }
-
   private getLocationMapCoordinates(location: any): number[] {
     if (location?.mapPoints?.length) {
       const dest = location.mapPoints.find((p: any) => p.type === 'destination')
@@ -379,6 +373,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return getCoordinatesfromLonLat(location.lon, location.lat);
   }
 
+  private applyFilters(filters: string[]): void {
+    if (!this.clusterSource) return;
+    const filtered = filters.length === 0
+      ? this.allFeatures
+      : this.allFeatures.filter(f => filters.some(flt => this.matchesFilter(f.get('location'), flt)));
+    this.clusterSource.getSource().clear();
+    this.clusterSource.getSource().addFeatures(filtered);
+  }
+
+  private matchesFilter(loc: any, filter: string): boolean {
+    const tags: string[] = loc.tags ?? [];
+    switch (filter) {
+      case 'beach':      return tags.includes('beach') || tags.includes('bay');
+      case 'cave':       return tags.includes('cave') || tags.includes('sea-cave');
+      case 'historical': return tags.includes('historical') || tags.includes('religious') || tags.includes('fortress') || tags.includes('fortification') || tags.includes('cultural');
+      case 'hidden':     return tags.includes('hidden');
+      case 'easy':       return tags.includes('easy');
+      case 'hard':       return tags.includes('hard');
+      case 'gozo':       return tags.includes('gozo');
+      case 'comino':     return tags.includes('comino');
+      default:           return true;
+    }
+  }
 
   private getMaltaViewCoordinates(): number[] {
     return getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]);

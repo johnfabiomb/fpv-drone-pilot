@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
 import { locations } from '../../../assets/locations.json';
-import { MapModalComponent } from '../../components/map-modal/map-modal.component';
 
 interface FilterOption { id: string; label: string; emoji: string; }
 type SortMode = 'distance' | 'rating' | 'alpha';
@@ -21,7 +19,7 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
 @Component({
   selector: 'app-location-list',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './location-list.component.html',
   styleUrl: './location-list.component.scss',
 })
@@ -41,11 +39,12 @@ export class LocationListComponent implements OnInit, OnDestroy {
 
   activeFilters = new Set<string>();
   sortMode: SortMode = 'rating';
+  searchQuery = '';
   userLat: number | null = null;
   userLon: number | null = null;
   private watchId: number | null = null;
 
-  constructor(private router: Router, private dialog: MatDialog) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     if (navigator.geolocation) {
@@ -66,9 +65,15 @@ export class LocationListComponent implements OnInit, OnDestroy {
   }
 
   get filteredLocations(): any[] {
+    const q = this.searchQuery.trim().toLowerCase();
+
     let list = this.activeFilters.size === 0
       ? [...this.allLocations]
       : this.allLocations.filter(loc => [...this.activeFilters].some(f => this.matchesFilter(loc, f)));
+
+    if (q) {
+      list = list.filter(loc => loc.title.toLowerCase().includes(q));
+    }
 
     if (this.sortMode === 'distance' && this.userLat !== null) {
       list = list.map(loc => ({
@@ -124,7 +129,8 @@ export class LocationListComponent implements OnInit, OnDestroy {
   }
 
   openLocation(loc: any): void {
-    this.dialog.open(MapModalComponent, { data: loc });
+    const title = encodeURIComponent(loc.title.replace(' ', '-'));
+    this.router.navigate(['/malta'], { queryParams: { title } });
   }
 
   goToMap(): void {

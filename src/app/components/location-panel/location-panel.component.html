@@ -1,0 +1,99 @@
+<div class="panel-header"
+  (touchstart)="headerDragStart.emit($event)"
+  (touchmove)="headerDragMove.emit($event)"
+  (touchend)="headerDragEnd.emit($event)">
+
+  <div class="drag-bar"></div>
+
+  <!-- Normal header -->
+  <div class="panel-header__row" *ngIf="!confirmingClose">
+    <button class="close-btn" (click)="onCloseRequested()" title="Close">
+      <i class="fa fa-times"></i>
+    </button>
+    <span class="panel-title">{{ location?.title }}</span>
+    <button class="toggle-btn" (click)="toggleCollapse.emit()" title="Expand / collapse">
+      <i class="fa" [class.fa-chevron-up]="minimized" [class.fa-chevron-down]="!minimized"></i>
+    </button>
+  </div>
+
+  <!-- Confirm close (only shown when in hiking mode) -->
+  <div class="panel-header__confirm" *ngIf="confirmingClose">
+    <span class="confirm-text">Leave your route?</span>
+    <div class="confirm-actions">
+      <button class="confirm-stay" (click)="confirmingClose = false">Stay</button>
+      <button class="confirm-leave" (click)="onConfirmClose()">Leave</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel-body">
+
+  <!-- Nearby prompt — only shown when GPS places user within 500 m -->
+  <div class="nearby-banner" *ngIf="showNearbyPrompt">
+    <div class="nearby-banner__text">
+      <i class="fa fa-map-marker"></i>
+      You're close to this location — are you starting your hike?
+    </div>
+    <div class="nearby-banner__actions">
+      <button class="nearby-btn nearby-btn--stay" (click)="dismissNearbyPrompt()">Just exploring</button>
+      <button class="nearby-btn nearby-btn--start" (click)="activateHikingMode()">I'm heading there!</button>
+    </div>
+  </div>
+
+  <!-- Hiking mode active indicator -->
+  <div class="hiking-active" *ngIf="nearbyMode">
+    <i class="fa fa-street-view"></i> Route active — closing will ask for confirmation
+  </div>
+
+  <div class="meta" *ngIf="location?.tags?.length || location?.rating">
+    <span class="tag" *ngFor="let tag of location?.tags">{{ formatTag(tag) }}</span>
+    <span class="rating" *ngIf="location?.rating"><i class="fa fa-star"></i> {{ location.rating }}</span>
+  </div>
+
+  <app-image-gallery [src]="location?.images?.length ? location.images : [location?.img]"></app-image-gallery>
+
+  <div [innerHTML]="location?.description" class="description"></div>
+
+  <hr class="divider">
+
+  <div class="actions">
+    <div *ngIf="visibleMapPoints().length" class="nav-section">
+      <div *ngIf="hasRecordedRoute()" class="route-alert">
+        <i class="fa fa-map"></i>
+        Follow the route on the map above — Google Maps may take a different path.
+      </div>
+      <div class="nav-section__label">Google Maps directions</div>
+      <div
+        *ngFor="let point of visibleMapPoints(); let i = index"
+        (click)="navigateTo(point, i)"
+        class="button nav-btn"
+        [class.blue-btn]="point.type === 'parking'"
+        [class.checkpoint-btn]="point.type === 'checkpoint'">
+        <span>{{ pointLabel(point, i) }}</span>
+        <span class="nav-btn__hint">Opens Google Maps</span>
+      </div>
+    </div>
+
+    <div class="actions-row">
+      <div (click)="onExplore()" class="button">Explore <b>Malta</b> <i class="fa fa-map"></i></div>
+      <div (click)="share()" class="button share-btn">
+        <i class="fa fa-share-alt"></i> {{ shareLabel }}
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <h4>Explore More Locations</h4>
+    <div class="recommendation-section">
+      <div *ngFor="let item of recommendedLocations" class="location">
+        <img (click)="clickon(item)" [src]="item.img" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-2" *ngIf="location?.url && frameVisible">
+    <iframe [src]="location.url | safe" width="100%" height="320"
+      frameborder="0" scrolling="no" allowtransparency="true">
+    </iframe>
+  </div>
+</div>
