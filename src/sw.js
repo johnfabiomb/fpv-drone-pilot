@@ -4,7 +4,7 @@ const IMG_CACHE   = 'location-imgs-v1';
 const MAX_TILES   = 1200;
 const MAX_IMGS    = 300;
 
-const SHELL_URLS = ['/', '/index.html'];
+const SHELL_URLS = ['/', '/index.html', '/assets/locations.json'];
 
 // ── Install: cache the app shell ─────────────────────────────────────────────
 self.addEventListener('install', event => {
@@ -91,6 +91,7 @@ function isAppAsset(url) {
     url.origin === self.location.origin &&
     (url.pathname.endsWith('.js') ||
       url.pathname.endsWith('.css') ||
+      url.pathname.endsWith('.json') ||
       url.pathname.endsWith('.woff2') ||
       url.pathname.endsWith('.woff') ||
       url.pathname.endsWith('.ico'))

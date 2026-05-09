@@ -166,14 +166,29 @@ Always include the difficulty as a tag as well (e.g. `"easy"`, `"moderate"`, `"h
 
 ## mapPoints
 
-Every location needs at least one entry in `mapPoints` — the final destination. If the spot has a tricky approach (e.g. a parking area + the actual location), add multiple points.
+Every location needs at least one entry in `mapPoints`. Points are shown as navigation buttons in the modal — each one routes from the previous point, so the order matters.
+
+### Point types
+
+| Type | Button shown | Travel mode | When to use |
+|---|---|---|---|
+| `parking` | 🚗 Drive to Parking | Driving | Where to park the car/bus stop |
+| `checkpoint` | 🚶 Walk to [label] | Walking | Visible mid-trail waypoint worth calling out |
+| `destination` | 📍 [label] | Walking | The final spot |
+| `waypoint` | *(hidden — no button)* | — | Invisible trail coords used internally |
+
+**Routing logic:**
+- First button → Google Maps routes from the user's current location
+- Each subsequent button → routes *from the previous point* (e.g. parking → destination is a walking route starting at the parking coords)
+
+---
 
 **Single point (most locations):**
 ```json
 "mapPoints": [
     {
         "label": "Final location",
-        "description": "Open this exact spot in Google Maps.",
+        "description": "The cliff edge viewpoint.",
         "lon": 14.000000,
         "lat": 35.000000,
         "type": "destination"
@@ -181,19 +196,19 @@ Every location needs at least one entry in `mapPoints` — the final destination
 ]
 ```
 
-**Multiple points (parking + destination):**
+**Parking + destination:**
 ```json
 "mapPoints": [
     {
-        "label": "Parking spot",
-        "description": "Park here and walk down the trail.",
+        "label": "Parking area",
+        "description": "Park here and follow the trail.",
         "lon": 14.344498,
         "lat": 35.920518,
         "type": "parking"
     },
     {
         "label": "Final location",
-        "description": "Open this exact spot in Google Maps.",
+        "description": "The cliff edge viewpoint.",
         "lon": 14.345000,
         "lat": 35.921000,
         "type": "destination"
@@ -201,7 +216,40 @@ Every location needs at least one entry in `mapPoints` — the final destination
 ]
 ```
 
-When there are multiple `mapPoints`, the modal shows each one with an "Open on Google Maps" button. Add parking whenever Google Maps might send people the wrong way.
+**Parking + checkpoint + destination:**
+```json
+"mapPoints": [
+    {
+        "label": "Parking area",
+        "description": "Park here.",
+        "lon": 14.344498,
+        "lat": 35.920518,
+        "type": "parking"
+    },
+    {
+        "label": "Trail junction",
+        "description": "Turn left at the fork.",
+        "lon": 14.344800,
+        "lat": 35.920800,
+        "type": "checkpoint"
+    },
+    {
+        "label": "Final location",
+        "description": "The viewpoint.",
+        "lon": 14.345000,
+        "lat": 35.921000,
+        "type": "destination"
+    }
+]
+```
+
+**Adding hidden waypoints (trail path only, no button shown):**
+
+Use `type: "waypoint"` for intermediate GPS coords that guide the routing internally but don't need their own button. Get the coords by clicking on the map in the app — the browser console logs `📍 lat: ..., lon: ...` on every tap.
+
+```json
+{ "lon": 14.399677, "lat": 35.844461, "type": "waypoint" }
+```
 
 ---
 

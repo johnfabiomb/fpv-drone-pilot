@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
 import { FEATURES } from '../../feature-flags';
+import { RouteMapComponent } from '../route-map/route-map.component';
 
 export enum ModalActions {
   EXPLORE = 'EXPLORE',
@@ -27,6 +28,7 @@ export enum ModalActions {
     CommonModule,
     PipesModule,
     ImageGalleryComponent,
+    RouteMapComponent,
   ],
   templateUrl: './map-modal.component.html',
   styleUrl: './map-modal.component.scss'
@@ -34,6 +36,8 @@ export enum ModalActions {
 export class MapModalComponent {
 
   readonly features = FEATURES;
+  shareLabel = 'Share';
+  shareLabelTimer: any;
 
   @ViewChild('content') content!: ElementRef<any>;
   @ViewChild('frame') frame!: ElementRef<any>;
@@ -93,21 +97,65 @@ export class MapModalComponent {
     this.dialogRef.close(ModalActions.EXPLORE);
   }
 
-  googleMaps() {
-    this.analyticsService.event('google_maps_open', { location_title: this.data?.title, location_id: this.data?.id });
-    this.dialogRef.close(ModalActions.GOOGLE_MAPS);
-  }
-
   buildTripFrom() {
     this.analyticsService.event('build_trip_from', { location_title: this.data?.title, location_id: this.data?.id });
     this.router.navigate(['/plan'], { queryParams: { from: this.data.id } });
     this.dialogRef.close('__navigated__');
   }
 
-  openPointOnMap(point: any) {
-    this.analyticsService.event('map_point_open', { location_title: this.data?.title, point_label: point.label });
-    const url = `https://maps.google.com/?q=${point.lat},${point.lon}`;
+  hasRecordedRoute(): boolean {
+    return (this.data?.mapPoints ?? []).some((p: any) => p.type === 'waypoint');
+  }
+
+  visibleMapPoints(): any[] {
+    return (this.data?.mapPoints ?? []).filter((p: any) =>
+      p.type !== 'waypoint' && p.showButton !== false
+    );
+  }
+
+  navigateTo(point: any, index: number) {
+    const visible = this.visibleMapPoints();
+    const prev = index > 0 ? visible[index - 1] : null;
+    const mode = point.type === 'parking' ? 'driving' : 'walking';
+    let url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lon}&travelmode=${mode}`;
+    if (prev && point.type !== 'destination') url += `&origin=${prev.lat},${prev.lon}`;
+    this.analyticsService.event('navigate_to_point', { location_title: this.data?.title, point_type: point.type });
     window.open(url, '_blank');
+  }
+
+  pointLabel(point: any, index: number): string {
+    const isOnly = index === 0;
+    switch (point.type) {
+      case 'parking':     return '🚗 Drive to Parking';
+      case 'checkpoint':  return '🚶 Walk to ' + (point.label ?? 'Checkpoint');
+      case 'destination': return isOnly ? '🗺️ Get Directions' : '🚶 Walk to ' + (point.label ?? 'Final Destination');
+      default:            return '📍 ' + (point.label ?? 'Get Directions');
+    }
+  }
+
+  share() {
+    const title = encodeURIComponent(this.data.title.replace(/ /g, '-'));
+    const url = `${location.origin}/#/malta?title=${title}`;
+    const share = () => {
+      clearTimeout(this.shareLabelTimer);
+      this.shareLabel = 'Copied!';
+      this.shareLabelTimer = setTimeout(() => this.shareLabel = 'Share', 2500);
+    };
+    if (navigator.share) {
+      navigator.share({ title: this.data.title, url }).catch(() => {});
+      return;
+    }
+    navigator.clipboard.writeText(url).then(share).catch(() => {
+      // fallback for browsers without clipboard API
+      const el = document.createElement('input');
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      share();
+    });
+    this.analyticsService.event('location_share', { location_title: this.data?.title, location_id: this.data?.id });
   }
 
   clickon(data: any) {

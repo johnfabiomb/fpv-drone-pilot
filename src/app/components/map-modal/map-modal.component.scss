@@ -3,6 +3,7 @@
 .map-modal {
     --border-radius: 12px;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 100dvh;
     position: relative;
 
@@ -134,6 +135,70 @@
                     opacity: 0.9;
                     box-shadow: 0 4px 12px rgba(244, 169, 34, 0.4);
                 }
+            }
+
+            .checkpoint-btn {
+                border-color: #22c55e !important;
+                color: #15803d !important;
+            }
+
+            .nav-btn {
+                flex-direction: column;
+                gap: 2px !important;
+                height: auto !important;
+                padding: 10px 0px !important;
+
+                .nav-btn__hint {
+                    font-size: 10px;
+                    font-weight: 400;
+                    opacity: 0.55;
+                    letter-spacing: 0.2px;
+                }
+            }
+
+            .share-btn {
+                transition: background 0.2s, color 0.2s;
+            }
+        }
+
+        .parking-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            background: rgba(244, 169, 34, 0.08);
+            border: 1px solid rgba(244, 169, 34, 0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.4;
+
+            &__icon { flex-shrink: 0; font-size: 16px; }
+        }
+
+        .nav-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            &__label {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+                color: var(--color-text-muted, #6b7280);
+            }
+        }
+
+        .actions-row {
+            display: flex;
+            gap: 8px;
+
+            .button {
+                flex: 1;
+                font-size: 12px;
+                padding: 0 8px;
+                min-width: 0;
             }
         }
 

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
-import { Point, Circle as OlCircle } from 'ol/geom';
+import { Point } from 'ol/geom';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
 import Cluster from 'ol/source/Cluster';
 import VectorSource from 'ol/source/Vector';
@@ -10,6 +10,8 @@ import { boundingExtent } from 'ol/extent';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
+import { buildRouteFeatures } from '../../shared/utils/route-drawing';
+import { LocationTracker } from '../../shared/utils/location-tracker';
 import { MapModalComponent, ModalActions } from '../map-modal/map-modal.component';
 import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -34,13 +36,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private allFeatures: Feature[] = [];
   private currentDialogRef: MatDialogRef<MapModalComponent> | null = null;
 
-  private locationFeature = new Feature<Point>();
-  private accuracyFeature = new Feature<OlCircle>();
-  private headingFeature = new Feature<Point>();
-  private watchId: number | null = null;
-  private lastKnownCoords: number[] | null = null;
-  private currentHeadingRad = 0;
-  private coneCanvas: HTMLCanvasElement | null = null;
+  private routeSource = new VectorSource();
+  private tracker!: LocationTracker;
 
   @Input() set activeFilters(value: string[]) {
     if (this.clusterSource) this.applyFilters(value);
@@ -65,6 +62,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     this.setupClusterLayer();
     this.setupLocationLayer();
+    this.setupRouteLayer();
     this.preloadIcons();
 
     this.map.on('moveend', () => {
@@ -73,6 +71,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
 
     this.map.on('click', (evt: any) => {
+      const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
+      console.log(`📍 lat: ${lat}, lon: ${lon}`);
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
       if (!feature) return;
       const subFeatures: Feature[] = feature.get('features');
@@ -286,112 +286,35 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return 60;
   }
 
+  private setupRouteLayer(): void {
+    this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
+  }
+
+  private drawRoute(location: any): void {
+    this.routeSource.clear();
+    const features = buildRouteFeatures(location.mapPoints ?? []);
+    if (!features.length) return;
+    this.routeSource.addFeatures(features);
+    this.map.getView().fit(this.routeSource.getExtent(), { padding: [120, 40, 40, 40], duration: 500, maxZoom: 16 });
+  }
+
+  private clearRoute(): void {
+    this.routeSource.clear();
+  }
+
   private setupLocationLayer(): void {
-    const source = new VectorSource({
-      features: [this.accuracyFeature, this.headingFeature, this.locationFeature],
-    });
-
-    const locationLayer = new VectorLayer({
-      source,
-      style: (feature) => {
-        if (feature === this.locationFeature) {
-          return new Style({
-            image: new CircleStyle({
-              radius: 9,
-              fill: new Fill({ color: '#4285F4' }),
-              stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
-            }),
-            zIndex: 200,
-          });
-        }
-        if (feature === this.headingFeature) {
-          return new Style({
-            image: new Icon({
-              img: this.getConeCanvas(),
-              size: [60, 60],
-              anchor: [0.5, 0.5],
-              rotation: this.currentHeadingRad,
-            }),
-            zIndex: 198,
-          });
-        }
-        // accuracy ring
-        return new Style({
-          fill: new Fill({ color: 'rgba(66,133,244,0.10)' }),
-          stroke: new Stroke({ color: 'rgba(66,133,244,0.30)', width: 1.5 }),
-          zIndex: 197,
-        });
-      },
-      zIndex: 200,
-    });
-
-    this.map.addLayer(locationLayer);
-    this.startWatchingLocation();
-  }
-
-  private getConeCanvas(): HTMLCanvasElement {
-    if (this.coneCanvas) return this.coneCanvas;
-    const size = 60;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d')!;
-    const cx = size / 2;
-    const cy = size / 2;
-    // Cone fans upward from center (~70° wide)
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, size / 2 - 2, -Math.PI / 2 - Math.PI / 2.6, -Math.PI / 2 + Math.PI / 2.6);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(66,133,244,0.35)';
-    ctx.fill();
-    this.coneCanvas = canvas;
-    return canvas;
-  }
-
-  private startWatchingLocation(): void {
-    if (!navigator.geolocation) return;
-    this.watchId = navigator.geolocation.watchPosition(
-      pos => this.updateLocationDot(pos),
-      () => {},
-      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
-    );
-  }
-
-  private updateLocationDot(pos: GeolocationPosition): void {
-    const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
-    this.lastKnownCoords = coords;
-    this.locationFeature.setGeometry(new Point(coords));
-    if (pos.coords.accuracy) {
-      this.accuracyFeature.setGeometry(new OlCircle(coords, pos.coords.accuracy));
-    }
-    if (pos.coords.heading != null && !isNaN(pos.coords.heading)) {
-      this.currentHeadingRad = (pos.coords.heading * Math.PI) / 180;
-      this.headingFeature.setGeometry(new Point(coords));
-    } else {
-      this.headingFeature.setGeometry(null as any);
-    }
+    const source = new VectorSource();
+    this.map.addLayer(new VectorLayer({ source, zIndex: 200 }));
+    this.tracker = new LocationTracker(source, this.map, { showHeadingCone: true, followZoom: 15 });
+    this.tracker.start();
   }
 
   ngOnDestroy(): void {
-    if (this.watchId !== null) {
-      navigator.geolocation.clearWatch(this.watchId);
-    }
+    this.tracker?.destroy();
   }
 
   locateMe(): void {
-    if (this.lastKnownCoords) {
-      this.map.getView().animate({ center: this.lastKnownCoords, zoom: 15, duration: 500 });
-      return;
-    }
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        const coords = getCoordinatesfromLonLat(pos.coords.longitude, pos.coords.latitude);
-        this.map.getView().animate({ center: coords, zoom: 15, duration: 500 });
-      },
-      () => {}
-    );
+    this.tracker.locateMe();
   }
 
   clickon(data: any): void {
@@ -408,7 +331,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.modalOpenChange.emit(true), 0);
     setTimeout(() => {
       this.currentDialogRef = this.dialog.open(MapModalComponent, { data: location });
+      this.drawRoute(location);
       this.currentDialogRef.afterClosed().subscribe(res => {
+        this.clearRoute();
         this.currentDialogRef = null;
         if (res !== '__navigated__') {
           setTimeout(() => this.modalOpenChange.emit(false), 0);
@@ -417,13 +342,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         if (res === ModalActions.EXPLORE) {
           this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
         }
-        if (res === ModalActions.GOOGLE_MAPS) {
-          window.open(this.getGoogleMapsUrl(location, flatCoordinates), '_blank');
-        }
       });
     }, 1);
 
-    if ((this.map.getView().getZoom() ?? 0) <= 13) {
+    if ((location.mapPoints?.length ?? 0) < 2 && (this.map.getView().getZoom() ?? 0) <= 13) {
       this.map.getView().animate({ center: flatCoordinates, zoom: 13, duration: 500 });
     }
   }
@@ -437,16 +359,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return getCoordinatesfromLonLat(location.lon, location.lat);
   }
 
-  private getGoogleMapsUrl(location: any, flatCoordinates: number[]): string {
-    if (location?.mapPoints?.length > 1) {
-      const origin = location.mapPoints[0];
-      const destination = location.mapPoints[location.mapPoints.length - 1];
-      const waypoints = location.mapPoints.slice(1, -1)
-        .map((p: any) => `${p.lat},${p.lon}`).join('|');
-      return `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lon}&destination=${destination.lat},${destination.lon}${waypoints ? `&waypoints=${waypoints}` : ''}`;
-    }
-    return 'https://maps.google.com/?q=' + getCoordinatesfromPixel(flatCoordinates).reverse().join(',');
-  }
 
   private getMaltaViewCoordinates(): number[] {
     return getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]);

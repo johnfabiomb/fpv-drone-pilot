@@ -1,0 +1,68 @@
+<div class="list-page">
+
+  <div class="list-header">
+    <button class="back-btn" (click)="goToMap()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
+    <span class="list-title">Browse Locations</span>
+    <span class="list-count">{{ filteredLocations.length }}</span>
+  </div>
+
+  <div class="controls">
+    <div class="filter-chips">
+      <div
+        *ngFor="let f of filters"
+        class="chip"
+        [class.active]="activeFilters.has(f.id)"
+        (click)="toggleFilter(f.id)"
+      >
+        {{ f.emoji }} {{ f.label }}
+      </div>
+    </div>
+
+    <div class="sort-row">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn" [class.active]="sortMode === 'distance'" (click)="setSort('distance')" [disabled]="userLat === null">
+        📍 Near me
+      </button>
+      <button class="sort-btn" [class.active]="sortMode === 'rating'" (click)="setSort('rating')">
+        ⭐ Rating
+      </button>
+      <button class="sort-btn" [class.active]="sortMode === 'alpha'" (click)="setSort('alpha')">
+        A–Z
+      </button>
+    </div>
+  </div>
+
+  <div class="location-list">
+    <div
+      class="loc-card"
+      *ngFor="let loc of filteredLocations"
+      (click)="openLocation(loc)"
+    >
+      <img class="loc-thumb" [src]="loc.img" [alt]="loc.title" loading="lazy">
+      <div class="loc-info">
+        <div class="loc-top">
+          <span class="loc-title">{{ loc.title }}</span>
+          <span class="loc-rating" *ngIf="loc.rating">⭐ {{ loc.rating }}</span>
+        </div>
+        <div class="loc-badges">
+          <span
+            class="badge badge--diff"
+            [style.background]="difficultyColor(loc.difficulty)"
+          >{{ loc.difficulty }}</span>
+          <span class="badge badge--island" *ngIf="islandLabel(loc)">{{ islandLabel(loc) }}</span>
+          <span class="badge badge--hidden" *ngIf="loc.hidden">hidden gem</span>
+        </div>
+        <div class="loc-distance" *ngIf="distanceLabel(loc)">
+          📍 {{ distanceLabel(loc) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="filteredLocations.length === 0">
+      No locations match the selected filters.
+    </div>
+  </div>
+
+</div>
