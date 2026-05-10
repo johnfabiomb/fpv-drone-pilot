@@ -2,7 +2,6 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
-import ScaleLine from 'ol/control/ScaleLine';
 import { defaults as defaultControls } from 'ol/control';
 import Feature, { FeatureLike } from 'ol/Feature';
 import * as layer from 'ol/layer';
@@ -32,9 +31,7 @@ export const getCoordinatesfromPixel = (arr: Array<number>) => proj.toLonLat(arr
  */
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({
     target,
-    controls: defaultControls({ rotate: false }).extend([
-        new ScaleLine({ units: 'metric', minWidth: 80 }),
-    ]),
+    controls: defaultControls({ rotate: false }),
     layers: [
         new TileLayer({
             source: new XYZ({

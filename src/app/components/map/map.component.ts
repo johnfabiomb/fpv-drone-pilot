@@ -3,8 +3,7 @@ import { fromLonLat } from 'ol/proj';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
 import { Point } from 'ol/geom';
-import { Style, Icon, Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
-import Cluster from 'ol/source/Cluster';
+import { Style, Icon, Circle as CircleStyle, Fill, Stroke } from 'ol/style';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
@@ -19,6 +18,7 @@ import { AnalyticsService } from '../../shared/services/analytics.service';
 
 const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
+const CLUSTER_ZOOM = 13; // below this zoom → locality clusters; above → individual pins
 
 @Component({
   selector: 'app-map',
@@ -29,10 +29,15 @@ const ICON_TAIL_H = 18;
 export class MapComponent implements AfterViewInit, OnDestroy {
   public map!: OlMap;
   private maltaCoordinates = [14.363354400245052, 35.95195406978092];
-  private clusterSource!: any;
+  private clusterSource!: VectorSource;
   private clusterLayer!: any;
-  private iconCache = new Map<string, HTMLCanvasElement>();
+  private iconCache = new Map<string, HTMLCanvasElement>();       // teardrop pin canvases
+  private rawImageCache = new Map<string, HTMLImageElement>();    // raw images for cluster circles
+  private localityIconCache = new Map<string, HTMLCanvasElement>(); // locality cluster canvases
   private allFeatures: Feature[] = [];
+  private filteredFeatures: Feature[] = [];
+  private localityFeatures: Feature[] = [];
+  private showingClusters: boolean | null = null;
 
   private routeSource = new VectorSource();
   private currentLocation: any = null;
@@ -40,7 +45,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   tracker: LocationTracker | null = null;
 
   @Input() set activeFilters(filters: string[]) {
-    this.applyFilters(filters);
+    this.filteredFeatures = filters.length === 0
+      ? this.allFeatures
+      : this.allFeatures.filter(f => filters.some(flt => this.matchesFilter(f.get('location'), flt)));
+    this.localityIconCache.clear();
+    this.refreshLayer(true);
     if (this.map) {
       this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
     }
@@ -70,26 +79,23 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.preloadIcons();
     requestAnimationFrame(() => this.map.updateSize());
 
-    this.map.on('moveend', () => {
-      const zoom = this.map.getView().getZoom() ?? 10;
-      this.clusterSource.setDistance(this.getClusterDistance(zoom));
-    });
+    this.map.on('moveend', () => this.refreshLayer());
 
     this.map.on('click', (evt: any) => {
       const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
       console.log(`📍 lat: ${lat}, lon: ${lon}`);
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
       if (!feature) { this.mapTapped.emit(); return; }
-      const subFeatures: Feature[] = feature.get('features');
-      if (!subFeatures?.length) return;
 
-      if (subFeatures.length > 1) {
-        const coords = subFeatures.map(f => (f.getGeometry() as Point).getCoordinates());
+      if (feature.get('type') === 'locality-cluster') {
+        const sub: Feature[] = feature.get('features');
+        const coords = sub.map(f => (f.getGeometry() as Point).getCoordinates());
         const extent = boundingExtent(coords);
-        this.map.getView().fit(extent, { padding: [100, 100, 100, 100], duration: 400, maxZoom: 17 });
+        this.map.getView().fit(extent, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 15 });
       } else {
-        const location = subFeatures[0].get('location');
-        this.clickon(location);
+        const location = feature.get('location');
+        if (location) this.clickon(location);
+        else this.mapTapped.emit();
       }
     });
 
@@ -125,7 +131,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.currentLocation = location;
     this.clusterLayer.setVisible(false);
     this.drawRoute(location);
-    // Primary refit — fires after current paint so OL state is settled
     requestAnimationFrame(() => this.refitRoute());
   }
 
@@ -137,10 +142,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
   }
 
+  // ── Icon preloading ───────────────────────────────────────
+
   private preloadIcons(): void {
     locations.forEach(location => {
       const img = new Image();
       img.onload = () => {
+        this.rawImageCache.set(location.img, img);
+        this.localityIconCache.clear(); // rebuild cluster canvases with real images
+
+        // Build teardrop pin canvas
         const W = ICON_CANVAS_SIZE;
         const H = ICON_CANVAS_SIZE + ICON_TAIL_H;
         const cx = W / 2;
@@ -194,6 +205,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // ── Cluster layer setup ───────────────────────────────────
+
   private setupClusterLayer(): void {
     this.allFeatures = locations.map(location =>
       new Feature({
@@ -201,80 +214,246 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         location,
       })
     );
+    this.filteredFeatures = [...this.allFeatures];
 
-    this.clusterSource = new Cluster({
-      distance: this.getClusterDistance(10.2),
-      minDistance: 25,
-      source: new VectorSource({ features: [...this.allFeatures] }),
-    });
-
+    this.clusterSource = new VectorSource();
     this.clusterLayer = new VectorLayer({
       source: this.clusterSource,
-      style: (feature) => this.clusterStyle(feature),
+      style: (feature: any) => this.featureStyle(feature),
     });
-
     this.map.addLayer(this.clusterLayer);
+    this.refreshLayer(true);
   }
 
+  // Switches between locality-cluster features and individual pin features based on zoom
+  private refreshLayer(force = false): void {
+    if (!this.clusterSource || !this.map) return;
+    const zoom = this.map.getView().getZoom() ?? 10;
+    const shouldCluster = zoom < CLUSTER_ZOOM;
+    if (!force && shouldCluster === this.showingClusters) return;
+    this.showingClusters = shouldCluster;
+    this.clusterSource.clear();
+    if (shouldCluster) {
+      this.buildLocalityFeatures();
+      this.clusterSource.addFeatures(this.localityFeatures);
+    } else {
+      this.clusterSource.addFeatures(this.filteredFeatures);
+    }
+  }
 
-  private clusterStyle(feature: any): Style {
-    const subFeatures: Feature[] = feature.get('features');
-    const size = subFeatures.length;
+  // One feature per locality, positioned at centroid, with highest-id location as representative
+  private buildLocalityFeatures(): void {
+    const groups = new Map<string, Feature[]>();
+    for (const f of this.filteredFeatures) {
+      const key: string = f.get('location').locality ?? 'Other';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(f);
+    }
+
+    this.localityFeatures = [];
+    for (const [locality, features] of groups) {
+      const coords = features.map(f => (f.getGeometry() as Point).getCoordinates());
+      const cx = coords.reduce((s, c) => s + c[0], 0) / coords.length;
+      const cy = coords.reduce((s, c) => s + c[1], 0) / coords.length;
+
+      const rep = features.reduce((a, b) =>
+        b.get('location').id > a.get('location').id ? b : a
+      );
+
+      this.localityFeatures.push(new Feature({
+        geometry: new Point([cx, cy]),
+        type: 'locality-cluster',
+        locality,
+        features,
+        img: rep.get('location').img,
+        count: features.length,
+      }));
+    }
+  }
+
+  // ── Style dispatch ────────────────────────────────────────
+
+  private featureStyle(feature: any): Style {
+    return feature.get('type') === 'locality-cluster'
+      ? this.localityClusterStyle(feature)
+      : this.individualPinStyle(feature);
+  }
+
+  private individualPinStyle(feature: any): Style {
+    const location = feature.get('location');
     const zoom = this.map.getView().getZoom() ?? 10;
     const iconSize = this.getIconSize(zoom);
+    const canvas = this.iconCache.get(location.img);
 
-    if (size === 1) {
-      const location = subFeatures[0].get('location');
-      const canvas = this.iconCache.get(location.img);
-
-      if (canvas) {
-        const coords = (subFeatures[0].getGeometry() as Point).getCoordinates();
-        return new Style({
-          image: new Icon({
-            img: canvas,
-            size: [canvas.width, canvas.height],
-            scale: iconSize / ICON_CANVAS_SIZE,
-            anchor: [0.5, 1.0],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'fraction',
-          }),
-          zIndex: -Math.round(coords[1] / 1000),
-        });
-      }
-
+    if (canvas) {
+      const coords = (feature.getGeometry() as Point).getCoordinates();
       return new Style({
-        image: new CircleStyle({
-          radius: iconSize / 2,
-          fill: new Fill({ color: '#d1d5db' }),
-          stroke: new Stroke({ color: 'white', width: 2 }),
+        image: new Icon({
+          img: canvas,
+          size: [canvas.width, canvas.height],
+          scale: iconSize / ICON_CANVAS_SIZE,
+          anchor: [0.5, 1.0],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'fraction',
         }),
+        zIndex: -Math.round(coords[1] / 1000),
       });
     }
 
-    const radius = size > 99 ? 26 : 22;
     return new Style({
       image: new CircleStyle({
-        radius,
-        fill: new Fill({ color: '#ffffff' }),
-        stroke: new Stroke({ color: '#F4A922', width: 2.5 }),
+        radius: iconSize / 2,
+        fill: new Fill({ color: '#d1d5db' }),
+        stroke: new Stroke({ color: 'white', width: 2 }),
       }),
-      text: new Text({
-        text: size.toString(),
-        fill: new Fill({ color: '#F4A922' }),
-        font: 'bold 13px Roboto, sans-serif',
-        offsetY: 1,
+    });
+  }
+
+  private localityClusterStyle(feature: any): Style {
+    const img: string = feature.get('img');
+    const count: number = feature.get('count');
+    const locality: string = feature.get('locality');
+    const key = `${img}|${count}|${locality}`;
+
+    let canvas = this.localityIconCache.get(key);
+    if (!canvas) {
+      canvas = this.buildLocalityCanvas(img, count, locality);
+      this.localityIconCache.set(key, canvas);
+    }
+
+    const zoom = this.map.getView().getZoom() ?? 10;
+    const scale = this.getLocalityScale(zoom);
+    const circleCenter = 42; // CY in buildLocalityCanvas
+    return new Style({
+      image: new Icon({
+        img: canvas,
+        size: [canvas.width, canvas.height],
+        scale,
+        anchor: [0.5, circleCenter / canvas.height],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
       }),
       zIndex: 10,
     });
   }
 
-  private getClusterDistance(zoom: number): number {
-    if (zoom <= 11) return 50;
-    if (zoom <= 12) return 35;
-    if (zoom <= 13) return 25;
-    if (zoom <= 14) return 18;
-    if (zoom <= 15) return 10;
-    return 5;
+  // Draws: circular photo + count badge (bottom-right) + locality name pill below
+  private buildLocalityCanvas(imgSrc: string, count: number, locality: string): HTMLCanvasElement {
+    const R = 36;
+    const CX = 50;
+    const CY = 42; // circle center Y (top padding for shadow)
+    const W = 100;
+    const pillH = 22;
+    const pillGap = 7;
+    const H = CY + R + pillGap + pillH + 4;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d')!;
+
+    // Shadow + white backing circle
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.28)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 3;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R + 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.restore();
+
+    // Photo clipped to circle
+    const rawImg = this.rawImageCache.get(imgSrc);
+    if (rawImg?.complete && rawImg.naturalWidth) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(CX, CY, R, 0, Math.PI * 2);
+      ctx.clip();
+      const side = R * 2;
+      const scale = Math.max(side / rawImg.naturalWidth, side / rawImg.naturalHeight);
+      const sw = side / scale;
+      const sh = side / scale;
+      const sx = (rawImg.naturalWidth - sw) / 2;
+      const sy = (rawImg.naturalHeight - sh) / 2;
+      ctx.drawImage(rawImg, sx, sy, sw, sh, CX - R, CY - R, side, side);
+      ctx.restore();
+    } else {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(CX, CY, R, 0, Math.PI * 2);
+      ctx.fillStyle = '#d1d5db';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // White border ring
+    ctx.beginPath();
+    ctx.arc(CX, CY, R + 2, 0, Math.PI * 2);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Count badge (bottom-right of circle)
+    const badgeR = count > 9 ? 13 : 11;
+    const badgeX = CX + R - 2;
+    const badgeY = CY + R - 2;
+    ctx.beginPath();
+    ctx.arc(badgeX, badgeY, badgeR, 0, Math.PI * 2);
+    ctx.fillStyle = '#F4A922';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.font = `bold ${count > 9 ? 10 : 11}px Roboto, sans-serif`;
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(count), badgeX, badgeY + 0.5);
+
+    // Locality name pill
+    ctx.font = '600 11px Roboto, sans-serif';
+    const textW = ctx.measureText(locality).width;
+    const pillW = Math.min(textW + 16, W - 4);
+    const pillX = CX - pillW / 2;
+    const pillY = CY + R + pillGap;
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.14)';
+    ctx.shadowBlur = 4;
+    ctx.fillStyle = '#fff';
+    this.fillRoundRect(ctx, pillX, pillY, pillW, pillH, 11);
+    ctx.restore();
+
+    ctx.fillStyle = '#374151';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(locality, CX, pillY + pillH / 2, pillW - 8);
+
+    return canvas;
+  }
+
+  private fillRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number): void {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  private getLocalityScale(zoom: number): number {
+    if (zoom <= 10.5) return 0.52;
+    if (zoom <= 11)   return 0.62;
+    if (zoom <= 11.5) return 0.74;
+    if (zoom <= 12)   return 0.86;
+    return 1.0;
   }
 
   private getIconSize(zoom: number): number {
@@ -284,6 +463,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (zoom <= 13.3) return 42;
     return 60;
   }
+
+  // ── Route layer ───────────────────────────────────────────
 
   private setupRouteLayer(): void {
     this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
@@ -296,7 +477,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (this.hasRouteFeatures) {
       this.routeSource.addFeatures(features);
     } else {
-      // No route — show a single pin so the map isn't empty
       const pin = new Feature({ geometry: new Point(getCoordinatesfromLonLat(location.lon, location.lat)) });
       pin.setStyle(makePinStyle('#F4A922'));
       this.routeSource.addFeature(pin);
@@ -310,7 +490,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.clusterLayer.setVisible(true);
   }
 
-  // Called by parent after updateSize() so the fit uses the correct viewport dimensions
   refitRoute(): void {
     if (!this.currentLocation) return;
     if (this.hasRouteFeatures) {
@@ -320,12 +499,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         maxZoom: 16,
       });
     } else {
-      // Fixed zoom — never inherit current zoom so switching from a zoomed-in
-      // location always resets to a sensible level for a single point
       const flatCoords = this.getLocationMapCoordinates(this.currentLocation);
       this.map.getView().animate({ center: flatCoords, zoom: 14, duration: 450 });
     }
   }
+
+  // ── GPS location layer ────────────────────────────────────
 
   private setupLocationLayer(): void {
     const source = new VectorSource();
@@ -341,6 +520,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.tracker?.destroy();
   }
+
+  // ── Public API ────────────────────────────────────────────
 
   updateSize(): void {
     this.map?.updateSize();
@@ -364,23 +545,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
-  private getLocationMapCoordinates(location: any): number[] {
-    if (location?.mapPoints?.length) {
-      const dest = location.mapPoints.find((p: any) => p.type === 'destination')
-        ?? location.mapPoints[location.mapPoints.length - 1];
-      return getCoordinatesfromLonLat(dest.lon, dest.lat);
-    }
-    return getCoordinatesfromLonLat(location.lon, location.lat);
-  }
-
-  private applyFilters(filters: string[]): void {
-    if (!this.clusterSource) return;
-    const filtered = filters.length === 0
-      ? this.allFeatures
-      : this.allFeatures.filter(f => filters.some(flt => this.matchesFilter(f.get('location'), flt)));
-    this.clusterSource.getSource().clear();
-    this.clusterSource.getSource().addFeatures(filtered);
-  }
+  // ── Helpers ───────────────────────────────────────────────
 
   private matchesFilter(loc: any, filter: string): boolean {
     const tags: string[] = loc.tags ?? [];
@@ -395,6 +560,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       case 'comino':     return tags.includes('comino');
       default:           return true;
     }
+  }
+
+  private getLocationMapCoordinates(location: any): number[] {
+    if (location?.mapPoints?.length) {
+      const dest = location.mapPoints.find((p: any) => p.type === 'destination')
+        ?? location.mapPoints[location.mapPoints.length - 1];
+      return getCoordinatesfromLonLat(dest.lon, dest.lat);
+    }
+    return getCoordinatesfromLonLat(location.lon, location.lat);
   }
 
   private getMaltaViewCoordinates(): number[] {

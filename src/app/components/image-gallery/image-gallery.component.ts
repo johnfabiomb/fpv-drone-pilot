@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+const AUTO_MS = 2500;
+const RESUME_MS = 5000;
 
 @Component({
   selector: 'app-image-gallery',
@@ -8,16 +11,84 @@ import { CommonModule } from '@angular/common';
   templateUrl: './image-gallery.component.html',
   styleUrl: './image-gallery.component.scss'
 })
-export class ImageGalleryComponent {
+export class ImageGalleryComponent implements OnDestroy {
   @Input() set src(value: string[]) {
     this.images = value ?? [];
     this.active = 0;
+    this.restartAuto();
   }
 
   images: string[] = [];
   active = 0;
 
-  // For single image: repeat 3× so the stacked visual still appears
+  private autoTimer: ReturnType<typeof setInterval> | null = null;
+  private resumeTimer: ReturnType<typeof setTimeout> | null = null;
+  private touchStartX = 0;
+
+  // ── Auto-play ─────────────────────────────────────────────
+
+  private restartAuto(): void {
+    this.clearTimers();
+    if (this.images.length > 1) {
+      this.autoTimer = setInterval(() => {
+        this.active = (this.active + 1) % this.images.length;
+      }, AUTO_MS);
+    }
+  }
+
+  // Pause immediately; resume AUTO_MS after last user interaction
+  private pauseAndResume(): void {
+    this.clearTimers();
+    this.resumeTimer = setTimeout(() => this.restartAuto(), RESUME_MS);
+  }
+
+  private clearTimers(): void {
+    if (this.autoTimer)  { clearInterval(this.autoTimer);  this.autoTimer  = null; }
+    if (this.resumeTimer){ clearTimeout(this.resumeTimer); this.resumeTimer = null; }
+  }
+
+  ngOnDestroy(): void {
+    this.clearTimers();
+  }
+
+  // ── Navigation (user-triggered — pause then resume) ───────
+
+  next(): void {
+    if (!this.canNavigate) return;
+    this.active = (this.active + 1) % this.images.length;
+    this.pauseAndResume();
+  }
+
+  prev(): void {
+    if (!this.canNavigate) return;
+    this.active = (this.active - 1 + this.images.length) % this.images.length;
+    this.pauseAndResume();
+  }
+
+  goTo(index: number): void {
+    if (!this.canNavigate) return;
+    this.active = index;
+    this.pauseAndResume();
+  }
+
+  // ── Touch ─────────────────────────────────────────────────
+
+  onTouchStart(e: TouchEvent): void {
+    this.touchStartX = e.touches[0].clientX;
+    this.clearTimers(); // stop immediately while finger is down
+  }
+
+  onTouchEnd(e: TouchEvent): void {
+    const delta = e.changedTouches[0].clientX - this.touchStartX;
+    if (this.canNavigate && Math.abs(delta) > 40) {
+      delta < 0 ? this.next() : this.prev(); // next/prev handle pauseAndResume
+    } else {
+      this.pauseAndResume(); // no swipe — just schedule resume
+    }
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+
   get stackImages(): string[] {
     return this.images.length === 1
       ? [this.images[0], this.images[0], this.images[0]]
@@ -28,41 +99,11 @@ export class ImageGalleryComponent {
     return this.images.length > 1;
   }
 
-  next(): void {
-    if (!this.canNavigate) return;
-    this.active = (this.active + 1) % this.images.length;
-  }
-
-  prev(): void {
-    if (!this.canNavigate) return;
-    this.active = (this.active - 1 + this.images.length) % this.images.length;
-  }
-
-  goTo(index: number): void {
-    if (!this.canNavigate) return;
-    this.active = index;
-  }
-
-  // Circular offset relative to stackImages length
   circularOffset(index: number): number {
     const n = this.stackImages.length;
     let d = index - this.active;
     if (d > Math.floor(n / 2)) d -= n;
     if (d < -Math.floor(n / 2)) d += n;
     return d;
-  }
-
-  private touchStartX = 0;
-
-  onTouchStart(e: TouchEvent): void {
-    this.touchStartX = e.touches[0].clientX;
-  }
-
-  onTouchEnd(e: TouchEvent): void {
-    if (!this.canNavigate) return;
-    const delta = e.changedTouches[0].clientX - this.touchStartX;
-    if (Math.abs(delta) > 40) {
-      delta < 0 ? this.next() : this.prev();
-    }
   }
 }

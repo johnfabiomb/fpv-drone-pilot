@@ -1,0 +1,48 @@
+<div class="success-page">
+  <div class="success-inner">
+
+    <div class="check-wrap">
+      <svg class="check-icon" viewBox="0 0 52 52" fill="none">
+        <circle class="check-circle" cx="26" cy="26" r="25" stroke="#F4A922" stroke-width="2"/>
+        <path class="check-mark" d="M14 26l9 9 15-17" stroke="#F4A922" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1 class="success-title">Payment received!</h1>
+    <p class="success-sub">
+      Your payment was processed successfully.<br>
+      Please send me a screenshot to confirm.
+    </p>
+
+    <div class="receipt-card">
+      <div class="receipt-row">
+        <span class="receipt-label">Status</span>
+        <span class="status-badge">
+          <span class="status-dot"></span>
+          Paid
+        </span>
+      </div>
+      <div class="receipt-divider"></div>
+      <div class="receipt-row">
+        <span class="receipt-label">Date</span>
+        <span class="receipt-value">{{ paidAt | date:'d MMM y · HH:mm' }}</span>
+      </div>
+      <div class="receipt-divider"></div>
+      <div class="receipt-row receipt-row--ref">
+        <span class="receipt-label">Reference</span>
+        <span class="receipt-ref">{{ sessionId ?? '—' }}</span>
+      </div>
+    </div>
+
+    <div class="screenshot-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3l-6 6m0 0v10a2 2 0 0 0 2 2h4m-6-6h6m0 0v6m0-6h10m0 0V9m0 6h2a2 2 0 0 0 2-2V9m0 0H15"/>
+      </svg>
+      Screenshot this page and send it to &#64;Johnfabiomb
+    </div>
+
+    <a class="back-link" href="/pay">← Back to payment page</a>
+
+  </div>
+</div>

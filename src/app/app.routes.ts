@@ -21,6 +21,14 @@ export const routes: Routes = [
         loadComponent: () => import('./platform/location-list/location-list.component').then(m => m.LocationListComponent)
     },
     {
+        path: 'pay',
+        loadComponent: () => import('./platform/payment/payment.component').then(m => m.PaymentComponent)
+    },
+    {
+        path: 'pay/success',
+        loadComponent: () => import('./platform/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
+    },
+    {
         path: 'plan',
         canMatch: [() => FEATURES.ROUTE_BUILDER],
         loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)
