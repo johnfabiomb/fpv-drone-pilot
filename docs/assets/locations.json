@@ -29,7 +29,8 @@
         "boat-trip",
         "nature",
         "easy"
-      ]
+      ],
+      "locality": "Żurrieq"
     },
     {
       "id": 2,
@@ -59,7 +60,8 @@
         "nature",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Birżebbuġa"
     },
     {
       "id": 3,
@@ -90,7 +92,8 @@
         "viewpoint",
         "hiking",
         "moderate"
-      ]
+      ],
+      "locality": "Birżebbuġa"
     },
     {
       "id": 4,
@@ -120,7 +123,8 @@
         "viewpoint",
         "hiking",
         "hard"
-      ]
+      ],
+      "locality": "Qrendi"
     },
     {
       "id": 5,
@@ -150,7 +154,8 @@
         "hiking",
         "cliffs",
         "moderate"
-      ]
+      ],
+      "locality": "Rabat"
     },
     {
       "id": 6,
@@ -179,7 +184,8 @@
         "family",
         "film-set",
         "easy"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 7,
@@ -210,7 +216,8 @@
         "boat-trip",
         "comino",
         "moderate"
-      ]
+      ],
+      "locality": "Comino"
     },
     {
       "id": 8,
@@ -240,7 +247,8 @@
         "coastal-walk",
         "viewpoint",
         "moderate"
-      ]
+      ],
+      "locality": "Marsaskala"
     },
     {
       "id": 9,
@@ -270,7 +278,8 @@
         "viewpoint",
         "hiking",
         "moderate"
-      ]
+      ],
+      "locality": "Marsaskala"
     },
     {
       "id": 10,
@@ -301,7 +310,8 @@
         "natural-arch",
         "boat-trip",
         "hard"
-      ]
+      ],
+      "locality": "Marsaskala"
     },
     {
       "id": 11,
@@ -331,7 +341,8 @@
         "engineering",
         "viewpoint",
         "easy"
-      ]
+      ],
+      "locality": "Kalkara"
     },
     {
       "id": 12,
@@ -362,7 +373,8 @@
         "valley",
         "historical",
         "moderate"
-      ]
+      ],
+      "locality": "Naxxar"
     },
     {
       "id": 13,
@@ -393,7 +405,8 @@
         "snorkeling",
         "kayak",
         "moderate"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 14,
@@ -424,7 +437,8 @@
         "photography",
         "comino",
         "moderate"
-      ]
+      ],
+      "locality": "Comino"
     },
     {
       "id": 17,
@@ -455,7 +469,8 @@
         "historical",
         "comino",
         "moderate"
-      ]
+      ],
+      "locality": "Comino"
     },
     {
       "id": 18,
@@ -485,7 +500,8 @@
         "snorkeling",
         "bay",
         "easy"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 19,
@@ -537,7 +553,8 @@
         "cliffs",
         "sunset",
         "easy"
-      ]
+      ],
+      "locality": "Dingli"
     },
     {
       "id": 21,
@@ -567,7 +584,8 @@
         "tower",
         "viewpoint",
         "easy"
-      ]
+      ],
+      "locality": "St. Paul's Bay"
     },
     {
       "id": 22,
@@ -597,7 +615,8 @@
         "nature",
         "hiking",
         "moderate"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 25,
@@ -627,7 +646,8 @@
         "nature",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 26,
@@ -656,7 +676,8 @@
         "urban-walk",
         "waterfront",
         "easy"
-      ]
+      ],
+      "locality": "Three Cities"
     },
     {
       "id": 23,
@@ -686,7 +707,8 @@
         "viewpoint",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 27,
@@ -715,7 +737,8 @@
         "fortification",
         "viewpoint",
         "easy"
-      ]
+      ],
+      "locality": "Three Cities"
     },
     {
       "id": 33,
@@ -744,7 +767,8 @@
         "cultural",
         "church",
         "easy"
-      ]
+      ],
+      "locality": "Valletta"
     },
     {
       "id": 28,
@@ -773,7 +797,8 @@
         "viewpoint",
         "garden",
         "easy"
-      ]
+      ],
+      "locality": "Three Cities"
     },
     {
       "id": 31,
@@ -802,7 +827,8 @@
         "city",
         "viewpoint",
         "easy"
-      ]
+      ],
+      "locality": "Mdina"
     },
     {
       "id": 32,
@@ -832,7 +858,8 @@
         "viewpoint",
         "fortification",
         "hard"
-      ]
+      ],
+      "locality": "Naxxar"
     },
     {
       "id": 34,
@@ -863,7 +890,8 @@
         "cliffs",
         "sunset",
         "hard"
-      ]
+      ],
+      "locality": "Rabat"
     },
     {
       "id": 35,
@@ -895,7 +923,8 @@
         "viewpoint",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Rabat"
     },
     {
       "id": 36,
@@ -926,7 +955,8 @@
         "cliffs",
         "nature",
         "hard"
-      ]
+      ],
+      "locality": "Rabat"
     },
     {
       "id": 37,
@@ -957,7 +987,8 @@
         "hiking",
         "cliffs",
         "moderate"
-      ]
+      ],
+      "locality": "Mġarr"
     },
     {
       "id": 38,
@@ -987,7 +1018,8 @@
         "boat-trip",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 40,
@@ -1007,11 +1039,31 @@
           "lat": 35.90319495943615,
           "type": "parking"
         },
-        { "lat": 35.902668319900044, "lon": 14.33263303896851, "type": "waypoint" },
-        { "lat": 35.902237929919295, "lon": 14.33199495526371, "type": "waypoint" },
-        { "lat": 35.90214213175207, "lon": 14.331712056467602, "type": "waypoint" },
-        { "lat": 35.90186216444546, "lon": 14.33166579042134, "type": "waypoint" },
-        { "lat": 35.901386014013724, "lon": 14.331209627115877, "type": "waypoint" },
+        {
+          "lat": 35.902668319900044,
+          "lon": 14.33263303896851,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.902237929919295,
+          "lon": 14.33199495526371,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.90214213175207,
+          "lon": 14.331712056467602,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.90186216444546,
+          "lon": 14.33166579042134,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.901386014013724,
+          "lon": 14.331209627115877,
+          "type": "waypoint"
+        },
         {
           "label": "Blata tal-Melħ",
           "description": "Open this exact spot in Google Maps.",
@@ -1029,7 +1081,8 @@
         "hiking",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Mġarr"
     },
     {
       "id": 41,
@@ -1059,7 +1112,8 @@
         "photography",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 42,
@@ -1090,7 +1144,8 @@
         "viewpoint",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Mġarr"
     },
     {
       "id": 43,
@@ -1120,7 +1175,8 @@
         "viewpoint",
         "waterfront",
         "easy"
-      ]
+      ],
+      "locality": "Kalkara"
     },
     {
       "id": 44,
@@ -1141,67 +1197,311 @@
           "lat": 35.92051841887867,
           "type": "parking"
         },
-        { "lat": 35.9201820632405, "lon": 14.342592253561783, "type": "waypoint" },
-        { "lat": 35.92016385851133, "lon": 14.341710054897167, "type": "waypoint" },
-        { "lat": 35.92032137808043, "lon": 14.34127390702734, "type": "waypoint" },
-        { "lat": 35.92069323674545, "lon": 14.340689320075917, "type": "waypoint" },
-        { "lat": 35.92090023434103, "lon": 14.340343556045045, "type": "waypoint" },
-        { "lat": 35.92120780172358, "lon": 14.340002193314156, "type": "waypoint" },
-        { "lat": 35.92136383400161, "lon": 14.339851343996855, "type": "waypoint" },
-        { "lat": 35.921412251896385, "lon": 14.3399396843751, "type": "waypoint" },
-        { "lat": 35.92145044302826, "lon": 14.339844637254021, "type": "waypoint" },
-        { "lat": 35.921372108753474, "lon": 14.339767300125732, "type": "waypoint" },
-        { "lat": 35.921414840407024, "lon": 14.33961032042631, "type": "waypoint" },
-        { "lat": 35.921574012430696, "lon": 14.339369506441479, "type": "waypoint" },
-        { "lat": 35.92170505010262, "lon": 14.339119942253113, "type": "waypoint" },
-        { "lat": 35.92176802279259, "lon": 14.338950230221592, "type": "waypoint" },
-        { "lat": 35.921745914461724, "lon": 14.338902077903912, "type": "waypoint" },
-        { "lat": 35.92193950005874, "lon": 14.338661892676221, "type": "waypoint" },
-        { "lat": 35.921965469857284, "lon": 14.338397971866478, "type": "waypoint" },
-        { "lat": 35.92210028352733, "lon": 14.338111206213961, "type": "waypoint" },
-        { "lat": 35.92236426644422, "lon": 14.337811760625774, "type": "waypoint" },
-        { "lat": 35.92229187385287, "lon": 14.337411871084386, "type": "waypoint" },
-        { "lat": 35.92222576145191, "lon": 14.337009833289434, "type": "waypoint" },
-        { "lat": 35.92217025754499, "lon": 14.33662529590156, "type": "waypoint" },
-        { "lat": 35.922083394701176, "lon": 14.33629011594922, "type": "waypoint" },
-        { "lat": 35.92211123155842, "lon": 14.336149641124736, "type": "waypoint" },
-        { "lat": 35.92219643943865, "lon": 14.335786167101073, "type": "waypoint" },
-        { "lat": 35.92227176007306, "lon": 14.335568879112584, "type": "waypoint" },
-        { "lat": 35.92241650279223, "lon": 14.335556146780487, "type": "waypoint" },
-        { "lat": 35.922442939208665, "lon": 14.335573175619713, "type": "waypoint" },
-        { "lat": 35.92257142940217, "lon": 14.335442865702333, "type": "waypoint" },
-        { "lat": 35.9226513325447, "lon": 14.33549274710215, "type": "waypoint" },
-        { "lat": 35.9227462572034, "lon": 14.33532403060277, "type": "waypoint" },
-        { "lat": 35.922640808927795, "lon": 14.335280646360072, "type": "waypoint" },
-        { "lat": 35.92262078010464, "lon": 14.335093119542904, "type": "waypoint" },
-        { "lat": 35.922631812931556, "lon": 14.3350388368431, "type": "waypoint" },
-        { "lat": 35.922477862422596, "lon": 14.334828569976017, "type": "waypoint" },
-        { "lat": 35.922278507101055, "lon": 14.334569155259114, "type": "waypoint" },
-        { "lat": 35.922091669377764, "lon": 14.33430392453866, "type": "waypoint" },
-        { "lat": 35.92194616224643, "lon": 14.334082706818043, "type": "waypoint" },
-        { "lat": 35.92178024390179, "lon": 14.333909431829394, "type": "waypoint" },
-        { "lat": 35.92170530470928, "lon": 14.333883495597348, "type": "waypoint" },
-        { "lat": 35.92165985740675, "lon": 14.333752976094255, "type": "waypoint" },
-        { "lat": 35.92148753084308, "lon": 14.333696335555176, "type": "waypoint" },
-        { "lat": 35.92138615461235, "lon": 14.333688580883779, "type": "waypoint" },
-        { "lat": 35.921318131894935, "lon": 14.333688580883779, "type": "waypoint" },
-        { "lat": 35.921193204181705, "lon": 14.333807415983339, "type": "waypoint" },
-        { "lat": 35.92090485974238, "lon": 14.333790753919114, "type": "waypoint" },
-        { "lat": 35.920774839183295, "lon": 14.333864423297415, "type": "waypoint" },
-        { "lat": 35.92062487395188, "lon": 14.333870606075964, "type": "waypoint" },
-        { "lat": 35.92047223502453, "lon": 14.333882814443777, "type": "waypoint" },
-        { "lat": 35.92029566235324, "lon": 14.333862222647424, "type": "waypoint" },
-        { "lat": 35.920126303287574, "lon": 14.333764660497783, "type": "waypoint" },
-        { "lat": 35.9199005472165, "lon": 14.333670661305272, "type": "waypoint" },
-        { "lat": 35.919739292485446, "lon": 14.333560471616392, "type": "waypoint" },
-        { "lat": 35.919630997018416, "lon": 14.333438492731124, "type": "waypoint" },
-        { "lat": 35.91950245961213, "lon": 14.33332033878513, "type": "waypoint" },
-        { "lat": 35.91932554529008, "lon": 14.333212821314095, "type": "waypoint" },
-        { "lat": 35.919301399361274, "lon": 14.333163044707135, "type": "waypoint" },
-        { "lat": 35.91917905704632, "lon": 14.333090475653831, "type": "waypoint" },
-        { "lat": 35.918917821834, "lon": 14.332916938683038, "type": "waypoint" },
-        { "lat": 35.91877718900541, "lon": 14.332851495543995, "type": "waypoint" },
-        { "lat": 35.918763397299344, "lon": 14.3328018237299, "type": "waypoint" },
+        {
+          "lat": 35.9201820632405,
+          "lon": 14.342592253561783,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92016385851133,
+          "lon": 14.341710054897167,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92032137808043,
+          "lon": 14.34127390702734,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92069323674545,
+          "lon": 14.340689320075917,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92090023434103,
+          "lon": 14.340343556045045,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92120780172358,
+          "lon": 14.340002193314156,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92136383400161,
+          "lon": 14.339851343996855,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921412251896385,
+          "lon": 14.3399396843751,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92145044302826,
+          "lon": 14.339844637254021,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921372108753474,
+          "lon": 14.339767300125732,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921414840407024,
+          "lon": 14.33961032042631,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921574012430696,
+          "lon": 14.339369506441479,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92170505010262,
+          "lon": 14.339119942253113,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92176802279259,
+          "lon": 14.338950230221592,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921745914461724,
+          "lon": 14.338902077903912,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92193950005874,
+          "lon": 14.338661892676221,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921965469857284,
+          "lon": 14.338397971866478,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92210028352733,
+          "lon": 14.338111206213961,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92236426644422,
+          "lon": 14.337811760625774,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92229187385287,
+          "lon": 14.337411871084386,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92222576145191,
+          "lon": 14.337009833289434,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92217025754499,
+          "lon": 14.33662529590156,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922083394701176,
+          "lon": 14.33629011594922,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92211123155842,
+          "lon": 14.336149641124736,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92219643943865,
+          "lon": 14.335786167101073,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92227176007306,
+          "lon": 14.335568879112584,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92241650279223,
+          "lon": 14.335556146780487,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922442939208665,
+          "lon": 14.335573175619713,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92257142940217,
+          "lon": 14.335442865702333,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.9226513325447,
+          "lon": 14.33549274710215,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.9227462572034,
+          "lon": 14.33532403060277,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922640808927795,
+          "lon": 14.335280646360072,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92262078010464,
+          "lon": 14.335093119542904,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922631812931556,
+          "lon": 14.3350388368431,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922477862422596,
+          "lon": 14.334828569976017,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922278507101055,
+          "lon": 14.334569155259114,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922091669377764,
+          "lon": 14.33430392453866,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92194616224643,
+          "lon": 14.334082706818043,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92178024390179,
+          "lon": 14.333909431829394,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92170530470928,
+          "lon": 14.333883495597348,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92165985740675,
+          "lon": 14.333752976094255,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92148753084308,
+          "lon": 14.333696335555176,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92138615461235,
+          "lon": 14.333688580883779,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921318131894935,
+          "lon": 14.333688580883779,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921193204181705,
+          "lon": 14.333807415983339,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92090485974238,
+          "lon": 14.333790753919114,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.920774839183295,
+          "lon": 14.333864423297415,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92062487395188,
+          "lon": 14.333870606075964,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92047223502453,
+          "lon": 14.333882814443777,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92029566235324,
+          "lon": 14.333862222647424,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.920126303287574,
+          "lon": 14.333764660497783,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.9199005472165,
+          "lon": 14.333670661305272,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.919739292485446,
+          "lon": 14.333560471616392,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.919630997018416,
+          "lon": 14.333438492731124,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.91950245961213,
+          "lon": 14.33332033878513,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.91932554529008,
+          "lon": 14.333212821314095,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.919301399361274,
+          "lon": 14.333163044707135,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.91917905704632,
+          "lon": 14.333090475653831,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.918917821834,
+          "lon": 14.332916938683038,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.91877718900541,
+          "lon": 14.332851495543995,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.918763397299344,
+          "lon": 14.3328018237299,
+          "type": "waypoint"
+        },
         {
           "label": "Ta' Marija Cave",
           "description": "Open this exact spot in Google Maps.",
@@ -1225,7 +1525,8 @@
         "/assets/images/places/ta-maria-cave/TaMarijaCave.png",
         "/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg",
         "/assets/images/places/ta-maria-cave/ta-maria-cave-3.jpg"
-      ]
+      ],
+      "locality": "Mġarr"
     },
     {
       "id": 46,
@@ -1255,7 +1556,8 @@
         "hiking",
         "gozo",
         "hard"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 47,
@@ -1284,7 +1586,8 @@
         "garden",
         "cultural",
         "easy"
-      ]
+      ],
+      "locality": "Paola"
     },
     {
       "id": 49,
@@ -1315,7 +1618,8 @@
         "snorkeling",
         "cliff-jumping",
         "hard"
-      ]
+      ],
+      "locality": "Marsaskala"
     },
     {
       "id": 50,
@@ -1345,7 +1649,8 @@
         "snorkeling",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 16,
@@ -1375,7 +1680,8 @@
         "viewpoint",
         "comino",
         "moderate"
-      ]
+      ],
+      "locality": "Comino"
     },
     {
       "id": 52,
@@ -1406,7 +1712,8 @@
         "lagoon",
         "hiking",
         "hard"
-      ]
+      ],
+      "locality": "Qrendi"
     },
     {
       "id": 53,
@@ -1436,7 +1743,8 @@
         "viewpoint",
         "bastion",
         "easy"
-      ]
+      ],
+      "locality": "Three Cities"
     },
     {
       "id": 54,
@@ -1467,7 +1775,8 @@
         "hiking",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 55,
@@ -1496,7 +1805,8 @@
         "snorkeling",
         "bay",
         "easy"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 57,
@@ -1527,7 +1837,8 @@
         "hiking",
         "cliffs",
         "moderate"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 58,
@@ -1559,15 +1870,16 @@
         "kayak",
         "gozo",
         "moderate"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 59,
       "title": "Babu Valley",
       "description": "Babu Valley, also known as Wied Babu, is a canyon-like valley in Żurrieq, close to the Blue Grotto area. Known for its steep limestone sides, wild greenery, and peaceful walking paths, it offers a different side of Malta away from the beaches and busy viewpoints. The route is best enjoyed early in the morning, with proper shoes, as some sections can be uneven, narrow, and slippery after rain.",
-        "img": "/assets/images/places/babu/babu-1.png",
+      "img": "/assets/images/places/babu/babu-1.png",
       "images": [
-          "/assets/images/places/babu/babu-3.png",
+        "/assets/images/places/babu/babu-3.png",
         "/assets/images/places/babu/babu-1.png",
         "/assets/images/places/babu/babu-2.png"
       ],
@@ -1584,16 +1896,56 @@
           "lat": 35.82255508785779,
           "type": "parking"
         },
-        { "lon": 14.458213828578499, "lat": 35.8235858447874,   "type": "waypoint" },
-        { "lon": 14.45920855093738,  "lat": 35.824394865011286, "type": "waypoint" },
-        { "lon": 14.46023794464109,  "lat": 35.82565486638816, "type": "waypoint" },
-        { "lon": 14.46040688189951,  "lat": 35.82552105180842, "type": "waypoint" },
-        { "lon": 14.460516014278806, "lat": 35.82526059185379, "type": "waypoint" },
-        { "lon": 14.460436553836738, "lat": 35.82474721309609, "type": "waypoint" },
-        { "lon": 14.460230275199686, "lat": 35.82441090539413, "type": "waypoint" },
-        { "lon": 14.459919641868149, "lat": 35.82360137561588, "type": "waypoint" },
-        { "lon": 14.459116362177705, "lat": 35.823270737941556, "type": "waypoint" },
-        { "lon": 14.458656111874548, "lat": 35.82278062367307, "type": "waypoint" },
+        {
+          "lon": 14.458213828578499,
+          "lat": 35.8235858447874,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.45920855093738,
+          "lat": 35.824394865011286,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.46023794464109,
+          "lat": 35.82565486638816,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.46040688189951,
+          "lat": 35.82552105180842,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.460516014278806,
+          "lat": 35.82526059185379,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.460436553836738,
+          "lat": 35.82474721309609,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.460230275199686,
+          "lat": 35.82441090539413,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.459919641868149,
+          "lat": 35.82360137561588,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.459116362177705,
+          "lat": 35.823270737941556,
+          "type": "waypoint"
+        },
+        {
+          "lon": 14.458656111874548,
+          "lat": 35.82278062367307,
+          "type": "waypoint"
+        },
         {
           "label": "Babu Valley",
           "description": "Open this exact spot in Google Maps.",
@@ -1612,7 +1964,8 @@
         "valley",
         "viewpoint",
         "moderate"
-      ]
+      ],
+      "locality": "Żurrieq"
     },
     {
       "id": 60,
@@ -1643,7 +1996,8 @@
         "nature",
         "cave",
         "hard"
-      ]
+      ],
+      "locality": "Birżebbuġa"
     },
     {
       "id": 61,
@@ -1674,7 +2028,8 @@
         "swimming",
         "kayak",
         "hard"
-      ]
+      ],
+      "locality": "Kalkara"
     },
     {
       "id": 24,
@@ -1705,7 +2060,8 @@
         "hiking",
         "diving",
         "hard"
-      ]
+      ],
+      "locality": "Siġġiewi"
     },
     {
       "id": 62,
@@ -1737,7 +2093,8 @@
         "kayak",
         "comino",
         "moderate"
-      ]
+      ],
+      "locality": "Comino"
     },
     {
       "id": 63,
@@ -1768,7 +2125,8 @@
         "valley",
         "gozo",
         "moderate"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 64,
@@ -1798,7 +2156,8 @@
         "viewpoint",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 65,
@@ -1829,7 +2188,8 @@
         "photography",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 66,
@@ -1858,7 +2218,8 @@
         "nature",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 67,
@@ -1887,7 +2248,8 @@
         "nature",
         "scenic-walk",
         "easy"
-      ]
+      ],
+      "locality": "Valletta"
     },
     {
       "id": 68,
@@ -1916,7 +2278,8 @@
         "snorkeling",
         "gozo",
         "easy"
-      ]
+      ],
+      "locality": "Gozo"
     },
     {
       "id": 69,
@@ -1946,7 +2309,8 @@
         "nature",
         "sunset",
         "hard"
-      ]
+      ],
+      "locality": "Mellieħa"
     },
     {
       "id": 70,
@@ -1966,30 +2330,126 @@
           "lat": 35.92051841887867,
           "type": "parking"
         },
-        { "lat": 35.9201820632405, "lon": 14.342592253561783, "type": "waypoint" },
-        { "lat": 35.92016385851133, "lon": 14.341710054897167, "type": "waypoint" },
-        { "lat": 35.92032137808043, "lon": 14.34127390702734, "type": "waypoint" },
-        { "lat": 35.92069323674545, "lon": 14.340689320075917, "type": "waypoint" },
-        { "lat": 35.92090023434103, "lon": 14.340343556045045, "type": "waypoint" },
-        { "lat": 35.92120780172358, "lon": 14.340002193314156, "type": "waypoint" },
-        { "lat": 35.92136383400161, "lon": 14.339851343996855, "type": "waypoint" },
-        { "lat": 35.921412251896385, "lon": 14.3399396843751, "type": "waypoint" },
-        { "lat": 35.92145044302826, "lon": 14.339844637254021, "type": "waypoint" },
-        { "lat": 35.921372108753474, "lon": 14.339767300125732, "type": "waypoint" },
-        { "lat": 35.921414840407024, "lon": 14.33961032042631, "type": "waypoint" },
-        { "lat": 35.921574012430696, "lon": 14.339369506441479, "type": "waypoint" },
-        { "lat": 35.92170505010262, "lon": 14.339119942253113, "type": "waypoint" },
-        { "lat": 35.92176802279259, "lon": 14.338950230221592, "type": "waypoint" },
-        { "lat": 35.921745914461724, "lon": 14.338902077903912, "type": "waypoint" },
-        { "lat": 35.92193950005874, "lon": 14.338661892676221, "type": "waypoint" },
-        { "lat": 35.921965469857284, "lon": 14.338397971866478, "type": "waypoint" },
-        { "lat": 35.92210028352733, "lon": 14.338111206213961, "type": "waypoint" },
-        { "lat": 35.92236426644422, "lon": 14.337811760625774, "type": "waypoint" },
-        { "lat": 35.92229187385287, "lon": 14.337411871084386, "type": "waypoint" },
-        { "lat": 35.92222576145191, "lon": 14.337009833289434, "type": "waypoint" },
-        { "lat": 35.92217025754499, "lon": 14.33662529590156, "type": "waypoint" },
-        { "lat": 35.922083394701176, "lon": 14.33629011594922, "type": "waypoint" },
-        { "lat": 35.92211123155842, "lon": 14.336149641124736, "type": "waypoint" },
+        {
+          "lat": 35.9201820632405,
+          "lon": 14.342592253561783,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92016385851133,
+          "lon": 14.341710054897167,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92032137808043,
+          "lon": 14.34127390702734,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92069323674545,
+          "lon": 14.340689320075917,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92090023434103,
+          "lon": 14.340343556045045,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92120780172358,
+          "lon": 14.340002193314156,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92136383400161,
+          "lon": 14.339851343996855,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921412251896385,
+          "lon": 14.3399396843751,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92145044302826,
+          "lon": 14.339844637254021,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921372108753474,
+          "lon": 14.339767300125732,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921414840407024,
+          "lon": 14.33961032042631,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921574012430696,
+          "lon": 14.339369506441479,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92170505010262,
+          "lon": 14.339119942253113,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92176802279259,
+          "lon": 14.338950230221592,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921745914461724,
+          "lon": 14.338902077903912,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92193950005874,
+          "lon": 14.338661892676221,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.921965469857284,
+          "lon": 14.338397971866478,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92210028352733,
+          "lon": 14.338111206213961,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92236426644422,
+          "lon": 14.337811760625774,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92229187385287,
+          "lon": 14.337411871084386,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92222576145191,
+          "lon": 14.337009833289434,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92217025754499,
+          "lon": 14.33662529590156,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.922083394701176,
+          "lon": 14.33629011594922,
+          "type": "waypoint"
+        },
+        {
+          "lat": 35.92211123155842,
+          "lon": 14.336149641124736,
+          "type": "waypoint"
+        },
         {
           "label": "Hidden Rocky Beach",
           "description": "Open this exact spot in Google Maps.",
@@ -2007,7 +2467,8 @@
         "hiking",
         "cliffs",
         "hard"
-      ]
+      ],
+      "locality": "Mġarr"
     },
     {
       "id": 71,
@@ -2214,7 +2675,8 @@
         "/assets/images/places/blata/blata-tal-melh-passage.png",
         "/assets/images/places/blata/batal-stairs-2.jpg",
         "/assets/images/places/blata/batal-stairs-3.png"
-      ]
+      ],
+      "locality": "Mġarr"
     }
   ]
 }
