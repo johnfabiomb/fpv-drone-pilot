@@ -256,9 +256,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const cx = coords.reduce((s, c) => s + c[0], 0) / coords.length;
       const cy = coords.reduce((s, c) => s + c[1], 0) / coords.length;
 
-      const rep = features.reduce((a, b) =>
-        b.get('location').id > a.get('location').id ? b : a
-      );
+      const rep = features.find(f => f.get('location').clusterPriority)
+        ?? features.reduce((a, b) =>
+          b.get('location').id > a.get('location').id ? b : a
+        );
 
       this.localityFeatures.push(new Feature({
         geometry: new Point([cx, cy]),

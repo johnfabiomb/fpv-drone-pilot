@@ -1,2 +1,3 @@
 <router-outlet></router-outlet>
-<app-pwa-prompt></app-pwa-prompt>
+<app-pwa-prompt *ngIf="isMapRoute"></app-pwa-prompt>
+<span class="app-version">v{{ version }}</span>

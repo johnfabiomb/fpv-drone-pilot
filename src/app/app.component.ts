@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ComponentsModule } from './components/components.module';
 import { CommonModule, Location } from '@angular/common';
 import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
+import { version } from '../../package.json';
+import { filter } from 'rxjs/operators';
+
+const MAP_ROUTES = ['/malta', '/list', '/plan', '/'];
 
 @Component({
     selector: 'app-root',
@@ -13,15 +17,21 @@ import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component
 })
 export class AppComponent {
   title = 'fpv-pilot';
+  readonly version = version;
   map = false;
+  isMapRoute = true;
+
   ngAfterViewInit() {
-    this.map = true
+    this.map = true;
   }
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private router: Router) {}
 
   ngOnInit() {
     this.ensureHashInUrl();
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
+      this.isMapRoute = MAP_ROUTES.some(r => e.urlAfterRedirects === r || e.urlAfterRedirects.startsWith(r + '?'));
+    });
   }
   
   ensureHashInUrl() {
