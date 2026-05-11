@@ -148,27 +148,14 @@
   flex-shrink: 0;
 }
 
-// ── Pay button ────────────────────────────────────────────
-.pay-btn {
+// ── Stripe embed ─────────────────────────────────────────
+.stripe-wrap {
   width: 100%;
-  padding: 18px 24px;
-  background: #F4A922;
-  color: #000;
-  border: none;
-  border-radius: 14px;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  letter-spacing: -0.2px;
-  transition: opacity 0.2s, transform 0.15s;
   margin-bottom: 20px;
 
-  &:hover  { opacity: 0.92; }
-  &:active { transform: scale(0.98); opacity: 0.85; }
+  stripe-buy-button {
+    width: 100%;
+  }
 }
 
 // ── Secure badge ──────────────────────────────────────────

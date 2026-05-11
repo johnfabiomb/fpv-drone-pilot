@@ -146,16 +146,26 @@ img {
 }
 
 .ol-attribution {
-  right: 8px;
-  bottom: 8px;
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-radius: 6px !important;
-  padding: 3px 8px !important;
-  font-size: 11px !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15) !important;
+  right: 6px;
+  bottom: 6px;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 
   button { display: none !important; }
-  ul { margin: 0 !important; }
+
+  ul {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 9px !important;
+    color: rgba(0, 0, 0, 0.16) !important;
+    list-style: none !important;
+
+    li a { color: inherit !important; text-decoration: none !important; }
+  }
 }
 
 .ol-scale-line {

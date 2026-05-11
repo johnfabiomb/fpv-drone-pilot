@@ -13,25 +13,25 @@
 .locate-btn {
     position: absolute;
     bottom: 140px;
-    right: 8px;
+    right: 10px;
     width: 40px;
     height: 40px;
     background: #fff;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #555;
-    font-size: 15px;
+    font-size: 16px;
     z-index: 5;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 
     &:hover {
         background: #f5f5f5;
-        color: #111;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
 
     &.has-gps {
