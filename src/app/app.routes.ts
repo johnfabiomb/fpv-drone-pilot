@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-import { MaltaMapComponent } from './platform/malta-map/malta-map.component';
 import { FEATURES } from './feature-flags';
 
 export const routes: Routes = [
     {
         path: '',
-        pathMatch:'full',
+        pathMatch: 'full',
         redirectTo: 'malta'
     },
     {
@@ -14,11 +13,26 @@ export const routes: Routes = [
     },
     {
         path: 'malta',
-        loadComponent: () => import('./platform/malta-map/malta-map.component').then(mod => mod.MaltaMapComponent)
-    },
-    {
-        path: 'list',
-        loadComponent: () => import('./platform/location-list/location-list.component').then(m => m.LocationListComponent)
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                loadComponent: () => import('./platform/malta-map/malta-map.component').then(mod => mod.MaltaMapComponent)
+            },
+            {
+                path: 'list',
+                loadComponent: () => import('./platform/location-list/location-list.component').then(m => m.LocationListComponent)
+            },
+            {
+                path: '30-places-2026',
+                loadComponent: () => import('./platform/trend/trend.component').then(m => m.TrendComponent)
+            },
+            {
+                path: 'plan',
+                canMatch: [() => FEATURES.ROUTE_BUILDER],
+                loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)
+            },
+        ]
     },
     {
         path: 'pay',
@@ -28,9 +42,4 @@ export const routes: Routes = [
         path: 'pay/success',
         loadComponent: () => import('./platform/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
     },
-    {
-        path: 'plan',
-        canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)
-    }
 ];

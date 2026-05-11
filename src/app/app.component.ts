@@ -6,7 +6,7 @@ import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component
 import { version } from '../../package.json';
 import { filter } from 'rxjs/operators';
 
-const MAP_ROUTES = ['/malta', '/list', '/plan', '/'];
+const MAP_ROUTES = ['/malta', '/'];
 
 @Component({
     selector: 'app-root',
@@ -30,7 +30,7 @@ export class AppComponent {
   ngOnInit() {
     this.ensureHashInUrl();
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
-      this.isMapRoute = MAP_ROUTES.some(r => e.urlAfterRedirects === r || e.urlAfterRedirects.startsWith(r + '?'));
+      this.isMapRoute = MAP_ROUTES.some(r => e.urlAfterRedirects === r || e.urlAfterRedirects.startsWith(r + '?') || e.urlAfterRedirects.startsWith('/malta/'));
     });
   }
   

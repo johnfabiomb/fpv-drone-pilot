@@ -105,19 +105,27 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
 
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      if (params['title']) {
-        const place = locations.find(loc => encodeURIComponent(loc.title) === params['title'])
+      let place: any = null;
+
+      if (params['locationId']) {
+        const id = parseInt(params['locationId'], 10);
+        place = (locations as any[]).find((loc: any) => loc.id === id);
+      } else if (params['title']) {
+        place = locations.find(loc => encodeURIComponent(loc.title) === params['title'])
           ?? locations.find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title']);
+      }
+
+      if (place) {
         this.seoService.updateMetaData(place);
-        this.analyticsService.pageView(window.location.href, place?.title ?? params['title']);
+        this.analyticsService.pageView(window.location.href, place.title);
         this.analyticsService.event('location_view', {
-          location_title: place?.title,
-          location_id: place?.id,
-          location_tags: place?.tags,
+          location_title: place.title,
+          location_id: place.id,
+          location_tags: place.tags,
         });
-        this.showLocation(place ?? null);
-        setTimeout(() => this.locationSelected.emit(place ?? null));
-      } else {
+        this.showLocation(place);
+        setTimeout(() => this.locationSelected.emit(place));
+      } else if (!params['locationId'] && !params['title']) {
         this.seoService.updateMetaData();
         this.analyticsService.pageView(window.location.href, 'Explore Malta - Map');
         this.clearRoute();

@@ -13,6 +13,65 @@ export class SeoService {
   private metaService = inject(Meta);
   private document = inject(DOCUMENT);
 
+  setTrendPage(revealed: Array<{ num: number; name: string; id: number | null }>): void {
+    const title = '30 Best Places to Visit in Malta (2026) · FPV Drone Guide';
+    const desc = "Explore 30 of Malta's most breathtaking hidden gems — sea caves, cliff trails, remote valleys and secret coastlines. A firsthand bucket-list guide by FPV drone pilot John Montaño.";
+    const url = `${BASE_URL}/malta/30-places-2026`;
+    const image = `${BASE_URL}/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg`;
+    const keywords = 'places to visit in Malta, best places Malta 2026, Malta bucket list, Malta hidden gems, Malta travel guide, Malta sea caves, Malta cliff walks, Gozo hidden spots, Malta drone photography, Malta hiking trails, what to see in Malta, Malta must see';
+
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: desc });
+    this.metaService.updateTag({ name: 'keywords', content: keywords });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: desc });
+    this.metaService.updateTag({ property: 'og:url', content: url });
+    this.metaService.updateTag({ property: 'og:image', content: image });
+    this.metaService.updateTag({ property: 'og:image:alt', content: "Ta' Marija Cave — Malta hidden gem" });
+    this.metaService.updateTag({ name: 'twitter:title', content: title });
+    this.metaService.updateTag({ name: 'twitter:description', content: desc });
+    this.metaService.updateTag({ name: 'twitter:image', content: image });
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
+    this.updateCanonical(url);
+
+    const script = this.document.querySelector('script[type="application/ld+json"]');
+    if (!script) return;
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': `${BASE_URL}/#website`,
+          url: `${BASE_URL}/`,
+          name: 'Explore Malta',
+          author: { '@id': `${BASE_URL}/#person` },
+        },
+        {
+          '@type': 'Person',
+          '@id': `${BASE_URL}/#person`,
+          name: 'John Montaño',
+          jobTitle: 'FPV Drone Pilot & Content Creator',
+          url: `${BASE_URL}/`,
+          sameAs: ['https://www.instagram.com/johnfabiomb/'],
+        },
+        {
+          '@type': 'ItemList',
+          '@id': url,
+          name: '30 Best Places to Visit in Malta',
+          description: desc,
+          url,
+          numberOfItems: 30,
+          itemListElement: revealed.map(loc => ({
+            '@type': 'ListItem',
+            position: loc.num,
+            name: loc.name,
+            url: loc.id !== null ? `${BASE_URL}/malta?locationId=${loc.id}` : url,
+          })),
+        },
+      ],
+    });
+  }
+
   setPage(page: 'map' | 'list' | 'pay' | 'pay-success' | 'plan'): void {
     const BASE = BASE_URL;
     const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
@@ -24,7 +83,7 @@ export class SeoService {
       list: {
         title: 'Browse All Locations · Explore Malta',
         desc: 'Browse 60+ hidden gems, caves, beaches and historical sites across Malta and Gozo. Filter by type, sort by rating or distance from you.',
-        url: `${BASE}/#/list`,
+        url: `${BASE}/malta/list`,
       },
       plan: {
         title: 'Route Builder · Explore Malta',
@@ -74,7 +133,7 @@ export class SeoService {
       const image = location.img?.startsWith('http') ? location.img : `${BASE_URL}${location.img}`;
       const imageAlt = `${location.title} - Malta`;
       const slug = encodeURIComponent(location.title.replace(' ', '-'));
-      const url = `${BASE_URL}/#/malta?title=${slug}`;
+      const url = `${BASE_URL}/malta?title=${slug}`;
 
       this.titleService.setTitle(title);
       this.metaService.updateTag({ name: 'description', content: description });

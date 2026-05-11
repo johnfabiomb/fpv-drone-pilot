@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentsModule } from '../../components/components.module';
 import { LocationPanelComponent } from '../../components/location-panel/location-panel.component';
 import { MapComponent } from '../../components/map/map.component';
@@ -24,6 +25,7 @@ export class MaltaMapComponent implements OnInit {
   userLat: number | null = null;
   userLon: number | null = null;
   activeFilters: string[] = [];
+  backTo: string | null = null;
 
   @ViewChild(MapComponent) mapComp!: MapComponent;
   @ViewChild(LocationPanelComponent) panelComp!: LocationPanelComponent;
@@ -33,10 +35,20 @@ export class MaltaMapComponent implements OnInit {
   private dragStartY = 0;
   private dragBaseHeight = 0;
 
-  constructor(private seo: SeoService) {}
+  constructor(
+    private seo: SeoService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.seo.setPage('map');
+    this.backTo = this.route.snapshot.queryParamMap.get('backTo');
+  }
+
+  goBack(): void {
+    if (this.backTo === '30-places-2026') this.router.navigate(['/malta/30-places-2026']);
+    else this.router.navigate(['/malta/list']);
   }
 
   @HostListener('window:online')
