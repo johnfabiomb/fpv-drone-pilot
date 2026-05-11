@@ -4,10 +4,10 @@ a {
 
 .app-version {
     position: fixed;
-    bottom: 6px;
-    left: 50%;
+    bottom: 2px;
+    right: 10px;
     transform: translateX(-50%);
-    font-size: 9px;
+    font-size: 6px;
     color: #111827;
     opacity: 0.4;
     pointer-events: none;

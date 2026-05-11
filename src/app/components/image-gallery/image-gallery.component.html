@@ -11,7 +11,8 @@
       [attr.data-offset]="circularOffset(i)"
       (click)="goTo(i)"
     >
-      <img [src]="img" alt="" />
+      <div class="skeleton" [class.hidden]="isLoaded(img)"></div>
+      <img [src]="img" alt="" [class.loaded]="isLoaded(img)" (load)="markLoaded(img)" />
     </div>
 
     <div class="nav nav--left"  *ngIf="canNavigate" (click)="prev()"></div>

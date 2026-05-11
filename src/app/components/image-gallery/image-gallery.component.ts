@@ -15,11 +15,16 @@ export class ImageGalleryComponent implements OnDestroy {
   @Input() set src(value: string[]) {
     this.images = value ?? [];
     this.active = 0;
+    this.loadedImgs.clear();
     this.restartAuto();
   }
 
   images: string[] = [];
   active = 0;
+  loadedImgs = new Set<string>();
+
+  markLoaded(img: string): void { this.loadedImgs.add(img); }
+  isLoaded(img: string): boolean { return this.loadedImgs.has(img); }
 
   private autoTimer: ReturnType<typeof setInterval> | null = null;
   private resumeTimer: ReturnType<typeof setTimeout> | null = null;
