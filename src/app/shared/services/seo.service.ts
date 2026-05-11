@@ -13,6 +13,58 @@ export class SeoService {
   private metaService = inject(Meta);
   private document = inject(DOCUMENT);
 
+  setPage(page: 'map' | 'list' | 'pay' | 'pay-success' | 'plan'): void {
+    const BASE = BASE_URL;
+    const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
+      map: {
+        title: DEFAULT_TITLE,
+        desc: DEFAULT_DESC,
+        url: `${BASE}/`,
+      },
+      list: {
+        title: 'Browse All Locations · Explore Malta',
+        desc: 'Browse 60+ hidden gems, caves, beaches and historical sites across Malta and Gozo. Filter by type, sort by rating or distance from you.',
+        url: `${BASE}/#/list`,
+      },
+      plan: {
+        title: 'Route Builder · Explore Malta',
+        desc: 'Plan your perfect route across Malta\'s hidden gems. Build a custom route connecting caves, beaches and historical sites curated by John Montaño.',
+        url: `${BASE}/#/plan`,
+      },
+      pay: {
+        title: 'Payment · John Montaño – FPV Drone Pilot',
+        desc: 'Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe.',
+        url: `${BASE}/#/pay`,
+      },
+      'pay-success': {
+        title: 'Payment Confirmed · John Montaño',
+        desc: 'Your payment has been confirmed. Book your slot with John Montaño – FPV drone pilot and content creator.',
+        url: `${BASE}/#/pay/success`,
+        noindex: true,
+      },
+    };
+
+    const p = pages[page];
+    if (!p) return;
+
+    this.titleService.setTitle(p.title);
+    this.metaService.updateTag({ name: 'description', content: p.desc });
+    this.metaService.updateTag({ property: 'og:title', content: p.title });
+    this.metaService.updateTag({ property: 'og:description', content: p.desc });
+    this.metaService.updateTag({ property: 'og:url', content: p.url });
+    this.metaService.updateTag({ property: 'og:image', content: DEFAULT_IMAGE });
+    this.metaService.updateTag({ name: 'twitter:title', content: p.title });
+    this.metaService.updateTag({ name: 'twitter:description', content: p.desc });
+    this.metaService.updateTag({ name: 'twitter:image', content: DEFAULT_IMAGE });
+    this.updateCanonical(p.url);
+
+    if (p.noindex) {
+      this.metaService.updateTag({ name: 'robots', content: 'noindex, nofollow' });
+    } else {
+      this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
+    }
+  }
+
   updateMetaData(location?: any): void {
     if (location) {
       const title = `${location.title} - Malta Hidden Gem | Explore Malta`;

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { locations } from '../../../assets/locations.json';
+import { SeoService } from '../../shared/services/seo.service';
 
 interface FilterOption { id: string; label: string; emoji: string; }
 type SortMode = 'distance' | 'rating' | 'alpha';
@@ -44,9 +45,10 @@ export class LocationListComponent implements OnInit, OnDestroy {
   userLon: number | null = null;
   private watchId: number | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private seo: SeoService) {}
 
   ngOnInit(): void {
+    this.seo.setPage('list');
     if (navigator.geolocation) {
       this.watchId = navigator.geolocation.watchPosition(
         pos => {

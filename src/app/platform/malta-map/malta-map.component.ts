@@ -3,6 +3,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { ComponentsModule } from '../../components/components.module';
 import { LocationPanelComponent } from '../../components/location-panel/location-panel.component';
 import { MapComponent } from '../../components/map/map.component';
+import { SeoService } from '../../shared/services/seo.service';
 
 const PANEL_MIN_H = 80;          // minimized: drag handle + header visible
 const PANEL_EXPANDED_VH = 0.60;  // expanded: 60% of viewport height
@@ -32,7 +33,11 @@ export class MaltaMapComponent implements OnInit {
   private dragStartY = 0;
   private dragBaseHeight = 0;
 
-  ngOnInit(): void {}
+  constructor(private seo: SeoService) {}
+
+  ngOnInit(): void {
+    this.seo.setPage('map');
+  }
 
   @HostListener('window:online')
   onOnline() { this.isOnline = true; }
@@ -45,7 +50,9 @@ export class MaltaMapComponent implements OnInit {
     if (!location) {
       this.mapOnly = false;
       this.panelMinimized = false;
+      this.seo.setPage('map');
     } else {
+      this.seo.updateMetaData(location);
       this.panelMinimized = false;
       setTimeout(() => {
         this.applyPanelHeight(this.expandedHeight());

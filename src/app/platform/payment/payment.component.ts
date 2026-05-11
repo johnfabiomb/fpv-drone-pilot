@@ -1,6 +1,7 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-payment',
@@ -13,9 +14,10 @@ import { ActivatedRoute } from '@angular/router';
 export class PaymentComponent implements OnInit {
   amount: number | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private seo: SeoService) {}
 
   ngOnInit(): void {
+    this.seo.setPage('pay');
     this.amount = this.parseAmount(this.route.snapshot.queryParamMap.get('amount'));
   }
 

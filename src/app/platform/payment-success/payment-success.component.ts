@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { SeoService } from '../../shared/services/seo.service';
 
 const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/AcZssZ2YqYJ4FmNaa5k6pvktkeql6hrT6x6Gf4xX6Wk=?gv=true';
 
@@ -19,7 +20,7 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
   sharing = false;
   copied = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private seo: SeoService) {}
 
   async ngAfterViewInit(): Promise<void> {
     const link = document.createElement('link');
@@ -49,6 +50,7 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.seo.setPage('pay-success');
     this.sessionId = this.route.snapshot.queryParamMap.get('session_id');
   }
 
