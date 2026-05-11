@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ComponentsModule } from './components/components.module';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
 import { version } from '../../package.json';
 import { filter } from 'rxjs/operators';
@@ -25,31 +26,39 @@ export class AppComponent {
     this.map = true;
   }
 
-  constructor(private location: Location, private router: Router) {}
+  private platformId = inject(PLATFORM_ID);
+  constructor(private router: Router) {}
+
+  // Renamed routes that need explicit mapping from old hash paths
+  private readonly HASH_RENAMES: Record<string, string> = {
+    '/list':  '/malta/list',
+    '/trend': '/malta/30-places-2026',
+    '/plan':  '/malta/plan',
+  };
 
   ngOnInit() {
-    this.ensureHashInUrl();
+    if (isPlatformBrowser(this.platformId)) {
+      // Handle legacy hash URLs (e.g. /#/malta → /malta, /#/list → /malta/list)
+      const hash = window.location.hash;
+      if (hash.startsWith('#/')) {
+        const hashContent = hash.slice(1); // drop '#', keep leading '/'
+        const qIdx = hashContent.indexOf('?');
+        const oldPath = qIdx === -1 ? hashContent : hashContent.slice(0, qIdx);
+        const query   = qIdx === -1 ? '' : hashContent.slice(qIdx);
+        const newUrl  = (this.HASH_RENAMES[oldPath] ?? oldPath) + query;
+        this.router.navigateByUrl(newUrl, { replaceUrl: true });
+      }
+
+      // Handle 404.html redirect param for non-prerendered paths
+      const redirect = new URLSearchParams(window.location.search).get('redirect');
+      if (redirect) {
+        this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
+      }
+    }
+
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
       this.isMapRoute = MAP_ROUTES.some(r => e.urlAfterRedirects === r || e.urlAfterRedirects.startsWith(r + '?') || e.urlAfterRedirects.startsWith('/malta/'));
     });
   }
   
-  ensureHashInUrl() {
-    const currentUrl = window.location.href;
-  
-    // Check if the current URL does not already have a hash
-    if (!currentUrl.includes('#')) {
-      // Get the current path (without the hash) and ensure no duplicate slashes
-      const currentPath = window.location.pathname;
-  
-      // Remove the leading slash if it's already there to prevent double slashes
-      const cleanPath = currentPath.startsWith('/') ? currentPath.substring(1) : currentPath;
-      
-      // Construct the new URL with the hash and path
-      const newUrl = `${cleanPath}${window.location.search}`;
-  
-      // Replace the current state with the new URL, without reloading the page
-      this.location.replaceState(newUrl);
-    }
-  }
 }

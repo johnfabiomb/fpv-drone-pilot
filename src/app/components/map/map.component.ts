@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { fromLonLat } from 'ol/proj';
 import OlMap from 'ol/Map';
 import Feature from 'ol/Feature';
@@ -59,6 +60,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
 
+  private platformId = inject(PLATFORM_ID);
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -67,6 +70,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.map = createMap(
       getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]),
       10.2,

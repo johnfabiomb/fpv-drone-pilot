@@ -1,3 +1,9 @@
 {
-  "routes": {}
+  "routes": {
+    "/": {},
+    "/malta": {},
+    "/malta/30-places-2026": {},
+    "/malta/list": {},
+    "/pay": {}
+  }
 }

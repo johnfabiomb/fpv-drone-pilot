@@ -4,13 +4,12 @@
   <meta charset="utf-8">
   <title>Explore Malta</title>
   <script>
-    // GitHub Pages serves this for any unknown path.
-    // Instantly redirect /malta  →  /#/malta  so the hash-based
-    // Angular SPA can handle the route without a round-trip XHR.
+    // GitHub Pages serves this for paths that don't have a prerendered file.
+    // Preserve the full path+search so Angular router can handle it client-side.
     (function () {
       var l = window.location;
-      var path = l.pathname.replace(/\/$/, '') || '/';
-      l.replace(l.origin + '/#' + path + l.search + l.hash);
+      var path = encodeURIComponent(l.pathname + l.search);
+      l.replace(l.origin + '/?redirect=' + path);
     })();
   </script>
 </head>

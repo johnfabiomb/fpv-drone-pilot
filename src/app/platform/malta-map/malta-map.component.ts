@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, HostListener, OnInit, PLATFORM_ID, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentsModule } from '../../components/components.module';
 import { LocationPanelComponent } from '../../components/location-panel/location-panel.component';
@@ -20,7 +20,8 @@ export class MaltaMapComponent implements OnInit {
   map = true;
   selectedLocation: any = null;
   mapOnly = false;
-  isOnline = navigator.onLine;
+  isOnline = false;
+  private platformId = inject(PLATFORM_ID);
   panelMinimized = false;
   userLat: number | null = null;
   userLon: number | null = null;
@@ -44,6 +45,7 @@ export class MaltaMapComponent implements OnInit {
   ngOnInit(): void {
     this.seo.setPage('map');
     this.backTo = this.route.snapshot.queryParamMap.get('backTo');
+    if (isPlatformBrowser(this.platformId)) this.isOnline = navigator.onLine;
   }
 
   goBack(): void {

@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { locations } from '../../../assets/locations.json';
@@ -45,11 +45,13 @@ export class LocationListComponent implements OnInit, OnDestroy {
   userLon: number | null = null;
   private watchId: number | null = null;
 
+  private platformId = inject(PLATFORM_ID);
+
   constructor(private router: Router, private seo: SeoService) {}
 
   ngOnInit(): void {
     this.seo.setPage('list');
-    if (navigator.geolocation) {
+    if (isPlatformBrowser(this.platformId) && navigator.geolocation) {
       this.watchId = navigator.geolocation.watchPosition(
         pos => {
           this.userLat = pos.coords.latitude;
@@ -63,7 +65,7 @@ export class LocationListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.watchId !== null) navigator.geolocation.clearWatch(this.watchId);
+    if (this.watchId !== null && isPlatformBrowser(this.platformId)) navigator.geolocation.clearWatch(this.watchId);
   }
 
   get filteredLocations(): any[] {

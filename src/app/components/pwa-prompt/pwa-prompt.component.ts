@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 const DISMISSED_KEY = 'pwa-prompt-dismissed';
 const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
@@ -126,6 +126,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   visible = false;
   isIos = false;
 
+  private platformId = inject(PLATFORM_ID);
   private deferredPrompt: any = null;
   private installHandler = (e: Event) => {
     e.preventDefault();
@@ -134,6 +135,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     // Already installed as PWA — don't show
     if (window.matchMedia('(display-mode: standalone)').matches) return;
     if ((window.navigator as any).standalone) return;
@@ -169,6 +171,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     window.removeEventListener('beforeinstallprompt', this.installHandler);
   }
 }

@@ -1,0 +1,5 @@
+/
+/malta
+/malta/list
+/malta/30-places-2026
+/pay
