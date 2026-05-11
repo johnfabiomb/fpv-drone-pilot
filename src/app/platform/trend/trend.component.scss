@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 0 0 48px;
+  overflow-x: hidden;
 }
 
 // ── Header / Hero ─────────────────────────────────────────
@@ -25,10 +26,10 @@
   &::before {
     content: '';
     position: absolute;
-    inset: -24px;
+    inset: 0;
     background: url('/assets/images/places/ta-maria-cave/TaMarijaCave.png') center / cover no-repeat;
     filter: blur(2px);
-    transform: scale(1.1);
+    transform: scale(1.15);
     z-index: 0;
   }
 
