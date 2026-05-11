@@ -180,8 +180,10 @@ app-filter-bar {
     height: 60vh; // JS overrides this immediately; CSS just avoids flash
     flex-shrink: 0;
     position: relative;
+    margin-top: -20px;
+    z-index: 10;
     border-left: none;
-    border-top: 1px solid #e5e7eb;
+    border-top: none;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
     will-change: height;
