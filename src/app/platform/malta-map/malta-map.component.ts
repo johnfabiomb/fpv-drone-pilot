@@ -20,7 +20,7 @@ export class MaltaMapComponent implements OnInit {
   map = true;
   selectedLocation: any = null;
   mapOnly = false;
-  isOnline = false;
+  isOnline = true;
   private platformId = inject(PLATFORM_ID);
   panelMinimized = false;
   userLat: number | null = null;

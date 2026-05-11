@@ -77,13 +77,7 @@
               "src/styles.scss",
               "node_modules/ol/ol.css"
             ],
-            "scripts": [],
-            "server": "src/server.ts",
-            "prerender": {
-              "discoverRoutes": false,
-              "routesFile": "prerender-routes.txt"
-            },
-            "ssr": false
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -99,7 +93,13 @@
                   "maximumError": "12kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "server": "src/server.ts",
+              "prerender": {
+                "discoverRoutes": false,
+                "routesFile": "prerender-routes.txt"
+              },
+              "ssr": false
             },
             "development": {
               "optimization": false,

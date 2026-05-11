@@ -102,12 +102,12 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
     ctx.scale(dpr, dpr);
 
     // ── Background
-    ctx.fillStyle = '#0a0a0a';
+    ctx.fillStyle = '#f6f7f9';
     ctx.fillRect(0, 0, W, H);
 
-    // ── Gold radial glow at top
-    const glow = ctx.createRadialGradient(W / 2, 0, 0, W / 2, 0, 360);
-    glow.addColorStop(0, 'rgba(244,169,34,0.22)');
+    // ── Subtle gold glow at top
+    const glow = ctx.createRadialGradient(W / 2, 0, 0, W / 2, 0, 300);
+    glow.addColorStop(0, 'rgba(244,169,34,0.10)');
     glow.addColorStop(1, 'rgba(244,169,34,0)');
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, W, H);
@@ -128,24 +128,24 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
 
     // ── Payment Confirmed
     ctx.font = '800 26px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#111827';
     ctx.fillText('Payment Confirmed!', CX, 178);
 
     // ── @Johnfabiomb
     ctx.font = '400 14px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#9ca3af';
+    ctx.fillStyle = '#6b7280';
     ctx.fillText('@Johnfabiomb', CX, 204);
 
     // ── Subtitle
     ctx.font = '400 11px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#6b7280';
+    ctx.fillStyle = '#9ca3af';
     ctx.fillText('FPV DRONE PILOT · CONTENT CREATOR', CX, 226);
 
     // ── Short divider
     ctx.beginPath();
     ctx.moveTo(CX - 50, 248);
     ctx.lineTo(CX + 50, 248);
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.strokeStyle = '#e5e7eb';
     ctx.lineWidth = 1;
     ctx.stroke();
 
@@ -162,9 +162,9 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
     ctx.lineTo(cX, cY + cR);
     ctx.quadraticCurveTo(cX, cY, cX + cR, cY);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    ctx.fillStyle = '#ffffff';
     ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeStyle = '#e5e7eb';
     ctx.lineWidth = 1;
     ctx.stroke();
 
@@ -192,17 +192,17 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
     ctx.beginPath();
     ctx.moveTo(lx, d1y);
     ctx.lineTo(rx, d1y);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = '#f3f4f6';
     ctx.lineWidth = 1;
     ctx.stroke();
 
     // ── Row 2: Date
     const r2y = d1y + 42;
     ctx.font = '400 13px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#6b7280';
+    ctx.fillStyle = '#9ca3af';
     ctx.textAlign = 'left';
     ctx.fillText('Date', lx, r2y);
-    ctx.fillStyle = '#d1d5db';
+    ctx.fillStyle = '#374151';
     ctx.textAlign = 'right';
     ctx.fillText(this.formatCanvasDate(this.paidAt), rx, r2y);
 
@@ -211,7 +211,7 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
     ctx.beginPath();
     ctx.moveTo(lx, d2y);
     ctx.lineTo(rx, d2y);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = '#f3f4f6';
     ctx.lineWidth = 1;
     ctx.stroke();
 
@@ -233,7 +233,7 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
 
     // ── Bottom branding
     ctx.font = '400 11px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = '#9ca3af';
     ctx.textAlign = 'center';
     ctx.fillText('johnfabiomb.com', CX, cY + cH + 46);
 

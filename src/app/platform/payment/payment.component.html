@@ -1,10 +1,8 @@
 <div class="pay-page">
   <div class="pay-inner">
-
-    <div class="brand-monogram">JM</div>
     <div class="brand-text">
       <div class="brand-name">&#64;Johnfabiomb</div>
-      <div class="brand-title">FPV Drone Pilot · Content Creator</div>
+      <div class="brand-title">Explorer · Content Creator · FPV Drone Pilot</div>
     </div>
 
     <div class="brand-divider"></div>
@@ -15,21 +13,19 @@
     </div>
 
     <p class="brand-copy" *ngIf="amount === null">
-      Thank you for working with me.<br>
+      Looking forward to working on your project.<br>
       Complete your payment securely below<br>
       and book your slot once done.
     </p>
 
     <div class="stripe-wrap">
-      <stripe-buy-button
-        buy-button-id="buy_btn_1TVg2KAXI0tdCXi36J3eOyL4"
-        publishable-key="pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB"
-      ></stripe-buy-button>
+      <stripe-buy-button buy-button-id="buy_btn_1TVg2KAXI0tdCXi36J3eOyL4"
+        publishable-key="pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB"></stripe-buy-button>
     </div>
 
     <div class="brand-secure">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
       </svg>
       256-bit SSL · Secured by Stripe
     </div>

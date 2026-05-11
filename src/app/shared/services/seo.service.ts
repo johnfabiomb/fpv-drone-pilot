@@ -15,10 +15,10 @@ export class SeoService {
 
   setTrendPage(revealed: Array<{ num: number; name: string; id: number | null }>): void {
     const title = '30 Best Places to Visit in Malta (2026) · FPV Drone Guide';
-    const desc = "Explore 30 of Malta's most breathtaking hidden gems — sea caves, cliff trails, remote valleys and secret coastlines. A firsthand bucket-list guide by FPV drone pilot John Montaño.";
+    const desc = "Explore 30 of Malta's most breathtaking hidden gems — sea caves, cliff trails, remote valleys and secret coastlines most tourists never find. A firsthand bucket-list by John Montaño.";
     const url = `${BASE_URL}/malta/30-places-2026`;
-    const image = `${BASE_URL}/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg`;
-    const keywords = 'places to visit in Malta, best places Malta 2026, Malta bucket list, Malta hidden gems, Malta travel guide, Malta sea caves, Malta cliff walks, Gozo hidden spots, Malta drone photography, Malta hiking trails, what to see in Malta, Malta must see';
+    const image = `${BASE_URL}/assets/images/places/ta-maria-cave/TaMarijaCave.png`;
+    const keywords = 'places to visit in Malta, best places Malta 2026, Malta bucket list, Malta hidden gems, Malta travel guide, Malta sea caves, Malta cliff walks, Gozo hidden spots, Malta hiking trails, what to see in Malta, Malta must see, Malta off the beaten path';
 
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: desc });
