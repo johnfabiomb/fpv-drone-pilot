@@ -1526,7 +1526,8 @@
         "/assets/images/places/ta-maria-cave/ta-maria-cave-2.jpg",
         "/assets/images/places/ta-maria-cave/ta-maria-cave-3.jpg"
       ],
-      "locality": "Mġarr"
+      "locality": "Mġarr",
+      "clusterPriority": true
     },
     {
       "id": 46,
