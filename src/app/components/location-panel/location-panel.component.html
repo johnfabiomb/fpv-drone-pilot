@@ -1,3 +1,9 @@
+<app-nav-interstitial
+  *ngIf="pendingNavUrl"
+  [url]="pendingNavUrl"
+  (closed)="pendingNavUrl = null">
+</app-nav-interstitial>
+
 <div class="panel-header"
   (touchstart)="headerDragStart.emit($event)"
   (touchmove)="headerDragMove.emit($event)"
@@ -59,6 +65,8 @@
   <app-image-gallery [src]="location?.images?.length ? location.images : [location?.img]"></app-image-gallery>
 
   <div [innerHTML]="location?.description" class="description"></div>
+
+  <app-ad-banner></app-ad-banner>
 
   <hr class="divider">
 

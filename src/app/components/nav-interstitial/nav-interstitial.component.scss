@@ -1,0 +1,113 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 20px 16px;
+  width: min(340px, 92vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dismiss-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+
+  &:hover { color: #fff; }
+}
+
+.countdown-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+
+.ring {
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: #333;
+  stroke-width: 4;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: #F4A922;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.9s linear;
+}
+
+.countdown-num {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.countdown-label {
+  margin: 0;
+  color: #aaa;
+  font-size: 13px;
+  text-align: center;
+}
+
+.open-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  background: #444;
+  color: #888;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: background 0.3s, color 0.3s, transform 0.1s;
+  width: 100%;
+  justify-content: center;
+
+  &.ready {
+    background: #F4A922;
+    color: #000;
+    cursor: pointer;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  &.ready:active {
+    transform: scale(0.97);
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 169, 34, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(244, 169, 34, 0); }
+}

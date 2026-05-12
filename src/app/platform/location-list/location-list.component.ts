@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { locations } from '../../../assets/locations.json';
 import { SeoService } from '../../shared/services/seo.service';
+import { AdBannerComponent } from '../../components/ad-banner/ad-banner.component';
 
 interface FilterOption { id: string; label: string; emoji: string; }
 type SortMode = 'distance' | 'rating' | 'alpha';
@@ -20,7 +21,7 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
 @Component({
   selector: 'app-location-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AdBannerComponent],
   templateUrl: './location-list.component.html',
   styleUrl: './location-list.component.scss',
 })

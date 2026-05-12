@@ -48,7 +48,6 @@ Open `src/assets/locations.json` and add a new object to the array. Use the temp
     ],
     "lon": 14.000000,
     "lat": 35.000000,
-    "url": "https://www.instagram.com/johnfabiomb/embed",
     "keywords": "Malta, location name, hiking, nature, FPV",
     "rating": 4.5,
     "difficulty": "moderate",
@@ -84,7 +83,7 @@ Open `src/assets/locations.json` and add a new object to the array. Use the temp
 | `images` | No | Array of image paths for the gallery slider in the modal. If omitted, only `img` is shown. |
 | `lon` | Yes | Longitude (e.g. `14.4562`). |
 | `lat` | Yes | Latitude (e.g. `35.8207`). Malta is ~35.8–36.1 lat, ~14.2–14.6 lon. |
-| `url` | Yes | Instagram embed URL. Use the profile embed until you film a reel there. |
+| `url` | No | *(Unused — the Instagram embed was removed from the location panel. Field can be omitted on new entries.)* |
 | `keywords` | Yes | Comma-separated keywords for SEO meta tags. |
 | `rating` | Yes | Rating out of 5 (e.g. `4.7`). Shown with a star on the modal. |
 | `difficulty` | Yes | `"easy"`, `"moderate"`, or `"hard"`. Used by the route builder and filter bar. |
@@ -265,18 +264,6 @@ This shows a full-width image in the modal below the description, with a note th
 
 ---
 
-## Optional: Custom Instagram Reel
-
-Once you film and publish a reel for the location, replace the default profile embed with the specific reel:
-
-```json
-"url": "https://www.instagram.com/reel/YOUR_REEL_ID/embed"
-```
-
-To get the embed URL: open the reel on Instagram → tap the three dots → Copy link → paste it here and add `/embed` at the end.
-
----
-
 ## Step 3 — Regenerate the Sitemap
 
 Run this from the project root. It rebuilds `src/sitemap.xml` with all locations so Google can discover the new one.
@@ -313,10 +300,12 @@ print(f'Done - {len(urls)} URLs')
 ## Step 4 — Build and Deploy
 
 ```bash
-ng build --configuration production
+ng build
 ```
 
 The new marker appears on the map automatically. Clustering, thumbnails, and icon preloading all handle themselves — no code changes needed.
+
+> Routes are prerendered automatically via `discoverRoutes: true` — no manual route file to update.
 
 ---
 
