@@ -25,9 +25,9 @@ const homepageUrl = `  <url>
   </url>`;
 
 const locationUrls = locs.map(loc => `  <url>
-    <loc>${BASE}/#/malta?title=${encode(loc.title)}</loc>
+    <loc>${BASE}/malta?title=${encode(loc.title)}</loc>
     <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>`);
 

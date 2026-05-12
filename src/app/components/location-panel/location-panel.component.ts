@@ -25,6 +25,8 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   @Output() toggleCollapse = new EventEmitter<void>();
 
   shareLabel = 'Share';
+  shareFeedbackVisible = false;
+
   confirmingClose = false;
   nearbyMode = false;
   showNearbyPrompt = false;
@@ -33,13 +35,14 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   private dismissedNearby = false;
 
   private shareLabelTimer: any;
+  private shareFeedbackTimer: any;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private analyticsService: AnalyticsService,
     @Inject(DOCUMENT) private document: Document,
-  ) {}
+  ) { }
 
   ngOnChanges(): void {
     if (this.location && this.location.id !== this.prevLocationId) {
@@ -48,6 +51,8 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
       this.nearbyMode = false;
       this.showNearbyPrompt = false;
       this.dismissedNearby = false;
+      this.shareLabel = 'Share';
+      this.shareFeedbackVisible = false;
       this.closestLocations = this.getClosestLocations();
     }
     this.checkProximity();
@@ -98,6 +103,7 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     clearTimeout(this.shareLabelTimer);
+    clearTimeout(this.shareFeedbackTimer);
   }
 
   hasRecordedRoute(): boolean {
@@ -123,26 +129,46 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   pointLabel(point: any, index: number): string {
     const isOnly = index === 0;
     switch (point.type) {
-      case 'parking':     return '🚗 Drive to Parking';
-      case 'checkpoint':  return '🚶 Walk to ' + (point.label ?? 'Checkpoint');
+      case 'parking': return '🚗 Drive to Parking';
+      case 'checkpoint': return '🚶 Walk to ' + (point.label ?? 'Checkpoint');
       case 'destination': return isOnly ? '🗺️ Get Directions' : '🚶 Walk to ' + (point.label ?? 'Final Destination');
-      default:            return '📍 ' + (point.label ?? 'Get Directions');
+      default: return '📍 ' + (point.label ?? 'Get Directions');
     }
   }
 
   share(): void {
-    const title = encodeURIComponent(this.location.title.replace(/ /g, '-'));
-    const shareUrl = `${this.document.location.origin}/#/malta?title=${title}`;
+    const url = new URL(`${this.document.location.origin}/malta`);
+    url.searchParams.set('locationId', String(this.location.id));
+
+    const shareUrl = url.toString();
+
     const confirm = () => {
       clearTimeout(this.shareLabelTimer);
       this.shareLabel = 'Copied!';
+      this.showShareFeedback();
       this.shareLabelTimer = setTimeout(() => { this.shareLabel = 'Share'; }, 2500);
     };
+
+    this.analyticsService.event('location_share', {
+      location_title: this.location?.title,
+      location_id: this.location?.id
+    });
+
     if (navigator.share) {
-      navigator.share({ title: this.location.title, url: shareUrl }).catch(() => {});
+      this.showShareFeedback();
+
+      navigator.share({
+        title: this.location.title,
+        text: `Check this place in Malta: ${this.location.title}`,
+        url: shareUrl
+      }).catch(() => { });
+
       return;
     }
-    navigator.clipboard.writeText(shareUrl).then(confirm).catch(() => {
+
+    const clipboardWrite = navigator.clipboard && typeof navigator.clipboard.writeText === 'function';
+
+    const fallbackCopy = () => {
       const el = this.document.createElement('input') as HTMLInputElement;
       el.value = shareUrl;
       this.document.body.appendChild(el);
@@ -150,13 +176,28 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
       this.document.execCommand('copy');
       this.document.body.removeChild(el);
       confirm();
-    });
-    this.analyticsService.event('location_share', { location_title: this.location?.title, location_id: this.location?.id });
+    };
+
+    if (clipboardWrite) {
+      navigator.clipboard.writeText(shareUrl).then(confirm).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  }
+
+  private showShareFeedback(): void {
+    clearTimeout(this.shareFeedbackTimer);
+
+    this.shareFeedbackVisible = true;
+
+    this.shareFeedbackTimer = setTimeout(() => {
+      this.shareFeedbackVisible = false;
+    }, 3500);
   }
 
   clickon(loc: any): void {
     this.analyticsService.event('recommendation_click', { from_location: this.location?.title, to_location: loc?.title });
-    const queryParams = { title: encodeURIComponent(loc.title.replace(' ', '-')) };
+    const queryParams = { title: this.getLocationSlug(loc.title) };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
@@ -187,5 +228,9 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
       }))
       .sort((a, b) => parseFloat(a.distanceKm) - parseFloat(b.distanceKm))
       .slice(0, 4);
+  }
+
+  private getLocationSlug(title: string): string {
+    return title.trim().replace(/ /g, '-');
   }
 }

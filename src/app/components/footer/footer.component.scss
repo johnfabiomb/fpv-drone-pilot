@@ -103,6 +103,12 @@
     }
 }
 
+@media (max-width: 900px) {
+    .footer-links {
+        display: none;
+    }
+}
+
 // ── About popup ───────────────────────────────────────────
 .about-popup {
     position: absolute;
@@ -181,6 +187,77 @@
     height: 1px;
     background: #e5e7eb;
     margin: 14px 0;
+}
+
+.about-policies {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+
+    a {
+        color: #111827;
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.2s;
+
+        &:hover { opacity: 0.75; }
+    }
+}
+
+.about-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #4b5563;
+    text-align: center;
+
+    .about-contact-label {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    a {
+        color: #F4A922;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover { opacity: 0.8; }
+    }
+
+    .about-contact-note {
+        font-size: 12px;
+        color: #6b7280;
+        line-height: 1.4;
+    }
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+    font-size: 12px;
+    color: #6b7280;
+
+    a {
+        color: #374151;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+
+        &:hover { opacity: 0.8; }
+    }
+
+    span {
+        color: #9ca3af;
+    }
 }
 
 .about-socials {

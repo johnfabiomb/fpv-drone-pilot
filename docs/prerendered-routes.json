@@ -1,9 +1,14 @@
 {
   "routes": {
     "/": {},
+    "/about": {},
+    "/contact": {},
+    "/cookies": {},
     "/malta": {},
     "/malta/30-places-2026": {},
     "/malta/list": {},
-    "/pay": {}
+    "/pay": {},
+    "/pay/success": {},
+    "/privacy": {}
   }
 }

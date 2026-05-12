@@ -72,7 +72,7 @@ export class SeoService {
     });
   }
 
-  setPage(page: 'map' | 'list' | 'pay' | 'pay-success' | 'plan'): void {
+  setPage(page: 'map' | 'list' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact'): void {
     const BASE = BASE_URL;
     const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
       map: {
@@ -88,18 +88,38 @@ export class SeoService {
       plan: {
         title: 'Route Builder · Explore Malta',
         desc: 'Plan your perfect route across Malta\'s hidden gems. Build a custom route connecting caves, beaches and historical sites curated by John Montaño.',
-        url: `${BASE}/#/plan`,
+        url: `${BASE}/plan`,
       },
       pay: {
         title: 'Payment · John Montaño – FPV Drone Pilot',
         desc: 'Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe.',
-        url: `${BASE}/#/pay`,
+        url: `${BASE}/pay`,
       },
       'pay-success': {
         title: 'Payment Confirmed · John Montaño',
         desc: 'Your payment has been confirmed. Book your slot with John Montaño – FPV drone pilot and content creator.',
-        url: `${BASE}/#/pay/success`,
+        url: `${BASE}/pay/success`,
         noindex: true,
+      },
+      privacy: {
+        title: 'Privacy Policy · Explore Malta',
+        desc: 'Read the Privacy Policy for Explore Malta, including Google Analytics, AdSense, and GDPR compliance.',
+        url: `${BASE}/privacy`,
+      },
+      cookies: {
+        title: 'Cookie Policy · Explore Malta',
+        desc: 'Read the Cookie Policy for Explore Malta, including how cookies are used for analytics and personalized ads.',
+        url: `${BASE}/cookies`,
+      },
+      about: {
+        title: 'About · Explore Malta',
+        desc: 'Learn more about Explore Malta, its creator, and the original location content behind the site.',
+        url: `${BASE}/about`,
+      },
+      contact: {
+        title: 'Contact · Explore Malta',
+        desc: 'Contact information for Explore Malta and site owner John Montaño.',
+        url: `${BASE}/contact`,
       },
     };
 

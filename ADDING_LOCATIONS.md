@@ -298,7 +298,7 @@ urls = ['  <url>\n    <loc>{}/</loc>\n    <lastmod>{}</lastmod>\n    <changefreq
 
 for loc in locs:
     slug = quote(loc['title'].replace(' ', '-'))
-    urls.append('  <url>\n    <loc>{}/#/malta?title={}</loc>\n    <lastmod>{}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>'.format(BASE, slug, today))
+    urls.append('  <url>\n    <loc>{}/malta?title={}</loc>\n    <lastmod>{}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>'.format(BASE, slug, today))
 
 sitemap = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n' + '\n'.join(urls) + '\n</urlset>\n'
 

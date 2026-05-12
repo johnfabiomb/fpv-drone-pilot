@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
 
@@ -19,10 +19,15 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
   paidAt = new Date();
   sharing = false;
   copied = false;
+  private platformId = inject(PLATFORM_ID);
 
   constructor(private route: ActivatedRoute, private seo: SeoService) {}
 
   async ngAfterViewInit(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     const link = document.createElement('link');
     link.href = 'https://calendar.google.com/calendar/scheduling-button-script.css';
     link.rel = 'stylesheet';
@@ -56,6 +61,23 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
 
   async copyRef(): Promise<void> {
     if (!this.sessionId) return;
+    const clipboardWrite = (navigator.clipboard && typeof navigator.clipboard.writeText === 'function');
+    if (!clipboardWrite) {
+      try {
+        const el = document.createElement('input');
+        el.value = this.sessionId;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        this.copied = true;
+        setTimeout(() => this.copied = false, 2000);
+      } catch {
+        // clipboard not available
+      }
+      return;
+    }
+
     try {
       await navigator.clipboard.writeText(this.sessionId);
       this.copied = true;

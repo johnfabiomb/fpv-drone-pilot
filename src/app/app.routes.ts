@@ -12,6 +12,22 @@ export const routes: Routes = [
         loadComponent: () => import('./platform/home/home.component').then(mod => mod.HomeComponent)
     },
     {
+        path: 'privacy',
+        loadComponent: () => import('./platform/privacy/privacy.component').then(mod => mod.PrivacyComponent)
+    },
+    {
+        path: 'cookies',
+        loadComponent: () => import('./platform/cookies/cookies.component').then(mod => mod.CookiesComponent)
+    },
+    {
+        path: 'about',
+        loadComponent: () => import('./platform/about/about.component').then(mod => mod.AboutComponent)
+    },
+    {
+        path: 'contact',
+        loadComponent: () => import('./platform/contact/contact.component').then(mod => mod.ContactComponent)
+    },
+    {
         path: 'malta',
         children: [
             {

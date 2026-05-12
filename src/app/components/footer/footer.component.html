@@ -1,6 +1,15 @@
 <div class="bottom-bar">
   <a *ngIf="features.ROUTE_BUILDER" class="route-btn" routerLink="/malta/plan">🗺️ Build My Route</a>
   <a class="list-btn" routerLink="/malta/list">📍 Browse All</a>
+  <!-- <div class="footer-links">
+    <a routerLink="/privacy">Privacy</a>
+    <span>·</span>
+    <a routerLink="/cookies">Cookies</a>
+    <span>·</span>
+    <a routerLink="/about">About</a>
+    <span>·</span>
+    <a routerLink="/contact">Contact</a>
+  </div> -->
 
   <div class="profile-wrap" (click)="toggleAbout($event)">
 
@@ -15,6 +24,16 @@
         <span>Malta</span>
       </div>
       <div class="about-divider"></div>
+      <div class="about-policies">
+        <a routerLink="/privacy">Privacy Policy</a>
+        <a routerLink="/cookies">Cookie Policy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+      <div class="about-contact">
+        <div class="about-contact-label">About</div>
+        <a href="mailto:creator&#64;johnfabiomb.com">creator&#64;johnfabiomb.com</a>
+        <div class="about-contact-note">For privacy, cookie, or sponsorship questions, use the linked pages above or send a message.</div>
+      </div>
       <div class="about-socials">
         <a class="about-social" href="https://www.instagram.com/johnfabiomb/" target="_blank" rel="noopener">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
