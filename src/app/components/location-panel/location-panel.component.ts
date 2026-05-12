@@ -2,14 +2,13 @@ import { Component, Input, Output, EventEmitter, Inject, OnChanges, OnDestroy } 
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
-import { PipesModule } from '../../shared/pipes/pipes.module';
 import { AnalyticsService } from '../../shared/services/analytics.service';
 import { locations } from '../../../assets/locations.json';
 
 @Component({
   selector: 'app-location-panel',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, PipesModule],
+  imports: [CommonModule, ImageGalleryComponent],
   templateUrl: './location-panel.component.html',
   styleUrl: './location-panel.component.scss',
 })

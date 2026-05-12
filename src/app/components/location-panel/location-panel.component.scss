@@ -383,28 +383,6 @@ h4 {
   margin: 0 0 8px;
 }
 
-.recommendation-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-
-  .location img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    display: block;
-    transition: box-shadow 0.2s, transform 0.2s;
-
-    &:hover {
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-      transform: translateY(-2px);
-    }
-  }
-}
-
-.mb-4 { margin-bottom: 4px; }
 
 
 .closest-section {
