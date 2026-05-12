@@ -111,8 +111,8 @@ export function buildRouteFeatures(mapPoints: any[]): Feature[] {
       const pinCanvas = makePinCanvas(pinColor);
 
       // Text above the pin circle for destination; to the right for parking
-      const textOffsetX = isFirst ? 16 : 0;
-      const textOffsetY = isFirst ? -22 : -(PIN_H + 4);
+      const textOffsetX =  0;
+      const textOffsetY =  -(PIN_H + 10);
 
       dot.setStyle(new Style({
         image: new Icon({
@@ -129,7 +129,7 @@ export function buildRouteFeatures(mapPoints: any[]): Feature[] {
           stroke: new Stroke({ color: '#ffffff', width: 3 }),
           offsetX: textOffsetX,
           offsetY: textOffsetY,
-          textAlign: isFirst ? 'left' : 'center',
+          textAlign: 'center',
           textBaseline: 'middle',
         }),
         zIndex: isLast ? 2 : 1,

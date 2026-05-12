@@ -516,7 +516,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       this.map.getView().fit(this.routeSource.getExtent(), {
         padding: [70, 40, 50, 40],
         duration: 450,
-        maxZoom: 16,
+        maxZoom: 15,
       });
     } else {
       const flatCoords = this.getLocationMapCoordinates(this.currentLocation);
