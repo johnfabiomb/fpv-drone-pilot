@@ -3,14 +3,13 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { AdBannerComponent } from '../ad-banner/ad-banner.component';
-import { NavInterstitialComponent } from '../nav-interstitial/nav-interstitial.component';
 import { AnalyticsService } from '../../shared/services/analytics.service';
 import { locations } from '../../../assets/locations.json';
 
 @Component({
   selector: 'app-location-panel',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, AdBannerComponent, NavInterstitialComponent],
+  imports: [CommonModule, ImageGalleryComponent, AdBannerComponent],
   templateUrl: './location-panel.component.html',
   styleUrl: './location-panel.component.scss',
 })
@@ -25,6 +24,7 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   @Output() headerDragMove = new EventEmitter<TouchEvent>();
   @Output() headerDragEnd = new EventEmitter<TouchEvent>();
   @Output() toggleCollapse = new EventEmitter<void>();
+  @Output() navRequested = new EventEmitter<string>();
 
   shareLabel = 'Share';
   shareFeedbackVisible = false;
@@ -118,8 +118,6 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
     );
   }
 
-  pendingNavUrl: string | null = null;
-
   navigateTo(point: any, index: number): void {
     const visible = this.visibleMapPoints();
     const prev = index > 0 ? visible[index - 1] : null;
@@ -127,7 +125,7 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
     let url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lon}&travelmode=${mode}`;
     if (prev && point.type !== 'destination') url += `&origin=${prev.lat},${prev.lon}`;
     this.analyticsService.event('navigate_to_point', { location_title: this.location?.title, point_type: point.type });
-    this.pendingNavUrl = url;
+    this.navRequested.emit(url);
   }
 
   pointLabel(point: any, index: number): string {

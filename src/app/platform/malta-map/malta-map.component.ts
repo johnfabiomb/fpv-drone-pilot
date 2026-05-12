@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentsModule } from '../../components/components.module';
 import { LocationPanelComponent } from '../../components/location-panel/location-panel.component';
 import { MapComponent } from '../../components/map/map.component';
+import { NavInterstitialComponent } from '../../components/nav-interstitial/nav-interstitial.component';
 import { SeoService } from '../../shared/services/seo.service';
 
 const PANEL_MIN_H = 80;          // minimized: drag handle + header visible
@@ -12,7 +13,7 @@ const PANEL_EXPANDED_VH = 0.60;  // expanded: 60% of viewport height
 @Component({
   selector: 'app-malta-map',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, LocationPanelComponent],
+  imports: [CommonModule, ComponentsModule, LocationPanelComponent, NavInterstitialComponent],
   templateUrl: './malta-map.component.html',
   styleUrl: './malta-map.component.scss'
 })
@@ -27,6 +28,7 @@ export class MaltaMapComponent implements OnInit {
   userLon: number | null = null;
   activeFilters: string[] = [];
   backTo: string | null = null;
+  pendingNavUrl: string | null = null;
 
   @ViewChild(MapComponent) mapComp!: MapComponent;
   @ViewChild(LocationPanelComponent) panelComp!: LocationPanelComponent;

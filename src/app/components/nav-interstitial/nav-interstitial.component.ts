@@ -44,7 +44,7 @@ export class NavInterstitialComponent implements OnInit, OnDestroy {
 
   open() {
     if (this.seconds > 0) return;
-    window.open(this.url, '_blank');
+    window.location.href = this.url;
     this.closed.emit();
   }
 

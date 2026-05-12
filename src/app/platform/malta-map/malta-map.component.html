@@ -1,3 +1,9 @@
+<app-nav-interstitial
+  *ngIf="pendingNavUrl"
+  [url]="pendingNavUrl"
+  (closed)="pendingNavUrl = null">
+</app-nav-interstitial>
+
 <div class="app">
   <div class="main-area">
     <div class="map-wrap">
@@ -58,7 +64,8 @@
         (headerDragStart)="onDragStart($event)"
         (headerDragMove)="onDragMove($event)"
         (headerDragEnd)="onDragEnd($event)"
-        (toggleCollapse)="panelMinimized ? expandPanel() : minimizePanel()">
+        (toggleCollapse)="panelMinimized ? expandPanel() : minimizePanel()"
+        (navRequested)="pendingNavUrl = $event">
       </app-location-panel>
     </div>
   </div>

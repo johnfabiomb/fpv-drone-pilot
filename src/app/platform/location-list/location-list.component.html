@@ -47,9 +47,10 @@
     </div>
   </div>
 
+  <app-ad-banner></app-ad-banner>
+
   <div class="location-list">
     <ng-container *ngFor="let loc of filteredLocations; let i = index">
-    <app-ad-banner *ngIf="i > 0 && i % 8 === 0"></app-ad-banner>
     <div
       class="loc-card"
       (click)="openLocation(loc)"
@@ -74,7 +75,6 @@
       </div>
     </div>
     </ng-container>
-
     <div class="empty" *ngIf="filteredLocations.length === 0">
       No locations match the selected filters.
     </div>

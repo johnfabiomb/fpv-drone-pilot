@@ -1,9 +1,3 @@
-<app-nav-interstitial
-  *ngIf="pendingNavUrl"
-  [url]="pendingNavUrl"
-  (closed)="pendingNavUrl = null">
-</app-nav-interstitial>
-
 <div class="panel-header"
   (touchstart)="headerDragStart.emit($event)"
   (touchmove)="headerDragMove.emit($event)"
