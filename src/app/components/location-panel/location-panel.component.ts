@@ -196,8 +196,10 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   }
 
   clickon(loc: any): void {
+    if (!loc || !loc.id) return;
+    console.log('Clicking on closest spot:', loc.id);
     this.analyticsService.event('recommendation_click', { from_location: this.location?.title, to_location: loc?.title });
-    const queryParams = { title: this.getLocationSlug(loc.title) };
+    const queryParams = { locationId: loc.id };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 

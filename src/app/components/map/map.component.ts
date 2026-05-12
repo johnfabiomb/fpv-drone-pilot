@@ -572,7 +572,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   clickon(data: any): void {
-    const queryParams = { title: encodeURIComponent(data.title.replace(' ', '-')) };
+    const queryParams = { locationId: data.id };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
