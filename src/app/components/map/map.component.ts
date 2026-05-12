@@ -547,6 +547,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map?.updateSize();
   }
 
+  locationDenied = false;
+  private locationDeniedTimer: any;
+
   locateMe(): void {
     const last = this.tracker?.lastCoord;
     if (last) {
@@ -556,8 +559,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const coord = this.tracker?.lastCoord
           ?? fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
         this.map.getView().animate({ center: coord, zoom: 15, duration: 400 });
-      }, () => { });
+      }, () => this.showLocationDenied());
+    } else {
+      this.showLocationDenied();
     }
+  }
+
+  private showLocationDenied(): void {
+    this.locationDenied = true;
+    clearTimeout(this.locationDeniedTimer);
+    this.locationDeniedTimer = setTimeout(() => { this.locationDenied = false; }, 4000);
   }
 
   clickon(data: any): void {

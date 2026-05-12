@@ -29,14 +29,11 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   confirmingClose = false;
   nearbyMode = false;
   showNearbyPrompt = false;
-  recommendedLocations: any[] = [];
-  frameVisible = false;
-
+  closestLocations: { location: any; distanceKm: string }[] = [];
   private prevLocationId: any = null;
   private dismissedNearby = false;
 
   private shareLabelTimer: any;
-  private frameTimer: any;
 
   constructor(
     private router: Router,
@@ -52,10 +49,7 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
       this.nearbyMode = false;
       this.showNearbyPrompt = false;
       this.dismissedNearby = false;
-      this.recommendedLocations = this.getRandomLocations();
-      this.frameVisible = false;
-      clearTimeout(this.frameTimer);
-      this.frameTimer = setTimeout(() => { this.frameVisible = true; }, 3000);
+      this.closestLocations = this.getClosestLocations();
     }
     this.checkProximity();
   }
@@ -104,7 +98,6 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearTimeout(this.frameTimer);
     clearTimeout(this.shareLabelTimer);
   }
 
@@ -177,12 +170,23 @@ export class LocationPanelComponent implements OnChanges, OnDestroy {
     return tag.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   }
 
-  private getRandomLocations(): any[] {
-    const pool = [...locations.filter(l => l.id !== this.location?.id)];
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-    return pool.slice(0, 9);
+  private getIsland(loc: any): string {
+    const tags = loc.tags ?? [];
+    if (tags.includes('comino')) return 'comino';
+    if (tags.includes('gozo')) return 'gozo';
+    return 'malta';
+  }
+
+  private getClosestLocations(): { location: any; distanceKm: string }[] {
+    if (!this.location) return [];
+    const currentIsland = this.getIsland(this.location);
+    return (locations as any[])
+      .filter(l => l.id !== this.location.id && this.getIsland(l) === currentIsland)
+      .map(l => ({
+        location: l,
+        distanceKm: (this.haversineM(this.location.lat, this.location.lon, l.lat, l.lon) / 1000).toFixed(1),
+      }))
+      .sort((a, b) => parseFloat(a.distanceKm) - parseFloat(b.distanceKm))
+      .slice(0, 4);
   }
 }
