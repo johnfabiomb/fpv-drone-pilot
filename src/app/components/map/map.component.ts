@@ -19,7 +19,7 @@ import { AnalyticsService } from '../../shared/services/analytics.service';
 
 const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
-const CLUSTER_ZOOM = 13; // below this zoom → locality clusters; above → individual pins
+const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → individual pins
 
 @Component({
   selector: 'app-map',
@@ -67,7 +67,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     public router: Router,
     public seoService: SeoService,
     public analyticsService: AnalyticsService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -95,7 +95,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const sub: Feature[] = feature.get('features');
         const coords = sub.map(f => (f.getGeometry() as Point).getCoordinates());
         const extent = boundingExtent(coords);
-        this.map.getView().fit(extent, { padding: [80, 80, 80, 80], duration: 400, maxZoom: 15 });
+        this.map.getView().fit(extent, {
+          padding: [80, 80, 80, 80], duration: 400, maxZoom: 14, callback: () => {
+            const z = this.map.getView().getZoom() ?? 0;
+            if (z < CLUSTER_ZOOM) {
+              this.map.getView().animate({ zoom: CLUSTER_ZOOM, duration: 200 });
+            }
+          },
+        });
       } else {
         const location = feature.get('location');
         if (location) this.clickon(location);
@@ -463,18 +470,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private getLocalityScale(zoom: number): number {
     if (zoom <= 10.5) return 0.52;
-    if (zoom <= 11)   return 0.62;
+    if (zoom <= 11) return 0.62;
     if (zoom <= 11.5) return 0.74;
-    if (zoom <= 12)   return 0.86;
+    if (zoom <= 12) return 0.86;
     return 1.0;
   }
 
   private getIconSize(zoom: number): number {
     if (zoom <= 10.8) return 14;
-    if (zoom <= 11.5) return 20;
-    if (zoom <= 12.3) return 28;
-    if (zoom <= 13.3) return 42;
-    return 60;
+    if (zoom <= 11.5) return 30;
+    if (zoom <= 12.3) return 35;
+    if (zoom <= 13.3) return 35;
+    return 52;
   }
 
   // ── Route layer ───────────────────────────────────────────
@@ -549,7 +556,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const coord = this.tracker?.lastCoord
           ?? fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
         this.map.getView().animate({ center: coord, zoom: 15, duration: 400 });
-      }, () => {});
+      }, () => { });
     }
   }
 
@@ -563,15 +570,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private matchesFilter(loc: any, filter: string): boolean {
     const tags: string[] = loc.tags ?? [];
     switch (filter) {
-      case 'beach':      return tags.includes('beach') || tags.includes('bay');
-      case 'cave':       return tags.includes('cave') || tags.includes('sea-cave');
+      case 'beach': return tags.includes('beach') || tags.includes('bay');
+      case 'cave': return tags.includes('cave') || tags.includes('sea-cave');
       case 'historical': return tags.includes('historical') || tags.includes('religious') || tags.includes('fortress') || tags.includes('fortification') || tags.includes('cultural');
-      case 'hidden':     return tags.includes('hidden');
-      case 'easy':       return tags.includes('easy');
-      case 'hard':       return tags.includes('hard');
-      case 'gozo':       return tags.includes('gozo');
-      case 'comino':     return tags.includes('comino');
-      default:           return true;
+      case 'hidden': return tags.includes('hidden');
+      case 'easy': return tags.includes('easy');
+      case 'hard': return tags.includes('hard');
+      case 'gozo': return tags.includes('gozo');
+      case 'comino': return tags.includes('comino');
+      default: return true;
     }
   }
 
