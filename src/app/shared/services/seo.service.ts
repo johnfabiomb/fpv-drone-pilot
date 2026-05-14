@@ -234,6 +234,7 @@ export class SeoService {
         ratingValue: location.rating,
         bestRating: 5,
         worstRating: 1,
+        reviewCount: 1,
       };
     }
 
