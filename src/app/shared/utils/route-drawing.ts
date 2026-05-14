@@ -71,30 +71,42 @@ export function makePinStyle(color: string): Style {
  * Solid line  → at least one point has type "waypoint" (path was manually recorded)
  * Dashed line → only named stops, no recorded trail coords
  */
-export function buildRouteFeatures(mapPoints: any[]): Feature[] {
+export function buildRouteFeatures(
+  mapPoints: any[],
+  options: { dashed?: boolean } = {}
+): Feature[] {
   if (!mapPoints || mapPoints.length < 2) return [];
 
   const coords = mapPoints.map(p => fromLonLat([p.lon, p.lat]));
-  const hasRecordedPath = mapPoints.some(p => p.type === 'waypoint');
 
   const features: Feature[] = [];
 
-  // ── Line ─────────────────────────────────────────────────────────────────
-  const outline = new Feature(new LineString(coords));
-  outline.setStyle(new Style({
-    stroke: new Stroke({ color: 'rgba(255,255,255,0.75)', width: 6 }),
-  }));
+  // ── Lines (one feature per segment so each can be styled independently) ──
+  for (let i = 0; i < coords.length - 1; i++) {
+    const segCoords = [coords[i], coords[i + 1]];
+    const point = mapPoints[i + 1]; // destination point of this segment
+    const isDashed = point?.lineStyle === 'dashed'
+      ? true
+      : point?.lineStyle === 'solid'
+      ? false
+      : options.dashed ?? false;
 
-  const line = new Feature(new LineString(coords));
-  line.setStyle(new Style({
-    stroke: new Stroke({
-      color: '#F4A922',
-      width: 3,
-      lineDash: hasRecordedPath ? undefined : [12, 8],
-    }),
-  }));
+    const segOutline = new Feature(new LineString(segCoords));
+    segOutline.setStyle(new Style({
+      stroke: new Stroke({ color: 'rgba(255,255,255,0.75)', width: 6 }),
+    }));
 
-  features.push(outline, line);
+    const segLine = new Feature(new LineString(segCoords));
+    segLine.setStyle(new Style({
+      stroke: new Stroke({
+        color: '#F4A922',
+        width: 3,
+        lineDash: isDashed ? [12, 8] : undefined,
+      }),
+    }));
+
+    features.push(segOutline, segLine);
+  }
 
   // ── Dots ──────────────────────────────────────────────────────────────────
   coords.forEach((coord, i) => {

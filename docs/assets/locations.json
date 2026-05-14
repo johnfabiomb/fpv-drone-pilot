@@ -30,7 +30,8 @@
                 "nature",
                 "easy"
             ],
-            "locality": "Żurrieq"
+            "locality": "Żurrieq",
+            "showLabel": false
         },
         {
             "id": 2,
@@ -61,7 +62,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Birżebbuġa"
+            "locality": "Birżebbuġa",
+            "showLabel": false
         },
         {
             "id": 3,
@@ -93,7 +95,8 @@
                 "hiking",
                 "moderate"
             ],
-            "locality": "Birżebbuġa"
+            "locality": "Birżebbuġa",
+            "showLabel": false
         },
         {
             "id": 4,
@@ -124,7 +127,8 @@
                 "hiking",
                 "hard"
             ],
-            "locality": "Qrendi"
+            "locality": "Qrendi",
+            "showLabel": false
         },
         {
             "id": 5,
@@ -155,7 +159,8 @@
                 "cliffs",
                 "moderate"
             ],
-            "locality": "Rabat"
+            "locality": "Rabat",
+            "showLabel": false
         },
         {
             "id": 6,
@@ -185,7 +190,8 @@
                 "film-set",
                 "easy"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 7,
@@ -217,7 +223,8 @@
                 "comino",
                 "moderate"
             ],
-            "locality": "Comino"
+            "locality": "Comino",
+            "showLabel": false
         },
         {
             "id": 8,
@@ -248,7 +255,8 @@
                 "viewpoint",
                 "moderate"
             ],
-            "locality": "Marsaskala"
+            "locality": "Marsaskala",
+            "showLabel": false
         },
         {
             "id": 9,
@@ -279,7 +287,8 @@
                 "hiking",
                 "moderate"
             ],
-            "locality": "Marsaskala"
+            "locality": "Marsaskala",
+            "showLabel": false
         },
         {
             "id": 10,
@@ -311,7 +320,8 @@
                 "boat-trip",
                 "hard"
             ],
-            "locality": "Marsaskala"
+            "locality": "Marsaskala",
+            "showLabel": false
         },
         {
             "id": 11,
@@ -342,7 +352,8 @@
                 "viewpoint",
                 "easy"
             ],
-            "locality": "Kalkara"
+            "locality": "Kalkara",
+            "showLabel": false
         },
         {
             "id": 12,
@@ -374,7 +385,8 @@
                 "historical",
                 "moderate"
             ],
-            "locality": "Naxxar"
+            "locality": "Naxxar",
+            "showLabel": false
         },
         {
             "id": 13,
@@ -406,7 +418,8 @@
                 "kayak",
                 "moderate"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 14,
@@ -438,7 +451,8 @@
                 "comino",
                 "moderate"
             ],
-            "locality": "Comino"
+            "locality": "Comino",
+            "showLabel": false
         },
         {
             "id": 17,
@@ -470,7 +484,8 @@
                 "comino",
                 "moderate"
             ],
-            "locality": "Comino"
+            "locality": "Comino",
+            "showLabel": false
         },
         {
             "id": 18,
@@ -501,7 +516,8 @@
                 "bay",
                 "easy"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 19,
@@ -554,7 +570,8 @@
                 "sunset",
                 "easy"
             ],
-            "locality": "Dingli"
+            "locality": "Dingli",
+            "showLabel": false
         },
         {
             "id": 21,
@@ -585,7 +602,8 @@
                 "viewpoint",
                 "easy"
             ],
-            "locality": "St. Paul's Bay"
+            "locality": "St. Paul's Bay",
+            "showLabel": false
         },
         {
             "id": 22,
@@ -616,7 +634,8 @@
                 "hiking",
                 "moderate"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 25,
@@ -647,7 +666,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 26,
@@ -677,7 +697,8 @@
                 "waterfront",
                 "easy"
             ],
-            "locality": "Three Cities"
+            "locality": "Three Cities",
+            "showLabel": false
         },
         {
             "id": 23,
@@ -708,7 +729,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 27,
@@ -738,7 +760,8 @@
                 "viewpoint",
                 "easy"
             ],
-            "locality": "Three Cities"
+            "locality": "Three Cities",
+            "showLabel": false
         },
         {
             "id": 33,
@@ -768,7 +791,8 @@
                 "church",
                 "easy"
             ],
-            "locality": "Valletta"
+            "locality": "Valletta",
+            "showLabel": false
         },
         {
             "id": 28,
@@ -798,7 +822,8 @@
                 "garden",
                 "easy"
             ],
-            "locality": "Three Cities"
+            "locality": "Three Cities",
+            "showLabel": false
         },
         {
             "id": 31,
@@ -828,7 +853,8 @@
                 "viewpoint",
                 "easy"
             ],
-            "locality": "Mdina"
+            "locality": "Mdina",
+            "showLabel": false
         },
         {
             "id": 32,
@@ -859,7 +885,8 @@
                 "fortification",
                 "hard"
             ],
-            "locality": "Naxxar"
+            "locality": "Naxxar",
+            "showLabel": false
         },
         {
             "id": 34,
@@ -891,7 +918,8 @@
                 "sunset",
                 "hard"
             ],
-            "locality": "Rabat"
+            "locality": "Rabat",
+            "showLabel": false
         },
         {
             "id": 35,
@@ -924,7 +952,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Rabat"
+            "locality": "Rabat",
+            "showLabel": false
         },
         {
             "id": 36,
@@ -956,7 +985,8 @@
                 "nature",
                 "hard"
             ],
-            "locality": "Rabat"
+            "locality": "Rabat",
+            "showLabel": false
         },
         {
             "id": 37,
@@ -988,7 +1018,8 @@
                 "cliffs",
                 "moderate"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         },
         {
             "id": 38,
@@ -1019,7 +1050,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 40,
@@ -1082,7 +1114,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         },
         {
             "id": 41,
@@ -1113,7 +1146,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 42,
@@ -1145,7 +1179,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         },
         {
             "id": 43,
@@ -1176,7 +1211,8 @@
                 "waterfront",
                 "easy"
             ],
-            "locality": "Kalkara"
+            "locality": "Kalkara",
+            "showLabel": false
         },
         {
             "id": 44,
@@ -1527,7 +1563,8 @@
                 "/assets/images/places/ta-maria-cave/ta-maria-cave-3.jpg"
             ],
             "locality": "Mġarr",
-            "clusterPriority": true
+            "clusterPriority": true,
+            "showLabel": false
         },
         {
             "id": 46,
@@ -1558,7 +1595,8 @@
                 "gozo",
                 "hard"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 47,
@@ -1588,7 +1626,8 @@
                 "cultural",
                 "easy"
             ],
-            "locality": "Paola"
+            "locality": "Paola",
+            "showLabel": false
         },
         {
             "id": 49,
@@ -1620,7 +1659,8 @@
                 "cliff-jumping",
                 "hard"
             ],
-            "locality": "Marsaskala"
+            "locality": "Marsaskala",
+            "showLabel": false
         },
         {
             "id": 50,
@@ -1651,7 +1691,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 16,
@@ -1682,7 +1723,8 @@
                 "comino",
                 "moderate"
             ],
-            "locality": "Comino"
+            "locality": "Comino",
+            "showLabel": false
         },
         {
             "id": 52,
@@ -1714,7 +1756,8 @@
                 "hiking",
                 "hard"
             ],
-            "locality": "Qrendi"
+            "locality": "Qrendi",
+            "showLabel": false
         },
         {
             "id": 53,
@@ -1745,7 +1788,8 @@
                 "bastion",
                 "easy"
             ],
-            "locality": "Three Cities"
+            "locality": "Three Cities",
+            "showLabel": false
         },
         {
             "id": 54,
@@ -1777,7 +1821,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 55,
@@ -1807,7 +1852,8 @@
                 "bay",
                 "easy"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 57,
@@ -1839,7 +1885,8 @@
                 "cliffs",
                 "moderate"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 58,
@@ -1872,7 +1919,8 @@
                 "gozo",
                 "moderate"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 59,
@@ -1966,7 +2014,8 @@
                 "viewpoint",
                 "moderate"
             ],
-            "locality": "Żurrieq"
+            "locality": "Żurrieq",
+            "showLabel": false
         },
         {
             "id": 60,
@@ -1998,7 +2047,8 @@
                 "cave",
                 "hard"
             ],
-            "locality": "Birżebbuġa"
+            "locality": "Birżebbuġa",
+            "showLabel": false
         },
         {
             "id": 61,
@@ -2030,7 +2080,8 @@
                 "kayak",
                 "hard"
             ],
-            "locality": "Kalkara"
+            "locality": "Kalkara",
+            "showLabel": false
         },
         {
             "id": 24,
@@ -2062,7 +2113,8 @@
                 "diving",
                 "hard"
             ],
-            "locality": "Siġġiewi"
+            "locality": "Siġġiewi",
+            "showLabel": false
         },
         {
             "id": 62,
@@ -2095,7 +2147,8 @@
                 "comino",
                 "moderate"
             ],
-            "locality": "Comino"
+            "locality": "Comino",
+            "showLabel": false
         },
         {
             "id": 63,
@@ -2127,7 +2180,8 @@
                 "gozo",
                 "moderate"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 64,
@@ -2158,7 +2212,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 65,
@@ -2190,7 +2245,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 66,
@@ -2220,7 +2276,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 67,
@@ -2250,7 +2307,8 @@
                 "scenic-walk",
                 "easy"
             ],
-            "locality": "Valletta"
+            "locality": "Valletta",
+            "showLabel": false
         },
         {
             "id": 68,
@@ -2280,7 +2338,8 @@
                 "gozo",
                 "easy"
             ],
-            "locality": "Gozo"
+            "locality": "Gozo",
+            "showLabel": false
         },
         {
             "id": 69,
@@ -2311,7 +2370,8 @@
                 "sunset",
                 "hard"
             ],
-            "locality": "Mellieħa"
+            "locality": "Mellieħa",
+            "showLabel": false
         },
         {
             "id": 70,
@@ -2469,7 +2529,8 @@
                 "cliffs",
                 "hard"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         },
         {
             "id": 71,
@@ -2677,7 +2738,8 @@
                 "/assets/images/places/blata/batal-stairs-2.jpg",
                 "/assets/images/places/blata/batal-stairs-3.png"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         },
         {
             "id": 72,
@@ -2710,7 +2772,8 @@
                 "sunset",
                 "moderate"
             ],
-            "locality": "Mġarr"
+            "locality": "Mġarr",
+            "showLabel": false
         }
     ]
 }

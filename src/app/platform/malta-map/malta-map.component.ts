@@ -6,6 +6,7 @@ import { LocationPanelComponent } from '../../components/location-panel/location
 import { MapComponent } from '../../components/map/map.component';
 import { NavInterstitialComponent } from '../../components/nav-interstitial/nav-interstitial.component';
 import { SeoService } from '../../shared/services/seo.service';
+import { FEATURES } from '../../feature-flags';
 
 const PANEL_MIN_H = 80;          // minimized: drag handle + header visible
 const PANEL_EXPANDED_VH = 0.60;  // expanded: 60% of viewport height
@@ -29,6 +30,12 @@ export class MaltaMapComponent implements OnInit {
   activeFilters: string[] = [];
   backTo: string | null = null;
   pendingNavUrl: string | null = null;
+
+  readonly navDuration = FEATURES.ADS ? 7 : 3;
+
+  onNavRequested(url: string): void {
+    this.pendingNavUrl = url;
+  }
 
   @ViewChild(MapComponent) mapComp!: MapComponent;
   @ViewChild(LocationPanelComponent) panelComp!: LocationPanelComponent;
@@ -71,6 +78,7 @@ export class MaltaMapComponent implements OnInit {
       this.seo.updateMetaData(location);
       this.panelMinimized = false;
       setTimeout(() => {
+        this.panelWrap?.nativeElement.scrollTo({ top: 0 });
         this.applyPanelHeight(this.expandedHeight());
         this.mapComp?.updateSize();
         this.mapComp?.refitRoute();

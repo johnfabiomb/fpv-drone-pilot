@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, PLATFORM_ID,
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { AdBannerComponent } from '../ad-banner/ad-banner.component';
 
-const DURATION = 7;
 const RADIUS = 26;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
@@ -15,19 +14,21 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 })
 export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() url!: string;
+  @Input() duration = 7;
   @Output() closed = new EventEmitter<void>();
 
   private platformId = inject(PLATFORM_ID);
   private timer?: ReturnType<typeof setInterval>;
 
-  seconds = DURATION;
+  seconds = 0;
   readonly circumference = CIRCUMFERENCE;
 
   get dashOffset(): number {
-    return CIRCUMFERENCE * (this.seconds / DURATION);
+    return CIRCUMFERENCE * (this.seconds / this.duration);
   }
 
   ngOnInit() {
+    this.seconds = this.duration;
     if (!isPlatformBrowser(this.platformId)) return;
     this.timer = setInterval(() => {
       this.seconds--;

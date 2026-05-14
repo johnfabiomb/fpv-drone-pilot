@@ -45,6 +45,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
 
+  @Input() selectedLocation: any = null;
+
   @Input() set activeFilters(filters: string[]) {
     this.filteredFeatures = filters.length === 0
       ? this.allFeatures
@@ -168,9 +170,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const img = new Image();
       img.onload = () => {
         this.rawImageCache.set(location.img, img);
-        this.localityIconCache.clear(); // rebuild cluster canvases with real images
+        this.localityIconCache.clear();
 
-        // Build teardrop pin canvas
+        // ── Teardrop pin ─────────────────────────────────────
         const W = ICON_CANVAS_SIZE;
         const H = ICON_CANVAS_SIZE + ICON_TAIL_H;
         const cx = W / 2;
@@ -178,46 +180,84 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const r = W / 2 - 2;
         const tailAngle = Math.PI / 8;
 
-        const canvas = document.createElement('canvas');
-        canvas.width = W;
-        canvas.height = H;
-        const ctx = canvas.getContext('2d')!;
+        const pin = document.createElement('canvas');
+        pin.width = W;
+        pin.height = H;
+        const pc = pin.getContext('2d')!;
 
-        ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.22)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 3;
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
-        ctx.lineTo(cx, H - 1);
-        ctx.closePath();
-        ctx.fillStyle = '#fff';
-        ctx.fill();
-        ctx.restore();
+        pc.save();
+        pc.shadowColor = 'rgba(0,0,0,0.22)';
+        pc.shadowBlur = 8;
+        pc.shadowOffsetY = 3;
+        pc.beginPath();
+        pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+        pc.lineTo(cx, H - 1);
+        pc.closePath();
+        pc.fillStyle = '#fff';
+        pc.fill();
+        pc.restore();
 
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
-        ctx.lineTo(cx, H - 1);
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(0,0,0,0.10)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        pc.beginPath();
+        pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+        pc.lineTo(cx, H - 1);
+        pc.closePath();
+        pc.strokeStyle = 'rgba(0,0,0,0.10)';
+        pc.lineWidth = 1;
+        pc.stroke();
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(cx, cy, r - 2, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(img, 0, 0, W, W);
-        ctx.restore();
+        pc.save();
+        pc.beginPath();
+        pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+        pc.clip();
+        pc.drawImage(img, 0, 0, W, W);
+        pc.restore();
 
-        ctx.beginPath();
-        ctx.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
+        pc.beginPath();
+        pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+        pc.strokeStyle = '#fff';
+        pc.lineWidth = 3;
+        pc.stroke();
 
-        this.iconCache.set(location.img, canvas);
+        // ── Name pill (only if showLabel is true) ────────────
+        let finalCanvas = pin;
+
+        if (location.showLabel) {
+          const PILL_H = 22;
+          const PILL_GAP = 6;
+          const TOP_PAD = 4;
+
+          const probe = document.createElement('canvas').getContext('2d')!;
+          probe.font = '600 11px Roboto, sans-serif';
+          const textW = probe.measureText(location.title).width;
+          const pillW = Math.min(textW + 16, 140);
+          const cw = Math.max(W, pillW + 8);
+          const ch = TOP_PAD + PILL_H + PILL_GAP + H;
+
+          const composite = document.createElement('canvas');
+          composite.width = cw;
+          composite.height = ch;
+          const ctx = composite.getContext('2d')!;
+
+          const pillX = cw / 2 - pillW / 2;
+          const pillY = TOP_PAD;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0,0,0,0.14)';
+          ctx.shadowBlur = 4;
+          ctx.fillStyle = '#fff';
+          this.fillRoundRect(ctx, pillX, pillY, pillW, PILL_H, 11);
+          ctx.restore();
+
+          ctx.font = '600 11px Roboto, sans-serif';
+          ctx.fillStyle = '#374151';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(location.title, cw / 2, pillY + PILL_H / 2, pillW - 8);
+
+          ctx.drawImage(pin, (cw - W) / 2, TOP_PAD + PILL_H + PILL_GAP);
+          finalCanvas = composite;
+        }
+
+        this.iconCache.set(String(location.id), finalCanvas);
         this.clusterLayer.changed();
       };
       img.src = location.img;
@@ -303,7 +343,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const location = feature.get('location');
     const zoom = this.map.getView().getZoom() ?? 10;
     const iconSize = this.getIconSize(zoom);
-    const canvas = this.iconCache.get(location.img);
+    const canvas = this.iconCache.get(String(location.id));
 
     if (canvas) {
       const coords = (feature.getGeometry() as Point).getCoordinates();
@@ -553,15 +593,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   locateMe(): void {
     const last = this.tracker?.lastCoord;
     if (last) {
-      this.map.getView().animate({ center: last, zoom: 15, duration: 400 });
+      this.fitGpsAndLocation(last);
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(pos => {
         const coord = this.tracker?.lastCoord
           ?? fromLonLat([pos.coords.longitude, pos.coords.latitude]) as [number, number];
-        this.map.getView().animate({ center: coord, zoom: 15, duration: 400 });
+        this.fitGpsAndLocation(coord);
       }, () => this.showLocationDenied());
     } else {
       this.showLocationDenied();
+    }
+  }
+
+  private fitGpsAndLocation(gpsCoord: [number, number]): void {
+    if (this.selectedLocation) {
+      const locCoord = fromLonLat([this.selectedLocation.lon, this.selectedLocation.lat]) as [number, number];
+      const extent = boundingExtent([gpsCoord, locCoord]);
+      this.map.getView().fit(extent, { padding: [80, 80, 80, 80], maxZoom: 15, duration: 600 });
+    } else {
+      this.map.getView().animate({ center: gpsCoord, zoom: 15, duration: 400 });
     }
   }
 
