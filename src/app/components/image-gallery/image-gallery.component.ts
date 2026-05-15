@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const AUTO_MS = 2500;
@@ -71,9 +71,74 @@ export class ImageGalleryComponent implements OnDestroy {
   }
 
   goTo(index: number): void {
+    if (index === this.active) {
+      this.openLightbox(index);
+      return;
+    }
     if (!this.canNavigate) return;
     this.active = index;
     this.pauseAndResume();
+  }
+
+  // ── Lightbox ──────────────────────────────────────────────
+
+  lightboxOpen = false;
+  lightboxIndex = 0;
+  lightboxScale = 1;
+  private lbTouchStartX = 0;
+  private lbLastTap = 0;
+
+  openLightbox(index: number): void {
+    this.lightboxOpen = true;
+    this.lightboxIndex = index;
+    this.lightboxScale = 1;
+  }
+
+  closeLightbox(): void {
+    this.lightboxOpen = false;
+    this.lightboxScale = 1;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.lightboxOpen) this.closeLightbox();
+  }
+
+  zoomIn(): void {
+    this.lightboxScale = Math.min(+(this.lightboxScale * 1.5).toFixed(2), 4);
+  }
+
+  zoomOut(): void {
+    this.lightboxScale = Math.max(+(this.lightboxScale / 1.5).toFixed(2), 1);
+  }
+
+  lightboxPrev(): void {
+    this.lightboxIndex = (this.lightboxIndex - 1 + this.images.length) % this.images.length;
+    this.lightboxScale = 1;
+  }
+
+  lightboxNext(): void {
+    this.lightboxIndex = (this.lightboxIndex + 1) % this.images.length;
+    this.lightboxScale = 1;
+  }
+
+  onLightboxTouchStart(e: TouchEvent): void {
+    this.lbTouchStartX = e.touches[0].clientX;
+  }
+
+  onLightboxTouchEnd(e: TouchEvent): void {
+    const dx = e.changedTouches[0].clientX - this.lbTouchStartX;
+    const now = Date.now();
+    if (Math.abs(dx) < 10) {
+      if (now - this.lbLastTap < 300) {
+        this.lightboxScale = this.lightboxScale > 1 ? 1 : 2;
+        this.lbLastTap = 0;
+        return;
+      }
+      this.lbLastTap = now;
+    } else if (this.lightboxScale === 1 && Math.abs(dx) > 40) {
+      dx < 0 ? this.lightboxNext() : this.lightboxPrev();
+    }
   }
 
   // ── Touch ─────────────────────────────────────────────────

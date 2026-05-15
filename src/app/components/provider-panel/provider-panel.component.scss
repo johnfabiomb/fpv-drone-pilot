@@ -1,0 +1,224 @@
+// Content-only styles — shell chrome lives in PanelShellComponent
+
+:host {
+  display: block;
+  padding-bottom: 32px;
+}
+
+// ── Hero ──────────────────────────────────────────────────────────────────────
+
+.provider-hero {
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.provider-hero__badge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.provider-hero__main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.provider-hero__emoji {
+  font-size: 42px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.provider-hero__name {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.provider-hero__tagline {
+  margin: 0;
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+// ── Description ───────────────────────────────────────────────────────────────
+
+.provider-desc {
+  margin: 0;
+  padding: 16px 16px 4px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+// ── Highlights ────────────────────────────────────────────────────────────────
+
+.provider-highlights {
+  list-style: none;
+  margin: 12px 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.highlight-check { flex-shrink: 0; color: #22c55e; }
+
+// ── Discount box ──────────────────────────────────────────────────────────────
+
+.discount-box {
+  margin: 0 16px 16px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1.5px solid #F4A922;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.discount-box__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #92400e;
+  svg { flex-shrink: 0; }
+}
+
+.discount-box__label { font-size: 13.5px; font-weight: 600; }
+
+.discount-box__coupon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1.5px dashed #F4A922;
+  border-radius: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+  text-align: left;
+  &:active { background: #fffbeb; }
+}
+
+.coupon-code {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #2C1810;
+  font-family: 'Courier New', monospace;
+}
+
+.coupon-copy-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: #9ca3af;
+  font-weight: 500;
+  white-space: nowrap;
+  &.copied { color: #22c55e; font-weight: 600; }
+}
+
+.discount-box__instructions {
+  margin: 0;
+  font-size: 12px;
+  color: #92400e;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+// ── Contact links ─────────────────────────────────────────────────────────────
+
+.provider-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 8px;
+}
+
+.provider-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s;
+  svg { flex-shrink: 0; }
+
+  &--ig    { background: #fdf2f8; color: #9d174d; &:hover { background: #fce7f3; } }
+  &--phone { background: #f0fdf4; color: #15803d; &:hover { background: #dcfce7; } }
+}
+
+// ── Actions row ───────────────────────────────────────────────────────────────
+
+.provider-actions {
+  display: flex;
+  gap: 8px;
+  padding: 4px 16px 4px;
+}
+
+.provider-action-btn {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.15s;
+  i { color: #6b7280; }
+  &:hover { background: #f3f4f6; }
+}
+
+// ── Book button ───────────────────────────────────────────────────────────────
+
+.book-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 8px 16px 0;
+  padding: 14px 20px;
+  background: #F4A922;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+  &:hover  { background: #e09914; }
+  &:active { transform: scale(0.98); }
+}

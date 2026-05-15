@@ -47,35 +47,59 @@
     </div>
   </div>
 
-  <app-ad-banner></app-ad-banner>
-
   <div class="location-list">
-    <ng-container *ngFor="let loc of filteredLocations; let i = index">
-    <div
-      class="loc-card"
-      (click)="openLocation(loc)"
-    >
-      <img class="loc-thumb" [src]="loc.img" [alt]="loc.title" loading="lazy">
-      <div class="loc-info">
-        <div class="loc-top">
-          <span class="loc-title">{{ loc.title }}</span>
-          <span class="loc-rating" *ngIf="loc.rating">⭐ {{ loc.rating }}</span>
-        </div>
-        <div class="loc-badges">
-          <span
-            class="badge badge--diff"
-            [style.background]="difficultyColor(loc.difficulty)"
-          >{{ loc.difficulty }}</span>
-          <span class="badge badge--island" *ngIf="islandLabel(loc)">{{ islandLabel(loc) }}</span>
-          <span class="badge badge--hidden" *ngIf="loc.hidden">hidden gem</span>
-        </div>
-        <div class="loc-distance" *ngIf="distanceLabel(loc)">
-          📍 {{ distanceLabel(loc) }}
+
+    <!-- Deals banner — always first -->
+    <div class="deals-banner" *ngIf="FEATURES?.PROMOTIONS !== false" (click)="browseDeals()">
+      <div class="deals-banner__left">
+        <span class="deals-banner__icon">🏷️</span>
+        <div>
+          <div class="deals-banner__title">Exclusive Deals</div>
+          <div class="deals-banner__sub">Tours, stays, dining & more · {{ allProviders.length }} local offers</div>
         </div>
       </div>
+      <div class="deals-banner__cta">
+        View all
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
     </div>
+
+    <ng-container *ngFor="let item of displayList">
+
+      <!-- Location card -->
+      <div class="loc-card" *ngIf="item.type === 'location'" (click)="openLocation(item.data)">
+        <img class="loc-thumb" [src]="item.data.img" [alt]="item.data.title" loading="lazy">
+        <div class="loc-info">
+          <div class="loc-top">
+            <span class="loc-title">{{ item.data.title }}</span>
+            <span class="loc-rating" *ngIf="item.data.rating">⭐ {{ item.data.rating }}</span>
+          </div>
+          <div class="loc-badges">
+            <span
+              class="badge badge--diff"
+              [style.background]="difficultyColor(item.data.difficulty)"
+            >{{ item.data.difficulty }}</span>
+            <span class="badge badge--island" *ngIf="islandLabel(item.data)">{{ islandLabel(item.data) }}</span>
+            <span class="badge badge--hidden" *ngIf="item.data.hidden">hidden gem</span>
+          </div>
+          <div class="loc-distance" *ngIf="distanceLabel(item.data)">
+            📍 {{ distanceLabel(item.data) }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Provider card -->
+      <app-provider-card
+        *ngIf="item.type === 'provider'"
+        [provider]="item.data"
+        (selected)="openProvider($event)">
+      </app-provider-card>
+
     </ng-container>
-    <div class="empty" *ngIf="filteredLocations.length === 0">
+    <div class="empty" *ngIf="displayList.length === 0">
       No locations match the selected filters.
     </div>
   </div>

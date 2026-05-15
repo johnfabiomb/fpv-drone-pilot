@@ -1,0 +1,19 @@
+<div class="deals-page">
+
+  <div class="deals-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
+    <span class="deals-title">Exclusive Deals</span>
+    <span class="deals-count">{{ allProviders.length }}</span>
+  </div>
+
+  <div class="deals-list">
+    <app-provider-card
+      *ngFor="let p of allProviders"
+      [provider]="p"
+      (selected)="openProvider($event)">
+    </app-provider-card>
+  </div>
+
+</div>

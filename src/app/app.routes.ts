@@ -44,6 +44,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./platform/trend/trend.component').then(m => m.TrendComponent)
             },
             {
+                path: 'deals',
+                loadComponent: () => import('./platform/coupons/coupons.component').then(m => m.CouponsComponent)
+            },
+            {
                 path: 'plan',
                 canMatch: [() => FEATURES.ROUTE_BUILDER],
                 loadComponent: () => import('./platform/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)

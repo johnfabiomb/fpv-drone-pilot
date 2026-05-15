@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { AdBannerComponent } from '../ad-banner/ad-banner.component';
+import { ProviderCardComponent } from '../provider-card/provider-card.component';
 
 const RADIUS = 26;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -8,14 +8,16 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 @Component({
   selector: 'app-nav-interstitial',
   standalone: true,
-  imports: [CommonModule, AdBannerComponent],
+  imports: [CommonModule, ProviderCardComponent],
   templateUrl: './nav-interstitial.component.html',
   styleUrl: './nav-interstitial.component.scss',
 })
 export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() url!: string;
   @Input() duration = 7;
+  @Input() providers: any[] = [];
   @Output() closed = new EventEmitter<void>();
+  @Output() providerSelected = new EventEmitter<any>();
 
   private platformId = inject(PLATFORM_ID);
   private timer?: ReturnType<typeof setInterval>;
@@ -46,6 +48,11 @@ export class NavInterstitialComponent implements OnInit, OnDestroy {
   open() {
     if (this.seconds > 0) return;
     window.location.href = this.url;
+    this.closed.emit();
+  }
+
+  onProviderSelected(provider: any): void {
+    this.providerSelected.emit(provider);
     this.closed.emit();
   }
 

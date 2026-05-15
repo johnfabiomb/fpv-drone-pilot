@@ -1,0 +1,39 @@
+<div class="provider-card" (click)="selected.emit(provider)">
+  <div class="provider-card__stripe" [style.background]="accentColor"></div>
+
+  <div class="provider-card__body">
+
+    <!-- Provider identity -->
+    <div class="provider-card__header">
+      <span class="provider-card__emoji">{{ provider.emoji }}</span>
+      <div class="provider-card__info">
+        <span class="provider-card__name">{{ provider.name }}</span>
+        <span class="provider-card__tagline">{{ provider.tagline }}</span>
+      </div>
+      <span class="provider-card__exclusive-badge">Exclusive</span>
+    </div>
+
+    <!-- Deal strip -->
+    <div class="provider-card__deal">
+
+      <div class="provider-card__pct">
+        <span class="pct-num">{{ discountPct }}</span>
+        <span class="pct-off">OFF</span>
+      </div>
+
+      <div class="provider-card__deal-text">
+        <span class="deal-what">{{ discountWhat }}</span>
+        <span class="deal-exclusive">Only when booked via this guide</span>
+      </div>
+
+      <span class="provider-card__cta">
+        Claim
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </span>
+    </div>
+
+  </div>
+</div>

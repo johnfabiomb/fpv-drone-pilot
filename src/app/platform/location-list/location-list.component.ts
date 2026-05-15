@@ -3,8 +3,10 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { locations } from '../../../assets/locations.json';
+import { providers } from '../../../assets/providers.json';
 import { SeoService } from '../../shared/services/seo.service';
-import { AdBannerComponent } from '../../components/ad-banner/ad-banner.component';
+import { ProviderCardComponent } from '../../components/provider-card/provider-card.component';
+import { FEATURES } from '../../feature-flags';
 
 interface FilterOption { id: string; label: string; emoji: string; }
 type SortMode = 'distance' | 'rating' | 'alpha';
@@ -21,12 +23,14 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
 @Component({
   selector: 'app-location-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdBannerComponent],
+  imports: [CommonModule, FormsModule, ProviderCardComponent],
   templateUrl: './location-list.component.html',
   styleUrl: './location-list.component.scss',
 })
 export class LocationListComponent implements OnInit {
   readonly allLocations = [...locations];
+  readonly allProviders = [...providers];
+  readonly FEATURES = FEATURES;
 
   filters: FilterOption[] = [
     { id: 'hidden',     label: 'Hidden Gems', emoji: '💎' },
@@ -129,9 +133,34 @@ export class LocationListComponent implements OnInit {
     return d === 'easy' ? '#22c55e' : d === 'hard' ? '#ef4444' : '#f59e0b';
   }
 
+  get displayList(): Array<{ type: 'location' | 'provider'; data: any }> {
+    const locs = this.filteredLocations;
+    if (!FEATURES.PROMOTIONS || this.allProviders.length === 0) {
+      return locs.map(l => ({ type: 'location', data: l }));
+    }
+    const result: Array<{ type: 'location' | 'provider'; data: any }> = [];
+    let pi = 0;
+    for (let i = 0; i < locs.length; i++) {
+      result.push({ type: 'location', data: locs[i] });
+      if ((i + 1) % 4 === 0) {
+        result.push({ type: 'provider', data: this.allProviders[pi % this.allProviders.length] });
+        pi++;
+      }
+    }
+    return result;
+  }
+
   openLocation(loc: any): void {
     const title = encodeURIComponent(loc.title.replace(' ', '-'));
     this.router.navigate(['/malta'], { queryParams: { title } });
+  }
+
+  openProvider(provider: any): void {
+    this.router.navigate(['/malta'], { queryParams: { provider: provider.id } });
+  }
+
+  browseDeals(): void {
+    this.router.navigate(['/malta/deals']);
   }
 
   goToMap(): void {

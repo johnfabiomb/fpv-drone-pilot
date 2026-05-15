@@ -1,6 +1,7 @@
 /
 /malta
 /malta/list
+/malta/deals
 /malta/30-places-2026
 /pay
 /privacy

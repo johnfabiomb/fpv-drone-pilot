@@ -6,8 +6,10 @@
     "start": "ng serve",
     "prebuild": "node scripts/generate-sitemap.js",
     "build": "ng build",
-    "deploy": "node scripts/bump-version.js && ng build",
-    "preview": "ng build && npx http-server docs -p 4200 -c-1",
+    "deploy": "node scripts/bump-version.js && ng build --configuration production",
+    "staging": "ng build --configuration staging",
+    "preview": "ng build --configuration production && npx http-server docs -p 4200 -c-1",
+    "preview:staging": "ng build --configuration staging && npx http-server docs -p 4201 -c-1 --open /test/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

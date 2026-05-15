@@ -1,6 +1,8 @@
+// ── Development defaults ───────────────────────────────────────────────────
+// Used by `npm start` / `ng serve` only.
+// Production and staging builds swap this file via fileReplacements in angular.json.
+// Edit freely here — changes here never affect a deployed build.
 export const FEATURES = {
-  /** Set to true to show the route builder ("Build My Route" / "Plan a Trip From Here"). */
   ROUTE_BUILDER: false,
-  /** Set to true to enable all ad components (AdSense banners and nav interstitial). */
-  ADS: false,
+  PROMOTIONS: true,
 };

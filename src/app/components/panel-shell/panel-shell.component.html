@@ -1,0 +1,26 @@
+<div class="panel-header"
+  (touchstart)="dragStart.emit($event)"
+  (touchmove)="dragMove.emit($event)"
+  (touchend)="dragEnd.emit($event)">
+
+  <div class="drag-bar"></div>
+
+  <div class="panel-header__row">
+    <button class="close-btn" (click)="closeRequested.emit()" title="Close">
+      <i class="fa fa-times"></i>
+    </button>
+
+    <div class="panel-header__left">
+      <span class="panel-title">{{ title }}</span>
+      <ng-content select="[panelActions]"></ng-content>
+    </div>
+
+    <button class="toggle-btn" (click)="toggleCollapse.emit()" title="Expand / collapse">
+      <i class="fa" [class.fa-chevron-up]="minimized" [class.fa-chevron-down]="!minimized"></i>
+    </button>
+  </div>
+</div>
+
+<div class="panel-body" #panelBody>
+  <ng-content></ng-content>
+</div>

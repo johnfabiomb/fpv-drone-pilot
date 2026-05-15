@@ -40,12 +40,22 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private localityFeatures: Feature[] = [];
   private showingClusters: boolean | null = null;
 
+  private providerSource = new VectorSource();
+  private providerLayer!: VectorLayer<any>;
+  private providerCanvasCache = new Map<string, HTMLCanvasElement>();
+
   private routeSource = new VectorSource();
   private currentLocation: any = null;
   private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
 
   @Input() selectedLocation: any = null;
+
+  @Input() set providerPins(providers: any[]) {
+    this._providerPins = providers ?? [];
+    if (this.map) this.rebuildProviderLayer();
+  }
+  private _providerPins: any[] = [];
 
   @Input() set activeFilters(filters: string[]) {
     this.filteredFeatures = filters.length === 0
@@ -61,6 +71,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() locationSelected = new EventEmitter<any | null>();
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
+  @Output() providerPinSelected = new EventEmitter<any>();
 
   private platformId = inject(PLATFORM_ID);
 
@@ -80,6 +91,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     );
 
     this.setupClusterLayer();
+    this.setupProviderLayer();
     this.setupLocationLayer();
     this.setupRouteLayer();
     this.preloadIcons();
@@ -92,6 +104,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       console.log(`📍 lat: ${lat}, lon: ${lon}`);
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
       if (!feature) { this.mapTapped.emit(); return; }
+
+      if (feature.get('type') === 'provider-pin') {
+        this.providerPinSelected.emit(feature.get('provider'));
+        return;
+      }
 
       if (feature.get('type') === 'locality-cluster') {
         const sub: Feature[] = feature.get('features');
@@ -489,6 +506,115 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(locality, CX, pillY + pillH / 2, pillW - 8);
+
+    return canvas;
+  }
+
+  // ── Provider pin layer ────────────────────────────────────
+
+  private setupProviderLayer(): void {
+    this.providerLayer = new VectorLayer({
+      source: this.providerSource,
+      style: (f: any) => this.providerPinStyle(f),
+      zIndex: 100,
+    });
+    this.map.addLayer(this.providerLayer);
+    if (this._providerPins.length) this.rebuildProviderLayer();
+  }
+
+  private rebuildProviderLayer(): void {
+    this.providerSource.clear();
+    for (const p of this._providerPins) {
+      if (!p.lat || !p.lon) continue;
+      const f = new Feature({
+        geometry: new Point(getCoordinatesfromLonLat(p.lon, p.lat)),
+        type: 'provider-pin',
+        provider: p,
+      });
+      this.providerSource.addFeature(f);
+      if (!this.providerCanvasCache.has(p.id)) {
+        this.providerCanvasCache.set(p.id, this.buildProviderCanvas(p));
+      }
+    }
+  }
+
+  private providerPinStyle(feature: any): Style {
+    const provider = feature.get('provider');
+    const canvas = this.providerCanvasCache.get(provider.id);
+    const R = 26, PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
+    const CY = TOP_PAD + PILL_H + PILL_GAP + R;
+    const H = CY + R + 5;
+    if (!canvas) {
+      return new Style({ image: new CircleStyle({ radius: 18, fill: new Fill({ color: '#F4A922' }), stroke: new Stroke({ color: '#fff', width: 3 }) }) });
+    }
+    return new Style({
+      image: new Icon({
+        img: canvas,
+        size: [canvas.width, canvas.height],
+        scale: 0.65,
+        anchor: [0.5, CY / H],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+      }),
+      zIndex: 200,
+    });
+  }
+
+  private buildProviderCanvas(provider: any): HTMLCanvasElement {
+    const R = 26, W = 80, CX = W / 2;
+    const PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
+    const CY = TOP_PAD + PILL_H + PILL_GAP + R;
+    const H = CY + R + 5;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d')!;
+
+    // Label pill
+    const label: string = provider.mapLabel ?? '🏷️ Deal';
+    ctx.font = 'bold 10px Roboto, sans-serif';
+    const pillW = Math.min(ctx.measureText(label).width + 16, W - 4);
+    const pillX = CX - pillW / 2;
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.22)';
+    ctx.shadowBlur = 5;
+    ctx.fillStyle = '#F4A922';
+    this.fillRoundRect(ctx, pillX, TOP_PAD, pillW, PILL_H, 10);
+    ctx.restore();
+    ctx.font = 'bold 10px Roboto, sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, CX, TOP_PAD + PILL_H / 2, pillW - 8);
+
+    // White shadow backing
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.28)';
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetY = 2;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R + 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.restore();
+
+    // Amber circle
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI * 2);
+    ctx.fillStyle = '#F4A922';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(CX, CY, R + 1, 0, Math.PI * 2);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Emoji
+    ctx.font = '20px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(provider.emoji ?? '🏷️', CX, CY + 1);
 
     return canvas;
   }

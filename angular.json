@@ -86,6 +86,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/feature-flags.ts",
+                  "with": "src/environments/feature-flags.production.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -110,9 +116,32 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
-            }
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/feature-flags.ts",
+                  "with": "src/environments/feature-flags.staging.ts"
+                }
+              ],
+              "outputPath": {
+                "base": "docs/test",
+                "browser": ""
+              },
+              "baseHref": "/test/",
+              "index": { "input": "src/index.staging.html", "output": "index.html" },
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "server": "src/server.ts",
+              "prerender": {
+                "discoverRoutes": false,
+                "routesFile": "prerender-routes.txt"
+              },
+              "ssr": false
+            },
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "staging"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

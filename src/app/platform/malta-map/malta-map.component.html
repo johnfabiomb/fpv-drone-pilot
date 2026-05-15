@@ -2,6 +2,8 @@
   *ngIf="pendingNavUrl"
   [url]="pendingNavUrl"
   [duration]="navDuration"
+  [providers]="interstitialProviders"
+  (providerSelected)="openProvider($event); pendingNavUrl = null"
   (closed)="pendingNavUrl = null">
 </app-nav-interstitial>
 
@@ -20,10 +22,11 @@
       </app-map>
 
       <button
-        *ngIf="selectedLocation && !mapOnly && !backTo"
+        *ngIf="(selectedLocation || selectedProvider) && !mapOnly && !backTo"
         class="floating-back-btn"
-        (click)="panelComp.requestClose()">
-        <i class="fa fa-chevron-left"></i> Back to map
+        (click)="onPanelCloseRequested()">
+        <i class="fa fa-chevron-left"></i>
+        {{ selectedProvider ? (selectedLocation?.title ?? 'Back to map') : 'Back to map' }}
       </button>
 
       <button
@@ -35,7 +38,7 @@
       </button>
 
       <button
-        *ngIf="selectedLocation && mapOnly"
+        *ngIf="(selectedLocation || selectedProvider) && mapOnly"
         class="show-panel-btn"
         (click)="mapOnly = false"
         title="Show details">
@@ -50,25 +53,45 @@
     <div
       #panelWrap
       class="location-panel-wrap"
-      *ngIf="selectedLocation && !mapOnly">
+      *ngIf="(selectedLocation || selectedProvider) && !mapOnly">
 
       <button class="collapse-btn" (click)="mapOnly = true" title="Fullscreen map">
         <i class="fa fa-chevron-right"></i>
       </button>
 
-      <app-location-panel
-        [location]="selectedLocation"
+      <app-panel-shell
+        [title]="panelTitle"
         [minimized]="panelMinimized"
-        [userLat]="userLat"
-        [userLon]="userLon"
-        (close)="closePanel()"
-        (explore)="exploreMap()"
-        (headerDragStart)="onDragStart($event)"
-        (headerDragMove)="onDragMove($event)"
-        (headerDragEnd)="onDragEnd($event)"
-        (toggleCollapse)="panelMinimized ? expandPanel() : minimizePanel()"
-        (navRequested)="onNavRequested($event)">
-      </app-location-panel>
+        (closeRequested)="onPanelCloseRequested()"
+        (dragStart)="onDragStart($event)"
+        (dragMove)="onDragMove($event)"
+        (dragEnd)="onDragEnd($event)"
+        (toggleCollapse)="panelMinimized ? expandPanel() : minimizePanel()">
+
+        <app-share-btn
+          panelActions
+          [url]="currentShareUrl"
+          [shareTitle]="panelTitle">
+        </app-share-btn>
+
+        <app-location-detail
+          *ngIf="!selectedProvider"
+          [location]="selectedLocation"
+          [userLat]="userLat"
+          [userLon]="userLon"
+          (close)="closePanel()"
+          (explore)="exploreMap()"
+          (navRequested)="onNavRequested($event)"
+          (providerSelected)="openProvider($event)">
+        </app-location-detail>
+
+        <app-provider-detail
+          *ngIf="selectedProvider"
+          [provider]="selectedProvider"
+          (navRequested)="onNavRequested($event)">
+        </app-provider-detail>
+
+      </app-panel-shell>
     </div>
   </div>
 

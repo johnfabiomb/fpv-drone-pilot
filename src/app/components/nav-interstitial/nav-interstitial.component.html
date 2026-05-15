@@ -1,9 +1,11 @@
 <div class="overlay" (click)="dismiss()">
   <div class="card" (click)="$event.stopPropagation()">
 
-    <button class="dismiss-btn" (click)="dismiss()" aria-label="Close">✕</button>
+    <div class="card-header">
+      <button class="dismiss-btn" (click)="dismiss()" aria-label="Close">✕</button>
+    </div>
 
-    <app-ad-banner></app-ad-banner>
+    <app-provider-card *ngIf="providers[0]" [provider]="providers[0]" (selected)="onProviderSelected($event)"></app-provider-card>
 
     <div class="countdown-wrap">
       <svg class="ring" viewBox="0 0 60 60" width="60" height="60">
@@ -22,7 +24,7 @@
       {{ seconds > 0 ? 'Opening in ' + seconds + 's…' : 'Ready!' }}
     </p>
 
-    <app-ad-banner></app-ad-banner>
+    <app-provider-card *ngIf="providers[1]" [provider]="providers[1]" (selected)="onProviderSelected($event)"></app-provider-card>
 
     <button
       class="open-btn"

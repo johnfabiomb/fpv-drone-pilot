@@ -72,7 +72,7 @@ export class SeoService {
     });
   }
 
-  setPage(page: 'map' | 'list' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact'): void {
+  setPage(page: 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact'): void {
     const BASE = BASE_URL;
     const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
       map: {
@@ -84,6 +84,11 @@ export class SeoService {
         title: 'Browse All Locations · Explore Malta',
         desc: 'Browse 60+ hidden gems, caves, beaches and historical sites across Malta and Gozo. Filter by type, sort by rating or distance from you.',
         url: `${BASE}/malta/list`,
+      },
+      deals: {
+        title: 'Malta Deals & Discount Coupons | Tours, Stays & Dining | Explore Malta',
+        desc: 'Exclusive discount coupons for Malta tours, water sports, kayaking, boat trips, hotels and restaurants. Save on your Malta experience with partner offers from local businesses.',
+        url: `${BASE}/malta/deals`,
       },
       plan: {
         title: 'Route Builder · Explore Malta',
