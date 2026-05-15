@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnDestroy, HostListener, ViewChild, TemplateRef, ApplicationRef, EmbeddedViewRef, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 const AUTO_MS = 2500;
 const RESUME_MS = 5000;
@@ -41,22 +41,22 @@ export class ImageGalleryComponent implements OnDestroy {
     }
   }
 
-  // Pause immediately; resume AUTO_MS after last user interaction
   private pauseAndResume(): void {
     this.clearTimers();
     this.resumeTimer = setTimeout(() => this.restartAuto(), RESUME_MS);
   }
 
   private clearTimers(): void {
-    if (this.autoTimer)  { clearInterval(this.autoTimer);  this.autoTimer  = null; }
-    if (this.resumeTimer){ clearTimeout(this.resumeTimer); this.resumeTimer = null; }
+    if (this.autoTimer)   { clearInterval(this.autoTimer);  this.autoTimer  = null; }
+    if (this.resumeTimer) { clearTimeout(this.resumeTimer); this.resumeTimer = null; }
   }
 
   ngOnDestroy(): void {
     this.clearTimers();
+    this.destroyLightboxView();
   }
 
-  // ── Navigation (user-triggered — pause then resume) ───────
+  // ── Navigation ────────────────────────────────────────────
 
   next(): void {
     if (!this.canNavigate) return;
@@ -80,23 +80,45 @@ export class ImageGalleryComponent implements OnDestroy {
     this.pauseAndResume();
   }
 
-  // ── Lightbox ──────────────────────────────────────────────
+  // ── Lightbox — rendered in document.body to escape iOS overflow clipping ──
 
-  lightboxOpen = false;
+  @ViewChild('lightboxTpl') private lightboxTpl!: TemplateRef<any>;
+  private appRef    = inject(ApplicationRef);
+  private document  = inject(DOCUMENT);
+  private platformId = inject(PLATFORM_ID);
+  private lightboxViewRef: EmbeddedViewRef<any> | null = null;
+
   lightboxIndex = 0;
   lightboxScale = 1;
   private lbTouchStartX = 0;
   private lbLastTap = 0;
 
+  get lightboxOpen(): boolean { return this.lightboxViewRef !== null; }
+
   openLightbox(index: number): void {
-    this.lightboxOpen = true;
+    if (!isPlatformBrowser(this.platformId)) return;
     this.lightboxIndex = index;
     this.lightboxScale = 1;
+    this.destroyLightboxView();
+    const viewRef = this.lightboxTpl.createEmbeddedView({});
+    this.appRef.attachView(viewRef);
+    viewRef.rootNodes.forEach((n: Node) => this.document.body.appendChild(n));
+    this.lightboxViewRef = viewRef;
   }
 
   closeLightbox(): void {
-    this.lightboxOpen = false;
     this.lightboxScale = 1;
+    this.destroyLightboxView();
+  }
+
+  private destroyLightboxView(): void {
+    if (!this.lightboxViewRef) return;
+    this.lightboxViewRef.rootNodes.forEach((n: Node) => {
+      if (n.parentNode) n.parentNode.removeChild(n);
+    });
+    this.appRef.detachView(this.lightboxViewRef);
+    this.lightboxViewRef.destroy();
+    this.lightboxViewRef = null;
   }
 
   @HostListener('document:keydown.escape')
@@ -145,15 +167,15 @@ export class ImageGalleryComponent implements OnDestroy {
 
   onTouchStart(e: TouchEvent): void {
     this.touchStartX = e.touches[0].clientX;
-    this.clearTimers(); // stop immediately while finger is down
+    this.clearTimers();
   }
 
   onTouchEnd(e: TouchEvent): void {
     const delta = e.changedTouches[0].clientX - this.touchStartX;
     if (this.canNavigate && Math.abs(delta) > 40) {
-      delta < 0 ? this.next() : this.prev(); // next/prev handle pauseAndResume
+      delta < 0 ? this.next() : this.prev();
     } else {
-      this.pauseAndResume(); // no swipe — just schedule resume
+      this.pauseAndResume();
     }
   }
 
