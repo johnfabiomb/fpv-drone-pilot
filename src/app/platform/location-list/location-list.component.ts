@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
   templateUrl: './location-list.component.html',
   styleUrl: './location-list.component.scss',
 })
-export class LocationListComponent implements OnInit, OnDestroy {
+export class LocationListComponent implements OnInit {
   readonly allLocations = [...locations];
 
   filters: FilterOption[] = [
@@ -44,8 +44,6 @@ export class LocationListComponent implements OnInit, OnDestroy {
   searchQuery = '';
   userLat: number | null = null;
   userLon: number | null = null;
-  private watchId: number | null = null;
-
   private platformId = inject(PLATFORM_ID);
 
   constructor(private router: Router, private seo: SeoService) {}
@@ -53,21 +51,19 @@ export class LocationListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.seo.setPage('list');
     if (isPlatformBrowser(this.platformId) && navigator.geolocation) {
-      this.watchId = navigator.geolocation.watchPosition(
+      navigator.geolocation.getCurrentPosition(
         pos => {
           this.userLat = pos.coords.latitude;
           this.userLon = pos.coords.longitude;
           if (this.sortMode === 'rating') this.sortMode = 'distance';
         },
         () => {},
-        { maximumAge: 15000, timeout: 10000 }
+        { maximumAge: 60000, timeout: 10000 }
       );
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.watchId !== null && isPlatformBrowser(this.platformId)) navigator.geolocation.clearWatch(this.watchId);
-  }
+  ngOnDestroy(): void {}
 
   get filteredLocations(): any[] {
     const q = this.searchQuery.trim().toLowerCase();

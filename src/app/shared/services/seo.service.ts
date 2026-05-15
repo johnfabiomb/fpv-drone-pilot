@@ -228,16 +228,6 @@ export class SeoService {
       };
     }
 
-    if (location.rating) {
-      attraction.aggregateRating = {
-        '@type': 'AggregateRating',
-        ratingValue: location.rating,
-        bestRating: 5,
-        worstRating: 1,
-        reviewCount: 1,
-      };
-    }
-
     if (location.tags?.length) {
       attraction.amenityFeature = location.tags.map((tag: string) => ({
         '@type': 'LocationFeatureSpecification',
