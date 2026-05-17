@@ -310,6 +310,10 @@ button span {
   display: flex;
   flex-direction: column;
 }
+.map-layout__panel > *:not(router-outlet) {
+  flex: 1;
+  min-height: 0;
+}
 @media (max-width: 768px) {
   .map-layout__main {
     flex-direction: column;

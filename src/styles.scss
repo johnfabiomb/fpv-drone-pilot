@@ -404,6 +404,12 @@ button, button span {
   position: relative;
   display: flex;
   flex-direction: column;
+
+  // Any component rendered by router-outlet must fill the panel so the
+  // height chain reaches panel-body and iOS Safari can scroll it.
+  // Exclude router-outlet itself — it's an empty sibling element and would
+  // otherwise take up half the panel height as a second flex:1 item.
+  > *:not(router-outlet) { flex: 1; min-height: 0; }
 }
 
 @media (max-width: 768px) {
