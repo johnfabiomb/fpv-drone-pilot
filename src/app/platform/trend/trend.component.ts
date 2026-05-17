@@ -27,6 +27,8 @@ const REVEALED: TrendLocation[] = [
   { num: 15, name: 'Blata tal-Melħ Rock Passage',      id: 40 },
   { num: 16, name: 'Ix-Xaqqa Valley',                  id: 24 },
   { num: 17, name: 'Babu Valley / Wied Babu',          id: 59 },
+  { num: 18, name: 'L-Għar ta\' Bla Saqaf',           id: 16 },
+  { num: 19, name: 'Xlendi Tower Coastal Path',        id: 73 },
 ];
 
 const TOTAL = 30;

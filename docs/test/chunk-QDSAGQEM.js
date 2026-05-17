@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-YO4LUMOW.js";
+} from "./chunk-QHYHTVMN.js";
 import {
   AnalyticsService
 } from "./chunk-CQTNTUZI.js";
@@ -27380,4 +27380,4 @@ var MaltaShellComponent = class _MaltaShellComponent {
 export {
   MaltaShellComponent
 };
-//# sourceMappingURL=chunk-O2MJAP5P.js.map
+//# sourceMappingURL=chunk-QDSAGQEM.js.map

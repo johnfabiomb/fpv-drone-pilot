@@ -9,7 +9,7 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-NYUUALVY.js";
+} from "./chunk-EZGT375I.js";
 import {
   AnalyticsService
 } from "./chunk-CQTNTUZI.js";
@@ -790,4 +790,4 @@ var MaltaMapComponent = class _MaltaMapComponent {
 export {
   MaltaMapComponent
 };
-//# sourceMappingURL=chunk-I25OGRSM.js.map
+//# sourceMappingURL=chunk-5KZGHDOM.js.map

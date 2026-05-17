@@ -5,7 +5,7 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-NYUUALVY.js";
+} from "./chunk-EZGT375I.js";
 import {
   MapBridgeService,
   ProviderCardComponent
@@ -202,4 +202,4 @@ var CouponsComponent = class _CouponsComponent {
 export {
   CouponsComponent
 };
-//# sourceMappingURL=chunk-PDZO3N6H.js.map
+//# sourceMappingURL=chunk-MJV3CWZW.js.map

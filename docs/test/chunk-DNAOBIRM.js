@@ -4,7 +4,7 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-NYUUALVY.js";
+} from "./chunk-EZGT375I.js";
 import {
   difficultyColor,
   getIslandLabel,
@@ -6972,4 +6972,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-CS2T23MS.js.map
+//# sourceMappingURL=chunk-DNAOBIRM.js.map

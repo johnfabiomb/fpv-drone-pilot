@@ -122,7 +122,9 @@ var REVEALED = [
   { num: 14, name: "G\u0127ar ir-Ri\u0127", id: 3 },
   { num: 15, name: "Blata tal-Mel\u0127 Rock Passage", id: 40 },
   { num: 16, name: "Ix-Xaqqa Valley", id: 24 },
-  { num: 17, name: "Babu Valley / Wied Babu", id: 59 }
+  { num: 17, name: "Babu Valley / Wied Babu", id: 59 },
+  { num: 18, name: "L-G\u0127ar ta' Bla Saqaf", id: 16 },
+  { num: 19, name: "Xlendi Tower Coastal Path", id: 73 }
 ];
 var TOTAL = 30;
 var TrendComponent = class _TrendComponent {
@@ -225,9 +227,9 @@ var TrendComponent = class _TrendComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TrendComponent, { className: "TrendComponent", filePath: "src/app/platform/trend/trend.component.ts", lineNumber: 41 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TrendComponent, { className: "TrendComponent", filePath: "src/app/platform/trend/trend.component.ts", lineNumber: 43 });
 })();
 export {
   TrendComponent
 };
-//# sourceMappingURL=chunk-KPG5RCVF.js.map
+//# sourceMappingURL=chunk-HD6JT326.js.map

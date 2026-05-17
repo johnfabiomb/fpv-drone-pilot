@@ -335,7 +335,7 @@ app-map.map-rotated .ol-rotate button {
   width: 380px;
   height: 100%;
   flex-shrink: 0;
-  overflow-y: auto;
+  overflow: hidden;
   background: var(--color-bg);
   border-left: 1px solid var(--color-border);
   position: relative;
@@ -364,8 +364,7 @@ app-map.map-rotated .ol-rotate button {
     border-radius: 14px 14px 0 0;
     box-shadow: var(--shadow-panel);
     will-change: height;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 }
 .collapse-btn {

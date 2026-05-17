@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-YO4LUMOW.js";
+} from "./chunk-QHYHTVMN.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -94,27 +94,27 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-O2MJAP5P.js").then((m) => m.MaltaShellComponent),
+        loadComponent: () => import("./chunk-QDSAGQEM.js").then((m) => m.MaltaShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-I25OGRSM.js").then((mod) => mod.MaltaMapComponent)
+            loadComponent: () => import("./chunk-5KZGHDOM.js").then((mod) => mod.MaltaMapComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-CS2T23MS.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-DNAOBIRM.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-PDZO3N6H.js").then((m) => m.CouponsComponent)
+            loadComponent: () => import("./chunk-MJV3CWZW.js").then((m) => m.CouponsComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/malta-shell/malta-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-KPG5RCVF.js").then((m) => m.TrendComponent)
+        loadComponent: () => import("./chunk-HD6JT326.js").then((m) => m.TrendComponent)
       }, false ? { \u0275entryName: "src/app/platform/trend/trend.component.ts" } : {}),
       __spreadValues({
         path: "plan",
