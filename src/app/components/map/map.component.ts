@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, EventEmitter, HostBinding, Input, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, EventEmitter, HostBinding, Input, NgZone, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser, NgIf } from '@angular/common';
 import { fromLonLat } from 'ol/proj';
@@ -83,6 +83,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly ngZone = inject(NgZone);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly seoService = inject(SeoService);
@@ -106,7 +107,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     this.map.on('moveend', () => this.refreshLayer());
     this.map.getView().on('change:rotation', () => {
-      this.isRotated = Math.abs(this.map.getView().getRotation()) > 0.001;
+      const rotated = Math.abs(this.map.getView().getRotation()) > 0.001;
+      if (rotated !== this.isRotated) {
+        this.ngZone.run(() => { this.isRotated = rotated; });
+      }
     });
 
     this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {

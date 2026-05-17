@@ -94,13 +94,14 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
   @Input() mapPoints: MapPoint[] = [];
   @ViewChild('mapEl') mapEl!: ElementRef<HTMLDivElement>;
 
-  compassMode = true;
+  compassMode = false;
   get isFollowing(): boolean { return this.tracker?.following ?? false; }
 
   private map!: Map;
   tracker!: LocationTracker;
   private locationSource = new VectorSource();
-  private orientationHandler: ((e: DeviceOrientationEvent) => void) | null = null;
+  private absoluteHandler: ((e: Event) => void) | null = null;
+  private relativeHandler: ((e: DeviceOrientationEvent) => void) | null = null;
   private defaultCenter!: [number, number];
   private defaultZoom = 15;
   private fitCoords: number[][] = [];
@@ -211,32 +212,52 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupCompass(): void {
-    const handler = (e: DeviceOrientationEvent) => {
+    let lastAbsoluteTs = 0;
+
+    const applyHeading = (heading: number) => {
       if (!this.compassMode) return;
-      const heading = (e as any).webkitCompassHeading ?? e.alpha ?? 0;
       this.map.getView().setRotation(-(heading * Math.PI) / 180);
     };
-    this.orientationHandler = handler;
-    window.addEventListener('deviceorientation', handler, true);
 
-    const iosRequest = (DeviceOrientationEvent as any).requestPermission;
-    if (typeof iosRequest === 'function') {
-      iosRequest().catch(() => {});
-    }
+    // Android Chrome 50+: e.alpha is absolute heading (magnetic north = 0)
+    const absoluteHandler = (e: Event) => {
+      const oe = e as DeviceOrientationEvent;
+      if (oe.alpha == null) return;
+      lastAbsoluteTs = Date.now();
+      applyHeading(oe.alpha);
+    };
+
+    // iOS: webkitCompassHeading is absolute heading.
+    // Falls back to e.alpha only when no absolute event has fired recently
+    // (prevents double-firing on Android which may emit both events).
+    const relativeHandler = (e: DeviceOrientationEvent) => {
+      if ((e as any).webkitCompassHeading != null) {
+        applyHeading((e as any).webkitCompassHeading);
+      } else if (Date.now() - lastAbsoluteTs > 200 && e.alpha != null) {
+        applyHeading(e.alpha);
+      }
+    };
+
+    this.absoluteHandler = absoluteHandler;
+    this.relativeHandler = relativeHandler;
+    window.addEventListener('deviceorientationabsolute' as any, absoluteHandler, true);
+    window.addEventListener('deviceorientation', relativeHandler, true);
+    // requestPermission() must NOT be called here — it requires a user gesture.
   }
 
   async toggleCompass(): Promise<void> {
     if (this.compassMode) {
       this.compassMode = false;
       this.map.getView().animate({ rotation: 0, duration: 300 });
-    } else {
-      const iosRequest = (DeviceOrientationEvent as any).requestPermission;
-      if (typeof iosRequest === 'function') {
-        const state = await iosRequest().catch(() => 'denied');
-        if (state !== 'granted') return;
-      }
-      this.compassMode = true;
+      return;
     }
+    // Request iOS permission from this user-gesture context
+    const iosRequest = (DeviceOrientationEvent as any).requestPermission;
+    if (typeof iosRequest === 'function') {
+      const state = await iosRequest().catch(() => 'denied');
+      if (state !== 'granted') return;
+    }
+    this.compassMode = true;
   }
 
   private dynamicExtent(): number[] | null {
@@ -265,6 +286,9 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.map?.setTarget(undefined as any);
     this.tracker?.destroy();
-    if (this.orientationHandler) window.removeEventListener('deviceorientation', this.orientationHandler, true);
+    if (this.absoluteHandler)
+      window.removeEventListener('deviceorientationabsolute' as any, this.absoluteHandler, true);
+    if (this.relativeHandler)
+      window.removeEventListener('deviceorientation', this.relativeHandler, true);
   }
 }

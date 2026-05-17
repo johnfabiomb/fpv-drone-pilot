@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-57TF2T7D.js";
+} from "./chunk-YO4LUMOW.js";
 import {
   AnalyticsService
 } from "./chunk-CQTNTUZI.js";
@@ -41,6 +41,7 @@ import {
 import {
   DestroyRef,
   EventEmitter,
+  NgZone,
   PLATFORM_ID,
   __async,
   __commonJS,
@@ -26358,6 +26359,7 @@ var MapComponent = class _MapComponent {
     this.providerPinSelected = new EventEmitter();
     this.platformId = inject(PLATFORM_ID);
     this.destroyRef = inject(DestroyRef);
+    this.ngZone = inject(NgZone);
     this.activatedRoute = inject(ActivatedRoute);
     this.router = inject(Router);
     this.seoService = inject(SeoService);
@@ -26389,7 +26391,12 @@ var MapComponent = class _MapComponent {
     requestAnimationFrame(() => this.map.updateSize());
     this.map.on("moveend", () => this.refreshLayer());
     this.map.getView().on("change:rotation", () => {
-      this.isRotated = Math.abs(this.map.getView().getRotation()) > 1e-3;
+      const rotated = Math.abs(this.map.getView().getRotation()) > 1e-3;
+      if (rotated !== this.isRotated) {
+        this.ngZone.run(() => {
+          this.isRotated = rotated;
+        });
+      }
     });
     this.map.on("click", (evt) => {
       const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
@@ -27373,4 +27380,4 @@ var MaltaShellComponent = class _MaltaShellComponent {
 export {
   MaltaShellComponent
 };
-//# sourceMappingURL=chunk-VD24HDNT.js.map
+//# sourceMappingURL=chunk-O2MJAP5P.js.map
