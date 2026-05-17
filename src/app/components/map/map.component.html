@@ -1,4 +1,7 @@
 <div id="ol-map" class="map-container">
+  <button class="compass-btn" [class.active]="compassMode || isRotated" (click)="toggleCompass()" title="Compass mode">
+    <i class="fa fa-compass"></i>
+  </button>
   <button class="locate-btn" [class.has-gps]="tracker?.hasGps ?? false" (click)="locateMe()" title="My location">
     <i class="fa fa-location-arrow"></i>
   </button>

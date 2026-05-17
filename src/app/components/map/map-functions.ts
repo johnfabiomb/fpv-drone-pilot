@@ -9,13 +9,6 @@ import { Coordinate } from 'ol/coordinate';
 export const getCoordinatesfromLonLat = (lon: number, lat: number) => proj.fromLonLat([lon, lat]);
 export const getCoordinatesfromPixel = (arr: Array<number>) => proj.toLonLat(arr);
 
-const makeCompassLabel = (): HTMLElement => {
-    const icon = document.createElement('i');
-    icon.className = 'fa fa-compass';
-    icon.style.fontSize = '18px';
-    return icon;
-};
-
 const createView = (center: Coordinate, zoom: number) => new View({
     center,
     zoom,
@@ -24,7 +17,7 @@ const createView = (center: Coordinate, zoom: number) => new View({
 
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({
     target,
-    controls: defaultControls({ rotate: true, rotateOptions: { autoHide: false, label: makeCompassLabel() } }),
+    controls: defaultControls({ rotate: false }),
     layers: [
         new TileLayer({
             source: new XYZ({

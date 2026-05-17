@@ -53,6 +53,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private currentLocation: Location | null = null;
   private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
+  compassMode = false;
+  private absoluteHandler: ((e: Event) => void) | null = null;
+  private relativeHandler: ((e: DeviceOrientationEvent) => void) | null = null;
 
   @Input() selectedLocation: Location | null = null;
   @HostBinding('class.map-rotated') isRotated = false;
@@ -690,7 +693,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.currentLocation = null;
     this.hasRouteFeatures = false;
     this.clusterLayer.setVisible(true);
-    this.map.getView().animate({ rotation: 0, duration: 400 });
+    if (!this.compassMode) {
+      this.map.getView().animate({ rotation: 0, duration: 400 });
+    }
   }
 
   refitRoute(): void {
@@ -718,10 +723,64 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       onPositionUpdate: (lat, lon) => this.gpsCoord.emit({ lat, lon }),
     });
     this.tracker.start();
+    this.setupCompass();
   }
 
   ngOnDestroy(): void {
     this.tracker?.destroy();
+    if (this.absoluteHandler)
+      window.removeEventListener('deviceorientationabsolute' as any, this.absoluteHandler, true);
+    if (this.relativeHandler)
+      window.removeEventListener('deviceorientation', this.relativeHandler, true);
+  }
+
+  // ── Compass ───────────────────────────────────────────────
+
+  private setupCompass(): void {
+    let lastAbsoluteTs = 0;
+
+    const applyHeading = (heading: number) => {
+      if (!this.compassMode) return;
+      this.map.getView().setRotation(-(heading * Math.PI) / 180);
+    };
+
+    const absoluteHandler = (e: Event) => {
+      const oe = e as DeviceOrientationEvent;
+      if (oe.alpha == null) return;
+      lastAbsoluteTs = Date.now();
+      applyHeading(oe.alpha);
+    };
+
+    const relativeHandler = (e: DeviceOrientationEvent) => {
+      if ((e as any).webkitCompassHeading != null) {
+        applyHeading((e as any).webkitCompassHeading);
+      } else if (Date.now() - lastAbsoluteTs > 200 && e.alpha != null) {
+        applyHeading(e.alpha);
+      }
+    };
+
+    this.absoluteHandler = absoluteHandler;
+    this.relativeHandler = relativeHandler;
+    window.addEventListener('deviceorientationabsolute' as any, absoluteHandler, true);
+    window.addEventListener('deviceorientation', relativeHandler, true);
+  }
+
+  async toggleCompass(): Promise<void> {
+    if (this.compassMode) {
+      this.compassMode = false;
+      this.map.getView().animate({ rotation: 0, duration: 300 });
+      return;
+    }
+    if (this.isRotated) {
+      this.map.getView().animate({ rotation: 0, duration: 300 });
+      return;
+    }
+    const iosRequest = (DeviceOrientationEvent as any).requestPermission;
+    if (typeof iosRequest === 'function') {
+      const state = await iosRequest().catch(() => 'denied');
+      if (state !== 'granted') return;
+    }
+    this.compassMode = true;
   }
 
   // ── Public API ────────────────────────────────────────────

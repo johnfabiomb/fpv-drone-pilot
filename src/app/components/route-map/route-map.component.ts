@@ -94,7 +94,7 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
   @Input() mapPoints: MapPoint[] = [];
   @ViewChild('mapEl') mapEl!: ElementRef<HTMLDivElement>;
 
-  compassMode = false;
+  compassMode = true;
   get isFollowing(): boolean { return this.tracker?.following ?? false; }
 
   private map!: Map;
@@ -205,6 +205,7 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
     // Stop auto-follow when user manually pans
     this.map.on('pointerdrag', () => { this.tracker.stopFollowing(); });
     this.setupCompass();
+    this.requestCompassPermissionOnFirstTouch();
   }
 
   locateMe(): void {
@@ -242,7 +243,14 @@ export class RouteMapComponent implements AfterViewInit, OnDestroy {
     this.relativeHandler = relativeHandler;
     window.addEventListener('deviceorientationabsolute' as any, absoluteHandler, true);
     window.addEventListener('deviceorientation', relativeHandler, true);
-    // requestPermission() must NOT be called here — it requires a user gesture.
+  }
+
+  private requestCompassPermissionOnFirstTouch(): void {
+    const iosRequest = (DeviceOrientationEvent as any).requestPermission;
+    if (typeof iosRequest !== 'function') return; // Android / desktop — no permission needed
+    this.mapEl.nativeElement.addEventListener('touchstart', () => {
+      iosRequest().catch(() => {});
+    }, { once: true });
   }
 
   async toggleCompass(): Promise<void> {
