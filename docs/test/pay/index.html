@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Payment · John Montaño – FPV Drone Pilot</title>
+  <base href="/test/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Block all indexing and crawling -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  <meta name="theme-color" content="#F4A922">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
+
+a[_ngcontent-ng-c3674394342] {
+  text-decoration: none;
+}
+.app-version[_ngcontent-ng-c3674394342] {
+  position: fixed;
+  bottom: 2px;
+  right: 10px;
+  transform: translateX(-50%);
+  font-size: 6px;
+  color: #111827;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 9999;
+  letter-spacing: 0.3px;
+  font-family: monospace;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+/*# sourceMappingURL=/test/app.component.css.map */</style><style ng-app-id="ng">
+
+.pay-page[_ngcontent-ng-c828226836] {
+  min-height: 100dvh;
+  background: #f6f7f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 24px 48px;
+}
+.pay-inner[_ngcontent-ng-c828226836] {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.brand-monogram[_ngcontent-ng-c828226836] {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  border: 2px solid #F4A922;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #F4A922;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(244, 169, 34, 0.15);
+}
+.brand-text[_ngcontent-ng-c828226836] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.brand-name[_ngcontent-ng-c828226836] {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+.brand-title[_ngcontent-ng-c828226836] {
+  margin-top: 6px;
+  font-size: 9px;
+  color: #9ca3af;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.brand-divider[_ngcontent-ng-c828226836] {
+  width: 36px;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 24px auto;
+}
+.amount-banner[_ngcontent-ng-c828226836] {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid #F4A922;
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(244, 169, 34, 0.1);
+}
+.amount-label[_ngcontent-ng-c828226836] {
+  font-size: 11px;
+  font-weight: 600;
+  color: #F4A922;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.amount-value[_ngcontent-ng-c828226836] {
+  font-size: 38px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.brand-copy[_ngcontent-ng-c828226836] {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.75;
+  margin: 0 0 24px;
+}
+.redirecting[_ngcontent-ng-c828226836] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+.spinner[_ngcontent-ng-c828226836] {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(244, 169, 34, 0.2);
+  border-top-color: #F4A922;
+  border-radius: 50%;
+  animation: _ngcontent-ng-c828226836_spin 0.75s linear infinite;
+}
+@keyframes _ngcontent-ng-c828226836_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.pay-error[_ngcontent-ng-c828226836] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #dc2626;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.retry-btn[_ngcontent-ng-c828226836] {
+  padding: 8px 20px;
+  background: #fff;
+  border: 1px solid #F4A922;
+  border-radius: 8px;
+  color: #F4A922;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.retry-btn[_ngcontent-ng-c828226836]:hover {
+  background: rgba(244, 169, 34, 0.06);
+}
+.stripe-wrap[_ngcontent-ng-c828226836] {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.stripe-wrap[_ngcontent-ng-c828226836]   stripe-buy-button[_ngcontent-ng-c828226836] {
+  width: 100%;
+}
+.brand-secure[_ngcontent-ng-c828226836] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #9ca3af;
+  letter-spacing: 0.3px;
+}
+.brand-secure[_ngcontent-ng-c828226836]   svg[_ngcontent-ng-c828226836] {
+  color: #9ca3af;
+}
+/*# sourceMappingURL=/test/payment.component.css.map */</style><meta name="description" content="Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe."><meta property="og:title" content="Payment · John Montaño – FPV Drone Pilot"><meta property="og:description" content="Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe."><meta property="og:url" content="https://johnfabiomb.com/pay"><meta property="og:image" content="https://johnfabiomb.com/assets/map-min.png"><meta name="twitter:title" content="Payment · John Montaño – FPV Drone Pilot"><meta name="twitter:description" content="Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe."><meta name="twitter:image" content="https://johnfabiomb.com/assets/map-min.png"><link rel="canonical" href="https://johnfabiomb.com/pay"></head>
+
+<body><!--nghm-->
+  <app-root ng-version="19.2.1" _nghost-ng-c3674394342="" ngh="1" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3674394342=""></router-outlet><app-payment _nghost-ng-c828226836="" ngh="0"><div _ngcontent-ng-c828226836="" class="pay-page"><div _ngcontent-ng-c828226836="" class="pay-inner"><div _ngcontent-ng-c828226836="" class="brand-text"><div _ngcontent-ng-c828226836="" class="brand-name">@Johnfabiomb</div><div _ngcontent-ng-c828226836="" class="brand-title">Explorer · Content Creator · FPV Drone Pilot</div></div><div _ngcontent-ng-c828226836="" class="brand-divider"></div><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><p _ngcontent-ng-c828226836="" class="brand-copy"> Looking forward to working on your project.<br _ngcontent-ng-c828226836=""> Complete your payment securely below<br _ngcontent-ng-c828226836=""> and book your slot once done. </p><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><div _ngcontent-ng-c828226836="" class="stripe-wrap"><stripe-buy-button _ngcontent-ng-c828226836="" buy-button-id="buy_btn_1TVg2KAXI0tdCXi36J3eOyL4" publishable-key="pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB"></stripe-buy-button></div><div _ngcontent-ng-c828226836="" class="brand-secure"><svg _ngcontent-ng-c828226836="" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path _ngcontent-ng-c828226836="" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"></path></svg> 256-bit SSL · Secured by Stripe </div></div></div></app-payment><!--container--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.9</span></app-root>
+  <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
+<link rel="modulepreload" href="chunk-ZMJMN75L.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-HRBQLXCV.js"><link rel="modulepreload" href="chunk-GZJOKFRP.js"><link rel="modulepreload" href="chunk-AVMQEWGR.js"><link rel="modulepreload" href="chunk-PGBPO7BH.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+
+
+<script id="ng-state" type="application/json">{"__nghData__":[{"t":{"8":"t32","9":"t33"},"c":{"8":[],"9":[{"i":"t33","r":1}]}},{"c":{"0":[{"i":"c828226836","r":1}],"1":[]},"t":{"1":"t26"}}]}</script></body></html>

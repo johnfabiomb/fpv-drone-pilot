@@ -1,0 +1,15 @@
+{
+  "routes": {
+    "/test/": {},
+    "/test/about": {},
+    "/test/contact": {},
+    "/test/cookies": {},
+    "/test/malta": {},
+    "/test/malta/30-places-2026": {},
+    "/test/malta/deals": {},
+    "/test/malta/list": {},
+    "/test/pay": {},
+    "/test/pay/success": {},
+    "/test/privacy": {}
+  }
+}
