@@ -1,4 +1,4 @@
-# Project Guide — FPV Pilot Page (Malta Map)
+# Project Guide — Venture Map (Malta)
 
 Angular 19 standalone-component app. No new Angular Modules. Routing via `app.routes.ts`.
 
@@ -123,7 +123,7 @@ MaltaShellComponent  (path: '' under /malta)
   └── <router-outlet>
         ├── MaltaMapComponent    (path: '', pathMatch: full)
         ├── LocationListComponent (path: 'list')
-        └── CouponsComponent     (path: 'deals')
+        └── DealsComponent       (path: 'deals')
 ```
 
 Non-map routes (`/malta/30-places-2026`, `/malta/plan`) are direct siblings of the shell — **not** children.
@@ -351,7 +351,7 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `src/app/components/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
 | `src/app/components/map/` | OpenLayers map component |
 | `src/app/platform/malta-map/` | Main map page |
-| `src/app/platform/coupons/` | Exclusive Deals map page |
+| `src/app/platform/deals/` | Exclusive Deals map page |
 | `src/app/platform/location-list/` | Browse Locations map page |
 | `src/assets/locations.json` | All location data |
 | `src/assets/providers.json` | All provider/deal data |

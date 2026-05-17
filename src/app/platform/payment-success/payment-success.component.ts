@@ -162,7 +162,7 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
     // ── Subtitle
     ctx.font = '400 11px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#9ca3af';
-    ctx.fillText('FPV DRONE PILOT · CONTENT CREATOR', CX, 226);
+    ctx.fillText('EXPLORER · CONTENT CREATOR', CX, 226);
 
     // ── Short divider
     ctx.beginPath();

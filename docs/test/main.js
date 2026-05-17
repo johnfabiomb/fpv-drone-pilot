@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-4ZAS54MQ.js";
+} from "./chunk-PLTJPSBR.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -70,23 +70,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-TQOTFWEI.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-IVCQACU6.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-4ENEBRPE.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-NSAE66XJ.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-VRP3VBQG.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-XHGCEANF.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-WMH5VKXE.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-ZMFIM2MW.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-KQZNR7OP.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-Z4JRQIPO.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -94,27 +94,27 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-ISMX3DHL.js").then((m) => m.MaltaShellComponent),
+        loadComponent: () => import("./chunk-6KKAIZ6O.js").then((m) => m.MaltaShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-EVBHNQGM.js").then((mod) => mod.MaltaMapComponent)
+            loadComponent: () => import("./chunk-23FAL6MK.js").then((mod) => mod.MaltaMapComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-2RZXWWYF.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-MYG7M7DH.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-ZMJF7OXI.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-7I5MQE4R.js").then((m) => m.DealsComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/malta-shell/malta-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-A7P557IA.js").then((m) => m.TrendComponent)
+        loadComponent: () => import("./chunk-AUYU5DUR.js").then((m) => m.TrendComponent)
       }, false ? { \u0275entryName: "src/app/platform/trend/trend.component.ts" } : {}),
       __spreadValues({
         path: "plan",
@@ -125,11 +125,11 @@ var routes = [
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-54F3B6WX.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-VEVO2QCQ.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-ZNJMEQXN.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-ERAUCH4S.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
 ];
 

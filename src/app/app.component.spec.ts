@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'fpv-pilot-page' title`, () => {
+  it(`should have the 'venture-map' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('fpv-pilot-page');
+    expect(app.title).toEqual('venture-map');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, fpv-pilot-page');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, venture-map');
   });
 });

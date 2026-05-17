@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fpv-pilot-page": {
+    "venture-map": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -147,10 +147,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fpv-pilot-page:build:production"
+              "buildTarget": "venture-map:build:production"
             },
             "development": {
-              "buildTarget": "fpv-pilot-page:build:development"
+              "buildTarget": "venture-map:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -158,7 +158,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "fpv-pilot-page:build"
+            "buildTarget": "venture-map:build"
           }
         },
         "test": {

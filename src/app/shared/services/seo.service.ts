@@ -6,7 +6,7 @@ import { Location } from '../models';
 const BASE_URL = 'https://johnfabiomb.com';
 const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
 const DEFAULT_TITLE = 'Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map';
-const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by FPV drone pilot John Montaño. 60+ curated locations with routes and photos.';
+const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by John Montaño. 60+ curated locations with routes and photos.';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -15,7 +15,7 @@ export class SeoService {
   private document = inject(DOCUMENT);
 
   setTrendPage(revealed: Array<{ num: number; name: string; id: number | null }>): void {
-    const title = '30 Best Places to Visit in Malta (2026) · FPV Drone Guide';
+    const title = '30 Best Places to Visit in Malta (2026) · Explorer\'s Guide';
     const desc = "Explore 30 of Malta's most breathtaking hidden gems — sea caves, cliff trails, remote valleys and secret coastlines most tourists never find. A firsthand bucket-list by John Montaño.";
     const url = `${BASE_URL}/malta/30-places-2026`;
     const image = `${BASE_URL}/assets/images/places/ta-maria-cave/TaMarijaCave.png`;
@@ -51,7 +51,7 @@ export class SeoService {
           '@type': 'Person',
           '@id': `${BASE_URL}/#person`,
           name: 'John Montaño',
-          jobTitle: 'FPV Drone Pilot & Content Creator',
+          jobTitle: 'Explorer & Content Creator',
           url: `${BASE_URL}/`,
           sameAs: ['https://www.instagram.com/johnfabiomb/'],
         },
@@ -97,13 +97,13 @@ export class SeoService {
         url: `${BASE}/plan`,
       },
       pay: {
-        title: 'Payment · John Montaño – FPV Drone Pilot',
-        desc: 'Secure payment page for FPV drone and content creation services by John Montaño. Pay safely via Stripe.',
+        title: 'Payment · John Montaño',
+        desc: 'Secure payment page for content creation services by John Montaño. Pay safely via Stripe.',
         url: `${BASE}/pay`,
       },
       'pay-success': {
         title: 'Payment Confirmed · John Montaño',
-        desc: 'Your payment has been confirmed. Book your slot with John Montaño – FPV drone pilot and content creator.',
+        desc: 'Your payment has been confirmed. Book your slot with John Montaño.',
         url: `${BASE}/pay/success`,
         noindex: true,
       },
@@ -181,7 +181,7 @@ export class SeoService {
       const url = `${BASE_URL}/`;
       this.titleService.setTitle(DEFAULT_TITLE);
       this.metaService.updateTag({ name: 'description', content: DEFAULT_DESC });
-      this.metaService.updateTag({ name: 'keywords', content: 'Malta hidden gems, Malta caves, Malta beaches, Malta secret spots, Malta hiking, Malta FPV, explore Malta, Malta interactive map, Gozo hidden spots, Malta travel guide' });
+      this.metaService.updateTag({ name: 'keywords', content: 'Malta hidden gems, Malta caves, Malta beaches, Malta secret spots, Malta hiking, explore Malta, Malta interactive map, Gozo hidden spots, Malta travel guide' });
       this.metaService.updateTag({ property: 'og:title', content: 'Explore Malta - Hidden Gems, Caves & Secret Spots' });
       this.metaService.updateTag({ property: 'og:description', content: DEFAULT_DESC });
       this.metaService.updateTag({ property: 'og:image', content: DEFAULT_IMAGE });
@@ -275,7 +275,7 @@ export class SeoService {
           '@id': `${BASE_URL}/#website`,
           url: `${BASE_URL}/`,
           name: 'Explore Malta',
-          description: 'Interactive map of Malta\'s best hidden gems, caves, beaches and historical sites curated by FPV drone pilot John Montaño.',
+          description: 'Interactive map of Malta\'s best hidden gems, caves, beaches and historical sites curated by John Montaño.',
           inLanguage: 'en',
           image: DEFAULT_IMAGE,
           author: { '@id': `${BASE_URL}/#person` },
@@ -284,7 +284,7 @@ export class SeoService {
           '@type': 'Person',
           '@id': `${BASE_URL}/#person`,
           name: 'John Montaño',
-          jobTitle: 'FPV Drone Pilot & Content Creator',
+          jobTitle: 'Explorer & Content Creator',
           url: `${BASE_URL}/`,
           sameAs: ['https://www.instagram.com/johnfabiomb/'],
         },
