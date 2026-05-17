@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/services/analytics.service.ts"],
-  "sourcesContent": ["import { Injectable } from '@angular/core';\n\ndeclare let gtag: Function;\n\n@Injectable({ providedIn: 'root' })\nexport class AnalyticsService {\n\n  pageView(url: string, title: string): void {\n    if (typeof gtag === 'undefined') return;\n    gtag('event', 'page_view', { page_title: title, page_location: url });\n  }\n\n  event(name: string, params: Record<string, any> = {}): void {\n    if (typeof gtag === 'undefined') return;\n    gtag('event', name, params);\n  }\n}\n"],
-  "mappings": ";;;;;AAKM,IAAO,mBAAP,MAAO,kBAAgB;EAE3B,SAAS,KAAa,OAAa;AACjC,QAAI,OAAO,SAAS;AAAa;AACjC,SAAK,SAAS,aAAa,EAAE,YAAY,OAAO,eAAe,IAAG,CAAE;EACtE;EAEA,MAAM,MAAc,SAA8B,CAAA,GAAE;AAClD,QAAI,OAAO,SAAS;AAAa;AACjC,SAAK,SAAS,MAAM,MAAM;EAC5B;;;uCAVW,mBAAgB;IAAA;EAAA;;4EAAhB,mBAAgB,SAAhB,kBAAgB,WAAA,YADH,OAAM,CAAA;EAAA;;",
-  "names": []
-}
