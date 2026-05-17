@@ -78,6 +78,12 @@ export class MapBridgeService {
   }
 
   toggleMinimize(): void {
-    if (this.panel.minimized()) this.panel.expand(); else this.panel.minimize();
+    if (this.panel.minimized()) {
+      this.panel.expand();        // header-only → partial
+    } else if (this.panel.fullscreen()) {
+      this.panel.expand();        // full-sheet  → partial
+    } else {
+      this.panel.minimize();      // partial     → header-only
+    }
   }
 }

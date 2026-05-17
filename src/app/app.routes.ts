@@ -46,7 +46,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'deals',
-                        loadComponent: () => import('./platform/coupons/coupons.component').then(m => m.CouponsComponent)
+                        loadComponent: () => import('./platform/deals/deals.component').then(m => m.DealsComponent)
                     },
                 ]
             },

@@ -109,26 +109,39 @@ var ProviderCardComponent = class _ProviderCardComponent {
 })();
 
 // src/app/shared/utils/panel-resize.util.ts
-var PANEL_MIN_H = 80;
+var PANEL_HEADER_H = 68;
 var PANEL_EXPANDED_VH = 0.62;
+var PANEL_FULL_VH = 0.85;
 var PanelResize = class {
-  constructor(getEl, getMapComp, platformId, minHeight = PANEL_MIN_H, expandedVh = PANEL_EXPANDED_VH) {
+  constructor(getEl, getMapComp, platformId, minHeight = PANEL_HEADER_H, expandedVh = PANEL_EXPANDED_VH, fullVh = PANEL_FULL_VH) {
     this.getEl = getEl;
     this.getMapComp = getMapComp;
     this.platformId = platformId;
     this.minHeight = minHeight;
     this.expandedVh = expandedVh;
+    this.fullVh = fullVh;
     this.minimized = signal(false);
+    this.fullscreen = signal(false);
     this.isDragging = false;
     this.dragStartY = 0;
     this.dragBaseHeight = 0;
+    this.lastMoveY = 0;
+    this.lastMoveTime = 0;
+    this.dragVelocity = 0;
   }
   onDragStart(e) {
+    this.startDrag(e.touches[0].clientY);
+  }
+  /** Used when a drag is initiated from the body (pull-down-to-collapse). */
+  startDrag(startY) {
     if (!this.isMobile())
       return;
     this.isDragging = true;
-    this.dragStartY = e.touches[0].clientY;
-    this.dragBaseHeight = this.getEl()?.offsetHeight ?? this.expandedHeight();
+    this.dragStartY = startY;
+    this.dragBaseHeight = this.getEl()?.offsetHeight ?? this.partialHeight();
+    this.lastMoveY = startY;
+    this.lastMoveTime = Date.now();
+    this.dragVelocity = 0;
     const el = this.getEl();
     if (el)
       el.style.transition = "none";
@@ -136,8 +149,16 @@ var PanelResize = class {
   onDragMove(e) {
     if (!this.isDragging)
       return;
-    const dy = e.touches[0].clientY - this.dragStartY;
-    const newH = Math.min(Math.max(this.dragBaseHeight - dy, this.minHeight), this.expandedHeight());
+    const now = Date.now();
+    const currentY = e.touches[0].clientY;
+    const dt = now - this.lastMoveTime;
+    if (dt > 0 && dt < 80) {
+      this.dragVelocity = (currentY - this.lastMoveY) / dt;
+    }
+    this.lastMoveY = currentY;
+    this.lastMoveTime = now;
+    const dy = currentY - this.dragStartY;
+    const newH = Math.min(Math.max(this.dragBaseHeight - dy, this.minHeight), this.fullHeight());
     this.applyHeight(newH, false);
     this.getMapComp()?.updateSize?.();
   }
@@ -145,20 +166,43 @@ var PanelResize = class {
     if (!this.isDragging)
       return;
     this.isDragging = false;
-    const currentH = this.getEl()?.offsetHeight ?? this.expandedHeight();
-    if (currentH < (this.expandedHeight() + this.minHeight) / 2) {
-      this.minimize();
+    const currentH = this.getEl()?.offsetHeight ?? this.partialHeight();
+    const FLICK = 0.4;
+    let snap;
+    if (this.dragVelocity < -FLICK) {
+      snap = this.nextSnap(currentH, "up");
+    } else if (this.dragVelocity > FLICK) {
+      snap = this.nextSnap(currentH, "down");
     } else {
-      this.expand();
+      snap = this.nearestSnap(currentH);
     }
+    this.dragVelocity = 0;
+    this.lastMoveTime = 0;
+    if (snap <= this.minHeight)
+      this.minimize();
+    else if (snap >= this.fullHeight())
+      this.expandFull();
+    else
+      this.expand();
   }
+  /** Snap to partial (default resting) height */
   expand() {
     this.minimized.set(false);
-    this.applyHeight(this.expandedHeight());
+    this.fullscreen.set(false);
+    this.applyHeight(this.partialHeight());
     this.scheduleMapUpdate();
   }
+  /** Snap to full-sheet height */
+  expandFull() {
+    this.minimized.set(false);
+    this.fullscreen.set(true);
+    this.applyHeight(this.fullHeight());
+    this.scheduleMapUpdate();
+  }
+  /** Snap to header-only height (minimum — panel stays visible) */
   minimize() {
     this.minimized.set(true);
+    this.fullscreen.set(false);
     this.applyHeight(this.minHeight);
     this.scheduleMapUpdate();
   }
@@ -168,6 +212,16 @@ var PanelResize = class {
       return;
     el.style.transition = "";
     el.style.height = "";
+  }
+  nearestSnap(h) {
+    const snaps = [this.minHeight, this.partialHeight(), this.fullHeight()];
+    return snaps.reduce((a, b) => Math.abs(b - h) < Math.abs(a - h) ? b : a);
+  }
+  nextSnap(h, dir) {
+    const snaps = [this.minHeight, this.partialHeight(), this.fullHeight()];
+    if (dir === "up")
+      return snaps.find((s) => s > h + 10) ?? this.fullHeight();
+    return [...snaps].reverse().find((s) => s < h - 10) ?? this.minHeight;
   }
   scheduleMapUpdate() {
     clearTimeout(this.animationTimer);
@@ -188,8 +242,11 @@ var PanelResize = class {
     el.style.transition = animated ? "height 0.28s cubic-bezier(0.4, 0, 0.2, 1)" : "none";
     el.style.height = `${h}px`;
   }
-  expandedHeight() {
+  partialHeight() {
     return Math.round(window.innerHeight * this.expandedVh);
+  }
+  fullHeight() {
+    return Math.round(window.innerHeight * this.fullVh);
   }
   isMobile() {
     return typeof window !== "undefined" && window.innerWidth <= 768;
@@ -250,10 +307,13 @@ var MapBridgeService = class _MapBridgeService {
     this.panel.expand();
   }
   toggleMinimize() {
-    if (this.panel.minimized())
+    if (this.panel.minimized()) {
       this.panel.expand();
-    else
+    } else if (this.panel.fullscreen()) {
+      this.panel.expand();
+    } else {
       this.panel.minimize();
+    }
   }
   static {
     this.\u0275fac = function MapBridgeService_Factory(__ngFactoryType__) {
@@ -269,4 +329,4 @@ export {
   ProviderCardComponent,
   MapBridgeService
 };
-//# sourceMappingURL=chunk-6E4XVZVX.js.map
+//# sourceMappingURL=chunk-OFGCOCRE.js.map

@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-6W65Q7GI.js";
+} from "./chunk-4ZAS54MQ.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -94,20 +94,20 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-G5Q5D6BH.js").then((m) => m.MaltaShellComponent),
+        loadComponent: () => import("./chunk-ISMX3DHL.js").then((m) => m.MaltaShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-KZ4XNGC2.js").then((mod) => mod.MaltaMapComponent)
+            loadComponent: () => import("./chunk-EVBHNQGM.js").then((mod) => mod.MaltaMapComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-RREAUMEC.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-2RZXWWYF.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-FPT3BAXH.js").then((m) => m.CouponsComponent)
+            loadComponent: () => import("./chunk-ZMJF7OXI.js").then((m) => m.DealsComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/malta-shell/malta-shell.component.ts" } : {}),

@@ -49,6 +49,9 @@ var PanelShellComponent = class _PanelShellComponent {
     this.dragMove = new EventEmitter();
     this.dragEnd = new EventEmitter();
     this.toggleCollapse = new EventEmitter();
+    this.bodyDragStart = new EventEmitter();
+    this.bodyDragMove = new EventEmitter();
+    this.bodyDragEnd = new EventEmitter();
     this.scrollCache = /* @__PURE__ */ new Map();
     this.isPopstate = false;
     this.destroyRef = inject(DestroyRef);
@@ -65,6 +68,40 @@ var PanelShellComponent = class _PanelShellComponent {
       }, { injector: this.injector });
     });
   }
+  ngAfterViewInit() {
+    const body = this.panelBody.nativeElement;
+    let touchStartY = 0;
+    let isIntercepting = false;
+    const onStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+      isIntercepting = false;
+    };
+    const onMove = (e) => {
+      const dy = e.touches[0].clientY - touchStartY;
+      if (dy > 0 && body.scrollTop <= 0) {
+        e.preventDefault();
+        if (!isIntercepting) {
+          isIntercepting = true;
+          this.bodyDragStart.emit(e.touches[0].clientY);
+        }
+        this.bodyDragMove.emit(e);
+      }
+    };
+    const onEnd = (e) => {
+      if (isIntercepting) {
+        isIntercepting = false;
+        this.bodyDragEnd.emit(e);
+      }
+    };
+    body.addEventListener("touchstart", onStart, { passive: true });
+    body.addEventListener("touchmove", onMove, { passive: false });
+    body.addEventListener("touchend", onEnd, { passive: true });
+    this.destroyRef.onDestroy(() => {
+      body.removeEventListener("touchstart", onStart);
+      body.removeEventListener("touchmove", onMove);
+      body.removeEventListener("touchend", onEnd);
+    });
+  }
   static {
     this.\u0275fac = function PanelShellComponent_Factory(__ngFactoryType__) {
       return new (__ngFactoryType__ || _PanelShellComponent)();
@@ -79,7 +116,7 @@ var PanelShellComponent = class _PanelShellComponent {
         let _t;
         \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.panelBody = _t.first);
       }
-    }, inputs: { title: "title", minimized: "minimized" }, outputs: { closeRequested: "closeRequested", dragStart: "dragStart", dragMove: "dragMove", dragEnd: "dragEnd", toggleCollapse: "toggleCollapse" }, ngContentSelectors: _c2, decls: 14, vars: 5, consts: [["panelBody", ""], [1, "panel-header", 3, "touchstart", "touchmove", "touchend"], [1, "drag-bar"], [1, "panel-header__row"], ["title", "Close", 1, "close-btn", 3, "click"], [1, "fa", "fa-times"], [1, "panel-header__left"], [1, "panel-title"], ["title", "Expand / collapse", 1, "toggle-btn", 3, "click"], [1, "fa"], [1, "panel-body"]], template: function PanelShellComponent_Template(rf, ctx) {
+    }, inputs: { title: "title", minimized: "minimized" }, outputs: { closeRequested: "closeRequested", dragStart: "dragStart", dragMove: "dragMove", dragEnd: "dragEnd", toggleCollapse: "toggleCollapse", bodyDragStart: "bodyDragStart", bodyDragMove: "bodyDragMove", bodyDragEnd: "bodyDragEnd" }, ngContentSelectors: _c2, decls: 14, vars: 5, consts: [["panelBody", ""], [1, "panel-header", 3, "touchstart", "touchmove", "touchend"], [1, "drag-bar"], [1, "panel-header__row"], ["title", "Close", 1, "close-btn", 3, "click"], [1, "fa", "fa-times"], [1, "panel-header__left"], [1, "panel-title"], ["title", "Expand / collapse", 1, "toggle-btn", 3, "click"], [1, "fa"], [1, "panel-body"]], template: function PanelShellComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
         \u0275\u0275projectionDef(_c1);
@@ -227,4 +264,4 @@ export {
   PanelShellComponent,
   providers
 };
-//# sourceMappingURL=chunk-ND634VMK.js.map
+//# sourceMappingURL=chunk-I6BK37O6.js.map

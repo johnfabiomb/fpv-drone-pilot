@@ -4,7 +4,7 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-ND634VMK.js";
+} from "./chunk-I6BK37O6.js";
 import {
   difficultyColor,
   getIslandLabel,
@@ -13,7 +13,7 @@ import {
 import {
   MapBridgeService,
   ProviderCardComponent
-} from "./chunk-6E4XVZVX.js";
+} from "./chunk-OFGCOCRE.js";
 import {
   locations
 } from "./chunk-HWLWP4H2.js";
@@ -6884,7 +6884,7 @@ var LocationListComponent = class _LocationListComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocationListComponent, selectors: [["app-location-list"]], decls: 23, vars: 15, consts: [["title", "Browse Locations", 3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "minimized"], ["panelActions", "", 1, "list-count"], [1, "controls"], [1, "search-wrap"], [1, "fa", "fa-search", "search-icon"], ["type", "search", "placeholder", "Search locations\u2026", "autocomplete", "off", 1, "search-input", 3, "ngModelChange", "ngModel"], ["class", "search-clear", 3, "click", 4, "ngIf"], [1, "filter-chips"], ["class", "chip", 3, "active", "click", 4, "ngFor", "ngForOf"], [1, "sort-row"], [1, "sort-label"], [1, "sort-btn", 3, "click", "disabled"], [1, "sort-btn", 3, "click"], [1, "location-list"], ["class", "deals-banner", 3, "click", 4, "ngIf"], [4, "ngFor", "ngForOf"], ["class", "empty", 4, "ngIf"], [1, "search-clear", 3, "click"], [1, "fa", "fa-times"], [1, "chip", 3, "click"], [1, "deals-banner", 3, "click"], [1, "deals-banner__left"], [1, "deals-banner__icon"], [1, "deals-banner__title"], [1, "deals-banner__sub"], [1, "deals-banner__cta"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x1", "5", "y1", "12", "x2", "19", "y2", "12"], ["points", "12 5 19 12 12 19"], ["class", "loc-card", 3, "click", 4, "ngIf"], [3, "provider", "selected", 4, "ngIf"], [1, "loc-card", 3, "click"], ["loading", "lazy", 1, "loc-thumb", 3, "src", "alt"], [1, "loc-info"], [1, "loc-top"], [1, "loc-title"], ["class", "loc-rating", 4, "ngIf"], [1, "loc-badges"], [1, "badge"], ["class", "badge badge--island", 4, "ngIf"], ["class", "badge badge--hidden", 4, "ngIf"], ["class", "loc-distance", 4, "ngIf"], [1, "loc-rating"], [1, "badge", "badge--island"], [1, "badge", "badge--hidden"], [1, "loc-distance"], [3, "selected", "provider"], [1, "empty"]], template: function LocationListComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocationListComponent, selectors: [["app-location-list"]], decls: 23, vars: 15, consts: [["title", "Browse Locations", 3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "minimized"], ["panelActions", "", 1, "list-count"], [1, "controls"], [1, "search-wrap"], [1, "fa", "fa-search", "search-icon"], ["type", "search", "placeholder", "Search locations\u2026", "autocomplete", "off", 1, "search-input", 3, "ngModelChange", "ngModel"], ["class", "search-clear", 3, "click", 4, "ngIf"], [1, "filter-chips"], ["class", "chip", 3, "active", "click", 4, "ngFor", "ngForOf"], [1, "sort-row"], [1, "sort-label"], [1, "sort-btn", 3, "click", "disabled"], [1, "sort-btn", 3, "click"], [1, "location-list"], ["class", "deals-banner", 3, "click", 4, "ngIf"], [4, "ngFor", "ngForOf"], ["class", "empty", 4, "ngIf"], [1, "search-clear", 3, "click"], [1, "fa", "fa-times"], [1, "chip", 3, "click"], [1, "deals-banner", 3, "click"], [1, "deals-banner__left"], [1, "deals-banner__icon"], [1, "deals-banner__title"], [1, "deals-banner__sub"], [1, "deals-banner__cta"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x1", "5", "y1", "12", "x2", "19", "y2", "12"], ["points", "12 5 19 12 12 19"], ["class", "loc-card", 3, "click", 4, "ngIf"], [3, "provider", "selected", 4, "ngIf"], [1, "loc-card", 3, "click"], ["loading", "lazy", 1, "loc-thumb", 3, "src", "alt"], [1, "loc-info"], [1, "loc-top"], [1, "loc-title"], ["class", "loc-rating", 4, "ngIf"], [1, "loc-badges"], [1, "badge"], ["class", "badge badge--island", 4, "ngIf"], ["class", "badge badge--hidden", 4, "ngIf"], ["class", "loc-distance", 4, "ngIf"], [1, "loc-rating"], [1, "badge", "badge--island"], [1, "badge", "badge--hidden"], [1, "loc-distance"], [3, "selected", "provider"], [1, "empty"]], template: function LocationListComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "app-panel-shell", 0);
         \u0275\u0275listener("closeRequested", function LocationListComponent_Template_app_panel_shell_closeRequested_0_listener() {
@@ -6897,6 +6897,12 @@ var LocationListComponent = class _LocationListComponent {
           return ctx.bridge.panel.onDragEnd($event);
         })("toggleCollapse", function LocationListComponent_Template_app_panel_shell_toggleCollapse_0_listener() {
           return ctx.bridge.toggleMinimize();
+        })("bodyDragStart", function LocationListComponent_Template_app_panel_shell_bodyDragStart_0_listener($event) {
+          return ctx.bridge.panel.startDrag($event);
+        })("bodyDragMove", function LocationListComponent_Template_app_panel_shell_bodyDragMove_0_listener($event) {
+          return ctx.bridge.panel.onDragMove($event);
+        })("bodyDragEnd", function LocationListComponent_Template_app_panel_shell_bodyDragEnd_0_listener($event) {
+          return ctx.bridge.panel.onDragEnd($event);
         });
         \u0275\u0275elementStart(1, "span", 1);
         \u0275\u0275text(2);
@@ -6980,4 +6986,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-RREAUMEC.js.map
+//# sourceMappingURL=chunk-2RZXWWYF.js.map

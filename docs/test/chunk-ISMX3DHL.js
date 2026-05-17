@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-6W65Q7GI.js";
+} from "./chunk-4ZAS54MQ.js";
 import {
   AnalyticsService
 } from "./chunk-CTBGTVWE.js";
@@ -10,7 +10,7 @@ import {
 import {
   MapBridgeService,
   ProviderCardComponent
-} from "./chunk-6E4XVZVX.js";
+} from "./chunk-OFGCOCRE.js";
 import {
   locations
 } from "./chunk-HWLWP4H2.js";
@@ -27439,4 +27439,4 @@ var MaltaShellComponent = class _MaltaShellComponent {
 export {
   MaltaShellComponent
 };
-//# sourceMappingURL=chunk-G5Q5D6BH.js.map
+//# sourceMappingURL=chunk-ISMX3DHL.js.map

@@ -9,7 +9,7 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-ND634VMK.js";
+} from "./chunk-I6BK37O6.js";
 import {
   AnalyticsService
 } from "./chunk-CTBGTVWE.js";
@@ -19,7 +19,7 @@ import {
 import {
   MapBridgeService,
   ProviderCardComponent
-} from "./chunk-6E4XVZVX.js";
+} from "./chunk-OFGCOCRE.js";
 import {
   locations
 } from "./chunk-HWLWP4H2.js";
@@ -756,7 +756,7 @@ var MaltaMapComponent = class _MaltaMapComponent {
         let _t;
         \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.locationDetail = _t.first);
       }
-    }, decls: 4, vars: 6, consts: [[3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "title", "minimized"], ["panelActions", "", 3, "url", "shareTitle"], [3, "location", "userLat", "userLon", "close", "explore", "navRequested", "providerSelected", 4, "ngIf"], [3, "provider", "navRequested", 4, "ngIf"], [3, "close", "explore", "navRequested", "providerSelected", "location", "userLat", "userLon"], [3, "navRequested", "provider"]], template: function MaltaMapComponent_Template(rf, ctx) {
+    }, decls: 4, vars: 6, consts: [[3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "title", "minimized"], ["panelActions", "", 3, "url", "shareTitle"], [3, "location", "userLat", "userLon", "close", "explore", "navRequested", "providerSelected", 4, "ngIf"], [3, "provider", "navRequested", 4, "ngIf"], [3, "close", "explore", "navRequested", "providerSelected", "location", "userLat", "userLon"], [3, "navRequested", "provider"]], template: function MaltaMapComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "app-panel-shell", 0);
         \u0275\u0275listener("closeRequested", function MaltaMapComponent_Template_app_panel_shell_closeRequested_0_listener() {
@@ -769,6 +769,12 @@ var MaltaMapComponent = class _MaltaMapComponent {
           return ctx.bridge.panel.onDragEnd($event);
         })("toggleCollapse", function MaltaMapComponent_Template_app_panel_shell_toggleCollapse_0_listener() {
           return ctx.bridge.toggleMinimize();
+        })("bodyDragStart", function MaltaMapComponent_Template_app_panel_shell_bodyDragStart_0_listener($event) {
+          return ctx.bridge.panel.startDrag($event);
+        })("bodyDragMove", function MaltaMapComponent_Template_app_panel_shell_bodyDragMove_0_listener($event) {
+          return ctx.bridge.panel.onDragMove($event);
+        })("bodyDragEnd", function MaltaMapComponent_Template_app_panel_shell_bodyDragEnd_0_listener($event) {
+          return ctx.bridge.panel.onDragEnd($event);
         });
         \u0275\u0275element(1, "app-share-btn", 1);
         \u0275\u0275template(2, MaltaMapComponent_app_location_detail_2_Template, 1, 3, "app-location-detail", 2)(3, MaltaMapComponent_app_provider_detail_3_Template, 1, 1, "app-provider-detail", 3);
@@ -792,4 +798,4 @@ var MaltaMapComponent = class _MaltaMapComponent {
 export {
   MaltaMapComponent
 };
-//# sourceMappingURL=chunk-KZ4XNGC2.js.map
+//# sourceMappingURL=chunk-EVBHNQGM.js.map

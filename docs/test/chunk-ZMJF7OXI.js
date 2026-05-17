@@ -5,11 +5,11 @@ import {
 import {
   PanelShellComponent,
   providers
-} from "./chunk-ND634VMK.js";
+} from "./chunk-I6BK37O6.js";
 import {
   MapBridgeService,
   ProviderCardComponent
-} from "./chunk-6E4XVZVX.js";
+} from "./chunk-OFGCOCRE.js";
 import {
   takeUntilDestroyed
 } from "./chunk-HRBQLXCV.js";
@@ -46,8 +46,8 @@ import {
   ɵɵtext
 } from "./chunk-PGBPO7BH.js";
 
-// src/app/platform/coupons/coupons.component.ts
-function CouponsComponent_app_share_btn_1_Template(rf, ctx) {
+// src/app/platform/deals/deals.component.ts
+function DealsComponent_app_share_btn_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275element(0, "app-share-btn", 4);
   }
@@ -56,11 +56,11 @@ function CouponsComponent_app_share_btn_1_Template(rf, ctx) {
     \u0275\u0275property("url", ctx_r0.currentShareUrl)("shareTitle", ctx_r0.panelTitle);
   }
 }
-function CouponsComponent_app_provider_detail_2_Template(rf, ctx) {
+function DealsComponent_app_provider_detail_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "app-provider-detail", 5);
-    \u0275\u0275listener("navRequested", function CouponsComponent_app_provider_detail_2_Template_app_provider_detail_navRequested_0_listener($event) {
+    \u0275\u0275listener("navRequested", function DealsComponent_app_provider_detail_2_Template_app_provider_detail_navRequested_0_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.onNavRequested($event));
@@ -72,11 +72,11 @@ function CouponsComponent_app_provider_detail_2_Template(rf, ctx) {
     \u0275\u0275property("provider", ctx_r0.selectedProvider);
   }
 }
-function CouponsComponent_div_3_app_provider_card_4_Template(rf, ctx) {
+function DealsComponent_div_3_app_provider_card_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "app-provider-card", 10);
-    \u0275\u0275listener("selected", function CouponsComponent_div_3_app_provider_card_4_Template_app_provider_card_selected_0_listener($event) {
+    \u0275\u0275listener("selected", function DealsComponent_div_3_app_provider_card_4_Template_app_provider_card_selected_0_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.openProvider($event));
@@ -88,12 +88,12 @@ function CouponsComponent_div_3_app_provider_card_4_Template(rf, ctx) {
     \u0275\u0275property("provider", p_r4);
   }
 }
-function CouponsComponent_div_3_Template(rf, ctx) {
+function DealsComponent_div_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 6)(1, "div", 7)(2, "p", 8);
     \u0275\u0275text(3, "Exclusive discounts from local partners \u2014 tap a card or a pin on the map to claim your deal.");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(4, CouponsComponent_div_3_app_provider_card_4_Template, 1, 1, "app-provider-card", 9);
+    \u0275\u0275template(4, DealsComponent_div_3_app_provider_card_4_Template, 1, 1, "app-provider-card", 9);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -102,7 +102,7 @@ function CouponsComponent_div_3_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r0.allProviders);
   }
 }
-var CouponsComponent = class _CouponsComponent {
+var DealsComponent = class _DealsComponent {
   constructor() {
     this.allProviders = providers;
     this.mapProviders = providers.filter((p) => p.showOnMap && p.lat && p.lon);
@@ -162,26 +162,32 @@ var CouponsComponent = class _CouponsComponent {
     this.router.navigate(["/malta"]);
   }
   static {
-    this.\u0275fac = function CouponsComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _CouponsComponent)();
+    this.\u0275fac = function DealsComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _DealsComponent)();
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _CouponsComponent, selectors: [["app-coupons"]], decls: 4, vars: 5, consts: [[3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "title", "minimized"], ["panelActions", "", 3, "url", "shareTitle", 4, "ngIf"], [3, "provider", "navRequested", 4, "ngIf"], ["class", "deals-list", 4, "ngIf"], ["panelActions", "", 3, "url", "shareTitle"], [3, "navRequested", "provider"], [1, "deals-list"], [1, "deals-intro"], [1, "deals-intro__text"], [3, "provider", "selected", 4, "ngFor", "ngForOf"], [3, "selected", "provider"]], template: function CouponsComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DealsComponent, selectors: [["app-deals"]], decls: 4, vars: 5, consts: [[3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "title", "minimized"], ["panelActions", "", 3, "url", "shareTitle", 4, "ngIf"], [3, "provider", "navRequested", 4, "ngIf"], ["class", "deals-list", 4, "ngIf"], ["panelActions", "", 3, "url", "shareTitle"], [3, "navRequested", "provider"], [1, "deals-list"], [1, "deals-intro"], [1, "deals-intro__text"], [3, "provider", "selected", 4, "ngFor", "ngForOf"], [3, "selected", "provider"]], template: function DealsComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "app-panel-shell", 0);
-        \u0275\u0275listener("closeRequested", function CouponsComponent_Template_app_panel_shell_closeRequested_0_listener() {
+        \u0275\u0275listener("closeRequested", function DealsComponent_Template_app_panel_shell_closeRequested_0_listener() {
           return ctx.onPanelCloseRequested();
-        })("dragStart", function CouponsComponent_Template_app_panel_shell_dragStart_0_listener($event) {
+        })("dragStart", function DealsComponent_Template_app_panel_shell_dragStart_0_listener($event) {
           return ctx.bridge.panel.onDragStart($event);
-        })("dragMove", function CouponsComponent_Template_app_panel_shell_dragMove_0_listener($event) {
+        })("dragMove", function DealsComponent_Template_app_panel_shell_dragMove_0_listener($event) {
           return ctx.bridge.panel.onDragMove($event);
-        })("dragEnd", function CouponsComponent_Template_app_panel_shell_dragEnd_0_listener($event) {
+        })("dragEnd", function DealsComponent_Template_app_panel_shell_dragEnd_0_listener($event) {
           return ctx.bridge.panel.onDragEnd($event);
-        })("toggleCollapse", function CouponsComponent_Template_app_panel_shell_toggleCollapse_0_listener() {
+        })("toggleCollapse", function DealsComponent_Template_app_panel_shell_toggleCollapse_0_listener() {
           return ctx.bridge.toggleMinimize();
+        })("bodyDragStart", function DealsComponent_Template_app_panel_shell_bodyDragStart_0_listener($event) {
+          return ctx.bridge.panel.startDrag($event);
+        })("bodyDragMove", function DealsComponent_Template_app_panel_shell_bodyDragMove_0_listener($event) {
+          return ctx.bridge.panel.onDragMove($event);
+        })("bodyDragEnd", function DealsComponent_Template_app_panel_shell_bodyDragEnd_0_listener($event) {
+          return ctx.bridge.panel.onDragEnd($event);
         });
-        \u0275\u0275template(1, CouponsComponent_app_share_btn_1_Template, 1, 2, "app-share-btn", 1)(2, CouponsComponent_app_provider_detail_2_Template, 1, 1, "app-provider-detail", 2)(3, CouponsComponent_div_3_Template, 5, 1, "div", 3);
+        \u0275\u0275template(1, DealsComponent_app_share_btn_1_Template, 1, 2, "app-share-btn", 1)(2, DealsComponent_app_provider_detail_2_Template, 1, 1, "app-provider-detail", 2)(3, DealsComponent_div_3_Template, 5, 1, "div", 3);
         \u0275\u0275elementEnd();
       }
       if (rf & 2) {
@@ -193,13 +199,13 @@ var CouponsComponent = class _CouponsComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", !ctx.selectedProvider);
       }
-    }, dependencies: [CommonModule, NgForOf, NgIf, PanelShellComponent, ProviderCardComponent, ProviderDetailComponent, ShareButtonComponent], styles: ["\n\n.deals-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding: 16px 16px 40px;\n}\n.deals-intro[_ngcontent-%COMP%] {\n  padding: 4px 0 6px;\n}\n.deals-intro__text[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n}\n/*# sourceMappingURL=coupons.component.css.map */"] });
+    }, dependencies: [CommonModule, NgForOf, NgIf, PanelShellComponent, ProviderCardComponent, ProviderDetailComponent, ShareButtonComponent], styles: ["\n\n.deals-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding: 16px 16px 40px;\n}\n.deals-intro[_ngcontent-%COMP%] {\n  padding: 4px 0 6px;\n}\n.deals-intro__text[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n}\n/*# sourceMappingURL=deals.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CouponsComponent, { className: "CouponsComponent", filePath: "src/app/platform/coupons/coupons.component.ts", lineNumber: 21 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DealsComponent, { className: "DealsComponent", filePath: "src/app/platform/deals/deals.component.ts", lineNumber: 21 });
 })();
 export {
-  CouponsComponent
+  DealsComponent
 };
-//# sourceMappingURL=chunk-FPT3BAXH.js.map
+//# sourceMappingURL=chunk-ZMJF7OXI.js.map
