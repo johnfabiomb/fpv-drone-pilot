@@ -7,7 +7,7 @@
   (dragEnd)="bridge.panel.onDragEnd($event)"
   (toggleCollapse)="bridge.toggleMinimize()">
 
-  <span panelActions class="list-count">{{ filteredLocations.length }}</span>
+  <span panelActions class="list-count">{{ filteredLocations().length }}</span>
 
   <div class="controls">
     <div class="search-wrap">
@@ -16,9 +16,10 @@
         class="search-input"
         type="search"
         placeholder="Search locations…"
-        [(ngModel)]="searchQuery"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
         autocomplete="off">
-      <button *ngIf="searchQuery" class="search-clear" (click)="searchQuery = ''">
+      <button *ngIf="searchQuery()" class="search-clear" (click)="searchQuery.set('')">
         <i class="fa fa-times"></i>
       </button>
     </div>
@@ -27,7 +28,7 @@
       <div
         *ngFor="let f of filters"
         class="chip"
-        [class.active]="activeFilters.has(f.id)"
+        [class.active]="activeFilters().has(f.id)"
         (click)="toggleFilter(f.id)">
         {{ f.emoji }} {{ f.label }}
       </div>
@@ -35,13 +36,13 @@
 
     <div class="sort-row">
       <span class="sort-label">Sort:</span>
-      <button class="sort-btn" [class.active]="sortMode === 'distance'" (click)="setSort('distance')" [disabled]="userLat === null">
+      <button class="sort-btn" [class.active]="sortMode() === 'distance'" (click)="setSort('distance')" [disabled]="!hasGps()">
         📍 Near me
       </button>
-      <button class="sort-btn" [class.active]="sortMode === 'rating'" (click)="setSort('rating')">
+      <button class="sort-btn" [class.active]="sortMode() === 'rating'" (click)="setSort('rating')">
         ⭐ Rating
       </button>
-      <button class="sort-btn" [class.active]="sortMode === 'alpha'" (click)="setSort('alpha')">
+      <button class="sort-btn" [class.active]="sortMode() === 'alpha'" (click)="setSort('alpha')">
         A–Z
       </button>
     </div>
@@ -66,7 +67,7 @@
       </div>
     </div>
 
-    <ng-container *ngFor="let item of displayList">
+    <ng-container *ngFor="let item of displayList()">
       <div class="loc-card" *ngIf="item.type === 'location'" (click)="openLocation(item.data)">
         <img class="loc-thumb" [src]="item.data.img" [alt]="item.data.title" loading="lazy">
         <div class="loc-info">
@@ -79,8 +80,8 @@
             <span class="badge badge--island" *ngIf="islandLabel(item.data)">{{ islandLabel(item.data) }}</span>
             <span class="badge badge--hidden" *ngIf="item.data.hidden">hidden gem</span>
           </div>
-          <div class="loc-distance" *ngIf="distanceLabel(item.data)">
-            📍 {{ distanceLabel(item.data) }}
+          <div class="loc-distance" *ngIf="item.distance">
+            📍 {{ item.distance }}
           </div>
         </div>
       </div>
@@ -92,7 +93,7 @@
       </app-provider-card>
     </ng-container>
 
-    <div class="empty" *ngIf="displayList.length === 0">
+    <div class="empty" *ngIf="displayList().length === 0">
       No locations match the selected filters.
     </div>
   </div>
