@@ -1,62 +1,46 @@
 .filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--color-bg, #fff);
+  border-radius: var(--radius-xl, 12px);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+
+  &::-webkit-scrollbar { display: none; }
+
+  // Filter-bar chips are slightly larger than the global .chip base
+  .chip {
     display: flex;
-    gap: 6px;
-    padding: 8px 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    gap: 5px;
+    padding: 6px 13px;
+    border-radius: var(--radius-lg, 10px);
+    font-size: 13px;
 
-    &::-webkit-scrollbar {
-        display: none;
+    &.active {
+      background: var(--color-primary, #F4A922);
+      border-color: var(--color-primary, #F4A922);
+      box-shadow: 0 2px 8px var(--color-primary-shadow, rgba(244, 169, 34, 0.3));
     }
 
-    .chip {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 6px 13px;
-        border-radius: 10px;
-        border: 1.5px solid transparent;
-        background: #eaecef;
-        cursor: pointer;
-        white-space: nowrap;
-        font-size: 13px;
-        font-weight: 500;
-        color: #4b5563;
-        transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
-        user-select: none;
-
-        &:hover {
-            background: #dde0e5;
-            color: #111827;
-        }
-
-        &.active {
-            background: var(--color-blue);
-            border-color: var(--color-blue);
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(244, 169, 34, 0.3);
-        }
-
-        &.clear {
-            border-color: var(--color-blue);
-            color: var(--color-blue);
-            background: rgba(244, 169, 34, 0.07);
-            font-weight: 600;
-        }
-
-        .emoji {
-            font-size: 14px;
-            line-height: 1;
-        }
-
-        .chip-x {
-            font-size: 12px;
-            line-height: 1;
-            opacity: 0.7;
-        }
+    &.clear {
+      border-color: var(--color-primary, #F4A922);
+      color: var(--color-primary, #F4A922);
+      background: rgba(244, 169, 34, 0.07);
+      font-weight: 600;
     }
+
+    .emoji {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .chip-x {
+      font-size: 12px;
+      line-height: 1;
+      opacity: 0.7;
+    }
+  }
 }

@@ -21,7 +21,8 @@ export class PaymentSuccessComponent implements OnInit, AfterViewInit {
   copied = false;
   private platformId = inject(PLATFORM_ID);
 
-  constructor(private route: ActivatedRoute, private seo: SeoService) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly seo = inject(SeoService);
 
   async ngAfterViewInit(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) {

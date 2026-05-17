@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteBuilderService, Difficulty, Pace, PlanInput, ItineraryDay } from '../../shared/services/route-builder.service';
+import { Location } from '../../shared/models';
 
 type AppView = 'list' | 'wizard' | 'result';
 
@@ -35,7 +36,7 @@ export class RouteBuilderComponent implements OnInit {
   savedPlans: SavedPlanEntry[] = [];
   currentPlanId: string | null = null;
   pendingDeleteId: string | null = null;
-  anchorLocation: any | null = null;
+  anchorLocation: Location | null = null;
 
   dayOptions = [
     { value: 1, label: '1 Day', sublabel: 'Quick escape' },
@@ -75,11 +76,9 @@ export class RouteBuilderComponent implements OnInit {
     { value: 'full-explorer', label: 'Full Explorer', sublabel: 'See as much as possible', icon: '🗺️' },
   ];
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private routeBuilderService: RouteBuilderService,
-  ) {}
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly routeBuilderService = inject(RouteBuilderService);
 
   ngOnInit(): void {
     try {
@@ -258,7 +257,7 @@ export class RouteBuilderComponent implements OnInit {
     return pace === 'full-explorer' ? 'Full Explorer' : pace.charAt(0).toUpperCase() + pace.slice(1);
   }
 
-  openOnMap(location: any): void {
+  openOnMap(location: Location): void {
     this.router.navigate(['/malta'], {
       queryParams: { title: encodeURIComponent(location.title.replace(' ', '-')) },
     });

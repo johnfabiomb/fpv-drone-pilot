@@ -18,6 +18,8 @@
     height: 40px;
     background: #fff;
     border: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
     border-radius: 50%;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;

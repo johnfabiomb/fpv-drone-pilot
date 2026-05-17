@@ -13,10 +13,29 @@ const RESUME_MS = 5000;
 })
 export class ImageGalleryComponent implements OnDestroy {
   @Input() set src(value: string[]) {
-    this.images = value ?? [];
+    const next = value ?? [];
+    // galleryImages returns [loc.img] — a new array reference every CD cycle for single-image
+    // locations. Skip the reset when URLs haven't actually changed so loadedImgs isn't wiped.
+    if (next.length === this.images.length && next.every((u, i) => u === this.images[i])) return;
+
+    this.images = next;
     this.active = 0;
     this.loadedImgs.clear();
     this.restartAuto();
+
+    // (load) does not fire for cached images — probe each URL after current frame
+    if (isPlatformBrowser(this.platformId)) {
+      const toCheck = [...new Set(this.images)];
+      setTimeout(() => {
+        toCheck.forEach(src => {
+          const probe = new Image();
+          probe.src = src;
+          if (probe.complete && probe.naturalWidth > 0) {
+            this.markLoaded(src);
+          }
+        });
+      }, 0);
+    }
   }
 
   images: string[] = [];

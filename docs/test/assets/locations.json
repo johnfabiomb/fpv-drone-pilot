@@ -2774,6 +2774,206 @@
             ],
             "locality": "Mġarr",
             "showLabel": false
+        },
+        {
+            "id": 73,
+            "title": "Xlendi Tower Coastal Path",
+            "description": "Xlendi Tower Coastal Path is a scenic cliffside walk from Xlendi Bay toward Torri tax-Xlendi, a historic coastal watchtower overlooking the entrance to the bay. The route includes stone steps, open sea views, limestone cliffs, and one of Gozo’s most important coastal landmarks. Xlendi Tower was built in 1650 during the rule of Grand Master Lascaris as part of the Knights of St John’s coastal defence system, helping protect Xlendi Bay from pirates, smugglers, and quarantine evaders. The walk is short and beautiful, but some parts can be uneven and exposed, so comfortable shoes are recommended.",
+            "img": "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path.png",
+            "lon": 14.212852058914873,
+            "lat": 36.02744422603632,
+            "url": "https://www.instagram.com/johnfabiomb/embed",
+            "keywords": "Xlendi Tower, Torri tax-Xlendi, Xlendi Bay, Gozo, Malta, coastal path, cliff stairs, stone steps, Lascaris tower, Knights of St John, coastal walk, watchtower, Ras il-Bajda",
+            "rating": 4.7,
+            "recommendedRoute": "/assets/images/recommendedRoute-xlendi-tower.png",
+            "mapPoints": [
+                {
+                    "label": "Parking spot",
+                    "description": "Park here before starting the coastal walk toward Xlendi Tower.",
+                    "lat": 36.02871017107773,
+                    "lon": 14.215572361306917,
+                    "type": "parking"
+                },
+                {
+                    "lat": 36.02851801166642,
+                    "lon": 14.215690906746273,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02846177634454,
+                    "lon": 14.215740756114394,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02845509937016,
+                    "lon": 14.215678604302376,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02828204013137,
+                    "lon": 14.215682711434933,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02798784533165,
+                    "lon": 14.215904622321398,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027868506321454,
+                    "lon": 14.215901814383837,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02766361969799,
+                    "lon": 14.21602016685662,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027544924176254,
+                    "lon": 14.216062872653277,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027425686176244,
+                    "lon": 14.216196731646926,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02725472609106,
+                    "lon": 14.216284573992166,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02713955491252,
+                    "lon": 14.216561721620533,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.026993743484994,
+                    "lon": 14.216516459343406,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.026944936252335,
+                    "lon": 14.21642119901386,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02697971140873,
+                    "lon": 14.216251591203184,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027080918550354,
+                    "lon": 14.215844943170817,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027143622173,
+                    "lon": 14.215632881020577,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02722778052433,
+                    "lon": 14.215399361198218,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02727014776343,
+                    "lon": 14.215322080050976,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02734390059889,
+                    "lon": 14.214271576126489,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02747496762281,
+                    "lon": 14.214074601401956,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02757346263613,
+                    "lon": 14.213965678570242,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027626370608644,
+                    "lon": 14.213832322490784,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02760389912946,
+                    "lon": 14.213694482093128,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02759498510201,
+                    "lon": 14.21359167805073,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02770676625538,
+                    "lon": 14.213295252045068,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02775686097186,
+                    "lon": 14.213044381683142,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027880640202355,
+                    "lon": 14.213032856566283,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.027737439952276,
+                    "lon": 14.212932692823383,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02770883376459,
+                    "lon": 14.212824440543919,
+                    "type": "waypoint"
+                },
+                {
+                    "lat": 36.02760135710653,
+                    "lon": 14.21277649605778,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Xlendi Tower",
+                    "description": "Historic coastal watchtower overlooking the entrance to Xlendi Bay.",
+                    "lat": 36.02744422603632,
+                    "lon": 14.212852058914873,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "easy",
+            "hidden": false,
+            "tags": [
+                "historical",
+                "cultural",
+                "tower",
+                "coastal-walk",
+                "viewpoint",
+                "cliffs",
+                "gozo",
+                "easy"
+            ],
+            "images": [
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path.png",
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path2.png",
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path3.png",
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path4.png",
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path5.png",
+                "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path6.png"
+            ],
+            "locality": "Munxar",
+            "showLabel": false
         }
     ]
 }

@@ -1,0 +1,51 @@
+// Filter bar floats inside the map area (absolute within map-layout__map)
+app-filter-bar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: auto;
+  max-width: calc(100vw - 24px);
+  width: max-content;
+}
+
+// ── Offline indicator ──────────────────────────────────────
+.offline-pill {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(30, 30, 30, 0.88);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill, 20px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.offline-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f87171;
+  flex-shrink: 0;
+}
+
+// ── Deals page: primary-colored re-open button ─────────────
+.show-panel-btn--primary {
+  color: var(--color-primary);
+  font-size: 16px;
+}
+
+// ── Panel CSS-only visibility (router-outlet stays alive) ──
+.panel--hidden {
+  display: none;
+}

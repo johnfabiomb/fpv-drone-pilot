@@ -62,7 +62,7 @@ export class ShareButtonComponent implements OnDestroy {
   @HostBinding('style.minWidth') get _minWidth() { return this.label ? '0' : null; }
 
   copied = false;
-  private timer: any;
+  private timer?: ReturnType<typeof setTimeout>;
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
 

@@ -23,15 +23,16 @@ export class PanelShellComponent {
 
   @ViewChild('panelBody') private panelBody!: ElementRef<HTMLDivElement>;
 
-  private scrollCache = new Map<string, number>();
+  private readonly scrollCache = new Map<string, number>();
   private isPopstate = false;
-  private destroyRef = inject(DestroyRef);
-  private injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
+  private readonly router = inject(Router);
 
-  constructor(private router: Router) {
+  constructor() {
     this.router.events
       .pipe(filter(e => e instanceof NavigationStart), takeUntilDestroyed(this.destroyRef))
-      .subscribe((e: any) => {
+      .subscribe((e: NavigationStart) => {
         this.isPopstate = e.navigationTrigger === 'popstate';
         this.scrollCache.set(this.router.url, this.panelBody?.nativeElement?.scrollTop ?? 0);
       });

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { Provider } from '../../shared/models';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
 
@@ -12,7 +13,7 @@ import { ShareButtonComponent } from '../share-button/share-button.component';
   styleUrl: './provider-panel.component.scss',
 })
 export class ProviderDetailComponent implements OnDestroy {
-  @Input() provider!: any;
+  @Input() provider!: Provider;
 
   @Output() navRequested = new EventEmitter<string>();
 
@@ -20,7 +21,7 @@ export class ProviderDetailComponent implements OnDestroy {
   private document = inject(DOCUMENT);
   private router = inject(Router);
   couponCopied = false;
-  private copyTimer: any;
+  private copyTimer?: ReturnType<typeof setTimeout>;
 
   get shareUrl(): string {
     if (!this.provider?.id) return '';

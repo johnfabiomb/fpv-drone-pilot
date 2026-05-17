@@ -27,10 +27,10 @@
 <div class="px-header">
     <div class="meta" *ngIf="location?.tags?.length || location?.rating">
   <span class="tag" *ngFor="let tag of location?.tags">{{ formatTag(tag) }}</span>
-  <span class="rating" *ngIf="location?.rating"><i class="fa fa-star"></i> {{ location.rating }}</span>
+  <span class="rating" *ngIf="location?.rating"><i class="fa fa-star"></i> {{ location?.rating }}</span>
 </div>
 
-<app-image-gallery [src]="location?.images?.length ? location.images : [location?.img]"></app-image-gallery>
+<app-image-gallery [src]="galleryImages"></app-image-gallery>
 
 </div>
 

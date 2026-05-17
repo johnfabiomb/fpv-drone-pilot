@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 
 interface FilterOption {
   id: string;
@@ -8,7 +9,8 @@ interface FilterOption {
 
 @Component({
   selector: 'app-filter-bar',
-  standalone: false,
+  standalone: true,
+  imports: [NgIf, NgFor],
   templateUrl: './filter-bar.component.html',
   styleUrl: './filter-bar.component.scss'
 })

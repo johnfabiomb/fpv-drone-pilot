@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { Location } from '../models';
 
 const BASE_URL = 'https://johnfabiomb.com';
 const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
@@ -149,7 +150,7 @@ export class SeoService {
     }
   }
 
-  updateMetaData(location?: any): void {
+  updateMetaData(location?: Location): void {
     if (location) {
       const title = `${location.title} - Malta Hidden Gem | Explore Malta`;
       const rawDesc = location.description.replace(/<[^>]+>/g, '').trim();
@@ -206,11 +207,11 @@ export class SeoService {
     link.setAttribute('href', url);
   }
 
-  private updateJsonLd(location: any, url: string, description: string, image: string): void {
+  private updateJsonLd(location: Location, url: string, description: string, image: string): void {
     const script = this.document.querySelector('script[type="application/ld+json"]');
     if (!script) return;
 
-    const attraction: any = {
+    const attraction: Record<string, unknown> = {
       '@type': 'TouristAttraction',
       '@id': url,
       name: location.title,
@@ -226,7 +227,7 @@ export class SeoService {
     };
 
     if (location.lat && location.lon) {
-      attraction.geo = {
+      attraction['geo'] = {
         '@type': 'GeoCoordinates',
         latitude: location.lat,
         longitude: location.lon,
@@ -234,7 +235,7 @@ export class SeoService {
     }
 
     if (location.tags?.length) {
-      attraction.amenityFeature = location.tags.map((tag: string) => ({
+      attraction['amenityFeature'] = location.tags.map((tag: string) => ({
         '@type': 'LocationFeatureSpecification',
         name: tag,
         value: true,

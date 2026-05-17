@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, DestroyRef, EventEmitter, HostBinding, Input, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 import { fromLonLat } from 'ol/proj';
 import OlMap from 'ol/Map';
-import Feature from 'ol/Feature';
+import Feature, { FeatureLike } from 'ol/Feature';
+import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { Point } from 'ol/geom';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke } from 'ol/style';
 import VectorSource from 'ol/source/Vector';
@@ -16,6 +18,8 @@ import { locations } from '../../../assets/locations.json';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
+import { Location, MapPoint, Provider } from '../../shared/models';
+import { matchesFilter, FilterId } from '../../shared/utils/location-filter.util';
 
 const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
@@ -23,44 +27,48 @@ const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → ind
 
 @Component({
   selector: 'app-map',
+  standalone: true,
+  imports: [NgIf],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  standalone: false
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   public map!: OlMap;
   private maltaCoordinates = [14.363354400245052, 35.95195406978092];
   private clusterSource!: VectorSource;
-  private clusterLayer!: any;
-  private iconCache = new Map<string, HTMLCanvasElement>();       // teardrop pin canvases
-  private rawImageCache = new Map<string, HTMLImageElement>();    // raw images for cluster circles
-  private localityIconCache = new Map<string, HTMLCanvasElement>(); // locality cluster canvases
+  private clusterLayer!: VectorLayer<VectorSource>;
+  private iconCache = new Map<string, HTMLCanvasElement>();
+  private rawImageCache = new Map<string, HTMLImageElement>();
+  private localityIconCache = new Map<string, HTMLCanvasElement>();
   private allFeatures: Feature[] = [];
   private filteredFeatures: Feature[] = [];
   private localityFeatures: Feature[] = [];
   private showingClusters: boolean | null = null;
 
   private providerSource = new VectorSource();
-  private providerLayer!: VectorLayer<any>;
+  private providerLayer!: VectorLayer<VectorSource>;
   private providerCanvasCache = new Map<string, HTMLCanvasElement>();
 
   private routeSource = new VectorSource();
-  private currentLocation: any = null;
+  private currentLocation: Location | null = null;
   private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
 
-  @Input() selectedLocation: any = null;
+  @Input() selectedLocation: Location | null = null;
+  @HostBinding('class.map-rotated') isRotated = false;
 
-  @Input() set providerPins(providers: any[]) {
+  @Input() set providerPins(providers: Provider[]) {
     this._providerPins = providers ?? [];
     if (this.map) this.rebuildProviderLayer();
   }
-  private _providerPins: any[] = [];
+  private _providerPins: Provider[] = [];
 
   @Input() set activeFilters(filters: string[]) {
     this.filteredFeatures = filters.length === 0
       ? this.allFeatures
-      : this.allFeatures.filter(f => filters.some(flt => this.matchesFilter(f.get('location'), flt)));
+      : this.allFeatures.filter(f =>
+          filters.some(flt => matchesFilter(f.get('location') as Location, flt as FilterId))
+        );
     this.localityIconCache.clear();
     this.refreshLayer(true);
     if (this.map) {
@@ -68,21 +76,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  @Output() locationSelected = new EventEmitter<any | null>();
+  @Output() locationSelected = new EventEmitter<Location | null>();
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
-  @Output() providerPinSelected = new EventEmitter<any>();
+  @Output() providerPinSelected = new EventEmitter<Provider>();
 
-  private platformId = inject(PLATFORM_ID);
-
-  constructor(
-    public activatedRoute: ActivatedRoute,
-    public router: Router,
-    public seoService: SeoService,
-    public analyticsService: AnalyticsService
-  ) { }
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly seoService = inject(SeoService);
+  private readonly analyticsService = inject(AnalyticsService);
 
   ngAfterViewInit(): void {
+
     if (!isPlatformBrowser(this.platformId)) return;
     this.map = createMap(
       getCoordinatesfromLonLat(this.maltaCoordinates[0], this.maltaCoordinates[1]),
@@ -98,11 +105,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     requestAnimationFrame(() => this.map.updateSize());
 
     this.map.on('moveend', () => this.refreshLayer());
+    this.map.getView().on('change:rotation', () => {
+      this.isRotated = Math.abs(this.map.getView().getRotation()) > 0.001;
+    });
 
-    this.map.on('click', (evt: any) => {
+    this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
       const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
       console.log(`📍 lat: ${lat}, lon: ${lon}`);
-      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: any) => f);
+      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: FeatureLike) => f);
       if (!feature) { this.mapTapped.emit(); return; }
 
       if (feature.get('type') === 'provider-pin') {
@@ -129,20 +139,23 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.map.on('pointermove', (evt: any) => {
+    this.map.on('pointermove', (evt: MapBrowserEvent<UIEvent>) => {
       const hit = this.map.hasFeatureAtPixel(evt.pixel);
       (this.map.getTargetElement() as HTMLElement).style.cursor = hit ? 'pointer' : '';
     });
 
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      let place: any = null;
+    this.activatedRoute.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: Params) => {
+      let place: Location | null = null;
 
       if (params['locationId']) {
         const id = parseInt(params['locationId'], 10);
-        place = (locations as any[]).find((loc: any) => loc.id === id);
+        place = (locations as Location[]).find(loc => loc.id === id) ?? null;
       } else if (params['title']) {
-        place = locations.find(loc => encodeURIComponent(loc.title) === params['title'])
-          ?? locations.find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title']);
+        place = (locations as Location[]).find(loc => encodeURIComponent(loc.title) === params['title'])
+          ?? (locations as Location[]).find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title'])
+          ?? null;
       }
 
       if (place) {
@@ -164,12 +177,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private showLocation(location: any): void {
+  private showLocation(location: Location): void {
     if (!location) return;
     this.currentLocation = location;
     this.clusterLayer.setVisible(false);
     this.drawRoute(location);
-    requestAnimationFrame(() => this.refitRoute());
   }
 
   closeLocation(): void {
@@ -295,7 +307,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.clusterSource = new VectorSource();
     this.clusterLayer = new VectorLayer({
       source: this.clusterSource,
-      style: (feature: any) => this.featureStyle(feature),
+      style: (feature: FeatureLike) => this.featureStyle(feature),
     });
     this.map.addLayer(this.clusterLayer);
     this.refreshLayer(true);
@@ -350,13 +362,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // ── Style dispatch ────────────────────────────────────────
 
-  private featureStyle(feature: any): Style {
+  private featureStyle(feature: FeatureLike): Style {
     return feature.get('type') === 'locality-cluster'
       ? this.localityClusterStyle(feature)
       : this.individualPinStyle(feature);
   }
 
-  private individualPinStyle(feature: any): Style {
+  private individualPinStyle(feature: FeatureLike): Style {
     const location = feature.get('location');
     const zoom = this.map.getView().getZoom() ?? 10;
     const iconSize = this.getIconSize(zoom);
@@ -386,7 +398,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private localityClusterStyle(feature: any): Style {
+  private localityClusterStyle(feature: FeatureLike): Style {
     const img: string = feature.get('img');
     const count: number = feature.get('count');
     const locality: string = feature.get('locality');
@@ -515,7 +527,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setupProviderLayer(): void {
     this.providerLayer = new VectorLayer({
       source: this.providerSource,
-      style: (f: any) => this.providerPinStyle(f),
+      style: (f: FeatureLike) => this.providerPinStyle(f),
       zIndex: 100,
     });
     this.map.addLayer(this.providerLayer);
@@ -538,7 +550,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private providerPinStyle(feature: any): Style {
+  private providerPinStyle(feature: FeatureLike): Style {
     const provider = feature.get('provider');
     const canvas = this.providerCanvasCache.get(provider.id);
     const R = 26, PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
@@ -560,7 +572,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private buildProviderCanvas(provider: any): HTMLCanvasElement {
+  private buildProviderCanvas(provider: Provider): HTMLCanvasElement {
     const R = 26, W = 80, CX = W / 2;
     const PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
     const CY = TOP_PAD + PILL_H + PILL_GAP + R;
@@ -656,7 +668,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
   }
 
-  private drawRoute(location: any): void {
+  private drawRoute(location: Location): void {
     this.routeSource.clear();
     const features = buildRouteFeatures(location.mapPoints ?? []);
     this.hasRouteFeatures = features.length > 0;
@@ -674,6 +686,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.currentLocation = null;
     this.hasRouteFeatures = false;
     this.clusterLayer.setVisible(true);
+    this.map.getView().animate({ rotation: 0, duration: 400 });
   }
 
   refitRoute(): void {
@@ -714,7 +727,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   locationDenied = false;
-  private locationDeniedTimer: any;
+  private locationDeniedTimer?: ReturnType<typeof setTimeout>;
 
   locateMe(): void {
     const last = this.tracker?.lastCoord;
@@ -747,31 +760,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.locationDeniedTimer = setTimeout(() => { this.locationDenied = false; }, 4000);
   }
 
-  clickon(data: any): void {
+  clickon(data: Location): void {
     const queryParams = { locationId: data.id };
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
   }
 
   // ── Helpers ───────────────────────────────────────────────
 
-  private matchesFilter(loc: any, filter: string): boolean {
-    const tags: string[] = loc.tags ?? [];
-    switch (filter) {
-      case 'beach': return tags.includes('beach') || tags.includes('bay');
-      case 'cave': return tags.includes('cave') || tags.includes('sea-cave');
-      case 'historical': return tags.includes('historical') || tags.includes('religious') || tags.includes('fortress') || tags.includes('fortification') || tags.includes('cultural');
-      case 'hidden': return tags.includes('hidden');
-      case 'easy': return tags.includes('easy');
-      case 'hard': return tags.includes('hard');
-      case 'gozo': return tags.includes('gozo');
-      case 'comino': return tags.includes('comino');
-      default: return true;
-    }
-  }
-
-  private getLocationMapCoordinates(location: any): number[] {
-    if (location?.mapPoints?.length) {
-      const dest = location.mapPoints.find((p: any) => p.type === 'destination')
+  private getLocationMapCoordinates(location: Location): number[] {
+    if (location.mapPoints?.length) {
+      const dest: MapPoint = location.mapPoints.find(p => p.type === 'destination')
         ?? location.mapPoints[location.mapPoints.length - 1];
       return getCoordinatesfromLonLat(dest.lon, dest.lat);
     }

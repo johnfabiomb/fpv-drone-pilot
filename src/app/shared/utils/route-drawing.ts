@@ -1,4 +1,5 @@
 import Feature from 'ol/Feature';
+import { MapPoint } from '../models';
 import { LineString, Point } from 'ol/geom';
 import { Style, Stroke, Fill, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
@@ -72,7 +73,7 @@ export function makePinStyle(color: string): Style {
  * Dashed line → only named stops, no recorded trail coords
  */
 export function buildRouteFeatures(
-  mapPoints: any[],
+  mapPoints: MapPoint[],
   options: { dashed?: boolean } = {}
 ): Feature[] {
   if (!mapPoints || mapPoints.length < 2) return [];

@@ -1,79 +1,34 @@
-<app-nav-interstitial
-  *ngIf="pendingNavUrl"
-  [url]="pendingNavUrl"
-  [duration]="3"
-  [providers]="[]"
-  (closed)="pendingNavUrl = null">
-</app-nav-interstitial>
+<app-panel-shell
+  [title]="panelTitle"
+  [minimized]="bridge.panel.minimized()"
+  (closeRequested)="onPanelCloseRequested()"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (toggleCollapse)="bridge.toggleMinimize()">
 
-<div class="app">
-  <div class="main-area">
-    <div class="map-wrap">
+  <app-share-btn
+    *ngIf="selectedProvider"
+    panelActions
+    [url]="currentShareUrl"
+    [shareTitle]="panelTitle">
+  </app-share-btn>
 
-      <app-map
-        #mapComp
-        [providerPins]="mapProviders"
-        (providerPinSelected)="onProviderPinSelected($event)"
-        (locationSelected)="onLocationSelected($event)"
-        (mapTapped)="onMapTapped()">
-      </app-map>
+  <app-provider-detail
+    *ngIf="selectedProvider"
+    [provider]="selectedProvider"
+    (navRequested)="onNavRequested($event)">
+  </app-provider-detail>
 
-      <!-- Always-visible back button -->
-      <button class="floating-back-btn" (click)="goBack()">
-        <i class="fa fa-chevron-left"></i> Back to map
-      </button>
-
-      <!-- Re-open panel when map-only -->
-      <button class="show-panel-btn" *ngIf="mapOnly" (click)="mapOnly = false">
-        <i class="fa fa-tag"></i>
-      </button>
-
+  <div *ngIf="!selectedProvider" class="deals-list">
+    <div class="deals-intro">
+      <p class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p>
     </div>
-
-    <div class="coupons-panel-wrap" #panelWrap *ngIf="!mapOnly">
-
-      <button class="collapse-btn" (click)="mapOnly = true" title="Fullscreen map">
-        <i class="fa fa-chevron-right"></i>
-      </button>
-
-      <app-panel-shell
-        [title]="panelTitle"
-        [minimized]="panelMinimized"
-        (closeRequested)="onPanelCloseRequested()"
-        (dragStart)="onDragStart($event)"
-        (dragMove)="onDragMove($event)"
-        (dragEnd)="onDragEnd($event)"
-        (toggleCollapse)="panelMinimized ? expandPanel() : minimizePanel()">
-
-        <app-share-btn
-          *ngIf="selectedProvider"
-          panelActions
-          [url]="currentShareUrl"
-          [shareTitle]="panelTitle">
-        </app-share-btn>
-
-        <!-- Provider detail -->
-        <app-provider-detail
-          *ngIf="selectedProvider"
-          [provider]="selectedProvider"
-          (navRequested)="onNavRequested($event)">
-        </app-provider-detail>
-
-        <!-- Deals list -->
-        <div *ngIf="!selectedProvider" class="deals-list">
-          <div class="deals-intro">
-            <p class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p>
-          </div>
-          <app-provider-card
-            *ngFor="let p of allProviders"
-            [provider]="p"
-            (selected)="openProvider($event)">
-          </app-provider-card>
-        </div>
-
-      </app-panel-shell>
-    </div>
+    <app-provider-card
+      *ngFor="let p of allProviders"
+      [provider]="p"
+      (selected)="openProvider($event)">
+    </app-provider-card>
   </div>
 
-  <app-footer></app-footer>
-</div>
+</app-panel-shell>

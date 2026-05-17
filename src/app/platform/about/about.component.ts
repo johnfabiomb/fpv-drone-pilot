@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
@@ -11,7 +11,7 @@ import { SeoService } from '../../shared/services/seo.service';
   styleUrl: './about.component.scss',
 })
 export class AboutComponent implements OnInit {
-  constructor(private seo: SeoService) {}
+  private readonly seo = inject(SeoService);
 
   ngOnInit(): void {
     this.seo.setPage('about');

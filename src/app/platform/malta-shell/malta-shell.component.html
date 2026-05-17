@@ -1,0 +1,70 @@
+<app-nav-interstitial
+  *ngIf="bridge.pendingNavUrl()"
+  [url]="bridge.pendingNavUrl()!"
+  [duration]="bridge.navDuration()"
+  [providers]="bridge.interstitialProviders()"
+  (providerSelected)="bridge.interstitialProviderSelected$.next($event); bridge.pendingNavUrl.set(null)"
+  (closed)="bridge.pendingNavUrl.set(null)">
+</app-nav-interstitial>
+
+<div class="map-layout">
+  <div class="map-layout__main">
+
+    <div class="map-layout__map">
+      <app-filter-bar
+        *ngIf="bridge.showFilterBar()"
+        (filterChange)="bridge.filters.set($event)">
+      </app-filter-bar>
+
+      <app-map
+        #mapComp
+        [activeFilters]="bridge.filters()"
+        [providerPins]="bridge.providerPins()"
+        [selectedLocation]="bridge.selectedLocation()"
+        (locationSelected)="bridge.locationSelected$.next($event)"
+        (providerPinSelected)="bridge.providerPinSelected$.next($event)"
+        (mapTapped)="onMapTapped()"
+        (gpsCoord)="bridge.gpsCoord$.next($event)">
+      </app-map>
+
+      <button
+        *ngIf="bridge.floatingBackBtn()"
+        class="floating-back-btn"
+        [class.floating-back-btn--accent]="bridge.floatingBackBtn()!.accent"
+        (click)="bridge.floatingBackBtnClicked$.next()">
+        <i class="fa fa-chevron-left"></i>
+        {{ bridge.floatingBackBtn()!.label }}
+      </button>
+
+      <button
+        *ngIf="bridge.panelOpen() && bridge.mapOnly()"
+        class="show-panel-btn"
+        [class.show-panel-btn--primary]="isDeals()"
+        (click)="bridge.openPanel()">
+        <i class="fa" [ngClass]="showPanelBtnIcon()"></i>
+      </button>
+
+      <div class="offline-pill" *ngIf="!isOnline">
+        <span class="offline-dot"></span> Offline — cached map active
+      </div>
+    </div>
+
+    <!-- Panel is always in the DOM so the router-outlet (and its child component)
+         stay alive when panel is hidden. Visibility is controlled by CSS only. -->
+    <div
+      class="map-layout__panel"
+      #panelWrap
+      [class.panel--hidden]="!bridge.panelOpen() || bridge.mapOnly()">
+      <button
+        class="collapse-btn"
+        *ngIf="bridge.panelOpen() && !bridge.mapOnly()"
+        (click)="bridge.mapOnly.set(true)"
+        title="Fullscreen map">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+      <router-outlet />
+    </div>
+
+  </div>
+  <app-footer />
+</div>

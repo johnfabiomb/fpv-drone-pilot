@@ -1,53 +1,43 @@
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, ElementRef, HostListener, OnInit, PLATFORM_ID, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, PLATFORM_ID, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ComponentsModule } from '../../components/components.module';
-import { LocationDetailComponent } from '../../components/location-panel/location-panel.component';
-import { MapComponent } from '../../components/map/map.component';
-import { NavInterstitialComponent } from '../../components/nav-interstitial/nav-interstitial.component';
 import { PanelShellComponent } from '../../components/panel-shell/panel-shell.component';
+import { LocationDetailComponent } from '../../components/location-panel/location-panel.component';
 import { ProviderDetailComponent } from '../../components/provider-panel/provider-panel.component';
 import { ShareButtonComponent } from '../../components/share-button/share-button.component';
 import { SeoService } from '../../shared/services/seo.service';
+import { MapBridgeService } from '../../shared/services/map-bridge.service';
+import { Location, Provider } from '../../shared/models';
 import { FEATURES } from '../../feature-flags';
 import { providers } from '../../../assets/providers.json';
-
-const PANEL_MIN_H = 80;
-const PANEL_EXPANDED_VH = 0.60;
+import { locations } from '../../../assets/locations.json';
 
 @Component({
   selector: 'app-malta-map',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, PanelShellComponent, LocationDetailComponent, ProviderDetailComponent, NavInterstitialComponent, ShareButtonComponent],
+  imports: [CommonModule, PanelShellComponent, LocationDetailComponent, ProviderDetailComponent, ShareButtonComponent],
   templateUrl: './malta-map.component.html',
   styleUrl: './malta-map.component.scss'
 })
 export class MaltaMapComponent implements OnInit {
-  map = true;
-  selectedLocation: any = null;
-  selectedProvider: any = null;
-  mapOnly = false;
-  isOnline = true;
-  panelMinimized = false;
+  selectedLocation: Location | null = null;
+  selectedProvider: Provider | null = null;
   userLat: number | null = null;
   userLon: number | null = null;
-  activeFilters: string[] = [];
   backTo: string | null = null;
-  pendingNavUrl: string | null = null;
 
   readonly navDuration = 3;
 
-  get interstitialProviders(): any[] {
-    if (!FEATURES.PROMOTIONS || !this.selectedLocation) return [];
-    return (providers as any[])
-      .filter(p => p.nearLocationIds?.includes(this.selectedLocation.id))
-      .slice(0, 2);
-  }
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
+  private readonly seo = inject(SeoService);
+  readonly bridge = inject(MapBridgeService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  private platformId = inject(PLATFORM_ID);
-  private destroyRef = inject(DestroyRef);
-  private document = inject(DOCUMENT);
+  @ViewChild(LocationDetailComponent) private locationDetail?: LocationDetailComponent;
 
   get currentShareUrl(): string {
     const origin = isPlatformBrowser(this.platformId) ? this.document.location.origin : 'https://johnfabiomb.com';
@@ -56,102 +46,97 @@ export class MaltaMapComponent implements OnInit {
     return '';
   }
 
-  @ViewChild(MapComponent) mapComp!: MapComponent;
-  @ViewChild(LocationDetailComponent) locationDetail?: LocationDetailComponent;
-  @ViewChild('panelWrap') panelWrap!: ElementRef<HTMLDivElement>;
-
-  private isDragging = false;
-  private dragStartY = 0;
-  private dragBaseHeight = 0;
-
-  constructor(
-    private seo: SeoService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
-
-  ngOnInit(): void {
-    this.seo.setPage('map');
-    this.backTo = this.route.snapshot.queryParamMap.get('backTo');
-    if (isPlatformBrowser(this.platformId)) this.isOnline = navigator.onLine;
-
-    this.route.queryParams
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(params => {
-        const id = params['provider'];
-        this.selectedProvider = id
-          ? ((providers as any[]).find(p => p.id === id) ?? null)
-          : null;
-        if (this.selectedProvider && !this.selectedLocation) {
-          this.mapOnly = false;
-          this.panelMinimized = false;
-          setTimeout(() => {
-            this.panelWrap?.nativeElement?.scrollTo({ top: 0 });
-            this.applyPanelHeight(this.expandedHeight());
-            this.mapComp?.updateSize();
-          });
-        }
-      });
-  }
-
   get panelTitle(): string {
     if (this.selectedProvider) return this.selectedProvider.name;
     return this.selectedLocation?.title ?? '';
   }
 
-  goBack(): void {
-    if (this.backTo === '30-places-2026') this.router.navigate(['/malta/30-places-2026']);
-    else this.router.navigate(['/malta/list']);
-  }
+  ngOnInit(): void {
+    this.seo.setPage('map');
+    this.backTo = this.route.snapshot.queryParamMap.get('backTo');
 
-  @HostListener('window:online')
-  onOnline() { this.isOnline = true; }
+    // Configure bridge signals for this route
+    const params = this.route.snapshot.queryParamMap;
+    const hasInitialContent = !!(params.get('locationId') || params.get('provider'));
+    this.bridge.showFilterBar.set(!hasInitialContent);
+    this.bridge.filters.set([]);
+    this.bridge.providerPins.set([]);
+    this.bridge.selectedLocation.set(null);
+    this.bridge.panelOpen.set(hasInitialContent);
+    this.bridge.mapOnly.set(false);
+    this.bridge.interstitialProviders.set([]);
+    this.bridge.pendingNavUrl.set(null);
+    this.syncFloatingBackBtn();
 
-  @HostListener('window:offline')
-  onOffline() { this.isOnline = false; }
+    // Query param changes → sync provider + location state
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      const id = params['provider'];
+      const locId = params['locationId'] ? parseInt(params['locationId'], 10) : null;
+      this.selectedProvider = id
+        ? ((providers as Provider[]).find(p => p.id === id) ?? null)
+        : null;
 
-  openProvider(provider: any): void {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { provider: provider.id },
-      queryParamsHandling: 'merge',
+      if (this.selectedProvider && !this.selectedLocation) {
+        this.bridge.panelOpen.set(true);
+        this.bridge.openPanel();
+        this.bridge.scrollToTop$.next();
+      } else if (!this.selectedProvider && !this.selectedLocation && !locId) {
+        this.bridge.panelOpen.set(false);
+      }
+
+      // If locationId is in the URL but the location isn't loaded yet (e.g. navigated here
+      // from /malta/list where locationSelected$ fired before we subscribed), resolve it now.
+      if (locId && this.selectedLocation?.id !== locId) {
+        const loc = (locations as Location[]).find(l => l.id === locId) ?? null;
+        if (loc) { this.onLocationSelected(loc); return; }
+      }
+
+      this.syncFloatingBackBtn();
+      this.syncFilterBar();
     });
+
+    // Map location click → update panel
+    this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(loc => this.onLocationSelected(loc));
+
+    // GPS position for distance display and proximity detection in location detail
+    this.bridge.gpsCoord$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(coord => { this.userLat = coord.lat; this.userLon = coord.lon; });
+
+    // Interstitial: user picks a provider from the nav overlay
+    this.bridge.interstitialProviderSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(p => this.openProvider(p));
+
+    // Floating back button click
+    this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.backTo ? this.goBack() : this.onPanelCloseRequested());
   }
 
-  onLocationSelected(location: any | null): void {
+  onLocationSelected(location: Location | null): void {
+    if (location?.id === this.selectedLocation?.id) return;
     this.selectedLocation = location;
+    this.bridge.selectedLocation.set(location);
+
     if (!location) {
-      this.mapOnly = false;
-      this.panelMinimized = false;
+      this.bridge.mapOnly.set(false);
+      if (!this.selectedProvider) this.bridge.panelOpen.set(false);
       this.seo.setPage('map');
     } else {
+      this.bridge.panelOpen.set(true);
       this.seo.updateMetaData(location);
-      this.panelMinimized = false;
-      setTimeout(() => {
-        this.panelWrap?.nativeElement.scrollTo({ top: 0 });
-        this.applyPanelHeight(this.expandedHeight());
-        this.mapComp?.updateSize();
-        this.mapComp?.refitRoute();
-      });
+      this.bridge.panel.expand();
+      this.syncInterstitialProviders();
+      // scrollToTop deferred so panel content has rendered; expand() handles updateSize + refitRoute
+      setTimeout(() => this.bridge.scrollToTop$.next());
     }
-  }
-
-  onGpsUpdate(coord: { lat: number; lon: number }): void {
-    this.userLat = coord.lat;
-    this.userLon = coord.lon;
-  }
-
-  onMapTapped(): void {
-    if (window.innerWidth > 768) return;
-    if ((!this.selectedLocation && !this.selectedProvider) || this.mapOnly) return;
-    this.minimizePanel();
+    this.syncFloatingBackBtn();
+    this.syncFilterBar();
   }
 
   onNavRequested(url: string): void {
-    this.pendingNavUrl = url;
+    this.bridge.pendingNavUrl.set(url);
   }
 
-  /** Shell close button pressed — navigate back through the panel stack. */
   onPanelCloseRequested(): void {
     if (this.selectedProvider) {
       this.router.navigate([], {
@@ -159,81 +144,86 @@ export class MaltaMapComponent implements OnInit {
         queryParams: { provider: null },
         queryParamsHandling: 'merge',
       });
-    } else {
-      this.locationDetail?.requestClose();
+      return;
     }
+    // Ensure the panel is visible so the confirmation banner can be seen
+    this.revealPanelIfHidden();
+    this.locationDetail?.requestClose();
   }
 
+  openProvider(provider: Provider): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { provider: provider.id },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  // Called via (close) from location-detail — always fires AFTER any confirmation
   closePanel(): void {
-    this.mapComp.closeLocation();
-    this.mapOnly = false;
-    this.panelMinimized = false;
+    this.bridge.closeLocation();
+    this.bridge.mapOnly.set(false);
   }
 
   exploreMap(): void {
-    this.mapComp.closeLocation();
-    this.mapComp.resetToMalta();
-    this.mapOnly = false;
-    this.panelMinimized = false;
-  }
-
-  // ── Drag handlers ──────────────────────────────────────────────────────────
-
-  onDragStart(e: TouchEvent): void {
-    if (window.innerWidth > 768) return;
-    this.isDragging = true;
-    this.dragStartY = e.touches[0].clientY;
-    this.dragBaseHeight = this.panelWrap?.nativeElement.offsetHeight ?? this.expandedHeight();
-    const el = this.panelWrap?.nativeElement;
-    if (el) el.style.transition = 'none';
-  }
-
-  onDragMove(e: TouchEvent): void {
-    if (!this.isDragging) return;
-    const dy = e.touches[0].clientY - this.dragStartY;
-    const newH = Math.min(Math.max(this.dragBaseHeight - dy, PANEL_MIN_H), this.expandedHeight());
-    this.applyPanelHeight(newH, false);
-    this.mapComp?.updateSize();
-  }
-
-  onDragEnd(_e: TouchEvent): void {
-    if (!this.isDragging) return;
-    this.isDragging = false;
-    const currentH = this.panelWrap?.nativeElement.offsetHeight ?? this.expandedHeight();
-    if (currentH < (this.expandedHeight() + PANEL_MIN_H) / 2) {
-      this.minimizePanel();
+    const doExplore = () => {
+      this.bridge.closeLocation();
+      this.bridge.resetToMalta();
+      this.bridge.mapOnly.set(false);
+    };
+    if (this.locationDetail?.nearbyMode) {
+      this.revealPanelIfHidden();
+      this.locationDetail.requestClose(doExplore);
     } else {
-      this.expandPanel();
+      doExplore();
     }
   }
 
-  expandPanel(): void {
-    this.panelMinimized = false;
-    this.applyPanelHeight(this.expandedHeight());
-    setTimeout(() => { this.mapComp?.updateSize(); this.mapComp?.refitRoute(); }, 300);
+  goBack(): void {
+    const navigate = () => {
+      if (this.backTo === '30-places-2026') this.router.navigate(['/malta/30-places-2026']);
+      else this.router.navigate(['/malta/list']);
+    };
+    if (this.locationDetail?.nearbyMode) {
+      this.revealPanelIfHidden();
+      this.locationDetail.requestClose(navigate);
+    } else {
+      navigate();
+    }
   }
 
-  minimizePanel(): void {
-    this.panelMinimized = true;
-    this.applyPanelHeight(PANEL_MIN_H);
-    setTimeout(() => { this.mapComp?.updateSize(); this.mapComp?.refitRoute(); }, 300);
+  // Reveals the panel if mapOnly so the confirmation banner is visible to the user
+  private revealPanelIfHidden(): void {
+    if (this.bridge.mapOnly()) this.bridge.openPanel();
   }
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-
-  private expandedHeight(): number {
-    return Math.round(window.innerHeight * PANEL_EXPANDED_VH);
+  private syncFilterBar(): void {
+    this.bridge.showFilterBar.set(!this.bridge.panelOpen());
   }
 
-  private applyPanelHeight(h: number, animated = true): void {
-    const el = this.panelWrap?.nativeElement;
-    if (!el) return;
-    if (window.innerWidth > 768) {
-      el.style.transition = '';
-      el.style.height = '';
+  private syncFloatingBackBtn(): void {
+    if (this.backTo) {
+      const label = this.backTo === '30-places-2026' ? 'Back to list' : 'Back';
+      this.bridge.floatingBackBtn.set({ label, accent: true });
+    } else if (this.selectedLocation || this.selectedProvider) {
+      const label = this.selectedProvider
+        ? (this.selectedLocation?.title ?? 'Back to map')
+        : 'Back to map';
+      this.bridge.floatingBackBtn.set({ label });
+    } else {
+      this.bridge.floatingBackBtn.set(null);
+    }
+  }
+
+  private syncInterstitialProviders(): void {
+    if (!FEATURES.PROMOTIONS || !this.selectedLocation) {
+      this.bridge.interstitialProviders.set([]);
       return;
     }
-    el.style.transition = animated ? 'height 0.28s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
-    el.style.height = `${h}px`;
+    const result = (providers as Provider[])
+      .filter(p => p.nearLocationIds?.includes(this.selectedLocation!.id))
+      .slice(0, 2);
+    this.bridge.interstitialProviders.set(result);
+    this.bridge.navDuration.set(this.navDuration);
   }
 }

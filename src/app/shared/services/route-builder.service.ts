@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { locations } from '../../../assets/locations.json';
+import { Location } from '../models';
 
 export type Difficulty = 'easy' | 'moderate' | 'hard';
 export type Pace = 'relaxed' | 'balanced' | 'full-explorer';
@@ -12,7 +13,7 @@ export interface PlanInput {
 }
 
 export interface ItineraryStop {
-  location: any;
+  location: Location;
   reason: string;
   estimatedTime: string;
   safetyNote: string | null;
@@ -24,6 +25,8 @@ export interface ItineraryDay {
   theme: string;
   stops: ItineraryStop[];
 }
+
+type ScoredLocation = Location & { _score: number };
 
 const STOPS_PER_DAY: Record<Pace, Record<Difficulty, number>> = {
   relaxed: { easy: 3, moderate: 2, hard: 2 },
@@ -74,16 +77,16 @@ const THEME_TAG_ORDER = [
 @Injectable({ providedIn: 'root' })
 export class RouteBuilderService {
 
-  getLocationById(id: number): any | null {
-    return (locations as any[]).find(l => l.id === id) || null;
+  getLocationById(id: number): Location | null {
+    return (locations as Location[]).find(l => l.id === id) ?? null;
   }
 
-  buildPlan(input: PlanInput, anchorLocation?: any): ItineraryDay[] {
+  buildPlan(input: PlanInput, anchorLocation?: Location): ItineraryDay[] {
     const { days, preferences, difficulty, pace } = input;
     const stopsPerDay = STOPS_PER_DAY[pace][difficulty];
 
     // 1. Filter by difficulty — anchor bypasses this filter (user chose it explicitly)
-    let pool = (locations as any[]).filter((loc: any) => {
+    const filteredPool = (locations as Location[]).filter(loc => {
       if (anchorLocation && loc.id === anchorLocation.id) return false; // handled separately
       if (difficulty === 'easy') return loc.difficulty === 'easy';
       if (difficulty === 'moderate') return loc.difficulty === 'easy' || loc.difficulty === 'moderate';
@@ -91,19 +94,19 @@ export class RouteBuilderService {
     });
 
     // 2. Score
-    pool = pool.map((loc: any) => {
+    const pool: ScoredLocation[] = filteredPool.map(loc => {
       let score: number;
       if (preferences.length === 0) {
-        score = loc.rating * 10;
+        score = (loc.rating ?? 0) * 10;
       } else {
-        const matchingTags = preferences.filter((p: string) => (loc.tags || []).includes(p));
-        score = matchingTags.length * 20 + loc.rating * 2;
+        const matchingTags = preferences.filter(p => (loc.tags || []).includes(p));
+        score = matchingTags.length * 20 + (loc.rating ?? 0) * 2;
       }
       return { ...loc, _score: score };
     });
 
     // 3. Sort by score descending
-    pool.sort((a: any, b: any) => b._score - a._score);
+    pool.sort((a, b) => b._score - a._score);
 
     // 4. Build day groups
     const days_result: ItineraryDay[] = [];
@@ -114,14 +117,14 @@ export class RouteBuilderService {
     if (anchorLocation) usedIds.add(anchorLocation.id);
 
     for (let d = 0; d < days; d++) {
-      let dayAnchor: any;
+      let dayAnchor: Location;
 
       if (d === 0 && anchorLocation) {
         // Day 1 always starts from the chosen location
         dayAnchor = anchorLocation;
       } else {
         // Comino has no hotels — once its day is built, exclude remaining Comino spots
-        const remaining = pool.filter((loc: any) => {
+        const remaining = pool.filter(loc => {
           if (usedIds.has(loc.id)) return false;
           if (cominoUsed && this.getIsland(loc) === 'comino') return false;
           return true;
@@ -135,16 +138,16 @@ export class RouteBuilderService {
       // require separate ferry crossings so must never be mixed in one day
       const anchorIsland = this.getIsland(dayAnchor);
       const afterAnchor = pool.filter(
-        (loc: any) => !usedIds.has(loc.id) && this.getIsland(loc) === anchorIsland
+        loc => !usedIds.has(loc.id) && this.getIsland(loc) === anchorIsland
       );
 
-      const withDistance = afterAnchor.map((loc: any) => ({
+      const withDistance = afterAnchor.map(loc => ({
         loc,
         dist: this.haversine(dayAnchor.lat, dayAnchor.lon, loc.lat, loc.lon),
       }));
-      withDistance.sort((a: any, b: any) => a.dist - b.dist);
+      withDistance.sort((a, b) => a.dist - b.dist);
 
-      const dayLocs: any[] = [dayAnchor];
+      const dayLocs: Location[] = [dayAnchor];
       const needed = stopsPerDay - 1;
       for (let i = 0; i < Math.min(needed, withDistance.length); i++) {
         dayLocs.push(withDistance[i].loc);
@@ -153,7 +156,7 @@ export class RouteBuilderService {
 
       const ordered = this.nearestNeighborOrder(dayLocs);
 
-      const stops: ItineraryStop[] = ordered.map((loc: any) => ({
+      const stops: ItineraryStop[] = ordered.map(loc => ({
         location: loc,
         reason: this.getReason(loc, preferences),
         estimatedTime: this.getEstimatedTime(loc),
@@ -170,7 +173,7 @@ export class RouteBuilderService {
       // Comino is a day-trip island only — no overnight stays possible
       if (anchorIsland === 'comino') {
         cominoUsed = true;
-        pool.forEach((loc: any) => {
+        pool.forEach(loc => {
           if (!usedIds.has(loc.id) && this.getIsland(loc) === 'comino') usedIds.add(loc.id);
         });
       }
@@ -195,7 +198,7 @@ export class RouteBuilderService {
     return day.stops.length > 0 ? this.getIsland(day.stops[0].location) : 'malta';
   }
 
-  private getIsland(loc: any): 'malta' | 'gozo' | 'comino' {
+  private getIsland(loc: Location): 'malta' | 'gozo' | 'comino' {
     const tags: string[] = loc.tags || [];
     if (tags.includes('comino')) return 'comino';
     if (tags.includes('gozo')) return 'gozo';
@@ -213,9 +216,9 @@ export class RouteBuilderService {
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  private nearestNeighborOrder(locs: any[]): any[] {
+  private nearestNeighborOrder(locs: Location[]): Location[] {
     if (locs.length <= 1) return locs;
-    const result: any[] = [locs[0]];
+    const result: Location[] = [locs[0]];
     const remaining = locs.slice(1);
 
     while (remaining.length > 0) {
@@ -235,7 +238,7 @@ export class RouteBuilderService {
     return result;
   }
 
-  private getEstimatedTime(loc: any): string {
+  private getEstimatedTime(loc: Location): string {
     const tags: string[] = loc.tags || [];
     let minutes: number;
 
@@ -308,7 +311,7 @@ export class RouteBuilderService {
     return `${hours}h ${mins}min`;
   }
 
-  private getSafetyNote(loc: any): string | null {
+  private getSafetyNote(loc: Location): string | null {
     const tags: string[] = loc.tags || [];
 
     // Comino: day-trip only — always worth flagging booking requirement
@@ -345,7 +348,7 @@ export class RouteBuilderService {
     return null;
   }
 
-  private getReason(loc: any, preferences: string[]): string {
+  private getReason(loc: Location, preferences: string[]): string {
     const tags: string[] = loc.tags || [];
     const checkList = preferences.length > 0 ? preferences : Object.keys(REASON_MAP);
     for (const pref of checkList) {
@@ -353,12 +356,12 @@ export class RouteBuilderService {
         return REASON_MAP[pref];
       }
     }
-    if (loc.rating >= 4.5) return 'Highly rated — not to be missed';
+    if ((loc.rating ?? 0) >= 4.5) return 'Highly rated — not to be missed';
     return 'A notable stop that adds depth to your route';
   }
 
-  private getDayTheme(locs: any[]): string {
-    const allTags: string[] = locs.flatMap((loc: any) => loc.tags || []);
+  private getDayTheme(locs: Location[]): string {
+    const allTags: string[] = locs.flatMap(loc => loc.tags || []);
     if (allTags.includes('gozo')) return 'Explore Gozo';
     if (allTags.includes('comino')) return 'Comino Adventure';
 

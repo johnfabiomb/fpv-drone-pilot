@@ -1,12 +1,13 @@
-<div class="list-page">
+<app-panel-shell
+  title="Browse Locations"
+  [minimized]="bridge.panel.minimized()"
+  (closeRequested)="goToMap()"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (toggleCollapse)="bridge.toggleMinimize()">
 
-  <div class="list-header">
-    <button class="back-btn" (click)="goToMap()">
-      <i class="fa fa-arrow-left"></i>
-    </button>
-    <span class="list-title">Browse Locations</span>
-    <span class="list-count">{{ filteredLocations.length }}</span>
-  </div>
+  <span panelActions class="list-count">{{ filteredLocations.length }}</span>
 
   <div class="controls">
     <div class="search-wrap">
@@ -27,8 +28,7 @@
         *ngFor="let f of filters"
         class="chip"
         [class.active]="activeFilters.has(f.id)"
-        (click)="toggleFilter(f.id)"
-      >
+        (click)="toggleFilter(f.id)">
         {{ f.emoji }} {{ f.label }}
       </div>
     </div>
@@ -49,8 +49,7 @@
 
   <div class="location-list">
 
-    <!-- Deals banner — always first -->
-    <div class="deals-banner" *ngIf="FEATURES?.PROMOTIONS !== false" (click)="browseDeals()">
+    <div class="deals-banner" *ngIf="FEATURES.PROMOTIONS !== false" (click)="browseDeals()">
       <div class="deals-banner__left">
         <span class="deals-banner__icon">🏷️</span>
         <div>
@@ -68,8 +67,6 @@
     </div>
 
     <ng-container *ngFor="let item of displayList">
-
-      <!-- Location card -->
       <div class="loc-card" *ngIf="item.type === 'location'" (click)="openLocation(item.data)">
         <img class="loc-thumb" [src]="item.data.img" [alt]="item.data.title" loading="lazy">
         <div class="loc-info">
@@ -78,10 +75,7 @@
             <span class="loc-rating" *ngIf="item.data.rating">⭐ {{ item.data.rating }}</span>
           </div>
           <div class="loc-badges">
-            <span
-              class="badge badge--diff"
-              [style.background]="difficultyColor(item.data.difficulty)"
-            >{{ item.data.difficulty }}</span>
+            <span class="badge" [style.background]="difficultyColor(item.data.difficulty)">{{ item.data.difficulty }}</span>
             <span class="badge badge--island" *ngIf="islandLabel(item.data)">{{ islandLabel(item.data) }}</span>
             <span class="badge badge--hidden" *ngIf="item.data.hidden">hidden gem</span>
           </div>
@@ -91,17 +85,16 @@
         </div>
       </div>
 
-      <!-- Provider card -->
       <app-provider-card
         *ngIf="item.type === 'provider'"
         [provider]="item.data"
         (selected)="openProvider($event)">
       </app-provider-card>
-
     </ng-container>
+
     <div class="empty" *ngIf="displayList.length === 0">
       No locations match the selected filters.
     </div>
   </div>
 
-</div>
+</app-panel-shell>

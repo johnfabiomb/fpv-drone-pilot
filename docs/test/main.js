@@ -1,12 +1,12 @@
 import {
-  ComponentsModule,
   version
-} from "./chunk-G2M3CB6W.js";
+} from "./chunk-57TF2T7D.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
-import "./chunk-6GHA6ZUF.js";
-import "./chunk-25R47I5C.js";
+import {
+  takeUntilDestroyed
+} from "./chunk-WNH6LXZJ.js";
 import {
   DomRendererFactory2,
   NavigationEnd,
@@ -15,16 +15,17 @@ import {
   bootstrapApplication,
   provideClientHydration,
   provideRouter
-} from "./chunk-GXMQ7NKC.js";
+} from "./chunk-WZUM6HQY.js";
 import {
   CommonModule,
   DOCUMENT,
   NgIf,
   isPlatformBrowser
-} from "./chunk-QICNAPY4.js";
+} from "./chunk-FPOQEQN6.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
+  DestroyRef,
   IMAGE_CONFIG,
   Injectable,
   InjectionToken,
@@ -33,6 +34,8 @@ import {
   PLATFORM_ID,
   RendererFactory2,
   RuntimeError,
+  __async,
+  __spreadValues,
   filter,
   inject,
   makeEnvironmentProviders,
@@ -43,7 +46,6 @@ import {
   ɵɵclassProp,
   ɵɵdefineComponent,
   ɵɵdefineInjectable,
-  ɵɵdirectiveInject,
   ɵɵelement,
   ɵɵelementEnd,
   ɵɵelementStart,
@@ -57,11 +59,7 @@ import {
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate1
-} from "./chunk-FZOYICSM.js";
-import {
-  __async,
-  __spreadValues
-} from "./chunk-TXDUYLVM.js";
+} from "./chunk-K5PYHWDH.js";
 
 // src/app/app.routes.ts
 var routes = [
@@ -72,58 +70,66 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-X7QW2PB4.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-UYLHBUED.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-T562S23P.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-J6O6IZCO.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-YOKW2WBH.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-22GB4ZEA.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-U3NN4SQA.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-RAFQPZVS.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-67WLHGHY.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-ZEQOEQGR.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
   {
     path: "malta",
     children: [
       __spreadValues({
+        // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        pathMatch: "full",
-        loadComponent: () => import("./chunk-74GYOBP5.js").then((mod) => mod.MaltaMapComponent)
-      }, false ? { \u0275entryName: "src/app/platform/malta-map/malta-map.component.ts" } : {}),
-      __spreadValues({
-        path: "list",
-        loadComponent: () => import("./chunk-AYGIDLZ4.js").then((m) => m.LocationListComponent)
-      }, false ? { \u0275entryName: "src/app/platform/location-list/location-list.component.ts" } : {}),
+        loadComponent: () => import("./chunk-VD24HDNT.js").then((m) => m.MaltaShellComponent),
+        children: [
+          {
+            path: "",
+            pathMatch: "full",
+            loadComponent: () => import("./chunk-I25OGRSM.js").then((mod) => mod.MaltaMapComponent)
+          },
+          {
+            path: "list",
+            loadComponent: () => import("./chunk-CS2T23MS.js").then((m) => m.LocationListComponent)
+          },
+          {
+            path: "deals",
+            loadComponent: () => import("./chunk-PDZO3N6H.js").then((m) => m.CouponsComponent)
+          }
+        ]
+      }, false ? { \u0275entryName: "src/app/platform/malta-shell/malta-shell.component.ts" } : {}),
+      // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-T6WYF6OM.js").then((m) => m.TrendComponent)
+        loadComponent: () => import("./chunk-KPG5RCVF.js").then((m) => m.TrendComponent)
       }, false ? { \u0275entryName: "src/app/platform/trend/trend.component.ts" } : {}),
-      __spreadValues({
-        path: "deals",
-        loadComponent: () => import("./chunk-MY2FIUSE.js").then((m) => m.CouponsComponent)
-      }, false ? { \u0275entryName: "src/app/platform/coupons/coupons.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-HUIQ2CLS.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-U7OSV532.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-VSEBP4BV.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-M3O7QLWQ.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-CFETJRKZ.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-YREBZVSL.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -161,7 +167,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-SGES4H6W.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-42W5QGJM.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -547,7 +553,7 @@ var PwaPromptComponent = class _PwaPromptComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/components/pwa-prompt/pwa-prompt.component.ts", lineNumber: 125 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/components/pwa-prompt/pwa-prompt.component.ts", lineNumber: 130 });
 })();
 
 // src/app/app.component.ts
@@ -558,16 +564,12 @@ function AppComponent_app_pwa_prompt_1_Template(rf, ctx) {
 }
 var MAP_ROUTES = ["/malta", "/"];
 var AppComponent = class _AppComponent {
-  ngAfterViewInit() {
-    this.map = true;
-  }
-  constructor(router) {
-    this.router = router;
-    this.title = "fpv-pilot";
+  constructor() {
     this.version = version;
-    this.map = false;
     this.isMapRoute = true;
     this.platformId = inject(PLATFORM_ID);
+    this.router = inject(Router);
+    this.destroyRef = inject(DestroyRef);
     this.HASH_RENAMES = {
       "/list": "/malta/list",
       "/trend": "/malta/30-places-2026",
@@ -576,27 +578,34 @@ var AppComponent = class _AppComponent {
   }
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const hash = window.location.hash;
-      if (hash.startsWith("#/")) {
-        const hashContent = hash.slice(1);
-        const qIdx = hashContent.indexOf("?");
-        const oldPath = qIdx === -1 ? hashContent : hashContent.slice(0, qIdx);
-        const query = qIdx === -1 ? "" : hashContent.slice(qIdx);
-        const newUrl = (this.HASH_RENAMES[oldPath] ?? oldPath) + query;
-        this.router.navigateByUrl(newUrl, { replaceUrl: true });
-      }
-      const redirect = new URLSearchParams(window.location.search).get("redirect");
-      if (redirect) {
-        this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
-      }
+      this.handleLegacyHashUrls();
+      this.handleRedirectParam();
     }
-    this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe((e) => {
-      this.isMapRoute = MAP_ROUTES.some((r) => e.urlAfterRedirects === r || e.urlAfterRedirects.startsWith(r + "?") || e.urlAfterRedirects.startsWith("/malta/"));
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe((e) => {
+      const url = e.urlAfterRedirects;
+      this.isMapRoute = MAP_ROUTES.some((r) => url === r || url.startsWith(r + "?") || url.startsWith("/malta/"));
     });
+  }
+  handleLegacyHashUrls() {
+    const hash = window.location.hash;
+    if (!hash.startsWith("#/"))
+      return;
+    const hashContent = hash.slice(1);
+    const qIdx = hashContent.indexOf("?");
+    const oldPath = qIdx === -1 ? hashContent : hashContent.slice(0, qIdx);
+    const query = qIdx === -1 ? "" : hashContent.slice(qIdx);
+    const newUrl = (this.HASH_RENAMES[oldPath] ?? oldPath) + query;
+    this.router.navigateByUrl(newUrl, { replaceUrl: true });
+  }
+  handleRedirectParam() {
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    if (redirect) {
+      this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
+    }
   }
   static {
     this.\u0275fac = function AppComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _AppComponent)(\u0275\u0275directiveInject(Router));
+      return new (__ngFactoryType__ || _AppComponent)();
     };
   }
   static {
@@ -614,7 +623,7 @@ var AppComponent = class _AppComponent {
         \u0275\u0275advance(2);
         \u0275\u0275textInterpolate1("v", ctx.version, "");
       }
-    }, dependencies: [RouterOutlet, CommonModule, NgIf, ComponentsModule, PwaPromptComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: #111827;\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
+    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: #111827;\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
   }
 };
 (() => {

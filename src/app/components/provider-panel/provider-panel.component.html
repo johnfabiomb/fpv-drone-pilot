@@ -15,7 +15,7 @@
 <!-- Image gallery (only rendered when provider has images) -->
 <app-image-gallery
   *ngIf="provider?.images?.length"
-  [src]="provider.images">
+  [src]="provider.images!">
 </app-image-gallery>
 
 <!-- Description -->
@@ -40,11 +40,11 @@
       <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
       <line x1="7" y1="7" x2="7.01" y2="7"/>
     </svg>
-    <span class="discount-box__label">{{ provider.discount.label }}</span>
+    <span class="discount-box__label">{{ provider.discount?.label }}</span>
   </div>
 
   <button class="discount-box__coupon" (click)="copyCoupon()">
-    <span class="coupon-code">{{ provider.discount.coupon }}</span>
+    <span class="coupon-code">{{ provider.discount?.coupon }}</span>
     <span class="coupon-copy-hint" [class.copied]="couponCopied">
       <svg *ngIf="!couponCopied" width="13" height="13" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -55,13 +55,13 @@
     </span>
   </button>
 
-  <p class="discount-box__instructions">{{ provider.discount.instructions }}</p>
+  <p class="discount-box__instructions">{{ provider.discount?.instructions }}</p>
 </div>
 
 <!-- Contact links -->
 <div class="provider-links">
   <a *ngIf="provider?.instagram"
-    [href]="'https://instagram.com/' + provider.instagram.replace('@', '')"
+    [href]="'https://instagram.com/' + provider.instagram!.replace('@', '')"
     target="_blank" rel="noopener"
     class="provider-link provider-link--ig">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

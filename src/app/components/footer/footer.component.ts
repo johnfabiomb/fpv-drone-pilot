@@ -1,10 +1,13 @@
 import { Component, HostListener } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FEATURES } from '../../feature-flags';
 import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-footer',
-  standalone: false,
+  standalone: true,
+  imports: [NgIf, RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

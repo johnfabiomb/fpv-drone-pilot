@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '../../shared/services/seo.service';
@@ -14,7 +14,8 @@ import { SeoService } from '../../shared/services/seo.service';
 export class PaymentComponent implements OnInit {
   amount: number | null = null;
 
-  constructor(private route: ActivatedRoute, private seo: SeoService) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly seo = inject(SeoService);
 
   ngOnInit(): void {
     this.seo.setPage('pay');

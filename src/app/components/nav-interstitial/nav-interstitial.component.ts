@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
+import { Provider } from '../../shared/models';
 
 const RADIUS = 26;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -15,9 +16,9 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() url!: string;
   @Input() duration = 7;
-  @Input() providers: any[] = [];
+  @Input() providers: Provider[] = [];
   @Output() closed = new EventEmitter<void>();
-  @Output() providerSelected = new EventEmitter<any>();
+  @Output() providerSelected = new EventEmitter<Provider>();
 
   private platformId = inject(PLATFORM_ID);
   private timer?: ReturnType<typeof setInterval>;
@@ -51,7 +52,7 @@ export class NavInterstitialComponent implements OnInit, OnDestroy {
     this.closed.emit();
   }
 
-  onProviderSelected(provider: any): void {
+  onProviderSelected(provider: Provider): void {
     this.providerSelected.emit(provider);
     this.closed.emit();
   }

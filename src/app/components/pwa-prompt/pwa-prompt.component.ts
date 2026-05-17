@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 const DISMISSED_KEY = 'pwa-prompt-dismissed';
 const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
 
@@ -127,10 +132,10 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   isIos = false;
 
   private platformId = inject(PLATFORM_ID);
-  private deferredPrompt: any = null;
+  private deferredPrompt: BeforeInstallPromptEvent | null = null;
   private installHandler = (e: Event) => {
     e.preventDefault();
-    this.deferredPrompt = e;
+    this.deferredPrompt = e as BeforeInstallPromptEvent;
     this.scheduleShow();
   };
 

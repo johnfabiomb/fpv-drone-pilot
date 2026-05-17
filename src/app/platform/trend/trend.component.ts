@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SeoService } from '../../shared/services/seo.service';
@@ -43,7 +43,10 @@ export class TrendComponent {
   readonly locked = Array.from({ length: TOTAL - REVEALED.length }, (_, i) => REVEALED.length + i + 1);
   readonly total = TOTAL;
 
-  constructor(private router: Router, private seo: SeoService) {
+  private readonly router = inject(Router);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
     this.seo.setTrendPage(REVEALED);
   }
 

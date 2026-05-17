@@ -5,6 +5,9 @@ import { ImageGalleryComponent } from '../image-gallery/image-gallery.component'
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
 import { AnalyticsService } from '../../shared/services/analytics.service';
+import { Location, Provider, MapPoint } from '../../shared/models';
+import { haversineM } from '../../shared/utils/geo.utils';
+import { getIsland } from '../../shared/utils/location-filter.util';
 import { locations } from '../../../assets/locations.json';
 import { providers } from '../../../assets/providers.json';
 import { FEATURES } from '../../feature-flags';
@@ -17,14 +20,14 @@ import { FEATURES } from '../../feature-flags';
   styleUrl: './location-panel.component.scss',
 })
 export class LocationDetailComponent implements OnChanges, OnDestroy {
-  @Input() location: any = null;
+  @Input() location: Location | null = null;
   @Input() userLat: number | null = null;
   @Input() userLon: number | null = null;
 
   @Output() close = new EventEmitter<void>();
   @Output() explore = new EventEmitter<void>();
   @Output() navRequested = new EventEmitter<string>();
-  @Output() providerSelected = new EventEmitter<any>();
+  @Output() providerSelected = new EventEmitter<Provider>();
 
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
@@ -32,48 +35,72 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   confirmingClose = false;
   nearbyMode = false;
   showNearbyPrompt = false;
-  closestLocations: { location: any; distanceKm: string }[] = [];
-  nearbyProviders: any[] = [];
+  closestLocations: { location: Location; distanceKm: string }[] = [];
+  nearbyProviders: Provider[] = [];
 
-  private prevLocationId: any = null;
+  private prevLocationId: number | null = null;
   private dismissedNearby = false;
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private analyticsService: AnalyticsService,
-  ) {}
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly analyticsService = inject(AnalyticsService);
 
   ngOnChanges(): void {
-    if (this.location && this.location.id !== this.prevLocationId) {
-      this.prevLocationId = this.location.id;
+    const location = this.location;
+    if (location && location.id !== this.prevLocationId) {
+      this.prevLocationId = location.id;
       this.confirmingClose = false;
       this.nearbyMode = false;
       this.showNearbyPrompt = false;
       this.dismissedNearby = false;
       this.closestLocations = this.getClosestLocations();
       this.nearbyProviders = FEATURES.PROMOTIONS
-        ? (providers as any[]).filter(p => p.nearLocationIds?.includes(this.location.id))
+        ? (providers as Provider[]).filter(p => p.nearLocationIds?.includes(location.id))
         : [];
+
+      if (isPlatformBrowser(this.platformId)) {
+        const srcs = location.images?.length ? location.images : [location.img];
+        srcs.forEach(src => { new Image().src = src; });
+      }
     }
     this.checkProximity();
   }
 
-  requestClose(): void {
+  get galleryImages(): string[] {
+    const loc = this.location;
+    if (!loc) return [];
+    return loc.images?.length ? loc.images : [loc.img];
+  }
+
+  private pendingLeave?: () => void;
+
+  requestClose(onLeave?: () => void): void {
+    this.pendingLeave = onLeave;
     if (this.nearbyMode) {
       this.confirmingClose = true;
     } else {
-      this.close.emit();
+      this.executeLeave();
     }
   }
 
   confirmClose(): void {
     this.confirmingClose = false;
-    this.close.emit();
+    this.executeLeave();
   }
 
   cancelClose(): void {
     this.confirmingClose = false;
+    this.pendingLeave = undefined;
+  }
+
+  private executeLeave(): void {
+    if (this.pendingLeave) {
+      const action = this.pendingLeave;
+      this.pendingLeave = undefined;
+      action();
+    } else {
+      this.close.emit();
+    }
   }
 
   activateHikingMode(): void {
@@ -93,16 +120,16 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   }
 
   hasRecordedRoute(): boolean {
-    return (this.location?.mapPoints ?? []).some((p: any) => p.type === 'waypoint');
+    return (this.location?.mapPoints ?? []).some(p => p.type === 'waypoint');
   }
 
-  visibleMapPoints(): any[] {
-    return (this.location?.mapPoints ?? []).filter((p: any) =>
+  visibleMapPoints(): MapPoint[] {
+    return (this.location?.mapPoints ?? []).filter(p =>
       p.type !== 'waypoint' && p.showButton !== false
     );
   }
 
-  navigateTo(point: any, index: number): void {
+  navigateTo(point: MapPoint, index: number): void {
     const visible = this.visibleMapPoints();
     const prev = index > 0 ? visible[index - 1] : null;
     const mode = point.type === 'parking' ? 'driving' : 'walking';
@@ -112,7 +139,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
     this.navRequested.emit(url);
   }
 
-  pointLabel(point: any, index: number): string {
+  pointLabel(point: MapPoint, index: number): string {
     const isOnly = index === 0;
     switch (point.type) {
       case 'parking':     return '🚗 Drive to Parking';
@@ -122,9 +149,8 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
     }
   }
 
-  clickon(loc: any): void {
-    if (!loc?.id) return;
-    this.analyticsService.event('recommendation_click', { from_location: this.location?.title, to_location: loc?.title });
+  clickon(loc: Location): void {
+    this.analyticsService.event('recommendation_click', { from_location: this.location?.title, to_location: loc.title });
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: { locationId: loc.id } });
   }
 
@@ -140,35 +166,23 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   ngOnDestroy(): void {}
 
   private checkProximity(): void {
-    if (!this.location || this.userLat === null || this.nearbyMode || this.dismissedNearby) return;
-    const target = this.location.mapPoints?.[0] ?? this.location;
-    this.showNearbyPrompt = this.haversineM(this.userLat, this.userLon!, target.lat, target.lon) <= 500;
+    const location = this.location;
+    if (!location || this.userLat === null || this.nearbyMode || this.dismissedNearby) return;
+    const points = location.mapPoints?.length ? location.mapPoints : [location];
+    this.showNearbyPrompt = points.some(
+      p => haversineM(this.userLat!, this.userLon!, p.lat, p.lon) <= 500
+    );
   }
 
-  private haversineM(lat1: number, lon1: number, lat2: number, lon2: number): number {
-    const R = 6371000;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) ** 2
-      + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
-
-  private getIsland(loc: any): string {
-    const tags = loc.tags ?? [];
-    if (tags.includes('comino')) return 'comino';
-    if (tags.includes('gozo')) return 'gozo';
-    return 'malta';
-  }
-
-  private getClosestLocations(): { location: any; distanceKm: string }[] {
-    if (!this.location) return [];
-    const currentIsland = this.getIsland(this.location);
-    return (locations as any[])
-      .filter(l => l.id !== this.location.id && this.getIsland(l) === currentIsland)
+  private getClosestLocations(): { location: Location; distanceKm: string }[] {
+    const location = this.location;
+    if (!location) return [];
+    const currentIsland = getIsland(location);
+    return (locations as Location[])
+      .filter(l => l.id !== location.id && getIsland(l) === currentIsland)
       .map(l => ({
         location: l,
-        distanceKm: (this.haversineM(this.location.lat, this.location.lon, l.lat, l.lon) / 1000).toFixed(1),
+        distanceKm: (haversineM(location.lat, location.lon, l.lat, l.lon) / 1000).toFixed(1),
       }))
       .sort((a, b) => parseFloat(a.distanceKm) - parseFloat(b.distanceKm))
       .slice(0, 4);

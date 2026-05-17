@@ -1,5 +1,6 @@
 import { Component, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MapPoint } from '../../shared/models';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -90,7 +91,7 @@ import { LocationTracker } from '../../shared/utils/location-tracker';
   `],
 })
 export class RouteMapComponent implements AfterViewInit, OnDestroy {
-  @Input() mapPoints: any[] = [];
+  @Input() mapPoints: MapPoint[] = [];
   @ViewChild('mapEl') mapEl!: ElementRef<HTMLDivElement>;
 
   compassMode = true;

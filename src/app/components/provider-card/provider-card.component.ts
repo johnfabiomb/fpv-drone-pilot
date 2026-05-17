@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Provider } from '../../shared/models';
 
 @Component({
   selector: 'app-provider-card',
@@ -9,8 +10,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './provider-card.component.scss',
 })
 export class ProviderCardComponent {
-  @Input() provider!: any;
-  @Output() selected = new EventEmitter<any>();
+  @Input() provider!: Provider;
+  @Output() selected = new EventEmitter<Provider>();
 
   get accentColor(): string {
     const map: Record<string, string> = {
