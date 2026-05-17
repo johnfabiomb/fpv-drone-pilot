@@ -55,6 +55,8 @@ export class MaltaMapComponent implements OnInit {
     this.seo.setPage('map');
     this.backTo = this.route.snapshot.queryParamMap.get('backTo');
 
+    if (!isPlatformBrowser(this.platformId)) return;
+
     // Configure bridge signals for this route
     const params = this.route.snapshot.queryParamMap;
     const hasInitialContent = !!(params.get('locationId') || params.get('provider'));

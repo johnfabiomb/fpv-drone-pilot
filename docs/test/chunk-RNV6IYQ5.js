@@ -598,6 +598,8 @@ var MaltaMapComponent = class _MaltaMapComponent {
   ngOnInit() {
     this.seo.setPage("map");
     this.backTo = this.route.snapshot.queryParamMap.get("backTo");
+    if (!isPlatformBrowser(this.platformId))
+      return;
     const params = this.route.snapshot.queryParamMap;
     const hasInitialContent = !!(params.get("locationId") || params.get("provider"));
     this.bridge.showFilterBar.set(!hasInitialContent);
@@ -790,4 +792,4 @@ var MaltaMapComponent = class _MaltaMapComponent {
 export {
   MaltaMapComponent
 };
-//# sourceMappingURL=chunk-XYJWE5PT.js.map
+//# sourceMappingURL=chunk-RNV6IYQ5.js.map
