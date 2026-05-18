@@ -16,6 +16,7 @@ export interface Location {
   title: string;
   description: string;
   img: string;
+  thumb?: string;
   lon: number;
   lat: number;
   url?: string;

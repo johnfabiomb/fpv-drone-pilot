@@ -204,6 +204,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private preloadIcons(): void {
     locations.forEach(location => {
       const img = new Image();
+      const pinSrc = location.thumb || location.img;
       img.onload = () => {
         this.rawImageCache.set(location.img, img);
         this.localityIconCache.clear();
@@ -296,7 +297,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.iconCache.set(String(location.id), finalCanvas);
         this.clusterLayer.changed();
       };
-      img.src = location.img;
+      img.src = pinSrc;
     });
   }
 
