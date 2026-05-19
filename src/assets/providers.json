@@ -1,91 +1,50 @@
 {
   "providers": [
     {
-      "id": "malta-kayak-co",
-      "name": "Malta Kayak Co.",
+      "id": "santa-maria-watersports",
+      "name": "Santa Maria Water Sports",
       "category": "water-sports",
-      "emoji": "🛶",
-      "tagline": "Paddle into Malta's hidden sea caves",
-      "description": "Malta Kayak Co. offers guided and self-guided kayak tours that take you directly into the sea caves and hidden lagoons that are impossible to reach on foot. Glide through crystal-clear Mediterranean waters and explore the coastline the way it was meant to be discovered — from the sea.",
-      "coverImage": null,
-      "images": [
-        "/assets/images/places/blue-grotto.webp",
-        "/assets/images/places/santa-maria-caves.webp",
-        "/assets/images/places/ta-kalanka-sea-cave.webp"
+      "color": "#0d3d72",
+      "emoji": "🏄",
+      "tagline": "Private wakeboard & wakesurf boat charter in Malta",
+      "description": "Santa Maria Water Sports runs private boat charters from the Valletta Waterfront aboard a Nautique G25 — one of the world's finest performance wake boats. Whether you want to learn wakeboard, ride wakesurf, fly on a wakefoil, or simply cruise Malta's dramatic coastline, their certified instructors tailor every session to your level. Charters run from 1 hour to a full day and can reach any point along Malta's coast from the Grand Harbour.",
+      "coverImage": "/assets/images/providers/santamariawatersports/santa-maria-watersports.webp",
+      "website": "https://santamariawatersports.com",
+      "instagram": "@santamariawatersports",
+      "phone": "+356 7907 5911",
+      "lat": 35.8890523,
+      "lon": 14.5077708,
+      "showOnMap": true,
+      "mapLabel": "🏷️ Deal",
+      "nearLocationIds": [
+        61,
+        49,
+        10,
+        1,
+        52,
+        36,
+        44,
+        42
       ],
-      "website": "https://www.maltakayak.com",
-      "instagram": "@maltakayakco",
-      "phone": "+356 9900 1122",
-      "lat": 35.9291,
-      "lon": 14.3989,
-      "showOnMap": true,
-      "mapLabel": "🏷️ Deal",
-      "nearLocationIds": [44, 13, 18, 58, 61],
       "discount": {
-        "label": "10% off any rental or guided tour",
-        "coupon": "EXPLORE10",
-        "instructions": "Show this screen at the counter or mention the code when booking by phone or online. Valid throughout 2026."
+        "label": "5% off any charter booking",
+        "coupon": "JOHNFABIOMB",
+        "instructions": "Online: enter the code in the 'Add Coupon or Promotional Code' field before paying. By phone: mention the code when booking. Valid throughout 2026."
       },
       "highlights": [
-        "Guided & self-guided options",
-        "All equipment included",
-        "No experience required",
-        "Open daily 8am – 6pm"
-      ]
-    },
-    {
-      "id": "gozo-sea-adventures",
-      "name": "Gozo Sea Adventures",
-      "category": "water-sports",
-      "emoji": "🤿",
-      "tagline": "Snorkelling, diving & kayak on Gozo's wild coast",
-      "description": "Gozo Sea Adventures runs small-group snorkelling and scuba diving sessions in the crystal waters around Gozo and Comino. Their expert local guides know every hidden cave, arch and reef on the Gozitan coastline — spots that only a boat can reach.",
-      "coverImage": null,
-      "website": "https://www.gozoseaadventures.com",
-      "instagram": "@gozoseaadv",
-      "phone": "+356 9911 2233",
-      "lat": 36.0330,
-      "lon": 14.2119,
-      "showOnMap": true,
-      "mapLabel": "🏷️ Deal",
-      "nearLocationIds": [38, 63, 68, 50, 46, 58],
-      "discount": {
-        "label": "10% off any snorkelling or diving session",
-        "coupon": "EXPLORE10",
-        "instructions": "Mention 'Explore Malta' when booking or show this screen at the dive centre in Xlendi Bay."
-      },
-      "highlights": [
-        "Small groups (max 8 people)",
-        "PADI-certified instructors",
-        "Equipment hire available",
-        "Pick-up from Gozo ferry"
-      ]
-    },
-    {
-      "id": "comino-express",
-      "name": "Comino Express",
-      "category": "tour",
-      "emoji": "⛵",
-      "tagline": "Private boat transfers to Comino's secret spots",
-      "description": "Skip the overcrowded ferry and reach the hidden corners of Comino on a private or small-group boat with Comino Express. They drop you at the Natural Window, the Santa Maria Caves and quiet eastern bays that public boats never stop at.",
-      "coverImage": null,
-      "website": "https://www.cominoexpress.com",
-      "instagram": "@cominoexpress",
-      "phone": "+356 9922 3344",
-      "lat": null,
-      "lon": null,
-      "showOnMap": false,
-      "nearLocationIds": [7, 14, 17, 62],
-      "discount": {
-        "label": "10% off any private boat charter",
-        "coupon": "EXPLORE10",
-        "instructions": "Book via their website or WhatsApp and enter code EXPLORE10 in the notes field. Cannot be combined with other offers."
-      },
-      "highlights": [
-        "Private & shared charters",
-        "Access to uncrowded bays",
-        "Departures from Sliema & St. Julian's",
-        "Book 24 h in advance"
+        "Nautique G25 Centennial Edition (2025)",
+        "Wakeboard, wakesurf, wakefoil & tube",
+        "Certified instructors on every charter",
+        "1 hour to full-day charters",
+        "Beginner-friendly — from age 10"
+      ],
+      "images": [
+        "/assets/images/providers/santamariawatersports/006722-021-VK.webp",
+        "/assets/images/providers/santamariawatersports/0L2A8666.webp",
+        "/assets/images/providers/santamariawatersports/0L2A8875.webp",
+        "/assets/images/providers/santamariawatersports/0L2A9213.webp",
+        "/assets/images/providers/santamariawatersports/0L2A9872.webp",
+        "/assets/images/providers/santamariawatersports/DSC01193.webp"
       ]
     }
   ]

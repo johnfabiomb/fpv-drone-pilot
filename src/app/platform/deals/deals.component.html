@@ -20,7 +20,7 @@
   <app-provider-detail
     *ngIf="selectedProvider"
     [provider]="selectedProvider"
-    (navRequested)="onNavRequested($event)">
+    (bookRequested)="onBookRequested($event)">
   </app-provider-detail>
 
   <div *ngIf="!selectedProvider" class="deals-list">
@@ -28,7 +28,7 @@
       <p class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p>
     </div>
     <app-provider-card
-      *ngFor="let p of allProviders"
+      *ngFor="let p of sortedProviders()"
       [provider]="p"
       (selected)="openProvider($event)">
     </app-provider-card>

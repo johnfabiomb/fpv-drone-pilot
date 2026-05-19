@@ -10,6 +10,7 @@ import { SeoService } from '../../shared/services/seo.service';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Location, Provider } from '../../shared/models';
 import { FEATURES } from '../../feature-flags';
+import { haversineKm } from '../../shared/utils/geo.utils';
 import { providers } from '../../../assets/providers.json';
 import { locations } from '../../../assets/locations.json';
 
@@ -23,11 +24,12 @@ import { locations } from '../../../assets/locations.json';
 export class MaltaMapComponent implements OnInit {
   selectedLocation: Location | null = null;
   selectedProvider: Provider | null = null;
+  readonly mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
   userLat: number | null = null;
   userLon: number | null = null;
   backTo: string | null = null;
 
-  readonly navDuration = 3;
+  readonly navDuration = 6;
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
@@ -62,7 +64,7 @@ export class MaltaMapComponent implements OnInit {
     const hasInitialContent = !!(params.get('locationId') || params.get('provider'));
     this.bridge.showFilterBar.set(!hasInitialContent);
     this.bridge.filters.set([]);
-    this.bridge.providerPins.set([]);
+    this.bridge.providerPins.set(this.mapProviders);
     this.bridge.selectedLocation.set(null);
     this.bridge.panelOpen.set(hasInitialContent);
     this.bridge.mapOnly.set(false);
@@ -101,9 +103,17 @@ export class MaltaMapComponent implements OnInit {
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(loc => this.onLocationSelected(loc));
 
-    // GPS position for distance display and proximity detection in location detail
+    // GPS position for distance display; re-sync interstitial in case fallback applies
     this.bridge.gpsCoord$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(coord => { this.userLat = coord.lat; this.userLon = coord.lon; });
+      .subscribe(coord => {
+        this.userLat = coord.lat;
+        this.userLon = coord.lon;
+        if (this.selectedLocation) this.syncInterstitialProviders();
+      });
+
+    // Provider pin tapped on map → open provider panel
+    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(p => this.openProvider(p));
 
     // Interstitial: user picks a provider from the nav overlay
     this.bridge.interstitialProviderSelected$.pipe(takeUntilDestroyed(this.destroyRef))
@@ -122,6 +132,7 @@ export class MaltaMapComponent implements OnInit {
     if (!location) {
       this.bridge.mapOnly.set(false);
       if (!this.selectedProvider) this.bridge.panelOpen.set(false);
+      this.bridge.providerPins.set(this.mapProviders);
       this.seo.setPage('map');
     } else {
       this.bridge.panelOpen.set(true);
@@ -137,6 +148,11 @@ export class MaltaMapComponent implements OnInit {
 
   onNavRequested(url: string): void {
     this.bridge.pendingNavUrl.set(url);
+  }
+
+  onBookRequested(provider: Provider): void {
+    this.bridge.interstitialProvider.set(provider);
+    this.bridge.pendingNavUrl.set(provider.website!);
   }
 
   onPanelCloseRequested(): void {
@@ -217,15 +233,54 @@ export class MaltaMapComponent implements OnInit {
     }
   }
 
+  private readonly NEAR_LOCATION_KM = 8;
+
   private syncInterstitialProviders(): void {
     if (!FEATURES.PROMOTIONS || !this.selectedLocation) {
       this.bridge.interstitialProviders.set([]);
+      this.bridge.interstitialLabel.set(null);
+      this.bridge.providerPins.set(this.mapProviders);
       return;
     }
-    const result = (providers as Provider[])
-      .filter(p => p.nearLocationIds?.includes(this.selectedLocation!.id))
-      .slice(0, 2);
-    this.bridge.interstitialProviders.set(result);
+
+    const loc = this.selectedLocation;
+    const all = providers as Provider[];
+
+    // Primary: nearLocationIds match OR within NEAR_LOCATION_KM of the spot
+    const nearSpot = all
+      .filter(p =>
+        p.nearLocationIds?.includes(loc.id) ||
+        (p.lat && p.lon && haversineKm(loc.lat, loc.lon, p.lat, p.lon) <= this.NEAR_LOCATION_KM)
+      )
+      .sort((a, b) => {
+        const da = a.lat && a.lon ? haversineKm(loc.lat, loc.lon, a.lat, a.lon) : Infinity;
+        const db = b.lat && b.lon ? haversineKm(loc.lat, loc.lon, b.lat, b.lon) : Infinity;
+        return da - db;
+      });
+
+    if (nearSpot.length > 0) {
+      this.bridge.interstitialProviders.set(nearSpot.slice(0, 2));
+      this.bridge.interstitialLabel.set(null);
+    } else if (this.userLat !== null && this.userLon !== null) {
+      // Fallback: providers nearest the user's GPS, sorted by distance
+      const nearUser = all
+        .filter(p => p.lat && p.lon)
+        .sort((a, b) =>
+          haversineKm(this.userLat!, this.userLon!, a.lat!, a.lon!) -
+          haversineKm(this.userLat!, this.userLon!, b.lat!, b.lon!)
+        );
+      this.bridge.interstitialProviders.set(nearUser.slice(0, 2));
+      this.bridge.interstitialLabel.set(nearUser.length > 0 ? 'Near you' : null);
+    } else {
+      this.bridge.interstitialProviders.set([]);
+      this.bridge.interstitialLabel.set(null);
+    }
+
     this.bridge.navDuration.set(this.navDuration);
+
+    // Show spot-nearby provider pins on the map
+    const pinIds = new Set(this.mapProviders.map(p => p.id));
+    const extra = nearSpot.filter(p => p.lat && p.lon && !pinIds.has(p.id));
+    this.bridge.providerPins.set([...this.mapProviders, ...extra]);
   }
 }

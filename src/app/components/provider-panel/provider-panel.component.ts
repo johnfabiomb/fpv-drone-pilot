@@ -4,18 +4,20 @@ import { Router } from '@angular/router';
 import { Provider } from '../../shared/models';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
+import { ProviderAvatarComponent } from '../provider-avatar/provider-avatar.component';
+import { resolveProviderColor, getProviderCategoryLabel } from '../../shared/utils/provider.utils';
 
 @Component({
   selector: 'app-provider-detail',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, ShareButtonComponent],
+  imports: [CommonModule, ImageGalleryComponent, ShareButtonComponent, ProviderAvatarComponent],
   templateUrl: './provider-panel.component.html',
   styleUrl: './provider-panel.component.scss',
 })
 export class ProviderDetailComponent implements OnDestroy {
   @Input() provider!: Provider;
 
-  @Output() navRequested = new EventEmitter<string>();
+  @Output() bookRequested = new EventEmitter<Provider>();
 
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
@@ -29,27 +31,8 @@ export class ProviderDetailComponent implements OnDestroy {
     return `${origin}/malta?provider=${this.provider.id}`;
   }
 
-  get accentColor(): string {
-    const map: Record<string, string> = {
-      'water-sports': '#0ea5e9',
-      'tour':         '#8b5cf6',
-      'hotel':        '#f59e0b',
-      'restaurant':   '#ef4444',
-      'experience':   '#10b981',
-    };
-    return map[this.provider?.category] ?? '#F4A922';
-  }
-
-  get categoryLabel(): string {
-    const map: Record<string, string> = {
-      'water-sports': 'Water Sports',
-      'tour':         'Boat Tour',
-      'hotel':        'Hotel',
-      'restaurant':   'Restaurant',
-      'experience':   'Experience',
-    };
-    return map[this.provider?.category] ?? this.provider?.category;
-  }
+  get accentColor(): string { return resolveProviderColor(this.provider); }
+  get categoryLabel(): string { return getProviderCategoryLabel(this.provider?.category); }
 
   copyCoupon(): void {
     const code = this.provider?.discount?.coupon;
@@ -61,7 +44,7 @@ export class ProviderDetailComponent implements OnDestroy {
   }
 
   openWebsite(): void {
-    if (this.provider?.website) this.navRequested.emit(this.provider.website);
+    if (this.provider?.website) this.bookRequested.emit(this.provider);
   }
 
   browseDeals(): void {

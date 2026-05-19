@@ -5,9 +5,12 @@
       <button class="dismiss-btn" (click)="dismiss()" aria-label="Close">✕</button>
     </div>
 
-    <app-provider-card *ngIf="providers[0]" [provider]="providers[0]" (selected)="onProviderSelected($event)"></app-provider-card>
+    <!-- Top slot: projected by the caller (coupon reminder or provider card ad) -->
+    <div class="slot-wrap">
+      <ng-content select="[slot-top]"></ng-content>
+    </div>
 
-    <div class="countdown-wrap">
+    <div class="countdown-wrap" *ngIf="duration > 0">
       <svg class="ring" viewBox="0 0 60 60" width="60" height="60">
         <circle class="ring-bg" cx="30" cy="30" [attr.r]="26"/>
         <circle
@@ -20,18 +23,21 @@
       <span class="countdown-num">{{ seconds }}</span>
     </div>
 
-    <p class="countdown-label">
+    <p class="countdown-label" *ngIf="duration > 0">
       {{ seconds > 0 ? 'Opening in ' + seconds + 's…' : 'Ready!' }}
     </p>
 
-    <app-provider-card *ngIf="providers[1]" [provider]="providers[1]" (selected)="onProviderSelected($event)"></app-provider-card>
+    <!-- Bottom slot: optional second provider card ad -->
+    <div class="slot-wrap">
+      <ng-content select="[slot-bottom]"></ng-content>
+    </div>
 
     <button
       class="open-btn"
       [class.ready]="seconds === 0"
       [disabled]="seconds > 0"
       (click)="open()">
-      Open Google Maps
+      {{ buttonLabel }}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="7" y1="17" x2="17" y2="7"/>

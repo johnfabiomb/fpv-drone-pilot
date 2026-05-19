@@ -1,11 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Provider } from '../../shared/models';
+import { ProviderAvatarComponent } from '../provider-avatar/provider-avatar.component';
+import { resolveProviderColor } from '../../shared/utils/provider.utils';
 
 @Component({
   selector: 'app-provider-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProviderAvatarComponent],
   templateUrl: './provider-card.component.html',
   styleUrl: './provider-card.component.scss',
 })
@@ -13,16 +15,7 @@ export class ProviderCardComponent {
   @Input() provider!: Provider;
   @Output() selected = new EventEmitter<Provider>();
 
-  get accentColor(): string {
-    const map: Record<string, string> = {
-      'water-sports': '#0ea5e9',
-      'tour':         '#8b5cf6',
-      'hotel':        '#f59e0b',
-      'restaurant':   '#ef4444',
-      'experience':   '#10b981',
-    };
-    return map[this.provider?.category] ?? '#F4A922';
-  }
+  get accentColor(): string { return resolveProviderColor(this.provider); }
 
   get discountPct(): string {
     const m = this.provider?.discount?.label?.match(/\d+%/);

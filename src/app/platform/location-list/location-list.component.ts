@@ -30,6 +30,7 @@ type ListItem = LocationItem | { type: 'provider'; data: Provider };
 export class LocationListComponent implements OnInit {
   readonly allLocations = locations as Location[];
   readonly allProviders = providers as Provider[];
+  readonly mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
   readonly FEATURES = FEATURES;
 
   readonly filters: FilterOption[] = [
@@ -116,7 +117,7 @@ export class LocationListComponent implements OnInit {
 
     this.bridge.showFilterBar.set(false);
     this.bridge.filters.set([]);
-    this.bridge.providerPins.set([]);
+    this.bridge.providerPins.set(this.mapProviders);
     this.bridge.selectedLocation.set(null);
     this.bridge.panelOpen.set(true);
     this.bridge.mapOnly.set(false);

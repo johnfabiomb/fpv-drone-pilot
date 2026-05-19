@@ -22,9 +22,11 @@
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
   border: 1px solid #e5e7eb;
 
-  app-provider-card {
-    width: 100%;
-  }
+}
+
+.slot-wrap {
+  width: 100%;
+  overflow: hidden;
 }
 
 .card-header {

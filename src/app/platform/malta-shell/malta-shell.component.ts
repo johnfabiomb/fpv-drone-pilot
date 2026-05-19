@@ -7,14 +7,17 @@ import { FilterBarComponent } from '../../components/filter-bar/filter-bar.compo
 import { FooterComponent } from '../../components/footer/footer.component';
 import { MapComponent } from '../../components/map/map.component';
 import { NavInterstitialComponent } from '../../components/nav-interstitial/nav-interstitial.component';
+import { CouponReminderComponent } from '../../components/coupon-reminder/coupon-reminder.component';
+import { ProviderCardComponent } from '../../components/provider-card/provider-card.component';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
+import { Provider } from '../../shared/models';
 import { PanelResize } from '../../shared/utils/panel-resize.util';
 
 @Component({
   selector: 'app-malta-shell',
   standalone: true,
   providers: [MapBridgeService],
-  imports: [CommonModule, RouterOutlet, MapComponent, FilterBarComponent, NavInterstitialComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent],
   templateUrl: './malta-shell.component.html',
   styleUrl: './malta-shell.component.scss',
 })
@@ -69,5 +72,14 @@ export class MaltaShellComponent implements AfterViewInit, OnDestroy {
     if (window.innerWidth <= 768 && this.bridge.panelOpen() && !this.bridge.mapOnly()) {
       this.bridge.panel.minimize();
     }
+  }
+
+  onInterstitialClosed(): void {
+    this.bridge.clearInterstitial();
+  }
+
+  onInterstitialProviderSelected(provider: Provider): void {
+    this.bridge.interstitialProviderSelected$.next(provider);
+    this.bridge.clearInterstitial();
   }
 }

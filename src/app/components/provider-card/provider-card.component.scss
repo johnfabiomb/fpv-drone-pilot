@@ -44,11 +44,6 @@
   padding: 12px 14px 10px;
 }
 
-.provider-card__emoji {
-  font-size: 28px;
-  flex-shrink: 0;
-  line-height: 1;
-}
 
 .provider-card__info {
   flex: 1;
@@ -82,7 +77,6 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #fff;
-  background: #F4A922;
   border-radius: 6px;
   padding: 3px 7px;
 }
@@ -94,7 +88,6 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px 12px;
-  background: #F4A922;
 }
 
 .provider-card__pct {

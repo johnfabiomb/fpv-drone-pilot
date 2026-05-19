@@ -5,16 +5,18 @@
 
     <!-- Provider identity -->
     <div class="provider-card__header">
-      <span class="provider-card__emoji">{{ provider.emoji }}</span>
+
+      <app-provider-avatar [provider]="provider" [size]="46"></app-provider-avatar>
+
       <div class="provider-card__info">
         <span class="provider-card__name">{{ provider.name }}</span>
         <span class="provider-card__tagline">{{ provider.tagline }}</span>
       </div>
-      <span class="provider-card__exclusive-badge">Exclusive</span>
+      <span class="provider-card__exclusive-badge" [style.background]="accentColor">Exclusive</span>
     </div>
 
     <!-- Deal strip -->
-    <div class="provider-card__deal">
+    <div class="provider-card__deal" [style.background]="accentColor">
 
       <div class="provider-card__pct">
         <span class="pct-num">{{ discountPct }}</span>

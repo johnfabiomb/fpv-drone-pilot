@@ -8,6 +8,7 @@ export interface Provider {
   id: string;
   name: string;
   category: string;
+  color?: string;
   emoji: string;
   tagline: string;
   description?: string;

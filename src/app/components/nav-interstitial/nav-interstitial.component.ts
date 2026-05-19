@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { ProviderCardComponent } from '../provider-card/provider-card.component';
-import { Provider } from '../../shared/models';
 
 const RADIUS = 26;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -9,30 +7,31 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 @Component({
   selector: 'app-nav-interstitial',
   standalone: true,
-  imports: [CommonModule, ProviderCardComponent],
+  imports: [CommonModule],
   templateUrl: './nav-interstitial.component.html',
   styleUrl: './nav-interstitial.component.scss',
 })
 export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() url!: string;
   @Input() duration = 7;
-  @Input() providers: Provider[] = [];
+  @Input() buttonLabel = 'Open website';
+  @Input() openNewTab = false;
   @Output() closed = new EventEmitter<void>();
-  @Output() providerSelected = new EventEmitter<Provider>();
 
-  private platformId = inject(PLATFORM_ID);
+  private readonly platformId = inject(PLATFORM_ID);
   private timer?: ReturnType<typeof setInterval>;
 
   seconds = 0;
   readonly circumference = CIRCUMFERENCE;
 
   get dashOffset(): number {
+    if (this.duration === 0) return 0;
     return CIRCUMFERENCE * (this.seconds / this.duration);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.seconds = this.duration;
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId) || this.duration === 0) return;
     this.timer = setInterval(() => {
       this.seconds--;
       if (this.seconds <= 0) {
@@ -42,22 +41,21 @@ export class NavInterstitialComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.timer);
   }
 
-  open() {
+  open(): void {
     if (this.seconds > 0) return;
-    window.location.href = this.url;
+    if (this.openNewTab) {
+      window.open(this.url, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = this.url;
+    }
     this.closed.emit();
   }
 
-  onProviderSelected(provider: Provider): void {
-    this.providerSelected.emit(provider);
-    this.closed.emit();
-  }
-
-  dismiss() {
+  dismiss(): void {
     this.closed.emit();
   }
 }

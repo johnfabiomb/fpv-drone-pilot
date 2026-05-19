@@ -20,9 +20,11 @@ import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
 import { Location, MapPoint, Provider } from '../../shared/models';
 import { matchesFilter, FilterId } from '../../shared/utils/location-filter.util';
+import { resolveProviderColor } from '../../shared/utils/provider.utils';
 
 const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
+const PROVIDER_PIN_SIZE = 80;
 const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → individual pins
 
 @Component({
@@ -209,89 +211,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.rawImageCache.set(location.img, img);
         this.localityIconCache.clear();
 
-        // ── Teardrop pin ─────────────────────────────────────
-        const W = ICON_CANVAS_SIZE;
-        const H = ICON_CANVAS_SIZE + ICON_TAIL_H;
-        const cx = W / 2;
-        const cy = W / 2;
-        const r = W / 2 - 2;
-        const tailAngle = Math.PI / 8;
-
-        const pin = document.createElement('canvas');
-        pin.width = W;
-        pin.height = H;
-        const pc = pin.getContext('2d')!;
-
-        pc.save();
-        pc.shadowColor = 'rgba(0,0,0,0.22)';
-        pc.shadowBlur = 8;
-        pc.shadowOffsetY = 3;
-        pc.beginPath();
-        pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
-        pc.lineTo(cx, H - 1);
-        pc.closePath();
-        pc.fillStyle = '#fff';
-        pc.fill();
-        pc.restore();
-
-        pc.beginPath();
-        pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
-        pc.lineTo(cx, H - 1);
-        pc.closePath();
-        pc.strokeStyle = 'rgba(0,0,0,0.10)';
-        pc.lineWidth = 1;
-        pc.stroke();
-
-        pc.save();
-        pc.beginPath();
-        pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
-        pc.clip();
-        pc.drawImage(img, 0, 0, W, W);
-        pc.restore();
-
-        pc.beginPath();
-        pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
-        pc.strokeStyle = '#fff';
-        pc.lineWidth = 3;
-        pc.stroke();
+        const pin = this.buildTeardropPin(img, ICON_CANVAS_SIZE, '#fff');
 
         // ── Name pill (only if showLabel is true) ────────────
         let finalCanvas = pin;
 
         if (location.showLabel) {
-          const PILL_H = 22;
-          const PILL_GAP = 6;
-          const TOP_PAD = 4;
-
-          const probe = document.createElement('canvas').getContext('2d')!;
-          probe.font = '600 11px Roboto, sans-serif';
-          const textW = probe.measureText(location.title).width;
-          const pillW = Math.min(textW + 16, 140);
-          const cw = Math.max(W, pillW + 8);
-          const ch = TOP_PAD + PILL_H + PILL_GAP + H;
-
-          const composite = document.createElement('canvas');
-          composite.width = cw;
-          composite.height = ch;
-          const ctx = composite.getContext('2d')!;
-
-          const pillX = cw / 2 - pillW / 2;
-          const pillY = TOP_PAD;
-          ctx.save();
-          ctx.shadowColor = 'rgba(0,0,0,0.14)';
-          ctx.shadowBlur = 4;
-          ctx.fillStyle = '#fff';
-          this.fillRoundRect(ctx, pillX, pillY, pillW, PILL_H, 11);
-          ctx.restore();
-
-          ctx.font = '600 11px Roboto, sans-serif';
-          ctx.fillStyle = '#374151';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(location.title, cw / 2, pillY + PILL_H / 2, pillW - 8);
-
-          ctx.drawImage(pin, (cw - W) / 2, TOP_PAD + PILL_H + PILL_GAP);
-          finalCanvas = composite;
+          finalCanvas = this.buildPillPin(pin, location.title);
         }
 
         this.iconCache.set(String(location.id), finalCanvas);
@@ -316,6 +242,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.clusterLayer = new VectorLayer({
       source: this.clusterSource,
       style: (feature: FeatureLike) => this.featureStyle(feature),
+      zIndex: 10,
     });
     this.map.addLayer(this.clusterLayer);
     this.refreshLayer(true);
@@ -536,7 +463,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.providerLayer = new VectorLayer({
       source: this.providerSource,
       style: (f: FeatureLike) => this.providerPinStyle(f),
-      zIndex: 100,
+      zIndex: 5,
     });
     this.map.addLayer(this.providerLayer);
     if (this._providerPins.length) this.rebuildProviderLayer();
@@ -546,14 +473,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.providerSource.clear();
     for (const p of this._providerPins) {
       if (!p.lat || !p.lon) continue;
-      const f = new Feature({
+      this.providerSource.addFeature(new Feature({
         geometry: new Point(getCoordinatesfromLonLat(p.lon, p.lat)),
         type: 'provider-pin',
         provider: p,
-      });
-      this.providerSource.addFeature(f);
-      if (!this.providerCanvasCache.has(p.id)) {
-        this.providerCanvasCache.set(p.id, this.buildProviderCanvas(p));
+      }));
+      if (this.providerCanvasCache.has(p.id)) continue;
+
+      const label = p.mapLabel ?? '🏷️ Deal';
+      if (p.coverImage) {
+        const img = new Image();
+        img.onload = () => {
+          const pin = this.buildTeardropPin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
+          if (p.emoji) this.addEmojiBadge(pin, p.emoji);
+          this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true));
+          this.providerLayer.changed();
+        };
+        img.src = p.coverImage;
+      } else {
+        this.providerCanvasCache.set(p.id, this.buildPillPin(this.buildProviderEmojiPin(p), label, true));
       }
     }
   }
@@ -561,82 +499,174 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private providerPinStyle(feature: FeatureLike): Style {
     const provider = feature.get('provider');
     const canvas = this.providerCanvasCache.get(provider.id);
-    const R = 26, PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
-    const CY = TOP_PAD + PILL_H + PILL_GAP + R;
-    const H = CY + R + 5;
+    const zoom = this.map.getView().getZoom() ?? 10;
+    const scale = zoom < CLUSTER_ZOOM
+      ? this.getLocalityScale(zoom)
+      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
     if (!canvas) {
-      return new Style({ image: new CircleStyle({ radius: 18, fill: new Fill({ color: '#F4A922' }), stroke: new Stroke({ color: '#fff', width: 3 }) }) });
+      const r = Math.round(36 * scale);
+      return new Style({ image: new CircleStyle({ radius: r, fill: new Fill({ color: resolveProviderColor(provider) }), stroke: new Stroke({ color: '#fff', width: 2 }) }) });
     }
     return new Style({
       image: new Icon({
         img: canvas,
         size: [canvas.width, canvas.height],
-        scale: 0.65,
-        anchor: [0.5, CY / H],
+        scale,
+        anchor: [0.5, 1.0],
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction',
       }),
-      zIndex: 200,
     });
   }
 
-  private buildProviderCanvas(provider: Provider): HTMLCanvasElement {
-    const R = 26, W = 80, CX = W / 2;
-    const PILL_H = 20, PILL_GAP = 5, TOP_PAD = 3;
-    const CY = TOP_PAD + PILL_H + PILL_GAP + R;
-    const H = CY + R + 5;
+  // Emoji fallback — teardrop shape with amber fill, no photo
+  private buildProviderEmojiPin(provider: Provider): HTMLCanvasElement {
+    const W = PROVIDER_PIN_SIZE;
+    const tailH = Math.round(W * ICON_TAIL_H / ICON_CANVAS_SIZE);
+    const H = W + tailH;
+    const cx = W / 2, cy = W / 2;
+    const r = W / 2 - 2;
+    const tailAngle = Math.PI / 8;
 
     const canvas = document.createElement('canvas');
     canvas.width = W;
     canvas.height = H;
-    const ctx = canvas.getContext('2d')!;
+    const pc = canvas.getContext('2d')!;
 
-    // Label pill
-    const label: string = provider.mapLabel ?? '🏷️ Deal';
-    ctx.font = 'bold 10px Roboto, sans-serif';
-    const pillW = Math.min(ctx.measureText(label).width + 16, W - 4);
-    const pillX = CX - pillW / 2;
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.22)';
-    ctx.shadowBlur = 5;
-    ctx.fillStyle = '#F4A922';
-    this.fillRoundRect(ctx, pillX, TOP_PAD, pillW, PILL_H, 10);
-    ctx.restore();
-    ctx.font = 'bold 10px Roboto, sans-serif';
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(label, CX, TOP_PAD + PILL_H / 2, pillW - 8);
+    pc.save();
+    pc.shadowColor = 'rgba(0,0,0,0.22)';
+    pc.shadowBlur = 8;
+    pc.shadowOffsetY = 3;
+    pc.beginPath();
+    pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+    pc.lineTo(cx, H - 1);
+    pc.closePath();
+    pc.fillStyle = resolveProviderColor(provider);
+    pc.fill();
+    pc.restore();
 
-    // White shadow backing
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.28)';
-    ctx.shadowBlur = 8;
-    ctx.shadowOffsetY = 2;
-    ctx.beginPath();
-    ctx.arc(CX, CY, R + 2, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-    ctx.restore();
+    pc.beginPath();
+    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.strokeStyle = '#fff';
+    pc.lineWidth = 3;
+    pc.stroke();
 
-    // Amber circle
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, 0, Math.PI * 2);
-    ctx.fillStyle = '#F4A922';
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(CX, CY, R + 1, 0, Math.PI * 2);
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    // Emoji
-    ctx.font = '20px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(provider.emoji ?? '🏷️', CX, CY + 1);
+    pc.font = `${Math.round(W * 0.38)}px serif`;
+    pc.textAlign = 'center';
+    pc.textBaseline = 'middle';
+    pc.fillText(provider.emoji ?? '🏷️', cx, cy + 1);
 
     return canvas;
+  }
+
+  // Wraps any pin canvas with a label pill above it (shared by location + provider pins).
+  // large=true uses a bigger font so provider pills match the cluster label size visually.
+  private buildPillPin(pin: HTMLCanvasElement, label: string, large = false): HTMLCanvasElement {
+    const PILL_H = large ? 28 : 22, PILL_GAP = large ? 7 : 6, TOP_PAD = 4;
+    const font = large ? '600 17px Roboto, sans-serif' : '600 11px Roboto, sans-serif';
+    const probe = document.createElement('canvas').getContext('2d')!;
+    probe.font = font;
+    const pillW = Math.min(probe.measureText(label).width + 18, large ? 180 : 140);
+    const cw = Math.max(pin.width, pillW + 8);
+    const ch = TOP_PAD + PILL_H + PILL_GAP + pin.height;
+
+    const composite = document.createElement('canvas');
+    composite.width = cw;
+    composite.height = ch;
+    const ctx = composite.getContext('2d')!;
+
+    const pillX = cw / 2 - pillW / 2;
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.14)';
+    ctx.shadowBlur = 4;
+    ctx.fillStyle = '#fff';
+    this.fillRoundRect(ctx, pillX, TOP_PAD, pillW, PILL_H, large ? 14 : 11);
+    ctx.restore();
+
+    ctx.font = font;
+    ctx.fillStyle = '#374151';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, cw / 2, TOP_PAD + PILL_H / 2, pillW - 8);
+
+    ctx.drawImage(pin, (cw - pin.width) / 2, TOP_PAD + PILL_H + PILL_GAP);
+    return composite;
+  }
+
+  // ── Shared pin builder ────────────────────────────────────
+  // Used by both location pins (size=80, border='#fff') and
+  // provider photo pins (size=80, border='#F4A922').
+  private buildTeardropPin(img: HTMLImageElement, size: number, borderColor: string): HTMLCanvasElement {
+    const tailH = Math.round(size * ICON_TAIL_H / ICON_CANVAS_SIZE);
+    const W = size, H = size + tailH;
+    const cx = W / 2, cy = W / 2;
+    const r = W / 2 - 2;
+    const tailAngle = Math.PI / 8;
+
+    const pin = document.createElement('canvas');
+    pin.width = W;
+    pin.height = H;
+    const pc = pin.getContext('2d')!;
+
+    pc.save();
+    pc.shadowColor = 'rgba(0,0,0,0.22)';
+    pc.shadowBlur = 8;
+    pc.shadowOffsetY = 3;
+    pc.beginPath();
+    pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+    pc.lineTo(cx, H - 1);
+    pc.closePath();
+    pc.fillStyle = '#fff';
+    pc.fill();
+    pc.restore();
+
+    pc.beginPath();
+    pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+    pc.lineTo(cx, H - 1);
+    pc.closePath();
+    pc.strokeStyle = 'rgba(0,0,0,0.10)';
+    pc.lineWidth = 1;
+    pc.stroke();
+
+    pc.save();
+    pc.beginPath();
+    pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+    pc.clip();
+    pc.drawImage(img, 0, 0, W, W);
+    pc.restore();
+
+    pc.beginPath();
+    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.strokeStyle = borderColor;
+    pc.lineWidth = 3;
+    pc.stroke();
+
+    return pin;
+  }
+
+  private addEmojiBadge(pin: HTMLCanvasElement, emoji: string): void {
+    const W = PROVIDER_PIN_SIZE;
+    const cx = W / 2, cy = W / 2;
+    const r = W / 2 - 2;
+    const badgeR = Math.round(W * 0.15);
+    const bx = Math.round(cx + r * Math.cos(Math.PI / 4));
+    const by = Math.round(cy + r * Math.sin(Math.PI / 4));
+
+    const pc = pin.getContext('2d')!;
+    pc.save();
+    pc.shadowColor = 'rgba(0,0,0,0.18)';
+    pc.shadowBlur = 4;
+    pc.shadowOffsetY = 1;
+    pc.beginPath();
+    pc.arc(bx, by, badgeR, 0, Math.PI * 2);
+    pc.fillStyle = '#fff';
+    pc.fill();
+    pc.restore();
+
+    pc.font = `${Math.round(W * 0.18)}px serif`;
+    pc.textAlign = 'center';
+    pc.textBaseline = 'middle';
+    pc.fillText(emoji, bx, by + 1);
   }
 
   private fillRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number): void {

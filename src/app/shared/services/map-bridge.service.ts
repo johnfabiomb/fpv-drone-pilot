@@ -43,8 +43,18 @@ export class MapBridgeService {
 
   // ── Nav interstitial ───────────────────────────────────────
   readonly pendingNavUrl         = signal<string | null>(null);
-  readonly navDuration           = signal(3);
+  readonly navDuration           = signal(6);
   readonly interstitialProviders = signal<Provider[]>([]);
+  /** Set when Book Now triggers the interstitial — shows coupon instead of ads. */
+  readonly interstitialProvider  = signal<Provider | null>(null);
+  /** "Near you" when fallback GPS providers are shown; null for spot-based ads. */
+  readonly interstitialLabel     = signal<string | null>(null);
+
+  clearInterstitial(): void {
+    this.pendingNavUrl.set(null);
+    this.interstitialProvider.set(null);
+    this.interstitialLabel.set(null);
+  }
 
   // ── Events: map → panels ───────────────────────────────────
   readonly locationSelected$    = new Subject<Location | null>();

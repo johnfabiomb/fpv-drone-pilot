@@ -314,6 +314,17 @@ button span {
   flex: 1;
   min-height: 0;
 }
+@keyframes panel-allow-interaction {
+  to {
+    pointer-events: auto;
+  }
+}
+@media (hover: none) {
+  .map-layout__panel:not(.panel--hidden) {
+    pointer-events: none;
+    animation: panel-allow-interaction 0s 350ms forwards;
+  }
+}
 @media (max-width: 768px) {
   .map-layout__main {
     flex-direction: column;
