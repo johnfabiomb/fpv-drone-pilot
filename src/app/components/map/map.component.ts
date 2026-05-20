@@ -21,6 +21,7 @@ import { AnalyticsService } from '../../shared/services/analytics.service';
 import { Location, MapPoint, Provider } from '../../shared/models';
 import { matchesFilter, FilterId } from '../../shared/utils/location-filter.util';
 import { resolveProviderColor } from '../../shared/utils/provider.utils';
+import { FEATURES } from '../../feature-flags';
 
 const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
@@ -64,7 +65,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   @Input() set providerPins(providers: Provider[]) {
     this._providerPins = providers ?? [];
-    if (this.map) this.rebuildProviderLayer();
+    if (this.map && FEATURES.PROMOTIONS) this.rebuildProviderLayer();
   }
   private _providerPins: Provider[] = [];
 
@@ -466,7 +467,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       zIndex: 5,
     });
     this.map.addLayer(this.providerLayer);
-    if (this._providerPins.length) this.rebuildProviderLayer();
+    if (this._providerPins.length && FEATURES.PROMOTIONS) this.rebuildProviderLayer();
   }
 
   private rebuildProviderLayer(): void {

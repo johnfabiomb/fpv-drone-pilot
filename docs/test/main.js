@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-7SNEOKWC.js";
+} from "./chunk-VDWQJPGC.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -94,7 +94,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-YLENLONF.js").then((m) => m.MaltaShellComponent),
+        loadComponent: () => import("./chunk-PGS75QEG.js").then((m) => m.MaltaShellComponent),
         children: [
           {
             path: "",

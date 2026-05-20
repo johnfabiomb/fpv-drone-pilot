@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-7SNEOKWC.js";
+} from "./chunk-VDWQJPGC.js";
 import {
   AnalyticsService
 } from "./chunk-ULAG47SB.js";
@@ -26369,7 +26369,7 @@ var MapComponent = class _MapComponent {
   }
   set providerPins(providers) {
     this._providerPins = providers ?? [];
-    if (this.map)
+    if (this.map && FEATURES.PROMOTIONS)
       this.rebuildProviderLayer();
   }
   set activeFilters(filters) {
@@ -26699,7 +26699,7 @@ var MapComponent = class _MapComponent {
       zIndex: 5
     });
     this.map.addLayer(this.providerLayer);
-    if (this._providerPins.length)
+    if (this._providerPins.length && FEATURES.PROMOTIONS)
       this.rebuildProviderLayer();
   }
   rebuildProviderLayer() {
@@ -27108,7 +27108,7 @@ var MapComponent = class _MapComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapComponent, { className: "MapComponent", filePath: "src/app/components/map/map.component.ts", lineNumber: 37 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapComponent, { className: "MapComponent", filePath: "src/app/components/map/map.component.ts", lineNumber: 38 });
 })();
 
 // src/app/components/nav-interstitial/nav-interstitial.component.ts
@@ -27623,4 +27623,4 @@ var MaltaShellComponent = class _MaltaShellComponent {
 export {
   MaltaShellComponent
 };
-//# sourceMappingURL=chunk-YLENLONF.js.map
+//# sourceMappingURL=chunk-PGS75QEG.js.map
