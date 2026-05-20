@@ -429,6 +429,8 @@ Map controls (compass, zoom, locate) are styled globally in `styles.scss` under 
 
 Never run `git commit` or `git push` without explicit user instruction.
 
+**Before every commit, update `CHANGELOG.md` first** — stage it as part of the same commit. Add a new entry under `## Unreleased` (or a dated version heading if this is a release). Keep entries concise: one line per meaningful change, grouped under `### Added`, `### Fixed`, or `### Changed`. Do not wait to be asked.
+
 ---
 
 ## Before Coding
