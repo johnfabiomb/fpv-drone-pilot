@@ -1,0 +1,163 @@
+import {
+  haversineKm
+} from "./chunk-6PGXQTC4.js";
+import {
+  PanelShellComponent
+} from "./chunk-GJMHF26H.js";
+import {
+  ProviderCardComponent
+} from "./chunk-WOL5AX63.js";
+import "./chunk-SDJE6DGY.js";
+import {
+  providers
+} from "./chunk-IVYH72XF.js";
+import {
+  SeoService
+} from "./chunk-F2GHIGMZ.js";
+import {
+  MapBridgeService
+} from "./chunk-CCG6WL3X.js";
+import {
+  takeUntilDestroyed
+} from "./chunk-B3UEKMO4.js";
+import {
+  Router
+} from "./chunk-SFYN2BWV.js";
+import {
+  CommonModule,
+  NgForOf,
+  isPlatformBrowser
+} from "./chunk-CF7WNDG7.js";
+import {
+  DestroyRef,
+  PLATFORM_ID,
+  computed,
+  inject,
+  signal,
+  ɵsetClassDebugInfo,
+  ɵɵadvance,
+  ɵɵdefineComponent,
+  ɵɵelementEnd,
+  ɵɵelementStart,
+  ɵɵgetCurrentView,
+  ɵɵlistener,
+  ɵɵnextContext,
+  ɵɵproperty,
+  ɵɵresetView,
+  ɵɵrestoreView,
+  ɵɵtemplate,
+  ɵɵtext
+} from "./chunk-27FBVOOC.js";
+
+// src/app/platform/deals/deals.component.ts
+function DealsComponent_app_provider_card_5_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-provider-card", 5);
+    \u0275\u0275listener("selected", function DealsComponent_app_provider_card_5_Template_app_provider_card_selected_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.openProvider($event));
+    });
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const p_r3 = ctx.$implicit;
+    \u0275\u0275property("provider", p_r3);
+  }
+}
+var DealsComponent = class _DealsComponent {
+  constructor() {
+    this.userLat = signal(null);
+    this.userLon = signal(null);
+    this.mapProviders = providers.filter((p) => p.showOnMap && p.lat && p.lon);
+    this.sortedProviders = computed(() => {
+      const lat = this.userLat();
+      const lon = this.userLon();
+      const all = providers;
+      if (lat === null || lon === null)
+        return all;
+      return [...all].sort((a, b) => {
+        const da = a.lat && a.lon ? haversineKm(lat, lon, a.lat, a.lon) : Infinity;
+        const db = b.lat && b.lon ? haversineKm(lat, lon, b.lat, b.lon) : Infinity;
+        return da - db;
+      });
+    });
+    this.platformId = inject(PLATFORM_ID);
+    this.destroyRef = inject(DestroyRef);
+    this.router = inject(Router);
+    this.seo = inject(SeoService);
+    this.bridge = inject(MapBridgeService);
+  }
+  ngOnInit() {
+    this.seo.setPage("deals");
+    if (!isPlatformBrowser(this.platformId))
+      return;
+    this.bridge.enterPanelMode(this.mapProviders, { label: "Back to map" });
+    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((p) => this.openProvider(p));
+    this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loc) => {
+      if (loc)
+        this.router.navigate(["/malta/locations", loc.slug]);
+    });
+    this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.router.navigate(["/malta"]));
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        this.userLat.set(pos.coords.latitude);
+        this.userLon.set(pos.coords.longitude);
+      }, () => {
+      }, { maximumAge: 6e4, timeout: 1e4 });
+    }
+  }
+  openProvider(provider) {
+    this.router.navigate(["/malta/providers", provider.id]);
+  }
+  onPanelCloseRequested() {
+    this.router.navigate(["/malta"]);
+  }
+  static {
+    this.\u0275fac = function DealsComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _DealsComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DealsComponent, selectors: [["app-deals"]], decls: 6, vars: 2, consts: [["title", "Exclusive Deals", 3, "closeRequested", "dragStart", "dragMove", "dragEnd", "toggleCollapse", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "minimized"], [1, "deals-list"], [1, "deals-intro"], [1, "deals-intro__text"], [3, "provider", "selected", 4, "ngFor", "ngForOf"], [3, "selected", "provider"]], template: function DealsComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "app-panel-shell", 0);
+        \u0275\u0275listener("closeRequested", function DealsComponent_Template_app_panel_shell_closeRequested_0_listener() {
+          return ctx.onPanelCloseRequested();
+        })("dragStart", function DealsComponent_Template_app_panel_shell_dragStart_0_listener($event) {
+          return ctx.bridge.panel.onDragStart($event);
+        })("dragMove", function DealsComponent_Template_app_panel_shell_dragMove_0_listener($event) {
+          return ctx.bridge.panel.onDragMove($event);
+        })("dragEnd", function DealsComponent_Template_app_panel_shell_dragEnd_0_listener($event) {
+          return ctx.bridge.panel.onDragEnd($event);
+        })("toggleCollapse", function DealsComponent_Template_app_panel_shell_toggleCollapse_0_listener() {
+          return ctx.bridge.toggleMinimize();
+        })("bodyDragStart", function DealsComponent_Template_app_panel_shell_bodyDragStart_0_listener($event) {
+          return ctx.bridge.panel.startDrag($event);
+        })("bodyDragMove", function DealsComponent_Template_app_panel_shell_bodyDragMove_0_listener($event) {
+          return ctx.bridge.panel.onDragMove($event);
+        })("bodyDragEnd", function DealsComponent_Template_app_panel_shell_bodyDragEnd_0_listener($event) {
+          return ctx.bridge.panel.onDragEnd($event);
+        });
+        \u0275\u0275elementStart(1, "div", 1)(2, "div", 2)(3, "p", 3);
+        \u0275\u0275text(4, "Exclusive discounts from local partners \u2014 tap a card or a pin on the map to claim your deal.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(5, DealsComponent_app_provider_card_5_Template, 1, 1, "app-provider-card", 4);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        \u0275\u0275property("minimized", ctx.bridge.panel.minimized());
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngForOf", ctx.sortedProviders());
+      }
+    }, dependencies: [CommonModule, NgForOf, PanelShellComponent, ProviderCardComponent], styles: ["\n\n.deals-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding: 16px 16px 40px;\n}\n.deals-intro[_ngcontent-%COMP%] {\n  padding: 4px 0 6px;\n}\n.deals-intro__text[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n}\n/*# sourceMappingURL=deals.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DealsComponent, { className: "DealsComponent", filePath: "src/app/platform/deals/deals.component.ts", lineNumber: 20 });
+})();
+export {
+  DealsComponent
+};
+//# sourceMappingURL=chunk-PAIMWHYX.js.map
