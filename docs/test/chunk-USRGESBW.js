@@ -15,10 +15,10 @@ import {
 } from "./chunk-D7BDNDUA.js";
 import {
   MapBridgeService
-} from "./chunk-ILJ422VP.js";
+} from "./chunk-65XKKIIG.js";
 import {
   locations
-} from "./chunk-Q6O7N4JA.js";
+} from "./chunk-GALMKVIV.js";
 import {
   takeUntilDestroyed,
   toSignal
@@ -26009,7 +26009,7 @@ var getCoordinatesfromPixel = (arr) => toLonLat(arr);
 var createView = (center, zoom) => new View_default({
   center,
   zoom,
-  maxZoom: 17
+  maxZoom: 20
 });
 var createMap = (center, zoom, target) => new Map_default2({
   target,
@@ -26348,6 +26348,7 @@ var MapComponent = class _MapComponent {
     this.absoluteHandler = null;
     this.relativeHandler = null;
     this._selectedLocation = null;
+    this.pendingFitPoint = null;
     this.isRotated = false;
     this._providerPins = [];
     this.locationSelected = new EventEmitter();
@@ -26373,6 +26374,9 @@ var MapComponent = class _MapComponent {
   }
   get selectedLocation() {
     return this._selectedLocation;
+  }
+  set fitPoint(p) {
+    this.pendingFitPoint = p;
   }
   set providerPins(providers) {
     this._providerPins = providers ?? [];
@@ -26927,6 +26931,12 @@ var MapComponent = class _MapComponent {
   refitRoute() {
     if (!this.currentLocation)
       return;
+    if (this.pendingFitPoint) {
+      const p = this.pendingFitPoint;
+      this.pendingFitPoint = null;
+      this.fitRouteAndPoint(p.lat, p.lon);
+      return;
+    }
     if (this.hasRouteFeatures) {
       this.map.getView().fit(this.routeSource.getExtent(), {
         padding: [70, 40, 50, 40],
@@ -26936,6 +26946,20 @@ var MapComponent = class _MapComponent {
     } else {
       const flatCoords = this.getLocationMapCoordinates(this.currentLocation);
       this.map.getView().animate({ center: flatCoords, zoom: 14, duration: 450 });
+    }
+  }
+  fitRouteAndPoint(lat, lon) {
+    const providerCoord = fromLonLat([lon, lat]);
+    if (this.hasRouteFeatures) {
+      const re = this.routeSource.getExtent();
+      const extent = boundingExtent([[re[0], re[1]], [re[2], re[3]], providerCoord]);
+      this.map.getView().fit(extent, { padding: [80, 40, 80, 40], duration: 600, maxZoom: 15 });
+    } else if (this.currentLocation) {
+      const locCoord = fromLonLat([this.currentLocation.lon, this.currentLocation.lat]);
+      const extent = boundingExtent([locCoord, providerCoord]);
+      this.map.getView().fit(extent, { padding: [80, 80, 80, 80], maxZoom: 15, duration: 600 });
+    } else {
+      this.map.getView().animate({ center: providerCoord, zoom: 14, duration: 450 });
     }
   }
   // ── GPS location layer ────────────────────────────────────
@@ -27061,7 +27085,7 @@ var MapComponent = class _MapComponent {
       if (rf & 2) {
         \u0275\u0275classProp("map-rotated", ctx.isRotated);
       }
-    }, inputs: { selectedLocation: "selectedLocation", providerPins: "providerPins", activeFilters: "activeFilters" }, outputs: { locationSelected: "locationSelected", mapTapped: "mapTapped", gpsCoord: "gpsCoord", providerPinSelected: "providerPinSelected" }, decls: 6, vars: 5, consts: [["id", "ol-map", 1, "map-container"], ["title", "Compass mode", 1, "compass-btn", 3, "click"], [1, "fa", "fa-compass"], ["title", "My location", 1, "locate-btn", 3, "click"], [1, "fa", "fa-location-arrow"], ["class", "location-toast", 4, "ngIf"], [1, "location-toast"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["cx", "12", "cy", "12", "r", "10"], ["x1", "12", "y1", "8", "x2", "12", "y2", "12"], ["x1", "12", "y1", "16", "x2", "12.01", "y2", "16"]], template: function MapComponent_Template(rf, ctx) {
+    }, inputs: { selectedLocation: "selectedLocation", fitPoint: "fitPoint", providerPins: "providerPins", activeFilters: "activeFilters" }, outputs: { locationSelected: "locationSelected", mapTapped: "mapTapped", gpsCoord: "gpsCoord", providerPinSelected: "providerPinSelected" }, decls: 6, vars: 5, consts: [["id", "ol-map", 1, "map-container"], ["title", "Compass mode", 1, "compass-btn", 3, "click"], [1, "fa", "fa-compass"], ["title", "My location", 1, "locate-btn", 3, "click"], [1, "fa", "fa-location-arrow"], ["class", "location-toast", 4, "ngIf"], [1, "location-toast"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["cx", "12", "cy", "12", "r", "10"], ["x1", "12", "y1", "8", "x2", "12", "y2", "12"], ["x1", "12", "y1", "16", "x2", "12.01", "y2", "16"]], template: function MapComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "div", 0)(1, "button", 1);
         \u0275\u0275listener("click", function MapComponent_Template_button_click_1_listener() {
@@ -27549,7 +27573,7 @@ var MapShellComponent = class _MapShellComponent {
           return ctx.onOffline();
         }, false, \u0275\u0275resolveWindow);
       }
-    }, features: [\u0275\u0275ProvidersFeature([MapBridgeService])], decls: 15, vars: 11, consts: [["mapComp", ""], ["panelWrap", ""], [3, "url", "duration", "buttonLabel", "openNewTab", "closed", 4, "ngIf"], [1, "map-layout"], [1, "map-layout__main"], [1, "map-layout__map"], [3, "filterChange", 4, "ngIf"], [3, "locationSelected", "providerPinSelected", "mapTapped", "gpsCoord", "activeFilters", "providerPins", "selectedLocation"], ["class", "floating-back-btn", 3, "floating-back-btn--accent", "click", 4, "ngIf"], ["class", "show-panel-btn", 3, "show-panel-btn--primary", "click", 4, "ngIf"], ["class", "offline-pill", 4, "ngIf"], [1, "map-layout__panel"], ["class", "collapse-btn", "title", "Fullscreen map", 3, "click", 4, "ngIf"], [3, "closed", "url", "duration", "buttonLabel", "openNewTab"], ["slot-top", "", 4, "ngIf"], ["slot-bottom", "", 3, "provider", "selected", 4, "ngIf"], ["slot-top", ""], [3, "provider"], ["class", "interstitial-near-label", 4, "ngIf"], [3, "selected", "provider"], [1, "interstitial-near-label"], ["slot-bottom", "", 3, "selected", "provider"], [3, "filterChange"], [1, "floating-back-btn", 3, "click"], [1, "fa", "fa-chevron-left"], [1, "show-panel-btn", 3, "click"], [1, "fa", 3, "ngClass"], [1, "offline-pill"], [1, "offline-dot"], ["title", "Fullscreen map", 1, "collapse-btn", 3, "click"], [1, "fa", "fa-chevron-right"]], template: function MapShellComponent_Template(rf, ctx) {
+    }, features: [\u0275\u0275ProvidersFeature([MapBridgeService])], decls: 15, vars: 12, consts: [["mapComp", ""], ["panelWrap", ""], [3, "url", "duration", "buttonLabel", "openNewTab", "closed", 4, "ngIf"], [1, "map-layout"], [1, "map-layout__main"], [1, "map-layout__map"], [3, "filterChange", 4, "ngIf"], [3, "locationSelected", "providerPinSelected", "mapTapped", "gpsCoord", "activeFilters", "providerPins", "selectedLocation", "fitPoint"], ["class", "floating-back-btn", 3, "floating-back-btn--accent", "click", 4, "ngIf"], ["class", "show-panel-btn", 3, "show-panel-btn--primary", "click", 4, "ngIf"], ["class", "offline-pill", 4, "ngIf"], [1, "map-layout__panel"], ["class", "collapse-btn", "title", "Fullscreen map", 3, "click", 4, "ngIf"], [3, "closed", "url", "duration", "buttonLabel", "openNewTab"], ["slot-top", "", 4, "ngIf"], ["slot-bottom", "", 3, "provider", "selected", 4, "ngIf"], ["slot-top", ""], [3, "provider"], ["class", "interstitial-near-label", 4, "ngIf"], [3, "selected", "provider"], [1, "interstitial-near-label"], ["slot-bottom", "", 3, "selected", "provider"], [3, "filterChange"], [1, "floating-back-btn", 3, "click"], [1, "fa", "fa-chevron-left"], [1, "show-panel-btn", 3, "click"], [1, "fa", 3, "ngClass"], [1, "offline-pill"], [1, "offline-dot"], ["title", "Fullscreen map", 1, "collapse-btn", 3, "click"], [1, "fa", "fa-chevron-right"]], template: function MapShellComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
         \u0275\u0275template(0, MapShellComponent_app_nav_interstitial_0_Template, 4, 7, "app-nav-interstitial", 2);
@@ -27584,7 +27608,7 @@ var MapShellComponent = class _MapShellComponent {
         \u0275\u0275advance(4);
         \u0275\u0275property("ngIf", ctx.bridge.showFilterBar());
         \u0275\u0275advance();
-        \u0275\u0275property("activeFilters", ctx.bridge.filters())("providerPins", ctx.bridge.providerPins())("selectedLocation", ctx.bridge.selectedLocation());
+        \u0275\u0275property("activeFilters", ctx.bridge.filters())("providerPins", ctx.bridge.providerPins())("selectedLocation", ctx.bridge.selectedLocation())("fitPoint", ctx.bridge.fitPoint());
         \u0275\u0275advance(2);
         \u0275\u0275property("ngIf", ctx.bridge.floatingBackBtn());
         \u0275\u0275advance();
@@ -27605,4 +27629,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-RGZ5F7A6.js.map
+//# sourceMappingURL=chunk-USRGESBW.js.map

@@ -19,15 +19,10 @@ var NavigationService = class _NavigationService {
    */
   back(params) {
     const backTo = params.get("backTo");
-    const fromLocation = params.get("fromLocation");
-    if (fromLocation) {
-      this.router.navigate(["/malta/locations", fromLocation]);
-    } else if (backTo === "30-places-2026") {
+    if (backTo === "30-places-2026") {
       this.router.navigate(["/malta/30-places-2026"]);
     } else if (backTo === "list") {
       this.router.navigate(["/malta/list"]);
-    } else if (backTo === "deals") {
-      this.router.navigate(["/malta/deals"]);
     } else if ((window.history.state?.navigationId ?? 1) > 1) {
       this.location.back();
     } else {
@@ -47,4 +42,4 @@ var NavigationService = class _NavigationService {
 export {
   NavigationService
 };
-//# sourceMappingURL=chunk-2MPAASUZ.js.map
+//# sourceMappingURL=chunk-ISH7656P.js.map

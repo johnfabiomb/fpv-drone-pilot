@@ -162,6 +162,7 @@ var MapBridgeService = class _MapBridgeService {
     this.filters = signal([]);
     this.providerPins = signal([]);
     this.selectedLocation = signal(null);
+    this.fitPoint = signal(null);
     this.showFilterBar = signal(false);
     this.panelOpen = signal(false);
     this.mapOnly = signal(false);
@@ -227,6 +228,7 @@ var MapBridgeService = class _MapBridgeService {
   enterExploreMode(providerPins, backBtn = null) {
     this.filters.set([]);
     this.selectedLocation.set(null);
+    this.fitPoint.set(null);
     this.showFilterBar.set(true);
     this.providerPins.set(providerPins);
     this.panelOpen.set(false);
@@ -238,6 +240,7 @@ var MapBridgeService = class _MapBridgeService {
   enterLocationMode(location, backBtn = null) {
     this.filters.set([]);
     this.selectedLocation.set(location);
+    this.fitPoint.set(null);
     this.showFilterBar.set(false);
     this.panelOpen.set(true);
     this.mapOnly.set(false);
@@ -246,10 +249,12 @@ var MapBridgeService = class _MapBridgeService {
     this.panel.expand();
   }
   /** /malta/list, /malta/deals, /malta/providers/:id — panel open, map shows all pins.
-   *  Pass `location` to keep a location route visible on the map (e.g. provider opened from a location). */
-  enterPanelMode(providerPins, backBtn = null, location = null) {
+   *  Pass `location` to keep a location route visible on the map.
+   *  Pass `fitPoint` to fit the view to the route + a specific coordinate (e.g. provider pin). */
+  enterPanelMode(providerPins, backBtn = null, location = null, fitPoint = null) {
     this.filters.set([]);
     this.selectedLocation.set(location);
+    this.fitPoint.set(fitPoint);
     this.showFilterBar.set(false);
     this.providerPins.set(providerPins);
     this.panelOpen.set(true);
@@ -277,4 +282,4 @@ var MapBridgeService = class _MapBridgeService {
 export {
   MapBridgeService
 };
-//# sourceMappingURL=chunk-ILJ422VP.js.map
+//# sourceMappingURL=chunk-65XKKIIG.js.map

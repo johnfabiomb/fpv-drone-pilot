@@ -21,7 +21,7 @@ import {
 } from "./chunk-D7BDNDUA.js";
 import {
   NavigationService
-} from "./chunk-2MPAASUZ.js";
+} from "./chunk-ISH7656P.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -30,10 +30,10 @@ import {
 } from "./chunk-NO2KK3DI.js";
 import {
   MapBridgeService
-} from "./chunk-ILJ422VP.js";
+} from "./chunk-65XKKIIG.js";
 import {
   locations
-} from "./chunk-Q6O7N4JA.js";
+} from "./chunk-GALMKVIV.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -685,7 +685,7 @@ var LocationPageComponent = class _LocationPageComponent {
       this.bridge.interstitialLabel.set(null);
     }
     this.bridge.navDuration.set(6);
-    this.bridge.providerPins.set(nearSpot.filter((p) => p.lat && p.lon));
+    this.bridge.providerPins.set(all.filter((p) => p.showOnMap && p.lat && p.lon));
   }
   static {
     this.\u0275fac = function LocationPageComponent_Factory(__ngFactoryType__) {
@@ -731,4 +731,4 @@ var LocationPageComponent = class _LocationPageComponent {
 export {
   LocationPageComponent
 };
-//# sourceMappingURL=chunk-PLJO43JK.js.map
+//# sourceMappingURL=chunk-W74T5YAB.js.map

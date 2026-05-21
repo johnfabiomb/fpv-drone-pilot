@@ -10,7 +10,7 @@ import {
 import "./chunk-FOYJGHDM.js";
 import {
   NavigationService
-} from "./chunk-2MPAASUZ.js";
+} from "./chunk-ISH7656P.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -19,7 +19,7 @@ import {
 } from "./chunk-NO2KK3DI.js";
 import {
   MapBridgeService
-} from "./chunk-ILJ422VP.js";
+} from "./chunk-65XKKIIG.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -116,7 +116,7 @@ var DealsComponent = class _DealsComponent {
     }
   }
   openProvider(provider) {
-    this.router.navigate(["/malta/providers", provider.id], { queryParams: { backTo: "deals" } });
+    this.router.navigate(["/malta/providers", provider.id]);
   }
   onPanelCloseRequested() {
     this.navigateBack();
@@ -167,4 +167,4 @@ var DealsComponent = class _DealsComponent {
 export {
   DealsComponent
 };
-//# sourceMappingURL=chunk-S2SW57I2.js.map
+//# sourceMappingURL=chunk-FGV7A26O.js.map

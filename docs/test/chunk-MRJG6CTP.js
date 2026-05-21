@@ -12,7 +12,7 @@ import {
 } from "./chunk-FOYJGHDM.js";
 import {
   NavigationService
-} from "./chunk-2MPAASUZ.js";
+} from "./chunk-ISH7656P.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -21,10 +21,10 @@ import {
 } from "./chunk-NO2KK3DI.js";
 import {
   MapBridgeService
-} from "./chunk-ILJ422VP.js";
+} from "./chunk-65XKKIIG.js";
 import {
   locations
-} from "./chunk-Q6O7N4JA.js";
+} from "./chunk-GALMKVIV.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -377,10 +377,11 @@ var ProviderPageComponent = class _ProviderPageComponent {
     this.seo.setProviderPage(this.provider);
     if (!isPlatformBrowser(this.platformId))
       return;
+    const fromLocationSlug = this.route.snapshot.queryParamMap.get("fromLocation");
+    const fromLoc = fromLocationSlug ? locations.find((l) => l.slug === fromLocationSlug) ?? null : null;
+    const fitPoint = fromLoc && this.provider.lat && this.provider.lon ? { lat: this.provider.lat, lon: this.provider.lon } : null;
     const mapProviders = providers.filter((p) => p.showOnMap && p.lat && p.lon);
-    const fromSlug = this.route.snapshot.queryParamMap.get("fromLocation");
-    const fromLocation = fromSlug ? locations.find((l) => l.slug === fromSlug) ?? null : null;
-    this.bridge.enterPanelMode(mapProviders, { label: "Back" }, fromLocation);
+    this.bridge.enterPanelMode(mapProviders, { label: "Back" }, fromLoc, fitPoint);
     this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.goBack());
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loc) => {
       if (loc)
@@ -438,4 +439,4 @@ var ProviderPageComponent = class _ProviderPageComponent {
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-TJZNGJJQ.js.map
+//# sourceMappingURL=chunk-MRJG6CTP.js.map
