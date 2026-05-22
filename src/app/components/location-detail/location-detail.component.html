@@ -55,20 +55,52 @@
 
   <hr class="divider">
 
-  <div *ngIf="visibleMapPoints().length" class="nav-section">
-    <div *ngIf="hasRecordedRoute()" class="route-alert">
+  <!-- All-routes mode: show one direction section per route -->
+  <ng-container *ngIf="activeRouteIndex < 0 && (location?.routes?.length ?? 0) >= 2; else singleRouteNav">
+    <div *ngIf="anyRouteHasRecordedRoute()" class="route-alert">
       <i class="fa fa-map"></i>
-      Follow the route on the map above — Google Maps may take a different path.
+      Follow the routes on the map above — Google Maps may take different paths.
     </div>
-    <div class="nav-section__label">Google Maps directions</div>
-    <div
-      *ngFor="let point of visibleMapPoints(); let i = index"
-      (click)="navigateTo(point, i)"
-      class="button nav-btn">
-      <span>{{ pointLabel(point, i) }}</span>
-      <span class="nav-btn__hint">Opens Google Maps</span>
+    <ng-container *ngFor="let group of allRoutesVisiblePoints()">
+      <div *ngIf="group.points.length" class="nav-section">
+        <div class="nav-section__label">
+          <ng-container *ngIf="group.route.emoji">{{ group.route.emoji }}&nbsp;</ng-container>{{ group.route.label }} — directions
+        </div>
+        <div
+          *ngFor="let point of group.points; let i = index"
+          (click)="navigateTo(point, i, group.points)"
+          class="button nav-btn">
+          <span>{{ pointLabel(point, i) }}</span>
+          <span class="nav-btn__hint">Opens Google Maps</span>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="sharedRouteDestination() as dest" class="nav-section">
+      <div class="nav-section__label">📍 Final destination</div>
+      <div (click)="navigateTo(dest, 0)" class="button nav-btn">
+        <span>{{ pointLabel(dest, 1) }}</span>
+        <span class="nav-btn__hint">Opens Google Maps</span>
+      </div>
     </div>
-  </div>
+  </ng-container>
+
+  <!-- Single-route mode (or locations with only one route / no routes) -->
+  <ng-template #singleRouteNav>
+    <div *ngIf="visibleMapPoints().length" class="nav-section">
+      <div *ngIf="hasRecordedRoute()" class="route-alert">
+        <i class="fa fa-map"></i>
+        Follow the route on the map above — Google Maps may take a different path.
+      </div>
+      <div class="nav-section__label">Google Maps directions</div>
+      <div
+        *ngFor="let point of visibleMapPoints(); let i = index"
+        (click)="navigateTo(point, i)"
+        class="button nav-btn">
+        <span>{{ pointLabel(point, i) }}</span>
+        <span class="nav-btn__hint">Opens Google Maps</span>
+      </div>
+    </div>
+  </ng-template>
 </div>
 
 <div class="closest-section" *ngIf="closestLocations.length">

@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-SVA277TD.js";
+} from "./chunk-J46PF5WP.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -93,7 +93,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-E57MARBW.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-WLPSB5XD.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -114,7 +114,7 @@ var routes = [
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-X6I3DIFT.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-XLZWJ47N.js").then((m) => m.LocationPageComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),

@@ -5,7 +5,7 @@ import { ImageGalleryComponent } from '../image-gallery/image-gallery.component'
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
 import { AnalyticsService } from '../../shared/services/analytics.service';
-import { Location, Provider, MapPoint } from '../../shared/models';
+import { Location, Provider, MapPoint, Route } from '../../shared/models';
 import { haversineM } from '../../shared/utils/geo.utils';
 import { getProvidersNearLocation } from '../../shared/utils/provider-utils';
 import { getIsland } from '../../shared/utils/location-filter.util';
@@ -141,8 +141,31 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
     );
   }
 
-  navigateTo(point: MapPoint, index: number): void {
-    const visible = this.visibleMapPoints();
+  allRoutesVisiblePoints(): { route: Route; points: MapPoint[] }[] {
+    const loc = this.location;
+    if (!loc?.routes || loc.routes.length < 2) return [];
+    return loc.routes
+      .map(route => ({
+        route,
+        points: route.mapPoints.filter(p =>
+          p.type !== 'waypoint' && p.type !== 'destination' && p.showButton !== false
+        ),
+      }))
+      .filter(r => r.points.length > 0);
+  }
+
+  sharedRouteDestination(): MapPoint | null {
+    const routes = this.location?.routes;
+    if (!routes || routes.length < 2) return null;
+    return routes[0].mapPoints.find(p => p.type === 'destination' && p.showButton !== false) ?? null;
+  }
+
+  anyRouteHasRecordedRoute(): boolean {
+    return (this.location?.routes ?? []).some(r => r.mapPoints.some(p => p.type === 'waypoint'));
+  }
+
+  navigateTo(point: MapPoint, index: number, pointsOverride?: MapPoint[]): void {
+    const visible = pointsOverride ?? this.visibleMapPoints();
     const prev = index > 0 ? visible[index - 1] : null;
     const mode = point.type === 'parking' ? 'driving' : 'walking';
     let url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lon}&travelmode=${mode}`;
@@ -154,7 +177,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   pointLabel(point: MapPoint, index: number): string {
     const isOnly = index === 0;
     switch (point.type) {
-      case 'parking':     return '🚗 Drive to Parking';
+      case 'parking':     return '🚗 Drive to ' + (point.label ?? 'Parking');
       case 'checkpoint':  return '🚶 Walk to ' + (point.label ?? 'Checkpoint');
       case 'destination': return isOnly ? '🗺️ Get Directions' : '🚶 Walk to ' + (point.label ?? 'Final Destination');
       default:            return '📍 ' + (point.label ?? 'Get Directions');
