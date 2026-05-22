@@ -112,16 +112,16 @@ The `.chip` base is global. `filter-bar.component.scss` overrides sizing for the
 
 ## Page Layout Patterns
 
-### Map + Panel page (malta-map, coupons, location-list)
+### Map + Panel page (map-explore, coupons, location-list)
 
-These three routes share a **persistent map** via `MaltaShellComponent`. The shell owns the single `<app-map>` instance and a `<router-outlet>` whose child component is swapped without reloading the map.
+These three routes share a **persistent map** via `MapShellComponent`. The shell owns the single `<app-map>` instance and a `<router-outlet>` whose child component is swapped without reloading the map.
 
 **Architecture:**
 ```
-MaltaShellComponent  (path: '' under /malta)
+MapShellComponent  (path: '' under /malta)
   ├── <app-map>         ← single persistent instance, never destroyed on sub-nav
   └── <router-outlet>
-        ├── MaltaMapComponent    (path: '', pathMatch: full)
+        ├── MapExploreComponent  (path: '', pathMatch: full)
         ├── LocationListComponent (path: 'list')
         └── DealsComponent       (path: 'deals')
 ```
@@ -129,7 +129,7 @@ MaltaShellComponent  (path: '' under /malta)
 Non-map routes (`/malta/30-places-2026`, `/malta/plan`) are direct siblings of the shell — **not** children.
 
 **Communication via `MapBridgeService`** (`src/app/shared/services/map-bridge.service.ts`):
-- Provided in `MaltaShellComponent` (scoped, not root)
+- Provided in `MapShellComponent` (scoped, not root)
 - Child components inject the bridge to configure map inputs (`filters`, `providerPins`, `selectedLocation`) and UI state (`showFilterBar`, `panelOpen`, `mapOnly`, `floatingBackBtn`)
 - Map events flow to children via Subjects: `locationSelected$`, `providerPinSelected$`, `gpsCoord$`
 - Children emit via: `floatingBackBtnClicked$`, `scrollToTop$`, `interstitialProviderSelected$`
@@ -142,7 +142,7 @@ Non-map routes (`/malta/30-places-2026`, `/malta/plan`) are direct siblings of t
 
 **Each child configures the bridge in `ngOnInit`:**
 ```typescript
-// Example (malta-map)
+// Example (map-explore)
 this.bridge.showFilterBar.set(true);
 this.bridge.panelOpen.set(false);  // no location selected initially
 this.bridge.floatingBackBtn.set(null);
@@ -170,7 +170,7 @@ this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
 - This is standard — do not hide it on mobile in panel-shell.component.scss
 
 ### Full-screen (non-map) pages
-Pages like `trend`, `home`, `privacy` use their own root class and don't use `.map-layout`.
+Pages like `top-places`, `home`, `privacy` use their own root class and don't use `.map-layout`.
 
 ---
 
@@ -214,17 +214,14 @@ Routes are prerendered via **`prerender-routes.txt`** (project root). Every rout
 
 **Current prerendered routes:**
 ```
-/
-/malta
-/malta/list
-/malta/deals
-/malta/30-places-2026
-/pay
-/privacy
-/cookies
-/about
-/contact
-/pay/success
+/                                 (home)
+/malta                            (map explore)
+/malta/list                       (location list)
+/malta/deals                      (deals)
+/malta/30-places-2026             (top places editorial)
+/malta/providers/santa-maria-watersports
+/malta/locations/:slug            (all 64 location detail pages — see prerender-routes.txt)
+/pay, /privacy, /cookies, /about, /contact, /pay/success
 ```
 
 **Rule: every new public route must be added to `prerender-routes.txt`.**
@@ -233,7 +230,7 @@ The only exceptions are:
 - Feature-flagged routes (e.g. `/malta/plan` uses `canMatch: [() => FEATURES.ROUTE_BUILDER]`) — omit until the flag is on in production
 - Routes that should not be indexed (add `noindex` in SEO service instead, but still consider prerendering for performance)
 
-Location detail pages (`/malta?title=Blue-Grotto`) are **not** prerendered because they use query params — Angular can't prerender query param variations. They rely on client-side rendering + sitemap entries for Google discovery.
+Location detail pages use clean `/malta/locations/:slug` URLs and **are prerendered**. Each location has an explicit `slug` field in `locations.json` — do not compute slugs from titles at runtime.
 
 ---
 
@@ -251,7 +248,7 @@ When adding a new public route, do **all four** of these:
 | Page type | Priority | changefreq |
 |---|---|---|
 | Home (`/`) | 1.0 | weekly |
-| Individual locations (`/malta?title=…`) | 0.8 | daily |
+| Individual locations (`/malta/locations/:slug`) | 0.8 | daily |
 | Browse/discovery pages (`/malta`, `/malta/list`, `/malta/deals`) | 0.7 | weekly |
 | Content/editorial pages (`/malta/30-places-2026`) | 0.6 | monthly |
 | Utility pages (`/about`, `/contact`, `/privacy`, `/cookies`) | 0.4 | monthly |
@@ -259,13 +256,17 @@ When adding a new public route, do **all four** of these:
 
 ---
 
+
 ### SEO checklist — adding a new location
 
-When a new location is added to `src/assets/locations.json`:
+See **`ADDING_LOCATIONS.md`** for the full step-by-step workflow including image conversion and thumbnail generation.
 
-1. **`src/sitemap.xml`** — add a `<url>` entry: `https://johnfabiomb.com/malta?title=ENCODED-TITLE`, priority `0.8`, changefreq `daily`, lastmod today. Use `encodeURIComponent(title.replace(' ', '-'))` for the URL slug (single space → dash, rest encoded)
-2. **`location.keywords`** field in the JSON — fill in relevant keywords; `seo.service.ts` uses this for the `<meta name="keywords">` tag
-3. No changes needed to `prerender-routes.txt` — location pages are not prerendered
+SEO-specific requirements when adding to `src/assets/locations.json`:
+
+1. **`slug` field** — freeze it immediately; never change after publishing — it would break indexed URLs.
+2. **`prerender-routes.txt`** — add `/malta/locations/{slug}`
+3. **`src/sitemap.xml`** — regenerated automatically by `node scripts/generate-sitemap.js`
+4. **`location.keywords`** — used by `seo.service.ts` for `<meta name="keywords">`
 
 ---
 
@@ -281,7 +282,7 @@ analyticsService.event(name: string, params: Record<string, any>)  // fires a cu
 **Rules:**
 - Every new **page component** must fire `analyticsService.pageView(window.location.href, 'Page Title')` in `ngOnInit` (browser-only — guard with `isPlatformBrowser`)
 - Every significant **user interaction** (opening a location, navigating to a map point, clicking a CTA) should fire a named `analyticsService.event()`
-- `analyticsService` is currently wired only into `map.component.ts` (location opens) and `location-panel.component.ts` (navigation, recommendations, explore). Static pages (`/about`, `/contact`, etc.) do **not** currently fire pageView — add it if tracking those matters
+- `analyticsService` is currently wired only into `map.component.ts` (location opens) and `location-detail.component.ts` (navigation, recommendations, explore). Static pages (`/about`, `/contact`, etc.) do **not** currently fire pageView — add it if tracking those matters
 
 **Existing event names to stay consistent with:**
 - `location_view` — params: `location_title`, `location_id`, `location_tags`
@@ -343,14 +344,15 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `src/app/shared/services/route-builder.service.ts` | Itinerary plan generation logic |
 | `src/app/shared/utils/panel-resize.util.ts` | Drag-to-resize + minimize/expand logic for map panels |
 | `src/app/shared/services/map-bridge.service.ts` | Scoped bridge between persistent shell map and swappable panel children |
-| `src/app/platform/malta-shell/` | Persistent shell that owns `<app-map>` across /malta, /malta/list, /malta/deals |
+| `src/app/platform/map-shell/` | Persistent shell that owns `<app-map>` across /malta, /malta/list, /malta/deals, /malta/providers/:id |
+| `src/app/platform/provider-page/` | Provider detail page at `/malta/providers/:id` — SEO, Book Now, back navigation |
 | `src/app/shared/utils/location-filter.util.ts` | `matchesFilter()`, `getIslandLabel()`, `difficultyColor()` |
 | `src/app/shared/utils/geo.utils.ts` | `haversineKm()`, `haversineM()` distance helpers |
 | `src/app/shared/utils/route-drawing.ts` | Builds OpenLayers features from `mapPoints[]` |
 | `src/app/shared/utils/location-tracker.ts` | GPS dot + heading cone on the map |
 | `src/app/components/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
 | `src/app/components/map/` | OpenLayers map component |
-| `src/app/platform/malta-map/` | Main map page |
+| `src/app/platform/map-explore/` | Main map page |
 | `src/app/platform/deals/` | Exclusive Deals map page |
 | `src/app/platform/location-list/` | Browse Locations map page |
 | `src/assets/locations.json` | All location data |
@@ -363,10 +365,12 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 Routes are in `src/app/app.routes.ts`. All map-adjacent pages use `/malta/*`.
 
 Panel navigation must be route-based:
-- Opening a location → query param `?locationId=X`
-- Opening a provider → query param `?provider=X`
+- Opening a location → `/malta/locations/:slug` (use `location.slug` from JSON — never compute with `toLocationSlug`)
+- Opening a provider → `/malta/providers/:id`
 - Closing top-level panel → `router.navigate(['/malta'])`
 - Closing sub-panel (e.g. provider within deals) → clear state, stay on same route
+
+Old `?locationId=X` and `?title=X` query-param URLs are still handled by `MapExploreComponent` which redirects them to the canonical slug URL (`replaceUrl: true`).
 
 ---
 
@@ -376,8 +380,9 @@ Panel navigation must be route-based:
 
 | Field | Type | Notes |
 |---|---|---|
-| `id` | `number` | Unique, used in query params (`?locationId=X`) and sitemap slugs |
-| `title` | `string` | Used in `?title=` query param (encoded) |
+| `id` | `number` | Unique; supports legacy `?locationId=X` redirects |
+| `title` | `string` | Display name — changing this does NOT change the URL |
+| `slug` | `string` | URL segment used in `/malta/locations/:slug` — explicit, never computed at runtime |
 | `description` | `string` | HTML allowed — rendered with `[innerHTML]` |
 | `img` | `string` | Cover image path — preloaded by map on startup |
 | `images` | `string[]?` | Extra gallery photos — preloaded when location is selected |

@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
-    selector: 'app-home',
+  selector: 'app-home',
   standalone: true,
-    imports: [],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  imports: [],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private readonly seo = inject(SeoService);
 
+  ngOnInit(): void {
+    this.seo.setPage('map');
+  }
 }

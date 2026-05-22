@@ -6,8 +6,6 @@ import { fromLonLat } from 'ol/proj';
 
 const PIN_W = 22;
 const PIN_H = 32;
-// Circle centre is roughly (PIN_H - cy) pixels above the tip (anchor point)
-const PIN_CY = PIN_W / 2 - 1.5 + 1.5; // ≈ 11px from canvas top
 
 function makePinCanvas(color: string): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
@@ -19,13 +17,11 @@ function makePinCanvas(color: string): HTMLCanvasElement {
   const cy = r + 1.5;
   const tailAngle = Math.PI / 8;
 
-  // Drop shadow
   ctx.save();
   ctx.shadowColor   = 'rgba(0,0,0,0.22)';
   ctx.shadowBlur    = 5;
   ctx.shadowOffsetY = 2;
 
-  // Pin body (teardrop)
   ctx.beginPath();
   ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
   ctx.lineTo(cx, PIN_H - 1);
@@ -34,7 +30,6 @@ function makePinCanvas(color: string): HTMLCanvasElement {
   ctx.fill();
   ctx.restore();
 
-  // White border
   ctx.beginPath();
   ctx.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
   ctx.lineTo(cx, PIN_H - 1);
@@ -43,7 +38,6 @@ function makePinCanvas(color: string): HTMLCanvasElement {
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Inner dot
   ctx.beginPath();
   ctx.arc(cx, cy, r * 0.32, 0, Math.PI * 2);
   ctx.fillStyle = 'rgba(255,255,255,0.7)';
@@ -65,27 +59,34 @@ export function makePinStyle(color: string): Style {
   });
 }
 
+export const ROUTE_COLORS = ['#F4A922', '#22c55e', '#a855f7', '#ef4444'];
+
 /**
- * Builds all OL features needed to draw a route from a mapPoints array.
- * Returns an empty array when fewer than 2 points are provided.
- *
- * Solid line  → at least one point has type "waypoint" (path was manually recorded)
- * Dashed line → only named stops, no recorded trail coords
+ * graphics — line segments + pin icons (rendered on a non-decluttered layer, always visible)
+ * labels   — text-only features for pin names (rendered on a decluttered layer; OL auto-hides
+ *             overlapping labels while keeping all icons intact)
  */
+export interface RouteFeatures {
+  graphics: Feature[];
+  labels: Feature[];
+}
+
 export function buildRouteFeatures(
   mapPoints: MapPoint[],
-  options: { dashed?: boolean } = {}
-): Feature[] {
-  if (!mapPoints || mapPoints.length < 2) return [];
+  options: { dashed?: boolean; lineColor?: string; skipEndPin?: boolean } = {}
+): RouteFeatures {
+  if (!mapPoints || mapPoints.length < 2) return { graphics: [], labels: [] };
 
+  const color = options.lineColor ?? '#F4A922';
   const coords = mapPoints.map(p => fromLonLat([p.lon, p.lat]));
 
-  const features: Feature[] = [];
+  const graphics: Feature[] = [];
+  const labels: Feature[] = [];
 
-  // ── Lines (one feature per segment so each can be styled independently) ──
+  // ── Lines ────────────────────────────────────────────────────────────────
   for (let i = 0; i < coords.length - 1; i++) {
     const segCoords = [coords[i], coords[i + 1]];
-    const point = mapPoints[i + 1]; // destination point of this segment
+    const point = mapPoints[i + 1];
     const isDashed = point?.lineStyle === 'dashed'
       ? true
       : point?.lineStyle === 'solid'
@@ -100,67 +101,77 @@ export function buildRouteFeatures(
     const segLine = new Feature(new LineString(segCoords));
     segLine.setStyle(new Style({
       stroke: new Stroke({
-        color: '#F4A922',
+        color: color,
         width: 3,
         lineDash: isDashed ? [12, 8] : undefined,
       }),
     }));
 
-    features.push(segOutline, segLine);
+    graphics.push(segOutline, segLine);
   }
 
-  // ── Dots ──────────────────────────────────────────────────────────────────
+  // ── Dots ─────────────────────────────────────────────────────────────────
   coords.forEach((coord, i) => {
     const isFirst = i === 0;
     const isLast  = i === coords.length - 1;
-    const dot = new Feature(new Point(coord));
+
+    if (isLast && options.skipEndPin) return;
 
     if (isFirst || isLast) {
-      const label = isFirst
-        ? (mapPoints[i]?.label ?? 'Parking')
-        : (mapPoints[i]?.label ?? 'Destination');
+      const label    = isFirst ? (mapPoints[i]?.label ?? 'Parking') : (mapPoints[i]?.label ?? 'Destination');
+      const pinColor = isFirst ? '#3b82f6' : color;
+      const zIdx     = isLast ? 2 : 1;
 
-      const pinColor = isFirst ? '#3b82f6' : '#F4A922';
-      const pinCanvas = makePinCanvas(pinColor);
-
-      // Text above the pin circle for destination; to the right for parking
-      const textOffsetX =  0;
-      const textOffsetY =  -(PIN_H + 10);
-
-      dot.setStyle(new Style({
+      // Icon — always visible (non-decluttered layer)
+      const iconFeature = new Feature(new Point(coord));
+      iconFeature.setStyle(new Style({
         image: new Icon({
-          img: pinCanvas,
+          img: makePinCanvas(pinColor),
           size: [PIN_W, PIN_H],
           anchor: [0.5, 1.0],
           anchorXUnits: 'fraction',
           anchorYUnits: 'fraction',
         }),
+        zIndex: zIdx,
+      }));
+      graphics.push(iconFeature);
+
+      // Label — decluttered (OL hides it if another label is too close)
+      const labelFeature = new Feature(new Point(coord));
+      labelFeature.setStyle(new Style({
         text: new Text({
           text: label,
           font: 'bold 11px sans-serif',
           fill: new Fill({ color: '#1a1a1a' }),
           stroke: new Stroke({ color: '#ffffff', width: 3 }),
-          offsetX: textOffsetX,
-          offsetY: textOffsetY,
+          offsetX: 0,
+          offsetY: -(PIN_H + 10),
           textAlign: 'center',
           textBaseline: 'middle',
+          padding: [2, 4, 2, 4],
         }),
-        zIndex: isLast ? 2 : 1,
+        zIndex: zIdx,
       }));
+      labels.push(labelFeature);
+
     } else {
+      // Waypoint dot (no label)
+      const dot = new Feature(new Point(coord));
       dot.setStyle(new Style({
         image: new Icon({
           img: (() => {
             const c = document.createElement('canvas');
             c.width = c.height = 8;
-            const x = c.getContext('2d')!;
-            x.beginPath();
-            x.arc(4, 4, 2.5, 0, Math.PI * 2);
-            x.fillStyle = 'rgba(244,169,34,0.55)';
-            x.fill();
-            x.strokeStyle = 'rgba(255,255,255,0.7)';
-            x.lineWidth = 1;
-            x.stroke();
+            const ctx = c.getContext('2d')!;
+            ctx.beginPath();
+            ctx.arc(4, 4, 2.5, 0, Math.PI * 2);
+            ctx.globalAlpha = 0.55;
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+            ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
             return c;
           })(),
           size: [8, 8],
@@ -170,10 +181,9 @@ export function buildRouteFeatures(
         }),
         zIndex: 0,
       }));
+      graphics.push(dot);
     }
-
-    features.push(dot);
   });
 
-  return features;
+  return { graphics, labels };
 }

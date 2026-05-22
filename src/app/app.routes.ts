@@ -33,12 +33,12 @@ export const routes: Routes = [
             {
                 // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
                 path: '',
-                loadComponent: () => import('./platform/malta-shell/malta-shell.component').then(m => m.MaltaShellComponent),
+                loadComponent: () => import('./platform/map-shell/map-shell.component').then(m => m.MapShellComponent),
                 children: [
                     {
                         path: '',
                         pathMatch: 'full',
-                        loadComponent: () => import('./platform/malta-map/malta-map.component').then(mod => mod.MaltaMapComponent)
+                        loadComponent: () => import('./platform/map-explore/map-explore.component').then(mod => mod.MapExploreComponent)
                     },
                     {
                         path: 'list',
@@ -48,12 +48,20 @@ export const routes: Routes = [
                         path: 'deals',
                         loadComponent: () => import('./platform/deals/deals.component').then(m => m.DealsComponent)
                     },
+                    {
+                        path: 'providers/:id',
+                        loadComponent: () => import('./platform/provider-page/provider-page.component').then(m => m.ProviderPageComponent)
+                    },
+                    {
+                        path: 'locations/:slug',
+                        loadComponent: () => import('./platform/location-page/location-page.component').then(m => m.LocationPageComponent)
+                    },
                 ]
             },
             // Non-map routes are direct siblings — NOT inside the shell
             {
                 path: '30-places-2026',
-                loadComponent: () => import('./platform/trend/trend.component').then(m => m.TrendComponent)
+                loadComponent: () => import('./platform/top-places/top-places.component').then(m => m.TopPlacesComponent)
             },
             {
                 path: 'plan',

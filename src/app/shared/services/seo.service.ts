@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { Location } from '../models';
+import { Location, Provider } from '../models';
 
 const BASE_URL = 'https://johnfabiomb.com';
 const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
@@ -158,8 +158,7 @@ export class SeoService {
       const keywords = location.keywords || 'Malta, travel, nature, hidden gems, sightseeing';
       const image = location.img?.startsWith('http') ? location.img : `${BASE_URL}${location.img}`;
       const imageAlt = `${location.title} - Malta`;
-      const slug = encodeURIComponent(location.title.replace(' ', '-'));
-      const url = `${BASE_URL}/malta?title=${slug}`;
+      const url = `${BASE_URL}/malta/locations/${location.slug}`;
 
       this.titleService.setTitle(title);
       this.metaService.updateTag({ name: 'description', content: description });
@@ -309,6 +308,38 @@ export class SeoService {
         },
       ],
     });
+  }
+
+  setProviderPage(provider: Provider): void {
+    const title = `${provider.name} · Malta ${this.categoryLabel(provider.category)} | Explore Malta`;
+    const rawDesc = provider.description?.replace(/<[^>]+>/g, '').trim() ?? provider.tagline ?? '';
+    const desc = this.truncate(rawDesc || `Book exclusive deals with ${provider.name} in Malta.`, 155);
+    const url = `${BASE_URL}/malta/providers/${provider.id}`;
+    const image = provider.coverImage
+      ? (provider.coverImage.startsWith('http') ? provider.coverImage : `${BASE_URL}${provider.coverImage}`)
+      : DEFAULT_IMAGE;
+
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: desc });
+    this.metaService.updateTag({ name: 'keywords', content: `${provider.name}, Malta ${provider.category}, Malta deals, Explore Malta` });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: desc });
+    this.metaService.updateTag({ property: 'og:url', content: url });
+    this.metaService.updateTag({ property: 'og:image', content: image });
+    this.metaService.updateTag({ property: 'og:image:alt', content: `${provider.name} - Malta` });
+    this.metaService.updateTag({ name: 'twitter:title', content: title });
+    this.metaService.updateTag({ name: 'twitter:description', content: desc });
+    this.metaService.updateTag({ name: 'twitter:image', content: image });
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
+    this.updateCanonical(url);
+  }
+
+  private categoryLabel(category: string): string {
+    const labels: Record<string, string> = {
+      'water-sports': 'Water Sports', 'tour': 'Boat Tour', 'hotel': 'Hotel',
+      'restaurant': 'Restaurant', 'experience': 'Experience',
+    };
+    return labels[category] ?? category;
   }
 
   private truncate(text: string, maxLength: number): string {

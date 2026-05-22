@@ -1,1 +1,0 @@
-import{R as a}from"./chunk-5NB7JI5D.js";var r=(()=>{class e{pageView(n,t){typeof gtag>"u"||gtag("event","page_view",{page_title:t,page_location:n})}event(n,t={}){typeof gtag>"u"||gtag("event",n,t)}static{this.\u0275fac=function(t){return new(t||e)}}static{this.\u0275prov=a({token:e,factory:e.\u0275fac,providedIn:"root"})}}return e})();export{r as a};

@@ -1,11 +1,9 @@
 <app-panel-shell
   title="Browse Locations"
-  [minimized]="bridge.panel.minimized()"
   (closeRequested)="goToMap()"
   (dragStart)="bridge.panel.onDragStart($event)"
   (dragMove)="bridge.panel.onDragMove($event)"
   (dragEnd)="bridge.panel.onDragEnd($event)"
-  (toggleCollapse)="bridge.toggleMinimize()"
   (bodyDragStart)="bridge.panel.startDrag($event)"
   (bodyDragMove)="bridge.panel.onDragMove($event)"
   (bodyDragEnd)="bridge.panel.onDragEnd($event)">

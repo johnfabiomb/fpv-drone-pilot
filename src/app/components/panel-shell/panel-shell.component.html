@@ -7,7 +7,7 @@
 
   <div class="panel-header__row">
     <button class="close-btn" (click)="closeRequested.emit()" title="Close">
-      <i class="fa fa-times"></i>
+      <i class="fa fa-arrow-left"></i>
     </button>
 
     <div class="panel-header__left">
@@ -15,8 +15,8 @@
       <ng-content select="[panelActions]"></ng-content>
     </div>
 
-    <button class="toggle-btn" (click)="toggleCollapse.emit()" title="Expand / collapse">
-      <i class="fa" [class.fa-chevron-up]="minimized" [class.fa-chevron-down]="!minimized"></i>
+    <button class="close-map-btn" (click)="router.navigate(['/malta'])" title="Close">
+      <i class="fa fa-times"></i>
     </button>
   </div>
 </div>

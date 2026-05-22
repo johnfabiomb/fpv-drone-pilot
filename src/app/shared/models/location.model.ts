@@ -11,9 +11,16 @@ export interface MapPoint {
   showButton?: boolean;
 }
 
+export interface Route {
+  label: string;
+  emoji?: string;
+  mapPoints: MapPoint[];
+}
+
 export interface Location {
   id: number;
   title: string;
+  slug: string;
   description: string;
   img: string;
   thumb?: string;
@@ -24,6 +31,7 @@ export interface Location {
   rating?: number;
   images?: string[];
   mapPoints?: MapPoint[];
+  routes?: Route[];
   difficulty: Difficulty;
   hidden?: boolean;
   tags: string[];

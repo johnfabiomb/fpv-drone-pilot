@@ -1,0 +1,111 @@
+<app-nav-interstitial
+  *ngIf="bridge.pendingNavUrl()"
+  [url]="bridge.pendingNavUrl()!"
+  [duration]="bridge.interstitialProvider() ? 0 : bridge.navDuration()"
+  [buttonLabel]="bridge.interstitialProvider() ? 'Book Now' : 'Open Google Maps'"
+  [openNewTab]="true"
+  (closed)="onInterstitialClosed()">
+
+  <!-- Book Now mode: show coupon reminder -->
+  <div slot-top *ngIf="bridge.interstitialProvider()">
+    <app-coupon-reminder [provider]="bridge.interstitialProvider()!"></app-coupon-reminder>
+  </div>
+
+  <!-- Ads mode: nearby provider cards above and below countdown -->
+  <div slot-top *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[0]">
+    <p *ngIf="bridge.interstitialLabel()" class="interstitial-near-label">
+      {{ bridge.interstitialLabel() }}
+    </p>
+    <app-provider-card
+      [provider]="bridge.interstitialProviders()[0]"
+      (selected)="onInterstitialProviderSelected($event)">
+    </app-provider-card>
+  </div>
+  <app-provider-card
+    *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[1]"
+    slot-bottom
+    [provider]="bridge.interstitialProviders()[1]"
+    (selected)="onInterstitialProviderSelected($event)">
+  </app-provider-card>
+
+</app-nav-interstitial>
+
+<div class="map-layout">
+  <div class="map-layout__main">
+
+    <div class="map-layout__map">
+      <app-filter-bar
+        *ngIf="bridge.showFilterBar()"
+        (filterChange)="bridge.filters.set($event)">
+      </app-filter-bar>
+
+      <app-map
+        #mapComp
+        [activeFilters]="bridge.filters()"
+        [providerPins]="bridge.providerPins()"
+        [selectedLocation]="bridge.selectedLocation()"
+        [fitPoint]="bridge.fitPoint()"
+        (locationSelected)="bridge.locationSelected$.next($event)"
+        (providerPinSelected)="bridge.providerPinSelected$.next($event)"
+        (mapTapped)="onMapTapped()"
+        (gpsCoord)="bridge.gpsCoord$.next($event)">
+      </app-map>
+
+      <button
+        *ngIf="bridge.floatingBackBtn()"
+        class="floating-back-btn"
+        [class.floating-back-btn--accent]="bridge.floatingBackBtn()!.accent"
+        (click)="bridge.floatingBackBtnClicked$.next()">
+        <i class="fa fa-chevron-left"></i>
+        {{ bridge.floatingBackBtn()!.label }}
+      </button>
+
+      <button
+        *ngIf="bridge.panelOpen() && bridge.mapOnly()"
+        class="show-panel-btn"
+        [class.show-panel-btn--primary]="isDeals()"
+        (click)="bridge.openPanel()">
+        <i class="fa" [ngClass]="showPanelBtnIcon()"></i>
+      </button>
+
+      <div class="floating-route-tabs" *ngIf="hasMultipleRoutes()">
+        <button
+          class="route-tab"
+          [class.active]="bridge.activeRouteIndex() === -1"
+          (click)="onSelectAllRoutes()">
+          All
+        </button>
+        <button
+          *ngFor="let r of routes(); let i = index"
+          class="route-tab"
+          [class.active]="bridge.activeRouteIndex() === i"
+          [style.--tab-active-color]="routeColors[i]"
+          (click)="onSelectRoute(i)">
+          <span *ngIf="r.emoji">{{ r.emoji }}&nbsp;</span>{{ r.label }}
+        </button>
+      </div>
+
+      <div class="offline-pill" *ngIf="!isOnline">
+        <span class="offline-dot"></span> Offline — cached map active
+      </div>
+    </div>
+
+    <!-- Panel is always in the DOM so the router-outlet (and its child component)
+         stay alive when panel is hidden. Visibility is controlled by CSS only. -->
+    <div
+      class="map-layout__panel"
+      #panelWrap
+      [class.panel--hidden]="!bridge.panelOpen() || bridge.mapOnly()">
+      <button
+        class="collapse-btn"
+        *ngIf="bridge.panelOpen() && !bridge.mapOnly()"
+        (click)="bridge.mapOnly.set(true)"
+        title="Fullscreen map">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+      <router-outlet />
+    </div>
+
+  </div>
+  <app-footer />
+</div>

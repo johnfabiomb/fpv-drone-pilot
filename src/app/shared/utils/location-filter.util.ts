@@ -1,5 +1,16 @@
 import { Difficulty, Island, Location } from '../models';
 
+export function toLocationSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/ħ/g, 'h')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[''`]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 export type FilterId = 'beach' | 'cave' | 'historical' | 'hidden' | 'easy' | 'hard' | 'gozo' | 'comino';
 
 export function matchesFilter(location: Location, filter: FilterId): boolean {

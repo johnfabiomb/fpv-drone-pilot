@@ -1,3 +1,6 @@
+// OpenLayers expects a Node.js-style `global` — polyfill it for the browser
+(window as any).global = window;
+
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';

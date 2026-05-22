@@ -6,45 +6,49 @@ This guide covers everything you need to do to add a new spot to the Malta map.
 
 ## Quick Checklist
 
-- [ ] Add the image(s) to `src/assets/images/places/`
+- [ ] Drop images into `src/assets/images/places/your-location-name/`
 - [ ] Add the entry to `src/assets/locations.json`
-- [ ] Regenerate the sitemap
-- [ ] Build and deploy
+- [ ] Add the slug to `prerender-routes.txt`
+- [ ] Run `node scripts/convert-to-webp.js` (converts images + generates thumbnail)
+- [ ] Run `node scripts/generate-sitemap.js` (rebuilds sitemap.xml)
+
+> Both scripts also run automatically as `prebuild` on every `ng build` / `npm run deploy`.
 
 ---
 
-## Step 1 — Add the Image
+## Step 1 — Drop the Images
 
-Drop the photo into a subfolder under:
+Create a subfolder under `src/assets/images/places/` named after the location and put all images there:
 
 ```
-src/assets/images/places/
+src/assets/images/places/my-spot/
+  my-spot.png          ← main cover image (referenced in "img" field)
+  my-spot-2.png        ← gallery (optional)
+  my-spot-3.png        ← gallery (optional)
 ```
 
-Create a folder named after the location (e.g. `my-spot/`) and put all its images there. The first image listed in `images` (or the `img` field) is used as the hero thumbnail on the map.
-
-**Tips:**
-- Use lowercase, hyphenated folder and file names (e.g. `my-spot/my-spot-main.jpg`)
-- JPG or PNG both work
-- Landscape photos look best as the hero image in the modal
-- Keep images under 2 MB each for performance
-- The current last ID is **71** — use **72** for the next location
+**Notes:**
+- Use lowercase, hyphenated names (e.g. `my-spot.png`)
+- JPG or PNG both work — the script converts them
+- Landscape photos work best as the hero
+- Do **not** create the thumbnail — the script generates it automatically and writes the `thumb` field into the JSON
 
 ---
 
 ## Step 2 — Add the JSON Entry
 
-Open `src/assets/locations.json` and add a new object to the array. Use the template below:
+Open `src/assets/locations.json` and add a new object. Current max `id` is **73** — use **74** for the next one.
 
 ```json
 {
-    "id": 72,
+    "id": 74,
     "title": "Your Location Name",
-    "description": "Write a description here. <b>Bold text is supported.</b> Talk about what makes this spot special, what to expect, and any useful tips for visitors.",
-    "img": "/assets/images/places/my-spot/my-spot-main.jpg",
+    "slug": "your-location-name",
+    "description": "Write a description here. <b>Bold text is supported.</b>",
+    "img": "/assets/images/places/my-spot/my-spot.png",
     "images": [
-        "/assets/images/places/my-spot/my-spot-main.jpg",
-        "/assets/images/places/my-spot/my-spot-2.jpg"
+        "/assets/images/places/my-spot/my-spot.png",
+        "/assets/images/places/my-spot/my-spot-2.png"
     ],
     "lon": 14.000000,
     "lat": 35.000000,
@@ -58,17 +62,34 @@ Open `src/assets/locations.json` and add a new object to the array. Use the temp
         "nature",
         "moderate"
     ],
-    "mapPoints": [
+    "locality": "Mellieħa",
+    "showLabel": false,
+    "routes": [
         {
-            "label": "Final location",
-            "description": "Open this exact spot in Google Maps.",
-            "lon": 14.000000,
-            "lat": 35.000000,
-            "type": "destination"
+            "label": "On foot",
+            "emoji": "🚶",
+            "mapPoints": [
+                {
+                    "label": "Parking spot",
+                    "description": "Park here before starting the hike.",
+                    "lon": 14.000000,
+                    "lat": 35.000000,
+                    "type": "parking"
+                },
+                {
+                    "label": "Your Location Name",
+                    "description": "Open this exact spot in Google Maps.",
+                    "lon": 14.001000,
+                    "lat": 35.001000,
+                    "type": "destination"
+                }
+            ]
         }
     ]
 }
 ```
+
+**Do not add a `thumb` field** — it is written automatically by the script.
 
 ---
 
@@ -76,31 +97,34 @@ Open `src/assets/locations.json` and add a new object to the array. Use the temp
 
 | Field | Required | Description |
 |---|---|---|
-| `id` | Yes | Next number in sequence. Current max is **71**. |
-| `title` | Yes | Name shown on the modal and map marker tooltip. |
+| `id` | Yes | Next number in sequence. Current max is **73**. |
+| `title` | Yes | Display name — changing this does NOT change the URL. |
+| `slug` | Yes | URL segment for `/malta/locations/:slug`. Freeze it immediately — never change after publishing. |
 | `description` | Yes | Full description. HTML `<b>` tags are supported. |
-| `img` | Yes | Path to the hero/thumbnail image. |
-| `images` | No | Array of image paths for the gallery slider in the modal. If omitted, only `img` is shown. |
-| `lon` | Yes | Longitude (e.g. `14.4562`). |
-| `lat` | Yes | Latitude (e.g. `35.8207`). Malta is ~35.8–36.1 lat, ~14.2–14.6 lon. |
-| `url` | No | *(Unused — the Instagram embed was removed from the location panel. Field can be omitted on new entries.)* |
-| `keywords` | Yes | Comma-separated keywords for SEO meta tags. |
-| `rating` | Yes | Rating out of 5 (e.g. `4.7`). Shown with a star on the modal. |
-| `difficulty` | Yes | `"easy"`, `"moderate"`, or `"hard"`. Used by the route builder and filter bar. |
-| `hidden` | Yes | `true` for secret/lesser-known spots, `false` for well-known ones. Affects the route builder scoring. |
-| `tags` | Yes | Array of tags. See the full tag list below. Always include the difficulty tag too. |
-| `mapPoints` | Yes | Array of points shown in the modal with Google Maps buttons. |
-| `recommendedRoute` | No | Path to a route screenshot image. Only add if you have one. |
+| `img` | Yes | Path to the main cover image (PNG/JPG — converted to WebP by the script). |
+| `images` | No | Gallery image array. If omitted only `img` is shown. |
+| `lon` / `lat` | Yes | Map pin position. Malta is lat ~35.8–36.1, lon ~14.2–14.6. |
+| `keywords` | Yes | Comma-separated keywords for `<meta name="keywords">`. |
+| `rating` | Yes | 0–5 (e.g. `4.7`). Shown with a star in the panel. |
+| `difficulty` | Yes | `"easy"`, `"moderate"`, or `"hard"`. |
+| `hidden` | Yes | `true` for secret/lesser-known spots. Shows a "hidden gem" badge. |
+| `tags` | Yes | Filter chips and route builder scoring. Always include the difficulty as a tag. |
+| `locality` | No | Used to group map pins into locality clusters. |
+| `showLabel` | No | `true` renders a name pill above the map pin. Defaults to `false`. |
+| `clusterPriority` | No | `true` means this location's image is used as the cluster representative. |
+| `routes` | No | Array of route objects (replaces `mapPoints` when multiple routes exist). |
+| `mapPoints` | No | Single-route waypoints. Use `routes` instead if you have more than one route. |
+| `recommendedRoute` | No | Path to a route screenshot image shown in the panel. |
+| `thumb` | — | **Do not set manually.** Auto-generated by `node scripts/convert-to-webp.js`. |
+| `url` | No | Unused — the Instagram embed was removed. Omit on new entries. |
 
 ---
 
 ## difficulty
 
-Set exactly one of these:
-
 | Value | When to use |
 |---|---|
-| `"easy"` | Paved or well-marked paths, no physical challenge, suitable for everyone |
+| `"easy"` | Paved or well-marked paths, no physical challenge |
 | `"moderate"` | Some uneven terrain, light hiking, basic fitness needed |
 | `"hard"` | Scrambling, cliff edges, remote access, or serious hike required |
 
@@ -108,28 +132,25 @@ Set exactly one of these:
 
 ## tags
 
-Always include the difficulty as a tag as well (e.g. `"easy"`, `"moderate"`, `"hard"`). Add the island tag if it's Gozo or Comino (Malta needs no island tag).
-
-**Full list of available tags:**
+Always include one difficulty tag matching `difficulty`. Add `gozo` or `comino` if not on Malta mainland.
 
 | Tag | Use for |
 |---|---|
 | `easy` / `moderate` / `hard` | Always include one to match `difficulty` |
-| `gozo` | Locations on Gozo island |
-| `comino` | Locations on Comino island |
+| `gozo` / `comino` | Island (Malta needs no island tag) |
 | `hidden` | Secret or off-the-beaten-path spots |
 | `beach` | Sandy or pebble beaches |
 | `swimming` | Good swimming spots |
 | `snorkeling` | Snorkeling spots |
 | `diving` | Scuba diving sites |
 | `cliff-jumping` | Cliff jump spots |
-| `boat-trip` | Boat trips / accessible by boat |
+| `boat-trip` | Accessible by boat |
 | `kayak` | Kayaking spots |
 | `cave` | Land or sea caves |
-| `sea-cave` | Specifically sea-level caves |
+| `sea-cave` | Sea-level caves specifically |
 | `rock-formation` | Notable rock features |
-| `natural-arch` | Sea arches or rock arches |
-| `cliffs` | Cliff edges / coastal cliffs |
+| `natural-arch` | Sea or rock arches |
+| `cliffs` | Coastal cliffs |
 | `viewpoint` | Scenic viewpoints |
 | `sunset` | Good sunset spots |
 | `hiking` | Hiking locations |
@@ -142,7 +163,7 @@ Always include the difficulty as a tag as well (e.g. `"easy"`, `"moderate"`, `"h
 | `bay` | Open bays |
 | `nature` | General nature spots |
 | `landscape` | Wide landscape views |
-| `adventure` | General adventure / thrill spots |
+| `adventure` | General adventure spots |
 | `photography` | Exceptionally photogenic |
 | `historical` | Historical sites or ruins |
 | `cultural` | Cultural sites |
@@ -157,155 +178,91 @@ Always include the difficulty as a tag as well (e.g. `"easy"`, `"moderate"`, `"h
 | `park` | Parks and gardens |
 | `garden` | Formal gardens |
 | `family` | Family-friendly spots |
-| `entertainment` | Entertainment / nightlife areas |
 | `film-set` | Locations used in film/TV |
-| `engineering` | Notable engineering works |
 
 ---
 
-## mapPoints
+## routes vs mapPoints
 
-Every location needs at least one entry in `mapPoints`. Points are shown as navigation buttons in the modal — each one routes from the previous point, so the order matters.
+Use `routes` (array of route objects) when you have GPS-tracked paths or multiple ways to reach the location. Use `mapPoints` only for simple single-route locations with no recorded trail.
 
 ### Point types
 
-| Type | Button shown | Travel mode | When to use |
-|---|---|---|---|
-| `parking` | 🚗 Drive to Parking | Driving | Where to park the car/bus stop |
-| `checkpoint` | 🚶 Walk to [label] | Walking | Visible mid-trail waypoint worth calling out |
-| `destination` | 📍 [label] | Walking | The final spot |
-| `waypoint` | *(hidden — no button)* | — | Invisible trail coords used internally |
+| Type | Shown in panel | When to use |
+|---|---|---|
+| `parking` | 🚗 Drive to Parking | Start of route — where to park |
+| `destination` | 📍 Open in Maps | Final spot |
+| `checkpoint` | 🚶 Walk to [label] | Notable mid-trail stop worth calling out |
+| `waypoint` | *(hidden)* | Invisible trail GPS coords that draw the path on the map |
 
-**Routing logic:**
-- First button → Google Maps routes from the user's current location
-- Each subsequent button → routes *from the previous point* (e.g. parking → destination is a walking route starting at the parking coords)
+### Multiple routes
 
----
+When a location has more than one way to get there, use the `routes` array. Each route gets a `label`, `emoji`, and its own `mapPoints`. The last point (destination) should use the exact same `lat`/`lon` across all routes so they share a single end pin.
 
-**Single point (most locations):**
 ```json
-"mapPoints": [
+"routes": [
     {
-        "label": "Final location",
-        "description": "The cliff edge viewpoint.",
-        "lon": 14.000000,
-        "lat": 35.000000,
-        "type": "destination"
+        "label": "On foot",
+        "emoji": "🚶",
+        "mapPoints": [ ... ]
+    },
+    {
+        "label": "By kayak",
+        "emoji": "🚣",
+        "mapPoints": [ ... ]
     }
 ]
 ```
 
-**Parking + destination:**
-```json
-"mapPoints": [
-    {
-        "label": "Parking area",
-        "description": "Park here and follow the trail.",
-        "lon": 14.344498,
-        "lat": 35.920518,
-        "type": "parking"
-    },
-    {
-        "label": "Final location",
-        "description": "The cliff edge viewpoint.",
-        "lon": 14.345000,
-        "lat": 35.921000,
-        "type": "destination"
-    }
-]
+For water/kayak routes, add `"lineStyle": "dashed"` to each waypoint to render a dashed line.
+
+### Getting hidden waypoint coords
+
+Tap anywhere on the map in the running app — the browser console logs `📍 lat: ..., lon: ...` for every tap. Use these to record a GPS trail.
+
+---
+
+## Step 3 — Add to `prerender-routes.txt`
+
+Add one line:
+
 ```
-
-**Parking + checkpoint + destination:**
-```json
-"mapPoints": [
-    {
-        "label": "Parking area",
-        "description": "Park here.",
-        "lon": 14.344498,
-        "lat": 35.920518,
-        "type": "parking"
-    },
-    {
-        "label": "Trail junction",
-        "description": "Turn left at the fork.",
-        "lon": 14.344800,
-        "lat": 35.920800,
-        "type": "checkpoint"
-    },
-    {
-        "label": "Final location",
-        "description": "The viewpoint.",
-        "lon": 14.345000,
-        "lat": 35.921000,
-        "type": "destination"
-    }
-]
-```
-
-**Adding hidden waypoints (trail path only, no button shown):**
-
-Use `type: "waypoint"` for intermediate GPS coords that guide the routing internally but don't need their own button. Get the coords by clicking on the map in the app — the browser console logs `📍 lat: ..., lon: ...` on every tap.
-
-```json
-{ "lon": 14.399677, "lat": 35.844461, "type": "waypoint" }
+/malta/locations/your-slug
 ```
 
 ---
 
-## Optional: Recommended Route Image
-
-If you have a screenshot of the route (e.g. from Google Maps or a trail app), add it to `src/assets/images/` and reference it:
-
-```json
-"recommendedRoute": "/assets/images/recommendedRoute-my-spot.png"
-```
-
-This shows a full-width image in the modal below the description, with a note that Google Maps isn't always accurate.
-
----
-
-## Step 3 — Regenerate the Sitemap
-
-Run this from the project root. It rebuilds `src/sitemap.xml` with all locations so Google can discover the new one.
+## Step 4 — Convert Images & Generate Thumbnail
 
 ```bash
-python3 -c "
-import json
-from datetime import date
-from urllib.parse import quote
-
-with open('src/assets/locations.json') as f:
-    data = json.load(f)
-
-locs = data if isinstance(data, list) else data.get('locations', data)
-today = date.today().isoformat()
-BASE = 'https://johnfabiomb.com'
-
-urls = ['  <url>\n    <loc>{}/</loc>\n    <lastmod>{}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>'.format(BASE, today)]
-
-for loc in locs:
-    slug = quote(loc['title'].replace(' ', '-'))
-    urls.append('  <url>\n    <loc>{}/malta?title={}</loc>\n    <lastmod>{}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>'.format(BASE, slug, today))
-
-sitemap = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n' + '\n'.join(urls) + '\n</urlset>\n'
-
-with open('src/sitemap.xml', 'w') as f:
-    f.write(sitemap)
-print(f'Done - {len(urls)} URLs')
-"
+node scripts/convert-to-webp.js
 ```
+
+This does everything in one pass:
+- Converts all PNG/JPG → WebP at quality 85, deletes originals
+- Updates every `.png`/`.jpg` reference across all `.ts`, `.html`, `.json`, `.scss` files
+- Generates a `120×120` thumbnail → `your-location-name-thumb.webp`
+- Writes the `thumb` field back into `locations.json` automatically
 
 ---
 
-## Step 4 — Build and Deploy
+## Step 5 — Regenerate the Sitemap
 
 ```bash
-ng build
+node scripts/generate-sitemap.js
+```
+
+Rebuilds `src/sitemap.xml` from `locations.json` automatically. No manual XML editing needed.
+
+---
+
+## Step 6 — Build and Deploy
+
+```bash
+npm run deploy
 ```
 
 The new marker appears on the map automatically. Clustering, thumbnails, and icon preloading all handle themselves — no code changes needed.
-
-> Routes are prerendered automatically via `discoverRoutes: true` — no manual route file to update.
 
 ---
 
@@ -313,5 +270,5 @@ The new marker appears on the map automatically. Clustering, thumbnails, and ico
 
 1. Open **Google Maps** on desktop
 2. Right-click on the exact point
-3. Click the coordinates at the top of the menu — they copy automatically
-4. The format is `lat, lon` — put them in the right fields (Malta lat ≈ `35.8–36.1`, lon ≈ `14.2–14.6`)
+3. Click the coordinates at the top of the context menu — they copy automatically
+4. Format is `lat, lon` — put them in the right fields

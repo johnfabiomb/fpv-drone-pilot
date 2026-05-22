@@ -12,7 +12,7 @@ export const getCoordinatesfromPixel = (arr: Array<number>) => proj.toLonLat(arr
 const createView = (center: Coordinate, zoom: number) => new View({
     center,
     zoom,
-    maxZoom: 17,
+    maxZoom: 20,
 });
 
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({

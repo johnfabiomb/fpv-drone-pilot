@@ -1,0 +1,108 @@
+// ── Floating route tabs (multi-route locations) ────────────────────────────
+
+.floating-route-tabs {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 4px 5px;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    bottom: 26px;
+  }
+}
+
+.route-tab {
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 16px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+
+  &.active {
+    background: var(--tab-active-color, var(--color-primary));
+    color: #fff;
+  }
+
+  &:hover:not(.active) {
+    background: var(--color-bg-muted);
+    color: var(--color-text-secondary);
+  }
+}
+
+// Filter bar floats inside the map area (absolute within map-layout__map)
+app-filter-bar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: auto;
+  max-width: calc(100vw - 24px);
+  width: max-content;
+}
+
+// ── Offline indicator ──────────────────────────────────────
+.offline-pill {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(30, 30, 30, 0.88);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill, 20px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.offline-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f87171;
+  flex-shrink: 0;
+}
+
+// ── Interstitial section label (e.g. "Near you") ──────────
+.interstitial-near-label {
+  margin: 0 0 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+// ── Deals page: primary-colored re-open button ─────────────
+.show-panel-btn--primary {
+  color: var(--color-primary);
+  font-size: 16px;
+}
+
+// ── Panel CSS-only visibility (router-outlet stays alive) ──
+.panel--hidden {
+  display: none;
+}
+

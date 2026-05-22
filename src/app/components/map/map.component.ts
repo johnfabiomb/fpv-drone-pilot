@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, EventEmitter, HostBinding, Input, NgZone, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AfterViewInit, Component, EventEmitter, HostBinding, Input, NgZone, OnDestroy, Output, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, NgIf } from '@angular/common';
 import { fromLonLat } from 'ol/proj';
 import OlMap from 'ol/Map';
@@ -12,12 +11,10 @@ import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
 
 import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
-import { buildRouteFeatures, makePinStyle } from '../../shared/utils/route-drawing';
+import { buildRouteFeatures, makePinStyle, ROUTE_COLORS } from '../../shared/utils/route-drawing';
 import { LocationTracker } from '../../shared/utils/location-tracker';
 import { locations } from '../../../assets/locations.json';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SeoService } from '../../shared/services/seo.service';
-import { AnalyticsService } from '../../shared/services/analytics.service';
+import { Router } from '@angular/router';
 import { Location, MapPoint, Provider } from '../../shared/models';
 import { matchesFilter, FilterId } from '../../shared/utils/location-filter.util';
 import { resolveProviderColor } from '../../shared/utils/provider.utils';
@@ -53,6 +50,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private providerCanvasCache = new Map<string, HTMLCanvasElement>();
 
   private routeSource = new VectorSource();
+  private routeLabelSource = new VectorSource();
   private currentLocation: Location | null = null;
   private hasRouteFeatures = false;
   tracker: LocationTracker | null = null;
@@ -60,7 +58,24 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private absoluteHandler: ((e: Event) => void) | null = null;
   private relativeHandler: ((e: DeviceOrientationEvent) => void) | null = null;
 
-  @Input() selectedLocation: Location | null = null;
+  @Input() set selectedLocation(loc: Location | null) {
+    if (loc === this._selectedLocation) return;
+    this._selectedLocation = loc;
+    if (!this.map) return;
+    if (loc) {
+      this.showLocation(loc);
+    } else {
+      this.clearRoute();
+    }
+  }
+  get selectedLocation(): Location | null { return this._selectedLocation; }
+  private _selectedLocation: Location | null = null;
+
+  // Stored and consumed by refitRoute() — which fires ~300ms later via scheduleMapUpdate.
+  private pendingFitPoint: { lat: number; lon: number } | null = null;
+  @Input() set fitPoint(p: { lat: number; lon: number } | null) {
+    this.pendingFitPoint = p;
+  }
   @HostBinding('class.map-rotated') isRotated = false;
 
   @Input() set providerPins(providers: Provider[]) {
@@ -77,7 +92,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         );
     this.localityIconCache.clear();
     this.refreshLayer(true);
-    if (this.map) {
+    // Only zoom to Malta overview when a filter is actively applied, not when clearing.
+    // Clearing happens during navigation (e.g. LocationPageComponent sets filters=[]) and
+    // we must not override the subsequent zoom-to-location animation.
+    if (this.map && filters.length > 0) {
       this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
     }
   }
@@ -88,12 +106,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() providerPinSelected = new EventEmitter<Provider>();
 
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
-  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly seoService = inject(SeoService);
-  private readonly analyticsService = inject(AnalyticsService);
 
   ngAfterViewInit(): void {
 
@@ -154,37 +168,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       (this.map.getTargetElement() as HTMLElement).style.cursor = hit ? 'pointer' : '';
     });
 
-    this.activatedRoute.queryParams
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params: Params) => {
-      let place: Location | null = null;
-
-      if (params['locationId']) {
-        const id = parseInt(params['locationId'], 10);
-        place = (locations as Location[]).find(loc => loc.id === id) ?? null;
-      } else if (params['title']) {
-        place = (locations as Location[]).find(loc => encodeURIComponent(loc.title) === params['title'])
-          ?? (locations as Location[]).find(loc => encodeURIComponent(loc.title.replace(' ', '-')) === params['title'])
-          ?? null;
-      }
-
-      if (place) {
-        this.seoService.updateMetaData(place);
-        this.analyticsService.pageView(window.location.href, place.title);
-        this.analyticsService.event('location_view', {
-          location_title: place.title,
-          location_id: place.id,
-          location_tags: place.tags,
-        });
-        this.showLocation(place);
-        setTimeout(() => this.locationSelected.emit(place));
-      } else if (!params['locationId'] && !params['title']) {
-        this.seoService.updateMetaData();
-        this.analyticsService.pageView(window.location.href, 'Explore Malta - Map');
-        this.clearRoute();
-        setTimeout(() => this.locationSelected.emit(null));
-      }
-    });
+    // If selectedLocation was set before the map finished initializing, show it now.
+    if (this._selectedLocation) this.showLocation(this._selectedLocation);
   }
 
   private showLocation(location: Location): void {
@@ -195,7 +180,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   closeLocation(): void {
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {} });
+    this.router.navigate(['/malta']);
   }
 
   resetToMalta(): void {
@@ -705,23 +690,65 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private setupRouteLayer(): void {
     this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
+    // Labels on a separate decluttered layer — OL auto-hides overlapping text while icons always show
+    this.map.addLayer(new VectorLayer({ source: this.routeLabelSource, zIndex: 51, declutter: true }));
   }
 
   private drawRoute(location: Location): void {
     this.routeSource.clear();
-    const features = buildRouteFeatures(location.mapPoints ?? []);
-    this.hasRouteFeatures = features.length > 0;
-    if (this.hasRouteFeatures) {
-      this.routeSource.addFeatures(features);
+    this.routeLabelSource.clear();
+    if (location.routes && location.routes.length >= 2) {
+      this.drawAllRoutesForLocation(location);
     } else {
+      const points = location.mapPoints ?? [];
+      const { graphics, labels } = buildRouteFeatures(points);
+      this.hasRouteFeatures = graphics.length > 0;
+      if (this.hasRouteFeatures) {
+        this.routeSource.addFeatures(graphics);
+        this.routeLabelSource.addFeatures(labels);
+      } else {
+        const pin = new Feature({ geometry: new Point(getCoordinatesfromLonLat(location.lon, location.lat)) });
+        pin.setStyle(makePinStyle('#F4A922'));
+        this.routeSource.addFeature(pin);
+      }
+    }
+  }
+
+  private drawAllRoutesForLocation(location: Location): void {
+    let anyFeatures = false;
+    location.routes!.forEach((route, i) => {
+      const color = ROUTE_COLORS[i % ROUTE_COLORS.length];
+      // skipEndPin on all but the first route — shared destination drawn once, labels decluttered
+      const { graphics, labels } = buildRouteFeatures(route.mapPoints, { lineColor: color, skipEndPin: i > 0 });
+      if (graphics.length > 0) {
+        this.routeSource.addFeatures(graphics);
+        anyFeatures = true;
+      }
+      this.routeLabelSource.addFeatures(labels);
+    });
+    this.hasRouteFeatures = anyFeatures;
+    if (!anyFeatures) {
       const pin = new Feature({ geometry: new Point(getCoordinatesfromLonLat(location.lon, location.lat)) });
       pin.setStyle(makePinStyle('#F4A922'));
       this.routeSource.addFeature(pin);
     }
   }
 
+  drawAllRoutes(): void {
+    if (!this.currentLocation) return;
+    this.routeSource.clear();
+    this.routeLabelSource.clear();
+    this.drawAllRoutesForLocation(this.currentLocation);
+    if (this.hasRouteFeatures) {
+      this.map.getView().fit(this.routeSource.getExtent(), {
+        padding: [90, 70, 80, 40], duration: 450, maxZoom: 15,
+      });
+    }
+  }
+
   private clearRoute(): void {
     this.routeSource.clear();
+    this.routeLabelSource.clear();
     this.currentLocation = null;
     this.hasRouteFeatures = false;
     this.clusterLayer.setVisible(true);
@@ -730,17 +757,58 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  setRoute(points: MapPoint[]): void {
+    this.routeSource.clear();
+    this.routeLabelSource.clear();
+    const { graphics, labels } = buildRouteFeatures(points);
+    this.hasRouteFeatures = graphics.length > 0;
+    if (this.hasRouteFeatures) {
+      this.routeSource.addFeatures(graphics);
+      this.routeLabelSource.addFeatures(labels);
+      this.map.getView().fit(this.routeSource.getExtent(), {
+        padding: [90, 70, 80, 40], duration: 450, maxZoom: 15,
+      });
+    } else if (this.currentLocation) {
+      const pin = new Feature({
+        geometry: new Point(getCoordinatesfromLonLat(this.currentLocation.lon, this.currentLocation.lat)),
+      });
+      pin.setStyle(makePinStyle('#F4A922'));
+      this.routeSource.addFeature(pin);
+    }
+  }
+
   refitRoute(): void {
     if (!this.currentLocation) return;
+    if (this.pendingFitPoint) {
+      const p = this.pendingFitPoint;
+      this.pendingFitPoint = null;
+      this.fitRouteAndPoint(p.lat, p.lon);
+      return;
+    }
     if (this.hasRouteFeatures) {
       this.map.getView().fit(this.routeSource.getExtent(), {
-        padding: [70, 40, 50, 40],
+        padding: [90, 70, 80, 40],
         duration: 450,
         maxZoom: 15,
       });
     } else {
       const flatCoords = this.getLocationMapCoordinates(this.currentLocation);
       this.map.getView().animate({ center: flatCoords, zoom: 14, duration: 450 });
+    }
+  }
+
+  fitRouteAndPoint(lat: number, lon: number): void {
+    const providerCoord = fromLonLat([lon, lat]) as [number, number];
+    if (this.hasRouteFeatures) {
+      const re = this.routeSource.getExtent();
+      const extent = boundingExtent([[re[0], re[1]], [re[2], re[3]], providerCoord]);
+      this.map.getView().fit(extent, { padding: [80, 40, 80, 40], duration: 600, maxZoom: 15 });
+    } else if (this.currentLocation) {
+      const locCoord = fromLonLat([this.currentLocation.lon, this.currentLocation.lat]) as [number, number];
+      const extent = boundingExtent([locCoord, providerCoord]);
+      this.map.getView().fit(extent, { padding: [80, 80, 80, 80], maxZoom: 15, duration: 600 });
+    } else {
+      this.map.getView().animate({ center: providerCoord, zoom: 14, duration: 450 });
     }
   }
 
@@ -856,16 +924,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   clickon(data: Location): void {
-    const queryParams = { locationId: data.id };
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
+    this.router.navigate(['/malta/locations', data.slug]);
   }
 
   // ── Helpers ───────────────────────────────────────────────
 
   private getLocationMapCoordinates(location: Location): number[] {
-    if (location.mapPoints?.length) {
-      const dest: MapPoint = location.mapPoints.find(p => p.type === 'destination')
-        ?? location.mapPoints[location.mapPoints.length - 1];
+    const points = location.routes?.[0]?.mapPoints ?? location.mapPoints;
+    if (points?.length) {
+      const dest = points.find(p => p.type === 'destination') ?? points[points.length - 1];
       return getCoordinatesfromLonLat(dest.lon, dest.lat);
     }
     return getCoordinatesfromLonLat(location.lon, location.lat);

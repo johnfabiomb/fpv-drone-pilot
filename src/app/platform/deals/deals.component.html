@@ -1,29 +1,14 @@
 <app-panel-shell
-  [title]="panelTitle"
-  [minimized]="bridge.panel.minimized()"
+  title="Exclusive Deals"
   (closeRequested)="onPanelCloseRequested()"
   (dragStart)="bridge.panel.onDragStart($event)"
   (dragMove)="bridge.panel.onDragMove($event)"
   (dragEnd)="bridge.panel.onDragEnd($event)"
-  (toggleCollapse)="bridge.toggleMinimize()"
   (bodyDragStart)="bridge.panel.startDrag($event)"
   (bodyDragMove)="bridge.panel.onDragMove($event)"
   (bodyDragEnd)="bridge.panel.onDragEnd($event)">
 
-  <app-share-btn
-    *ngIf="selectedProvider"
-    panelActions
-    [url]="currentShareUrl"
-    [shareTitle]="panelTitle">
-  </app-share-btn>
-
-  <app-provider-detail
-    *ngIf="selectedProvider"
-    [provider]="selectedProvider"
-    (bookRequested)="onBookRequested($event)">
-  </app-provider-detail>
-
-  <div *ngIf="!selectedProvider" class="deals-list">
+  <div class="deals-list">
     <div class="deals-intro">
       <p class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p>
     </div>

@@ -21,21 +21,23 @@ export class ImageGalleryComponent implements OnDestroy {
     this.images = next;
     this.active = 0;
     this.loadedImgs.clear();
+
+    // setInterval and Image probing are browser-only — in SSR they prevent app stabilization.
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.restartAuto();
 
     // (load) does not fire for cached images — probe each URL after current frame
-    if (isPlatformBrowser(this.platformId)) {
-      const toCheck = [...new Set(this.images)];
-      setTimeout(() => {
-        toCheck.forEach(src => {
-          const probe = new Image();
-          probe.src = src;
-          if (probe.complete && probe.naturalWidth > 0) {
-            this.markLoaded(src);
-          }
-        });
-      }, 0);
-    }
+    const toCheck = [...new Set(this.images)];
+    setTimeout(() => {
+      toCheck.forEach(url => {
+        const probe = new Image();
+        probe.src = url;
+        if (probe.complete && probe.naturalWidth > 0) {
+          this.markLoaded(url);
+        }
+      });
+    }, 0);
   }
 
   images: string[] = [];

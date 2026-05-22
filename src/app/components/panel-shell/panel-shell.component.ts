@@ -1,25 +1,22 @@
 import { AfterViewInit, afterNextRender, Component, DestroyRef, ElementRef, Injector, Input, Output, EventEmitter, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-panel-shell',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './panel-shell.component.html',
   styleUrl: './panel-shell.component.scss',
 })
 export class PanelShellComponent implements AfterViewInit {
   @Input() title = '';
-  @Input() minimized = false;
 
   @Output() closeRequested = new EventEmitter<void>();
   @Output() dragStart      = new EventEmitter<TouchEvent>();
   @Output() dragMove       = new EventEmitter<TouchEvent>();
   @Output() dragEnd        = new EventEmitter<TouchEvent>();
-  @Output() toggleCollapse = new EventEmitter<void>();
 
   /** Fired only when user pulls down on content that is already scrolled to the top. */
   @Output() bodyDragStart = new EventEmitter<number>();
@@ -32,7 +29,7 @@ export class PanelShellComponent implements AfterViewInit {
   private isPopstate = false;
   private readonly destroyRef = inject(DestroyRef);
   private readonly injector = inject(Injector);
-  private readonly router = inject(Router);
+  readonly router = inject(Router);
 
   constructor() {
     this.router.events

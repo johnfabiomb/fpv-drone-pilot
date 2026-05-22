@@ -115,21 +115,16 @@ export class LocationListComponent implements OnInit {
   ngOnInit(): void {
     this.seo.setPage('list');
 
-    this.bridge.showFilterBar.set(false);
-    this.bridge.filters.set([]);
-    this.bridge.providerPins.set(this.mapProviders);
-    this.bridge.selectedLocation.set(null);
-    this.bridge.panelOpen.set(true);
-    this.bridge.mapOnly.set(false);
-    this.bridge.floatingBackBtn.set(null);
-    this.bridge.panel.expand();
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.bridge.enterPanelMode(this.mapProviders);
 
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(loc => {
-        if (loc) this.router.navigate(['/malta'], { queryParams: { locationId: loc.id } });
+        if (loc) this.router.navigate(['/malta/locations', loc.slug], { queryParams: { backTo: 'list' } });
       });
 
-    if (isPlatformBrowser(this.platformId) && navigator.geolocation) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         pos => {
           this.userLat.set(pos.coords.latitude);
@@ -156,14 +151,13 @@ export class LocationListComponent implements OnInit {
   difficultyColor(difficulty: Difficulty): string { return getDifficultyColor(difficulty); }
 
   openLocation(loc: Location): void {
-    const title = encodeURIComponent(loc.title.replace(' ', '-'));
-    this.router.navigate(['/malta'], { queryParams: { title } });
+    this.router.navigate(['/malta/locations', loc.slug], { queryParams: { backTo: 'list' } });
   }
 
   openProvider(provider: Provider): void {
-    this.router.navigate(['/malta'], { queryParams: { provider: provider.id } });
+    this.router.navigate(['/malta/providers', provider.id]);
   }
 
-  browseDeals(): void { this.router.navigate(['/malta/deals']); }
+  browseDeals(): void { this.router.navigate(['/malta/deals'], { queryParams: { backTo: 'list' } }); }
   goToMap(): void { this.router.navigate(['/malta']); }
 }

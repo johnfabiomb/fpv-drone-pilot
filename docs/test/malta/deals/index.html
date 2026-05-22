@@ -133,7 +133,48 @@ a[_ngcontent-ng-c3674394342] {
 }
 /*# sourceMappingURL=/test/pwa-prompt.component.css.map */</style><style ng-app-id="ng">
 
-app-filter-bar[_ngcontent-ng-c2235232250] {
+.floating-route-tabs[_ngcontent-ng-c2336635175] {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 4px 5px;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .floating-route-tabs[_ngcontent-ng-c2336635175] {
+    bottom: 26px;
+  }
+}
+.route-tab[_ngcontent-ng-c2336635175] {
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 16px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+}
+.route-tab.active[_ngcontent-ng-c2336635175] {
+  background: var(--tab-active-color, var(--color-primary));
+  color: #fff;
+}
+.route-tab[_ngcontent-ng-c2336635175]:hover:not(.active) {
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+}
+app-filter-bar[_ngcontent-ng-c2336635175] {
   position: absolute;
   top: 10px;
   left: 50%;
@@ -143,7 +184,7 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   max-width: calc(100vw - 24px);
   width: max-content;
 }
-.offline-pill[_ngcontent-ng-c2235232250] {
+.offline-pill[_ngcontent-ng-c2336635175] {
   position: absolute;
   bottom: 25px;
   left: 50%;
@@ -163,14 +204,14 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   backdrop-filter: blur(6px);
   pointer-events: none;
 }
-.offline-dot[_ngcontent-ng-c2235232250] {
+.offline-dot[_ngcontent-ng-c2336635175] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #f87171;
   flex-shrink: 0;
 }
-.interstitial-near-label[_ngcontent-ng-c2235232250] {
+.interstitial-near-label[_ngcontent-ng-c2336635175] {
   margin: 0 0 8px;
   font-size: 10.5px;
   font-weight: 700;
@@ -178,26 +219,26 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   text-transform: uppercase;
   color: #9ca3af;
 }
-.show-panel-btn--primary[_ngcontent-ng-c2235232250] {
+.show-panel-btn--primary[_ngcontent-ng-c2336635175] {
   color: var(--color-primary);
   font-size: 16px;
 }
-.panel--hidden[_ngcontent-ng-c2235232250] {
+.panel--hidden[_ngcontent-ng-c2336635175] {
   display: none;
 }
 /*# sourceMappingURL=/test/map-shell.component.css.map */</style><style ng-app-id="ng">
 
-[_nghost-ng-c3198742284] {
+[_nghost-ng-c3127170923] {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-[_nghost-ng-c3198742284]   .map-container[_ngcontent-ng-c3198742284] {
+[_nghost-ng-c3127170923]   .map-container[_ngcontent-ng-c3127170923] {
   display: flex;
   flex: 1 1 auto;
   position: relative;
 }
-.compass-btn[_ngcontent-ng-c3198742284] {
+.compass-btn[_ngcontent-ng-c3127170923] {
   position: absolute;
   bottom: 190px;
   right: 10px;
@@ -218,13 +259,13 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   z-index: 5;
   transition: background 0.15s, color 0.15s;
 }
-.compass-btn[_ngcontent-ng-c3198742284]:hover {
+.compass-btn[_ngcontent-ng-c3127170923]:hover {
   background: #f5f5f5;
 }
-.compass-btn.active[_ngcontent-ng-c3198742284] {
+.compass-btn.active[_ngcontent-ng-c3127170923] {
   color: #4285F4;
 }
-.locate-btn[_ngcontent-ng-c3198742284] {
+.locate-btn[_ngcontent-ng-c3127170923] {
   position: absolute;
   bottom: 140px;
   right: 10px;
@@ -248,14 +289,14 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
     color 0.15s,
     box-shadow 0.15s;
 }
-.locate-btn[_ngcontent-ng-c3198742284]:hover {
+.locate-btn[_ngcontent-ng-c3127170923]:hover {
   background: #f5f5f5;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
-.locate-btn.has-gps[_ngcontent-ng-c3198742284] {
+.locate-btn.has-gps[_ngcontent-ng-c3127170923] {
   color: #4285F4;
 }
-.location-toast[_ngcontent-ng-c3198742284] {
+.location-toast[_ngcontent-ng-c3127170923] {
   position: absolute;
   bottom: 140px;
   left: 50%;
@@ -275,7 +316,7 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-.marker-dot[_ngcontent-ng-c3198742284] {
+.marker-dot[_ngcontent-ng-c3127170923] {
   padding: 0;
   border-radius: 50% !important;
   background: #ffffff;
@@ -284,10 +325,10 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   opacity: 0.9;
   filter: none;
 }
-.marker-dot[_ngcontent-ng-c3198742284] {
+.marker-dot[_ngcontent-ng-c3127170923] {
   content-visibility: auto;
 }
-.marker-image[_ngcontent-ng-c3198742284] {
+.marker-image[_ngcontent-ng-c3127170923] {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
@@ -868,11 +909,11 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
 /*# sourceMappingURL=/test/provider-avatar.component.css.map */</style></head>
 
 <body>
-  <app-root ng-version="19.2.1" _nghost-ng-c3674394342="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3674394342=""></router-outlet><app-map-shell _nghost-ng-c2235232250=""><!--bindings={
+  <app-root ng-version="19.2.1" _nghost-ng-c3674394342="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3674394342=""></router-outlet><app-map-shell _nghost-ng-c2336635175=""><!--bindings={
   "ng-reflect-ng-if": null
-}--><div _ngcontent-ng-c2235232250="" class="map-layout"><div _ngcontent-ng-c2235232250="" class="map-layout__main"><div _ngcontent-ng-c2235232250="" class="map-layout__map"><!--bindings={
+}--><div _ngcontent-ng-c2336635175="" class="map-layout"><div _ngcontent-ng-c2336635175="" class="map-layout__main"><div _ngcontent-ng-c2336635175="" class="map-layout__map"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-map _ngcontent-ng-c2235232250="" _nghost-ng-c3198742284="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c3198742284="" id="ol-map" class="map-container"><button _ngcontent-ng-c3198742284="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3198742284="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3198742284="" title="My location" class="locate-btn"><i _ngcontent-ng-c3198742284="" class="fa fa-location-arrow"></i></button><!--bindings={
+}--><app-map _ngcontent-ng-c2336635175="" _nghost-ng-c3127170923="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c3127170923="" id="ol-map" class="map-container"><button _ngcontent-ng-c3127170923="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3127170923="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3127170923="" title="My location" class="locate-btn"><i _ngcontent-ng-c3127170923="" class="fa fa-location-arrow"></i></button><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></div></app-map><!--bindings={
   "ng-reflect-ng-if": null
@@ -880,13 +921,15 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--></div><div _ngcontent-ng-c2235232250="" class="map-layout__panel panel--hidden"><!--bindings={
+}--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><router-outlet _ngcontent-ng-c2235232250=""></router-outlet><app-deals _nghost-ng-c3276102234=""><app-panel-shell _ngcontent-ng-c3276102234="" title="Exclusive Deals" _nghost-ng-c1262857848="" ng-reflect-title="Exclusive Deals"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Exclusive Deals</span></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><div _ngcontent-ng-c3276102234="" class="deals-list"><div _ngcontent-ng-c3276102234="" class="deals-intro"><p _ngcontent-ng-c3276102234="" class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p></div><app-provider-card _ngcontent-ng-c3276102234="" _nghost-ng-c4027458142="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c4027458142="" class="provider-card"><div _ngcontent-ng-c4027458142="" class="provider-card__stripe" style="background: #0d3d72;"></div><div _ngcontent-ng-c4027458142="" class="provider-card__body"><div _ngcontent-ng-c4027458142="" class="provider-card__header"><app-provider-avatar _ngcontent-ng-c4027458142="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="46"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 46px; height: 46px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #0d3d72;" src="/assets/images/providers/santamariawatersports/santa-maria-watersports.webp" alt="Santa Maria Water Sports"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 17px; height: 17px; font-size: 10px;"> 🏄 </span><!--ng-container--><!--bindings={
+}--></div><div _ngcontent-ng-c2336635175="" class="map-layout__panel panel--hidden"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><router-outlet _ngcontent-ng-c2336635175=""></router-outlet><app-deals _nghost-ng-c3276102234=""><app-panel-shell _ngcontent-ng-c3276102234="" title="Exclusive Deals" _nghost-ng-c1262857848="" ng-reflect-title="Exclusive Deals"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Exclusive Deals</span></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><div _ngcontent-ng-c3276102234="" class="deals-list"><div _ngcontent-ng-c3276102234="" class="deals-intro"><p _ngcontent-ng-c3276102234="" class="deals-intro__text">Exclusive discounts from local partners — tap a card or a pin on the map to claim your deal.</p></div><app-provider-card _ngcontent-ng-c3276102234="" _nghost-ng-c4027458142="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c4027458142="" class="provider-card"><div _ngcontent-ng-c4027458142="" class="provider-card__stripe" style="background: #0d3d72;"></div><div _ngcontent-ng-c4027458142="" class="provider-card__body"><div _ngcontent-ng-c4027458142="" class="provider-card__header"><app-provider-avatar _ngcontent-ng-c4027458142="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="46"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 46px; height: 46px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #0d3d72;" src="/assets/images/providers/santamariawatersports/santa-maria-watersports.webp" alt="Santa Maria Water Sports"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 17px; height: 17px; font-size: 10px;"> 🏄 </span><!--ng-container--><!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
 }--><!--container--></div></app-provider-avatar><div _ngcontent-ng-c4027458142="" class="provider-card__info"><span _ngcontent-ng-c4027458142="" class="provider-card__name">Santa Maria Water Sports</span><span _ngcontent-ng-c4027458142="" class="provider-card__tagline">Private wakeboard &amp; wakesurf boat charter in Malta</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__exclusive-badge" style="background: #0d3d72;">Exclusive</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal" style="background: #0d3d72;"><div _ngcontent-ng-c4027458142="" class="provider-card__pct"><span _ngcontent-ng-c4027458142="" class="pct-num">5%</span><span _ngcontent-ng-c4027458142="" class="pct-off">OFF</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal-text"><span _ngcontent-ng-c4027458142="" class="deal-what">any charter booking</span><span _ngcontent-ng-c4027458142="" class="deal-exclusive">Only when booked via this guide</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__cta"> Claim <svg _ngcontent-ng-c4027458142="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c4027458142="" x1="5" y1="12" x2="19" y2="12"></line><polyline _ngcontent-ng-c4027458142="" points="12 5 19 12 12 19"></polyline></svg></span></div></div></div></app-provider-card><!--bindings={
   "ng-reflect-ng-for-of": "[object Object]"
-}--></div></div></app-panel-shell></app-deals><!--container--></div></div><app-footer _ngcontent-ng-c2235232250="" _nghost-ng-c190970116=""><div _ngcontent-ng-c190970116="" class="bottom-bar"><!--bindings={
+}--></div></div></app-panel-shell></app-deals><!--container--></div></div><app-footer _ngcontent-ng-c2336635175="" _nghost-ng-c190970116=""><div _ngcontent-ng-c190970116="" class="bottom-bar"><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><a _ngcontent-ng-c190970116="" routerlink="/malta/list" class="list-btn" ng-reflect-router-link="/malta/list" href="/test/malta/list">📍 Browse All</a><div _ngcontent-ng-c190970116="" class="profile-wrap"><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -894,9 +937,9 @@ app-filter-bar[_ngcontent-ng-c2235232250] {
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.13</span></app-root>
+}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.14</span></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-VDWQJPGC.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-YICMQTLK.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>
