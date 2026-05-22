@@ -412,20 +412,9 @@ button, button span {
   > *:not(router-outlet) { flex: 1; min-height: 0; }
 }
 
-// Ghost-click guard: on touch devices the browser fires a synthetic click ~300ms
-// after touchend. When a location tap opens the panel, that click lands on whatever
-// is now under the finger (gallery, share button, etc.). Blocking pointer-events for
-// 350ms after the panel appears prevents the spurious click from reaching panel children.
-@keyframes panel-allow-interaction {
-  to { pointer-events: auto; }
-}
-
-@media (hover: none) {
-  .map-layout__panel:not(.panel--hidden) {
-    pointer-events: none;
-    animation: panel-allow-interaction 0s 350ms forwards;
-  }
-}
+// Ghost-click guard is handled in JS via PanelResize.blockInteractionBriefly(),
+// called from MapBridgeService.enterLocationMode(). See panel-resize.util.ts for
+// full explanation of why CSS animation was replaced with a JS one-shot.
 
 @media (max-width: 768px) {
   .map-layout__main { flex-direction: column; }

@@ -19,7 +19,7 @@ import {
 } from "./chunk-NO2KK3DI.js";
 import {
   MapBridgeService
-} from "./chunk-HXFXQSGO.js";
+} from "./chunk-QQNN6TR7.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -167,4 +167,4 @@ var DealsComponent = class _DealsComponent {
 export {
   DealsComponent
 };
-//# sourceMappingURL=chunk-Y4LFMOB7.js.map
+//# sourceMappingURL=chunk-56VLC4PR.js.map

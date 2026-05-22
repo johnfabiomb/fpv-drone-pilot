@@ -137,6 +137,7 @@ export class MapBridgeService {
     this.floatingBackBtn.set(backBtn);
     this.clearNavState();
     this.panel.expand();
+    this.panel.blockInteractionBriefly();
   }
 
   /** /malta/list, /malta/deals, /malta/providers/:id — panel open, map shows all pins.

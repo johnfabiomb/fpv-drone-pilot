@@ -170,6 +170,39 @@ export class PanelResize {
     return typeof window !== 'undefined' && window.innerWidth <= 768;
   }
 
+  /**
+   * Blocks panel interaction for `ms` milliseconds on touch devices only.
+   *
+   * WHY THIS EXISTS (do not remove):
+   *   iOS Safari / Instagram in-app browser fires a synthetic "ghost" click
+   *   ~300ms after touchend. When a map pin tap opens the panel, that ghost
+   *   click lands on whatever is now under the finger (gallery, share button,
+   *   provider card, etc.) and triggers it — a single tap would open a
+   *   location AND fire a random panel action.
+   *
+   * WHY THIS IS JS AND NOT A CSS ANIMATION:
+   *   The original implementation used a CSS animation on
+   *   .map-layout__panel:not(.panel--hidden) to block pointer-events for
+   *   350ms. WebKit restarts CSS animations whenever inline styles change on
+   *   the same element. PanelResize.applyHeight() modifies el.style.height
+   *   and el.style.transition on every expand()/minimize() call (e.g. when
+   *   the user switches route tabs). Each call restarted the 350ms block,
+   *   making the close and back buttons unresponsive every time "All routes"
+   *   was selected. A JS one-shot targeted only at enterLocationMode() avoids
+   *   this entirely.
+   *
+   * CALL SITE: MapBridgeService.enterLocationMode() only — not expand() or
+   * minimize(), which are called on route-tab switches and must never block.
+   */
+  blockInteractionBriefly(ms = 350): void {
+    if (typeof window === 'undefined') return;
+    if (!window.matchMedia('(hover: none)').matches) return;
+    const el = this.getEl();
+    if (!el) return;
+    el.style.pointerEvents = 'none';
+    setTimeout(() => { el.style.pointerEvents = ''; }, ms);
+  }
+
   destroy(): void {
     clearTimeout(this.animationTimer);
   }
