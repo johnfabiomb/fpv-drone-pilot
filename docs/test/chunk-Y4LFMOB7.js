@@ -10,7 +10,7 @@ import {
 import "./chunk-FOYJGHDM.js";
 import {
   NavigationService
-} from "./chunk-ISH7656P.js";
+} from "./chunk-6CA4EYDJ.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -167,4 +167,4 @@ var DealsComponent = class _DealsComponent {
 export {
   DealsComponent
 };
-//# sourceMappingURL=chunk-6X6MTROM.js.map
+//# sourceMappingURL=chunk-Y4LFMOB7.js.map

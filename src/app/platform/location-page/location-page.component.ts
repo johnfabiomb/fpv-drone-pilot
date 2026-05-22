@@ -80,7 +80,7 @@ export class LocationPageComponent implements OnInit {
 
       this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(p => this.router.navigate(['/malta/providers', p.id], {
-          queryParams: { fromLocation: this.location?.slug },
+          queryParams: this.buildProviderParams(),
         }));
 
       this.bridge.gpsCoord$.pipe(takeUntilDestroyed(this.destroyRef))
@@ -135,8 +135,18 @@ export class LocationPageComponent implements OnInit {
 
   openProvider(provider: Provider): void {
     this.router.navigate(['/malta/providers', provider.id], {
-      queryParams: { fromLocation: this.location!.slug },
+      queryParams: this.buildProviderParams(),
     });
+  }
+
+  private buildProviderParams(): Record<string, string> {
+    const params: Record<string, string> = {
+      fromLocation: this.location!.slug,
+      backTo: 'location',
+    };
+    const upstream = this.route.snapshot.queryParamMap.get('backTo');
+    if (upstream) params['locationBackTo'] = upstream;
+    return params;
   }
 
   private navigateBack(): void {

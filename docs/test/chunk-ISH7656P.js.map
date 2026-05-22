@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/services/navigation.service.ts"],
-  "sourcesContent": ["import { Injectable, inject } from '@angular/core';\nimport { Location } from '@angular/common';\nimport { ParamMap, Router } from '@angular/router';\n\n@Injectable({ providedIn: 'root' })\nexport class NavigationService {\n  private readonly router   = inject(Router);\n  private readonly location = inject(Location);\n\n  /**\n   * Resolves the correct back destination from query params, falling back to\n   * browser history when available, or /malta when the page was opened directly.\n   */\n  back(params: ParamMap): void {\n    const backTo = params.get('backTo');\n\n    if (backTo === '30-places-2026') {\n      this.router.navigate(['/malta/30-places-2026']);\n    } else if (backTo === 'list') {\n      this.router.navigate(['/malta/list']);\n    } else if ((window.history.state?.navigationId ?? 1) > 1) {\n      this.location.back();\n    } else {\n      this.router.navigate(['/malta']);\n    }\n  }\n}\n"],
-  "mappings": ";;;;;;;;;;AAKM,IAAO,oBAAP,MAAO,mBAAiB;EAD9B,cAAA;AAEmB,SAAA,SAAW,OAAO,MAAM;AACxB,SAAA,WAAW,OAAO,QAAQ;;;;;;EAM3C,KAAK,QAAgB;AACnB,UAAM,SAAS,OAAO,IAAI,QAAQ;AAElC,QAAI,WAAW,kBAAkB;AAC/B,WAAK,OAAO,SAAS,CAAC,uBAAuB,CAAC;IAChD,WAAW,WAAW,QAAQ;AAC5B,WAAK,OAAO,SAAS,CAAC,aAAa,CAAC;IACtC,YAAY,OAAO,QAAQ,OAAO,gBAAgB,KAAK,GAAG;AACxD,WAAK,SAAS,KAAI;IACpB,OAAO;AACL,WAAK,OAAO,SAAS,CAAC,QAAQ,CAAC;IACjC;EACF;;;uCApBW,oBAAiB;IAAA;EAAA;;4EAAjB,oBAAiB,SAAjB,mBAAiB,WAAA,YADJ,OAAM,CAAA;EAAA;;",
-  "names": []
-}

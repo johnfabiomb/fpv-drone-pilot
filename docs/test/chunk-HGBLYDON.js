@@ -21,7 +21,7 @@ import {
 } from "./chunk-D7BDNDUA.js";
 import {
   NavigationService
-} from "./chunk-ISH7656P.js";
+} from "./chunk-6CA4EYDJ.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -781,7 +781,7 @@ var LocationPageComponent = class _LocationPageComponent {
     if (isPlatformBrowser(this.platformId)) {
       this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.navigateBack());
       this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((p) => this.router.navigate(["/malta/providers", p.id], {
-        queryParams: { fromLocation: this.location?.slug }
+        queryParams: this.buildProviderParams()
       }));
       this.bridge.gpsCoord$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((coord) => {
         this.userLat = coord.lat;
@@ -816,8 +816,18 @@ var LocationPageComponent = class _LocationPageComponent {
   }
   openProvider(provider) {
     this.router.navigate(["/malta/providers", provider.id], {
-      queryParams: { fromLocation: this.location.slug }
+      queryParams: this.buildProviderParams()
     });
+  }
+  buildProviderParams() {
+    const params = {
+      fromLocation: this.location.slug,
+      backTo: "location"
+    };
+    const upstream = this.route.snapshot.queryParamMap.get("backTo");
+    if (upstream)
+      params["locationBackTo"] = upstream;
+    return params;
   }
   navigateBack() {
     this.nav.back(this.route.snapshot.queryParamMap);
@@ -898,4 +908,4 @@ var LocationPageComponent = class _LocationPageComponent {
 export {
   LocationPageComponent
 };
-//# sourceMappingURL=chunk-XLZWJ47N.js.map
+//# sourceMappingURL=chunk-HGBLYDON.js.map

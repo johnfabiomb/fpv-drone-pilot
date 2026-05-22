@@ -12,7 +12,7 @@ import {
 } from "./chunk-FOYJGHDM.js";
 import {
   NavigationService
-} from "./chunk-ISH7656P.js";
+} from "./chunk-6CA4EYDJ.js";
 import {
   providers
 } from "./chunk-IVYH72XF.js";
@@ -439,4 +439,4 @@ var ProviderPageComponent = class _ProviderPageComponent {
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-GMSCEG5Z.js.map
+//# sourceMappingURL=chunk-WIOCQF4L.js.map

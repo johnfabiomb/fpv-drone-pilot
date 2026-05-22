@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-J46PF5WP.js";
+} from "./chunk-F43KVVEN.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -93,12 +93,12 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-WLPSB5XD.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-FPLZQXPR.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-4OAHHQKI.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-NEKG6WMY.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
@@ -106,15 +106,15 @@ var routes = [
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-6X6MTROM.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-Y4LFMOB7.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-GMSCEG5Z.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-WIOCQF4L.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-XLZWJ47N.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-HGBLYDON.js").then((m) => m.LocationPageComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
