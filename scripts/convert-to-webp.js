@@ -91,12 +91,14 @@ function updateReferences(results) {
 // ── Step 2: Generate thumbnails ───────────────────────────────────────────────
 
 async function generateThumbs() {
-  const locationsFile = JSON.parse(fs.readFileSync(LOCATIONS_JSON, 'utf8'));
-  const locations = locationsFile.locations;
+  const locations = JSON.parse(fs.readFileSync(LOCATIONS_JSON, 'utf8')).locations;
 
   let generated = 0;
   let skipped = 0;
   let totalSize = 0;
+
+  // Collect only the thumb changes needed — don't parse/stringify the whole file
+  const thumbUpdates = []; // [{ oldThumb, newThumb }]
 
   for (const loc of locations) {
     if (!loc.img) continue;
@@ -105,7 +107,6 @@ async function generateThumbs() {
     const thumbPath = srcPath.replace(/\.webp$/, '-thumb.webp');
     const thumbUrl  = loc.img.replace(/\.webp$/, '-thumb.webp');
 
-    // Skip if thumb already up to date
     if (fs.existsSync(thumbPath) && loc.thumb === thumbUrl) {
       skipped++;
       continue;
@@ -123,12 +124,28 @@ async function generateThumbs() {
 
     const size = fs.statSync(thumbPath).size;
     totalSize += size;
-    loc.thumb = thumbUrl;
+    thumbUpdates.push({ oldThumb: loc.thumb, newThumb: thumbUrl });
     generated++;
     console.log(`  ${(size / 1024).toFixed(0).padStart(4)}KB  ${path.basename(thumbPath)}`);
   }
 
-  fs.writeFileSync(LOCATIONS_JSON, JSON.stringify(locationsFile, null, 4), 'utf8');
+  // Apply thumb updates as surgical string replacements — preserves all
+  // manual edits (array order, formatting, field order) in the JSON file.
+  if (thumbUpdates.length > 0) {
+    let content = fs.readFileSync(LOCATIONS_JSON, 'utf8');
+    for (const { oldThumb, newThumb } of thumbUpdates) {
+      if (oldThumb != null) {
+        content = content.replace(`"thumb": "${oldThumb}"`, `"thumb": "${newThumb}"`);
+      } else {
+        // New location with no thumb yet — insert after the img field
+        content = content.replace(
+          `"img": "${newThumb.replace(/-thumb\.webp$/, '.webp')}"`,
+          `"img": "${newThumb.replace(/-thumb\.webp$/, '.webp')}",\n            "thumb": "${newThumb}"`
+        );
+      }
+    }
+    fs.writeFileSync(LOCATIONS_JSON, content, 'utf8');
+  }
 
   if (generated > 0) {
     console.log(`\n  Generated ${generated} thumbnails — total ${(totalSize / 1024).toFixed(0)}KB`);

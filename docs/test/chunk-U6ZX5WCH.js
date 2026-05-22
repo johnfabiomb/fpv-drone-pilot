@@ -1,6 +1,6 @@
 import {
   locations
-} from "./chunk-LUJH2U6O.js";
+} from "./chunk-NLGVXZUI.js";
 import {
   ActivatedRoute,
   Router
@@ -1227,4 +1227,4 @@ var RouteBuilderComponent = class _RouteBuilderComponent {
 export {
   RouteBuilderComponent
 };
-//# sourceMappingURL=chunk-RLMXHAAZ.js.map
+//# sourceMappingURL=chunk-U6ZX5WCH.js.map

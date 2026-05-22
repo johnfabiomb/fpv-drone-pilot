@@ -33,7 +33,7 @@ import {
 } from "./chunk-HXFXQSGO.js";
 import {
   locations
-} from "./chunk-LUJH2U6O.js";
+} from "./chunk-NLGVXZUI.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -743,4 +743,4 @@ var LocationPageComponent = class _LocationPageComponent {
 export {
   LocationPageComponent
 };
-//# sourceMappingURL=chunk-CCYP6M6A.js.map
+//# sourceMappingURL=chunk-X6I3DIFT.js.map
