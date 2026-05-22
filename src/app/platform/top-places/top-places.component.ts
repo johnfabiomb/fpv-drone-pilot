@@ -29,6 +29,7 @@ const REVEALED: TrendLocation[] = [
   { num: 17, name: 'Babu Valley / Wied Babu',          id: 59 },
   { num: 18, name: 'L-Għar ta\' Bla Saqaf',           id: 16 },
   { num: 19, name: 'Xlendi Tower Coastal Path',        id: 73 },
+  { num: 20, name: 'Mini Inland Sea',                  id: 52 },
 ];
 
 const TOTAL = 30;

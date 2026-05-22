@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-3WXIUPTY.js";
+} from "./chunk-XZEQH7FU.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -93,7 +93,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-EV2H23SZ.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-YHWJ26N2.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -121,7 +121,7 @@ var routes = [
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-VUIXFRPB.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-ZTPLERL6.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",

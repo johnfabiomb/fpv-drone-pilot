@@ -9,7 +9,7 @@ import {
 } from "./chunk-FOYJGHDM.js";
 import {
   version
-} from "./chunk-3WXIUPTY.js";
+} from "./chunk-XZEQH7FU.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -27782,4 +27782,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-EV2H23SZ.js.map
+//# sourceMappingURL=chunk-YHWJ26N2.js.map
