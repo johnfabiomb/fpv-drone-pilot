@@ -33,7 +33,7 @@ import {
 } from "./chunk-QQNN6TR7.js";
 import {
   locations
-} from "./chunk-BGN3ADSP.js";
+} from "./chunk-NLGVXZUI.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -354,7 +354,7 @@ function LocationDetailComponent_ng_container_16_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r2.anyRouteHasRecordedRoute());
     \u0275\u0275advance();
-    \u0275\u0275property("ngForOf", ctx_r2.allRoutesVisiblePoints());
+    \u0275\u0275property("ngForOf", ctx_r2.allRoutesVisiblePoints())("ngForTrackBy", ctx_r2.trackByRouteGroup);
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r2.sharedRouteDestination());
   }
@@ -502,6 +502,9 @@ var LocationDetailComponent = class _LocationDetailComponent {
     this.nearbyProviders = [];
     this.prevLocationId = null;
     this.dismissedNearby = false;
+    this._routeGroups = [];
+    this._sharedDest = null;
+    this._anyRouteRecorded = false;
     this.router = inject(Router);
     this.analyticsService = inject(AnalyticsService);
   }
@@ -531,6 +534,9 @@ var LocationDetailComponent = class _LocationDetailComponent {
           new Image().src = src;
         });
       }
+      this._routeGroups = this.buildRouteGroups();
+      this._sharedDest = this.buildSharedDest();
+      this._anyRouteRecorded = (location.routes ?? []).some((r) => r.mapPoints.some((p) => p.type === "waypoint"));
     }
     this.checkProximity();
   }
@@ -586,6 +592,18 @@ var LocationDetailComponent = class _LocationDetailComponent {
     return this.getActiveMapPoints().filter((p) => p.type !== "waypoint" && p.showButton !== false);
   }
   allRoutesVisiblePoints() {
+    return this._routeGroups;
+  }
+  sharedRouteDestination() {
+    return this._sharedDest;
+  }
+  anyRouteHasRecordedRoute() {
+    return this._anyRouteRecorded;
+  }
+  trackByRouteGroup(_i, g) {
+    return g.route.label;
+  }
+  buildRouteGroups() {
     const loc = this.location;
     if (!loc?.routes || loc.routes.length < 2)
       return [];
@@ -594,14 +612,11 @@ var LocationDetailComponent = class _LocationDetailComponent {
       points: route.mapPoints.filter((p) => p.type !== "waypoint" && p.type !== "destination" && p.showButton !== false)
     })).filter((r) => r.points.length > 0);
   }
-  sharedRouteDestination() {
+  buildSharedDest() {
     const routes = this.location?.routes;
     if (!routes || routes.length < 2)
       return null;
     return routes[0].mapPoints.find((p) => p.type === "destination" && p.showButton !== false) ?? null;
-  }
-  anyRouteHasRecordedRoute() {
-    return (this.location?.routes ?? []).some((r) => r.mapPoints.some((p) => p.type === "waypoint"));
   }
   navigateTo(point, index, pointsOverride) {
     const visible = pointsOverride ?? this.visibleMapPoints();
@@ -663,7 +678,7 @@ var LocationDetailComponent = class _LocationDetailComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocationDetailComponent, selectors: [["app-location-detail"]], inputs: { location: "location", userLat: "userLat", userLon: "userLon", activeRouteIndex: "activeRouteIndex" }, outputs: { close: "close", explore: "explore", navRequested: "navRequested", providerSelected: "providerSelected" }, features: [\u0275\u0275NgOnChangesFeature], decls: 20, vars: 12, consts: [["singleRouteNav", ""], ["class", "confirm-banner", 4, "ngIf"], ["class", "nearby-banner", 4, "ngIf"], ["class", "hiking-active", 4, "ngIf"], [1, "px-header"], ["class", "meta", 4, "ngIf"], [3, "src"], [1, "px-2"], [1, "description", 3, "innerHTML"], ["class", "nearby-experiences", 4, "ngIf"], [1, "actions"], [1, "actions-row"], [1, "button", 3, "click"], [1, "fa", "fa-map"], ["label", "Share", 3, "url", "shareTitle"], [1, "divider"], [4, "ngIf", "ngIfElse"], ["class", "closest-section", 4, "ngIf"], [1, "confirm-banner"], [1, "confirm-text"], [1, "confirm-actions"], [1, "confirm-stay", 3, "click"], [1, "confirm-leave", 3, "click"], [1, "nearby-banner"], [1, "nearby-banner__text"], [1, "fa", "fa-map-marker"], [1, "nearby-banner__actions"], [1, "nearby-btn", "nearby-btn--stay", 3, "click"], [1, "nearby-btn", "nearby-btn--start", 3, "click"], [1, "hiking-active"], [1, "fa", "fa-street-view"], [1, "meta"], ["class", "tag", 4, "ngFor", "ngForOf"], ["class", "rating", 4, "ngIf"], [1, "tag"], [1, "rating"], [1, "fa", "fa-star"], [1, "nearby-experiences"], [1, "nearby-experiences__label"], [3, "provider", "selected", 4, "ngFor", "ngForOf"], [3, "selected", "provider"], ["class", "route-alert", 4, "ngIf"], [4, "ngFor", "ngForOf"], ["class", "nav-section", 4, "ngIf"], [1, "route-alert"], [1, "nav-section"], [1, "nav-section__label"], [4, "ngIf"], ["class", "button nav-btn", 3, "click", 4, "ngFor", "ngForOf"], [1, "button", "nav-btn", 3, "click"], [1, "nav-btn__hint"], [1, "closest-section"], [1, "closest-title"], [1, "closest-list"], ["class", "closest-card", 3, "click", 4, "ngFor", "ngForOf"], [1, "closest-card", 3, "click"], [1, "closest-thumb", 3, "src", "alt"], [1, "closest-info"], [1, "closest-name"], ["class", "closest-tag", 4, "ngIf"], [1, "closest-dist"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "closest-arrow"], ["points", "9 18 15 12 9 6"], [1, "closest-tag"]], template: function LocationDetailComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LocationDetailComponent, selectors: [["app-location-detail"]], inputs: { location: "location", userLat: "userLat", userLon: "userLon", activeRouteIndex: "activeRouteIndex" }, outputs: { close: "close", explore: "explore", navRequested: "navRequested", providerSelected: "providerSelected" }, features: [\u0275\u0275NgOnChangesFeature], decls: 20, vars: 12, consts: [["singleRouteNav", ""], ["class", "confirm-banner", 4, "ngIf"], ["class", "nearby-banner", 4, "ngIf"], ["class", "hiking-active", 4, "ngIf"], [1, "px-header"], ["class", "meta", 4, "ngIf"], [3, "src"], [1, "px-2"], [1, "description", 3, "innerHTML"], ["class", "nearby-experiences", 4, "ngIf"], [1, "actions"], [1, "actions-row"], [1, "button", 3, "click"], [1, "fa", "fa-map"], ["label", "Share", 3, "url", "shareTitle"], [1, "divider"], [4, "ngIf", "ngIfElse"], ["class", "closest-section", 4, "ngIf"], [1, "confirm-banner"], [1, "confirm-text"], [1, "confirm-actions"], [1, "confirm-stay", 3, "click"], [1, "confirm-leave", 3, "click"], [1, "nearby-banner"], [1, "nearby-banner__text"], [1, "fa", "fa-map-marker"], [1, "nearby-banner__actions"], [1, "nearby-btn", "nearby-btn--stay", 3, "click"], [1, "nearby-btn", "nearby-btn--start", 3, "click"], [1, "hiking-active"], [1, "fa", "fa-street-view"], [1, "meta"], ["class", "tag", 4, "ngFor", "ngForOf"], ["class", "rating", 4, "ngIf"], [1, "tag"], [1, "rating"], [1, "fa", "fa-star"], [1, "nearby-experiences"], [1, "nearby-experiences__label"], [3, "provider", "selected", 4, "ngFor", "ngForOf"], [3, "selected", "provider"], ["class", "route-alert", 4, "ngIf"], [4, "ngFor", "ngForOf", "ngForTrackBy"], ["class", "nav-section", 4, "ngIf"], [1, "route-alert"], [1, "nav-section"], [1, "nav-section__label"], [4, "ngIf"], ["class", "button nav-btn", 3, "click", 4, "ngFor", "ngForOf"], [1, "button", "nav-btn", 3, "click"], [1, "nav-btn__hint"], [1, "closest-section"], [1, "closest-title"], [1, "closest-list"], ["class", "closest-card", 3, "click", 4, "ngFor", "ngForOf"], [1, "closest-card", 3, "click"], [1, "closest-thumb", 3, "src", "alt"], [1, "closest-info"], [1, "closest-name"], ["class", "closest-tag", 4, "ngIf"], [1, "closest-dist"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "closest-arrow"], ["points", "9 18 15 12 9 6"], [1, "closest-tag"]], template: function LocationDetailComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
         \u0275\u0275template(0, LocationDetailComponent_div_0_Template, 8, 0, "div", 1)(1, LocationDetailComponent_div_1_Template, 9, 0, "div", 2)(2, LocationDetailComponent_div_2_Template, 3, 0, "div", 3);
@@ -685,7 +700,7 @@ var LocationDetailComponent = class _LocationDetailComponent {
         \u0275\u0275element(14, "app-share-btn", 14);
         \u0275\u0275elementEnd();
         \u0275\u0275element(15, "hr", 15);
-        \u0275\u0275template(16, LocationDetailComponent_ng_container_16_Template, 4, 3, "ng-container", 16)(17, LocationDetailComponent_ng_template_17_Template, 1, 1, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
+        \u0275\u0275template(16, LocationDetailComponent_ng_container_16_Template, 4, 4, "ng-container", 16)(17, LocationDetailComponent_ng_template_17_Template, 1, 1, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd();
         \u0275\u0275template(19, LocationDetailComponent_div_19_Template, 5, 1, "div", 17);
         \u0275\u0275elementEnd();
@@ -908,4 +923,4 @@ var LocationPageComponent = class _LocationPageComponent {
 export {
   LocationPageComponent
 };
-//# sourceMappingURL=chunk-C6CBYG64.js.map
+//# sourceMappingURL=chunk-WAVV2R7F.js.map

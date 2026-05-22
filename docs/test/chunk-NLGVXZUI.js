@@ -1318,325 +1318,405 @@ var locations = [
     clusterPriority: true,
     showLabel: false,
     thumb: "/assets/images/places/ta-maria-cave/TaMarijaCave-thumb.webp",
-    mapPoints: [
+    routes: [
       {
-        label: "Parking spot",
-        description: "Park here before starting the coastal hike to the cave.",
-        lon: 14.344498626957746,
-        lat: 35.92051841887867,
-        type: "parking"
+        label: "On foot",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "Parking spot",
+            description: "Park here before starting the coastal hike to the cave.",
+            lon: 14.344498626957746,
+            lat: 35.92051841887867,
+            type: "parking"
+          },
+          {
+            lat: 35.9201820632405,
+            lon: 14.342592253561783,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92016385851133,
+            lon: 14.341710054897167,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92032137808043,
+            lon: 14.34127390702734,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92069323674545,
+            lon: 14.340689320075917,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92090023434103,
+            lon: 14.340343556045045,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92120780172358,
+            lon: 14.340002193314156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92136383400161,
+            lon: 14.339851343996855,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921412251896385,
+            lon: 14.3399396843751,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92145044302826,
+            lon: 14.339844637254021,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921372108753474,
+            lon: 14.339767300125732,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921414840407024,
+            lon: 14.33961032042631,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921574012430696,
+            lon: 14.339369506441479,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92170505010262,
+            lon: 14.339119942253113,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92176802279259,
+            lon: 14.338950230221592,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921745914461724,
+            lon: 14.338902077903912,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92193950005874,
+            lon: 14.338661892676221,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921965469857284,
+            lon: 14.338397971866478,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92210028352733,
+            lon: 14.338111206213961,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92236426644422,
+            lon: 14.337811760625774,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92229187385287,
+            lon: 14.337411871084386,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92222576145191,
+            lon: 14.337009833289434,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92217025754499,
+            lon: 14.33662529590156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922083394701176,
+            lon: 14.33629011594922,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92211123155842,
+            lon: 14.336149641124736,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92219643943865,
+            lon: 14.335786167101073,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92227176007306,
+            lon: 14.335568879112584,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92241650279223,
+            lon: 14.335556146780487,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922442939208665,
+            lon: 14.335573175619713,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92257142940217,
+            lon: 14.335442865702333,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9226513325447,
+            lon: 14.33549274710215,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9227462572034,
+            lon: 14.33532403060277,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922640808927795,
+            lon: 14.335280646360072,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92262078010464,
+            lon: 14.335093119542904,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922631812931556,
+            lon: 14.3350388368431,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922477862422596,
+            lon: 14.334828569976017,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922278507101055,
+            lon: 14.334569155259114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922091669377764,
+            lon: 14.33430392453866,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92194616224643,
+            lon: 14.334082706818043,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92178024390179,
+            lon: 14.333909431829394,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92170530470928,
+            lon: 14.333883495597348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92165985740675,
+            lon: 14.333752976094255,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92148753084308,
+            lon: 14.333696335555176,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92138615461235,
+            lon: 14.333688580883779,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921318131894935,
+            lon: 14.333688580883779,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921193204181705,
+            lon: 14.333807415983339,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92090485974238,
+            lon: 14.333790753919114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.920774839183295,
+            lon: 14.333864423297415,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92062487395188,
+            lon: 14.333870606075964,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92047223502453,
+            lon: 14.333882814443777,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92029566235324,
+            lon: 14.333862222647424,
+            type: "waypoint"
+          },
+          {
+            lat: 35.920126303287574,
+            lon: 14.333764660497783,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9199005472165,
+            lon: 14.333670661305272,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919739292485446,
+            lon: 14.333560471616392,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919630997018416,
+            lon: 14.333438492731124,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91950245961213,
+            lon: 14.33332033878513,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91932554529008,
+            lon: 14.333212821314095,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919301399361274,
+            lon: 14.333163044707135,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91917905704632,
+            lon: 14.333090475653831,
+            type: "waypoint"
+          },
+          {
+            lat: 35.918917821834,
+            lon: 14.332916938683038,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91877718900541,
+            lon: 14.332851495543995,
+            type: "waypoint"
+          },
+          {
+            lat: 35.918763397299344,
+            lon: 14.3328018237299,
+            type: "waypoint"
+          },
+          {
+            label: "Ta' Marija Cave",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.332866509633169,
+            lat: 35.918123816986494,
+            type: "destination"
+          }
+        ]
       },
       {
-        lat: 35.9201820632405,
-        lon: 14.342592253561783,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92016385851133,
-        lon: 14.341710054897167,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92032137808043,
-        lon: 14.34127390702734,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92069323674545,
-        lon: 14.340689320075917,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92090023434103,
-        lon: 14.340343556045045,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92120780172358,
-        lon: 14.340002193314156,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92136383400161,
-        lon: 14.339851343996855,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921412251896385,
-        lon: 14.3399396843751,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92145044302826,
-        lon: 14.339844637254021,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921372108753474,
-        lon: 14.339767300125732,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921414840407024,
-        lon: 14.33961032042631,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921574012430696,
-        lon: 14.339369506441479,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92170505010262,
-        lon: 14.339119942253113,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92176802279259,
-        lon: 14.338950230221592,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921745914461724,
-        lon: 14.338902077903912,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92193950005874,
-        lon: 14.338661892676221,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921965469857284,
-        lon: 14.338397971866478,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92210028352733,
-        lon: 14.338111206213961,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92236426644422,
-        lon: 14.337811760625774,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92229187385287,
-        lon: 14.337411871084386,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92222576145191,
-        lon: 14.337009833289434,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92217025754499,
-        lon: 14.33662529590156,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922083394701176,
-        lon: 14.33629011594922,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92211123155842,
-        lon: 14.336149641124736,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92219643943865,
-        lon: 14.335786167101073,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92227176007306,
-        lon: 14.335568879112584,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92241650279223,
-        lon: 14.335556146780487,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922442939208665,
-        lon: 14.335573175619713,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92257142940217,
-        lon: 14.335442865702333,
-        type: "waypoint"
-      },
-      {
-        lat: 35.9226513325447,
-        lon: 14.33549274710215,
-        type: "waypoint"
-      },
-      {
-        lat: 35.9227462572034,
-        lon: 14.33532403060277,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922640808927795,
-        lon: 14.335280646360072,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92262078010464,
-        lon: 14.335093119542904,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922631812931556,
-        lon: 14.3350388368431,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922477862422596,
-        lon: 14.334828569976017,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922278507101055,
-        lon: 14.334569155259114,
-        type: "waypoint"
-      },
-      {
-        lat: 35.922091669377764,
-        lon: 14.33430392453866,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92194616224643,
-        lon: 14.334082706818043,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92178024390179,
-        lon: 14.333909431829394,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92170530470928,
-        lon: 14.333883495597348,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92165985740675,
-        lon: 14.333752976094255,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92148753084308,
-        lon: 14.333696335555176,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92138615461235,
-        lon: 14.333688580883779,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921318131894935,
-        lon: 14.333688580883779,
-        type: "waypoint"
-      },
-      {
-        lat: 35.921193204181705,
-        lon: 14.333807415983339,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92090485974238,
-        lon: 14.333790753919114,
-        type: "waypoint"
-      },
-      {
-        lat: 35.920774839183295,
-        lon: 14.333864423297415,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92062487395188,
-        lon: 14.333870606075964,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92047223502453,
-        lon: 14.333882814443777,
-        type: "waypoint"
-      },
-      {
-        lat: 35.92029566235324,
-        lon: 14.333862222647424,
-        type: "waypoint"
-      },
-      {
-        lat: 35.920126303287574,
-        lon: 14.333764660497783,
-        type: "waypoint"
-      },
-      {
-        lat: 35.9199005472165,
-        lon: 14.333670661305272,
-        type: "waypoint"
-      },
-      {
-        lat: 35.919739292485446,
-        lon: 14.333560471616392,
-        type: "waypoint"
-      },
-      {
-        lat: 35.919630997018416,
-        lon: 14.333438492731124,
-        type: "waypoint"
-      },
-      {
-        lat: 35.91950245961213,
-        lon: 14.33332033878513,
-        type: "waypoint"
-      },
-      {
-        lat: 35.91932554529008,
-        lon: 14.333212821314095,
-        type: "waypoint"
-      },
-      {
-        lat: 35.919301399361274,
-        lon: 14.333163044707135,
-        type: "waypoint"
-      },
-      {
-        lat: 35.91917905704632,
-        lon: 14.333090475653831,
-        type: "waypoint"
-      },
-      {
-        lat: 35.918917821834,
-        lon: 14.332916938683038,
-        type: "waypoint"
-      },
-      {
-        lat: 35.91877718900541,
-        lon: 14.332851495543995,
-        type: "waypoint"
-      },
-      {
-        lat: 35.918763397299344,
-        lon: 14.3328018237299,
-        type: "waypoint"
-      },
-      {
-        label: "Ta' Marija Cave",
-        description: "Open this exact spot in Google Maps.",
-        lon: 14.332866509633169,
-        lat: 35.918123816986494,
-        type: "destination"
+        label: "By kayak",
+        emoji: "\u{1F6A3}",
+        mapPoints: [
+          {
+            label: "Kayak rental",
+            description: "Rent a kayak here and paddle along the coast to the cave.",
+            lon: 14.343804495943932,
+            lat: 35.9204391606721,
+            type: "parking"
+          },
+          {
+            lat: 35.92065745248571,
+            lon: 14.343676763103488,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.922843114322646,
+            lon: 14.340040669342443,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.923576399026146,
+            lon: 14.334994243853775,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.92247752482058,
+            lon: 14.332959263083845,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.921354923707014,
+            lon: 14.332207488409354,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91931632940562,
+            lon: 14.33164806861458,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91860495858856,
+            lon: 14.331748461694593,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91836811501557,
+            lon: 14.332426180174993,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91818636558958,
+            lon: 14.332843832771932,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            label: "Ta' Marija Cave",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.332866509633169,
+            lat: 35.918123816986494,
+            type: "destination"
+          }
+        ]
       }
     ]
   },
@@ -1840,205 +1920,376 @@ var locations = [
     locality: "Qrendi",
     showLabel: false,
     thumb: "/assets/images/places/mini-inlandsea/mini-inlandsea-2-thumb.webp",
-    mapPoints: [
+    routes: [
       {
-        label: "Parking spot",
-        description: "Park here before starting the hike to the Mini Inland Sea.",
-        lon: 14.424184127065407,
-        lat: 35.82767683225009,
-        type: "parking"
+        label: "Route 1",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "Parking spot",
+            description: "Park here before starting the hike to the Mini Inland Sea.",
+            lon: 14.424184127065407,
+            lat: 35.82767683225009,
+            type: "parking"
+          },
+          {
+            lat: 35.82758094219595,
+            lon: 14.42440507403301,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827649410832564,
+            lon: 14.424799945491419,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8276107082209,
+            lon: 14.42506146087037,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82745616942192,
+            lon: 14.425385882432627,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82741321927129,
+            lon: 14.425480095024279,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82731586777582,
+            lon: 14.426109953138099,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827298572157346,
+            lon: 14.42680087341653,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82735453655165,
+            lon: 14.427025382692982,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82743391281987,
+            lon: 14.427108279715348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827589097272394,
+            lon: 14.427343936923013,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82769059392447,
+            lon: 14.427592627990114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827730723632925,
+            lon: 14.427950535255539,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82778332376199,
+            lon: 14.428295785847174,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82782437086688,
+            lon: 14.428642670909928,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82778210050357,
+            lon: 14.428768357547987,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82770598660932,
+            lon: 14.428873005609082,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827613120763544,
+            lon: 14.428936624254156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82753479803931,
+            lon: 14.42903523734497,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8275218858257,
+            lon: 14.42904026648687,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82725235752817,
+            lon: 14.429626313127379,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827134979268976,
+            lon: 14.429873802276514,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82700825709644,
+            lon: 14.430101547958122,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82691587742188,
+            lon: 14.43027471643323,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82674592674739,
+            lon: 14.430441622663135,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82668351738346,
+            lon: 14.430598439720203,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82660443019239,
+            lon: 14.430877979388212,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826438574287224,
+            lon: 14.431281555673403,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82633407017288,
+            lon: 14.431586704037494,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82627188462045,
+            lon: 14.43184225440629,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826230895304505,
+            lon: 14.4322040146236,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82626900429085,
+            lon: 14.432327622483324,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82629016363292,
+            lon: 14.432513626351826,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82641242980792,
+            lon: 14.432589230274871,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826480117404,
+            lon: 14.432698172795305,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82643731876159,
+            lon: 14.432945479603816,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82634891493532,
+            lon: 14.43307541815348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82621834001432,
+            lon: 14.43332595862376,
+            type: "waypoint"
+          },
+          {
+            label: "Mini Inland Sea",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.43338093087383,
+            lat: 35.826193672556016,
+            type: "destination"
+          }
+        ]
       },
       {
-        lat: 35.82758094219595,
-        lon: 14.42440507403301,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827649410832564,
-        lon: 14.424799945491419,
-        type: "waypoint"
-      },
-      {
-        lat: 35.8276107082209,
-        lon: 14.42506146087037,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82745616942192,
-        lon: 14.425385882432627,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82741321927129,
-        lon: 14.425480095024279,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82731586777582,
-        lon: 14.426109953138099,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827298572157346,
-        lon: 14.42680087341653,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82735453655165,
-        lon: 14.427025382692982,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82743391281987,
-        lon: 14.427108279715348,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827589097272394,
-        lon: 14.427343936923013,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82769059392447,
-        lon: 14.427592627990114,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827730723632925,
-        lon: 14.427950535255539,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82778332376199,
-        lon: 14.428295785847174,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82782437086688,
-        lon: 14.428642670909928,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82778210050357,
-        lon: 14.428768357547987,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82770598660932,
-        lon: 14.428873005609082,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827613120763544,
-        lon: 14.428936624254156,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82753479803931,
-        lon: 14.42903523734497,
-        type: "waypoint"
-      },
-      {
-        lat: 35.8275218858257,
-        lon: 14.42904026648687,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82725235752817,
-        lon: 14.429626313127379,
-        type: "waypoint"
-      },
-      {
-        lat: 35.827134979268976,
-        lon: 14.429873802276514,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82700825709644,
-        lon: 14.430101547958122,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82691587742188,
-        lon: 14.43027471643323,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82674592674739,
-        lon: 14.430441622663135,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82668351738346,
-        lon: 14.430598439720203,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82660443019239,
-        lon: 14.430877979388212,
-        type: "waypoint"
-      },
-      {
-        lat: 35.826438574287224,
-        lon: 14.431281555673403,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82633407017288,
-        lon: 14.431586704037494,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82627188462045,
-        lon: 14.43184225440629,
-        type: "waypoint"
-      },
-      {
-        lat: 35.826230895304505,
-        lon: 14.4322040146236,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82626900429085,
-        lon: 14.432327622483324,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82629016363292,
-        lon: 14.432513626351826,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82641242980792,
-        lon: 14.432589230274871,
-        type: "waypoint"
-      },
-      {
-        lat: 35.826480117404,
-        lon: 14.432698172795305,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82643731876159,
-        lon: 14.432945479603816,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82634891493532,
-        lon: 14.43307541815348,
-        type: "waypoint"
-      },
-      {
-        lat: 35.82621834001432,
-        lon: 14.43332595862376,
-        type: "waypoint"
-      },
-      {
-        label: "Mini Inland Sea",
-        description: "Open this exact spot in Google Maps.",
-        lon: 14.43338093087383,
-        lat: 35.826193672556016,
-        type: "destination"
+        label: "Route 2",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "Parking spot",
+            description: "Park here before starting this alternative route to the Mini Inland Sea.",
+            lon: 14.444267085996483,
+            lat: 35.82733470952982,
+            type: "parking"
+          },
+          {
+            lat: 35.82746291126993,
+            lon: 14.442778213270046,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827430282721295,
+            lon: 14.442724448178728,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82721026482085,
+            lon: 14.442692638856192,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82701125357593,
+            lon: 14.442368130254811,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82694106240875,
+            lon: 14.441818762942367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82699015304679,
+            lon: 14.441762231009163,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82733313575018,
+            lon: 14.441391209087053,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826808420514325,
+            lon: 14.437065070976338,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826204343651725,
+            lon: 14.437372440424214,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8256493849136,
+            lon: 14.437828984997731,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82557025425973,
+            lon: 14.437814119753265,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82551914434812,
+            lon: 14.43791013277314,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543976961698,
+            lon: 14.437863908258102,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543501341543,
+            lon: 14.437796176716807,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82520644703607,
+            lon: 14.437640621492204,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82483145104226,
+            lon: 14.437436258129434,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82500052713675,
+            lon: 14.437042773303446,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82515892108387,
+            lon: 14.436549751569347,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82546197246556,
+            lon: 14.436395122214286,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82556036314257,
+            lon: 14.436120379967457,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8257491605892,
+            lon: 14.435472677011818,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82580573772057,
+            lon: 14.435188781951382,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826124913538564,
+            lon: 14.434398284663278,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826408816852464,
+            lon: 14.433664951954805,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82656743601548,
+            lon: 14.433334641968546,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82663863076063,
+            lon: 14.43296066817481,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82643524934623,
+            lon: 14.432714328233367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82634891493532,
+            lon: 14.43307541815348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82621834001432,
+            lon: 14.43332595862376,
+            type: "waypoint"
+          },
+          {
+            label: "Mini Inland Sea",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.43338093087383,
+            lat: 35.826193672556016,
+            type: "destination"
+          }
+        ]
       }
     ]
   },
@@ -3305,4 +3556,4 @@ var locations = [
 export {
   locations
 };
-//# sourceMappingURL=chunk-BGN3ADSP.js.map
+//# sourceMappingURL=chunk-NLGVXZUI.js.map

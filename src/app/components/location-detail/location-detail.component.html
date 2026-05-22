@@ -61,7 +61,7 @@
       <i class="fa fa-map"></i>
       Follow the routes on the map above — Google Maps may take different paths.
     </div>
-    <ng-container *ngFor="let group of allRoutesVisiblePoints()">
+    <ng-container *ngFor="let group of allRoutesVisiblePoints(); trackBy: trackByRouteGroup">
       <div *ngIf="group.points.length" class="nav-section">
         <div class="nav-section__label">
           <ng-container *ngIf="group.route.emoji">{{ group.route.emoji }}&nbsp;</ng-container>{{ group.route.label }} — directions

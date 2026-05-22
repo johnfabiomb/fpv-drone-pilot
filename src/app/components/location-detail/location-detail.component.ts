@@ -54,6 +54,15 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   private prevLocationId: number | null = null;
   private dismissedNearby = false;
 
+  // Cached per-location — recomputed only in ngOnChanges when location.id changes.
+  // allRoutesVisiblePoints() must NOT create new object references on every CD cycle:
+  // OL animations tick via rAF through zone.js at ~60fps, and *ngFor without stable
+  // references destroys + recreates all DOM nodes every frame, saturating the JS thread
+  // and making every button in the panel unresponsive.
+  private _routeGroups: { route: Route; points: MapPoint[] }[] = [];
+  private _sharedDest: MapPoint | null = null;
+  private _anyRouteRecorded = false;
+
   private readonly router = inject(Router);
   private readonly analyticsService = inject(AnalyticsService);
 
@@ -74,6 +83,10 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
         const srcs = location.images?.length ? location.images : [location.img];
         srcs.forEach(src => { new Image().src = src; });
       }
+
+      this._routeGroups = this.buildRouteGroups();
+      this._sharedDest  = this.buildSharedDest();
+      this._anyRouteRecorded = (location.routes ?? []).some(r => r.mapPoints.some(p => p.type === 'waypoint'));
     }
     this.checkProximity();
   }
@@ -141,7 +154,12 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
     );
   }
 
-  allRoutesVisiblePoints(): { route: Route; points: MapPoint[] }[] {
+  allRoutesVisiblePoints(): { route: Route; points: MapPoint[] }[] { return this._routeGroups; }
+  sharedRouteDestination(): MapPoint | null { return this._sharedDest; }
+  anyRouteHasRecordedRoute(): boolean { return this._anyRouteRecorded; }
+  trackByRouteGroup(_i: number, g: { route: Route; points: MapPoint[] }): string { return g.route.label; }
+
+  private buildRouteGroups(): { route: Route; points: MapPoint[] }[] {
     const loc = this.location;
     if (!loc?.routes || loc.routes.length < 2) return [];
     return loc.routes
@@ -154,14 +172,10 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       .filter(r => r.points.length > 0);
   }
 
-  sharedRouteDestination(): MapPoint | null {
+  private buildSharedDest(): MapPoint | null {
     const routes = this.location?.routes;
     if (!routes || routes.length < 2) return null;
     return routes[0].mapPoints.find(p => p.type === 'destination' && p.showButton !== false) ?? null;
-  }
-
-  anyRouteHasRecordedRoute(): boolean {
-    return (this.location?.routes ?? []).some(r => r.mapPoints.some(p => p.type === 'waypoint'));
   }
 
   navigateTo(point: MapPoint, index: number, pointsOverride?: MapPoint[]): void {

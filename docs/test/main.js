@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-DJGN43IF.js";
+} from "./chunk-3WXIUPTY.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -93,16 +93,16 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-U3TA7NCC.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-EV2H23SZ.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-5RZC3NXV.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-D62F3QWO.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-HCA2YD7A.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-6SXITXPW.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
@@ -110,11 +110,11 @@ var routes = [
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-U4Z4FC64.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-JPV42DYW.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-C6CBYG64.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-WAVV2R7F.js").then((m) => m.LocationPageComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
@@ -126,7 +126,7 @@ var routes = [
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-RJ3VNWRI.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-U6ZX5WCH.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
