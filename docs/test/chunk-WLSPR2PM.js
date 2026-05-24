@@ -124,7 +124,8 @@ var REVEALED = [
   { num: 17, name: "Babu Valley / Wied Babu", id: 59 },
   { num: 18, name: "L-G\u0127ar ta' Bla Saqaf", id: 16 },
   { num: 19, name: "Xlendi Tower Coastal Path", id: 73 },
-  { num: 20, name: "Mini Inland Sea", id: 52 }
+  { num: 20, name: "Mini Inland Sea", id: 52 },
+  { num: 21, name: "G\u0127ar \u0126anex Sea Cave", id: 74 }
 ];
 var TOTAL = 30;
 var TopPlacesComponent = class _TopPlacesComponent {
@@ -227,9 +228,9 @@ var TopPlacesComponent = class _TopPlacesComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/platform/top-places/top-places.component.ts", lineNumber: 44 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/platform/top-places/top-places.component.ts", lineNumber: 45 });
 })();
 export {
   TopPlacesComponent
 };
-//# sourceMappingURL=chunk-ZTPLERL6.js.map
+//# sourceMappingURL=chunk-WLSPR2PM.js.map

@@ -24,7 +24,7 @@ import {
 } from "./chunk-QQNN6TR7.js";
 import {
   locations
-} from "./chunk-UX2QP24K.js";
+} from "./chunk-ZGA5L2H3.js";
 import {
   takeUntilDestroyed
 } from "./chunk-XNG4FTY2.js";
@@ -439,4 +439,4 @@ var ProviderPageComponent = class _ProviderPageComponent {
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-IS2Y7VJM.js.map
+//# sourceMappingURL=chunk-SO2QP2ZY.js.map

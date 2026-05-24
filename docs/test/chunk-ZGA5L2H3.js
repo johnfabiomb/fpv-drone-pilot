@@ -3567,7 +3567,7 @@ var locations = [
       "/assets/images/places/ghar-hanex/ghar-hanex-2.webp",
       "/assets/images/places/ghar-hanex/ghar-hanex-3.webp"
     ],
-    description: "G\u0127ar \u0126anex was a dramatic sea cave carved into the southern cliffs of Qrendi, once described as a miniature Azure Window. In April 2019 it collapsed due to coastal erosion \u2014 first the cave, then the arch that briefly formed from the rubble. What remains is a striking collapsed coastal formation with crystal-clear turquoise water at its base. Reach it by kayak, SUP, or a short swim from the bay below, or follow the cliffside trail south from the \u0126a\u0121ar Qim Temples past Mnajdra. The views toward Filfla island and the raw limestone coast make it a rewarding detour for adventurous hikers and sea explorers alike.",
+    description: "G\u0127ar \u0126anex is a rugged coastal area in Qrendi, along Malta\u2019s southern coastline between G\u0127ar Lapsi and Wied i\u017C-\u017Burrieq. The main G\u0127ar \u0126anex cave/window collapsed in 2019 due to rough seas and coastal erosion, but the surrounding coastline remains a dramatic nature spot with limestone cliffs, wild sea views, a hidden rocky bay, and a smaller cave section nearby. The area is best explored with care, as access can be uneven, exposed, and unsuitable in rough weather or strong wind.",
     lon: 14.4388,
     lat: 35.8232,
     keywords: "G\u0127ar \u0126anex, Malta, Qrendi, sea cave, collapsed arch, natural arch, coastal hike, kayak, \u0126a\u0121ar Qim, Filfla, hidden gem",
@@ -4027,4 +4027,4 @@ var locations = [
 export {
   locations
 };
-//# sourceMappingURL=chunk-UX2QP24K.js.map
+//# sourceMappingURL=chunk-ZGA5L2H3.js.map

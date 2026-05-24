@@ -30,6 +30,7 @@ const REVEALED: TrendLocation[] = [
   { num: 18, name: 'L-Għar ta\' Bla Saqaf',           id: 16 },
   { num: 19, name: 'Xlendi Tower Coastal Path',        id: 73 },
   { num: 20, name: 'Mini Inland Sea',                  id: 52 },
+  { num: 21, name: 'Għar Ħanex Sea Cave',              id: 74 },
 ];
 
 const TOTAL = 30;

@@ -1,6 +1,6 @@
 import {
   version
-} from "./chunk-5HDZGIUG.js";
+} from "./chunk-A7AODU35.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -93,16 +93,16 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-3OXRYLOP.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-DHPQNBGE.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-6GXWTWDS.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-VUNHY7YJ.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-M5VFX6LY.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-DVA4MSBG.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
@@ -110,23 +110,23 @@ var routes = [
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-IS2Y7VJM.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-SO2QP2ZY.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-WM2CV7CN.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-NS5L5NR6.js").then((m) => m.LocationPageComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-ZTPLERL6.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-WLSPR2PM.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-SBW26A2I.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-KUYGTFPD.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
