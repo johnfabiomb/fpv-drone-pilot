@@ -62,7 +62,7 @@ app-filter-bar {
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 210; // above route tabs (200)
   background: rgba(30, 30, 30, 0.88);
   color: #fff;
   font-size: 12px;
@@ -75,6 +75,17 @@ app-filter-bar {
   white-space: nowrap;
   backdrop-filter: blur(6px);
   pointer-events: none;
+}
+
+// When route tabs are also visible, float the pill above them with a gap.
+// Tabs: height 38px + bottom 16px = top at 54px; +10px gap = 64px.
+// Mobile: tabs at bottom 26px → top 64px; +10px = 74px.
+.floating-route-tabs ~ .offline-pill {
+  bottom: 64px;
+
+  @media (max-width: 768px) {
+    bottom: 74px;
+  }
 }
 
 .offline-dot {

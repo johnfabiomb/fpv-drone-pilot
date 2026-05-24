@@ -73,7 +73,7 @@ export interface RouteFeatures {
 
 export function buildRouteFeatures(
   mapPoints: MapPoint[],
-  options: { dashed?: boolean; lineColor?: string; skipEndPin?: boolean } = {}
+  options: { dashed?: boolean; lineColor?: string; skipEndPin?: boolean; skipSegmentColors?: boolean } = {}
 ): RouteFeatures {
   if (!mapPoints || mapPoints.length < 2) return { graphics: [], labels: [] };
 
@@ -83,10 +83,21 @@ export function buildRouteFeatures(
   const graphics: Feature[] = [];
   const labels: Feature[] = [];
 
+  // Pre-compute per-segment colour. A point's segmentColor takes effect from
+  // that point onward (i.e. the segment starting at that index changes colour).
+  // segmentColor is skipped in "All routes" mode so each route keeps its flat ROUTE_COLOR.
+  const segColors: string[] = [];
+  let running = color;
+  for (let i = 0; i < coords.length - 1; i++) {
+    if (!options.skipSegmentColors && mapPoints[i]?.segmentColor) running = mapPoints[i].segmentColor!;
+    segColors.push(running);
+  }
+
   // ── Lines ────────────────────────────────────────────────────────────────
   for (let i = 0; i < coords.length - 1; i++) {
     const segCoords = [coords[i], coords[i + 1]];
     const point = mapPoints[i + 1];
+    const segColor = segColors[i];
     const isDashed = point?.lineStyle === 'dashed'
       ? true
       : point?.lineStyle === 'solid'
@@ -101,7 +112,7 @@ export function buildRouteFeatures(
     const segLine = new Feature(new LineString(segCoords));
     segLine.setStyle(new Style({
       stroke: new Stroke({
-        color: color,
+        color: segColor,
         width: 3,
         lineDash: isDashed ? [12, 8] : undefined,
       }),
@@ -114,15 +125,25 @@ export function buildRouteFeatures(
   coords.forEach((coord, i) => {
     const isFirst = i === 0;
     const isLast  = i === coords.length - 1;
+    const mp      = mapPoints[i];
 
     if (isLast && options.skipEndPin) return;
 
-    if (isFirst || isLast) {
-      const label    = isFirst ? (mapPoints[i]?.label ?? 'Parking') : (mapPoints[i]?.label ?? 'Destination');
-      const pinColor = isFirst ? '#3b82f6' : color;
-      const zIdx     = isLast ? 2 : 1;
+    if (isFirst || isLast || mp?.showPin) {
+      const label = isFirst
+        ? (mp?.label ?? 'Parking')
+        : isLast
+        ? (mp?.label ?? 'Destination')
+        : (mp?.label ?? '');
 
-      // Icon — always visible (non-decluttered layer)
+      // First pin: blue; last pin: colour of its incoming segment; intermediate: base colour
+      const pinColor = isFirst
+        ? '#3b82f6'
+        : isLast
+        ? segColors[segColors.length - 1]
+        : color;
+      const zIdx = isLast ? 2 : 1;
+
       const iconFeature = new Feature(new Point(coord));
       iconFeature.setStyle(new Style({
         image: new Icon({
@@ -155,7 +176,8 @@ export function buildRouteFeatures(
       labels.push(labelFeature);
 
     } else {
-      // Waypoint dot (no label)
+      // Waypoint dot — colour matches its outgoing segment
+      const dotColor = segColors[Math.min(i, segColors.length - 1)];
       const dot = new Feature(new Point(coord));
       dot.setStyle(new Style({
         image: new Icon({
@@ -166,7 +188,7 @@ export function buildRouteFeatures(
             ctx.beginPath();
             ctx.arc(4, 4, 2.5, 0, Math.PI * 2);
             ctx.globalAlpha = 0.55;
-            ctx.fillStyle = color;
+            ctx.fillStyle = dotColor;
             ctx.fill();
             ctx.globalAlpha = 1;
             ctx.strokeStyle = 'rgba(255,255,255,0.7)';

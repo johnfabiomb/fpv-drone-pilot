@@ -8,6 +8,8 @@ export interface MapPoint {
   lat: number;
   type: 'destination' | 'parking' | 'waypoint' | string;
   lineStyle?: string;
+  segmentColor?: string;  // changes line colour from this point onwards
+  showPin?: boolean;      // renders a labelled pin at this intermediate waypoint
   showButton?: boolean;
 }
 

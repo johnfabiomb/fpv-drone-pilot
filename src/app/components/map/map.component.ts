@@ -716,10 +716,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private drawAllRoutesForLocation(location: Location): void {
     let anyFeatures = false;
-    location.routes!.forEach((route, i) => {
+    const route0Last = location.routes![0].mapPoints.at(-1);
+    // Draw in reverse order so route 0 is added last and renders on top.
+    // When paths overlap (e.g. identical routes), the primary route (0) stays visible.
+    [...location.routes!].reverse().forEach((route, reversedI) => {
+      const i = location.routes!.length - 1 - reversedI;
       const color = ROUTE_COLORS[i % ROUTE_COLORS.length];
-      // skipEndPin on all but the first route — shared destination drawn once, labels decluttered
-      const { graphics, labels } = buildRouteFeatures(route.mapPoints, { lineColor: color, skipEndPin: i > 0 });
+      const thisLast = route.mapPoints.at(-1);
+      const sharedDest = i > 0 && !!thisLast && !!route0Last
+        && thisLast.lon === route0Last.lon && thisLast.lat === route0Last.lat;
+      const { graphics, labels } = buildRouteFeatures(route.mapPoints, { lineColor: color, skipEndPin: sharedDest, skipSegmentColors: true });
       if (graphics.length > 0) {
         this.routeSource.addFeatures(graphics);
         anyFeatures = true;

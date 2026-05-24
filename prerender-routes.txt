@@ -74,3 +74,4 @@
 /malta/locations/blata-tal-melh-rock-passage
 /malta/locations/qarraba-cliffs
 /malta/locations/xlendi-tower-coastal-path
+/malta/locations/ghar-hanex

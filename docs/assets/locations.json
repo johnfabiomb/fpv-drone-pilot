@@ -106,14 +106,20 @@
         },
         {
             "id": 4,
-            "title": "Ras Il-Mignuna Window",
+            "title": "Ras Il-Hamrija Window",
             "slug": "ras-il-mignuna-window",
-            "description": "This is a Natural Arch at <b>Ras Il-Mignuna</b> located on the coast of Qrendi, between Wied iż-Żurrieq and Għar Lapsi",
-            "img": "/assets/images/places/1.webp",
+            "description": "This is a Natural Arch at <b>Ras Il-Hamrija</b> located on the coast of Qrendi, between Wied iż-Żurrieq and Għar Lapsi",
+            "img": "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window.webp",
+            "thumb": "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-thumb.webp",
+            "images": [
+                "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-2.webp",
+                "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window.webp",
+                "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-3.webp"
+            ],
             "lon": 14.438552453233333,
             "lat": 35.822497835426105,
             "url": "https://www.instagram.com/johnfabiomb/embed",
-            "keywords": "Ras Il-Mignuna Window, Malta, natural arch, coastal views, rock formations",
+            "keywords": "Ras Il-Hamrija Window, Malta, natural arch, coastal views, rock formations",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -135,8 +141,7 @@
                 "hard"
             ],
             "locality": "Qrendi",
-            "showLabel": false,
-            "thumb": "/assets/images/places/1-thumb.webp"
+            "showLabel": false
         },
         {
             "id": 5,
@@ -564,7 +569,7 @@
             "rating": 4.8,
             "mapPoints": [
                 {
-                    "label": "Parking area",
+                    "label": "Park here near Dingli viewpoint",
                     "description": "Start here and follow the trail down to the cliff edge.",
                     "lon": 14.399677210296517,
                     "lat": 35.84446169470104,
@@ -1130,7 +1135,7 @@
             "rating": 4.8,
             "mapPoints": [
                 {
-                    "label": "Parking spot",
+                    "label": "Park here near the Mġarr cliffs road",
                     "description": "Park here. Google Maps may try to send you through private or rough paths.",
                     "lon": 14.334066172771909,
                     "lat": 35.90319495943615,
@@ -1324,7 +1329,7 @@
                     "emoji": "🚶",
                     "mapPoints": [
                         {
-                            "label": "Parking spot",
+                            "label": "Ġnejna Bay car park",
                             "description": "Park here before starting the coastal hike to the cave.",
                             "lon": 14.344498626957746,
                             "lat": 35.92051841887867,
@@ -1926,7 +1931,7 @@
                     "emoji": "🚶",
                     "mapPoints": [
                         {
-                            "label": "Parking spot",
+                            "label": "Park here near Qrendi cliffs road",
                             "description": "Park here before starting the hike to the Mini Inland Sea.",
                             "lon": 14.424184127065407,
                             "lat": 35.82767683225009,
@@ -2131,7 +2136,7 @@
                     "emoji": "🚶",
                     "mapPoints": [
                         {
-                            "label": "Parking spot",
+                            "label": "Ħaġar Qim car park",
                             "description": "Park here before starting this alternative route to the Mini Inland Sea.",
                             "lon": 14.444267085996483,
                             "lat": 35.82733470952982,
@@ -2484,7 +2489,7 @@
             "rating": 4.6,
             "mapPoints": [
                 {
-                    "label": "Parking",
+                    "label": "Park here near Wied Babu",
                     "description": "Park here and continue on foot.",
                     "lon": 14.457569691494976,
                     "lat": 35.82255508785779,
@@ -2954,7 +2959,7 @@
             "rating": 4.8,
             "mapPoints": [
                 {
-                    "label": "Parking spot",
+                    "label": "Ġnejna Bay car park",
                     "description": "Park here before starting the coastal hike.",
                     "lon": 14.344498626957746,
                     "lat": 35.92051841887867,
@@ -3114,7 +3119,7 @@
             "recommendedRoute": "/assets/images/recommendedRoute-blata.webp",
             "mapPoints": [
                 {
-                    "label": "Parking spot",
+                    "label": "Park here near the Mġarr cliffs road",
                     "description": "Park here. Google Maps may try to send you through private or rough paths.",
                     "lon": 14.334066172771909,
                     "lat": 35.90319495943615,
@@ -3363,7 +3368,7 @@
             "recommendedRoute": "/assets/images/recommendedRoute-xlendi-tower.png",
             "mapPoints": [
                 {
-                    "label": "Parking spot",
+                    "label": "Park here near Xlendi village",
                     "description": "Park here before starting the coastal walk toward Xlendi Tower.",
                     "lat": 36.02871017107773,
                     "lon": 14.215572361306917,
@@ -3550,6 +3555,472 @@
             "locality": "Gozo-Munxar",
             "showLabel": false,
             "thumb": "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path-thumb.webp"
+        },
+        {
+            "id": 74,
+            "title": "Għar Ħanex",
+            "slug": "ghar-hanex",
+            "img": "/assets/images/places/ghar-hanex/ghar-hanex.webp",
+            "thumb": "/assets/images/places/ghar-hanex/ghar-hanex-thumb.webp",
+            "images": [
+                "/assets/images/places/ghar-hanex/ghar-hanex.webp",
+                "/assets/images/places/ghar-hanex/ghar-hanex-2.webp",
+                "/assets/images/places/ghar-hanex/ghar-hanex-3.webp"
+            ],
+            "description": "Għar Ħanex was a dramatic sea cave carved into the southern cliffs of Qrendi, once described as a miniature Azure Window. In April 2019 it collapsed due to coastal erosion — first the cave, then the arch that briefly formed from the rubble. What remains is a striking collapsed coastal formation with crystal-clear turquoise water at its base. Reach it by kayak, SUP, or a short swim from the bay below, or follow the cliffside trail south from the Ħaġar Qim Temples past Mnajdra. The views toward Filfla island and the raw limestone coast make it a rewarding detour for adventurous hikers and sea explorers alike.",
+            "lon": 14.4388,
+            "lat": 35.8232,
+            "keywords": "Għar Ħanex, Malta, Qrendi, sea cave, collapsed arch, natural arch, coastal hike, kayak, Ħaġar Qim, Filfla, hidden gem",
+            "rating": 4.5,
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "natural-arch",
+                "hiking",
+                "coastal-walk",
+                "swimming",
+                "kayak",
+                "hard"
+            ],
+            "locality": "Qrendi",
+            "showLabel": false,
+            "routes": [
+                {
+                    "label": "On foot & Kayak",
+                    "emoji": "🚣",
+                    "mapPoints": [
+                        {
+                            "label": "Ħaġar Qim car park",
+                            "description": "Park at the Ħaġar Qim Visitor Centre, then follow the coastal path south past Mnajdra Temples.",
+                            "lon": 14.444267085996483,
+                            "lat": 35.82733470952982,
+                            "type": "parking"
+                        },
+                        {
+                            "lat": 35.82746291126993,
+                            "lon": 14.442778213270046,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.827430282721295,
+                            "lon": 14.442724448178728,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82721026482085,
+                            "lon": 14.442692638856192,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82701125357593,
+                            "lon": 14.442368130254811,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82694106240875,
+                            "lon": 14.441818762942367,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82699015304679,
+                            "lon": 14.441762231009163,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82733313575018,
+                            "lon": 14.441391209087053,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.826808420514325,
+                            "lon": 14.437065070976338,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.826204343651725,
+                            "lon": 14.437372440424214,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.8256493849136,
+                            "lon": 14.437828984997731,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82557025425973,
+                            "lon": 14.437814119753265,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82551914434812,
+                            "lon": 14.43791013277314,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82543976961698,
+                            "lon": 14.437863908258102,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82543501341543,
+                            "lon": 14.437796176716807,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82520644703607,
+                            "lon": 14.437640621492204,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82483145104226,
+                            "lon": 14.437436258129434,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.43735796054233,
+                            "lat": 35.82463603665428,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437320891575554,
+                            "lat": 35.82454230070627,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.43731253062714,
+                            "lat": 35.82439866378587,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437328540062197,
+                            "lat": 35.82423280308676,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437543892109433,
+                            "lat": 35.824126578658536,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437714191427121,
+                            "lat": 35.82404767481657,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437826152698733,
+                            "lat": 35.82396041156149,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437588085693905,
+                            "lat": 35.82390718024918,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437416340497919,
+                            "lat": 35.8239710816064,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437312425853351,
+                            "lat": 35.823874439491306,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437231037573556,
+                            "lat": 35.823805678758646,
+                            "type": "waypoint"
+                        },
+                        {
+                            "label": "Kayak launch point",
+                            "description": "Reach the water here — hire a kayak or SUP to continue to the cave.",
+                            "lon": 14.437209894222805,
+                            "lat": 35.823671198428585,
+                            "type": "waypoint",
+                            "showPin": true,
+                            "segmentColor": "#22c55e",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.437214755726641,
+                            "lat": 35.823469910767216,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.437442387262022,
+                            "lat": 35.82297972976569,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.437902658519931,
+                            "lat": 35.822387634653126,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.438252896343954,
+                            "lat": 35.82216671924684,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.438643115846103,
+                            "lat": 35.82227996353092,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.438874896423556,
+                            "lat": 35.82245014398468,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.438881413353268,
+                            "lat": 35.82263262541571,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.4387249022663,
+                            "lat": 35.82283721140769,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.43853459115479,
+                            "lat": 35.82300107011771,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "lon": 14.438378499162978,
+                            "lat": 35.82327592858168,
+                            "type": "waypoint",
+                            "lineStyle": "dashed"
+                        },
+                        {
+                            "label": "Għar Ħanex",
+                            "description": "The collapsed sea cave — explore the turquoise water and dramatic cliffs.",
+                            "lon": 14.438320140162146,
+                            "lat": 35.8233758166385,
+                            "type": "destination"
+                        }
+                    ]
+                },
+                {
+                    "label": "Fully on foot (risky)",
+                    "emoji": "🚶",
+                    "mapPoints": [
+                        {
+                            "label": "Ħaġar Qim car park",
+                            "description": "Park at the Ħaġar Qim Visitor Centre, then follow the coastal path south past Mnajdra Temples.",
+                            "lon": 14.444267085996483,
+                            "lat": 35.82733470952982,
+                            "type": "parking"
+                        },
+                        {
+                            "lat": 35.82746291126993,
+                            "lon": 14.442778213270046,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.827430282721295,
+                            "lon": 14.442724448178728,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82721026482085,
+                            "lon": 14.442692638856192,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82701125357593,
+                            "lon": 14.442368130254811,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82694106240875,
+                            "lon": 14.441818762942367,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82699015304679,
+                            "lon": 14.441762231009163,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82733313575018,
+                            "lon": 14.441391209087053,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.826808420514325,
+                            "lon": 14.437065070976338,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.826204343651725,
+                            "lon": 14.437372440424214,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.8256493849136,
+                            "lon": 14.437828984997731,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82557025425973,
+                            "lon": 14.437814119753265,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82551914434812,
+                            "lon": 14.43791013277314,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82543976961698,
+                            "lon": 14.437863908258102,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82543501341543,
+                            "lon": 14.437796176716807,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82520644703607,
+                            "lon": 14.437640621492204,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lat": 35.82483145104226,
+                            "lon": 14.437436258129434,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.43735796054233,
+                            "lat": 35.82463603665428,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437320891575554,
+                            "lat": 35.82454230070627,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.43731253062714,
+                            "lat": 35.82439866378587,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437328540062197,
+                            "lat": 35.82423280308676,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437543892109433,
+                            "lat": 35.824126578658536,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437714191427121,
+                            "lat": 35.82404767481657,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437826152698733,
+                            "lat": 35.82396041156149,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437588085693905,
+                            "lat": 35.82390718024918,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437416340497919,
+                            "lat": 35.8239710816064,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437312425853351,
+                            "lat": 35.823874439491306,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437231037573556,
+                            "lat": 35.823805678758646,
+                            "type": "waypoint"
+                        },
+                        {
+                            "label": "Caution — risky terrain ahead",
+                            "lon": 14.43726937252161,
+                            "lat": 35.82371050778049,
+                            "type": "waypoint",
+                            "showPin": true
+                        },
+                        {
+                            "lon": 14.437333516831394,
+                            "lat": 35.82366060250746,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437388425932523,
+                            "lat": 35.823636145724535,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437502807157491,
+                            "lat": 35.823591128223114,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437572060306106,
+                            "lat": 35.82351152404226,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437754253725155,
+                            "lat": 35.82341043812873,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437881166888113,
+                            "lat": 35.823346719226365,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.437957340985063,
+                            "lat": 35.82333692584966,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.438130823178918,
+                            "lat": 35.82334266374143,
+                            "type": "waypoint"
+                        },
+                        {
+                            "lon": 14.438309545207474,
+                            "lat": 35.823386902164344,
+                            "type": "waypoint"
+                        },
+                        {
+                            "label": "Għar Ħanex",
+                            "description": "The collapsed sea cave — explore the turquoise water and dramatic cliffs.",
+                            "lon": 14.438320140162146,
+                            "lat": 35.8233758166385,
+                            "type": "destination"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -189,7 +189,7 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 210;
   background: rgba(30, 30, 30, 0.88);
   color: #fff;
   font-size: 12px;
@@ -203,6 +203,14 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   pointer-events: none;
+}
+.floating-route-tabs[_ngcontent-ng-c2336635175]    ~ .offline-pill[_ngcontent-ng-c2336635175] {
+  bottom: 64px;
+}
+@media (max-width: 768px) {
+  .floating-route-tabs[_ngcontent-ng-c2336635175]    ~ .offline-pill[_ngcontent-ng-c2336635175] {
+    bottom: 74px;
+  }
 }
 .offline-dot[_ngcontent-ng-c2336635175] {
   width: 7px;
@@ -1293,7 +1301,7 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   "ng-reflect-ng-if": "Share"
 }--></button></app-share-btn></div><hr _ngcontent-ng-c3943084401="" class="divider"><div _ngcontent-ng-c3943084401="" class="nav-section"><div _ngcontent-ng-c3943084401="" class="route-alert"><i _ngcontent-ng-c3943084401="" class="fa fa-map"></i> Follow the route on the map above — Google Maps may take a different path. </div><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><div _ngcontent-ng-c3943084401="" class="nav-section__label">Google Maps directions</div><div _ngcontent-ng-c3943084401="" class="button nav-btn"><span _ngcontent-ng-c3943084401="">🚗 Drive to Parking</span><span _ngcontent-ng-c3943084401="" class="nav-btn__hint">Opens Google Maps</span></div><div _ngcontent-ng-c3943084401="" class="button nav-btn"><span _ngcontent-ng-c3943084401="">🚶 Walk to Babu Valley</span><span _ngcontent-ng-c3943084401="" class="nav-btn__hint">Opens Google Maps</span></div><!--bindings={
+}--><div _ngcontent-ng-c3943084401="" class="nav-section__label">Google Maps directions</div><div _ngcontent-ng-c3943084401="" class="button nav-btn"><span _ngcontent-ng-c3943084401="">🚗 Drive to Park here near Wied Babu</span><span _ngcontent-ng-c3943084401="" class="nav-btn__hint">Opens Google Maps</span></div><div _ngcontent-ng-c3943084401="" class="button nav-btn"><span _ngcontent-ng-c3943084401="">🚶 Walk to Babu Valley</span><span _ngcontent-ng-c3943084401="" class="nav-btn__hint">Opens Google Maps</span></div><!--bindings={
   "ng-reflect-ng-for-of": "[object Object],[object Object"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "2"
@@ -1301,13 +1309,13 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   "ng-reflect-ng-if-else": "[object Object]"
 }--><!--container--></div><div _ngcontent-ng-c3943084401="" class="closest-section"><h4 _ngcontent-ng-c3943084401="" class="closest-title">Closest Spots</h4><div _ngcontent-ng-c3943084401="" class="closest-list"><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/blue-grotto.webp" alt="Blue Grotto"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">Blue Grotto</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Cave</span><!--bindings={
   "ng-reflect-ng-if": "cave"
-}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">0.3 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/1.webp" alt="Ras Il-Mignuna Window"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">Ras Il-Mignuna Window</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Hidden</span><!--bindings={
+}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">0.3 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window.webp" alt="Ras Il-Hamrija Window"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">Ras Il-Hamrija Window</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Hidden</span><!--bindings={
+  "ng-reflect-ng-if": "hidden"
+}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">1.8 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/ghar-hanex/ghar-hanex.webp" alt="Għar Ħanex"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">Għar Ħanex</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Hidden</span><!--bindings={
   "ng-reflect-ng-if": "hidden"
 }--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">1.8 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/mini-inlandsea/mini-inlandsea-2.webp" alt="Mini Inland Sea"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">Mini Inland Sea</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Hidden</span><!--bindings={
   "ng-reflect-ng-if": "hidden"
-}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">2.3 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3943084401="" class="closest-card"><img _ngcontent-ng-c3943084401="" class="closest-thumb" src="/assets/images/places/Ix-Xaqqa-Valley.webp" alt="IX-Xaqqa"><div _ngcontent-ng-c3943084401="" class="closest-info"><span _ngcontent-ng-c3943084401="" class="closest-name">IX-Xaqqa</span><span _ngcontent-ng-c3943084401="" class="closest-tag">Hidden</span><!--bindings={
-  "ng-reflect-ng-if": "hidden"
-}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">4.1 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><!--bindings={
+}--></div><span _ngcontent-ng-c3943084401="" class="closest-dist">2.3 km</span><svg _ngcontent-ng-c3943084401="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3943084401="" points="9 18 15 12 9 6"></polyline></svg></div><!--bindings={
   "ng-reflect-ng-for-of": "[object Object],[object Object"
 }--></div></div><!--bindings={
   "ng-reflect-ng-if": "4"
@@ -1321,9 +1329,9 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.21</span></app-root>
+}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.22</span></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-XZEQH7FU.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-5HDZGIUG.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>
