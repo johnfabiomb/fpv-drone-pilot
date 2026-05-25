@@ -85,11 +85,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private _providerPins: Provider[] = [];
 
   @Input() set activeFilters(filters: string[]) {
-    this.filteredFeatures = filters.length === 0
-      ? this.allFeatures
-      : this.allFeatures.filter(f =>
-          filters.some(flt => matchesFilter(f.get('location') as Location, flt as FilterId))
-        );
+    if (filters.length === 1 && filters[0] === 'deals') {
+      this.filteredFeatures = [];
+    } else {
+      this.filteredFeatures = filters.length === 0
+        ? this.allFeatures
+        : this.allFeatures.filter(f =>
+            filters.some(flt => matchesFilter(f.get('location') as Location, flt as FilterId))
+          );
+    }
     this.localityIconCache.clear();
     this.refreshLayer(true);
     // Only zoom to Malta overview when a filter is actively applied, not when clearing.
@@ -466,18 +470,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       }));
       if (this.providerCanvasCache.has(p.id)) continue;
 
-      const label = p.mapLabel ?? '🏷️ Deal';
+      const savings = p.discount?.shortLabel;
+      const label = savings ? `🏷️ ${savings}` : (p.mapLabel ?? '🏷️ Deal');
+      const pillColor = savings ? '#D4A017' : undefined;
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
           const pin = this.buildTeardropPin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
           if (p.emoji) this.addEmojiBadge(pin, p.emoji);
-          this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true));
+          this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
           this.providerLayer.changed();
         };
         img.src = p.coverImage;
       } else {
-        this.providerCanvasCache.set(p.id, this.buildPillPin(this.buildProviderEmojiPin(p), label, true));
+        this.providerCanvasCache.set(p.id, this.buildPillPin(this.buildProviderEmojiPin(p), label, true, pillColor));
       }
     }
   }
@@ -547,7 +553,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // Wraps any pin canvas with a label pill above it (shared by location + provider pins).
   // large=true uses a bigger font so provider pills match the cluster label size visually.
-  private buildPillPin(pin: HTMLCanvasElement, label: string, large = false): HTMLCanvasElement {
+  private buildPillPin(pin: HTMLCanvasElement, label: string, large = false, bgColor?: string): HTMLCanvasElement {
     const PILL_H = large ? 28 : 22, PILL_GAP = large ? 7 : 6, TOP_PAD = 4;
     const font = large ? '600 17px Roboto, sans-serif' : '600 11px Roboto, sans-serif';
     const probe = document.createElement('canvas').getContext('2d')!;
@@ -565,12 +571,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     ctx.save();
     ctx.shadowColor = 'rgba(0,0,0,0.14)';
     ctx.shadowBlur = 4;
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = bgColor ?? '#fff';
     this.fillRoundRect(ctx, pillX, TOP_PAD, pillW, PILL_H, large ? 14 : 11);
     ctx.restore();
 
     ctx.font = font;
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = bgColor ? '#fff' : '#374151';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(label, cw / 2, TOP_PAD + PILL_H / 2, pillW - 8);

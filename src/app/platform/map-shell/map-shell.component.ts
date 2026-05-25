@@ -87,7 +87,7 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   onOffline(): void { this.isOnline = false; }
 
   onMapTapped(): void {
-    if (window.innerWidth <= 768 && this.bridge.panelOpen() && !this.bridge.mapOnly()) {
+    if (window.innerWidth <= 768 && this.bridge.panelOpen() && !this.bridge.mapOnly() && !this.bridge.panel.minimized()) {
       this.bridge.panel.minimize();
     }
   }

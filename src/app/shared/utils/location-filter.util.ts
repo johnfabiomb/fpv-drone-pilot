@@ -11,11 +11,34 @@ export function toLocationSlug(title: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export type FilterId = 'beach' | 'cave' | 'historical' | 'hidden' | 'easy' | 'hard' | 'gozo' | 'comino';
+export interface FilterOption {
+  id: FilterId;
+  label: string;
+  emoji: string;
+}
 
-export function matchesFilter(location: Location, filter: FilterId): boolean {
+export interface FilterContext {
+  dealLocationIds?: Set<number>;
+}
+
+export type FilterId = 'deals' | 'beach' | 'cave' | 'historical' | 'hidden' | 'easy' | 'hard' | 'gozo' | 'comino';
+
+export const FILTER_OPTIONS: FilterOption[] = [
+  { id: 'deals',      label: 'Deals',       emoji: '🏷️' },
+  { id: 'hidden',     label: 'Hidden Gems', emoji: '💎' },
+  { id: 'cave',       label: 'Caves',       emoji: '🪨' },
+  { id: 'beach',      label: 'Beaches',     emoji: '🏖️' },
+  { id: 'historical', label: 'Historical',  emoji: '🏛️' },
+  { id: 'easy',       label: 'Easy',        emoji: '🚶' },
+  { id: 'hard',       label: 'Hard',        emoji: '🥾' },
+  { id: 'gozo',       label: 'Gozo',        emoji: '⛵' },
+  { id: 'comino',     label: 'Comino',      emoji: '🏝️' },
+];
+
+export function matchesFilter(location: Location, filter: FilterId, ctx?: FilterContext): boolean {
   const tags = location.tags;
   switch (filter) {
+    case 'deals':      return ctx?.dealLocationIds?.has(location.id) ?? false;
     case 'beach':      return tags.includes('beach') || tags.includes('bay');
     case 'cave':       return tags.includes('cave') || tags.includes('sea-cave');
     case 'historical': return tags.includes('historical') || tags.includes('religious')

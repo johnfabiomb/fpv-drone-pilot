@@ -11,10 +11,9 @@ import { ProviderCardComponent } from '../../components/provider-card/provider-c
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Difficulty, Location, Provider } from '../../shared/models';
 import { haversineKm } from '../../shared/utils/geo.utils';
-import { matchesFilter, FilterId, getIslandLabel, difficultyColor as getDifficultyColor } from '../../shared/utils/location-filter.util';
+import { matchesFilter, FilterId, FilterOption, FILTER_OPTIONS, getIslandLabel, difficultyColor as getDifficultyColor } from '../../shared/utils/location-filter.util';
 import { FEATURES } from '../../feature-flags';
 
-interface FilterOption { id: string; label: string; emoji: string; }
 type SortMode = 'distance' | 'rating' | 'alpha';
 type LocationItem = { type: 'location'; data: Location; distance: string | null };
 type ListItem = LocationItem | { type: 'provider'; data: Provider };
@@ -33,35 +32,34 @@ export class LocationListComponent implements OnInit {
   readonly mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
   readonly FEATURES = FEATURES;
 
-  readonly filters: FilterOption[] = [
-    { id: 'hidden',     label: 'Hidden Gems', emoji: '💎' },
-    { id: 'cave',       label: 'Caves',       emoji: '🪨' },
-    { id: 'beach',      label: 'Beaches',     emoji: '🏖️' },
-    { id: 'historical', label: 'Historical',  emoji: '🏛️' },
-    { id: 'easy',       label: 'Easy',        emoji: '🚶' },
-    { id: 'hard',       label: 'Hard',        emoji: '🥾' },
-    { id: 'gozo',       label: 'Gozo',        emoji: '⛵' },
-    { id: 'comino',     label: 'Comino',      emoji: '🏝️' },
-  ];
+  readonly filters: FilterOption[] = FEATURES.PROMOTIONS
+    ? FILTER_OPTIONS
+    : FILTER_OPTIONS.filter(f => f.id !== 'deals');
 
-  readonly activeFilters = signal(new Set<string>());
+  readonly activeFilter = signal<string | null>(null);
   readonly sortMode = signal<SortMode>('rating');
   readonly searchQuery = signal('');
+  readonly searchFocused = signal(false);
   private readonly userLat = signal<number | null>(null);
   private readonly userLon = signal<number | null>(null);
   readonly hasGps = computed(() => this.userLat() !== null);
 
+  private readonly dealLocationIds = computed(() =>
+    new Set<number>(this.allProviders.flatMap(p => p.nearLocationIds ?? []))
+  );
+
   readonly filteredLocations = computed(() => {
     const q = this.searchQuery().trim().toLowerCase();
-    const filters = this.activeFilters();
+    const activeFilter = this.activeFilter();
     const lat = this.userLat();
     const lon = this.userLon();
     const mode = this.sortMode();
+    const dealIds = this.dealLocationIds();
 
-    let list = filters.size === 0
+    let list = activeFilter === null
       ? [...this.allLocations]
       : this.allLocations.filter(loc =>
-          [...filters].some(f => matchesFilter(loc, f as FilterId))
+          matchesFilter(loc, activeFilter as FilterId, { dealLocationIds: dealIds })
         );
 
     if (q) list = list.filter(loc => loc.title.toLowerCase().includes(q));
@@ -80,6 +78,10 @@ export class LocationListComponent implements OnInit {
     const locs = this.filteredLocations();
     const lat = this.userLat();
     const lon = this.userLon();
+
+    if (this.activeFilter() === 'deals') {
+      return this.allProviders.map(p => ({ type: 'provider' as const, data: p }));
+    }
 
     const toItem = (loc: Location): LocationItem => {
       let distance: string | null = null;
@@ -138,11 +140,7 @@ export class LocationListComponent implements OnInit {
   }
 
   toggleFilter(id: string): void {
-    this.activeFilters.update(set => {
-      const next = new Set(set);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
+    this.activeFilter.update(current => current === id ? null : id);
   }
 
   setSort(mode: SortMode): void { this.sortMode.set(mode); }

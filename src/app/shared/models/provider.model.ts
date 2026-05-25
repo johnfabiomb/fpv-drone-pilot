@@ -1,5 +1,6 @@
 export interface ProviderDiscount {
   label: string;
+  shortLabel?: string;
   coupon: string;
   instructions: string;
 }

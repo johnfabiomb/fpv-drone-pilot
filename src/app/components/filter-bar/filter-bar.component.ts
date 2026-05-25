@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-
-interface FilterOption {
-  id: string;
-  label: string;
-  emoji: string;
-}
+import { FILTER_OPTIONS, FilterOption } from '../../shared/utils/location-filter.util';
+import { FEATURES } from '../../feature-flags';
 
 @Component({
   selector: 'app-filter-bar',
@@ -17,36 +13,22 @@ interface FilterOption {
 export class FilterBarComponent {
   @Output() filterChange = new EventEmitter<string[]>();
 
-  activeFilters = new Set<string>();
+  activeFilter: string | null = null;
 
-  filters: FilterOption[] = [
-    { id: 'hidden',     label: 'Hidden Gems',  emoji: '💎' },
-    { id: 'cave',       label: 'Caves',        emoji: '🪨' },
-    { id: 'beach',      label: 'Beaches',      emoji: '🏖️' },
-    { id: 'historical', label: 'Historical',   emoji: '🏛️' },
-    { id: 'easy',       label: 'Easy Access',  emoji: '🚶' },
-    { id: 'hard',       label: 'Hard Access',  emoji: '🥾' },
-  ];
+  readonly filters: FilterOption[] = FEATURES.PROMOTIONS
+    ? FILTER_OPTIONS
+    : FILTER_OPTIONS.filter(f => f.id !== 'deals');
 
-  get isAll(): boolean {
-    return this.activeFilters.size === 0;
-  }
-
-  isActive(id: string): boolean {
-    return this.activeFilters.has(id);
-  }
+  get isAll(): boolean { return this.activeFilter === null; }
+  isActive(id: string): boolean { return this.activeFilter === id; }
 
   selectAll(): void {
-    this.activeFilters.clear();
+    this.activeFilter = null;
     this.filterChange.emit([]);
   }
 
   toggle(id: string): void {
-    if (this.activeFilters.has(id)) {
-      this.activeFilters.delete(id);
-    } else {
-      this.activeFilters.add(id);
-    }
-    this.filterChange.emit([...this.activeFilters]);
+    this.activeFilter = this.activeFilter === id ? null : id;
+    this.filterChange.emit(this.activeFilter ? [this.activeFilter] : []);
   }
 }

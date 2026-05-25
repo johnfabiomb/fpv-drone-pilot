@@ -8,50 +8,53 @@
   (bodyDragMove)="bridge.panel.onDragMove($event)"
   (bodyDragEnd)="bridge.panel.onDragEnd($event)">
 
-  <span panelActions class="list-count">{{ filteredLocations().length }}</span>
+  <span panelActions class="list-count">{{ activeFilter() === 'deals' ? allProviders.length : filteredLocations().length }}</span>
 
   <div class="controls">
-    <div class="search-wrap">
-      <i class="fa fa-search search-icon"></i>
-      <input
-        class="search-input"
-        type="search"
-        placeholder="Search locations…"
-        [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
-        autocomplete="off">
-      <button *ngIf="searchQuery()" class="search-clear" (click)="searchQuery.set('')">
-        <i class="fa fa-times"></i>
-      </button>
+    <div class="search-row" [class.search-row--focused]="searchFocused()">
+      <div class="search-wrap">
+        <i class="fa fa-search search-icon"></i>
+        <input
+          class="search-input"
+          type="search"
+          placeholder="Search locations…"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          (focus)="searchFocused.set(true)"
+          (blur)="searchFocused.set(false)"
+          autocomplete="off">
+        <button *ngIf="searchQuery()" class="search-clear" (click)="searchQuery.set('')">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="sort-inline">
+        <button class="sort-btn" [class.active]="sortMode() === 'distance'" (click)="setSort('distance')" [disabled]="!hasGps()">
+          📍
+        </button>
+        <button class="sort-btn" [class.active]="sortMode() === 'rating'" (click)="setSort('rating')">
+          ⭐
+        </button>
+        <button class="sort-btn" [class.active]="sortMode() === 'alpha'" (click)="setSort('alpha')">
+          A–Z
+        </button>
+      </div>
     </div>
 
     <div class="filter-chips">
       <div
         *ngFor="let f of filters"
         class="chip"
-        [class.active]="activeFilters().has(f.id)"
+        [class.chip--deals]="f.id === 'deals'"
+        [class.active]="activeFilter() === f.id"
         (click)="toggleFilter(f.id)">
         {{ f.emoji }} {{ f.label }}
       </div>
-    </div>
-
-    <div class="sort-row">
-      <span class="sort-label">Sort:</span>
-      <button class="sort-btn" [class.active]="sortMode() === 'distance'" (click)="setSort('distance')" [disabled]="!hasGps()">
-        📍 Near me
-      </button>
-      <button class="sort-btn" [class.active]="sortMode() === 'rating'" (click)="setSort('rating')">
-        ⭐ Rating
-      </button>
-      <button class="sort-btn" [class.active]="sortMode() === 'alpha'" (click)="setSort('alpha')">
-        A–Z
-      </button>
     </div>
   </div>
 
   <div class="location-list">
 
-    <div class="deals-banner" *ngIf="FEATURES.PROMOTIONS !== false" (click)="browseDeals()">
+    <div class="deals-banner" *ngIf="FEATURES.PROMOTIONS !== false && activeFilter() !== 'deals'" (click)="browseDeals()">
       <div class="deals-banner__left">
         <span class="deals-banner__icon">🏷️</span>
         <div>
@@ -95,7 +98,7 @@
     </ng-container>
 
     <div class="empty" *ngIf="displayList().length === 0">
-      No locations match the selected filters.
+      {{ activeFilter() === 'deals' ? 'No deals available yet.' : 'No locations match the selected filters.' }}
     </div>
   </div>
 

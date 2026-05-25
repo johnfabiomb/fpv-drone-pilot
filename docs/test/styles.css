@@ -490,6 +490,20 @@ button span {
   font-weight: 600;
   box-shadow: 0 2px 8px var(--color-primary-shadow);
 }
+.chip--deals {
+  animation: deals-pulse 2.4s ease-in-out infinite;
+}
+.chip--deals.active {
+  animation: none;
+}
+@keyframes deals-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(244, 169, 34, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(244, 169, 34, 0);
+  }
+}
 
 /* node_modules/ol/ol.css */
 :root,
