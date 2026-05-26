@@ -12,14 +12,16 @@ import {
 } from "./chunk-WSUVHV4Q.js";
 import {
   ProviderCardComponent
-} from "./chunk-4J6AD3SB.js";
-import "./chunk-FOYJGHDM.js";
+} from "./chunk-MU3AV3CF.js";
+import {
+  isDiscountValid
+} from "./chunk-MFTM25CQ.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
 import {
   providers
-} from "./chunk-PIV4K6JJ.js";
+} from "./chunk-KVZGSWLD.js";
 import {
   SeoService
 } from "./chunk-NO2KK3DI.js";
@@ -6780,7 +6782,8 @@ var LocationListComponent = class _LocationListComponent {
     this.userLat = signal(null);
     this.userLon = signal(null);
     this.hasGps = computed(() => this.userLat() !== null);
-    this.dealLocationIds = computed(() => new Set(this.allProviders.flatMap((p) => p.nearLocationIds ?? [])));
+    this.activeProviders = computed(() => this.allProviders.filter((p) => !p.discount || isDiscountValid(p.discount)));
+    this.dealLocationIds = computed(() => new Set(this.activeProviders().flatMap((p) => p.nearLocationIds ?? [])));
     this.filteredLocations = computed(() => {
       const q = this.searchQuery().trim().toLowerCase();
       const activeFilter = this.activeFilter();
@@ -6803,7 +6806,7 @@ var LocationListComponent = class _LocationListComponent {
       const lat = this.userLat();
       const lon = this.userLon();
       if (this.activeFilter() === "deals") {
-        return this.allProviders.map((p) => ({ type: "provider", data: p }));
+        return this.activeProviders().map((p) => ({ type: "provider", data: p }));
       }
       const toItem = (loc) => {
         let distance = null;
@@ -6970,7 +6973,7 @@ var LocationListComponent = class _LocationListComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LocationListComponent, { className: "LocationListComponent", filePath: "src/app/platform/location-list/location-list.component.ts", lineNumber: 29 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LocationListComponent, { className: "LocationListComponent", filePath: "src/app/platform/location-list/location-list.component.ts", lineNumber: 30 });
 })();
 export {
   LocationListComponent
@@ -6984,4 +6987,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-FOSSHTHI.js.map
+//# sourceMappingURL=chunk-LGFU6FHD.js.map

@@ -11,6 +11,7 @@ import { NavigationService } from '../../shared/services/navigation.service';
 import { Location as AppLocation, Provider } from '../../shared/models';
 import { providers } from '../../../assets/providers.json';
 import { locations } from '../../../assets/locations.json';
+import { buildBookingUrl } from '../../shared/utils/provider.utils';
 
 @Component({
   selector: 'app-provider-page',
@@ -65,41 +66,49 @@ export class ProviderPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.provider = (providers as Provider[]).find(p => p.id === id) ?? null;
+    if (isPlatformBrowser(this.platformId)) {
+      const mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
+      const fromLocationSlug = this.route.snapshot.queryParamMap.get('fromLocation');
+      const fromLoc = fromLocationSlug
+        ? (locations as AppLocation[]).find(l => l.slug === fromLocationSlug) ?? null
+        : null;
 
-    if (!this.provider) {
-      this.router.navigate(['/malta']);
-      return;
+      this.bridge.enterPanelMode(mapProviders, { label: 'Back' }, fromLoc, null);
+
+      this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => this.goBack());
+
+      this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((loc: AppLocation | null) => {
+          if (loc) this.router.navigate(['/malta/locations', loc.slug]);
+        });
+
+      this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(p => this.router.navigate(['/malta/providers', p.id]));
     }
 
-    this.seo.setProviderPage(this.provider);
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      const id = params.get('id');
+      this.provider = (providers as Provider[]).find(p => p.id === id) ?? null;
 
-    if (!isPlatformBrowser(this.platformId)) return;
+      if (!this.provider) {
+        this.router.navigate(['/malta']);
+        return;
+      }
 
-    const fromLocationSlug = this.route.snapshot.queryParamMap.get('fromLocation');
-    const fromLoc = fromLocationSlug
-      ? (locations as AppLocation[]).find(l => l.slug === fromLocationSlug) ?? null
-      : null;
-    const fitPoint = (fromLoc && this.provider.lat && this.provider.lon)
-      ? { lat: this.provider.lat, lon: this.provider.lon }
-      : null;
+      this.seo.setProviderPage(this.provider);
 
-    const mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
-    this.bridge.enterPanelMode(mapProviders, { label: 'Back' }, fromLoc, fitPoint);
-
-    this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.goBack());
-
-    this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((loc: AppLocation | null) => {
-        if (loc) this.router.navigate(['/malta/locations', loc.slug]);
-      });
+      if (isPlatformBrowser(this.platformId) && this.provider.lat && this.provider.lon) {
+        this.bridge.fitPoint.set({ lat: this.provider.lat, lon: this.provider.lon });
+      }
+    });
   }
 
   onBookRequested(provider: Provider): void {
+    const url = buildBookingUrl(provider);
+    if (!url) return;
     this.bridge.interstitialProvider.set(provider);
-    this.bridge.pendingNavUrl.set(provider.website!);
+    this.bridge.pendingNavUrl.set(url);
   }
 
   goBack(): void {

@@ -1,0 +1,94 @@
+// src/assets/providers.json
+var providers = [
+  {
+    id: "santa-maria-watersports",
+    name: "Santa Maria Water Sports",
+    category: "water-sports",
+    color: "#0d3d72",
+    emoji: "\u{1F3C4}",
+    tagline: "Private wakeboard & wakesurf boat charter in Malta",
+    description: "Santa Maria Water Sports runs private boat charters from the Valletta Waterfront aboard a Nautique G25 \u2014 one of the world's finest performance wake boats. Whether you want to learn wakeboard, ride wakesurf, fly on a wakefoil, or simply cruise Malta's dramatic coastline, their certified instructors tailor every session to your level. Charters run from 1 hour to a full day and can reach any point along Malta's coast from the Grand Harbour.",
+    coverImage: "/assets/images/providers/santamariawatersports/santa-maria-watersports.webp",
+    website: "https://santamariawatersports.com/bookings/",
+    instagram: "@santamariawatersports",
+    phone: "+356 7907 5911",
+    lat: 35.8890523,
+    lon: 14.5077708,
+    showOnMap: true,
+    mapLabel: "\u{1F3F7}\uFE0F Deal",
+    nearLocationIds: [
+      61,
+      49,
+      10,
+      1,
+      52,
+      36,
+      44,
+      42
+    ],
+    discount: {
+      label: "5% off any charter booking",
+      shortLabel: "5% off",
+      coupon: "JOHNXSM26",
+      instructions: "Online: enter the code in the 'Add Coupon or Promotional Code' field before paying. By phone: mention the code when booking. Valid throughout 2026.",
+      validUntil: "2026-12-31"
+    },
+    highlights: [
+      "Nautique G25 Centennial Edition (2025)",
+      "Wakeboard, wakesurf, wakefoil & tube",
+      "Certified instructors on every charter",
+      "1 hour to full-day charters",
+      "Beginner-friendly \u2014 from age 6 and up"
+    ],
+    images: [
+      "/assets/images/providers/santamariawatersports/006722-021-VK.webp",
+      "/assets/images/providers/santamariawatersports/0L2A8666.webp",
+      "/assets/images/providers/santamariawatersports/0L2A8875.webp",
+      "/assets/images/providers/santamariawatersports/0L2A9213.webp",
+      "/assets/images/providers/santamariawatersports/0L2A9872.webp",
+      "/assets/images/providers/santamariawatersports/DSC01193.webp"
+    ]
+  },
+  {
+    id: "block-hotel-gozo",
+    name: "Hotel Block",
+    category: "hotel",
+    color: "#1B4F72",
+    emoji: "\u{1F3E8}",
+    tagline: "Boutique adults-only hotel on the seafront of Xlendi Bay, Gozo",
+    description: "Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay \u2014 one of Gozo's most beloved natural inlets. Superior Rooms offer spectacular front and rear views, and the included Bed & Breakfast lets you start each day right before heading out to explore Gozo's dramatic coast, caves, and clifftop trails. The hotel is the perfect base for discovering everything the island has to offer, from the mystical Inland Sea and Fungus Rock to the windswept paths of Dwejra.",
+    coverImage: "/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp",
+    website: "https://www.blockgozo.com",
+    phone: "+356 79343081",
+    lat: 36.03116279176611,
+    lon: 14.217932769075253,
+    showOnMap: true,
+    mapLabel: "\u{1F3F7}\uFE0F Deal",
+    nearLocationIds: [50, 73, 8, 9, 25, 23, 46, 38, 41, 63, 64, 65, 66, 68],
+    discount: {
+      label: "15% off Superior Rooms (Front & Rear View) \u2014 Jun\u2013Oct 2026",
+      shortLabel: "15% off",
+      coupon: "JohnBlock26",
+      instructions: "Book directly via blockgozo.com using code JohnBlock26 at checkout, by phone or WhatsApp on +356 79343081, or by email at hello@blockgozo.com. Valid for Superior Rooms (Front & Rear View) only, for stays during the 2026 high season (June\u2013October). Applies to the Flex BB rate \u2014 the rate becomes non-refundable once the discount is applied. Adults Only property. Cannot be combined with other offers.",
+      validUntil: "2026-10-31"
+    },
+    bookingConfig: {
+      baseUrl: "https://direct-book.com/properties/BlockHoteldirect",
+      checkInOffsetDays: 7,
+      nights: 2
+    },
+    highlights: [
+      "Adults Only boutique hotel on Xlendi Bay",
+      "Superior Rooms with front & rear sea views",
+      "Bed & Breakfast included",
+      "Steps from Xlendi's coastal path and dive sites",
+      "Perfect base for exploring Gozo's natural landmarks"
+    ],
+    images: []
+  }
+];
+
+export {
+  providers
+};
+//# sourceMappingURL=chunk-KVZGSWLD.js.map

@@ -1,4 +1,29 @@
-import { Provider } from '../models';
+import { Provider, ProviderDiscount } from '../models';
+
+export function isDiscountValid(discount: ProviderDiscount): boolean {
+  if (!discount.validUntil) return true;
+  return new Date() <= new Date(discount.validUntil + 'T23:59:59');
+}
+
+export function buildBookingUrl(provider: Provider): string | null {
+  const cfg = provider.bookingConfig;
+  if (!cfg) return provider.website ?? null;
+
+  const checkIn = new Date();
+  checkIn.setDate(checkIn.getDate() + cfg.checkInOffsetDays);
+  const checkOut = new Date(checkIn);
+  checkOut.setDate(checkOut.getDate() + cfg.nights);
+
+  const fmt = (d: Date) => d.toISOString().split('T')[0];
+  const params = new URLSearchParams({
+    checkInDate: fmt(checkIn),
+    checkOutDate: fmt(checkOut),
+  });
+
+  if (provider.discount?.coupon) params.set('promocode', provider.discount.coupon);
+
+  return `${cfg.baseUrl}?${params}`;
+}
 
 const CATEGORY_COLORS: Record<string, string> = {
   'water-sports': '#0ea5e9',

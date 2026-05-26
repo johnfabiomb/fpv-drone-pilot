@@ -236,17 +236,17 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
 }
 /*# sourceMappingURL=/test/map-shell.component.css.map */</style><style ng-app-id="ng">
 
-[_nghost-ng-c3127170923] {
+[_nghost-ng-c4003370102] {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-[_nghost-ng-c3127170923]   .map-container[_ngcontent-ng-c3127170923] {
+[_nghost-ng-c4003370102]   .map-container[_ngcontent-ng-c4003370102] {
   display: flex;
   flex: 1 1 auto;
   position: relative;
 }
-.compass-btn[_ngcontent-ng-c3127170923] {
+.compass-btn[_ngcontent-ng-c4003370102] {
   position: absolute;
   bottom: 190px;
   right: 10px;
@@ -267,13 +267,13 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
   z-index: 5;
   transition: background 0.15s, color 0.15s;
 }
-.compass-btn[_ngcontent-ng-c3127170923]:hover {
+.compass-btn[_ngcontent-ng-c4003370102]:hover {
   background: #f5f5f5;
 }
-.compass-btn.active[_ngcontent-ng-c3127170923] {
+.compass-btn.active[_ngcontent-ng-c4003370102] {
   color: #4285F4;
 }
-.locate-btn[_ngcontent-ng-c3127170923] {
+.locate-btn[_ngcontent-ng-c4003370102] {
   position: absolute;
   bottom: 140px;
   right: 10px;
@@ -297,14 +297,14 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
     color 0.15s,
     box-shadow 0.15s;
 }
-.locate-btn[_ngcontent-ng-c3127170923]:hover {
+.locate-btn[_ngcontent-ng-c4003370102]:hover {
   background: #f5f5f5;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
-.locate-btn.has-gps[_ngcontent-ng-c3127170923] {
+.locate-btn.has-gps[_ngcontent-ng-c4003370102] {
   color: #4285F4;
 }
-.location-toast[_ngcontent-ng-c3127170923] {
+.location-toast[_ngcontent-ng-c4003370102] {
   position: absolute;
   bottom: 140px;
   left: 50%;
@@ -324,7 +324,7 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-.marker-dot[_ngcontent-ng-c3127170923] {
+.marker-dot[_ngcontent-ng-c4003370102] {
   padding: 0;
   border-radius: 50% !important;
   background: #ffffff;
@@ -333,10 +333,10 @@ app-filter-bar[_ngcontent-ng-c2336635175] {
   opacity: 0.9;
   filter: none;
 }
-.marker-dot[_ngcontent-ng-c3127170923] {
+.marker-dot[_ngcontent-ng-c4003370102] {
   content-visibility: auto;
 }
-.marker-image[_ngcontent-ng-c3127170923] {
+.marker-image[_ngcontent-ng-c4003370102] {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
@@ -1244,14 +1244,188 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   background: var(--color-blue);
   transform: scale(1.3);
 }
-/*# sourceMappingURL=/test/image-gallery.component.css.map */</style></head>
+/*# sourceMappingURL=/test/image-gallery.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c4027458142] {
+  display: block;
+}
+.provider-card[_ngcontent-ng-c4027458142] {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.provider-card[_ngcontent-ng-c4027458142]:active {
+  transform: scale(0.985);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+@media (hover: hover) {
+  .provider-card[_ngcontent-ng-c4027458142]:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+.provider-card__stripe[_ngcontent-ng-c4027458142] {
+  width: 5px;
+  flex-shrink: 0;
+}
+.provider-card__body[_ngcontent-ng-c4027458142] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.provider-card__header[_ngcontent-ng-c4027458142] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+.provider-card__info[_ngcontent-ng-c4027458142] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.provider-card__name[_ngcontent-ng-c4027458142] {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.provider-card__tagline[_ngcontent-ng-c4027458142] {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.provider-card__exclusive-badge[_ngcontent-ng-c4027458142] {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+.provider-card__deal[_ngcontent-ng-c4027458142] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 12px;
+}
+.provider-card__pct[_ngcontent-ng-c4027458142] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 5px 9px;
+  color: #fff;
+}
+.pct-num[_ngcontent-ng-c4027458142] {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.pct-off[_ngcontent-ng-c4027458142] {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+.provider-card__deal-text[_ngcontent-ng-c4027458142] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.deal-what[_ngcontent-ng-c4027458142] {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deal-exclusive[_ngcontent-ng-c4027458142] {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.provider-card__cta[_ngcontent-ng-c4027458142] {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: #fff;
+}
+/*# sourceMappingURL=/test/provider-card.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c395100757] {
+  display: contents;
+}
+.avatar[_ngcontent-ng-c395100757] {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar__img[_ngcontent-ng-c395100757] {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid;
+  display: block;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+.avatar__badge[_ngcontent-ng-c395100757] {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.avatar__emoji[_ngcontent-ng-c395100757] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+}
+/*# sourceMappingURL=/test/provider-avatar.component.css.map */</style></head>
 
 <body>
   <app-root ng-version="19.2.1" _nghost-ng-c3674394342="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3674394342=""></router-outlet><app-map-shell _nghost-ng-c2336635175=""><!--bindings={
   "ng-reflect-ng-if": null
 }--><div _ngcontent-ng-c2336635175="" class="map-layout"><div _ngcontent-ng-c2336635175="" class="map-layout__main"><div _ngcontent-ng-c2336635175="" class="map-layout__map"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-map _ngcontent-ng-c2336635175="" _nghost-ng-c3127170923="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c3127170923="" id="ol-map" class="map-container"><button _ngcontent-ng-c3127170923="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3127170923="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3127170923="" title="My location" class="locate-btn"><i _ngcontent-ng-c3127170923="" class="fa fa-location-arrow"></i></button><!--bindings={
+}--><app-map _ngcontent-ng-c2336635175="" _nghost-ng-c4003370102="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c4003370102="" id="ol-map" class="map-container"><button _ngcontent-ng-c4003370102="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c4003370102="" class="fa fa-compass"></i></button><button _ngcontent-ng-c4003370102="" title="My location" class="locate-btn"><i _ngcontent-ng-c4003370102="" class="fa fa-location-arrow"></i></button><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></div></app-map><!--bindings={
   "ng-reflect-ng-if": null
@@ -1291,8 +1465,12 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   "ng-reflect-ng-if": "false"
 }--></div><div _ngcontent-ng-c597264093="" class="dots"><span _ngcontent-ng-c597264093="" class="dot active"></span><!--bindings={
   "ng-reflect-ng-for-of": "/assets/images/places/hondoq-i"
-}--></div></div><!--container--></app-image-gallery></div><div _ngcontent-ng-c3943084401="" class="px-2"><div _ngcontent-ng-c3943084401="" class="description">Located on the southeastern coast of Gozo, <b>Hondoq ir-Rummien</b> is known for its crystal-clear turquoise waters and open views towards Comino. This coastal spot combines easy access with raw natural beauty, offering both a small beach area and rocky edges perfect for swimming and exploring. On calm days, the water becomes incredibly clear, making it ideal for snorkeling and relaxing by the sea. Its peaceful atmosphere outside peak season makes it a perfect escape to enjoy Gozo’s slower, quieter side.</div><!--bindings={
-  "ng-reflect-ng-if": "0"
+}--></div></div><!--container--></app-image-gallery></div><div _ngcontent-ng-c3943084401="" class="px-2"><div _ngcontent-ng-c3943084401="" class="description">Located on the southeastern coast of Gozo, <b>Hondoq ir-Rummien</b> is known for its crystal-clear turquoise waters and open views towards Comino. This coastal spot combines easy access with raw natural beauty, offering both a small beach area and rocky edges perfect for swimming and exploring. On calm days, the water becomes incredibly clear, making it ideal for snorkeling and relaxing by the sea. Its peaceful atmosphere outside peak season makes it a perfect escape to enjoy Gozo’s slower, quieter side.</div><div _ngcontent-ng-c3943084401="" class="nearby-experiences"><div _ngcontent-ng-c3943084401="" class="nearby-experiences__label">Exclusive deals near this spot</div><app-provider-card _ngcontent-ng-c3943084401="" _nghost-ng-c4027458142="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c4027458142="" class="provider-card"><div _ngcontent-ng-c4027458142="" class="provider-card__stripe" style="background: #1B4F72;"></div><div _ngcontent-ng-c4027458142="" class="provider-card__body"><div _ngcontent-ng-c4027458142="" class="provider-card__header"><app-provider-avatar _ngcontent-ng-c4027458142="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="46"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 46px; height: 46px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #1B4F72;" src="/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp" alt="Hotel Block"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 17px; height: 17px; font-size: 10px;"> 🏨 </span><!--ng-container--><!--bindings={
+  "ng-reflect-ng-if-else": "[object Object]"
+}--><!--container--></div></app-provider-avatar><div _ngcontent-ng-c4027458142="" class="provider-card__info"><span _ngcontent-ng-c4027458142="" class="provider-card__name">Hotel Block</span><span _ngcontent-ng-c4027458142="" class="provider-card__tagline">Boutique adults-only hotel on the seafront of Xlendi Bay, Gozo</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__exclusive-badge" style="background: #1B4F72;">Exclusive</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal" style="background: #1B4F72;"><div _ngcontent-ng-c4027458142="" class="provider-card__pct"><span _ngcontent-ng-c4027458142="" class="pct-num">15%</span><span _ngcontent-ng-c4027458142="" class="pct-off">OFF</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal-text"><span _ngcontent-ng-c4027458142="" class="deal-what">Superior Rooms (Front &amp; Rear View) — Jun–Oct 2026</span><span _ngcontent-ng-c4027458142="" class="deal-exclusive">Only when booked via this guide</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__cta"> Claim <svg _ngcontent-ng-c4027458142="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c4027458142="" x1="5" y1="12" x2="19" y2="12"></line><polyline _ngcontent-ng-c4027458142="" points="12 5 19 12 12 19"></polyline></svg></span></div></div></div></app-provider-card><!--bindings={
+  "ng-reflect-ng-for-of": "[object Object]"
+}--></div><!--bindings={
+  "ng-reflect-ng-if": "1"
 }--><div _ngcontent-ng-c3943084401="" class="actions"><div _ngcontent-ng-c3943084401="" class="actions-row"><div _ngcontent-ng-c3943084401="" class="button">Explore Malta <i _ngcontent-ng-c3943084401="" class="fa fa-map"></i></div><app-share-btn _ngcontent-ng-c3943084401="" label="Share" _nghost-ng-c3137596793="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Hondoq ir-Rummien" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c3137596793="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
@@ -1329,9 +1507,9 @@ app-ad-banner[_ngcontent-ng-c3943084401] {
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.25</span></app-root>
+}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.26</span></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-ZYYLJHTA.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-4OSLZFPQ.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>

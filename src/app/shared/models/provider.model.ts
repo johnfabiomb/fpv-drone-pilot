@@ -1,8 +1,15 @@
+export interface BookingConfig {
+  baseUrl: string;
+  checkInOffsetDays: number;
+  nights: number;
+}
+
 export interface ProviderDiscount {
   label: string;
   shortLabel?: string;
   coupon: string;
   instructions: string;
+  validUntil?: string; // ISO date string e.g. "2026-10-31" — discount hidden after this date
 }
 
 export interface Provider {
@@ -24,5 +31,6 @@ export interface Provider {
   mapLabel?: string;
   nearLocationIds?: number[];
   discount?: ProviderDiscount;
+  bookingConfig?: BookingConfig;
   highlights?: string[];
 }

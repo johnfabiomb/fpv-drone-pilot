@@ -22,6 +22,28 @@ import {
 } from "./chunk-DMXQYC6T.js";
 
 // src/app/shared/utils/provider.utils.ts
+function isDiscountValid(discount) {
+  if (!discount.validUntil)
+    return true;
+  return /* @__PURE__ */ new Date() <= /* @__PURE__ */ new Date(discount.validUntil + "T23:59:59");
+}
+function buildBookingUrl(provider) {
+  const cfg = provider.bookingConfig;
+  if (!cfg)
+    return provider.website ?? null;
+  const checkIn = /* @__PURE__ */ new Date();
+  checkIn.setDate(checkIn.getDate() + cfg.checkInOffsetDays);
+  const checkOut = new Date(checkIn);
+  checkOut.setDate(checkOut.getDate() + cfg.nights);
+  const fmt = (d) => d.toISOString().split("T")[0];
+  const params = new URLSearchParams({
+    checkInDate: fmt(checkIn),
+    checkOutDate: fmt(checkOut)
+  });
+  if (provider.discount?.coupon)
+    params.set("promocode", provider.discount.coupon);
+  return `${cfg.baseUrl}?${params}`;
+}
 var CATEGORY_COLORS = {
   "water-sports": "#0ea5e9",
   "tour": "#8b5cf6",
@@ -122,8 +144,10 @@ var ProviderAvatarComponent = class _ProviderAvatarComponent {
 })();
 
 export {
+  isDiscountValid,
+  buildBookingUrl,
   resolveProviderColor,
   getProviderCategoryLabel,
   ProviderAvatarComponent
 };
-//# sourceMappingURL=chunk-FOYJGHDM.js.map
+//# sourceMappingURL=chunk-MFTM25CQ.js.map

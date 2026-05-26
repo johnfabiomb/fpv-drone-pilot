@@ -4,13 +4,14 @@ import {
 } from "./chunk-WSUVHV4Q.js";
 import {
   ProviderCardComponent
-} from "./chunk-4J6AD3SB.js";
+} from "./chunk-MU3AV3CF.js";
 import {
+  isDiscountValid,
   resolveProviderColor
-} from "./chunk-FOYJGHDM.js";
+} from "./chunk-MFTM25CQ.js";
 import {
   version
-} from "./chunk-ZYYLJHTA.js";
+} from "./chunk-4OSLZFPQ.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -26701,7 +26702,7 @@ var MapComponent = class _MapComponent {
     this.providerLayer = new Vector_default2({
       source: this.providerSource,
       style: (f) => this.providerPinStyle(f),
-      zIndex: 5
+      zIndex: 15
     });
     this.map.addLayer(this.providerLayer);
     if (this._providerPins.length && FEATURES.PROMOTIONS)
@@ -26719,13 +26720,13 @@ var MapComponent = class _MapComponent {
       }));
       if (this.providerCanvasCache.has(p.id))
         continue;
-      const savings = p.discount?.shortLabel;
+      const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : void 0;
       const label = savings ?? p.mapLabel ?? "\u{1F3F7}\uFE0F Deal";
       const pillColor = savings ? "#D4A017" : void 0;
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
-          const pin = this.buildTeardropPin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
+          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
           if (p.emoji)
             this.addEmojiBadge(pin, p.emoji);
           this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
@@ -26820,9 +26821,38 @@ var MapComponent = class _MapComponent {
     ctx.drawImage(pin, (cw - pin.width) / 2, TOP_PAD + PILL_H + PILL_GAP);
     return composite;
   }
+  buildCirclePin(img, size, borderColor) {
+    const W = size, H = size;
+    const cx = W / 2, cy = H / 2;
+    const r = W / 2 - 2;
+    const pin = document.createElement("canvas");
+    pin.width = W;
+    pin.height = H;
+    const pc = pin.getContext("2d");
+    pc.save();
+    pc.shadowColor = "rgba(0,0,0,0.22)";
+    pc.shadowBlur = 8;
+    pc.shadowOffsetY = 3;
+    pc.beginPath();
+    pc.arc(cx, cy, r, 0, Math.PI * 2);
+    pc.fillStyle = "#fff";
+    pc.fill();
+    pc.restore();
+    pc.save();
+    pc.beginPath();
+    pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+    pc.clip();
+    pc.drawImage(img, 0, 0, W, H);
+    pc.restore();
+    pc.beginPath();
+    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.strokeStyle = borderColor;
+    pc.lineWidth = 3;
+    pc.stroke();
+    return pin;
+  }
   // ── Shared pin builder ────────────────────────────────────
-  // Used by both location pins (size=80, border='#fff') and
-  // provider photo pins (size=80, border='#F4A922').
+  // Used by location pins (size=80, border='#fff').
   buildTeardropPin(img, size, borderColor) {
     const tailH = Math.round(size * ICON_TAIL_H / ICON_CANVAS_SIZE);
     const W = size, H = size + tailH;
@@ -27792,4 +27822,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-J43FIRB4.js.map
+//# sourceMappingURL=chunk-AZGVWO4I.js.map

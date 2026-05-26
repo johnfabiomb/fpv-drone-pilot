@@ -7,15 +7,17 @@ import {
 } from "./chunk-NMFV3DBV.js";
 import {
   ProviderAvatarComponent,
+  buildBookingUrl,
   getProviderCategoryLabel,
+  isDiscountValid,
   resolveProviderColor
-} from "./chunk-FOYJGHDM.js";
+} from "./chunk-MFTM25CQ.js";
 import {
   NavigationService
 } from "./chunk-6CA4EYDJ.js";
 import {
   providers
-} from "./chunk-PIV4K6JJ.js";
+} from "./chunk-KVZGSWLD.js";
 import {
   SeoService
 } from "./chunk-NO2KK3DI.js";
@@ -107,9 +109,25 @@ function ProviderDetailComponent_ul_13_Template(rf, ctx) {
 function ProviderDetailComponent_div_14__svg_svg_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 35);
-    \u0275\u0275element(1, "rect", 36)(2, "path", 37);
+    \u0275\u0275elementStart(0, "svg", 36);
+    \u0275\u0275element(1, "rect", 37)(2, "path", 38);
     \u0275\u0275elementEnd();
+  }
+}
+function ProviderDetailComponent_div_14_div_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 39);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 40);
+    \u0275\u0275element(2, "circle", 41)(3, "polyline", 42);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" Valid until ", ctx_r0.discountExpiry, " ");
   }
 }
 function ProviderDetailComponent_div_14_Template(rf, ctx) {
@@ -139,7 +157,9 @@ function ProviderDetailComponent_div_14_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(13, "p", 34);
     \u0275\u0275text(14);
-    \u0275\u0275elementEnd()();
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(15, ProviderDetailComponent_div_14_div_15_Template, 5, 1, "div", 35);
+    \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
@@ -155,14 +175,16 @@ function ProviderDetailComponent_div_14_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r0.couponCopied ? "\u2713 Copied!" : "Tap to copy", " ");
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(ctx_r0.provider.discount.instructions);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.discountExpiry);
   }
 }
 function ProviderDetailComponent_a_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 38);
+    \u0275\u0275elementStart(0, "a", 43);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 39);
-    \u0275\u0275element(2, "path", 40);
+    \u0275\u0275elementStart(1, "svg", 44);
+    \u0275\u0275element(2, "path", 45);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
@@ -176,10 +198,10 @@ function ProviderDetailComponent_a_16_Template(rf, ctx) {
 }
 function ProviderDetailComponent_a_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 41);
+    \u0275\u0275elementStart(0, "a", 46);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 42);
-    \u0275\u0275element(2, "path", 43);
+    \u0275\u0275elementStart(1, "svg", 47);
+    \u0275\u0275element(2, "path", 48);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
@@ -194,7 +216,7 @@ function ProviderDetailComponent_a_17_Template(rf, ctx) {
 function ProviderDetailComponent_button_23_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 44);
+    \u0275\u0275elementStart(0, "button", 49);
     \u0275\u0275listener("click", function ProviderDetailComponent_button_23_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r0 = \u0275\u0275nextContext();
@@ -202,8 +224,8 @@ function ProviderDetailComponent_button_23_Template(rf, ctx) {
     });
     \u0275\u0275text(1, " Book Now ");
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 45);
-    \u0275\u0275element(3, "line", 46)(4, "polyline", 47);
+    \u0275\u0275elementStart(2, "svg", 50);
+    \u0275\u0275element(3, "line", 51)(4, "polyline", 52);
     \u0275\u0275elementEnd()();
   }
 }
@@ -226,6 +248,15 @@ var ProviderDetailComponent = class _ProviderDetailComponent {
   }
   get categoryLabel() {
     return getProviderCategoryLabel(this.provider?.category);
+  }
+  get hasValidDiscount() {
+    return !!this.provider.discount && isDiscountValid(this.provider.discount);
+  }
+  get discountExpiry() {
+    const v = this.provider.discount?.validUntil;
+    if (!v)
+      return null;
+    return new Date(v).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
   }
   copyCoupon() {
     const code = this.provider?.discount?.coupon;
@@ -255,7 +286,7 @@ var ProviderDetailComponent = class _ProviderDetailComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProviderDetailComponent, selectors: [["app-provider-detail"]], inputs: { provider: "provider" }, outputs: { bookRequested: "bookRequested" }, decls: 24, vars: 20, consts: [[1, "provider-hero"], [1, "provider-hero__badge"], [1, "provider-hero__main"], [3, "provider", "size"], [1, "provider-hero__name"], [1, "provider-hero__tagline"], [3, "src", 4, "ngIf"], [1, "provider-desc"], ["class", "provider-highlights", 4, "ngIf"], ["class", "discount-box", 4, "ngIf"], [1, "provider-links"], ["target", "_blank", "rel", "noopener", "class", "provider-link provider-link--ig", 3, "href", 4, "ngIf"], ["class", "provider-link provider-link--phone", 3, "href", 4, "ngIf"], [1, "provider-actions"], ["label", "Share", 3, "url", "shareTitle"], [1, "provider-action-btn", 3, "click"], [1, "fa", "fa-tag"], ["class", "book-btn", 3, "click", 4, "ngIf"], [3, "src"], [1, "provider-highlights"], ["class", "highlight-item", 4, "ngFor", "ngForOf"], [1, "highlight-item"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "highlight-check"], ["points", "20 6 9 17 4 12"], [1, "discount-box"], [1, "discount-box__header"], ["width", "15", "height", "15", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"], ["x1", "7", "y1", "7", "x2", "7.01", "y2", "7"], [1, "discount-box__label"], [1, "discount-box__coupon", 3, "click"], [1, "coupon-code"], [1, "coupon-copy-hint"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round", 4, "ngIf"], [1, "discount-box__instructions"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x", "9", "y", "9", "width", "13", "height", "13", "rx", "2", "ry", "2"], ["d", "M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"], ["target", "_blank", "rel", "noopener", 1, "provider-link", "provider-link--ig", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"], [1, "provider-link", "provider-link--phone", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.06-1.06a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"], [1, "book-btn", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x1", "5", "y1", "12", "x2", "19", "y2", "12"], ["points", "12 5 19 12 12 19"]], template: function ProviderDetailComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProviderDetailComponent, selectors: [["app-provider-detail"]], inputs: { provider: "provider" }, outputs: { bookRequested: "bookRequested" }, decls: 24, vars: 20, consts: [[1, "provider-hero"], [1, "provider-hero__badge"], [1, "provider-hero__main"], [3, "provider", "size"], [1, "provider-hero__name"], [1, "provider-hero__tagline"], [3, "src", 4, "ngIf"], [1, "provider-desc"], ["class", "provider-highlights", 4, "ngIf"], ["class", "discount-box", 4, "ngIf"], [1, "provider-links"], ["target", "_blank", "rel", "noopener", "class", "provider-link provider-link--ig", 3, "href", 4, "ngIf"], ["class", "provider-link provider-link--phone", 3, "href", 4, "ngIf"], [1, "provider-actions"], ["label", "Share", 3, "url", "shareTitle"], [1, "provider-action-btn", 3, "click"], [1, "fa", "fa-tag"], ["class", "book-btn", 3, "click", 4, "ngIf"], [3, "src"], [1, "provider-highlights"], ["class", "highlight-item", 4, "ngFor", "ngForOf"], [1, "highlight-item"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "highlight-check"], ["points", "20 6 9 17 4 12"], [1, "discount-box"], [1, "discount-box__header"], ["width", "15", "height", "15", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"], ["x1", "7", "y1", "7", "x2", "7.01", "y2", "7"], [1, "discount-box__label"], [1, "discount-box__coupon", 3, "click"], [1, "coupon-code"], [1, "coupon-copy-hint"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round", 4, "ngIf"], [1, "discount-box__instructions"], ["class", "discount-box__expiry", 4, "ngIf"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x", "9", "y", "9", "width", "13", "height", "13", "rx", "2", "ry", "2"], ["d", "M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"], [1, "discount-box__expiry"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["cx", "12", "cy", "12", "r", "10"], ["points", "12 6 12 12 16 14"], ["target", "_blank", "rel", "noopener", 1, "provider-link", "provider-link--ig", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"], [1, "provider-link", "provider-link--phone", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.06-1.06a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"], [1, "book-btn", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["x1", "5", "y1", "12", "x2", "19", "y2", "12"], ["points", "12 5 19 12 12 19"]], template: function ProviderDetailComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "div", 0)(1, "div", 1);
         \u0275\u0275text(2);
@@ -272,7 +303,7 @@ var ProviderDetailComponent = class _ProviderDetailComponent {
         \u0275\u0275elementStart(11, "p", 7);
         \u0275\u0275text(12);
         \u0275\u0275elementEnd();
-        \u0275\u0275template(13, ProviderDetailComponent_ul_13_Template, 2, 1, "ul", 8)(14, ProviderDetailComponent_div_14_Template, 15, 7, "div", 9);
+        \u0275\u0275template(13, ProviderDetailComponent_ul_13_Template, 2, 1, "ul", 8)(14, ProviderDetailComponent_div_14_Template, 16, 8, "div", 9);
         \u0275\u0275elementStart(15, "div", 10);
         \u0275\u0275template(16, ProviderDetailComponent_a_16_Template, 4, 2, "a", 11)(17, ProviderDetailComponent_a_17_Template, 4, 2, "a", 12);
         \u0275\u0275elementEnd();
@@ -306,7 +337,7 @@ var ProviderDetailComponent = class _ProviderDetailComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.provider.highlights == null ? null : ctx.provider.highlights.length);
         \u0275\u0275advance();
-        \u0275\u0275property("ngIf", ctx.provider.discount);
+        \u0275\u0275property("ngIf", ctx.hasValidDiscount);
         \u0275\u0275advance(2);
         \u0275\u0275property("ngIf", ctx.provider.instagram);
         \u0275\u0275advance();
@@ -316,7 +347,7 @@ var ProviderDetailComponent = class _ProviderDetailComponent {
         \u0275\u0275advance(4);
         \u0275\u0275property("ngIf", ctx.provider.website);
       }
-    }, dependencies: [CommonModule, NgForOf, NgIf, ImageGalleryComponent, ShareButtonComponent, ProviderAvatarComponent], styles: ['\n\n[_nghost-%COMP%] {\n  display: block;\n  padding-bottom: 32px;\n}\n.provider-hero[_ngcontent-%COMP%] {\n  padding: 16px 16px 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 10px;\n}\n.provider-hero__badge[_ngcontent-%COMP%] {\n  align-self: flex-start;\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 20px;\n}\n.provider-hero__main[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n}\n.provider-hero__name[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 20px;\n  font-weight: 800;\n  color: #1a1a1a;\n  line-height: 1.2;\n}\n.provider-hero__tagline[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 13.5px;\n  color: #6b7280;\n  line-height: 1.4;\n}\n.provider-desc[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 16px 16px 4px;\n  font-size: 14px;\n  color: #374151;\n  line-height: 1.6;\n}\n.provider-highlights[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 12px 16px;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.highlight-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  font-size: 13.5px;\n  color: #374151;\n  font-weight: 500;\n}\n.highlight-check[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: #22c55e;\n}\n.discount-box[_ngcontent-%COMP%] {\n  margin: 0 16px 16px;\n  background:\n    linear-gradient(\n      135deg,\n      #fffbeb 0%,\n      #fef3c7 100%);\n  border: 1.5px solid #F4A922;\n  border-radius: 14px;\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n.discount-box__header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  color: #92400e;\n}\n.discount-box__header[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.discount-box__label[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  font-weight: 600;\n}\n.discount-box__coupon[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #fff;\n  border: 1.5px dashed #F4A922;\n  border-radius: 10px;\n  padding: 12px 16px;\n  cursor: pointer;\n  transition: background 0.15s;\n  width: 100%;\n  text-align: left;\n}\n.discount-box__coupon[_ngcontent-%COMP%]:active {\n  background: #fffbeb;\n}\n.coupon-code[_ngcontent-%COMP%] {\n  font-size: 22px;\n  font-weight: 800;\n  letter-spacing: 3px;\n  color: #2C1810;\n  font-family: "Courier New", monospace;\n}\n.coupon-copy-hint[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: #9ca3af;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.coupon-copy-hint.copied[_ngcontent-%COMP%] {\n  color: #22c55e;\n  font-weight: 600;\n}\n.discount-box__instructions[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 12px;\n  color: #92400e;\n  line-height: 1.5;\n  opacity: 0.85;\n}\n.provider-links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 0 16px 8px;\n}\n.provider-link[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  padding: 11px 14px;\n  border-radius: 10px;\n  font-size: 13.5px;\n  font-weight: 500;\n  text-decoration: none;\n  transition: background 0.15s;\n}\n.provider-link[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.provider-link--ig[_ngcontent-%COMP%] {\n  background: #f3f4f6;\n  color: #374151;\n}\n.provider-link--ig[_ngcontent-%COMP%]:hover {\n  background: #e5e7eb;\n}\n.provider-link--phone[_ngcontent-%COMP%] {\n  background: #f3f4f6;\n  color: #374151;\n}\n.provider-link--phone[_ngcontent-%COMP%]:hover {\n  background: #e5e7eb;\n}\n.provider-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  padding: 4px 16px 4px;\n}\n.provider-action-btn[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 42px;\n  border-radius: 10px;\n  border: 1px solid #e5e7eb;\n  background: #f9fafb;\n  color: #374151;\n  font-size: 13px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 7px;\n  transition: background 0.15s;\n}\n.provider-action-btn[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: #6b7280;\n}\n.provider-action-btn[_ngcontent-%COMP%]:hover {\n  background: #f3f4f6;\n}\n.book-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: calc(100% - 32px);\n  margin: 8px 16px 0;\n  padding: 14px 20px;\n  background: #F4A922;\n  color: #fff;\n  border: none;\n  border-radius: 12px;\n  font-size: 15px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background 0.18s, transform 0.1s;\n}\n.book-btn[_ngcontent-%COMP%]:hover {\n  background: #e09914;\n}\n.book-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n/*# sourceMappingURL=provider-detail.component.css.map */'] });
+    }, dependencies: [CommonModule, NgForOf, NgIf, ImageGalleryComponent, ShareButtonComponent, ProviderAvatarComponent], styles: ['\n\n[_nghost-%COMP%] {\n  display: block;\n  padding-bottom: 32px;\n}\n.provider-hero[_ngcontent-%COMP%] {\n  padding: 16px 16px 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 10px;\n}\n.provider-hero__badge[_ngcontent-%COMP%] {\n  align-self: flex-start;\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 20px;\n}\n.provider-hero__main[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n}\n.provider-hero__name[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 20px;\n  font-weight: 800;\n  color: #1a1a1a;\n  line-height: 1.2;\n}\n.provider-hero__tagline[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 13.5px;\n  color: #6b7280;\n  line-height: 1.4;\n}\n.provider-desc[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 16px 16px 4px;\n  font-size: 14px;\n  color: #374151;\n  line-height: 1.6;\n}\n.provider-highlights[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 12px 16px;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.highlight-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  font-size: 13.5px;\n  color: #374151;\n  font-weight: 500;\n}\n.highlight-check[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: #22c55e;\n}\n.discount-box[_ngcontent-%COMP%] {\n  margin: 0 16px 16px;\n  background:\n    linear-gradient(\n      135deg,\n      #fffbeb 0%,\n      #fef3c7 100%);\n  border: 1.5px solid #F4A922;\n  border-radius: 14px;\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n.discount-box__header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  color: #92400e;\n}\n.discount-box__header[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.discount-box__label[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  font-weight: 600;\n}\n.discount-box__coupon[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #fff;\n  border: 1.5px dashed #F4A922;\n  border-radius: 10px;\n  padding: 12px 16px;\n  cursor: pointer;\n  transition: background 0.15s;\n  width: 100%;\n  text-align: left;\n}\n.discount-box__coupon[_ngcontent-%COMP%]:active {\n  background: #fffbeb;\n}\n.coupon-code[_ngcontent-%COMP%] {\n  font-size: 22px;\n  font-weight: 800;\n  letter-spacing: 3px;\n  color: #2C1810;\n  font-family: "Courier New", monospace;\n}\n.coupon-copy-hint[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: #9ca3af;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.coupon-copy-hint.copied[_ngcontent-%COMP%] {\n  color: #22c55e;\n  font-weight: 600;\n}\n.discount-box__instructions[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 12px;\n  color: #92400e;\n  line-height: 1.5;\n  opacity: 0.85;\n}\n.discount-box__expiry[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-top: 8px;\n  font-size: 11px;\n  font-weight: 600;\n  color: #b45309;\n  opacity: 0.8;\n}\n.provider-links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 0 16px 8px;\n}\n.provider-link[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  padding: 11px 14px;\n  border-radius: 10px;\n  font-size: 13.5px;\n  font-weight: 500;\n  text-decoration: none;\n  transition: background 0.15s;\n}\n.provider-link[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.provider-link--ig[_ngcontent-%COMP%] {\n  background: #f3f4f6;\n  color: #374151;\n}\n.provider-link--ig[_ngcontent-%COMP%]:hover {\n  background: #e5e7eb;\n}\n.provider-link--phone[_ngcontent-%COMP%] {\n  background: #f3f4f6;\n  color: #374151;\n}\n.provider-link--phone[_ngcontent-%COMP%]:hover {\n  background: #e5e7eb;\n}\n.provider-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  padding: 4px 16px 4px;\n}\n.provider-action-btn[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 42px;\n  border-radius: 10px;\n  border: 1px solid #e5e7eb;\n  background: #f9fafb;\n  color: #374151;\n  font-size: 13px;\n  font-weight: 500;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 7px;\n  transition: background 0.15s;\n}\n.provider-action-btn[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: #6b7280;\n}\n.provider-action-btn[_ngcontent-%COMP%]:hover {\n  background: #f3f4f6;\n}\n.book-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: calc(100% - 32px);\n  margin: 8px 16px 0;\n  padding: 14px 20px;\n  background: #F4A922;\n  color: #fff;\n  border: none;\n  border-radius: 12px;\n  font-size: 15px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background 0.18s, transform 0.1s;\n}\n.book-btn[_ngcontent-%COMP%]:hover {\n  background: #e09914;\n}\n.book-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n/*# sourceMappingURL=provider-detail.component.css.map */'] });
   }
 };
 (() => {
@@ -368,29 +399,37 @@ var ProviderPageComponent = class _ProviderPageComponent {
     return `${origin}/malta/providers/${this.provider.id}`;
   }
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.provider = providers.find((p) => p.id === id) ?? null;
-    if (!this.provider) {
-      this.router.navigate(["/malta"]);
-      return;
+    if (isPlatformBrowser(this.platformId)) {
+      const mapProviders = providers.filter((p) => p.showOnMap && p.lat && p.lon);
+      const fromLocationSlug = this.route.snapshot.queryParamMap.get("fromLocation");
+      const fromLoc = fromLocationSlug ? locations.find((l) => l.slug === fromLocationSlug) ?? null : null;
+      this.bridge.enterPanelMode(mapProviders, { label: "Back" }, fromLoc, null);
+      this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.goBack());
+      this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loc) => {
+        if (loc)
+          this.router.navigate(["/malta/locations", loc.slug]);
+      });
+      this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((p) => this.router.navigate(["/malta/providers", p.id]));
     }
-    this.seo.setProviderPage(this.provider);
-    if (!isPlatformBrowser(this.platformId))
-      return;
-    const fromLocationSlug = this.route.snapshot.queryParamMap.get("fromLocation");
-    const fromLoc = fromLocationSlug ? locations.find((l) => l.slug === fromLocationSlug) ?? null : null;
-    const fitPoint = fromLoc && this.provider.lat && this.provider.lon ? { lat: this.provider.lat, lon: this.provider.lon } : null;
-    const mapProviders = providers.filter((p) => p.showOnMap && p.lat && p.lon);
-    this.bridge.enterPanelMode(mapProviders, { label: "Back" }, fromLoc, fitPoint);
-    this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.goBack());
-    this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loc) => {
-      if (loc)
-        this.router.navigate(["/malta/locations", loc.slug]);
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const id = params.get("id");
+      this.provider = providers.find((p) => p.id === id) ?? null;
+      if (!this.provider) {
+        this.router.navigate(["/malta"]);
+        return;
+      }
+      this.seo.setProviderPage(this.provider);
+      if (isPlatformBrowser(this.platformId) && this.provider.lat && this.provider.lon) {
+        this.bridge.fitPoint.set({ lat: this.provider.lat, lon: this.provider.lon });
+      }
     });
   }
   onBookRequested(provider) {
+    const url = buildBookingUrl(provider);
+    if (!url)
+      return;
     this.bridge.interstitialProvider.set(provider);
-    this.bridge.pendingNavUrl.set(provider.website);
+    this.bridge.pendingNavUrl.set(url);
   }
   goBack() {
     this.nav.back(this.route.snapshot.queryParamMap);
@@ -434,9 +473,9 @@ var ProviderPageComponent = class _ProviderPageComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProviderPageComponent, { className: "ProviderPageComponent", filePath: "src/app/platform/provider-page/provider-page.component.ts", lineNumber: 47 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProviderPageComponent, { className: "ProviderPageComponent", filePath: "src/app/platform/provider-page/provider-page.component.ts", lineNumber: 48 });
 })();
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-TV6Y3CYS.js.map
+//# sourceMappingURL=chunk-JTVCD6P2.js.map

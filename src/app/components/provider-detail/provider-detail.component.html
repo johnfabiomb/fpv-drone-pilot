@@ -33,7 +33,7 @@
 </ul>
 
 <!-- Discount box -->
-<div class="discount-box" *ngIf="provider.discount">
+<div class="discount-box" *ngIf="hasValidDiscount">
   <div class="discount-box__header">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -56,6 +56,14 @@
   </button>
 
   <p class="discount-box__instructions">{{ provider.discount!.instructions }}</p>
+
+  <div class="discount-box__expiry" *ngIf="discountExpiry">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+    Valid until {{ discountExpiry }}
+  </div>
 </div>
 
 <!-- Contact links -->

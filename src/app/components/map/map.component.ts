@@ -17,7 +17,7 @@ import { locations } from '../../../assets/locations.json';
 import { Router } from '@angular/router';
 import { Location, MapPoint, Provider } from '../../shared/models';
 import { matchesFilter, FilterId } from '../../shared/utils/location-filter.util';
-import { resolveProviderColor } from '../../shared/utils/provider.utils';
+import { resolveProviderColor, isDiscountValid } from '../../shared/utils/provider.utils';
 import { FEATURES } from '../../feature-flags';
 
 const ICON_CANVAS_SIZE = 80;
@@ -453,7 +453,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.providerLayer = new VectorLayer({
       source: this.providerSource,
       style: (f: FeatureLike) => this.providerPinStyle(f),
-      zIndex: 5,
+      zIndex: 15,
     });
     this.map.addLayer(this.providerLayer);
     if (this._providerPins.length && FEATURES.PROMOTIONS) this.rebuildProviderLayer();
@@ -470,13 +470,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       }));
       if (this.providerCanvasCache.has(p.id)) continue;
 
-      const savings = p.discount?.shortLabel;
+      const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : undefined;
       const label = savings ?? p.mapLabel ?? '🏷️ Deal';
       const pillColor = savings ? '#D4A017' : undefined;
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
-          const pin = this.buildTeardropPin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
+          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
           if (p.emoji) this.addEmojiBadge(pin, p.emoji);
           this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
           this.providerLayer.changed();
@@ -585,9 +585,44 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return composite;
   }
 
+  private buildCirclePin(img: HTMLImageElement, size: number, borderColor: string): HTMLCanvasElement {
+    const W = size, H = size;
+    const cx = W / 2, cy = H / 2;
+    const r = W / 2 - 2;
+
+    const pin = document.createElement('canvas');
+    pin.width = W;
+    pin.height = H;
+    const pc = pin.getContext('2d')!;
+
+    pc.save();
+    pc.shadowColor = 'rgba(0,0,0,0.22)';
+    pc.shadowBlur = 8;
+    pc.shadowOffsetY = 3;
+    pc.beginPath();
+    pc.arc(cx, cy, r, 0, Math.PI * 2);
+    pc.fillStyle = '#fff';
+    pc.fill();
+    pc.restore();
+
+    pc.save();
+    pc.beginPath();
+    pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+    pc.clip();
+    pc.drawImage(img, 0, 0, W, H);
+    pc.restore();
+
+    pc.beginPath();
+    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.strokeStyle = borderColor;
+    pc.lineWidth = 3;
+    pc.stroke();
+
+    return pin;
+  }
+
   // ── Shared pin builder ────────────────────────────────────
-  // Used by both location pins (size=80, border='#fff') and
-  // provider photo pins (size=80, border='#F4A922').
+  // Used by location pins (size=80, border='#fff').
   private buildTeardropPin(img: HTMLImageElement, size: number, borderColor: string): HTMLCanvasElement {
     const tailH = Math.round(size * ICON_TAIL_H / ICON_CANVAS_SIZE);
     const W = size, H = size + tailH;

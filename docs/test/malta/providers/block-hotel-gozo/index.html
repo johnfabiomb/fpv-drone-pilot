@@ -1,0 +1,1100 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Hotel Block · Malta Hotel | Explore Malta</title>
+  <base href="/test/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Block all indexing and crawling -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  <meta name="theme-color" content="#F4A922">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
+
+a[_ngcontent-ng-c3674394342] {
+  text-decoration: none;
+}
+.app-version[_ngcontent-ng-c3674394342] {
+  position: fixed;
+  bottom: 2px;
+  right: 10px;
+  transform: translateX(-50%);
+  font-size: 6px;
+  color: #111827;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 9999;
+  letter-spacing: 0.3px;
+  font-family: monospace;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+/*# sourceMappingURL=/test/app.component.css.map */</style><style ng-app-id="ng">
+
+.pwa-card[_ngcontent-ng-c454289037] {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+  right: 16px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 14px 25px 14px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 9999;
+  animation: _ngcontent-ng-c454289037_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+@keyframes _ngcontent-ng-c454289037_slideUp {
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.pwa-card__icon[_ngcontent-ng-c454289037] {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pwa-card__body[_ngcontent-ng-c454289037] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #374151;
+}
+.pwa-card__body[_ngcontent-ng-c454289037]   strong[_ngcontent-ng-c454289037] {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+.pwa-card__body[_ngcontent-ng-c454289037]   .ios-share[_ngcontent-ng-c454289037] {
+  font-size: 15px;
+  font-weight: 700;
+}
+.pwa-card__actions[_ngcontent-ng-c454289037] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.pwa-card__actions[_ngcontent-ng-c454289037]   button[_ngcontent-ng-c454289037] {
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-later[_ngcontent-ng-c454289037] {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.btn-install[_ngcontent-ng-c454289037] {
+  background: #F4A922;
+  color: #fff;
+}
+.pwa-card__close[_ngcontent-ng-c454289037] {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0;
+}
+/*# sourceMappingURL=/test/pwa-prompt.component.css.map */</style><style ng-app-id="ng">
+
+.floating-route-tabs[_ngcontent-ng-c2336635175] {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 4px 5px;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .floating-route-tabs[_ngcontent-ng-c2336635175] {
+    bottom: 26px;
+  }
+}
+.route-tab[_ngcontent-ng-c2336635175] {
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 16px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+}
+.route-tab.active[_ngcontent-ng-c2336635175] {
+  background: var(--tab-active-color, var(--color-primary));
+  color: #fff;
+}
+.route-tab[_ngcontent-ng-c2336635175]:hover:not(.active) {
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+}
+app-filter-bar[_ngcontent-ng-c2336635175] {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: auto;
+  max-width: calc(100vw - 24px);
+  width: max-content;
+}
+.offline-pill[_ngcontent-ng-c2336635175] {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 210;
+  background: rgba(30, 30, 30, 0.88);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill, 20px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.floating-route-tabs[_ngcontent-ng-c2336635175]    ~ .offline-pill[_ngcontent-ng-c2336635175] {
+  bottom: 64px;
+}
+@media (max-width: 768px) {
+  .floating-route-tabs[_ngcontent-ng-c2336635175]    ~ .offline-pill[_ngcontent-ng-c2336635175] {
+    bottom: 74px;
+  }
+}
+.offline-dot[_ngcontent-ng-c2336635175] {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f87171;
+  flex-shrink: 0;
+}
+.interstitial-near-label[_ngcontent-ng-c2336635175] {
+  margin: 0 0 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+.show-panel-btn--primary[_ngcontent-ng-c2336635175] {
+  color: var(--color-primary);
+  font-size: 16px;
+}
+.panel--hidden[_ngcontent-ng-c2336635175] {
+  display: none;
+}
+/*# sourceMappingURL=/test/map-shell.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c4003370102] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+[_nghost-ng-c4003370102]   .map-container[_ngcontent-ng-c4003370102] {
+  display: flex;
+  flex: 1 1 auto;
+  position: relative;
+}
+.compass-btn[_ngcontent-ng-c4003370102] {
+  position: absolute;
+  bottom: 190px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 18px;
+  z-index: 5;
+  transition: background 0.15s, color 0.15s;
+}
+.compass-btn[_ngcontent-ng-c4003370102]:hover {
+  background: #f5f5f5;
+}
+.compass-btn.active[_ngcontent-ng-c4003370102] {
+  color: #4285F4;
+}
+.locate-btn[_ngcontent-ng-c4003370102] {
+  position: absolute;
+  bottom: 140px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 16px;
+  z-index: 5;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
+}
+.locate-btn[_ngcontent-ng-c4003370102]:hover {
+  background: #f5f5f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+.locate-btn.has-gps[_ngcontent-ng-c4003370102] {
+  color: #4285F4;
+}
+.location-toast[_ngcontent-ng-c4003370102] {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 24, 39, 0.88);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.marker-dot[_ngcontent-ng-c4003370102] {
+  padding: 0;
+  border-radius: 50% !important;
+  background: #ffffff;
+  border: 1px solid var(--color-blue, #F4A922);
+  object-fit: cover;
+  opacity: 0.9;
+  filter: none;
+}
+.marker-dot[_ngcontent-ng-c4003370102] {
+  content-visibility: auto;
+}
+.marker-image[_ngcontent-ng-c4003370102] {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+/*# sourceMappingURL=/test/map.component.css.map */</style><style ng-app-id="ng">
+
+.bottom-bar[_ngcontent-ng-c190970116] {
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 400;
+}
+.route-btn[_ngcontent-ng-c190970116] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #F4A922;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(244, 169, 34, 0.35);
+  white-space: nowrap;
+  transition: box-shadow 0.15s, opacity 0.15s;
+}
+.route-btn[_ngcontent-ng-c190970116]:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
+}
+.list-btn[_ngcontent-ng-c190970116] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f9fafb;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
+  white-space: nowrap;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.list-btn[_ngcontent-ng-c190970116]:hover {
+  background: #f3f4f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.profile-wrap[_ngcontent-ng-c190970116] {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.profile-wrap[_ngcontent-ng-c190970116]   .text[_ngcontent-ng-c190970116] {
+  text-align: right;
+}
+.profile-wrap[_ngcontent-ng-c190970116]   .text[_ngcontent-ng-c190970116]   .dev[_ngcontent-ng-c190970116] {
+  display: block;
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.profile-wrap[_ngcontent-ng-c190970116]   .text[_ngcontent-ng-c190970116]   .name[_ngcontent-ng-c190970116] {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+.profile-wrap[_ngcontent-ng-c190970116]   .text[_ngcontent-ng-c190970116]   .title[_ngcontent-ng-c190970116] {
+  display: block;
+  font-size: 10px;
+  color: #6b7280;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.profile-wrap[_ngcontent-ng-c190970116]   .profile-picture[_ngcontent-ng-c190970116] {
+  border-radius: 10px;
+  border: 2px solid #F4A922;
+  box-sizing: border-box;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .footer-links[_ngcontent-ng-c190970116] {
+    display: none;
+  }
+}
+.about-popup[_ngcontent-ng-c190970116] {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  width: 240px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  animation: _ngcontent-ng-c190970116_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+}
+.about-popup[_ngcontent-ng-c190970116]::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 22px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  transform: rotate(45deg);
+}
+@keyframes _ngcontent-ng-c190970116_popUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.about-photo[_ngcontent-ng-c190970116] {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid #F4A922;
+  box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);
+  margin-bottom: 12px;
+}
+.about-name[_ngcontent-ng-c190970116] {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.3px;
+}
+.about-tags[_ngcontent-ng-c190970116] {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+.about-tags[_ngcontent-ng-c190970116]   span[_ngcontent-ng-c190970116] {
+  font-size: 10.5px;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+.about-divider[_ngcontent-ng-c190970116] {
+  width: 100%;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 14px 0;
+}
+.about-policies[_ngcontent-ng-c190970116] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.about-policies[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116] {
+  display: block;
+  padding: 11px 16px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  color: #111827;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  transition: background 0.15s;
+}
+.about-policies[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116]:hover, 
+.about-policies[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116]:active {
+  background: #e5e7eb;
+}
+.about-contact[_ngcontent-ng-c190970116] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #4b5563;
+  text-align: center;
+}
+.about-contact[_ngcontent-ng-c190970116]   .about-contact-label[_ngcontent-ng-c190970116] {
+  font-weight: 700;
+  color: #111827;
+}
+.about-contact[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116] {
+  color: #F4A922;
+  font-weight: 600;
+  text-decoration: none;
+}
+.about-contact[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116]:hover {
+  opacity: 0.8;
+}
+.about-contact[_ngcontent-ng-c190970116]   .about-contact-note[_ngcontent-ng-c190970116] {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+.footer-links[_ngcontent-ng-c190970116] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  font-size: 12px;
+  color: #6b7280;
+}
+.footer-links[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116] {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.footer-links[_ngcontent-ng-c190970116]   a[_ngcontent-ng-c190970116]:hover {
+  opacity: 0.8;
+}
+.footer-links[_ngcontent-ng-c190970116]   span[_ngcontent-ng-c190970116] {
+  color: #9ca3af;
+}
+.about-socials[_ngcontent-ng-c190970116] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.about-social[_ngcontent-ng-c190970116] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #F4A922;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  padding: 2px 0;
+}
+.about-social[_ngcontent-ng-c190970116]:hover {
+  opacity: 0.8;
+}
+.about-version[_ngcontent-ng-c190970116] {
+  margin-top: 12px;
+  font-size: 10px;
+  color: #9ca3af;
+  font-family: monospace;
+}
+/*# sourceMappingURL=/test/footer.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c1673466212] {
+  display: contents;
+}
+/*# sourceMappingURL=/test/provider-page.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c1262857848] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface, #fff);
+}
+.panel-header[_ngcontent-ng-c1262857848] {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-surface, #fff);
+  border-bottom: 1px solid var(--color-bg-muted, #f3f4f6);
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .panel-header[_ngcontent-ng-c1262857848] {
+    touch-action: none;
+    cursor: grab;
+  }
+  .panel-header[_ngcontent-ng-c1262857848]:active {
+    cursor: grabbing;
+  }
+}
+.drag-bar[_ngcontent-ng-c1262857848] {
+  display: none;
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border, #e5e7eb);
+  margin: 10px auto 2px;
+}
+@media (max-width: 768px) {
+  .drag-bar[_ngcontent-ng-c1262857848] {
+    display: block;
+  }
+}
+.panel-header__row[_ngcontent-ng-c1262857848] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 0 16px;
+  height: 52px;
+}
+.close-btn[_ngcontent-ng-c1262857848] {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md, 8px);
+  background: var(--color-bg-muted, #f3f4f6);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition, 0.15s);
+  color: var(--color-text-muted, #6b7280);
+}
+.close-btn[_ngcontent-ng-c1262857848]:hover {
+  background: var(--color-border, #e5e7eb);
+}
+.close-btn[_ngcontent-ng-c1262857848]   i[_ngcontent-ng-c1262857848] {
+  font-size: 13px;
+}
+.panel-header__left[_ngcontent-ng-c1262857848] {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.panel-title[_ngcontent-ng-c1262857848] {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-base, #111827);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
+}
+.close-map-btn[_ngcontent-ng-c1262857848] {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md, 8px);
+  background: var(--color-bg-muted, #f3f4f6);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition, 0.15s);
+  color: var(--color-text-muted, #6b7280);
+}
+.close-map-btn[_ngcontent-ng-c1262857848]:hover {
+  background: var(--color-border, #e5e7eb);
+}
+.close-map-btn[_ngcontent-ng-c1262857848]   i[_ngcontent-ng-c1262857848] {
+  font-size: 11px;
+}
+.panel-body[_ngcontent-ng-c1262857848] {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/*# sourceMappingURL=/test/panel-shell.component.css.map */</style><meta name="description" content="Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay — one of Gozo's most beloved natural inlets. Superior R..."><meta name="keywords" content="Hotel Block, Malta hotel, Malta deals, Explore Malta"><meta property="og:title" content="Hotel Block · Malta Hotel | Explore Malta"><meta property="og:description" content="Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay — one of Gozo's most beloved natural inlets. Superior R..."><meta property="og:url" content="https://johnfabiomb.com/malta/providers/block-hotel-gozo"><meta property="og:image" content="https://johnfabiomb.com/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp"><meta property="og:image:alt" content="Hotel Block - Malta"><meta name="twitter:title" content="Hotel Block · Malta Hotel | Explore Malta"><meta name="twitter:description" content="Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay — one of Gozo's most beloved natural inlets. Superior R..."><meta name="twitter:image" content="https://johnfabiomb.com/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp"><link rel="canonical" href="https://johnfabiomb.com/malta/providers/block-hotel-gozo"><style ng-app-id="ng">
+
+.share-btn[_ngcontent-ng-c3137596793] {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  color: #6b7280;
+}
+.share-btn[_ngcontent-ng-c3137596793]:hover {
+  background: #e5e7eb;
+}
+.share-btn--labeled[_ngcontent-ng-c3137596793] {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 14px;
+  gap: 7px;
+}
+.share-btn--labeled[_ngcontent-ng-c3137596793]:hover {
+  background: #f3f4f6;
+}
+/*# sourceMappingURL=/test/share-button.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c481456648] {
+  display: block;
+  padding-bottom: 32px;
+}
+.provider-hero[_ngcontent-ng-c481456648] {
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.provider-hero__badge[_ngcontent-ng-c481456648] {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.provider-hero__main[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.provider-hero__name[_ngcontent-ng-c481456648] {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+.provider-hero__tagline[_ngcontent-ng-c481456648] {
+  margin: 0;
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+.provider-desc[_ngcontent-ng-c481456648] {
+  margin: 0;
+  padding: 16px 16px 4px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+.provider-highlights[_ngcontent-ng-c481456648] {
+  list-style: none;
+  margin: 12px 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.highlight-item[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: #374151;
+  font-weight: 500;
+}
+.highlight-check[_ngcontent-ng-c481456648] {
+  flex-shrink: 0;
+  color: #22c55e;
+}
+.discount-box[_ngcontent-ng-c481456648] {
+  margin: 0 16px 16px;
+  background:
+    linear-gradient(
+      135deg,
+      #fffbeb 0%,
+      #fef3c7 100%);
+  border: 1.5px solid #F4A922;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.discount-box__header[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #92400e;
+}
+.discount-box__header[_ngcontent-ng-c481456648]   svg[_ngcontent-ng-c481456648] {
+  flex-shrink: 0;
+}
+.discount-box__label[_ngcontent-ng-c481456648] {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.discount-box__coupon[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1.5px dashed #F4A922;
+  border-radius: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+  text-align: left;
+}
+.discount-box__coupon[_ngcontent-ng-c481456648]:active {
+  background: #fffbeb;
+}
+.coupon-code[_ngcontent-ng-c481456648] {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #2C1810;
+  font-family: "Courier New", monospace;
+}
+.coupon-copy-hint[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: #9ca3af;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.coupon-copy-hint.copied[_ngcontent-ng-c481456648] {
+  color: #22c55e;
+  font-weight: 600;
+}
+.discount-box__instructions[_ngcontent-ng-c481456648] {
+  margin: 0;
+  font-size: 12px;
+  color: #92400e;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.discount-box__expiry[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b45309;
+  opacity: 0.8;
+}
+.provider-links[_ngcontent-ng-c481456648] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 8px;
+}
+.provider-link[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.provider-link[_ngcontent-ng-c481456648]   svg[_ngcontent-ng-c481456648] {
+  flex-shrink: 0;
+}
+.provider-link--ig[_ngcontent-ng-c481456648] {
+  background: #f3f4f6;
+  color: #374151;
+}
+.provider-link--ig[_ngcontent-ng-c481456648]:hover {
+  background: #e5e7eb;
+}
+.provider-link--phone[_ngcontent-ng-c481456648] {
+  background: #f3f4f6;
+  color: #374151;
+}
+.provider-link--phone[_ngcontent-ng-c481456648]:hover {
+  background: #e5e7eb;
+}
+.provider-actions[_ngcontent-ng-c481456648] {
+  display: flex;
+  gap: 8px;
+  padding: 4px 16px 4px;
+}
+.provider-action-btn[_ngcontent-ng-c481456648] {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.15s;
+}
+.provider-action-btn[_ngcontent-ng-c481456648]   i[_ngcontent-ng-c481456648] {
+  color: #6b7280;
+}
+.provider-action-btn[_ngcontent-ng-c481456648]:hover {
+  background: #f3f4f6;
+}
+.book-btn[_ngcontent-ng-c481456648] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 8px 16px 0;
+  padding: 14px 20px;
+  background: #F4A922;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+}
+.book-btn[_ngcontent-ng-c481456648]:hover {
+  background: #e09914;
+}
+.book-btn[_ngcontent-ng-c481456648]:active {
+  transform: scale(0.98);
+}
+/*# sourceMappingURL=/test/provider-detail.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c395100757] {
+  display: contents;
+}
+.avatar[_ngcontent-ng-c395100757] {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar__img[_ngcontent-ng-c395100757] {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid;
+  display: block;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+.avatar__badge[_ngcontent-ng-c395100757] {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.avatar__emoji[_ngcontent-ng-c395100757] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+}
+/*# sourceMappingURL=/test/provider-avatar.component.css.map */</style></head>
+
+<body>
+  <app-root ng-version="19.2.1" _nghost-ng-c3674394342="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3674394342=""></router-outlet><app-map-shell _nghost-ng-c2336635175=""><!--bindings={
+  "ng-reflect-ng-if": null
+}--><div _ngcontent-ng-c2336635175="" class="map-layout"><div _ngcontent-ng-c2336635175="" class="map-layout__main"><div _ngcontent-ng-c2336635175="" class="map-layout__map"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><app-map _ngcontent-ng-c2336635175="" _nghost-ng-c4003370102="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c4003370102="" id="ol-map" class="map-container"><button _ngcontent-ng-c4003370102="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c4003370102="" class="fa fa-compass"></i></button><button _ngcontent-ng-c4003370102="" title="My location" class="locate-btn"><i _ngcontent-ng-c4003370102="" class="fa fa-location-arrow"></i></button><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div></app-map><!--bindings={
+  "ng-reflect-ng-if": null
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div><div _ngcontent-ng-c2336635175="" class="map-layout__panel panel--hidden"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><router-outlet _ngcontent-ng-c2336635175=""></router-outlet><app-provider-page _nghost-ng-c1673466212=""><app-panel-shell _ngcontent-ng-c1673466212="" _nghost-ng-c1262857848="" ng-reflect-title="Hotel Block"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Hotel Block</span><app-share-btn _ngcontent-ng-c1673466212="" panelactions="" _nghost-ng-c3137596793="" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Hotel Block"><button _ngcontent-ng-c3137596793="" class="share-btn" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": ""
+}--></button></app-share-btn><!--bindings={
+  "ng-reflect-ng-if": "[object Object]"
+}--></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><app-provider-detail _ngcontent-ng-c1673466212="" _nghost-ng-c481456648="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c481456648="" class="provider-hero" style="background: linear-gradient(135deg, #1B4F721a 0%, #1B4F7208 100%);"><div _ngcontent-ng-c481456648="" class="provider-hero__badge" style="background: #1B4F721a; color: #1B4F72;"> Hotel </div><div _ngcontent-ng-c481456648="" class="provider-hero__main"><app-provider-avatar _ngcontent-ng-c481456648="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="68"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 68px; height: 68px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #1B4F72;" src="/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp" alt="Hotel Block"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 26px; height: 26px; font-size: 15px;"> 🏨 </span><!--ng-container--><!--bindings={
+  "ng-reflect-ng-if-else": "[object Object]"
+}--><!--container--></div></app-provider-avatar><div _ngcontent-ng-c481456648=""><h2 _ngcontent-ng-c481456648="" class="provider-hero__name">Hotel Block</h2><p _ngcontent-ng-c481456648="" class="provider-hero__tagline">Boutique adults-only hotel on the seafront of Xlendi Bay, Gozo</p></div></div></div><!--bindings={
+  "ng-reflect-ng-if": "0"
+}--><p _ngcontent-ng-c481456648="" class="provider-desc">Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay — one of Gozo's most beloved natural inlets. Superior Rooms offer spectacular front and rear views, and the included Bed &amp; Breakfast lets you start each day right before heading out to explore Gozo's dramatic coast, caves, and clifftop trails. The hotel is the perfect base for discovering everything the island has to offer, from the mystical Inland Sea and Fungus Rock to the windswept paths of Dwejra.</p><ul _ngcontent-ng-c481456648="" class="provider-highlights"><li _ngcontent-ng-c481456648="" class="highlight-item"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="highlight-check"><polyline _ngcontent-ng-c481456648="" points="20 6 9 17 4 12"></polyline></svg> Adults Only boutique hotel on Xlendi Bay </li><li _ngcontent-ng-c481456648="" class="highlight-item"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="highlight-check"><polyline _ngcontent-ng-c481456648="" points="20 6 9 17 4 12"></polyline></svg> Superior Rooms with front &amp; rear sea views </li><li _ngcontent-ng-c481456648="" class="highlight-item"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="highlight-check"><polyline _ngcontent-ng-c481456648="" points="20 6 9 17 4 12"></polyline></svg> Bed &amp; Breakfast included </li><li _ngcontent-ng-c481456648="" class="highlight-item"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="highlight-check"><polyline _ngcontent-ng-c481456648="" points="20 6 9 17 4 12"></polyline></svg> Steps from Xlendi's coastal path and dive sites </li><li _ngcontent-ng-c481456648="" class="highlight-item"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="highlight-check"><polyline _ngcontent-ng-c481456648="" points="20 6 9 17 4 12"></polyline></svg> Perfect base for exploring Gozo's natural landmarks </li><!--bindings={
+  "ng-reflect-ng-for-of": "Adults Only boutique hotel on "
+}--></ul><!--bindings={
+  "ng-reflect-ng-if": "5"
+}--><div _ngcontent-ng-c481456648="" class="discount-box"><div _ngcontent-ng-c481456648="" class="discount-box__header"><svg _ngcontent-ng-c481456648="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c481456648="" d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line _ngcontent-ng-c481456648="" x1="7" y1="7" x2="7.01" y2="7"></line></svg><span _ngcontent-ng-c481456648="" class="discount-box__label">15% off Superior Rooms (Front &amp; Rear View) — Jun–Oct 2026</span></div><button _ngcontent-ng-c481456648="" class="discount-box__coupon"><span _ngcontent-ng-c481456648="" class="coupon-code">JohnBlock26</span><span _ngcontent-ng-c481456648="" class="coupon-copy-hint"><svg _ngcontent-ng-c481456648="" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect _ngcontent-ng-c481456648="" x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path _ngcontent-ng-c481456648="" d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--> Tap to copy </span></button><p _ngcontent-ng-c481456648="" class="discount-box__instructions">Book directly via blockgozo.com using code JohnBlock26 at checkout, by phone or WhatsApp on +356 79343081, or by email at hello@blockgozo.com. Valid for Superior Rooms (Front &amp; Rear View) only, for stays during the 2026 high season (June–October). Applies to the Flex BB rate — the rate becomes non-refundable once the discount is applied. Adults Only property. Cannot be combined with other offers.</p><div _ngcontent-ng-c481456648="" class="discount-box__expiry"><svg _ngcontent-ng-c481456648="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c481456648="" cx="12" cy="12" r="10"></circle><polyline _ngcontent-ng-c481456648="" points="12 6 12 12 16 14"></polyline></svg> Valid until October 2026 </div><!--bindings={
+  "ng-reflect-ng-if": "October 2026"
+}--></div><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><div _ngcontent-ng-c481456648="" class="provider-links"><!--bindings={}--><a _ngcontent-ng-c481456648="" class="provider-link provider-link--phone" href="tel:+356 79343081"><svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c481456648="" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l1.06-1.06a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +356 79343081 </a><!--bindings={
+  "ng-reflect-ng-if": "+356 79343081"
+}--></div><div _ngcontent-ng-c481456648="" class="provider-actions"><app-share-btn _ngcontent-ng-c481456648="" label="Share" _nghost-ng-c3137596793="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta?" ng-reflect-share-title="Hotel Block" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c3137596793="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><span _ngcontent-ng-c3137596793="">Share</span><!--bindings={
+  "ng-reflect-ng-if": "Share"
+}--></button></app-share-btn><button _ngcontent-ng-c481456648="" class="provider-action-btn"><i _ngcontent-ng-c481456648="" class="fa fa-tag"></i> Browse Deals </button></div><button _ngcontent-ng-c481456648="" class="book-btn"> Book Now <svg _ngcontent-ng-c481456648="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c481456648="" x1="5" y1="12" x2="19" y2="12"></line><polyline _ngcontent-ng-c481456648="" points="12 5 19 12 12 19"></polyline></svg></button><!--bindings={
+  "ng-reflect-ng-if": "https://www.blockgozo.com"
+}--></app-provider-detail><!--bindings={
+  "ng-reflect-ng-if": "[object Object]"
+}--></div></app-panel-shell></app-provider-page><!--container--></div></div><app-footer _ngcontent-ng-c2336635175="" _nghost-ng-c190970116=""><div _ngcontent-ng-c190970116="" class="bottom-bar"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><a _ngcontent-ng-c190970116="" routerlink="/malta/list" class="list-btn" ng-reflect-router-link="/malta/list" href="/test/malta/list">📍 Browse All</a><div _ngcontent-ng-c190970116="" class="profile-wrap"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><div _ngcontent-ng-c190970116="" class="text"><span _ngcontent-ng-c190970116="" class="dev">Designed &amp; developed by</span><span _ngcontent-ng-c190970116="" class="name">John Montaño</span><span _ngcontent-ng-c190970116="" class="title">Explorer · Creator · Developer</span></div><img _ngcontent-ng-c190970116="" src="/assets/images/profile.webp" width="36" height="36" alt="John Montaño" class="profile-picture"></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c3674394342="" _nghost-ng-c454289037=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-pwa-prompt><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><span _ngcontent-ng-c3674394342="" class="app-version">v1.1.26</span></app-root>
+  <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
+<link rel="modulepreload" href="chunk-4OSLZFPQ.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-XNG4FTY2.js"><link rel="modulepreload" href="chunk-GBUZQIWY.js"><link rel="modulepreload" href="chunk-2O5DCFN6.js"><link rel="modulepreload" href="chunk-DMXQYC6T.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+
+
+</body></html>

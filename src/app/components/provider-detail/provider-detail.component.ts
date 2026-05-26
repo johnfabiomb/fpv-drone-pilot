@@ -5,7 +5,7 @@ import { Provider } from '../../shared/models';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
 import { ProviderAvatarComponent } from '../provider-avatar/provider-avatar.component';
-import { resolveProviderColor, getProviderCategoryLabel } from '../../shared/utils/provider.utils';
+import { resolveProviderColor, getProviderCategoryLabel, isDiscountValid } from '../../shared/utils/provider.utils';
 
 @Component({
   selector: 'app-provider-detail',
@@ -33,6 +33,14 @@ export class ProviderDetailComponent implements OnDestroy {
 
   get accentColor(): string { return resolveProviderColor(this.provider); }
   get categoryLabel(): string { return getProviderCategoryLabel(this.provider?.category); }
+  get hasValidDiscount(): boolean {
+    return !!this.provider.discount && isDiscountValid(this.provider.discount);
+  }
+  get discountExpiry(): string | null {
+    const v = this.provider.discount?.validUntil;
+    if (!v) return null;
+    return new Date(v).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  }
 
   copyCoupon(): void {
     const code = this.provider?.discount?.coupon;

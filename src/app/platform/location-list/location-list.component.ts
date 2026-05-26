@@ -12,6 +12,7 @@ import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Difficulty, Location, Provider } from '../../shared/models';
 import { haversineKm } from '../../shared/utils/geo.utils';
 import { matchesFilter, FilterId, FilterOption, FILTER_OPTIONS, getIslandLabel, difficultyColor as getDifficultyColor } from '../../shared/utils/location-filter.util';
+import { isDiscountValid } from '../../shared/utils/provider.utils';
 import { FEATURES } from '../../feature-flags';
 
 type SortMode = 'distance' | 'rating' | 'alpha';
@@ -44,8 +45,12 @@ export class LocationListComponent implements OnInit {
   private readonly userLon = signal<number | null>(null);
   readonly hasGps = computed(() => this.userLat() !== null);
 
+  private readonly activeProviders = computed(() =>
+    this.allProviders.filter(p => !p.discount || isDiscountValid(p.discount))
+  );
+
   private readonly dealLocationIds = computed(() =>
-    new Set<number>(this.allProviders.flatMap(p => p.nearLocationIds ?? []))
+    new Set<number>(this.activeProviders().flatMap(p => p.nearLocationIds ?? []))
   );
 
   readonly filteredLocations = computed(() => {
@@ -80,7 +85,7 @@ export class LocationListComponent implements OnInit {
     const lon = this.userLon();
 
     if (this.activeFilter() === 'deals') {
-      return this.allProviders.map(p => ({ type: 'provider' as const, data: p }));
+      return this.activeProviders().map(p => ({ type: 'provider' as const, data: p }));
     }
 
     const toItem = (loc: Location): LocationItem => {
