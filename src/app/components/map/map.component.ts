@@ -471,7 +471,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (this.providerCanvasCache.has(p.id)) continue;
 
       const savings = p.discount?.shortLabel;
-      const label = savings ? `🏷️ ${savings}` : (p.mapLabel ?? '🏷️ Deal');
+      const label = savings ?? p.mapLabel ?? '🏷️ Deal';
       const pillColor = savings ? '#D4A017' : undefined;
       if (p.coverImage) {
         const img = new Image();

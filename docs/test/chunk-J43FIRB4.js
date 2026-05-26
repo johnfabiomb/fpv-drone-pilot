@@ -10,7 +10,7 @@ import {
 } from "./chunk-FOYJGHDM.js";
 import {
   version
-} from "./chunk-2BVS46ZM.js";
+} from "./chunk-ZYYLJHTA.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -26720,7 +26720,7 @@ var MapComponent = class _MapComponent {
       if (this.providerCanvasCache.has(p.id))
         continue;
       const savings = p.discount?.shortLabel;
-      const label = savings ? `\u{1F3F7}\uFE0F ${savings}` : p.mapLabel ?? "\u{1F3F7}\uFE0F Deal";
+      const label = savings ?? p.mapLabel ?? "\u{1F3F7}\uFE0F Deal";
       const pillColor = savings ? "#D4A017" : void 0;
       if (p.coverImage) {
         const img = new Image();
@@ -27792,4 +27792,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-WB5QR3ML.js.map
+//# sourceMappingURL=chunk-J43FIRB4.js.map
