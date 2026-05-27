@@ -4,10 +4,7 @@ import { Router } from '@angular/router';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
-import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { AnalyticsService } from '../../shared/services/analytics.service';
-import { UserDataService } from '../../shared/services/user-data.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { Location, Provider, MapPoint, Route } from '../../shared/models';
 import { haversineM } from '../../shared/utils/geo.utils';
 import { getProvidersNearLocation } from '../../shared/utils/provider-utils';
@@ -19,7 +16,7 @@ import { FEATURES } from '../../feature-flags';
 @Component({
   selector: 'app-location-detail',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent],
+  imports: [CommonModule, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent],
   templateUrl: './location-detail.component.html',
   styleUrl: './location-detail.component.scss',
 })
@@ -34,36 +31,6 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   @Output() explore = new EventEmitter<void>();
   @Output() navRequested = new EventEmitter<string>();
   @Output() providerSelected = new EventEmitter<Provider>();
-
-  readonly userDataService = inject(UserDataService);
-  readonly authService = inject(AuthService);
-
-  confirmingUnsave = false;
-  private unsaveTimer?: ReturnType<typeof setTimeout>;
-
-  get isSaved(): boolean {
-    return !!this.location?.slug && this.userDataService.isLocationSaved(this.location.slug);
-  }
-
-  onSaveClick(e: Event): void {
-    e.stopPropagation();
-    if (!this.location?.slug) return;
-    if (!this.authService.isLoggedIn()) { this.authService.openLoginModal(); return; }
-    if (this.isSaved) {
-      this.confirmingUnsave = true;
-      clearTimeout(this.unsaveTimer);
-      this.unsaveTimer = setTimeout(() => { this.confirmingUnsave = false; }, 4000);
-    } else {
-      this.userDataService.toggleSaveLocation(this.location.slug);
-    }
-  }
-
-  confirmUnsave(): void {
-    if (!this.location?.slug) return;
-    clearTimeout(this.unsaveTimer);
-    this.confirmingUnsave = false;
-    this.userDataService.toggleSaveLocation(this.location.slug);
-  }
 
   private getActiveMapPoints(): MapPoint[] {
     const loc = this.location;
@@ -245,7 +212,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
     return tag.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   }
 
-  ngOnDestroy(): void { clearTimeout(this.unsaveTimer); }
+  ngOnDestroy(): void {}
 
   private checkProximity(): void {
     const location = this.location;

@@ -1,10 +1,8 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FEATURES } from '../../feature-flags';
 import { version } from '../../../../package.json';
-import { AuthService } from '../../shared/services/auth.service';
-import { UserDataService } from '../../shared/services/user-data.service';
 
 @Component({
   selector: 'app-footer',
@@ -16,26 +14,15 @@ import { UserDataService } from '../../shared/services/user-data.service';
 export class FooterComponent {
   readonly features = FEATURES;
   readonly version = version;
-  readonly authService = inject(AuthService);
-  readonly userDataService = inject(UserDataService);
-  showProfile = false;
+  showAbout = false;
 
-  get levelLabel(): string {
-    return `Explorer · Level ${this.userDataService.level()}`;
-  }
-
-  toggleProfile(e: Event): void {
+  toggleAbout(e: Event): void {
     e.stopPropagation();
-    this.showProfile = !this.showProfile;
-  }
-
-  async signOut(): Promise<void> {
-    await this.authService.signOut();
-    this.showProfile = false;
+    this.showAbout = !this.showAbout;
   }
 
   @HostListener('document:click')
-  closePopups(): void {
-    this.showProfile = false;
+  closeAbout(): void {
+    this.showAbout = false;
   }
 }

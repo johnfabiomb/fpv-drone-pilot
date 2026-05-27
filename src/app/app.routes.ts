@@ -56,10 +56,6 @@ export const routes: Routes = [
                         path: 'locations/:slug',
                         loadComponent: () => import('./platform/location-page/location-page.component').then(m => m.LocationPageComponent)
                     },
-                    {
-                        path: 'saved',
-                        loadComponent: () => import('./platform/saved-places/saved-places.component').then(m => m.SavedPlacesComponent)
-                    },
                 ]
             },
             // Non-map routes are direct siblings — NOT inside the shell

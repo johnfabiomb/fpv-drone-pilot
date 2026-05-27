@@ -10,7 +10,7 @@
 }
 
 .card {
-  background: var(--color-bg);
+  background: #fff;
   border-radius: 16px;
   padding: 20px 16px;
   width: min(320px, 88vw);
@@ -20,7 +20,7 @@
   gap: 16px;
   position: relative;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--color-border);
+  border: 1px solid #e5e7eb;
 
 }
 
@@ -39,13 +39,13 @@
 .dismiss-btn {
   background: none;
   border: none;
-  color: var(--color-text-light);
+  color: #9ca3af;
   font-size: 16px;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
 
-  &:hover { color: var(--color-text-secondary); }
+  &:hover { color: #374151; }
 }
 
 .countdown-wrap {
@@ -63,13 +63,13 @@
 
 .ring-bg {
   fill: none;
-  stroke: var(--color-border);
+  stroke: #e5e7eb;
   stroke-width: 4;
 }
 
 .ring-fill {
   fill: none;
-  stroke: var(--color-primary);
+  stroke: #F4A922;
   stroke-width: 4;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.9s linear;
@@ -84,7 +84,7 @@
 
 .countdown-label {
   margin: 0;
-  color: var(--color-text-light);
+  color: #9ca3af;
   font-size: 13px;
   text-align: center;
 }
@@ -94,10 +94,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  border-radius: var(--radius-lg);
+  border-radius: 10px;
   border: none;
-  background: var(--color-bg-muted);
-  color: var(--color-text-light);
+  background: #f3f4f6;
+  color: #9ca3af;
   font-size: 15px;
   font-weight: 600;
   cursor: not-allowed;
@@ -106,7 +106,7 @@
   justify-content: center;
 
   &.ready {
-    background: var(--color-primary);
+    background: #F4A922;
     color: #fff;
     cursor: pointer;
     animation: pulse 1s ease-in-out infinite;

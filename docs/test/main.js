@@ -1,34 +1,22 @@
 import {
   version
-} from "./chunk-ZYVSRP6N.js";
+} from "./chunk-2YNPMCWU.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
 import {
-  UserDataService,
-  getFirestore,
-  provideFirestore
-} from "./chunk-FPB6O42O.js";
-import {
-  AuthService,
-  getAuth,
-  initializeApp,
-  provideAuth,
-  provideFirebaseApp
-} from "./chunk-B23OTVUL.js";
-import {
   takeUntilDestroyed
-} from "./chunk-Q33RJLWE.js";
+} from "./chunk-XNG4FTY2.js";
 import {
   NavigationEnd,
   Router,
   RouterOutlet,
   provideRouter
-} from "./chunk-U3AVTKB7.js";
+} from "./chunk-GBUZQIWY.js";
 import {
   DomRendererFactory2,
   bootstrapApplication
-} from "./chunk-UJ3FFGCN.js";
+} from "./chunk-2O5DCFN6.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
@@ -52,7 +40,6 @@ import {
   makeEnvironmentProviders,
   performanceMarkFeature,
   setClassMetadata,
-  signal,
   ɵsetClassDebugInfo,
   ɵɵadvance,
   ɵɵclassProp,
@@ -64,8 +51,6 @@ import {
   ɵɵgetCurrentView,
   ɵɵinvalidFactory,
   ɵɵlistener,
-  ɵɵnamespaceHTML,
-  ɵɵnamespaceSVG,
   ɵɵnextContext,
   ɵɵproperty,
   ɵɵresetView,
@@ -73,7 +58,7 @@ import {
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate1
-} from "./chunk-QFIZ3IRG.js";
+} from "./chunk-DMXQYC6T.js";
 
 // src/app/app.routes.ts
 var routes = [
@@ -84,23 +69,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-IELMQP5U.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-GIW2ZGQP.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-4M7UFA2Z.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-56CX4N54.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-3HA6FG22.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-ZI2F3TZT.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-EGTM3553.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-6NQSHDWL.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-3E7J4TXF.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-CP4VWYNK.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -108,54 +93,50 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-44QYXPO4.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-HWFJG3RX.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-6DUJADEM.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-3ZDJAFCB.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-D2GSYVZK.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-NSBZQN4S.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-BPXYVGJR.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-3UDCLAL7.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-6O5V75C7.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-G44U7B2H.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-VPPEXZHZ.js").then((m) => m.LocationPageComponent)
-          },
-          {
-            path: "saved",
-            loadComponent: () => import("./chunk-AHZ3W5PL.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-GLJTCXQI.js").then((m) => m.LocationPageComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-QIMPK5EC.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-WLSPR2PM.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-QODIW3NM.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-KUYGTFPD.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-B6OHNXN4.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-6PYL2NQI.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-ZXUIC4WQ.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-64TYLAHU.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -193,7 +174,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-QJ5OGJWE.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-A5GB77Z2.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -396,16 +377,6 @@ function provideAnimationsAsync(type = "animations") {
   }]);
 }
 
-// src/app/shared/config/firebase.config.ts
-var firebaseConfig = {
-  apiKey: "AIzaSyBkkjVmAcq4CZRkr-Oc0lcCGKfSqSZRjdQ",
-  authDomain: "venture-map-web.firebaseapp.com",
-  projectId: "venture-map-web",
-  storageBucket: "venture-map-web.firebasestorage.app",
-  messagingSenderId: "457351831227",
-  appId: "1:457351831227:web:c2bb8010bf390f49cf939e"
-};
-
 // src/app/app.config.ts
 var appConfig = {
   providers: [
@@ -417,10 +388,7 @@ var appConfig = {
         disableImageSizeWarning: true,
         disableImageLazyLoadWarning: true
       }
-    },
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    }
   ]
 };
 
@@ -587,242 +555,17 @@ var PwaPromptComponent = class _PwaPromptComponent {
       if (rf & 2) {
         \u0275\u0275property("ngIf", ctx.visible);
       }
-    }, dependencies: [CommonModule, NgIf], styles: ["\n\n.pwa-card[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 80px;\n  left: 16px;\n  right: 16px;\n  max-width: 420px;\n  margin: 0 auto;\n  right: 16px;\n  background: var(--color-bg);\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);\n  padding: 14px 25px 14px 14px;\n  display: flex;\n  align-items: flex-start;\n  gap: 12px;\n  z-index: 9999;\n  animation: _ngcontent-%COMP%_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;\n  border: 1px solid rgba(0, 0, 0, 0.06);\n}\n@keyframes _ngcontent-%COMP%_slideUp {\n  from {\n    transform: translateY(120%);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n.pwa-card__icon[_ngcontent-%COMP%] {\n  font-size: 26px;\n  line-height: 1;\n  flex-shrink: 0;\n  margin-top: 2px;\n}\n.pwa-card__body[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  font-size: 13px;\n  line-height: 1.4;\n  color: var(--color-text-secondary);\n}\n.pwa-card__body[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 14px;\n  font-weight: 700;\n  color: var(--color-text-base);\n}\n.pwa-card__body[_ngcontent-%COMP%]   .ios-share[_ngcontent-%COMP%] {\n  font-size: 15px;\n  font-weight: 700;\n}\n.pwa-card__actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  flex-shrink: 0;\n}\n.pwa-card__actions[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  border: none;\n  border-radius: 20px;\n  padding: 6px 14px;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  white-space: nowrap;\n}\n.btn-later[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-muted);\n}\n.btn-install[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n}\n.pwa-card__close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 8px;\n  right: 10px;\n  background: none;\n  border: none;\n  font-size: 18px;\n  line-height: 1;\n  color: var(--color-text-light);\n  cursor: pointer;\n  padding: 0;\n}\n/*# sourceMappingURL=pwa-prompt.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf], styles: ["\n\n.pwa-card[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 80px;\n  left: 16px;\n  right: 16px;\n  max-width: 420px;\n  margin: 0 auto;\n  right: 16px;\n  background: #fff;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);\n  padding: 14px 25px 14px 14px;\n  display: flex;\n  align-items: flex-start;\n  gap: 12px;\n  z-index: 9999;\n  animation: _ngcontent-%COMP%_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;\n  border: 1px solid rgba(0, 0, 0, 0.06);\n}\n@keyframes _ngcontent-%COMP%_slideUp {\n  from {\n    transform: translateY(120%);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n.pwa-card__icon[_ngcontent-%COMP%] {\n  font-size: 26px;\n  line-height: 1;\n  flex-shrink: 0;\n  margin-top: 2px;\n}\n.pwa-card__body[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  font-size: 13px;\n  line-height: 1.4;\n  color: #374151;\n}\n.pwa-card__body[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 14px;\n  font-weight: 700;\n  color: #111827;\n}\n.pwa-card__body[_ngcontent-%COMP%]   .ios-share[_ngcontent-%COMP%] {\n  font-size: 15px;\n  font-weight: 700;\n}\n.pwa-card__actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  flex-shrink: 0;\n}\n.pwa-card__actions[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  border: none;\n  border-radius: 20px;\n  padding: 6px 14px;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  white-space: nowrap;\n}\n.btn-later[_ngcontent-%COMP%] {\n  background: #f3f4f6;\n  color: #6b7280;\n}\n.btn-install[_ngcontent-%COMP%] {\n  background: #F4A922;\n  color: #fff;\n}\n.pwa-card__close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 8px;\n  right: 10px;\n  background: none;\n  border: none;\n  font-size: 18px;\n  line-height: 1;\n  color: #9ca3af;\n  cursor: pointer;\n  padding: 0;\n}\n/*# sourceMappingURL=pwa-prompt.component.css.map */"] });
   }
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/components/pwa-prompt/pwa-prompt.component.ts", lineNumber: 130 });
 })();
 
-// src/app/components/auth-modal/auth-modal.component.ts
-var AuthModalComponent = class _AuthModalComponent {
-  constructor() {
-    this.auth = inject(AuthService);
-    this.loading = false;
-  }
-  signIn() {
-    return __async(this, null, function* () {
-      this.loading = true;
-      try {
-        yield this.auth.signInWithGoogle();
-      } finally {
-        this.loading = false;
-      }
-    });
-  }
-  static {
-    this.\u0275fac = function AuthModalComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _AuthModalComponent)();
-    };
-  }
-  static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AuthModalComponent, selectors: [["app-auth-modal"]], decls: 42, vars: 2, consts: [[1, "modal-backdrop", 3, "click"], [1, "modal-card", 3, "click"], [1, "modal-close", 3, "click"], ["width", "16", "height", "16", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [1, "modal-header"], [1, "modal-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "modal-photo"], [1, "modal-title"], [1, "modal-subtitle"], [1, "modal-benefits"], [1, "modal-benefit__icon"], [1, "btn-google", 3, "click", "disabled"], ["width", "18", "height", "18", "viewBox", "0 0 24 24", "xmlns", "http://www.w3.org/2000/svg"], ["d", "M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z", "fill", "#4285F4"], ["d", "M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z", "fill", "#34A853"], ["d", "M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z", "fill", "#FBBC05"], ["d", "M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z", "fill", "#EA4335"], [1, "modal-legal"], ["href", "/privacy", "target", "_blank"]], template: function AuthModalComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275elementStart(0, "div", 0);
-        \u0275\u0275listener("click", function AuthModalComponent_Template_div_click_0_listener() {
-          return ctx.auth.closeLoginModal();
-        });
-        \u0275\u0275elementStart(1, "div", 1);
-        \u0275\u0275listener("click", function AuthModalComponent_Template_div_click_1_listener($event) {
-          return $event.stopPropagation();
-        });
-        \u0275\u0275elementStart(2, "button", 2);
-        \u0275\u0275listener("click", function AuthModalComponent_Template_button_click_2_listener() {
-          return ctx.auth.closeLoginModal();
-        });
-        \u0275\u0275namespaceSVG();
-        \u0275\u0275elementStart(3, "svg", 3);
-        \u0275\u0275element(4, "line", 4)(5, "line", 5);
-        \u0275\u0275elementEnd()();
-        \u0275\u0275namespaceHTML();
-        \u0275\u0275elementStart(6, "div", 6)(7, "span", 7);
-        \u0275\u0275text(8, "\u{1F5FA}\uFE0F");
-        \u0275\u0275elementEnd();
-        \u0275\u0275element(9, "img", 8);
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(10, "h2", 9);
-        \u0275\u0275text(11, "Sign in to unlock it all");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(12, "p", 10);
-        \u0275\u0275text(13, "Save spots, reveal coupon codes and get directions across Malta & Gozo.");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(14, "ul", 11)(15, "li")(16, "span", 12);
-        \u0275\u0275text(17, "\u{1F516}");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(18, "span");
-        \u0275\u0275text(19, "Save your favourite locations");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(20, "li")(21, "span", 12);
-        \u0275\u0275text(22, "\u{1F39F}\uFE0F");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(23, "span");
-        \u0275\u0275text(24, "Unlock exclusive deals & coupon codes");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(25, "li")(26, "span", 12);
-        \u0275\u0275text(27, "\u{1F4CD}");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(28, "span");
-        \u0275\u0275text(29, "Open directions in Google Maps");
-        \u0275\u0275elementEnd()()();
-        \u0275\u0275elementStart(30, "button", 13);
-        \u0275\u0275listener("click", function AuthModalComponent_Template_button_click_30_listener() {
-          return ctx.signIn();
-        });
-        \u0275\u0275namespaceSVG();
-        \u0275\u0275elementStart(31, "svg", 14);
-        \u0275\u0275element(32, "path", 15)(33, "path", 16)(34, "path", 17)(35, "path", 18);
-        \u0275\u0275elementEnd();
-        \u0275\u0275text(36);
-        \u0275\u0275elementEnd();
-        \u0275\u0275namespaceHTML();
-        \u0275\u0275elementStart(37, "p", 19);
-        \u0275\u0275text(38, "By signing in you agree to our ");
-        \u0275\u0275elementStart(39, "a", 20);
-        \u0275\u0275text(40, "Privacy Policy");
-        \u0275\u0275elementEnd();
-        \u0275\u0275text(41, ".");
-        \u0275\u0275elementEnd()()();
-      }
-      if (rf & 2) {
-        \u0275\u0275advance(30);
-        \u0275\u0275property("disabled", ctx.loading);
-        \u0275\u0275advance(6);
-        \u0275\u0275textInterpolate1(" ", ctx.loading ? "Signing in\u2026" : "Continue with Google", " ");
-      }
-    }, dependencies: [CommonModule], styles: ["\n\n.modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 20px;\n  animation: _ngcontent-%COMP%_amFadeIn 0.25s ease;\n}\n.modal-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_amSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 6px;\n  color: var(--color-text-muted);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background var(--transition);\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.modal-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.modal-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n  flex-shrink: 0;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 10px;\n  font-size: 21px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.modal-subtitle[_ngcontent-%COMP%] {\n  margin: 0 0 22px;\n  font-size: 13.5px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n}\n.modal-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 26px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.modal-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 11px 14px;\n}\n.modal-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 20px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.btn-google[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 9px;\n  border: none;\n  border-radius: var(--radius-xl);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 14.5px;\n  font-weight: 700;\n  cursor: pointer;\n  box-shadow: 0 4px 16px var(--color-primary-shadow);\n  transition: opacity var(--transition), transform 0.1s;\n  margin-bottom: 10px;\n}\n.btn-google[_ngcontent-%COMP%]:hover:not(:disabled) {\n  opacity: 0.92;\n}\n.btn-google[_ngcontent-%COMP%]:active:not(:disabled) {\n  transform: scale(0.98);\n}\n.btn-google[_ngcontent-%COMP%]:disabled {\n  opacity: 0.6;\n  cursor: default;\n}\n.modal-legal[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: var(--color-text-light);\n  margin: 0;\n}\n.modal-legal[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  text-decoration: underline;\n}\n@keyframes _ngcontent-%COMP%_amFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_amSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=auth-modal.component.css.map */"] });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 210 });
-})();
-
-// src/app/components/welcome-popup/welcome-popup.component.ts
-function WelcomePopupComponent_div_0_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 1);
-    \u0275\u0275listener("click", function WelcomePopupComponent_div_0_Template_div_click_0_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.dismiss());
-    });
-    \u0275\u0275elementStart(1, "div", 2);
-    \u0275\u0275listener("click", function WelcomePopupComponent_div_0_Template_div_click_1_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      return \u0275\u0275resetView($event.stopPropagation());
-    });
-    \u0275\u0275elementStart(2, "div", 3)(3, "span", 4);
-    \u0275\u0275text(4, "\u{1F5FA}\uFE0F");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "img", 5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "p", 6);
-    \u0275\u0275text(7, "Hey, I'm John \u{1F44B}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "h2", 7);
-    \u0275\u0275text(9, "Welcome to My Malta Map!");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "p", 8);
-    \u0275\u0275text(11, "Your guide to Malta's best spots \u2014 sign in to get the most out of it.");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "ul", 9)(13, "li")(14, "span", 10);
-    \u0275\u0275text(15, "\u{1F516}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "span");
-    \u0275\u0275text(17, "Save your favourite spots and revisit them anytime");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(18, "li")(19, "span", 10);
-    \u0275\u0275text(20, "\u{1F39F}\uFE0F");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "span");
-    \u0275\u0275text(22, "Unlock exclusive deals & coupon codes from local partners");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(23, "li")(24, "span", 10);
-    \u0275\u0275text(25, "\u{1F4CD}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "span");
-    \u0275\u0275text(27, "Get directions straight to every location on the map");
-    \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(28, "button", 11);
-    \u0275\u0275listener("click", function WelcomePopupComponent_div_0_Template_button_click_28_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.signIn());
-    });
-    \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(29, "svg", 12);
-    \u0275\u0275element(30, "path", 13)(31, "path", 14)(32, "path", 15)(33, "path", 16);
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(34, " Sign in with Google ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(35, "button", 17);
-    \u0275\u0275listener("click", function WelcomePopupComponent_div_0_Template_button_click_35_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.dismiss());
-    });
-    \u0275\u0275text(36, " Continue as guest ");
-    \u0275\u0275elementEnd()()();
-  }
-}
-var WelcomePopupComponent = class _WelcomePopupComponent {
-  constructor() {
-    this.auth = inject(AuthService);
-    this.platformId = inject(PLATFORM_ID);
-    this.visible = signal(false);
-    this.STORAGE_KEY = "vm_welcome_shown";
-  }
-  ngOnInit() {
-    if (!isPlatformBrowser(this.platformId))
-      return;
-    if (this.auth.isLoggedIn())
-      return;
-    if (localStorage.getItem(this.STORAGE_KEY))
-      return;
-    setTimeout(() => {
-      if (!this.auth.isLoggedIn()) {
-        this.visible.set(true);
-        localStorage.setItem(this.STORAGE_KEY, "1");
-      }
-    }, 2500);
-  }
-  signIn() {
-    this.visible.set(false);
-    this.auth.openLoginModal();
-  }
-  dismiss() {
-    this.visible.set(false);
-  }
-  static {
-    this.\u0275fac = function WelcomePopupComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _WelcomePopupComponent)();
-    };
-  }
-  static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _WelcomePopupComponent, selectors: [["app-welcome-popup"]], decls: 1, vars: 1, consts: [["class", "wp-backdrop", 3, "click", 4, "ngIf"], [1, "wp-backdrop", 3, "click"], [1, "wp-card", 3, "click"], [1, "wp-header"], [1, "wp-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "wp-photo", 2, "flex-shrink", "0"], [1, "wp-hey"], [1, "wp-title"], [1, "wp-sub"], [1, "wp-benefits"], [1, "wp-benefit__icon"], [1, "wp-btn", "wp-btn--primary", 3, "click"], ["width", "18", "height", "18", "viewBox", "0 0 24 24", "xmlns", "http://www.w3.org/2000/svg"], ["d", "M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z", "fill", "#4285F4"], ["d", "M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z", "fill", "#34A853"], ["d", "M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z", "fill", "#FBBC05"], ["d", "M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z", "fill", "#EA4335"], [1, "wp-btn", "wp-btn--ghost", 3, "click"]], template: function WelcomePopupComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275template(0, WelcomePopupComponent_div_0_Template, 37, 0, "div", 0);
-      }
-      if (rf & 2) {
-        \u0275\u0275property("ngIf", ctx.visible());
-      }
-    }, dependencies: [CommonModule, NgIf], styles: ["\n\n.wp-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1200;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 20px;\n  animation: _ngcontent-%COMP%_wpFadeIn 0.3s ease;\n}\n.wp-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.wp-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.wp-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.wp-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n}\n.wp-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.wp-title[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 20px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.wp-sub[_ngcontent-%COMP%] {\n  margin: 0 0 20px;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  line-height: 1.5;\n}\n.wp-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 26px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.wp-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 11px 14px;\n}\n.wp-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 20px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.wp-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  border-radius: var(--radius-xl);\n  font-size: 14.5px;\n  font-weight: 700;\n  cursor: pointer;\n  border: none;\n  transition:\n    opacity var(--transition),\n    background var(--transition),\n    transform 0.1s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 9px;\n}\n.wp-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n.wp-btn--primary[_ngcontent-%COMP%] {\n  height: 50px;\n  background: var(--color-primary);\n  color: #fff;\n  margin-bottom: 10px;\n  box-shadow: 0 4px 16px var(--color-primary-shadow);\n}\n.wp-btn--primary[_ngcontent-%COMP%]:hover {\n  opacity: 0.92;\n}\n.wp-btn--ghost[_ngcontent-%COMP%] {\n  height: 38px;\n  background: transparent;\n  color: var(--color-text-muted);\n  font-size: 13px;\n  font-weight: 500;\n}\n.wp-btn--ghost[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n@keyframes _ngcontent-%COMP%_wpFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_wpSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=welcome-popup.component.css.map */"] });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 202 });
-})();
-
 // src/app/app.component.ts
 function AppComponent_app_pwa_prompt_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275element(0, "app-pwa-prompt");
-  }
-}
-function AppComponent_app_auth_modal_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "app-auth-modal");
   }
 }
 var MAP_ROUTES = ["/malta", "/"];
@@ -833,8 +576,6 @@ var AppComponent = class _AppComponent {
     this.platformId = inject(PLATFORM_ID);
     this.router = inject(Router);
     this.destroyRef = inject(DestroyRef);
-    this.authService = inject(AuthService);
-    this._userData = inject(UserDataService);
     this.HASH_RENAMES = {
       "/list": "/malta/list",
       "/trend": "/malta/30-places-2026",
@@ -874,29 +615,25 @@ var AppComponent = class _AppComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 6, vars: 3, consts: [[4, "ngIf"], [1, "app-version"]], template: function AppComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 4, vars: 2, consts: [[4, "ngIf"], [1, "app-version"]], template: function AppComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275element(0, "router-outlet");
         \u0275\u0275template(1, AppComponent_app_pwa_prompt_1_Template, 1, 0, "app-pwa-prompt", 0);
         \u0275\u0275elementStart(2, "span", 1);
         \u0275\u0275text(3);
         \u0275\u0275elementEnd();
-        \u0275\u0275template(4, AppComponent_app_auth_modal_4_Template, 1, 0, "app-auth-modal", 0);
-        \u0275\u0275element(5, "app-welcome-popup");
       }
       if (rf & 2) {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.isMapRoute);
         \u0275\u0275advance(2);
         \u0275\u0275textInterpolate1("v", ctx.version, "");
-        \u0275\u0275advance();
-        \u0275\u0275property("ngIf", ctx.authService.showLoginModal());
       }
-    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: var(--color-text-base);\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
+    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: #111827;\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 23 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 19 });
 })();
 
 // src/main.ts

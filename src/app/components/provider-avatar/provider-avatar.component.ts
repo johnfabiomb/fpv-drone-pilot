@@ -45,7 +45,7 @@ import { resolveProviderColor } from '../../shared/utils/provider.utils';
       position: absolute;
       bottom: -3px;
       right: -3px;
-      background: var(--color-bg);
+      background: #fff;
       border-radius: 50%;
       box-shadow: 0 1px 4px rgba(0,0,0,0.18);
       display: flex;

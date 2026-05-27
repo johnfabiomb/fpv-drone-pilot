@@ -17,7 +17,7 @@ const createView = (center: Coordinate, zoom: number) => new View({
 
 export const createMap = (center: Coordinate, zoom: number, target: string) => new Map({
     target,
-    controls: defaultControls({ rotate: false, zoom: false }),
+    controls: defaultControls({ rotate: false }),
     layers: [
         new TileLayer({
             source: new XYZ({

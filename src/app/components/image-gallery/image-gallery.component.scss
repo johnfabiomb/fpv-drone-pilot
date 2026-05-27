@@ -10,7 +10,7 @@
     &.single .hero {
         width: 100%;
         aspect-ratio: 16 / 9;
-        border-radius: var(--radius-xl);
+        border-radius: 12px;
         overflow: hidden;
 
         img {
@@ -36,7 +36,7 @@
             position: absolute;
             width: 68%;
             aspect-ratio: 4 / 3;
-            border-radius: var(--radius-xl);
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);

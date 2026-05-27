@@ -36,14 +36,14 @@
   margin: 0 0 4px;
   font-size: 20px;
   font-weight: 800;
-  color: var(--color-text-base);
+  color: #1a1a1a;
   line-height: 1.2;
 }
 
 .provider-hero__tagline {
   margin: 0;
   font-size: 13.5px;
-  color: var(--color-text-muted);
+  color: #6b7280;
   line-height: 1.4;
 }
 
@@ -53,7 +53,7 @@
   margin: 0;
   padding: 16px 16px 4px;
   font-size: 14px;
-  color: var(--color-text-secondary);
+  color: #374151;
   line-height: 1.6;
 }
 
@@ -73,7 +73,7 @@
   align-items: center;
   gap: 9px;
   font-size: 13.5px;
-  color: var(--color-text-secondary);
+  color: #374151;
   font-weight: 500;
 }
 
@@ -84,7 +84,7 @@
 .discount-box {
   margin: 0 16px 16px;
   background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid #F4A922;
   border-radius: 14px;
   padding: 16px;
   display: flex;
@@ -106,12 +106,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--color-bg);
-  border: 1.5px dashed var(--color-primary);
-  border-radius: var(--radius-lg);
+  background: #fff;
+  border: 1.5px dashed #F4A922;
+  border-radius: 10px;
   padding: 12px 16px;
   cursor: pointer;
-  transition: background var(--transition);
+  transition: background 0.15s;
   width: 100%;
   text-align: left;
   &:active { background: #fffbeb; }
@@ -125,50 +125,15 @@
   font-family: 'Courier New', monospace;
 }
 
-.coupon-code--blurred {
-  filter: blur(6px);
-  user-select: none;
-  color: #2C1810;
-}
-
-.coupon-unlock-hint {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
-  color: var(--color-primary);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.discount-box__coupon--locked {
-  border-style: dashed;
-  opacity: 0.9;
-  &:active { background: #fffbeb; }
-}
-
 .coupon-copy-hint {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 11.5px;
-  color: var(--color-text-light);
+  color: #9ca3af;
   font-weight: 500;
   white-space: nowrap;
   &.copied { color: #22c55e; font-weight: 600; }
-}
-
-.discount-box__reveal {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: filter 0.2s;
-
-  &--locked {
-    filter: blur(4px);
-    user-select: none;
-    pointer-events: none;
-  }
 }
 
 .discount-box__instructions {
@@ -183,6 +148,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-top: 8px;
   font-size: 11px;
   font-weight: 600;
   color: #b45309;
@@ -203,15 +169,15 @@
   align-items: center;
   gap: 9px;
   padding: 11px 14px;
-  border-radius: var(--radius-lg);
+  border-radius: 10px;
   font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
-  transition: background var(--transition);
+  transition: background 0.15s;
   svg { flex-shrink: 0; }
 
-  &--ig    { background: var(--color-bg-muted); color: var(--color-text-secondary); &:hover { background: var(--color-border); } }
-  &--phone { background: var(--color-bg-muted); color: var(--color-text-secondary); &:hover { background: var(--color-border); } }
+  &--ig    { background: #f3f4f6; color: #374151; &:hover { background: #e5e7eb; } }
+  &--phone { background: #f3f4f6; color: #374151; &:hover { background: #e5e7eb; } }
 }
 
 // ── Actions row ───────────────────────────────────────────────────────────────
@@ -225,10 +191,10 @@
 .provider-action-btn {
   flex: 1;
   height: 42px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-light);
-  color: var(--color-text-secondary);
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -236,9 +202,9 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  transition: background var(--transition);
-  i { color: var(--color-text-muted); }
-  &:hover { background: var(--color-bg-muted); }
+  transition: background 0.15s;
+  i { color: #6b7280; }
+  &:hover { background: #f3f4f6; }
 }
 
 // ── Book button ───────────────────────────────────────────────────────────────
@@ -251,14 +217,14 @@
   width: calc(100% - 32px);
   margin: 8px 16px 0;
   padding: 14px 20px;
-  background: var(--color-primary);
+  background: #F4A922;
   color: #fff;
   border: none;
-  border-radius: var(--radius-xl);
+  border-radius: 12px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.18s, transform 0.1s;
-  &:hover  { background: var(--color-primary-hover); }
+  &:hover  { background: #e09914; }
   &:active { transform: scale(0.98); }
 }

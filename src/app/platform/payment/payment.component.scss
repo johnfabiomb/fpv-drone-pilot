@@ -20,16 +20,16 @@
   width: 60px;
   height: 60px;
   border-radius: 14px;
-  border: 2px solid var(--color-primary);
+  border: 2px solid #F4A922;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   font-weight: 800;
-  color: var(--color-primary);
+  color: #F4A922;
   letter-spacing: 1px;
   margin-bottom: 16px;
-  background: var(--color-bg);
+  background: #fff;
   box-shadow: 0 2px 12px rgba(244,169,34,0.15);
 }
 
@@ -42,14 +42,14 @@
 .brand-name {
   font-size: 22px;
   font-weight: 800;
-  color: var(--color-text-base);
+  color: #111827;
   letter-spacing: -0.5px;
 }
 
 .brand-title {
   margin-top: 6px;
   font-size: 9px;
-  color: var(--color-text-light);
+  color: #9ca3af;
   letter-spacing: 0.6px;
   text-transform: uppercase;
 }
@@ -57,15 +57,15 @@
 .brand-divider {
   width: 36px;
   height: 1px;
-  background: var(--color-border);
+  background: #e5e7eb;
   margin: 24px auto;
 }
 
 // ── Amount banner ─────────────────────────────────────────
 .amount-banner {
   width: 100%;
-  background: var(--color-bg);
-  border: 1.5px solid var(--color-primary);
+  background: #fff;
+  border: 1.5px solid #F4A922;
   border-radius: 14px;
   padding: 20px 24px;
   display: flex;
@@ -79,7 +79,7 @@
 .amount-label {
   font-size: 11px;
   font-weight: 600;
-  color: var(--color-primary);
+  color: #F4A922;
   letter-spacing: 0.8px;
   text-transform: uppercase;
 }
@@ -87,7 +87,7 @@
 .amount-value {
   font-size: 38px;
   font-weight: 800;
-  color: var(--color-text-base);
+  color: #111827;
   letter-spacing: -1.5px;
   line-height: 1;
 }
@@ -95,7 +95,7 @@
 // ── Generic copy (no amount) ──────────────────────────────
 .brand-copy {
   font-size: 14px;
-  color: var(--color-text-muted);
+  color: #6b7280;
   line-height: 1.75;
   margin: 0 0 24px;
 }
@@ -107,7 +107,7 @@
   align-items: center;
   gap: 16px;
   padding: 24px 0;
-  color: var(--color-text-muted);
+  color: #6b7280;
   font-size: 14px;
 }
 
@@ -115,7 +115,7 @@
   width: 32px;
   height: 32px;
   border: 3px solid rgba(244,169,34,0.2);
-  border-top-color: var(--color-primary);
+  border-top-color: #F4A922;
   border-radius: 50%;
   animation: spin 0.75s linear infinite;
 }
@@ -132,7 +132,7 @@
   padding: 16px;
   background: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: var(--radius-xl);
+  border-radius: 12px;
   font-size: 13px;
   color: #dc2626;
   width: 100%;
@@ -141,14 +141,14 @@
 
 .retry-btn {
   padding: 8px 20px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-md);
-  color: var(--color-primary);
+  background: #fff;
+  border: 1px solid #F4A922;
+  border-radius: 8px;
+  color: #F4A922;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--transition);
+  transition: background 0.15s;
 
   &:hover { background: rgba(244,169,34,0.06); }
 }
@@ -170,8 +170,8 @@
   gap: 6px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-text-light);
+  color: #9ca3af;
   letter-spacing: 0.3px;
 
-  svg { color: var(--color-text-light); }
+  svg { color: #9ca3af; }
 }

@@ -54,12 +54,12 @@
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
-  background: var(--color-primary);
+  background: #F4A922;
   color: #fff;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   margin-bottom: 16px;
   text-transform: uppercase;
 }
@@ -101,7 +101,7 @@
 
 .progress-fill {
   height: 100%;
-  background: var(--color-primary);
+  background: #F4A922;
   border-radius: 4px;
   transition: width 0.6s ease;
 }
@@ -122,15 +122,15 @@
   padding: 10px 20px;
   background: rgba(255,255,255,0.12);
   border: 1.5px solid rgba(255,255,255,0.35);
-  border-radius: var(--radius-lg);
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
   color: #fff;
   text-decoration: none;
   backdrop-filter: blur(4px);
-  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 
-  svg { flex-shrink: 0; color: var(--color-primary); }
+  svg { flex-shrink: 0; color: #F4A922; }
 
   &:hover {
     background: rgba(255,255,255,0.22);
@@ -166,12 +166,12 @@
 
 .trend-chip {
   padding: 5px 12px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
+  background: #fff;
+  border: 1px solid #e5e7eb;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: #6b7280;
   letter-spacing: 0.2px;
 }
 
@@ -191,13 +191,13 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   padding: 14px 16px;
   cursor: pointer;
   text-align: left;
-  transition: box-shadow var(--transition), border-color var(--transition), transform 0.12s;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.12s;
 
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -218,7 +218,7 @@
   min-width: 36px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #F4A922;
   letter-spacing: -0.2px;
   flex-shrink: 0;
 }
@@ -227,19 +227,19 @@
   flex: 1;
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-text-base);
+  color: #111827;
   line-height: 1.3;
 }
 
 .card-arrow {
-  color: var(--color-text-light);
+  color: #9ca3af;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  transition: color var(--transition), transform var(--transition);
+  transition: color 0.15s, transform 0.15s;
 
   .trend-card:hover & {
-    color: var(--color-primary);
+    color: #F4A922;
     transform: translateX(2px);
   }
 }
@@ -301,7 +301,7 @@
   gap: 7px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-primary);
+  color: #F4A922;
   text-decoration: none;
   transition: opacity 0.2s;
 
@@ -310,5 +310,5 @@
 
 .trend-footer-copy {
   font-size: 11px;
-  color: var(--color-text-light);
+  color: #9ca3af;
 }

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, computed, DestroyRef, ElementRef, HostListener, OnDestroy, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { FilterBarComponent } from '../../components/filter-bar/filter-bar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -13,13 +13,12 @@ import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Provider, Route } from '../../shared/models';
 import { PanelResize } from '../../shared/utils/panel-resize.util';
 import { ROUTE_COLORS } from '../../shared/utils/route-drawing';
-import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-map-shell',
   standalone: true,
   providers: [MapBridgeService],
-  imports: [CommonModule, RouterOutlet, RouterLink, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent],
   templateUrl: './map-shell.component.html',
   styleUrl: './map-shell.component.scss',
 })
@@ -31,9 +30,7 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
-  readonly version = version;
   isOnline = true;
-  showDevAbout = false;
 
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
@@ -89,23 +86,7 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:offline')
   onOffline(): void { this.isOnline = false; }
 
-  toggleDevAbout(e: Event): void {
-    e.stopPropagation();
-    this.onControlTapped();
-    this.showDevAbout = !this.showDevAbout;
-  }
-
-  @HostListener('document:click')
-  closeDevAbout(): void { this.showDevAbout = false; }
-
-  onControlTapped(): void {
-    if (this.bridge.panelOpen() && !this.bridge.panel.minimized()) {
-      this.bridge.panel.minimize();
-    }
-  }
-
   onMapTapped(): void {
-    this.showDevAbout = false;
     if (window.innerWidth <= 768 && this.bridge.panelOpen() && !this.bridge.mapOnly() && !this.bridge.panel.minimized()) {
       this.bridge.panel.minimize();
     }

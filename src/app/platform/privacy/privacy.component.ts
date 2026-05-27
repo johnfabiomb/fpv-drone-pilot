@@ -11,7 +11,7 @@ import { SeoService } from '../../shared/services/seo.service';
   styleUrl: './privacy.component.scss',
 })
 export class PrivacyComponent implements OnInit {
-  lastUpdated = 'May 2026 (revised)';
+  lastUpdated = 'May 2026';
 
   private readonly seo = inject(SeoService);
 
