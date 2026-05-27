@@ -11,13 +11,13 @@ import {
   getProviderCategoryLabel,
   isDiscountValid,
   resolveProviderColor
-} from "./chunk-MFTM25CQ.js";
+} from "./chunk-HUY3T7JJ.js";
 import {
   NavigationService
 } from "./chunk-6CA4EYDJ.js";
 import {
   providers
-} from "./chunk-KVZGSWLD.js";
+} from "./chunk-D7QO6DLY.js";
 import {
   SeoService
 } from "./chunk-NO2KK3DI.js";
@@ -478,4 +478,4 @@ var ProviderPageComponent = class _ProviderPageComponent {
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-JTVCD6P2.js.map
+//# sourceMappingURL=chunk-G44U7B2H.js.map

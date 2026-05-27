@@ -1,7 +1,7 @@
 import {
   ProviderAvatarComponent,
   resolveProviderColor
-} from "./chunk-MFTM25CQ.js";
+} from "./chunk-HUY3T7JJ.js";
 import {
   CommonModule,
   EventEmitter,
@@ -105,4 +105,4 @@ var ProviderCardComponent = class _ProviderCardComponent {
 export {
   ProviderCardComponent
 };
-//# sourceMappingURL=chunk-MU3AV3CF.js.map
+//# sourceMappingURL=chunk-ZJAXWWKX.js.map

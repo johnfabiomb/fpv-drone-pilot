@@ -51,12 +51,12 @@ var providers = [
   },
   {
     id: "block-hotel-gozo",
-    name: "Hotel Block",
+    name: "Block Hotel",
     category: "hotel",
     color: "#1B4F72",
     emoji: "\u{1F3E8}",
-    tagline: "Boutique adults-only hotel on the seafront of Xlendi Bay, Gozo",
-    description: "Hotel Block is a boutique adults-only hotel perched above the crystal-clear waters of Xlendi Bay \u2014 one of Gozo's most beloved natural inlets. Superior Rooms offer spectacular front and rear views, and the included Bed & Breakfast lets you start each day right before heading out to explore Gozo's dramatic coast, caves, and clifftop trails. The hotel is the perfect base for discovering everything the island has to offer, from the mystical Inland Sea and Fungus Rock to the windswept paths of Dwejra.",
+    tagline: "3-star hotel in the heart of Xlendi Bay, Gozo",
+    description: "Block Hotel is a 3-star hotel in the heart of Xlendi Bay, Gozo \u2014 rooms, apartments and one Penthouse, right where the action is. This is a lively hotel. Guests come for the diving, stay for the rooftop, and end up at the bar. Xlendi Bay is on your doorstep \u2014 the Inland Sea, Fungus Rock and Dwejra are minutes away, and some of Europe's best dive sites are right below the building.",
     coverImage: "/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp",
     website: "https://www.blockgozo.com",
     phone: "+356 79343081",
@@ -66,10 +66,10 @@ var providers = [
     mapLabel: "\u{1F3F7}\uFE0F Deal",
     nearLocationIds: [50, 73, 8, 9, 25, 23, 46, 38, 41, 63, 64, 65, 66, 68],
     discount: {
-      label: "15% off Superior Rooms (Front & Rear View) \u2014 Jun\u2013Oct 2026",
+      label: "15% off Superior Rooms (Front & Rear) \u2014 Jun\u2013Oct 2026",
       shortLabel: "15% off",
       coupon: "JohnBlock26",
-      instructions: "Book directly via blockgozo.com using code JohnBlock26 at checkout, by phone or WhatsApp on +356 79343081, or by email at hello@blockgozo.com. Valid for Superior Rooms (Front & Rear View) only, for stays during the 2026 high season (June\u2013October). Applies to the Flex BB rate \u2014 the rate becomes non-refundable once the discount is applied. Adults Only property. Cannot be combined with other offers.",
+      instructions: "Book directly via blockgozo.com using code JohnBlock26 at checkout, by phone or WhatsApp on +356 79343081, or by email at hello@blockgozo.com. Valid for Superior Rooms (Front & Rear) only, for stays between June and October 2026. Applies to the Flex BB rate \u2014 the rate becomes non-refundable once the discount is applied. Adults Only rooms. Cannot be combined with other offers.",
       validUntil: "2026-10-31"
     },
     bookingConfig: {
@@ -78,11 +78,11 @@ var providers = [
       nights: 2
     },
     highlights: [
-      "Adults Only boutique hotel on Xlendi Bay",
-      "Superior Rooms with front & rear sea views",
-      "Bed & Breakfast included",
-      "Steps from Xlendi's coastal path and dive sites",
-      "Perfect base for exploring Gozo's natural landmarks"
+      "3-star hotel on Xlendi Bay, Gozo",
+      "Ritual Dive \u2014 one of Gozo's largest dive centers, in the building",
+      "ABOVE rooftop pool & bar on Level 5",
+      "FRONT Bar with live music, DJs, karaoke & sport screenings",
+      "Superior Rooms: adults only, private terrace & breakfast included"
     ],
     images: []
   }
@@ -91,4 +91,4 @@ var providers = [
 export {
   providers
 };
-//# sourceMappingURL=chunk-KVZGSWLD.js.map
+//# sourceMappingURL=chunk-D7QO6DLY.js.map

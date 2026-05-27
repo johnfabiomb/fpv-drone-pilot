@@ -79,9 +79,10 @@ function ProviderAvatarComponent_ng_container_1_Template(rf, ctx) {
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
+    let tmp_2_0;
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275styleProp("border-color", ctx_r0.accentColor);
+    \u0275\u0275styleProp("border-color", (tmp_2_0 = ctx_r0.provider.pinBorderColor) !== null && tmp_2_0 !== void 0 ? tmp_2_0 : "#fff");
     \u0275\u0275property("src", ctx_r0.provider.coverImage, \u0275\u0275sanitizeUrl)("alt", ctx_r0.provider.name);
     \u0275\u0275advance();
     \u0275\u0275styleProp("width", ctx_r0.badgeSize, "px")("height", ctx_r0.badgeSize, "px")("font-size", ctx_r0.badgeFont, "px");
@@ -150,4 +151,4 @@ export {
   getProviderCategoryLabel,
   ProviderAvatarComponent
 };
-//# sourceMappingURL=chunk-MFTM25CQ.js.map
+//# sourceMappingURL=chunk-HUY3T7JJ.js.map

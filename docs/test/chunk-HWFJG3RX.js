@@ -4,14 +4,14 @@ import {
 } from "./chunk-WSUVHV4Q.js";
 import {
   ProviderCardComponent
-} from "./chunk-MU3AV3CF.js";
+} from "./chunk-ZJAXWWKX.js";
 import {
   isDiscountValid,
   resolveProviderColor
-} from "./chunk-MFTM25CQ.js";
+} from "./chunk-HUY3T7JJ.js";
 import {
   version
-} from "./chunk-4OSLZFPQ.js";
+} from "./chunk-2YNPMCWU.js";
 import {
   FEATURES
 } from "./chunk-D7BDNDUA.js";
@@ -26341,6 +26341,7 @@ var ICON_CANVAS_SIZE = 80;
 var ICON_TAIL_H = 18;
 var PROVIDER_PIN_SIZE = 80;
 var CLUSTER_ZOOM = 12;
+var PROVIDER_PIN_CLUSTER_SCALE = 0.7;
 var MapComponent = class _MapComponent {
   constructor() {
     this.maltaCoordinates = [14.363354400245052, 35.95195406978092];
@@ -26726,7 +26727,7 @@ var MapComponent = class _MapComponent {
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
-          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
+          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? "#fff");
           if (p.emoji)
             this.addEmojiBadge(pin, p.emoji);
           this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
@@ -26742,7 +26743,7 @@ var MapComponent = class _MapComponent {
     const provider = feature.get("provider");
     const canvas = this.providerCanvasCache.get(provider.id);
     const zoom = this.map.getView().getZoom() ?? 10;
-    const scale4 = zoom < CLUSTER_ZOOM ? this.getLocalityScale(zoom) : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
+    const scale4 = zoom < CLUSTER_ZOOM ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
     if (!canvas) {
       const r = Math.round(36 * scale4);
       return new Style_default({ image: new Circle_default2({ radius: r, fill: new Fill_default({ color: resolveProviderColor(provider) }), stroke: new Stroke_default({ color: "#fff", width: 2 }) }) });
@@ -26823,8 +26824,8 @@ var MapComponent = class _MapComponent {
   }
   buildCirclePin(img, size, borderColor) {
     const W = size, H = size;
-    const cx = W / 2, cy = H / 2;
-    const r = W / 2 - 2;
+    const pad = 2;
+    const cr = Math.round(W * 0.22);
     const pin = document.createElement("canvas");
     pin.width = W;
     pin.height = H;
@@ -26834,18 +26835,18 @@ var MapComponent = class _MapComponent {
     pc.shadowBlur = 8;
     pc.shadowOffsetY = 3;
     pc.beginPath();
-    pc.arc(cx, cy, r, 0, Math.PI * 2);
+    pc.roundRect(pad, pad, W - pad * 2, H - pad * 2, cr);
     pc.fillStyle = "#fff";
     pc.fill();
     pc.restore();
     pc.save();
     pc.beginPath();
-    pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+    pc.roundRect(pad + 2, pad + 2, W - (pad + 2) * 2, H - (pad + 2) * 2, Math.max(1, cr - 2));
     pc.clip();
     pc.drawImage(img, 0, 0, W, H);
     pc.restore();
     pc.beginPath();
-    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.roundRect(pad + 0.5, pad + 0.5, W - pad * 2 - 1, H - pad * 2 - 1, cr);
     pc.strokeStyle = borderColor;
     pc.lineWidth = 3;
     pc.stroke();
@@ -27231,7 +27232,7 @@ var MapComponent = class _MapComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapComponent, { className: "MapComponent", filePath: "src/app/components/map/map.component.ts", lineNumber: 35 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapComponent, { className: "MapComponent", filePath: "src/app/components/map/map.component.ts", lineNumber: 36 });
 })();
 
 // src/app/components/nav-interstitial/nav-interstitial.component.ts
@@ -27822,4 +27823,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-AZGVWO4I.js.map
+//# sourceMappingURL=chunk-HWFJG3RX.js.map
