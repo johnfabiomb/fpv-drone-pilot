@@ -5,6 +5,7 @@ import { ImageGalleryComponent } from '../image-gallery/image-gallery.component'
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
 import { AnalyticsService } from '../../shared/services/analytics.service';
+import { UserDataService } from '../../shared/services/user-data.service';
 import { Location, Provider, MapPoint, Route } from '../../shared/models';
 import { haversineM } from '../../shared/utils/geo.utils';
 import { getProvidersNearLocation } from '../../shared/utils/provider-utils';
@@ -31,6 +32,16 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   @Output() explore = new EventEmitter<void>();
   @Output() navRequested = new EventEmitter<string>();
   @Output() providerSelected = new EventEmitter<Provider>();
+
+  readonly userDataService = inject(UserDataService);
+
+  get isSaved(): boolean {
+    return !!this.location?.slug && this.userDataService.isLocationSaved(this.location.slug);
+  }
+
+  toggleSave(): void {
+    if (this.location?.slug) this.userDataService.toggleSaveLocation(this.location.slug);
+  }
 
   private getActiveMapPoints(): MapPoint[] {
     const loc = this.location;

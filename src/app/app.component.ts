@@ -4,6 +4,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
+import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
+import { AuthService } from './shared/services/auth.service';
+import { UserDataService } from './shared/services/user-data.service';
 import { version } from '../../package.json';
 import { filter } from 'rxjs/operators';
 
@@ -12,7 +15,7 @@ const MAP_ROUTES = ['/malta', '/'];
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, PwaPromptComponent],
+  imports: [RouterOutlet, CommonModule, PwaPromptComponent, AuthModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -23,6 +26,9 @@ export class AppComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  readonly authService = inject(AuthService);
+  // Eagerly instantiate so its effect() runs from app startup
+  private readonly _userData = inject(UserDataService);
 
   private readonly HASH_RENAMES: Record<string, string> = {
     '/list':  '/malta/list',

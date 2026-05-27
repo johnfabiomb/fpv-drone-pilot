@@ -1,3 +1,176 @@
+// ── Developer info floating button ────────────────────────
+.dev-about-wrap {
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+  z-index: 200;
+}
+
+.dev-about-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  transition: background 0.15s;
+
+  &:hover { background: #f5f5f5; }
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+}
+
+.dev-popup {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.07);
+  animation: devPopUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 18px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-right: 1px solid rgba(0,0,0,0.07);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    transform: rotate(45deg);
+  }
+
+  &__photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid #F4A922;
+    box-shadow: 0 0 0 4px rgba(244,169,34,0.1);
+    margin-bottom: 12px;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.3px;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+
+    span {
+      font-size: 10.5px;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background: #e5e7eb;
+    margin: 14px 0;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+
+    a {
+      display: block;
+      padding: 11px 16px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      color: #111827;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      transition: background 0.15s;
+      &:hover, &:active { background: #e5e7eb; }
+    }
+  }
+
+  &__contact {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 12px;
+
+    a {
+      color: #F4A922;
+      font-weight: 600;
+      text-decoration: none;
+      &:hover { opacity: 0.8; }
+    }
+  }
+
+  &__socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #F4A922;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    padding: 2px 0;
+    &:hover { opacity: 0.8; }
+  }
+
+  &__version {
+    margin-top: 12px;
+    font-size: 10px;
+    color: #9ca3af;
+    font-family: monospace;
+  }
+}
+
+@keyframes devPopUp {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 // ── Floating route tabs (multi-route locations) ────────────────────────────
 
 .floating-route-tabs {

@@ -1,0 +1,47 @@
+<app-panel-shell
+  title="Saved Places"
+  (closeRequested)="goToMap()"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (bodyDragStart)="bridge.panel.startDrag($event)"
+  (bodyDragMove)="bridge.panel.onDragMove($event)"
+  (bodyDragEnd)="bridge.panel.onDragEnd($event)">
+
+  <span panelActions class="list-count">{{ savedLocations().length }}</span>
+
+  <!-- Not logged in -->
+  <div class="empty-state" *ngIf="!authService.isLoggedIn()">
+    <div class="empty-state__icon">🔖</div>
+    <div class="empty-state__title">Sign in to save places</div>
+    <div class="empty-state__sub">Keep your favourite spots and access them anytime.</div>
+    <button class="empty-state__btn" (click)="authService.openLoginModal()">Sign in</button>
+  </div>
+
+  <!-- Logged in but no saves -->
+  <div class="empty-state" *ngIf="authService.isLoggedIn() && savedLocations().length === 0">
+    <div class="empty-state__icon">🗺️</div>
+    <div class="empty-state__title">No saved places yet</div>
+    <div class="empty-state__sub">Tap the bookmark icon on any location to save it here.</div>
+    <button class="empty-state__btn" (click)="browseAll()">Browse locations</button>
+  </div>
+
+  <!-- Saved locations list -->
+  <div class="location-list" *ngIf="authService.isLoggedIn() && savedLocations().length > 0">
+    <div class="loc-card" *ngFor="let loc of savedLocations()" (click)="openLocation(loc)">
+      <img class="loc-thumb" [src]="loc.img" [alt]="loc.title" loading="lazy">
+      <div class="loc-info">
+        <div class="loc-top">
+          <span class="loc-title">{{ loc.title }}</span>
+          <span class="loc-rating" *ngIf="loc.rating">⭐ {{ loc.rating }}</span>
+        </div>
+        <div class="loc-badges">
+          <span class="badge" [style.background]="difficultyColor(loc.difficulty)">{{ loc.difficulty }}</span>
+          <span class="badge badge--island" *ngIf="islandLabel(loc)">{{ islandLabel(loc) }}</span>
+          <span class="badge badge--hidden" *ngIf="loc.hidden">hidden gem</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</app-panel-shell>

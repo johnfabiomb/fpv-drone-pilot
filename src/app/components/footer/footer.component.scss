@@ -56,10 +56,66 @@
     }
 }
 
-// ── Profile + popup wrapper ────────────────────────────────
+// ── Developer info trigger ─────────────────────────────────
+.about-wrap {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    margin-left: 10px;
+}
+
+.about-trigger {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid #e5e7eb;
+    box-sizing: border-box;
+    display: block;
+    transition: border-color 0.15s;
+
+    &:hover { border-color: var(--color-primary); }
+}
+
+.about-popup--dev {
+    left: 0;
+    right: auto;
+
+    &::after {
+        left: 10px;
+        right: auto;
+    }
+}
+
+// ── Right side ─────────────────────────────────────────────
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+// ── Sign in button ─────────────────────────────────────────
+.signin-btn {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    &:hover { background: #fffbeb; }
+}
+
+// ── User profile (logged in + guest) ──────────────────────
 .profile-wrap {
     display: flex;
-    margin-left: auto;
     align-items: center;
     gap: 10px;
     cursor: pointer;
@@ -68,14 +124,6 @@
 
     .text {
         text-align: right;
-
-        .dev {
-            display: block;
-            font-size: 10px;
-            color: #9ca3af;
-            font-weight: 400;
-            line-height: 1.3;
-        }
 
         .name {
             display: block;
@@ -96,20 +144,50 @@
 
     .profile-picture {
         border-radius: 10px;
-        border: 2px solid #F4A922;
+        border: 2px solid var(--color-primary);
         box-sizing: border-box;
         object-fit: cover;
         flex-shrink: 0;
     }
 }
 
-@media (max-width: 900px) {
-    .footer-links {
-        display: none;
+.profile-wrap--guest {
+    cursor: pointer;
+
+    .name { color: #6b7280; }
+
+    .profile-picture--guest {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        box-sizing: border-box;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f9fafb;
+        color: #9ca3af;
     }
 }
 
-// ── About popup ───────────────────────────────────────────
+.saved-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px 12px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    transition: background 0.15s;
+    &:hover, &:active { background: #e5e7eb; }
+}
+
+// ── About / user popup ────────────────────────────────────
 .about-popup {
     position: absolute;
     bottom: calc(100% + 12px);
@@ -152,9 +230,15 @@
     border-radius: 10px;
     object-fit: cover;
     object-position: center top;
-    border: 2px solid #F4A922;
+    border: 2px solid var(--color-primary);
     box-shadow: 0 0 0 4px rgba(244,169,34,0.1);
     margin-bottom: 12px;
+}
+
+// Circular override for user's Google photo
+.user-photo {
+    border-radius: 50%;
+    object-position: center center;
 }
 
 .about-name {
@@ -164,22 +248,24 @@
     letter-spacing: -0.3px;
 }
 
-.about-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 10px;
+.about-email {
+    font-size: 11.5px;
+    color: #6b7280;
+    margin-top: 3px;
+    word-break: break-all;
+}
 
-    span {
-        font-size: 10.5px;
-        color: #6b7280;
-        background: #f3f4f6;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        padding: 3px 9px;
-        white-space: nowrap;
-    }
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #e09a1a 100%);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    margin-top: 8px;
 }
 
 .about-divider {
@@ -207,82 +293,24 @@
         font-size: 13px;
         text-align: center;
         transition: background 0.15s;
-
         &:hover, &:active { background: #e5e7eb; }
     }
 }
 
-.about-contact {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.signout-btn {
+    display: block;
     width: 100%;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: #4b5563;
-    text-align: center;
-
-    .about-contact-label {
-        font-weight: 700;
-        color: #111827;
-    }
-
-    a {
-        color: #F4A922;
-        font-weight: 600;
-        text-decoration: none;
-
-        &:hover { opacity: 0.8; }
-    }
-
-    .about-contact-note {
-        font-size: 12px;
-        color: #6b7280;
-        line-height: 1.4;
-    }
-}
-
-.footer-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 12px;
-    font-size: 12px;
-    color: #6b7280;
-
-    a {
-        color: #374151;
-        text-decoration: none;
-        font-weight: 600;
-        white-space: nowrap;
-
-        &:hover { opacity: 0.8; }
-    }
-
-    span {
-        color: #9ca3af;
-    }
-}
-
-.about-socials {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
-}
-
-.about-social {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
+    padding: 11px 16px;
+    background: #f3f4f6;
+    border: none;
+    border-radius: 10px;
+    color: #111827;
     font-weight: 600;
-    color: #F4A922;
-    text-decoration: none;
-    transition: opacity 0.2s;
-    padding: 2px 0;
-
-    &:hover { opacity: 0.8; }
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    &:hover, &:active { background: #e5e7eb; }
 }
 
 .about-version {
@@ -290,4 +318,8 @@
     font-size: 10px;
     color: #9ca3af;
     font-family: monospace;
+}
+
+@media (max-width: 900px) {
+    .footer-links { display: none; }
 }

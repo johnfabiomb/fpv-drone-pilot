@@ -6,6 +6,7 @@ import { ImageGalleryComponent } from '../image-gallery/image-gallery.component'
 import { ShareButtonComponent } from '../share-button/share-button.component';
 import { ProviderAvatarComponent } from '../provider-avatar/provider-avatar.component';
 import { resolveProviderColor, getProviderCategoryLabel, isDiscountValid } from '../../shared/utils/provider.utils';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-provider-detail',
@@ -22,6 +23,7 @@ export class ProviderDetailComponent implements OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
   private router = inject(Router);
+  readonly authService = inject(AuthService);
   couponCopied = false;
   private copyTimer?: ReturnType<typeof setTimeout>;
 
@@ -52,6 +54,7 @@ export class ProviderDetailComponent implements OnDestroy {
   }
 
   openWebsite(): void {
+    if (!this.authService.isLoggedIn()) { this.authService.openLoginModal(); return; }
     if (this.provider?.website) this.bookRequested.emit(this.provider);
   }
 

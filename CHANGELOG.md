@@ -6,6 +6,19 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- Firebase Authentication with Google OAuth — sign-in modal, auth state persisted via `onAuthStateChanged`
+- `AuthService` — signals-based service (`user`, `isLoggedIn`, `showLoginModal`); `signInWithGoogle()`, `signOut()`, `openLoginModal()`
+- `UserDataService` — eagerly instantiated at app startup; creates Firestore user document on first login with `role: 'explorer'` and `savedLocations: []`; supports `toggleSaveLocation()`
+- `AuthModalComponent` — overlay modal with Google sign-in button, backdrop dismiss, loading state
+- Footer: "Sign in" button shown when logged out; logged-in user's Google avatar shown when signed in
+- Footer: user popup (above avatar) shows name, email, and "Sign out" button
+- Provider detail: coupon code blurred behind login; phone number locked behind login; Book Now locked behind login
+- Block Hotel provider data corrected: name, tagline, description, highlights, discount label and instructions
+
+### Fixed
+- `UserDataService` was never instantiated at startup — `AppComponent` now eagerly injects it so the `effect()` watching auth state fires on login
+
 ---
 
 ## 2026-05-20
