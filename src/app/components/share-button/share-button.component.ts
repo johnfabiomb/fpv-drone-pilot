@@ -26,31 +26,31 @@ import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
     .share-btn {
       width: 32px;
       height: 32px;
-      border-radius: 8px;
-      background: #f3f4f6;
+      border-radius: var(--radius-md);
+      background: var(--color-bg-muted);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      transition: background 0.15s;
-      color: #6b7280;
+      transition: background var(--transition);
+      color: var(--color-text-muted);
     }
-    .share-btn:hover { background: #e5e7eb; }
+    .share-btn:hover { background: var(--color-border); }
     .share-btn--labeled {
       width: 100%;
       height: 42px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #374151;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-light);
+      color: var(--color-text-secondary);
       font-size: 13px;
       font-weight: 500;
       padding: 0 14px;
       gap: 7px;
     }
-    .share-btn--labeled:hover { background: #f3f4f6; }
+    .share-btn--labeled:hover { background: var(--color-bg-muted); }
   `],
 })
 export class ShareButtonComponent implements OnDestroy {

@@ -24,16 +24,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
 
-a[_ngcontent-ng-c855655208] {
+a[_ngcontent-ng-c1531347817] {
   text-decoration: none;
 }
-.app-version[_ngcontent-ng-c855655208] {
+.app-version[_ngcontent-ng-c1531347817] {
   position: fixed;
   bottom: 2px;
   right: 10px;
   transform: translateX(-50%);
   font-size: 6px;
-  color: #111827;
+  color: var(--color-text-base);
   opacity: 0.4;
   pointer-events: none;
   z-index: 9999;
@@ -43,6 +43,157 @@ a[_ngcontent-ng-c855655208] {
 }
 /*# sourceMappingURL=/test/app.component.css.map */</style><style ng-app-id="ng">
 
+.wp-backdrop[_ngcontent-ng-c2290195963] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: _ngcontent-ng-c2290195963_wpFadeIn 0.3s ease;
+}
+.wp-card[_ngcontent-ng-c2290195963] {
+  background: var(--color-bg);
+  border-radius: 22px;
+  padding: 36px 24px 26px;
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: _ngcontent-ng-c2290195963_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.wp-header[_ngcontent-ng-c2290195963] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.wp-emoji[_ngcontent-ng-c2290195963] {
+  font-size: 56px;
+  line-height: 1;
+  width: 52px;
+  text-align: center;
+}
+.wp-photo[_ngcontent-ng-c2290195963] {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);
+}
+.wp-hey[_ngcontent-ng-c2290195963] {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.01em;
+}
+.wp-title[_ngcontent-ng-c2290195963] {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-base);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+.wp-sub[_ngcontent-ng-c2290195963] {
+  margin: 0 0 20px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+.wp-benefits[_ngcontent-ng-c2290195963] {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wp-benefits[_ngcontent-ng-c2290195963]   li[_ngcontent-ng-c2290195963] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  padding: 11px 14px;
+}
+.wp-benefit__icon[_ngcontent-ng-c2290195963] {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.wp-btn[_ngcontent-ng-c2290195963] {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition:
+    opacity var(--transition),
+    background var(--transition),
+    transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.wp-btn[_ngcontent-ng-c2290195963]:active {
+  transform: scale(0.98);
+}
+.wp-btn--primary[_ngcontent-ng-c2290195963] {
+  height: 50px;
+  background: var(--color-primary);
+  color: #fff;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px var(--color-primary-shadow);
+}
+.wp-btn--primary[_ngcontent-ng-c2290195963]:hover {
+  opacity: 0.92;
+}
+.wp-btn--ghost[_ngcontent-ng-c2290195963] {
+  height: 38px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+.wp-btn--ghost[_ngcontent-ng-c2290195963]:hover {
+  color: var(--color-text-secondary);
+}
+@keyframes _ngcontent-ng-c2290195963_wpFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes _ngcontent-ng-c2290195963_wpSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/*# sourceMappingURL=/test/welcome-popup.component.css.map */</style><style ng-app-id="ng">
+
 .legal-page[_ngcontent-ng-c449624793] {
   padding: 24px;
   min-height: 100vh;
@@ -50,11 +201,11 @@ a[_ngcontent-ng-c855655208] {
 .legal-inner[_ngcontent-ng-c449624793] {
   max-width: 800px;
   margin: 0 auto;
-  color: #111827;
+  color: var(--color-text-base);
 }
 .back-link[_ngcontent-ng-c449624793] {
   display: inline-block;
-  color: #111827;
+  color: var(--color-text-base);
   text-decoration: none;
   margin-bottom: 20px;
   font-weight: 600;
@@ -64,7 +215,7 @@ a[_ngcontent-ng-c855655208] {
   margin-bottom: 12px;
 }
 .legal-updated[_ngcontent-ng-c449624793] {
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin-bottom: 30px;
 }
 section[_ngcontent-ng-c449624793] {
@@ -84,7 +235,7 @@ li[_ngcontent-ng-c449624793] {
   margin-bottom: 12px;
 }
 a[_ngcontent-ng-c449624793] {
-  color: #F4A922;
+  color: var(--color-primary);
   text-decoration: none;
 }
 a[_ngcontent-ng-c449624793]:hover {
@@ -93,13 +244,15 @@ a[_ngcontent-ng-c449624793]:hover {
 /*# sourceMappingURL=/test/about.component.css.map */</style><meta name="description" content="Learn more about Explore Malta, its creator, and the original location content behind the site."><meta property="og:title" content="About · Explore Malta"><meta property="og:description" content="Learn more about Explore Malta, its creator, and the original location content behind the site."><meta property="og:url" content="https://johnfabiomb.com/about"><meta property="og:image" content="https://johnfabiomb.com/assets/map-min.png"><meta name="twitter:title" content="About · Explore Malta"><meta name="twitter:description" content="Learn more about Explore Malta, its creator, and the original location content behind the site."><meta name="twitter:image" content="https://johnfabiomb.com/assets/map-min.png"><link rel="canonical" href="https://johnfabiomb.com/about"></head>
 
 <body>
-  <app-root ng-version="19.2.1" _nghost-ng-c855655208="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c855655208=""></router-outlet><app-about _nghost-ng-c449624793=""><div _ngcontent-ng-c449624793="" class="legal-page"><div _ngcontent-ng-c449624793="" class="legal-inner"><a _ngcontent-ng-c449624793="" routerlink="/malta" class="back-link" ng-reflect-router-link="/malta" href="/test/malta">← Back to map</a><h1 _ngcontent-ng-c449624793="" class="legal-title">About Explore Malta</h1><p _ngcontent-ng-c449624793="" class="legal-updated">Created by explorer and content creator John Montaño.</p><section _ngcontent-ng-c449624793=""><p _ngcontent-ng-c449624793="">Explore Malta is an original travel resource for Malta and Gozo. It was built to help visitors discover hidden caves, coastal viewpoints, valley trails and off-the-beaten-path locations with carefully curated content and an interactive map.</p><p _ngcontent-ng-c449624793="">The site is owned and maintained by John Montaño, who produces and owns the source code, images, and location research published here.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">What you will find here</h2><ul _ngcontent-ng-c449624793=""><li _ngcontent-ng-c449624793="">More than 60 unique Malta and Gozo locations.</li><li _ngcontent-ng-c449624793="">Original guides, photos and route suggestions.</li><li _ngcontent-ng-c449624793="">Fast mobile-friendly navigation and map tools.</li><li _ngcontent-ng-c449624793="">Privacy and cookie policies for visitor transparency.</li></ul></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Why this site exists</h2><p _ngcontent-ng-c449624793="">This site was created to share real travel inspiration and local exploration tips. It provides useful, authentic content for people who want to explore Malta's natural and cultural highlights — not just the tourist trail.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Advertising</h2><p _ngcontent-ng-c449624793="">Explore Malta uses Google AdSense to display advertisements. These help cover the costs of running the site. For EEA visitors, ads are only served after you give your consent via the cookie banner. You can review how data is used in the <a _ngcontent-ng-c449624793="" routerlink="/privacy" ng-reflect-router-link="/privacy" href="/test/privacy">Privacy Policy</a> and manage your preferences at any time.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Contact</h2><p _ngcontent-ng-c449624793="">For questions, corrections, partnership requests, or privacy matters, reach out directly:</p><p _ngcontent-ng-c449624793=""><a _ngcontent-ng-c449624793="" href="mailto:creator@johnfabiomb.com">creator@johnfabiomb.com</a></p><p _ngcontent-ng-c449624793="">Or visit the <a _ngcontent-ng-c449624793="" routerlink="/contact" ng-reflect-router-link="/contact" href="/test/contact">Contact page</a> for more details.</p></section></div></div></app-about><!--container--><!--bindings={
+  <app-root ng-version="19.2.1" _nghost-ng-c1531347817="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c1531347817=""></router-outlet><app-about _nghost-ng-c449624793=""><div _ngcontent-ng-c449624793="" class="legal-page"><div _ngcontent-ng-c449624793="" class="legal-inner"><a _ngcontent-ng-c449624793="" routerlink="/malta" class="back-link" ng-reflect-router-link="/malta" href="/test/malta">← Back to map</a><h1 _ngcontent-ng-c449624793="" class="legal-title">About Explore Malta</h1><p _ngcontent-ng-c449624793="" class="legal-updated">Created by explorer and content creator John Montaño.</p><section _ngcontent-ng-c449624793=""><p _ngcontent-ng-c449624793="">Explore Malta is an original travel resource for Malta and Gozo. It was built to help visitors discover hidden caves, coastal viewpoints, valley trails and off-the-beaten-path locations with carefully curated content and an interactive map.</p><p _ngcontent-ng-c449624793="">The site is owned and maintained by John Montaño, who produces and owns the source code, images, and location research published here.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">What you will find here</h2><ul _ngcontent-ng-c449624793=""><li _ngcontent-ng-c449624793="">More than 60 unique Malta and Gozo locations.</li><li _ngcontent-ng-c449624793="">Original guides, photos and route suggestions.</li><li _ngcontent-ng-c449624793="">Fast mobile-friendly navigation and map tools.</li><li _ngcontent-ng-c449624793="">Privacy and cookie policies for visitor transparency.</li></ul></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Why this site exists</h2><p _ngcontent-ng-c449624793="">This site was created to share real travel inspiration and local exploration tips. It provides useful, authentic content for people who want to explore Malta's natural and cultural highlights — not just the tourist trail.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Advertising</h2><p _ngcontent-ng-c449624793="">Explore Malta uses Google AdSense to display advertisements. These help cover the costs of running the site. For EEA visitors, ads are only served after you give your consent via the cookie banner. You can review how data is used in the <a _ngcontent-ng-c449624793="" routerlink="/privacy" ng-reflect-router-link="/privacy" href="/test/privacy">Privacy Policy</a> and manage your preferences at any time.</p></section><section _ngcontent-ng-c449624793=""><h2 _ngcontent-ng-c449624793="">Contact</h2><p _ngcontent-ng-c449624793="">For questions, corrections, partnership requests, or privacy matters, reach out directly:</p><p _ngcontent-ng-c449624793=""><a _ngcontent-ng-c449624793="" href="mailto:creator@johnfabiomb.com">creator@johnfabiomb.com</a></p><p _ngcontent-ng-c449624793="">Or visit the <a _ngcontent-ng-c449624793="" routerlink="/contact" ng-reflect-router-link="/contact" href="/test/contact">Contact page</a> for more details.</p></section></div></div></app-about><!--container--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><span _ngcontent-ng-c855655208="" class="app-version">v1.1.27</span><!--bindings={
+}--><span _ngcontent-ng-c1531347817="" class="app-version">v1.1.28</span><!--bindings={
   "ng-reflect-ng-if": "false"
-}--></app-root>
+}--><app-welcome-popup _ngcontent-ng-c1531347817="" _nghost-ng-c2290195963=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-welcome-popup></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-F5IHMW4M.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-FPB6O42O.js"><link rel="modulepreload" href="chunk-B23OTVUL.js"><link rel="modulepreload" href="chunk-Q33RJLWE.js"><link rel="modulepreload" href="chunk-U3AVTKB7.js"><link rel="modulepreload" href="chunk-UJ3FFGCN.js"><link rel="modulepreload" href="chunk-QFIZ3IRG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-ZYVSRP6N.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-FPB6O42O.js"><link rel="modulepreload" href="chunk-B23OTVUL.js"><link rel="modulepreload" href="chunk-Q33RJLWE.js"><link rel="modulepreload" href="chunk-U3AVTKB7.js"><link rel="modulepreload" href="chunk-UJ3FFGCN.js"><link rel="modulepreload" href="chunk-QFIZ3IRG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>

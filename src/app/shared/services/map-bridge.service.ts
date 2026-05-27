@@ -51,7 +51,7 @@ export class MapBridgeService {
 
   // ── Nav interstitial ───────────────────────────────────────
   readonly pendingNavUrl         = signal<string | null>(null);
-  readonly navDuration           = signal(6);
+  readonly navDuration           = signal(3);
   readonly interstitialProviders = signal<Provider[]>([]);
   /** Set when Book Now triggers the interstitial — shows coupon instead of ads. */
   readonly interstitialProvider  = signal<Provider | null>(null);

@@ -56,7 +56,7 @@ import { resolveProviderColor } from '../../shared/utils/provider.utils';
     .coupon-reminder__prompt {
       margin: 0;
       font-size: 12px;
-      color: #6b7280;
+      color: var(--color-text-muted);
       line-height: 1.4;
     }
 
@@ -65,21 +65,21 @@ import { resolveProviderColor } from '../../shared/utils/provider.utils';
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      background: #fff;
+      background: var(--color-bg);
       border: 1.5px dashed;
-      border-radius: 10px;
+      border-radius: var(--radius-lg);
       padding: 11px 14px;
       cursor: pointer;
       text-align: left;
-      transition: background 0.15s;
-      &:active { background: #f9fafb; }
+      transition: background var(--transition);
+      &:active { background: var(--color-bg-light); }
     }
 
     .coupon-code {
       font-size: 18px;
       font-weight: 800;
       letter-spacing: 2.5px;
-      color: #1a1a1a;
+      color: var(--color-text-base);
       font-family: 'Courier New', monospace;
     }
 
@@ -88,7 +88,7 @@ import { resolveProviderColor } from '../../shared/utils/provider.utils';
       align-items: center;
       gap: 4px;
       font-size: 11.5px;
-      color: #9ca3af;
+      color: var(--color-text-light);
       font-weight: 500;
       white-space: nowrap;
       &.copied { color: #22c55e; font-weight: 600; }
