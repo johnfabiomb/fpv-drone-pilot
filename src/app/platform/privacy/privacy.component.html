@@ -7,61 +7,85 @@
 
     <section>
       <h2>1. Who We Are</h2>
-      <p>This website is operated by John Montaño (<strong>johnfabiomb.com</strong>), an explorer and content creator based in Malta. You can contact us at <a href="mailto:creator@johnfabiomb.com">johnfabiomb&#64;gmail.com</a>.</p>
+      <p>This website is operated by John Montaño (<strong>johnfabiomb.com</strong>), an explorer and content creator based in Malta. You can contact us at <a href="mailto:johnfabiomb@gmail.com">johnfabiomb&#64;gmail.com</a>.</p>
     </section>
 
     <section>
       <h2>2. Information We Collect</h2>
       <p>We collect the following types of information:</p>
       <ul>
+        <li><strong>Account data</strong> — when you sign in with Google, we receive your name, email address, and profile photo URL from Google. We store this to personalise your experience.</li>
+        <li><strong>Saved places</strong> — locations you bookmark are stored against your account in our database so they are available across devices and sessions.</li>
         <li><strong>Usage data</strong> — pages visited, time on site, browser type, and device information, collected automatically via Google Analytics.</li>
-        <li><strong>Location data</strong> — only if you explicitly grant permission through your browser. This is used solely to show your position on the map and find nearby spots. It is never stored or transmitted to our servers.</li>
+        <li><strong>Location data</strong> — only if you explicitly grant permission through your browser. Used solely to show your position on the map and find nearby spots. Never stored or transmitted to our servers.</li>
         <li><strong>Cookies and tracking data</strong> — see our <a routerLink="/cookies">Cookie Policy</a> for full details.</li>
       </ul>
     </section>
 
     <section>
-      <h2>3. How We Use Your Information</h2>
+      <h2>3. User Accounts and Google Sign-In</h2>
+      <p>We use <strong>Google Sign-In</strong> (via Firebase Authentication) to allow you to create an account. By signing in you authorise us to receive your basic Google profile information (name, email address, and profile photo). We do not receive your Google password.</p>
+      <p>Your account data is stored securely in <strong>Google Firestore</strong>, a cloud database provided by Google LLC. Data stored includes your display name, email address, profile photo URL, saved locations, and account level. We do not store payment card details.</p>
+      <p>You may delete your account at any time by contacting us at <a href="mailto:johnfabiomb@gmail.com">johnfabiomb&#64;gmail.com</a>. Upon deletion we will remove your Firestore record and all associated saved data.</p>
+    </section>
+
+    <section>
+      <h2>4. Marketing and Promotional Communications</h2>
+      <p>By creating an account on Venture Map, you agree to receive occasional communications from us, including:</p>
       <ul>
-        <li>To operate and improve the interactive map and location guides.</li>
+        <li>Exclusive deals, discounts, and offers from our partner providers in Malta and Gozo.</li>
+        <li>New location announcements and editorial content (e.g. "Top 30 places" guides).</li>
+        <li>Platform updates and new feature announcements.</li>
+        <li>Seasonal promotions and travel inspiration.</li>
+      </ul>
+      <p>You can opt out of marketing communications at any time by contacting us at <a href="mailto:johnfabiomb@gmail.com">johnfabiomb&#64;gmail.com</a> or by clicking the unsubscribe link in any email we send. Opting out will not affect transactional messages (e.g. account-related notifications).</p>
+    </section>
+
+    <section>
+      <h2>5. How We Use Your Information</h2>
+      <ul>
+        <li>To provide and personalise the interactive map, location guides, and saved places features.</li>
         <li>To understand how visitors use the site (Google Analytics).</li>
         <li>To serve relevant advertisements (Google AdSense).</li>
+        <li>To send you promotional and editorial communications (see section 4).</li>
+        <li>To display exclusive deals and partner offers available near your saved locations.</li>
         <li>To comply with legal obligations.</li>
       </ul>
     </section>
 
     <section>
-      <h2>4. Google Analytics</h2>
+      <h2>6. Google Analytics</h2>
       <p>We use Google Analytics to collect anonymised data about site usage. Google Analytics uses cookies to measure visitor behaviour. Data collected is processed by Google Inc. and may be transferred to servers in the United States. We have enabled IP anonymisation. For more information, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
     </section>
 
     <section>
-      <h2>5. Google AdSense and Advertising</h2>
+      <h2>7. Google AdSense and Advertising</h2>
       <p>We use Google AdSense to display advertisements on this site. Google and its partners may use cookies to serve ads based on your prior visits to this and other websites. You can opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a> or <a href="https://www.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>.</p>
       <p>For EEA visitors, we use Google's Funding Choices consent management platform to obtain your consent before serving personalised ads.</p>
     </section>
 
     <section>
-      <h2>6. Payments</h2>
+      <h2>8. Payments</h2>
       <p>Payment processing is handled entirely by Stripe. We do not collect, store, or process any payment card data. Please review <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe's Privacy Policy</a> for details.</p>
     </section>
 
     <section>
-      <h2>7. Data Sharing</h2>
+      <h2>9. Data Sharing</h2>
       <p>We do not sell or rent your personal data. We share data only with the following service providers where necessary to operate the site:</p>
       <ul>
-        <li>Google LLC (Analytics, AdSense, Fonts, Maps)</li>
-        <li>Stripe Inc. (Payment processing)</li>
+        <li><strong>Google LLC</strong> — Analytics, AdSense, Firebase Authentication, Firestore, Fonts</li>
+        <li><strong>Stripe Inc.</strong> — Payment processing</li>
       </ul>
+      <p>All third parties are required to handle your data in accordance with applicable data protection law.</p>
     </section>
 
     <section>
-      <h2>8. Data Retention</h2>
-      <p>Analytics data is retained for 26 months as configured in Google Analytics. We do not store personal data on our own servers.</p>
+      <h2>10. Data Retention</h2>
+      <p>Analytics data is retained for 26 months as configured in Google Analytics. Account data stored in Firestore (name, email, saved places, level) is retained for as long as your account is active. You may request deletion at any time (see section 3). We do not store personal data on our own servers beyond what is listed above.</p>
     </section>
 
     <section>
-      <h2>9. Your Rights (GDPR)</h2>
+      <h2>11. Your Rights (GDPR)</h2>
       <p>If you are located in the European Economic Area, you have the following rights regarding your personal data:</p>
       <ul>
         <li><strong>Right of access</strong> — request a copy of the data we hold about you.</li>
@@ -70,24 +94,24 @@
         <li><strong>Right to restrict processing</strong> — request that we limit how we use your data.</li>
         <li><strong>Right to data portability</strong> — receive your data in a structured, machine-readable format.</li>
         <li><strong>Right to object</strong> — object to processing based on legitimate interests or for direct marketing.</li>
-        <li><strong>Right to withdraw consent</strong> — where processing is based on consent, you may withdraw it at any time.</li>
+        <li><strong>Right to withdraw consent</strong> — where processing is based on consent (including marketing communications), you may withdraw it at any time without affecting prior processing.</li>
       </ul>
-      <p>To exercise any of these rights, contact us at <a href="mailto:creator@johnfabiomb.com">johnfabiomb&#64;gmail.com</a>. You also have the right to lodge a complaint with the <a href="https://idpc.org.mt" target="_blank" rel="noopener">Information and Data Protection Commissioner (Malta)</a>.</p>
+      <p>To exercise any of these rights, contact us at <a href="mailto:johnfabiomb@gmail.com">johnfabiomb&#64;gmail.com</a>. You also have the right to lodge a complaint with the <a href="https://idpc.org.mt" target="_blank" rel="noopener">Information and Data Protection Commissioner (Malta)</a>.</p>
     </section>
 
     <section>
-      <h2>10. Children's Privacy</h2>
+      <h2>12. Children's Privacy</h2>
       <p>This site is not directed at children under the age of 13. We do not knowingly collect personal data from children.</p>
     </section>
 
     <section>
-      <h2>11. Changes to This Policy</h2>
+      <h2>13. Changes to This Policy</h2>
       <p>We may update this policy from time to time. The date at the top of this page reflects the latest revision. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
     </section>
 
     <section>
-      <h2>12. Contact</h2>
-      <p>For any privacy-related questions, contact: <a href="mailto:creator@johnfabiomb.com">johnfabiomb&#64;gmail.com</a></p>
+      <h2>14. Contact</h2>
+      <p>For any privacy-related questions, contact: <a href="mailto:johnfabiomb@gmail.com">johnfabiomb&#64;gmail.com</a></p>
     </section>
   </div>
 </div>

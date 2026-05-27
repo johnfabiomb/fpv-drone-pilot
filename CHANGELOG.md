@@ -6,6 +6,32 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- `WelcomePopupComponent` — one-time guest welcome modal (shown 2.5s after first visit, suppressed once dismissed via `vm_welcome_shown` localStorage key); lists save/deals/directions benefits; "Sign in with Google" CTA + "Continue as guest" dismiss
+
+### Changed (auth modal)
+- Redesigned `AuthModalComponent` to match welcome popup style: same emoji + photo header, benefit rows, branded gold "Continue with Google" button, matching bounce animation
+
+### Changed
+- Dev about button: photo reduced to 65% opacity (85% on hover) + gold "i" info badge overlaid at bottom-right so users know it's tappable
+- Save buttons (header + body): pulsing `deals-pulse` glow animation while unsaved; animation stops once saved
+
+### Changed (prior)
+- Design token audit: replaced all hardcoded hex colours and pixel values with `var(--token)` references across all component SCSS and inline `styles:` arrays — affects `app.component.scss`, `footer.component.scss`, `map.component.scss`, `nav-interstitial.component.scss`, `location-detail.component.scss`, `provider-card.component.scss`, `provider-detail.component.scss`, `image-gallery.component.scss`, `about.component.scss`, `contact.component.scss`, `map-shell.component.scss`, `payment.component.scss`, `payment-success.component.scss`, `route-builder.component.scss`, `saved-places.component.scss`, `top-places.component.scss`, and inline styles in `auth-modal`, `confirm-popup`, `coupon-reminder`, `pwa-prompt`, `share-button`, and `provider-avatar` components
+
+### Added
+- Firebase Authentication with Google OAuth — sign-in modal, auth state persisted via `onAuthStateChanged`
+- `AuthService` — signals-based service (`user`, `isLoggedIn`, `showLoginModal`); `signInWithGoogle()`, `signOut()`, `openLoginModal()`
+- `UserDataService` — eagerly instantiated at app startup; creates Firestore user document on first login with `role: 'explorer'` and `savedLocations: []`; supports `toggleSaveLocation()`
+- `AuthModalComponent` — overlay modal with Google sign-in button, backdrop dismiss, loading state
+- Footer: "Sign in" button shown when logged out; logged-in user's Google avatar shown when signed in
+- Footer: user popup (above avatar) shows name, email, and "Sign out" button
+- Provider detail: coupon code blurred behind login; phone number locked behind login; Book Now locked behind login
+- Block Hotel provider data corrected: name, tagline, description, highlights, discount label and instructions
+
+### Fixed
+- `UserDataService` was never instantiated at startup — `AppComponent` now eagerly injects it so the `effect()` watching auth state fires on login
+
 ---
 
 ## 2026-05-20

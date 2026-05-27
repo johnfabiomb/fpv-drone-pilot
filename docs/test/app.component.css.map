@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["src/app/app.component.scss"],
-  "sourcesContent": ["a {\n    text-decoration: none;\n}\n\n.app-version {\n    position: fixed;\n    bottom: 2px;\n    right: 10px;\n    transform: translateX(-50%);\n    font-size: 6px;\n    color: #111827;\n    opacity: 0.4;\n    pointer-events: none;\n    z-index: 9999;\n    letter-spacing: 0.3px;\n    font-family: monospace;\n    text-shadow: 0 1px 2px rgba(255,255,255,0.6);\n}\n"],
-  "mappings": ";AAAA;AACI,mBAAA;;AAGJ,CAAA;AACI,YAAA;AACA,UAAA;AACA,SAAA;AACA,aAAA,WAAA;AACA,aAAA;AACA,SAAA;AACA,WAAA;AACA,kBAAA;AACA,WAAA;AACA,kBAAA;AACA,eAAA;AACA,eAAA,EAAA,IAAA,IAAA,KAAA,GAAA,EAAA,GAAA,EAAA,GAAA,EAAA;;",
+  "sourcesContent": ["a {\n    text-decoration: none;\n}\n\n.app-version {\n    position: fixed;\n    bottom: 2px;\n    right: 10px;\n    transform: translateX(-50%);\n    font-size: 6px;\n    color: var(--color-text-base);\n    opacity: 0.4;\n    pointer-events: none;\n    z-index: 9999;\n    letter-spacing: 0.3px;\n    font-family: monospace;\n    text-shadow: 0 1px 2px rgba(255,255,255,0.6);\n}\n"],
+  "mappings": ";AAAA;AACI,mBAAA;;AAGJ,CAAA;AACI,YAAA;AACA,UAAA;AACA,SAAA;AACA,aAAA,WAAA;AACA,aAAA;AACA,SAAA,IAAA;AACA,WAAA;AACA,kBAAA;AACA,WAAA;AACA,kBAAA;AACA,eAAA;AACA,eAAA,EAAA,IAAA,IAAA,KAAA,GAAA,EAAA,GAAA,EAAA,GAAA,EAAA;;",
   "names": []
 }

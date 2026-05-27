@@ -109,6 +109,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
   @Output() providerPinSelected = new EventEmitter<Provider>();
+  @Output() controlTapped = new EventEmitter<void>();
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
@@ -914,6 +915,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   async toggleCompass(): Promise<void> {
+    this.controlTapped.emit();
     if (this.compassMode) {
       this.compassMode = false;
       this.map.getView().animate({ rotation: 0, duration: 300 });
@@ -941,6 +943,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private locationDeniedTimer?: ReturnType<typeof setTimeout>;
 
   locateMe(): void {
+    this.controlTapped.emit();
     const last = this.tracker?.lastCoord;
     if (last) {
       this.fitGpsAndLocation(last);

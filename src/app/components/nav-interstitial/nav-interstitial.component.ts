@@ -13,7 +13,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 })
 export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() url!: string;
-  @Input() duration = 7;
+  @Input() duration = 3;
   @Input() buttonLabel = 'Open website';
   @Input() openNewTab = false;
   @Output() closed = new EventEmitter<void>();
