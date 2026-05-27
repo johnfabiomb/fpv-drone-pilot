@@ -11,7 +11,7 @@ import { resolveProviderColor } from '../../shared/utils/provider.utils';
     <div class="avatar" [style.width.px]="size" [style.height.px]="size">
       <ng-container *ngIf="provider.coverImage; else emojiOnly">
         <img class="avatar__img" [src]="provider.coverImage" [alt]="provider.name"
-             [style.borderColor]="accentColor">
+             [style.borderColor]="provider.pinBorderColor ?? '#fff'">
         <span class="avatar__badge"
               [style.width.px]="badgeSize" [style.height.px]="badgeSize"
               [style.fontSize.px]="badgeFont">

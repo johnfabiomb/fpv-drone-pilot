@@ -17,6 +17,7 @@ export interface Provider {
   name: string;
   category: string;
   color?: string;
+  pinBorderColor?: string;
   emoji: string;
   tagline: string;
   description?: string;

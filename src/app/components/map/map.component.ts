@@ -24,6 +24,7 @@ const ICON_CANVAS_SIZE = 80;
 const ICON_TAIL_H = 18;
 const PROVIDER_PIN_SIZE = 80;
 const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → individual pins
+const PROVIDER_PIN_CLUSTER_SCALE = 0.7; // scale multiplier applied to provider pins when clusters are visible
 
 @Component({
   selector: 'app-map',
@@ -476,7 +477,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
-          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, resolveProviderColor(p));
+          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? '#fff');
           if (p.emoji) this.addEmojiBadge(pin, p.emoji);
           this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
           this.providerLayer.changed();
@@ -493,7 +494,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const canvas = this.providerCanvasCache.get(provider.id);
     const zoom = this.map.getView().getZoom() ?? 10;
     const scale = zoom < CLUSTER_ZOOM
-      ? this.getLocalityScale(zoom)
+      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
       : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
     if (!canvas) {
       const r = Math.round(36 * scale);
@@ -587,8 +588,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private buildCirclePin(img: HTMLImageElement, size: number, borderColor: string): HTMLCanvasElement {
     const W = size, H = size;
-    const cx = W / 2, cy = H / 2;
-    const r = W / 2 - 2;
+    const pad = 2;
+    const cr = Math.round(W * 0.22); // corner radius — ~22% gives a squircle look
 
     const pin = document.createElement('canvas');
     pin.width = W;
@@ -600,20 +601,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     pc.shadowBlur = 8;
     pc.shadowOffsetY = 3;
     pc.beginPath();
-    pc.arc(cx, cy, r, 0, Math.PI * 2);
+    pc.roundRect(pad, pad, W - pad * 2, H - pad * 2, cr);
     pc.fillStyle = '#fff';
     pc.fill();
     pc.restore();
 
     pc.save();
     pc.beginPath();
-    pc.arc(cx, cy, r - 2, 0, Math.PI * 2);
+    pc.roundRect(pad + 2, pad + 2, W - (pad + 2) * 2, H - (pad + 2) * 2, Math.max(1, cr - 2));
     pc.clip();
     pc.drawImage(img, 0, 0, W, H);
     pc.restore();
 
     pc.beginPath();
-    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.roundRect(pad + 0.5, pad + 0.5, W - (pad * 2) - 1, H - (pad * 2) - 1, cr);
     pc.strokeStyle = borderColor;
     pc.lineWidth = 3;
     pc.stroke();
