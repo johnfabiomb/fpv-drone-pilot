@@ -16,7 +16,9 @@ export class NavInterstitialComponent implements OnInit, OnDestroy {
   @Input() duration = 3;
   @Input() buttonLabel = 'Open website';
   @Input() openNewTab = false;
+  @Input() showGuestNudge = false;
   @Output() closed = new EventEmitter<void>();
+  @Output() signInRequested = new EventEmitter<void>();
 
   private readonly platformId = inject(PLATFORM_ID);
   private timer?: ReturnType<typeof setInterval>;

@@ -219,7 +219,11 @@ export class LocationPageComponent implements OnInit {
   }
 
   onNavRequested(url: string): void {
-    if (!this.auth.isLoggedIn()) { this.auth.openLoginModal(); return; }
+    if (this.auth.isLoggedIn()) {
+      if (isPlatformBrowser(this.platformId)) window.open(url, '_blank');
+      return;
+    }
+    this.bridge.navDuration.set(10);
     this.bridge.pendingNavUrl.set(url);
   }
 

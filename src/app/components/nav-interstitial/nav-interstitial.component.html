@@ -23,9 +23,12 @@
       <span class="countdown-num">{{ seconds }}</span>
     </div>
 
-    <p class="countdown-label" *ngIf="duration > 0">
-      {{ seconds > 0 ? 'Opening in ' + seconds + 's…' : 'Ready!' }}
-    </p>
+    <div class="countdown-labels" *ngIf="duration > 0">
+      <p class="countdown-label">{{ seconds > 0 ? 'Opening in ' + seconds + 's…' : 'Ready!' }}</p>
+      <button *ngIf="showGuestNudge" class="guest-nudge-link" (click)="signInRequested.emit()">
+        Sign in to always open straight away →
+      </button>
+    </div>
 
     <!-- Bottom slot: optional second provider card ad -->
     <div class="slot-wrap">

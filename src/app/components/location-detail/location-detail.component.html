@@ -39,7 +39,7 @@
 
 <!-- Nearby experience providers (replaces ad when present) -->
 <div class="nearby-experiences" *ngIf="nearbyProviders.length">
-  <div class="nearby-experiences__label">Exclusive deals near this spot</div>
+  <div class="nearby-experiences__label">Deals near this spot</div>
   <app-provider-card
     *ngFor="let p of nearbyProviders"
     [provider]="p"
@@ -87,11 +87,7 @@
           (click)="navigateTo(point, i, group.points)"
           class="button nav-btn">
           <span>{{ pointLabel(point, i) }}</span>
-          <span class="nav-btn__hint">{{ authService.isLoggedIn() ? 'Opens Google Maps' : 'Sign in → Google Maps' }}</span>
-          <svg *ngIf="!authService.isLoggedIn()" class="nav-btn__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
+          <span class="nav-btn__hint">{{ authService.isLoggedIn() ? 'Opens Google Maps' : 'Opens in 10s · sign in to skip' }}</span>
         </div>
       </div>
     </ng-container>

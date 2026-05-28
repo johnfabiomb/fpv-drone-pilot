@@ -9,6 +9,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { NavInterstitialComponent } from '../../components/nav-interstitial/nav-interstitial.component';
 import { CouponReminderComponent } from '../../components/coupon-reminder/coupon-reminder.component';
 import { ProviderCardComponent } from '../../components/provider-card/provider-card.component';
+import { AuthService } from '../../shared/services/auth.service';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Provider, Route } from '../../shared/models';
 import { PanelResize } from '../../shared/utils/panel-resize.util';
@@ -28,6 +29,7 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MapComponent) private mapComp?: MapComponent;
 
   readonly bridge = inject(MapBridgeService);
+  readonly auth = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 

@@ -43,7 +43,7 @@ a[_ngcontent-ng-c3002737357] {
 }
 /*# sourceMappingURL=/test/app.component.css.map */</style><style ng-app-id="ng">
 
-.wp-backdrop[_ngcontent-ng-c2290195963] {
+.wp-backdrop[_ngcontent-ng-c2212365901] {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -52,34 +52,36 @@ a[_ngcontent-ng-c3002737357] {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: _ngcontent-ng-c2290195963_wpFadeIn 0.3s ease;
+  animation: _ngcontent-ng-c2212365901_wpFadeIn 0.3s ease;
 }
-.wp-card[_ngcontent-ng-c2290195963] {
+.wp-card[_ngcontent-ng-c2212365901] {
   background: var(--color-bg);
   border-radius: 22px;
   padding: 36px 24px 26px;
   width: 100%;
   max-width: 340px;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);
-  animation: _ngcontent-ng-c2290195963_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c2212365901_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.wp-header[_ngcontent-ng-c2290195963] {
+.wp-header[_ngcontent-ng-c2212365901] {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 18px;
 }
-.wp-emoji[_ngcontent-ng-c2290195963] {
+.wp-emoji[_ngcontent-ng-c2212365901] {
   font-size: 56px;
   line-height: 1;
   width: 52px;
   text-align: center;
 }
-.wp-photo[_ngcontent-ng-c2290195963] {
+.wp-photo[_ngcontent-ng-c2212365901] {
   width: 52px;
   height: 52px;
   border-radius: var(--radius-lg);
@@ -88,14 +90,14 @@ a[_ngcontent-ng-c3002737357] {
   border: 2px solid var(--color-primary);
   box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);
 }
-.wp-hey[_ngcontent-ng-c2290195963] {
+.wp-hey[_ngcontent-ng-c2212365901] {
   margin: 0 0 4px;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);
   letter-spacing: 0.01em;
 }
-.wp-title[_ngcontent-ng-c2290195963] {
+.wp-title[_ngcontent-ng-c2212365901] {
   margin: 0 0 8px;
   font-size: 20px;
   font-weight: 800;
@@ -103,22 +105,22 @@ a[_ngcontent-ng-c3002737357] {
   letter-spacing: -0.4px;
   line-height: 1.2;
 }
-.wp-sub[_ngcontent-ng-c2290195963] {
+.wp-sub[_ngcontent-ng-c2212365901] {
   margin: 0 0 20px;
   font-size: 12.5px;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
-.wp-benefits[_ngcontent-ng-c2290195963] {
+.wp-benefits[_ngcontent-ng-c2212365901] {
   list-style: none;
-  margin: 0 0 26px;
+  margin: 0 0 24px;
   padding: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
-.wp-benefits[_ngcontent-ng-c2290195963]   li[_ngcontent-ng-c2290195963] {
+.wp-benefits[_ngcontent-ng-c2212365901]   li[_ngcontent-ng-c2212365901] {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -128,53 +130,27 @@ a[_ngcontent-ng-c3002737357] {
   color: var(--color-text-secondary);
   background: var(--color-bg-muted);
   border-radius: var(--radius-lg);
-  padding: 11px 14px;
+  padding: 10px 14px;
 }
-.wp-benefit__icon[_ngcontent-ng-c2290195963] {
-  font-size: 20px;
+.wp-benefit__icon[_ngcontent-ng-c2212365901] {
+  font-size: 18px;
   flex-shrink: 0;
   line-height: 1;
 }
-.wp-btn[_ngcontent-ng-c2290195963] {
-  width: 100%;
-  border-radius: var(--radius-xl);
-  font-size: 14.5px;
-  font-weight: 700;
-  cursor: pointer;
+.wp-ghost[_ngcontent-ng-c2212365901] {
+  background: none;
   border: none;
-  transition:
-    opacity var(--transition),
-    background var(--transition),
-    transform 0.1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-}
-.wp-btn[_ngcontent-ng-c2290195963]:active {
-  transform: scale(0.98);
-}
-.wp-btn--primary[_ngcontent-ng-c2290195963] {
-  height: 50px;
-  background: var(--color-primary);
-  color: #fff;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 16px var(--color-primary-shadow);
-}
-.wp-btn--primary[_ngcontent-ng-c2290195963]:hover {
-  opacity: 0.92;
-}
-.wp-btn--ghost[_ngcontent-ng-c2290195963] {
-  height: 38px;
-  background: transparent;
-  color: var(--color-text-muted);
+  cursor: pointer;
   font-size: 13px;
   font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 6px 0;
+  transition: color var(--transition);
 }
-.wp-btn--ghost[_ngcontent-ng-c2290195963]:hover {
+.wp-ghost[_ngcontent-ng-c2212365901]:hover {
   color: var(--color-text-secondary);
 }
-@keyframes _ngcontent-ng-c2290195963_wpFadeIn {
+@keyframes _ngcontent-ng-c2212365901_wpFadeIn {
   from {
     opacity: 0;
   }
@@ -182,7 +158,7 @@ a[_ngcontent-ng-c3002737357] {
     opacity: 1;
   }
 }
-@keyframes _ngcontent-ng-c2290195963_wpSlideUp {
+@keyframes _ngcontent-ng-c2212365901_wpSlideUp {
   from {
     opacity: 0;
     transform: translateY(24px) scale(0.96);
@@ -284,13 +260,13 @@ a[_ngcontent-ng-c3002737357] {
 }
 /*# sourceMappingURL=/test/pwa-prompt.component.css.map */</style><style ng-app-id="ng">
 
-.dev-about-wrap[_ngcontent-ng-c3197298799] {
+.dev-about-wrap[_ngcontent-ng-c2945063107] {
   position: absolute;
   bottom: 30px;
   right: 10px;
   z-index: 200;
 }
-.dev-about-btn[_ngcontent-ng-c3197298799] {
+.dev-about-btn[_ngcontent-ng-c2945063107] {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -305,10 +281,10 @@ a[_ngcontent-ng-c3002737357] {
   position: relative;
   transition: background var(--transition);
 }
-.dev-about-btn[_ngcontent-ng-c3197298799]:hover {
+.dev-about-btn[_ngcontent-ng-c2945063107]:hover {
   background: var(--color-bg-light);
 }
-.dev-about-btn[_ngcontent-ng-c3197298799]   img[_ngcontent-ng-c3197298799] {
+.dev-about-btn[_ngcontent-ng-c2945063107]   img[_ngcontent-ng-c2945063107] {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -318,10 +294,10 @@ a[_ngcontent-ng-c3002737357] {
   opacity: 0.65;
   transition: opacity var(--transition);
 }
-.dev-about-btn[_ngcontent-ng-c3197298799]:hover   img[_ngcontent-ng-c3197298799] {
+.dev-about-btn[_ngcontent-ng-c2945063107]:hover   img[_ngcontent-ng-c2945063107] {
   opacity: 0.85;
 }
-.dev-about-btn[_ngcontent-ng-c3197298799]::after {
+.dev-about-btn[_ngcontent-ng-c2945063107]::after {
   content: "i";
   position: absolute;
   bottom: 3px;
@@ -340,7 +316,7 @@ a[_ngcontent-ng-c3002737357] {
   pointer-events: none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-.dev-popup[_ngcontent-ng-c3197298799] {
+.dev-popup[_ngcontent-ng-c2945063107] {
   position: absolute;
   bottom: calc(100% + 8px);
   right: 0;
@@ -354,9 +330,9 @@ a[_ngcontent-ng-c3002737357] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c3197298799_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c2945063107_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.dev-popup[_ngcontent-ng-c3197298799]::after {
+.dev-popup[_ngcontent-ng-c2945063107]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -368,7 +344,7 @@ a[_ngcontent-ng-c3002737357] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-.dev-popup__photo[_ngcontent-ng-c3197298799] {
+.dev-popup__photo[_ngcontent-ng-c2945063107] {
   width: 72px;
   height: 72px;
   border-radius: var(--radius-lg);
@@ -378,20 +354,20 @@ a[_ngcontent-ng-c3002737357] {
   box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);
   margin-bottom: 12px;
 }
-.dev-popup__name[_ngcontent-ng-c3197298799] {
+.dev-popup__name[_ngcontent-ng-c2945063107] {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-text-base);
   letter-spacing: -0.3px;
 }
-.dev-popup__tags[_ngcontent-ng-c3197298799] {
+.dev-popup__tags[_ngcontent-ng-c2945063107] {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 5px;
   margin-top: 10px;
 }
-.dev-popup__tags[_ngcontent-ng-c3197298799]   span[_ngcontent-ng-c3197298799] {
+.dev-popup__tags[_ngcontent-ng-c2945063107]   span[_ngcontent-ng-c2945063107] {
   font-size: 10.5px;
   color: var(--color-text-muted);
   background: var(--color-bg-muted);
@@ -400,20 +376,20 @@ a[_ngcontent-ng-c3002737357] {
   padding: 3px 9px;
   white-space: nowrap;
 }
-.dev-popup__divider[_ngcontent-ng-c3197298799] {
+.dev-popup__divider[_ngcontent-ng-c2945063107] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.dev-popup__links[_ngcontent-ng-c3197298799] {
+.dev-popup__links[_ngcontent-ng-c2945063107] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
   margin-bottom: 10px;
 }
-.dev-popup__links[_ngcontent-ng-c3197298799]   a[_ngcontent-ng-c3197298799] {
+.dev-popup__links[_ngcontent-ng-c2945063107]   a[_ngcontent-ng-c2945063107] {
   display: block;
   padding: 11px 16px;
   background: var(--color-bg-muted);
@@ -424,30 +400,30 @@ a[_ngcontent-ng-c3002737357] {
   font-size: 13px;
   transition: background var(--transition);
 }
-.dev-popup__links[_ngcontent-ng-c3197298799]   a[_ngcontent-ng-c3197298799]:hover, 
-.dev-popup__links[_ngcontent-ng-c3197298799]   a[_ngcontent-ng-c3197298799]:active {
+.dev-popup__links[_ngcontent-ng-c2945063107]   a[_ngcontent-ng-c2945063107]:hover, 
+.dev-popup__links[_ngcontent-ng-c2945063107]   a[_ngcontent-ng-c2945063107]:active {
   background: var(--color-border);
 }
-.dev-popup__contact[_ngcontent-ng-c3197298799] {
+.dev-popup__contact[_ngcontent-ng-c2945063107] {
   font-size: 12px;
   color: var(--color-text-muted);
   margin-bottom: 12px;
 }
-.dev-popup__contact[_ngcontent-ng-c3197298799]   a[_ngcontent-ng-c3197298799] {
+.dev-popup__contact[_ngcontent-ng-c2945063107]   a[_ngcontent-ng-c2945063107] {
   color: var(--color-primary);
   font-weight: 600;
   text-decoration: none;
 }
-.dev-popup__contact[_ngcontent-ng-c3197298799]   a[_ngcontent-ng-c3197298799]:hover {
+.dev-popup__contact[_ngcontent-ng-c2945063107]   a[_ngcontent-ng-c2945063107]:hover {
   opacity: 0.8;
 }
-.dev-popup__socials[_ngcontent-ng-c3197298799] {
+.dev-popup__socials[_ngcontent-ng-c2945063107] {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
 }
-.dev-popup__social[_ngcontent-ng-c3197298799] {
+.dev-popup__social[_ngcontent-ng-c2945063107] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -458,16 +434,16 @@ a[_ngcontent-ng-c3002737357] {
   transition: opacity 0.2s;
   padding: 2px 0;
 }
-.dev-popup__social[_ngcontent-ng-c3197298799]:hover {
+.dev-popup__social[_ngcontent-ng-c2945063107]:hover {
   opacity: 0.8;
 }
-.dev-popup__version[_ngcontent-ng-c3197298799] {
+.dev-popup__version[_ngcontent-ng-c2945063107] {
   margin-top: 12px;
   font-size: 10px;
   color: var(--color-text-light);
   font-family: monospace;
 }
-@keyframes _ngcontent-ng-c3197298799_devPopUp {
+@keyframes _ngcontent-ng-c2945063107_devPopUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -477,7 +453,7 @@ a[_ngcontent-ng-c3002737357] {
     transform: translateY(0) scale(1);
   }
 }
-.floating-route-tabs[_ngcontent-ng-c3197298799] {
+.floating-route-tabs[_ngcontent-ng-c2945063107] {
   position: absolute;
   bottom: 16px;
   left: 50%;
@@ -494,11 +470,11 @@ a[_ngcontent-ng-c3002737357] {
   white-space: nowrap;
 }
 @media (max-width: 768px) {
-  .floating-route-tabs[_ngcontent-ng-c3197298799] {
+  .floating-route-tabs[_ngcontent-ng-c2945063107] {
     bottom: 26px;
   }
 }
-.route-tab[_ngcontent-ng-c3197298799] {
+.route-tab[_ngcontent-ng-c2945063107] {
   height: 30px;
   padding: 0 13px;
   border-radius: 16px;
@@ -510,15 +486,15 @@ a[_ngcontent-ng-c3002737357] {
   color: var(--color-text-muted);
   transition: background var(--transition), color var(--transition);
 }
-.route-tab.active[_ngcontent-ng-c3197298799] {
+.route-tab.active[_ngcontent-ng-c2945063107] {
   background: var(--tab-active-color, var(--color-primary));
   color: #fff;
 }
-.route-tab[_ngcontent-ng-c3197298799]:hover:not(.active) {
+.route-tab[_ngcontent-ng-c2945063107]:hover:not(.active) {
   background: var(--color-bg-muted);
   color: var(--color-text-secondary);
 }
-app-filter-bar[_ngcontent-ng-c3197298799] {
+app-filter-bar[_ngcontent-ng-c2945063107] {
   position: absolute;
   top: 10px;
   left: 50%;
@@ -528,7 +504,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   max-width: calc(100vw - 24px);
   width: max-content;
 }
-.offline-pill[_ngcontent-ng-c3197298799] {
+.offline-pill[_ngcontent-ng-c2945063107] {
   position: absolute;
   bottom: 25px;
   left: 50%;
@@ -548,22 +524,22 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   backdrop-filter: blur(6px);
   pointer-events: none;
 }
-.floating-route-tabs[_ngcontent-ng-c3197298799]    ~ .offline-pill[_ngcontent-ng-c3197298799] {
+.floating-route-tabs[_ngcontent-ng-c2945063107]    ~ .offline-pill[_ngcontent-ng-c2945063107] {
   bottom: 64px;
 }
 @media (max-width: 768px) {
-  .floating-route-tabs[_ngcontent-ng-c3197298799]    ~ .offline-pill[_ngcontent-ng-c3197298799] {
+  .floating-route-tabs[_ngcontent-ng-c2945063107]    ~ .offline-pill[_ngcontent-ng-c2945063107] {
     bottom: 74px;
   }
 }
-.offline-dot[_ngcontent-ng-c3197298799] {
+.offline-dot[_ngcontent-ng-c2945063107] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #f87171;
   flex-shrink: 0;
 }
-.interstitial-near-label[_ngcontent-ng-c3197298799] {
+.interstitial-near-label[_ngcontent-ng-c2945063107] {
   margin: 0 0 8px;
   font-size: 10.5px;
   font-weight: 700;
@@ -571,11 +547,11 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   text-transform: uppercase;
   color: var(--color-text-light);
 }
-.show-panel-btn--primary[_ngcontent-ng-c3197298799] {
+.show-panel-btn--primary[_ngcontent-ng-c2945063107] {
   color: var(--color-primary);
   font-size: 16px;
 }
-.panel--hidden[_ngcontent-ng-c3197298799] {
+.panel--hidden[_ngcontent-ng-c2945063107] {
   display: none;
 }
 /*# sourceMappingURL=/test/map-shell.component.css.map */</style><style ng-app-id="ng">
@@ -686,7 +662,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
 }
 /*# sourceMappingURL=/test/map.component.css.map */</style><style ng-app-id="ng">
 
-.bottom-bar[_ngcontent-ng-c2963661247] {
+.bottom-bar[_ngcontent-ng-c3258864713] {
   width: 100%;
   height: 64px;
   padding: 0 16px;
@@ -701,7 +677,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   position: relative;
   z-index: 400;
 }
-.route-btn[_ngcontent-ng-c2963661247] {
+.route-btn[_ngcontent-ng-c3258864713] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -716,11 +692,11 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   white-space: nowrap;
   transition: box-shadow var(--transition), opacity var(--transition);
 }
-.route-btn[_ngcontent-ng-c2963661247]:hover {
+.route-btn[_ngcontent-ng-c3258864713]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
 }
-.list-btn[_ngcontent-ng-c2963661247] {
+.list-btn[_ngcontent-ng-c3258864713] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -735,18 +711,18 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   white-space: nowrap;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.list-btn[_ngcontent-ng-c2963661247]:hover {
+.list-btn[_ngcontent-ng-c3258864713]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.about-wrap[_ngcontent-ng-c2963661247] {
+.about-wrap[_ngcontent-ng-c3258864713] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   margin-left: 10px;
 }
-.about-trigger[_ngcontent-ng-c2963661247] {
+.about-trigger[_ngcontent-ng-c3258864713] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -757,24 +733,24 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   display: block;
   transition: border-color var(--transition);
 }
-.about-trigger[_ngcontent-ng-c2963661247]:hover {
+.about-trigger[_ngcontent-ng-c3258864713]:hover {
   border-color: var(--color-primary);
 }
-.about-popup--dev[_ngcontent-ng-c2963661247] {
+.about-popup--dev[_ngcontent-ng-c3258864713] {
   left: 0;
   right: auto;
 }
-.about-popup--dev[_ngcontent-ng-c2963661247]::after {
+.about-popup--dev[_ngcontent-ng-c3258864713]::after {
   left: 10px;
   right: auto;
 }
-.footer-right[_ngcontent-ng-c2963661247] {
+.footer-right[_ngcontent-ng-c3258864713] {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-left: auto;
 }
-.signin-btn[_ngcontent-ng-c2963661247] {
+.signin-btn[_ngcontent-ng-c3258864713] {
   display: inline-flex;
   align-items: center;
   background: transparent;
@@ -788,10 +764,10 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   white-space: nowrap;
   transition: background var(--transition);
 }
-.signin-btn[_ngcontent-ng-c2963661247]:hover {
+.signin-btn[_ngcontent-ng-c3258864713]:hover {
   background: #fffbeb;
 }
-.profile-wrap[_ngcontent-ng-c2963661247] {
+.profile-wrap[_ngcontent-ng-c3258864713] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -800,37 +776,37 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   -webkit-user-select: none;
   user-select: none;
 }
-.profile-wrap[_ngcontent-ng-c2963661247]   .text[_ngcontent-ng-c2963661247] {
+.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713] {
   text-align: right;
 }
-.profile-wrap[_ngcontent-ng-c2963661247]   .text[_ngcontent-ng-c2963661247]   .name[_ngcontent-ng-c2963661247] {
+.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713]   .name[_ngcontent-ng-c3258864713] {
   display: block;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-base);
   line-height: 1.3;
 }
-.profile-wrap[_ngcontent-ng-c2963661247]   .text[_ngcontent-ng-c2963661247]   .title[_ngcontent-ng-c2963661247] {
+.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713]   .title[_ngcontent-ng-c3258864713] {
   display: block;
   font-size: 10px;
   color: var(--color-text-muted);
   font-weight: 400;
   white-space: nowrap;
 }
-.profile-wrap[_ngcontent-ng-c2963661247]   .profile-picture[_ngcontent-ng-c2963661247] {
+.profile-wrap[_ngcontent-ng-c3258864713]   .profile-picture[_ngcontent-ng-c3258864713] {
   border-radius: var(--radius-lg);
   border: 2px solid var(--color-primary);
   box-sizing: border-box;
   object-fit: cover;
   flex-shrink: 0;
 }
-.profile-wrap--guest[_ngcontent-ng-c2963661247] {
+.profile-wrap--guest[_ngcontent-ng-c3258864713] {
   cursor: pointer;
 }
-.profile-wrap--guest[_ngcontent-ng-c2963661247]   .name[_ngcontent-ng-c2963661247] {
+.profile-wrap--guest[_ngcontent-ng-c3258864713]   .name[_ngcontent-ng-c3258864713] {
   color: var(--color-text-muted);
 }
-.profile-wrap--guest[_ngcontent-ng-c2963661247]   .profile-picture--guest[_ngcontent-ng-c2963661247] {
+.profile-wrap--guest[_ngcontent-ng-c3258864713]   .profile-picture--guest[_ngcontent-ng-c3258864713] {
   width: 36px;
   height: 36px;
   border-radius: var(--radius-lg);
@@ -843,7 +819,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   background: var(--color-bg-light);
   color: var(--color-text-light);
 }
-.saved-count[_ngcontent-ng-c2963661247] {
+.saved-count[_ngcontent-ng-c3258864713] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -857,11 +833,11 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   text-decoration: none;
   transition: background var(--transition);
 }
-.saved-count[_ngcontent-ng-c2963661247]:hover, 
-.saved-count[_ngcontent-ng-c2963661247]:active {
+.saved-count[_ngcontent-ng-c3258864713]:hover, 
+.saved-count[_ngcontent-ng-c3258864713]:active {
   background: var(--color-border);
 }
-.about-popup[_ngcontent-ng-c2963661247] {
+.about-popup[_ngcontent-ng-c3258864713] {
   position: absolute;
   bottom: calc(100% + 12px);
   right: 0;
@@ -875,10 +851,10 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c2963661247_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3258864713_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.about-popup[_ngcontent-ng-c2963661247]::after {
+.about-popup[_ngcontent-ng-c3258864713]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -890,7 +866,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-@keyframes _ngcontent-ng-c2963661247_popUp {
+@keyframes _ngcontent-ng-c3258864713_popUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -900,7 +876,7 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
     transform: translateY(0) scale(1);
   }
 }
-.about-photo[_ngcontent-ng-c2963661247] {
+.about-photo[_ngcontent-ng-c3258864713] {
   width: 72px;
   height: 72px;
   border-radius: var(--radius-lg);
@@ -910,23 +886,23 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);
   margin-bottom: 12px;
 }
-.user-photo[_ngcontent-ng-c2963661247] {
+.user-photo[_ngcontent-ng-c3258864713] {
   border-radius: 50%;
   object-position: center center;
 }
-.about-name[_ngcontent-ng-c2963661247] {
+.about-name[_ngcontent-ng-c3258864713] {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-text-base);
   letter-spacing: -0.3px;
 }
-.about-email[_ngcontent-ng-c2963661247] {
+.about-email[_ngcontent-ng-c3258864713] {
   font-size: 11.5px;
   color: var(--color-text-muted);
   margin-top: 3px;
   word-break: break-all;
 }
-.level-badge[_ngcontent-ng-c2963661247] {
+.level-badge[_ngcontent-ng-c3258864713] {
   display: inline-flex;
   align-items: center;
   background:
@@ -942,20 +918,77 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   letter-spacing: 0.04em;
   margin-top: 8px;
 }
-.about-divider[_ngcontent-ng-c2963661247] {
+.updates-row[_ngcontent-ng-c3258864713] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  margin-bottom: 8px;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.updates-row[_ngcontent-ng-c3258864713]:hover {
+  background: var(--color-border);
+}
+.updates-text[_ngcontent-ng-c3258864713] {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.updates-label[_ngcontent-ng-c3258864713] {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+.updates-sub[_ngcontent-ng-c3258864713] {
+  font-size: 10.5px;
+  color: var(--color-text-light);
+}
+.updates-toggle[_ngcontent-ng-c3258864713] {
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--color-border);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.updates-toggle__knob[_ngcontent-ng-c3258864713] {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+.updates-toggle.on[_ngcontent-ng-c3258864713] {
+  background: var(--color-primary);
+}
+.updates-toggle.on[_ngcontent-ng-c3258864713]   .updates-toggle__knob[_ngcontent-ng-c3258864713] {
+  transform: translateX(14px);
+}
+.about-divider[_ngcontent-ng-c3258864713] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.about-policies[_ngcontent-ng-c2963661247] {
+.about-policies[_ngcontent-ng-c3258864713] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
   margin-bottom: 10px;
 }
-.about-policies[_ngcontent-ng-c2963661247]   a[_ngcontent-ng-c2963661247] {
+.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713] {
   display: block;
   padding: 11px 16px;
   background: var(--color-bg-muted);
@@ -967,11 +1000,11 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   text-align: center;
   transition: background var(--transition);
 }
-.about-policies[_ngcontent-ng-c2963661247]   a[_ngcontent-ng-c2963661247]:hover, 
-.about-policies[_ngcontent-ng-c2963661247]   a[_ngcontent-ng-c2963661247]:active {
+.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713]:hover, 
+.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713]:active {
   background: var(--color-border);
 }
-.signout-btn[_ngcontent-ng-c2963661247] {
+.signout-btn[_ngcontent-ng-c3258864713] {
   display: block;
   width: 100%;
   padding: 11px 16px;
@@ -985,18 +1018,18 @@ app-filter-bar[_ngcontent-ng-c3197298799] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.signout-btn[_ngcontent-ng-c2963661247]:hover, 
-.signout-btn[_ngcontent-ng-c2963661247]:active {
+.signout-btn[_ngcontent-ng-c3258864713]:hover, 
+.signout-btn[_ngcontent-ng-c3258864713]:active {
   background: var(--color-border);
 }
-.about-version[_ngcontent-ng-c2963661247] {
+.about-version[_ngcontent-ng-c3258864713] {
   margin-top: 12px;
   font-size: 10px;
   color: var(--color-text-light);
   font-family: monospace;
 }
 @media (max-width: 900px) {
-  .footer-links[_ngcontent-ng-c2963661247] {
+  .footer-links[_ngcontent-ng-c3258864713] {
     display: none;
   }
 }
@@ -1706,11 +1739,11 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
 /*# sourceMappingURL=/test/image-gallery.component.css.map */</style></head>
 
 <body>
-  <app-root ng-version="19.2.1" _nghost-ng-c3002737357="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3002737357=""></router-outlet><app-map-shell _nghost-ng-c3197298799=""><!--bindings={
+  <app-root ng-version="19.2.1" _nghost-ng-c3002737357="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3002737357=""></router-outlet><app-map-shell _nghost-ng-c2945063107=""><!--bindings={
   "ng-reflect-ng-if": null
-}--><div _ngcontent-ng-c3197298799="" class="map-layout"><div _ngcontent-ng-c3197298799="" class="map-layout__main"><div _ngcontent-ng-c3197298799="" class="map-layout__map"><!--bindings={
+}--><div _ngcontent-ng-c2945063107="" class="map-layout"><div _ngcontent-ng-c2945063107="" class="map-layout__main"><div _ngcontent-ng-c2945063107="" class="map-layout__map"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-map _ngcontent-ng-c3197298799="" _nghost-ng-c3196090502="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c3196090502="" id="ol-map" class="map-container"><button _ngcontent-ng-c3196090502="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3196090502="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3196090502="" title="My location" class="locate-btn"><i _ngcontent-ng-c3196090502="" class="fa fa-location-arrow"></i></button><!--bindings={
+}--><app-map _ngcontent-ng-c2945063107="" _nghost-ng-c3196090502="" ng-reflect-active-filters="" ng-reflect-provider-pins="" class=""><div _ngcontent-ng-c3196090502="" id="ol-map" class="map-container"><button _ngcontent-ng-c3196090502="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3196090502="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3196090502="" title="My location" class="locate-btn"><i _ngcontent-ng-c3196090502="" class="fa fa-location-arrow"></i></button><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></div></app-map><!--bindings={
   "ng-reflect-ng-if": null
@@ -1720,11 +1753,11 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3197298799="" class="dev-about-wrap"><!--bindings={
+}--><div _ngcontent-ng-c2945063107="" class="dev-about-wrap"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><button _ngcontent-ng-c3197298799="" class="dev-about-btn"><img _ngcontent-ng-c3197298799="" src="/assets/images/profile.webp" alt="About" width="28" height="28"></button></div></div><div _ngcontent-ng-c3197298799="" class="map-layout__panel panel--hidden"><!--bindings={
+}--><button _ngcontent-ng-c2945063107="" class="dev-about-btn"><img _ngcontent-ng-c2945063107="" src="/assets/images/profile.webp" alt="About" width="28" height="28"></button></div></div><div _ngcontent-ng-c2945063107="" class="map-layout__panel panel--hidden"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><router-outlet _ngcontent-ng-c3197298799=""></router-outlet><app-location-page _nghost-ng-c468838826=""><app-panel-shell _ngcontent-ng-c468838826="" _nghost-ng-c1262857848="" ng-reflect-title="Il-Mara"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Il-Mara</span><app-share-btn _ngcontent-ng-c468838826="" panelactions="" _nghost-ng-c3137596793="" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Il-Mara"><button _ngcontent-ng-c3137596793="" class="share-btn" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+}--><router-outlet _ngcontent-ng-c2945063107=""></router-outlet><app-location-page _nghost-ng-c468838826=""><app-panel-shell _ngcontent-ng-c468838826="" _nghost-ng-c1262857848="" ng-reflect-title="Il-Mara"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Il-Mara</span><app-share-btn _ngcontent-ng-c468838826="" panelactions="" _nghost-ng-c3137596793="" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Il-Mara"><button _ngcontent-ng-c3137596793="" class="share-btn" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -1790,23 +1823,23 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   "ng-reflect-ng-if": "4"
 }--></div></app-location-detail><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c3197298799="" _nghost-ng-c2963661247=""><div _ngcontent-ng-c2963661247="" class="bottom-bar"><!--bindings={
+}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c2945063107="" _nghost-ng-c3258864713=""><div _ngcontent-ng-c3258864713="" class="bottom-bar"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><a _ngcontent-ng-c2963661247="" routerlink="/malta/list" class="list-btn" ng-reflect-router-link="/malta/list" href="/test/malta/list">📍 Browse All</a><div _ngcontent-ng-c2963661247="" class="footer-right"><!--bindings={
+}--><a _ngcontent-ng-c3258864713="" routerlink="/malta/list" class="list-btn" ng-reflect-router-link="/malta/list" href="/test/malta/list">📍 Browse All</a><div _ngcontent-ng-c3258864713="" class="footer-right"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c2963661247="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c2963661247="" class="text"><span _ngcontent-ng-c2963661247="" class="name">Sign in</span><span _ngcontent-ng-c2963661247="" class="title">Save places &amp; unlock deals</span></div><div _ngcontent-ng-c2963661247="" class="profile-picture profile-picture--guest"><svg _ngcontent-ng-c2963661247="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c2963661247="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c2963661247="" cx="12" cy="7" r="4"></circle></svg></div></div><!--bindings={
+}--><div _ngcontent-ng-c3258864713="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3258864713="" class="text"><span _ngcontent-ng-c3258864713="" class="name">Sign in</span><span _ngcontent-ng-c3258864713="" class="title">Save places &amp; unlock deals</span></div><div _ngcontent-ng-c3258864713="" class="profile-picture profile-picture--guest"><svg _ngcontent-ng-c3258864713="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c3258864713="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c3258864713="" cx="12" cy="7" r="4"></circle></svg></div></div><!--bindings={
   "ng-reflect-ng-if": "true"
 }--></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c3002737357="" _nghost-ng-c454289037=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c3002737357="" class="app-version">v1.1.28</span><!--bindings={
+}--><span _ngcontent-ng-c3002737357="" class="app-version">v1.1.29</span><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-welcome-popup _ngcontent-ng-c3002737357="" _nghost-ng-c2290195963=""><!--bindings={
+}--><app-welcome-popup _ngcontent-ng-c3002737357="" _nghost-ng-c2212365901=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></app-welcome-popup></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-ZYVSRP6N.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-YW32N6GM.js"><link rel="modulepreload" href="chunk-LKVJC54M.js"><link rel="modulepreload" href="chunk-Q33RJLWE.js"><link rel="modulepreload" href="chunk-U3AVTKB7.js"><link rel="modulepreload" href="chunk-UJ3FFGCN.js"><link rel="modulepreload" href="chunk-QFIZ3IRG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-YU6KFO4W.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-J57JZXWL.js"><link rel="modulepreload" href="chunk-WWML3SP3.js"><link rel="modulepreload" href="chunk-Q33RJLWE.js"><link rel="modulepreload" href="chunk-U3AVTKB7.js"><link rel="modulepreload" href="chunk-UJ3FFGCN.js"><link rel="modulepreload" href="chunk-QFIZ3IRG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>

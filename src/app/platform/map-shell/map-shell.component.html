@@ -4,6 +4,8 @@
   [duration]="bridge.interstitialProvider() ? 0 : bridge.navDuration()"
   [buttonLabel]="bridge.interstitialProvider() ? 'Book Now' : 'Open Google Maps'"
   [openNewTab]="true"
+  [showGuestNudge]="!bridge.interstitialProvider() && !auth.isLoggedIn()"
+  (signInRequested)="auth.openLoginModal()"
   (closed)="onInterstitialClosed()">
 
   <!-- Book Now mode: show coupon reminder -->
@@ -11,7 +13,7 @@
     <app-coupon-reminder [provider]="bridge.interstitialProvider()!"></app-coupon-reminder>
   </div>
 
-  <!-- Ads mode: nearby provider cards above and below countdown -->
+  <!-- Ads mode: nearby provider card (slot-top) -->
   <div slot-top *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[0]">
     <p *ngIf="bridge.interstitialLabel()" class="interstitial-near-label">
       {{ bridge.interstitialLabel() }}
@@ -21,6 +23,8 @@
       (selected)="onInterstitialProviderSelected($event)">
     </app-provider-card>
   </div>
+
+  <!-- slot-bottom: second provider card for logged-in users -->
   <app-provider-card
     *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[1]"
     slot-bottom

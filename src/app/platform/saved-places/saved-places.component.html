@@ -13,8 +13,8 @@
   <!-- Not logged in -->
   <div class="empty-state" *ngIf="!authService.isLoggedIn()">
     <div class="empty-state__icon">🔖</div>
-    <div class="empty-state__title">Sign in to save places</div>
-    <div class="empty-state__sub">Keep your favourite spots and access them anytime.</div>
+    <div class="empty-state__title">Sign in to start saving spots</div>
+    <div class="empty-state__sub">I'll remember your favourite places so you don't have to.</div>
     <button class="empty-state__btn" (click)="authService.openLoginModal()">Sign in</button>
   </div>
 

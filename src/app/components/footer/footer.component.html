@@ -24,9 +24,21 @@
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </a>
+        <div class="updates-row" (click)="toggleUpdates($event)">
+          <div class="updates-text">
+            <span class="updates-label">🔔 New spot updates</span>
+            <span class="updates-sub">Email me when new spots are added</span>
+          </div>
+          <div class="updates-toggle" [class.on]="userDataService.receiveUpdates()">
+            <span class="updates-toggle__knob"></span>
+          </div>
+        </div>
+
         <div class="about-divider"></div>
         <div class="about-policies">
-          <button class="signout-btn" (click)="signOut()">Sign out</button>
+          <button class="signout-btn" (click)="signOut()" [disabled]="signingOut">
+          {{ signingOut ? 'Signing out…' : 'Sign out' }}
+        </button>
         </div>
         <div class="about-version">v{{ version }}</div>
       </div>

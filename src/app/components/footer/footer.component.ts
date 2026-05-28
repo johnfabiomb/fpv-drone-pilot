@@ -19,6 +19,7 @@ export class FooterComponent {
   readonly authService = inject(AuthService);
   readonly userDataService = inject(UserDataService);
   showProfile = false;
+  signingOut = false;
 
   get levelLabel(): string {
     return `Explorer · Level ${this.userDataService.level()}`;
@@ -29,9 +30,20 @@ export class FooterComponent {
     this.showProfile = !this.showProfile;
   }
 
+  toggleUpdates(e: Event): void {
+    e.stopPropagation();
+    this.userDataService.setReceiveUpdates(!this.userDataService.receiveUpdates());
+  }
+
   async signOut(): Promise<void> {
-    await this.authService.signOut();
-    this.showProfile = false;
+    if (this.signingOut) return;
+    this.signingOut = true;
+    try {
+      await this.authService.signOut();
+      this.showProfile = false;
+    } finally {
+      this.signingOut = false;
+    }
   }
 
   @HostListener('document:click')

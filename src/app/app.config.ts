@@ -5,7 +5,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { IMAGE_CONFIG } from '@angular/common';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getFirestore, initializeFirestore, memoryLocalCache, persistentLocalCache, provideFirestore } from '@angular/fire/firestore';
+import { getApp } from '@angular/fire/app';
 import { firebaseConfig } from './shared/config/firebase.config';
 
 export const appConfig: ApplicationConfig = {
@@ -21,6 +22,14 @@ export const appConfig: ApplicationConfig = {
     },
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideFirestore(() => {
+      try {
+        return initializeFirestore(getApp(), {
+          localCache: typeof indexedDB !== 'undefined' ? persistentLocalCache() : memoryLocalCache(),
+        });
+      } catch {
+        return getFirestore(getApp());
+      }
+    }),
   ],
 };

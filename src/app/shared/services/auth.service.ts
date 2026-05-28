@@ -73,6 +73,7 @@ export class AuthService {
   }
 
   openLoginModal(): void {
+    if (this.isLoggedIn()) return;
     this.showLoginModal.set(true);
   }
 

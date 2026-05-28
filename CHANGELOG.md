@@ -6,6 +6,35 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added (directions gate + sign-in nudge)
+- Guests clicking a Google Maps direction now get a 10-second interstitial countdown instead of a hard login block; a "Sign in to open straight away" nudge with a sign-in button appears in the interstitial slot
+- Logged-in users skip the interstitial entirely — Google Maps opens immediately in a new tab
+- Direction buttons updated: lock icon removed, hint now reads "Opens in 10s · sign in to skip" for guests
+- Two new benefits added to both auth modal and welcome popup: ⚡ "Open Google Maps instantly — no wait" and 📶 "Browse the map offline, even without signal"
+
+### Changed (copy & tone)
+- Replaced all instances of "exclusive" in UI copy with honest, peer-to-peer language ("Local Deals", "Partner deal", "real discounts from local partners I trust")
+- Auth modal title: "Sign in to unlock it all" → "It's way better signed in"
+- Auth modal benefits aligned with welcome popup wording
+- Email sent state: "Check your email" → "Link on its way! ✉️"; "We sent..." → "I've sent..."
+- Saved places empty state: more personal, first-person copy
+- Deals intro: "Exclusive discounts" → first-person "partners I've personally connected with"
+- iOS IAB note: rewritten to friendly peer-to-peer tone
+- Welcome popup subtitle updated to first-person; benefit copy aligned across both modals
+
+### Added (auth UX overhaul)
+- `SignInFormComponent` — shared reusable form used by both `AuthModalComponent` and `WelcomePopupComponent`; handles all four states: `default`, `android-redirect`, `email-input`, `email-sent`; emits `stateChange` so parents can show/hide chrome conditionally; `:host { display: contents }` slots into any parent flex layout
+- `InAppBrowserService.isAndroid()` — added to gate Android Chrome redirect vs iOS email-only flow
+- `AuthService.openLoginModal()` — now no-ops if user is already logged in (prevents ghost modal)
+- Footer sign-out: `signingOut` loading state disables button and shows "Signing out…" while Firebase `signOut()` resolves
+- `effect()` in both `AuthModalComponent` and `WelcomePopupComponent` auto-dismisses when `isLoggedIn()` becomes true, regardless of which sign-in path was used
+- `busy` getter guards all sign-in buttons against double-click race conditions
+
+### Changed (auth UX overhaul)
+- `AuthModalComponent` rewritten as a thin wrapper around `SignInFormComponent`; header and benefits shown only while `formState === 'default'`; legal text hidden on `email-sent` state
+- `WelcomePopupComponent` rewritten to embed `SignInFormComponent`; welcome chrome (title, benefits) collapses once form advances past `default` state
+- Duplicate sign-in logic (Google OAuth, email link, error handling, loading flags) removed from both modal/popup and centralised in `SignInFormComponent`
+
 ### Added (IAB auth)
 - `InAppBrowserService` — detects Instagram/Facebook/Line in-app browsers; `openInChrome()` redirects Android IAB users to Chrome via `intent://` scheme
 - `AuthModalComponent` — IAB-aware states: Android auto-redirects to Chrome; iOS shows email magic link flow (`email-input` → `email-sent` with numbered steps + manual "Check sign-in" button)
