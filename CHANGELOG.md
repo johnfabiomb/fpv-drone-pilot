@@ -6,6 +6,13 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added (IAB auth)
+- `InAppBrowserService` — detects Instagram/Facebook/Line in-app browsers; `openInChrome()` redirects Android IAB users to Chrome via `intent://` scheme
+- `AuthModalComponent` — IAB-aware states: Android auto-redirects to Chrome; iOS shows email magic link flow (`email-input` → `email-sent` with numbered steps + manual "Check sign-in" button)
+- `AuthService.sendEmailSignInLink()` — sends Firebase email sign-in link; email embedded in `continueUrl` for cross-browser sign-in completion
+- `AuthService.completeEmailSignIn()` — called on app init to detect and complete a pending email link sign-in from any browser; cleans URL after completion
+- `AppComponent.handleEmailSignInLink()` — checks `window.location.href` on startup and completes email link auth if detected, then navigates to `/malta`
+
 ### Added
 - `WelcomePopupComponent` — one-time guest welcome modal (shown 2.5s after first visit, suppressed once dismissed via `vm_welcome_shown` localStorage key); lists save/deals/directions benefits; "Sign in with Google" CTA + "Continue as guest" dismiss
 

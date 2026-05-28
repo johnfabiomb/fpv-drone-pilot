@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.handleLegacyHashUrls();
       this.handleRedirectParam();
+      this.handleEmailSignInLink();
     }
 
     this.router.events
@@ -72,5 +73,15 @@ export class AppComponent implements OnInit {
     if (redirect) {
       this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
     }
+  }
+
+  private handleEmailSignInLink(): void {
+    if (!this.authService.isEmailSignInLink(window.location.href)) return;
+    this.authService.completeEmailSignIn(window.location.href).then(completed => {
+      if (completed) {
+        // Strip auth params from the URL after sign-in
+        this.router.navigateByUrl('/malta', { replaceUrl: true });
+      }
+    });
   }
 }

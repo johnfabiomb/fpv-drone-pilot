@@ -19076,6 +19076,8 @@ var AuthService = class _AuthService {
     this.user = signal(null);
     this.isLoggedIn = computed(() => !!this.user());
     this.showLoginModal = signal(false);
+    this.EMAIL_KEY = "emailForSignIn";
+    this.CONTINUE_URL = "https://johnfabiomb.com/malta";
     if (isPlatformBrowser(this.platformId)) {
       onAuthStateChanged3(this.auth, (user3) => this.user.set(user3));
     }
@@ -19085,6 +19087,46 @@ var AuthService = class _AuthService {
       yield signInWithPopup3(this.auth, new GoogleAuthProvider2());
       this.showLoginModal.set(false);
     });
+  }
+  /**
+   * Sends a Firebase email sign-in link.
+   * The email is embedded in continueUrl so it survives cross-browser completion.
+   * Requires "Email link (passwordless sign-in)" enabled in Firebase console.
+   */
+  sendEmailSignInLink(email) {
+    return __async(this, null, function* () {
+      const continueUrl = `${this.CONTINUE_URL}?email=${encodeURIComponent(email)}`;
+      yield sendSignInLinkToEmail3(this.auth, email, {
+        url: continueUrl,
+        handleCodeInApp: true
+      });
+      localStorage.setItem(this.EMAIL_KEY, email);
+    });
+  }
+  isEmailSignInLink(href) {
+    return isSignInWithEmailLink3(this.auth, href);
+  }
+  completeEmailSignIn(href) {
+    return __async(this, null, function* () {
+      if (!isSignInWithEmailLink3(this.auth, href))
+        return false;
+      try {
+        const params = new URL(href).searchParams;
+        const email = params.get("email") ?? localStorage.getItem(this.EMAIL_KEY) ?? "";
+        if (!email)
+          return false;
+        yield signInWithEmailLink3(this.auth, email, href);
+        localStorage.removeItem(this.EMAIL_KEY);
+        this.showLoginModal.set(false);
+        return true;
+      } catch {
+        return false;
+      }
+    });
+  }
+  /** Returns the locally cached current user — no Firebase network call. */
+  currentSignedInUser() {
+    return this.auth.currentUser;
   }
   signOut() {
     return __async(this, null, function* () {
@@ -21964,4 +22006,4 @@ rxfire/auth/index.esm.js:
    * limitations under the License.
    *)
 */
-//# sourceMappingURL=chunk-B23OTVUL.js.map
+//# sourceMappingURL=chunk-LKVJC54M.js.map
