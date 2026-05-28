@@ -174,17 +174,37 @@
 .saved-count {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
     width: 100%;
-    padding: 10px 12px;
+    padding: 11px 14px;
     background: var(--color-bg-muted);
     border-radius: var(--radius-lg);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text-secondary);
     text-decoration: none;
+    margin-top: 16px;
     transition: background var(--transition);
     &:hover, &:active { background: var(--color-border); }
+
+    &__icon { flex-shrink: 0; color: var(--color-text-secondary); }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        text-align: left;
+    }
+
+    &__label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--color-text-secondary);
+    }
+
+    &__sub {
+        font-size: 10.5px;
+        color: var(--color-text-light);
+    }
+
+    &__chevron { margin-left: auto; flex-shrink: 0; color: var(--color-text-light); }
 }
 
 // ── About / user popup ────────────────────────────────────
@@ -192,7 +212,7 @@
     position: absolute;
     bottom: calc(100% + 12px);
     right: 0;
-    width: 240px;
+    width: 264px;
     background: var(--color-bg);
     border-radius: 14px;
     padding: 24px 20px 18px;
@@ -273,10 +293,11 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 14px;
   background: var(--color-bg-muted);
   border-radius: var(--radius-lg);
-  margin-bottom: 8px;
+  margin-top: 6px;
+  margin-bottom: 0;
   gap: 10px;
   cursor: pointer;
   transition: background var(--transition);
@@ -286,19 +307,28 @@
 .updates-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   text-align: left;
 }
 
 .updates-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12.5px;
   font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.updates-icon {
+  flex-shrink: 0;
   color: var(--color-text-secondary);
 }
 
 .updates-sub {
   font-size: 10.5px;
   color: var(--color-text-light);
+  padding-left: 19px;
 }
 
 .updates-toggle {
@@ -335,42 +365,27 @@
     margin: 14px 0;
 }
 
-.about-policies {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin-bottom: 10px;
-
-    a {
-        display: block;
-        padding: 11px 16px;
-        background: var(--color-bg-muted);
-        border-radius: var(--radius-lg);
-        color: var(--color-text-base);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 13px;
-        text-align: center;
-        transition: background var(--transition);
-        &:hover, &:active { background: var(--color-border); }
-    }
-}
-
 .signout-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     width: 100%;
     padding: 11px 16px;
     background: var(--color-bg-muted);
     border: none;
     border-radius: var(--radius-lg);
-    color: var(--color-text-base);
+    color: var(--color-text-secondary);
     font-weight: 600;
     font-size: 13px;
-    text-align: center;
     cursor: pointer;
-    transition: background var(--transition);
-    &:hover, &:active { background: var(--color-border); }
+    margin-bottom: 10px;
+    transition: background var(--transition), color var(--transition);
+    &:hover, &:active {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 .about-version {
