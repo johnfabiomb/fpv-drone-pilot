@@ -60,6 +60,16 @@ export const routes: Routes = [
                         path: 'saved',
                         loadComponent: () => import('./platform/saved-places/saved-places.component').then(m => m.SavedPlacesComponent)
                     },
+                    {
+                        path: 'groups',
+                        canMatch: [() => FEATURES.GROUPS],
+                        loadComponent: () => import('./platform/explore-together/explore-together.component').then(m => m.ExploreTogetherComponent)
+                    },
+                    {
+                        path: 'groups/:id',
+                        canMatch: [() => FEATURES.GROUPS],
+                        loadComponent: () => import('./platform/group-detail/group-detail.component').then(m => m.GroupDetailComponent)
+                    },
                 ]
             },
             // Non-map routes are direct siblings — NOT inside the shell

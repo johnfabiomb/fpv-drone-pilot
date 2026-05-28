@@ -49,9 +49,10 @@ a[_ngcontent-ng-c3002737357] {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1200;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
   animation: _ngcontent-ng-c2212365901_wpFadeIn 0.3s ease;
 }
 .wp-card[_ngcontent-ng-c2212365901] {
@@ -60,8 +61,7 @@ a[_ngcontent-ng-c3002737357] {
   padding: 36px 24px 26px;
   width: 100%;
   max-width: 340px;
-  max-height: calc(100dvh - 40px);
-  overflow-y: auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -662,7 +662,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
 }
 /*# sourceMappingURL=/test/map.component.css.map */</style><style ng-app-id="ng">
 
-.bottom-bar[_ngcontent-ng-c3258864713] {
+.bottom-bar[_ngcontent-ng-c3750637680] {
   width: 100%;
   height: 64px;
   padding: 0 16px;
@@ -677,7 +677,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   position: relative;
   z-index: 400;
 }
-.route-btn[_ngcontent-ng-c3258864713] {
+.route-btn[_ngcontent-ng-c3750637680] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -692,11 +692,11 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   white-space: nowrap;
   transition: box-shadow var(--transition), opacity var(--transition);
 }
-.route-btn[_ngcontent-ng-c3258864713]:hover {
+.route-btn[_ngcontent-ng-c3750637680]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
 }
-.list-btn[_ngcontent-ng-c3258864713] {
+.list-btn[_ngcontent-ng-c3750637680] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -709,20 +709,127 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   font-size: 13px;
   border: 1px solid var(--color-border);
   white-space: nowrap;
+  flex-shrink: 0;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.list-btn[_ngcontent-ng-c3258864713]:hover {
+.list-btn[_ngcontent-ng-c3750637680]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.about-wrap[_ngcontent-ng-c3258864713] {
+.nav-menu-backdrop[_ngcontent-ng-c3750637680] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 398;
+}
+.nav-menu-wrap[_ngcontent-ng-c3750637680] {
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.nav-menu-trigger[_ngcontent-ng-c3750637680] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-bg-light);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+.nav-menu-trigger[_ngcontent-ng-c3750637680]:hover {
+  background: var(--color-bg-muted);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.nav-menu-popup[_ngcontent-ng-c3750637680] {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 16px;
+  width: 260px;
+  background: var(--color-bg);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  animation: _ngcontent-ng-c3750637680_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+}
+.nav-menu-popup[_ngcontent-ng-c3750637680]::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-bg);
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  transform: rotate(45deg);
+}
+.nav-item[_ngcontent-ng-c3750637680] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: background var(--transition);
+}
+.nav-item[_ngcontent-ng-c3750637680]:hover, 
+.nav-item[_ngcontent-ng-c3750637680]:active {
+  background: var(--color-border);
+}
+.nav-item__icon[_ngcontent-ng-c3750637680] {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+}
+.nav-item__text[_ngcontent-ng-c3750637680] {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.nav-item__label[_ngcontent-ng-c3750637680] {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+.nav-item__desc[_ngcontent-ng-c3750637680] {
+  font-size: 10.5px;
+  color: var(--color-text-light);
+}
+.nav-item__chevron[_ngcontent-ng-c3750637680] {
+  flex-shrink: 0;
+  color: var(--color-text-light);
+}
+.about-wrap[_ngcontent-ng-c3750637680] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   margin-left: 10px;
 }
-.about-trigger[_ngcontent-ng-c3258864713] {
+.about-trigger[_ngcontent-ng-c3750637680] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -733,24 +840,26 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   display: block;
   transition: border-color var(--transition);
 }
-.about-trigger[_ngcontent-ng-c3258864713]:hover {
+.about-trigger[_ngcontent-ng-c3750637680]:hover {
   border-color: var(--color-primary);
 }
-.about-popup--dev[_ngcontent-ng-c3258864713] {
+.about-popup--dev[_ngcontent-ng-c3750637680] {
   left: 0;
   right: auto;
 }
-.about-popup--dev[_ngcontent-ng-c3258864713]::after {
+.about-popup--dev[_ngcontent-ng-c3750637680]::after {
   left: 10px;
   right: auto;
 }
-.footer-right[_ngcontent-ng-c3258864713] {
+.footer-right[_ngcontent-ng-c3750637680] {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-left: auto;
+  padding-left: 12px;
+  min-width: 0;
 }
-.signin-btn[_ngcontent-ng-c3258864713] {
+.signin-btn[_ngcontent-ng-c3750637680] {
   display: inline-flex;
   align-items: center;
   background: transparent;
@@ -764,10 +873,10 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   white-space: nowrap;
   transition: background var(--transition);
 }
-.signin-btn[_ngcontent-ng-c3258864713]:hover {
+.signin-btn[_ngcontent-ng-c3750637680]:hover {
   background: #fffbeb;
 }
-.profile-wrap[_ngcontent-ng-c3258864713] {
+.profile-wrap[_ngcontent-ng-c3750637680] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -775,38 +884,46 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   position: relative;
   -webkit-user-select: none;
   user-select: none;
+  min-width: 0;
 }
-.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713] {
+.profile-wrap[_ngcontent-ng-c3750637680]   .text[_ngcontent-ng-c3750637680] {
   text-align: right;
+  min-width: 0;
+  overflow: hidden;
 }
-.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713]   .name[_ngcontent-ng-c3258864713] {
+.profile-wrap[_ngcontent-ng-c3750637680]   .text[_ngcontent-ng-c3750637680]   .name[_ngcontent-ng-c3750637680] {
   display: block;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-base);
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.profile-wrap[_ngcontent-ng-c3258864713]   .text[_ngcontent-ng-c3258864713]   .title[_ngcontent-ng-c3258864713] {
+.profile-wrap[_ngcontent-ng-c3750637680]   .text[_ngcontent-ng-c3750637680]   .title[_ngcontent-ng-c3750637680] {
   display: block;
   font-size: 10px;
   color: var(--color-text-muted);
   font-weight: 400;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.profile-wrap[_ngcontent-ng-c3258864713]   .profile-picture[_ngcontent-ng-c3258864713] {
+.profile-wrap[_ngcontent-ng-c3750637680]   .profile-picture[_ngcontent-ng-c3750637680] {
   border-radius: var(--radius-lg);
   border: 2px solid var(--color-primary);
   box-sizing: border-box;
   object-fit: cover;
   flex-shrink: 0;
 }
-.profile-wrap--guest[_ngcontent-ng-c3258864713] {
+.profile-wrap--guest[_ngcontent-ng-c3750637680] {
   cursor: pointer;
 }
-.profile-wrap--guest[_ngcontent-ng-c3258864713]   .name[_ngcontent-ng-c3258864713] {
+.profile-wrap--guest[_ngcontent-ng-c3750637680]   .name[_ngcontent-ng-c3750637680] {
   color: var(--color-text-muted);
 }
-.profile-wrap--guest[_ngcontent-ng-c3258864713]   .profile-picture--guest[_ngcontent-ng-c3258864713] {
+.profile-wrap--guest[_ngcontent-ng-c3750637680]   .profile-picture--guest[_ngcontent-ng-c3750637680] {
   width: 36px;
   height: 36px;
   border-radius: var(--radius-lg);
@@ -819,29 +936,51 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   background: var(--color-bg-light);
   color: var(--color-text-light);
 }
-.saved-count[_ngcontent-ng-c3258864713] {
+.saved-count[_ngcontent-ng-c3750637680] {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 14px;
   background: var(--color-bg-muted);
   border-radius: var(--radius-lg);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
   text-decoration: none;
+  margin-top: 16px;
   transition: background var(--transition);
 }
-.saved-count[_ngcontent-ng-c3258864713]:hover, 
-.saved-count[_ngcontent-ng-c3258864713]:active {
+.saved-count[_ngcontent-ng-c3750637680]:hover, 
+.saved-count[_ngcontent-ng-c3750637680]:active {
   background: var(--color-border);
 }
-.about-popup[_ngcontent-ng-c3258864713] {
+.saved-count__icon[_ngcontent-ng-c3750637680] {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.saved-count__text[_ngcontent-ng-c3750637680] {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+.saved-count__label[_ngcontent-ng-c3750637680] {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+.saved-count__sub[_ngcontent-ng-c3750637680] {
+  font-size: 10.5px;
+  color: var(--color-text-light);
+}
+.saved-count__chevron[_ngcontent-ng-c3750637680] {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--color-text-light);
+}
+.about-popup[_ngcontent-ng-c3750637680] {
   position: absolute;
   bottom: calc(100% + 12px);
   right: 0;
-  width: 240px;
+  width: 264px;
   background: var(--color-bg);
   border-radius: 14px;
   padding: 24px 20px 18px;
@@ -851,10 +990,10 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c3258864713_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3750637680_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.about-popup[_ngcontent-ng-c3258864713]::after {
+.about-popup[_ngcontent-ng-c3750637680]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -866,7 +1005,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-@keyframes _ngcontent-ng-c3258864713_popUp {
+@keyframes _ngcontent-ng-c3750637680_popUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -876,7 +1015,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
     transform: translateY(0) scale(1);
   }
 }
-.about-photo[_ngcontent-ng-c3258864713] {
+.about-photo[_ngcontent-ng-c3750637680] {
   width: 72px;
   height: 72px;
   border-radius: var(--radius-lg);
@@ -886,23 +1025,23 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);
   margin-bottom: 12px;
 }
-.user-photo[_ngcontent-ng-c3258864713] {
+.user-photo[_ngcontent-ng-c3750637680] {
   border-radius: 50%;
   object-position: center center;
 }
-.about-name[_ngcontent-ng-c3258864713] {
+.about-name[_ngcontent-ng-c3750637680] {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-text-base);
   letter-spacing: -0.3px;
 }
-.about-email[_ngcontent-ng-c3258864713] {
+.about-email[_ngcontent-ng-c3750637680] {
   font-size: 11.5px;
   color: var(--color-text-muted);
   margin-top: 3px;
   word-break: break-all;
 }
-.level-badge[_ngcontent-ng-c3258864713] {
+.level-badge[_ngcontent-ng-c3750637680] {
   display: inline-flex;
   align-items: center;
   background:
@@ -918,38 +1057,47 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   letter-spacing: 0.04em;
   margin-top: 8px;
 }
-.updates-row[_ngcontent-ng-c3258864713] {
+.updates-row[_ngcontent-ng-c3750637680] {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 14px;
   background: var(--color-bg-muted);
   border-radius: var(--radius-lg);
-  margin-bottom: 8px;
+  margin-top: 6px;
+  margin-bottom: 0;
   gap: 10px;
   cursor: pointer;
   transition: background var(--transition);
 }
-.updates-row[_ngcontent-ng-c3258864713]:hover {
+.updates-row[_ngcontent-ng-c3750637680]:hover {
   background: var(--color-border);
 }
-.updates-text[_ngcontent-ng-c3258864713] {
+.updates-text[_ngcontent-ng-c3750637680] {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   text-align: left;
 }
-.updates-label[_ngcontent-ng-c3258864713] {
+.updates-label[_ngcontent-ng-c3750637680] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
 }
-.updates-sub[_ngcontent-ng-c3258864713] {
+.updates-icon[_ngcontent-ng-c3750637680] {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.updates-sub[_ngcontent-ng-c3750637680] {
   font-size: 10.5px;
   color: var(--color-text-light);
+  padding-left: 19px;
 }
-.updates-toggle[_ngcontent-ng-c3258864713] {
+.updates-toggle[_ngcontent-ng-c3750637680] {
   width: 34px;
   height: 20px;
   border-radius: 10px;
@@ -958,7 +1106,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   flex-shrink: 0;
   transition: background 0.2s;
 }
-.updates-toggle__knob[_ngcontent-ng-c3258864713] {
+.updates-toggle__knob[_ngcontent-ng-c3750637680] {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -969,67 +1117,52 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
-.updates-toggle.on[_ngcontent-ng-c3258864713] {
+.updates-toggle.on[_ngcontent-ng-c3750637680] {
   background: var(--color-primary);
 }
-.updates-toggle.on[_ngcontent-ng-c3258864713]   .updates-toggle__knob[_ngcontent-ng-c3258864713] {
+.updates-toggle.on[_ngcontent-ng-c3750637680]   .updates-toggle__knob[_ngcontent-ng-c3750637680] {
   transform: translateX(14px);
 }
-.about-divider[_ngcontent-ng-c3258864713] {
+.about-divider[_ngcontent-ng-c3750637680] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.about-policies[_ngcontent-ng-c3258864713] {
+.signout-btn[_ngcontent-ng-c3750637680] {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713] {
-  display: block;
-  padding: 11px 16px;
-  background: var(--color-bg-muted);
-  border-radius: var(--radius-lg);
-  color: var(--color-text-base);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-  text-align: center;
-  transition: background var(--transition);
-}
-.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713]:hover, 
-.about-policies[_ngcontent-ng-c3258864713]   a[_ngcontent-ng-c3258864713]:active {
-  background: var(--color-border);
-}
-.signout-btn[_ngcontent-ng-c3258864713] {
-  display: block;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   width: 100%;
   padding: 11px 16px;
   background: var(--color-bg-muted);
   border: none;
   border-radius: var(--radius-lg);
-  color: var(--color-text-base);
+  color: var(--color-text-secondary);
   font-weight: 600;
   font-size: 13px;
-  text-align: center;
   cursor: pointer;
-  transition: background var(--transition);
+  margin-bottom: 10px;
+  transition: background var(--transition), color var(--transition);
 }
-.signout-btn[_ngcontent-ng-c3258864713]:hover, 
-.signout-btn[_ngcontent-ng-c3258864713]:active {
-  background: var(--color-border);
+.signout-btn[_ngcontent-ng-c3750637680]:hover, 
+.signout-btn[_ngcontent-ng-c3750637680]:active {
+  background: #fef2f2;
+  color: #dc2626;
 }
-.about-version[_ngcontent-ng-c3258864713] {
+.signout-btn[_ngcontent-ng-c3750637680]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.about-version[_ngcontent-ng-c3750637680] {
   margin-top: 12px;
   font-size: 10px;
   color: var(--color-text-light);
   font-family: monospace;
 }
 @media (max-width: 900px) {
-  .footer-links[_ngcontent-ng-c3258864713] {
+  .footer-links[_ngcontent-ng-c3750637680] {
     display: none;
   }
 }
@@ -1214,12 +1347,12 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
 }
 /*# sourceMappingURL=/test/share-button.component.css.map */</style><style ng-app-id="ng">
 
-[_nghost-ng-c3773148429] {
+[_nghost-ng-c1103998836] {
   display: block;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.confirm-banner[_ngcontent-ng-c3773148429] {
+.confirm-banner[_ngcontent-ng-c1103998836] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1230,16 +1363,16 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   padding: 10px 14px;
   margin-bottom: 12px;
 }
-.confirm-text[_ngcontent-ng-c3773148429] {
+.confirm-text[_ngcontent-ng-c1103998836] {
   font-size: 14px;
   font-weight: 600;
   color: #92400e;
 }
-.confirm-actions[_ngcontent-ng-c3773148429] {
+.confirm-actions[_ngcontent-ng-c1103998836] {
   display: flex;
   gap: 8px;
 }
-.confirm-stay[_ngcontent-ng-c3773148429] {
+.confirm-stay[_ngcontent-ng-c1103998836] {
   height: 32px;
   padding: 0 14px;
   border-radius: var(--radius-md);
@@ -1250,10 +1383,10 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   color: var(--color-text-secondary);
   cursor: pointer;
 }
-.confirm-stay[_ngcontent-ng-c3773148429]:hover {
+.confirm-stay[_ngcontent-ng-c1103998836]:hover {
   background: var(--color-border);
 }
-.confirm-leave[_ngcontent-ng-c3773148429] {
+.confirm-leave[_ngcontent-ng-c1103998836] {
   height: 32px;
   padding: 0 14px;
   border-radius: var(--radius-md);
@@ -1264,10 +1397,10 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   color: #fff;
   cursor: pointer;
 }
-.confirm-leave[_ngcontent-ng-c3773148429]:hover {
+.confirm-leave[_ngcontent-ng-c1103998836]:hover {
   background: var(--color-primary-hover);
 }
-.nearby-banner[_ngcontent-ng-c3773148429] {
+.nearby-banner[_ngcontent-ng-c1103998836] {
   background: #fffbeb;
   border: 1px solid #fde68a;
   border-radius: var(--radius-lg);
@@ -1276,7 +1409,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   flex-direction: column;
   gap: 10px;
 }
-.nearby-banner__text[_ngcontent-ng-c3773148429] {
+.nearby-banner__text[_ngcontent-ng-c1103998836] {
   font-size: 13px;
   font-weight: 500;
   color: #92400e;
@@ -1285,16 +1418,16 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   align-items: flex-start;
   gap: 8px;
 }
-.nearby-banner__text[_ngcontent-ng-c3773148429]   i[_ngcontent-ng-c3773148429] {
+.nearby-banner__text[_ngcontent-ng-c1103998836]   i[_ngcontent-ng-c1103998836] {
   color: var(--color-primary);
   margin-top: 1px;
   flex-shrink: 0;
 }
-.nearby-banner__actions[_ngcontent-ng-c3773148429] {
+.nearby-banner__actions[_ngcontent-ng-c1103998836] {
   display: flex;
   gap: 8px;
 }
-.nearby-btn[_ngcontent-ng-c3773148429] {
+.nearby-btn[_ngcontent-ng-c1103998836] {
   flex: 1;
   height: 34px;
   border-radius: var(--radius-md);
@@ -1304,18 +1437,18 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   border: none;
   transition: opacity var(--transition);
 }
-.nearby-btn[_ngcontent-ng-c3773148429]:hover {
+.nearby-btn[_ngcontent-ng-c1103998836]:hover {
   opacity: 0.85;
 }
-.nearby-btn--stay[_ngcontent-ng-c3773148429] {
+.nearby-btn--stay[_ngcontent-ng-c1103998836] {
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
 }
-.nearby-btn--start[_ngcontent-ng-c3773148429] {
+.nearby-btn--start[_ngcontent-ng-c1103998836] {
   background: var(--color-primary);
   color: #fff;
 }
-.hiking-active[_ngcontent-ng-c3773148429] {
+.hiking-active[_ngcontent-ng-c1103998836] {
   font-size: 12px;
   font-weight: 500;
   color: #92400e;
@@ -1327,10 +1460,10 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   align-items: center;
   gap: 7px;
 }
-.hiking-active[_ngcontent-ng-c3773148429]   i[_ngcontent-ng-c3773148429] {
+.hiking-active[_ngcontent-ng-c1103998836]   i[_ngcontent-ng-c1103998836] {
   color: var(--color-primary);
 }
-.meta[_ngcontent-ng-c3773148429] {
+.meta[_ngcontent-ng-c1103998836] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1338,7 +1471,7 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   flex-wrap: wrap;
   padding-inline: 20px;
 }
-.meta[_ngcontent-ng-c3773148429]   .tag[_ngcontent-ng-c3773148429] {
+.meta[_ngcontent-ng-c1103998836]   .tag[_ngcontent-ng-c1103998836] {
   font-size: 11px;
   font-weight: 500;
   color: var(--color-text-muted);
@@ -1348,54 +1481,54 @@ app-filter-bar[_ngcontent-ng-c2945063107] {
   padding: 3px 10px;
   letter-spacing: 0.2px;
 }
-.meta[_ngcontent-ng-c3773148429]   .rating[_ngcontent-ng-c3773148429] {
+.meta[_ngcontent-ng-c1103998836]   .rating[_ngcontent-ng-c1103998836] {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-base);
 }
-.meta[_ngcontent-ng-c3773148429]   .rating[_ngcontent-ng-c3773148429]   .fa-star[_ngcontent-ng-c3773148429] {
+.meta[_ngcontent-ng-c1103998836]   .rating[_ngcontent-ng-c1103998836]   .fa-star[_ngcontent-ng-c1103998836] {
   color: var(--color-primary);
   font-size: 11px;
 }
-.description[_ngcontent-ng-c3773148429] {
+.description[_ngcontent-ng-c1103998836] {
   font-size: 14px;
   color: #4b5563;
   line-height: 1.65;
   margin-bottom: 10px;
 }
-app-ad-banner[_ngcontent-ng-c3773148429] {
+app-ad-banner[_ngcontent-ng-c1103998836] {
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.nearby-experiences[_ngcontent-ng-c3773148429] {
+.nearby-experiences[_ngcontent-ng-c1103998836] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.nearby-experiences__label[_ngcontent-ng-c3773148429] {
+.nearby-experiences__label[_ngcontent-ng-c1103998836] {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-light);
 }
-.divider[_ngcontent-ng-c3773148429] {
+.divider[_ngcontent-ng-c1103998836] {
   border: none;
   border-top: 1px solid var(--color-bg-muted);
   margin: 0 -20px 20px;
 }
-.actions[_ngcontent-ng-c3773148429]   .divider[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .divider[_ngcontent-ng-c1103998836] {
   margin: 4px 0 8px;
 }
-.actions[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.actions[_ngcontent-ng-c3773148429]   .button[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .button[_ngcontent-ng-c1103998836] {
   width: 100%;
   text-align: center;
   border-radius: var(--radius-lg);
@@ -1412,15 +1545,15 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
 }
-.actions[_ngcontent-ng-c3773148429]   .button[_ngcontent-ng-c3773148429]:hover {
+.actions[_ngcontent-ng-c1103998836]   .button[_ngcontent-ng-c1103998836]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 }
-.actions[_ngcontent-ng-c3773148429]   .save-wrap[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .save-wrap[_ngcontent-ng-c1103998836] {
   position: relative;
   flex-shrink: 0;
 }
-.actions[_ngcontent-ng-c3773148429]   .save-btn[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .save-btn[_ngcontent-ng-c1103998836] {
   width: 40px;
   height: 40px;
   flex-shrink: 0;
@@ -1438,58 +1571,50 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
     border-color var(--transition);
   animation: deals-pulse 2.4s ease-in-out infinite;
 }
-.actions[_ngcontent-ng-c3773148429]   .save-btn[_ngcontent-ng-c3773148429]:hover {
+.actions[_ngcontent-ng-c1103998836]   .save-btn[_ngcontent-ng-c1103998836]:hover {
   background: var(--color-bg-muted);
 }
-.actions[_ngcontent-ng-c3773148429]   .save-btn.saved[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .save-btn.saved[_ngcontent-ng-c1103998836] {
   background: rgba(244, 169, 34, 0.1);
   border-color: var(--color-primary);
   color: var(--color-primary);
   animation: none;
 }
-.actions[_ngcontent-ng-c3773148429]   .nav-btn[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .nav-btn[_ngcontent-ng-c1103998836] {
   flex-direction: column;
   gap: 2px !important;
   height: auto !important;
   padding: 10px 0 !important;
   position: relative;
 }
-.actions[_ngcontent-ng-c3773148429]   .nav-btn[_ngcontent-ng-c3773148429]   .nav-btn__hint[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .nav-btn[_ngcontent-ng-c1103998836]   .nav-btn__hint[_ngcontent-ng-c1103998836] {
   font-size: 10px;
   font-weight: 400;
   opacity: 0.65;
 }
-.actions[_ngcontent-ng-c3773148429]   .nav-btn[_ngcontent-ng-c3773148429]   .nav-btn__lock[_ngcontent-ng-c3773148429] {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-light);
-  opacity: 0.6;
-}
-.actions[_ngcontent-ng-c3773148429]   .actions-row[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .actions-row[_ngcontent-ng-c1103998836] {
   display: flex;
   gap: 8px;
 }
-.actions[_ngcontent-ng-c3773148429]   .actions-row[_ngcontent-ng-c3773148429]   .button[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .actions-row[_ngcontent-ng-c1103998836]   .button[_ngcontent-ng-c1103998836] {
   flex: 1;
   font-size: 13px;
   padding: 0 8px;
   min-width: 0;
 }
-.actions[_ngcontent-ng-c3773148429]   .nav-section[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .nav-section[_ngcontent-ng-c1103998836] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.actions[_ngcontent-ng-c3773148429]   .nav-section__label[_ngcontent-ng-c3773148429] {
+.actions[_ngcontent-ng-c1103998836]   .nav-section__label[_ngcontent-ng-c1103998836] {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--color-text-light);
 }
-.route-alert[_ngcontent-ng-c3773148429] {
+.route-alert[_ngcontent-ng-c1103998836] {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1503,17 +1628,17 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   color: #92400e;
   line-height: 1.45;
 }
-.route-alert[_ngcontent-ng-c3773148429]   i[_ngcontent-ng-c3773148429] {
+.route-alert[_ngcontent-ng-c1103998836]   i[_ngcontent-ng-c1103998836] {
   color: var(--color-primary);
   margin-top: 1px;
   flex-shrink: 0;
 }
-.closest-section[_ngcontent-ng-c3773148429] {
+.closest-section[_ngcontent-ng-c1103998836] {
   margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid var(--color-bg-muted);
 }
-.closest-title[_ngcontent-ng-c3773148429] {
+.closest-title[_ngcontent-ng-c1103998836] {
   font-size: 11px;
   font-weight: 700;
   color: var(--color-text-light);
@@ -1521,12 +1646,12 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   letter-spacing: 0.6px;
   margin: 0 0 10px;
 }
-.closest-list[_ngcontent-ng-c3773148429] {
+.closest-list[_ngcontent-ng-c1103998836] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.closest-card[_ngcontent-ng-c3773148429] {
+.closest-card[_ngcontent-ng-c1103998836] {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1537,25 +1662,25 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   cursor: pointer;
   transition: background var(--transition), border-color var(--transition);
 }
-.closest-card[_ngcontent-ng-c3773148429]:hover {
+.closest-card[_ngcontent-ng-c1103998836]:hover {
   background: var(--color-bg-muted);
   border-color: var(--color-border);
 }
-.closest-thumb[_ngcontent-ng-c3773148429] {
+.closest-thumb[_ngcontent-ng-c1103998836] {
   width: 48px;
   height: 48px;
   object-fit: cover;
   border-radius: var(--radius-md);
   flex-shrink: 0;
 }
-.closest-info[_ngcontent-ng-c3773148429] {
+.closest-info[_ngcontent-ng-c1103998836] {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 3px;
   min-width: 0;
 }
-.closest-name[_ngcontent-ng-c3773148429] {
+.closest-name[_ngcontent-ng-c1103998836] {
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-base);
@@ -1563,28 +1688,83 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.closest-tag[_ngcontent-ng-c3773148429] {
+.closest-tag[_ngcontent-ng-c1103998836] {
   font-size: 11px;
   color: var(--color-text-light);
 }
-.closest-dist[_ngcontent-ng-c3773148429] {
+.closest-dist[_ngcontent-ng-c1103998836] {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-primary);
   flex-shrink: 0;
 }
-.closest-arrow[_ngcontent-ng-c3773148429] {
+.closest-arrow[_ngcontent-ng-c1103998836] {
   color: #d1d5db;
   flex-shrink: 0;
 }
-.px-2[_ngcontent-ng-c3773148429] {
+.px-2[_ngcontent-ng-c1103998836] {
   padding-top: 20px;
   padding-inline: 20px;
 }
-.px-header[_ngcontent-ng-c3773148429] {
+.px-header[_ngcontent-ng-c1103998836] {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.exploring-section[_ngcontent-ng-c1103998836] {
+  margin-top: 20px;
+}
+.exploring-title[_ngcontent-ng-c1103998836] {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-base);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.exploring-card[_ngcontent-ng-c1103998836] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+.exploring-card[_ngcontent-ng-c1103998836]:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-primary);
+}
+.exploring-card__photo[_ngcontent-ng-c1103998836] {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid var(--color-border);
+}
+.exploring-card__info[_ngcontent-ng-c1103998836] {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.exploring-card__title[_ngcontent-ng-c1103998836] {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.exploring-card__meta[_ngcontent-ng-c1103998836] {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
 }
 /*# sourceMappingURL=/test/location-detail.component.css.map */</style><style ng-app-id="ng">
 
@@ -1943,19 +2123,19 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   "ng-reflect-ng-if": "false"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><app-location-detail _ngcontent-ng-c468838826="" _nghost-ng-c3773148429="" ng-reflect-location="[object Object]" ng-reflect-active-route-index="-1"><!--bindings={
+}--></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><app-location-detail _ngcontent-ng-c468838826="" _nghost-ng-c1103998836="" ng-reflect-location="[object Object]" ng-reflect-active-route-index="-1"><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3773148429="" class="px-header"><div _ngcontent-ng-c3773148429="" class="meta"><span _ngcontent-ng-c3773148429="" class="tag">Hidden</span><span _ngcontent-ng-c3773148429="" class="tag">Beach</span><span _ngcontent-ng-c3773148429="" class="tag">Swimming</span><span _ngcontent-ng-c3773148429="" class="tag">Snorkeling</span><span _ngcontent-ng-c3773148429="" class="tag">Valley</span><span _ngcontent-ng-c3773148429="" class="tag">Gozo</span><span _ngcontent-ng-c3773148429="" class="tag">Moderate</span><!--bindings={
+}--><div _ngcontent-ng-c1103998836="" class="px-header"><div _ngcontent-ng-c1103998836="" class="meta"><span _ngcontent-ng-c1103998836="" class="tag">Hidden</span><span _ngcontent-ng-c1103998836="" class="tag">Beach</span><span _ngcontent-ng-c1103998836="" class="tag">Swimming</span><span _ngcontent-ng-c1103998836="" class="tag">Snorkeling</span><span _ngcontent-ng-c1103998836="" class="tag">Valley</span><span _ngcontent-ng-c1103998836="" class="tag">Gozo</span><span _ngcontent-ng-c1103998836="" class="tag">Moderate</span><!--bindings={
   "ng-reflect-ng-for-of": "hidden,beach,swimming,snorkeli"
-}--><span _ngcontent-ng-c3773148429="" class="rating"><i _ngcontent-ng-c3773148429="" class="fa fa-star"></i> 4.9</span><!--bindings={
+}--><span _ngcontent-ng-c1103998836="" class="rating"><i _ngcontent-ng-c1103998836="" class="fa fa-star"></i> 4.9</span><!--bindings={
   "ng-reflect-ng-if": "4.9"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "7"
-}--><app-image-gallery _ngcontent-ng-c3773148429="" _nghost-ng-c597264093="" ng-reflect-src="/assets/images/places/wied-il-"><div _ngcontent-ng-c597264093="" class="gallery"><div _ngcontent-ng-c597264093="" class="stack"><div _ngcontent-ng-c597264093="" class="card is-active" data-offset="0"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><div _ngcontent-ng-c597264093="" class="card" data-offset="1"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><div _ngcontent-ng-c597264093="" class="card" data-offset="-1"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><!--bindings={
+}--><app-image-gallery _ngcontent-ng-c1103998836="" _nghost-ng-c597264093="" ng-reflect-src="/assets/images/places/wied-il-"><div _ngcontent-ng-c597264093="" class="gallery"><div _ngcontent-ng-c597264093="" class="stack"><div _ngcontent-ng-c597264093="" class="card is-active" data-offset="0"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><div _ngcontent-ng-c597264093="" class="card" data-offset="1"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><div _ngcontent-ng-c597264093="" class="card" data-offset="-1"><div _ngcontent-ng-c597264093="" class="skeleton"></div><img _ngcontent-ng-c597264093="" alt="" class="" src="/assets/images/places/wied-il-ghasri.webp"></div><!--bindings={
   "ng-reflect-ng-for-of": "/assets/images/places/wied-il-"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -1963,49 +2143,53 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   "ng-reflect-ng-if": "false"
 }--></div><div _ngcontent-ng-c597264093="" class="dots"><span _ngcontent-ng-c597264093="" class="dot active"></span><!--bindings={
   "ng-reflect-ng-for-of": "/assets/images/places/wied-il-"
-}--></div></div><!--container--></app-image-gallery></div><div _ngcontent-ng-c3773148429="" class="px-2"><div _ngcontent-ng-c3773148429="" class="description">A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo’s north coast. Wied il-Għasri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta’s most photogenic hidden spots.</div><div _ngcontent-ng-c3773148429="" class="nearby-experiences"><div _ngcontent-ng-c3773148429="" class="nearby-experiences__label">Deals near this spot</div><app-provider-card _ngcontent-ng-c3773148429="" _nghost-ng-c4027458142="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c4027458142="" class="provider-card"><div _ngcontent-ng-c4027458142="" class="provider-card__stripe" style="background: #1B4F72;"></div><div _ngcontent-ng-c4027458142="" class="provider-card__body"><div _ngcontent-ng-c4027458142="" class="provider-card__header"><app-provider-avatar _ngcontent-ng-c4027458142="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="46"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 46px; height: 46px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #fff;" src="/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp" alt="Block Hotel"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 17px; height: 17px; font-size: 10px;"> 🏨 </span><!--ng-container--><!--bindings={
+}--></div></div><!--container--></app-image-gallery></div><div _ngcontent-ng-c1103998836="" class="px-2"><div _ngcontent-ng-c1103998836="" class="description">A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo’s north coast. Wied il-Għasri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta’s most photogenic hidden spots.</div><div _ngcontent-ng-c1103998836="" class="nearby-experiences"><div _ngcontent-ng-c1103998836="" class="nearby-experiences__label">Deals near this spot</div><app-provider-card _ngcontent-ng-c1103998836="" _nghost-ng-c4027458142="" ng-reflect-provider="[object Object]"><div _ngcontent-ng-c4027458142="" class="provider-card"><div _ngcontent-ng-c4027458142="" class="provider-card__stripe" style="background: #1B4F72;"></div><div _ngcontent-ng-c4027458142="" class="provider-card__body"><div _ngcontent-ng-c4027458142="" class="provider-card__header"><app-provider-avatar _ngcontent-ng-c4027458142="" _nghost-ng-c395100757="" ng-reflect-provider="[object Object]" ng-reflect-size="46"><div _ngcontent-ng-c395100757="" class="avatar" style="width: 46px; height: 46px;"><img _ngcontent-ng-c395100757="" class="avatar__img" style="border-color: #fff;" src="/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp" alt="Block Hotel"><span _ngcontent-ng-c395100757="" class="avatar__badge" style="width: 17px; height: 17px; font-size: 10px;"> 🏨 </span><!--ng-container--><!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
 }--><!--container--></div></app-provider-avatar><div _ngcontent-ng-c4027458142="" class="provider-card__info"><span _ngcontent-ng-c4027458142="" class="provider-card__name">Block Hotel</span><span _ngcontent-ng-c4027458142="" class="provider-card__tagline">3-star hotel in the heart of Xlendi Bay, Gozo</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__exclusive-badge" style="background: #1B4F72;">Partner deal</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal" style="background: #1B4F72;"><div _ngcontent-ng-c4027458142="" class="provider-card__pct"><span _ngcontent-ng-c4027458142="" class="pct-num">15%</span><span _ngcontent-ng-c4027458142="" class="pct-off">OFF</span></div><div _ngcontent-ng-c4027458142="" class="provider-card__deal-text"><span _ngcontent-ng-c4027458142="" class="deal-what">Superior Rooms (Front &amp; Rear) — Jun–Oct 2026</span><span _ngcontent-ng-c4027458142="" class="deal-exclusive">Only when booked via this guide</span></div><span _ngcontent-ng-c4027458142="" class="provider-card__cta"> Claim <svg _ngcontent-ng-c4027458142="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c4027458142="" x1="5" y1="12" x2="19" y2="12"></line><polyline _ngcontent-ng-c4027458142="" points="12 5 19 12 12 19"></polyline></svg></span></div></div></div></app-provider-card><!--bindings={
   "ng-reflect-ng-for-of": "[object Object]"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "1"
-}--><div _ngcontent-ng-c3773148429="" class="actions"><div _ngcontent-ng-c3773148429="" class="actions-row"><div _ngcontent-ng-c3773148429="" class="button">Explore Malta <i _ngcontent-ng-c3773148429="" class="fa fa-map"></i></div><app-share-btn _ngcontent-ng-c3773148429="" label="Share" _nghost-ng-c3137596793="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Wied il-Għasri" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c3137596793="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+}--><div _ngcontent-ng-c1103998836="" class="actions"><div _ngcontent-ng-c1103998836="" class="actions-row"><div _ngcontent-ng-c1103998836="" class="button">Explore Malta <i _ngcontent-ng-c1103998836="" class="fa fa-map"></i></div><app-share-btn _ngcontent-ng-c1103998836="" label="Share" _nghost-ng-c3137596793="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Wied il-Għasri" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c3137596793="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><span _ngcontent-ng-c3137596793="">Share</span><!--bindings={
   "ng-reflect-ng-if": "Share"
-}--></button></app-share-btn><div _ngcontent-ng-c3773148429="" class="save-wrap"><button _ngcontent-ng-c3773148429="" class="save-btn" title="Save"><svg _ngcontent-ng-c3773148429="" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path _ngcontent-ng-c3773148429="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><!--bindings={
+}--></button></app-share-btn><div _ngcontent-ng-c1103998836="" class="save-wrap"><button _ngcontent-ng-c1103998836="" class="save-btn" title="Save"><svg _ngcontent-ng-c1103998836="" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path _ngcontent-ng-c1103998836="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><!--bindings={
   "ng-reflect-ng-if": "false"
-}--></div></div><hr _ngcontent-ng-c3773148429="" class="divider"><div _ngcontent-ng-c3773148429="" class="nav-section"><!--bindings={
+}--></div></div><hr _ngcontent-ng-c1103998836="" class="divider"><div _ngcontent-ng-c1103998836="" class="nav-section"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3773148429="" class="nav-section__label">Google Maps directions</div><div _ngcontent-ng-c3773148429="" class="button nav-btn"><span _ngcontent-ng-c3773148429="">🗺️ Get Directions</span><span _ngcontent-ng-c3773148429="" class="nav-btn__hint">Sign in → Google Maps</span><svg _ngcontent-ng-c3773148429="" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="nav-btn__lock"><rect _ngcontent-ng-c3773148429="" x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path _ngcontent-ng-c3773148429="" d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><!--bindings={
-  "ng-reflect-ng-if": "true"
-}--></div><!--bindings={
+}--><div _ngcontent-ng-c1103998836="" class="nav-section__label">Google Maps directions</div><div _ngcontent-ng-c1103998836="" class="button nav-btn"><span _ngcontent-ng-c1103998836="">🗺️ Get Directions</span><span _ngcontent-ng-c1103998836="" class="nav-btn__hint">Opens Google Maps</span></div><!--bindings={
   "ng-reflect-ng-for-of": "[object Object]"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "1"
 }--><!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
-}--><!--container--></div><div _ngcontent-ng-c3773148429="" class="closest-section"><h4 _ngcontent-ng-c3773148429="" class="closest-title">Closest Spots</h4><div _ngcontent-ng-c3773148429="" class="closest-list"><div _ngcontent-ng-c3773148429="" class="closest-card"><img _ngcontent-ng-c3773148429="" class="closest-thumb" src="/assets/images/places/rock.webp" alt="Wied il-Mielaħ Window"><div _ngcontent-ng-c3773148429="" class="closest-info"><span _ngcontent-ng-c3773148429="" class="closest-name">Wied il-Mielaħ Window</span><span _ngcontent-ng-c3773148429="" class="closest-tag">Hidden</span><!--bindings={
+}--><!--container--></div><div _ngcontent-ng-c1103998836="" class="closest-section"><h4 _ngcontent-ng-c1103998836="" class="closest-title">Closest Spots</h4><div _ngcontent-ng-c1103998836="" class="closest-list"><div _ngcontent-ng-c1103998836="" class="closest-card"><img _ngcontent-ng-c1103998836="" class="closest-thumb" src="/assets/images/places/rock.webp" alt="Wied il-Mielaħ Window"><div _ngcontent-ng-c1103998836="" class="closest-info"><span _ngcontent-ng-c1103998836="" class="closest-name">Wied il-Mielaħ Window</span><span _ngcontent-ng-c1103998836="" class="closest-tag">Hidden</span><!--bindings={
   "ng-reflect-ng-if": "hidden"
-}--></div><span _ngcontent-ng-c3773148429="" class="closest-dist">1.4 km</span><svg _ngcontent-ng-c3773148429="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3773148429="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3773148429="" class="closest-card"><img _ngcontent-ng-c3773148429="" class="closest-thumb" src="/assets/images/places/gozo-salt-pans.webp" alt="Gozo Salt Pans (Xwejni)"><div _ngcontent-ng-c3773148429="" class="closest-info"><span _ngcontent-ng-c3773148429="" class="closest-name">Gozo Salt Pans (Xwejni)</span><span _ngcontent-ng-c3773148429="" class="closest-tag">Nature</span><!--bindings={
+}--></div><span _ngcontent-ng-c1103998836="" class="closest-dist">1.4 km</span><svg _ngcontent-ng-c1103998836="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c1103998836="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c1103998836="" class="closest-card"><img _ngcontent-ng-c1103998836="" class="closest-thumb" src="/assets/images/places/gozo-salt-pans.webp" alt="Gozo Salt Pans (Xwejni)"><div _ngcontent-ng-c1103998836="" class="closest-info"><span _ngcontent-ng-c1103998836="" class="closest-name">Gozo Salt Pans (Xwejni)</span><span _ngcontent-ng-c1103998836="" class="closest-tag">Nature</span><!--bindings={
   "ng-reflect-ng-if": "nature"
-}--></div><span _ngcontent-ng-c3773148429="" class="closest-dist">1.7 km</span><svg _ngcontent-ng-c3773148429="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3773148429="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3773148429="" class="closest-card"><img _ngcontent-ng-c3773148429="" class="closest-thumb" src="/assets/images/places/cittadella-gozo.webp" alt="Cittadella (Victoria, Gozo)"><div _ngcontent-ng-c3773148429="" class="closest-info"><span _ngcontent-ng-c3773148429="" class="closest-name">Cittadella (Victoria, Gozo)</span><span _ngcontent-ng-c3773148429="" class="closest-tag">Historical</span><!--bindings={
+}--></div><span _ngcontent-ng-c1103998836="" class="closest-dist">1.7 km</span><svg _ngcontent-ng-c1103998836="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c1103998836="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c1103998836="" class="closest-card"><img _ngcontent-ng-c1103998836="" class="closest-thumb" src="/assets/images/places/cittadella-gozo.webp" alt="Cittadella (Victoria, Gozo)"><div _ngcontent-ng-c1103998836="" class="closest-info"><span _ngcontent-ng-c1103998836="" class="closest-name">Cittadella (Victoria, Gozo)</span><span _ngcontent-ng-c1103998836="" class="closest-tag">Historical</span><!--bindings={
   "ng-reflect-ng-if": "historical"
-}--></div><span _ngcontent-ng-c3773148429="" class="closest-dist">3.8 km</span><svg _ngcontent-ng-c3773148429="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3773148429="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c3773148429="" class="closest-card"><img _ngcontent-ng-c3773148429="" class="closest-thumb" src="/assets/images/places/inland.webp" alt="Inland Sea"><div _ngcontent-ng-c3773148429="" class="closest-info"><span _ngcontent-ng-c3773148429="" class="closest-name">Inland Sea</span><span _ngcontent-ng-c3773148429="" class="closest-tag">Beach</span><!--bindings={
+}--></div><span _ngcontent-ng-c1103998836="" class="closest-dist">3.8 km</span><svg _ngcontent-ng-c1103998836="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c1103998836="" points="9 18 15 12 9 6"></polyline></svg></div><div _ngcontent-ng-c1103998836="" class="closest-card"><img _ngcontent-ng-c1103998836="" class="closest-thumb" src="/assets/images/places/inland.webp" alt="Inland Sea"><div _ngcontent-ng-c1103998836="" class="closest-info"><span _ngcontent-ng-c1103998836="" class="closest-name">Inland Sea</span><span _ngcontent-ng-c1103998836="" class="closest-tag">Beach</span><!--bindings={
   "ng-reflect-ng-if": "beach"
-}--></div><span _ngcontent-ng-c3773148429="" class="closest-dist">4.3 km</span><svg _ngcontent-ng-c3773148429="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c3773148429="" points="9 18 15 12 9 6"></polyline></svg></div><!--bindings={
+}--></div><span _ngcontent-ng-c1103998836="" class="closest-dist">4.3 km</span><svg _ngcontent-ng-c1103998836="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="closest-arrow"><polyline _ngcontent-ng-c1103998836="" points="9 18 15 12 9 6"></polyline></svg></div><!--bindings={
   "ng-reflect-ng-for-of": "[object Object],[object Object"
 }--></div></div><!--bindings={
   "ng-reflect-ng-if": "4"
+}--><!--bindings={
+  "ng-reflect-ng-if": "0"
 }--></div></app-location-detail><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c2945063107="" _nghost-ng-c3258864713=""><div _ngcontent-ng-c3258864713="" class="bottom-bar"><!--bindings={
+}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c2945063107="" _nghost-ng-c3750637680=""><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><a _ngcontent-ng-c3258864713="" routerlink="/malta/list" class="list-btn" ng-reflect-router-link="/malta/list" href="/test/malta/list">📍 Browse All</a><div _ngcontent-ng-c3258864713="" class="footer-right"><!--bindings={
+}--><div _ngcontent-ng-c3750637680="" class="bottom-bar"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3258864713="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3258864713="" class="text"><span _ngcontent-ng-c3258864713="" class="name">Sign in</span><span _ngcontent-ng-c3258864713="" class="title">Save places &amp; unlock deals</span></div><div _ngcontent-ng-c3258864713="" class="profile-picture profile-picture--guest"><svg _ngcontent-ng-c3258864713="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c3258864713="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c3258864713="" cx="12" cy="7" r="4"></circle></svg></div></div><!--bindings={
+}--><div _ngcontent-ng-c3750637680="" class="nav-menu-wrap"><button _ngcontent-ng-c3750637680="" class="nav-menu-trigger"><svg _ngcontent-ng-c3750637680="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c3750637680="" x1="3" y1="12" x2="21" y2="12"></line><line _ngcontent-ng-c3750637680="" x1="3" y1="6" x2="21" y2="6"></line><line _ngcontent-ng-c3750637680="" x1="3" y1="18" x2="21" y2="18"></line></svg> Explore </button></div><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><div _ngcontent-ng-c3750637680="" class="footer-right"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><div _ngcontent-ng-c3750637680="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3750637680="" class="text"><span _ngcontent-ng-c3750637680="" class="name">Sign in</span><span _ngcontent-ng-c3750637680="" class="title">Save places &amp; unlock deals</span></div><div _ngcontent-ng-c3750637680="" class="profile-picture profile-picture--guest"><svg _ngcontent-ng-c3750637680="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c3750637680="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c3750637680="" cx="12" cy="7" r="4"></circle></svg></div></div><!--bindings={
   "ng-reflect-ng-if": "true"
 }--></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c3002737357="" _nghost-ng-c454289037=""><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -2017,7 +2201,7 @@ app-ad-banner[_ngcontent-ng-c3773148429] {
   "ng-reflect-ng-if": "false"
 }--></app-welcome-popup></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-YU6KFO4W.js"><link rel="modulepreload" href="chunk-D7BDNDUA.js"><link rel="modulepreload" href="chunk-J57JZXWL.js"><link rel="modulepreload" href="chunk-WWML3SP3.js"><link rel="modulepreload" href="chunk-Q33RJLWE.js"><link rel="modulepreload" href="chunk-U3AVTKB7.js"><link rel="modulepreload" href="chunk-UJ3FFGCN.js"><link rel="modulepreload" href="chunk-QFIZ3IRG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-YU6KFO4W.js"><link rel="modulepreload" href="chunk-AFV7OAE7.js"><link rel="modulepreload" href="chunk-VLARSKSL.js"><link rel="modulepreload" href="chunk-3PSU7TQQ.js"><link rel="modulepreload" href="chunk-B55ERDNS.js"><link rel="modulepreload" href="chunk-VNFAWDNY.js"><link rel="modulepreload" href="chunk-NTCFQ4HP.js"><link rel="modulepreload" href="chunk-FNGRSLW3.js"><link rel="modulepreload" href="chunk-UX7WDOQ6.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>

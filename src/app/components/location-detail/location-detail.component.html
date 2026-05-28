@@ -95,11 +95,7 @@
       <div class="nav-section__label">Final destination — Google Maps</div>
       <div (click)="navigateTo(dest, 0)" class="button nav-btn">
         <span>{{ pointLabel(dest, 1) }}</span>
-        <span class="nav-btn__hint">{{ authService.isLoggedIn() ? 'Opens Google Maps' : 'Sign in → Google Maps' }}</span>
-        <svg *ngIf="!authService.isLoggedIn()" class="nav-btn__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
+        <span class="nav-btn__hint">Opens Google Maps</span>
       </div>
     </div>
   </ng-container>
@@ -117,11 +113,7 @@
         (click)="navigateTo(point, i)"
         class="button nav-btn">
         <span>{{ pointLabel(point, i) }}</span>
-        <span class="nav-btn__hint">{{ authService.isLoggedIn() ? 'Opens Google Maps' : 'Sign in → Google Maps' }}</span>
-        <svg *ngIf="!authService.isLoggedIn()" class="nav-btn__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
+        <span class="nav-btn__hint">Opens Google Maps</span>
       </div>
     </div>
   </ng-template>
@@ -143,5 +135,26 @@
     </div>
   </div>
 </div>
+
+<!-- Who's exploring here? — only shown when GROUPS flag is on and groups exist -->
+<div class="exploring-section" *ngIf="features.GROUPS && spotGroups().length">
+  <h4 class="exploring-title">
+    <span>👥</span> Who's exploring here?
+  </h4>
+  <a class="exploring-card" *ngFor="let g of spotGroups()"
+    [routerLink]="['/malta/groups', g.id]">
+    <img class="exploring-card__photo"
+      [src]="g.leaderPhoto || '/assets/images/default-avatar.svg'"
+      [alt]="g.leaderName"
+      width="28" height="28"
+      referrerpolicy="no-referrer">
+    <div class="exploring-card__info">
+      <span class="exploring-card__title">{{ g.title }}</span>
+      <span class="exploring-card__meta">{{ g.date.toDate() | date:'EEE d MMM' }} · {{ g.memberCount }} joining</span>
+    </div>
+    <span class="badge" [class]="'badge--' + g.difficulty">{{ g.difficulty }}</span>
+  </a>
+</div>
+
 </div>
 

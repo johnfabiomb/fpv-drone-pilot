@@ -73,7 +73,7 @@ export class SeoService {
     });
   }
 
-  setPage(page: 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact'): void {
+  setPage(page: 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact' | 'groups'): void {
     const BASE = BASE_URL;
     const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
       map: {
@@ -126,6 +126,11 @@ export class SeoService {
         title: 'Contact · Explore Malta',
         desc: 'Contact information for Explore Malta and site owner John Montaño.',
         url: `${BASE}/contact`,
+      },
+      groups: {
+        title: 'Explore Together · Find Hiking Groups in Malta',
+        desc: 'Join or create hiking groups for Malta\'s best spots. Find others to explore sea caves, cliffs, and hidden gems with — organised by real explorers.',
+        url: `${BASE}/malta/groups`,
       },
     };
 

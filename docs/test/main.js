@@ -3,15 +3,17 @@ import {
 } from "./chunk-YU6KFO4W.js";
 import {
   FEATURES
-} from "./chunk-D7BDNDUA.js";
+} from "./chunk-AFV7OAE7.js";
 import {
-  UserDataService,
+  UserDataService
+} from "./chunk-VLARSKSL.js";
+import {
   getFirestore,
   initializeFirestore,
   memoryLocalCache,
   persistentLocalCache,
   provideFirestore
-} from "./chunk-J57JZXWL.js";
+} from "./chunk-3PSU7TQQ.js";
 import {
   AuthService,
   getApp2 as getApp,
@@ -19,20 +21,20 @@ import {
   initializeApp,
   provideAuth,
   provideFirebaseApp
-} from "./chunk-WWML3SP3.js";
+} from "./chunk-B55ERDNS.js";
 import {
   takeUntilDestroyed
-} from "./chunk-Q33RJLWE.js";
+} from "./chunk-VNFAWDNY.js";
 import {
   NavigationEnd,
   Router,
   RouterOutlet,
   provideRouter
-} from "./chunk-U3AVTKB7.js";
+} from "./chunk-NTCFQ4HP.js";
 import {
   DomRendererFactory2,
   bootstrapApplication
-} from "./chunk-UJ3FFGCN.js";
+} from "./chunk-FNGRSLW3.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
@@ -84,7 +86,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1
-} from "./chunk-QFIZ3IRG.js";
+} from "./chunk-UX7WDOQ6.js";
 
 // src/app/app.routes.ts
 var routes = [
@@ -95,23 +97,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-IELMQP5U.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-C6Y5IFM7.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-SCQ2B3DP.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-NWKSK53P.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-3HA6FG22.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-T2PHVLJI.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-EGTM3553.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-5VVMURAK.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-3E7J4TXF.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-VI6B7OPI.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -119,54 +121,64 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-QKZRGC4K.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-QFXDRFRZ.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-6DUJADEM.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-DTQWIXAC.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-H5G6GXRU.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-DVRY3AUH.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-PPGYYYDT.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-L6LHU3U3.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-HVVEEOXU.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-34QB72QY.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-DKIM5FQD.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-CWZHMJCP.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-3EDYX57G.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-WSDIV5S5.js").then((m) => m.SavedPlacesComponent)
+          },
+          {
+            path: "groups",
+            canMatch: [() => FEATURES.GROUPS],
+            loadComponent: () => import("./chunk-T34R3R7R.js").then((m) => m.ExploreTogetherComponent)
+          },
+          {
+            path: "groups/:id",
+            canMatch: [() => FEATURES.GROUPS],
+            loadComponent: () => import("./chunk-LH7DUZDF.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-QIMPK5EC.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-5ORU3WUS.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-QODIW3NM.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-JTO5NTZ6.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-B6OHNXN4.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-B3FWWDD5.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-ZXUIC4WQ.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-4LT4YLM6.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -204,7 +216,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-QJ5OGJWE.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-AHROVSOJ.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -1145,11 +1157,11 @@ var AuthModalComponent = class _AuthModalComponent {
         \u0275\u0275advance(2);
         \u0275\u0275property("ngIf", ctx.formState() !== "email-sent");
       }
-    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 20px;\n  animation: _ngcontent-%COMP%_amFadeIn 0.25s ease;\n}\n.modal-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  max-height: calc(100dvh - 40px);\n  overflow-y: auto;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_amSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 6px;\n  color: var(--color-text-muted);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background var(--transition);\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.modal-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.modal-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n  flex-shrink: 0;\n}\n.modal-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 18px;\n  font-size: 21px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.modal-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 20px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.modal-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.modal-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.modal-legal[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: var(--color-text-light);\n  margin: 0;\n}\n.modal-legal[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  text-decoration: underline;\n}\n@keyframes _ngcontent-%COMP%_amFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_amSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=auth-modal.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  z-index: 9999;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_amFadeIn 0.25s ease;\n}\n.modal-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_amSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 6px;\n  color: var(--color-text-muted);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background var(--transition);\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.modal-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.modal-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n  flex-shrink: 0;\n}\n.modal-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 18px;\n  font-size: 21px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.modal-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 20px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.modal-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.modal-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.modal-legal[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: var(--color-text-light);\n  margin: 0;\n}\n.modal-legal[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  text-decoration: underline;\n}\n@keyframes _ngcontent-%COMP%_amFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_amSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=auth-modal.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 180 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 181 });
 })();
 
 // src/app/components/welcome-popup/welcome-popup.component.ts
@@ -1292,11 +1304,11 @@ var WelcomePopupComponent = class _WelcomePopupComponent {
       if (rf & 2) {
         \u0275\u0275property("ngIf", ctx.visible());
       }
-    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.wp-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1200;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 20px;\n  animation: _ngcontent-%COMP%_wpFadeIn 0.3s ease;\n}\n.wp-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  max-height: calc(100dvh - 40px);\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.wp-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.wp-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.wp-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n}\n.wp-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.wp-title[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 20px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.wp-sub[_ngcontent-%COMP%] {\n  margin: 0 0 20px;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  line-height: 1.5;\n}\n.wp-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 24px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.wp-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.wp-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.wp-ghost[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-muted);\n  padding: 6px 0;\n  transition: color var(--transition);\n}\n.wp-ghost[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n@keyframes _ngcontent-%COMP%_wpFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_wpSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=welcome-popup.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.wp-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1200;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_wpFadeIn 0.3s ease;\n}\n.wp-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.wp-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.wp-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.wp-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n}\n.wp-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.wp-title[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 20px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.wp-sub[_ngcontent-%COMP%] {\n  margin: 0 0 20px;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  line-height: 1.5;\n}\n.wp-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 24px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.wp-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.wp-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.wp-ghost[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-muted);\n  padding: 6px 0;\n  transition: color var(--transition);\n}\n.wp-ghost[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n@keyframes _ngcontent-%COMP%_wpFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_wpSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=welcome-popup.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 181 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 182 });
 })();
 
 // src/app/app.component.ts

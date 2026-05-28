@@ -300,6 +300,7 @@ Feature flags live in `src/app/feature-flags.ts` and are swapped at build time v
 |---|---|---|---|
 | `FEATURES.PROMOTIONS` | `true` | `true` | `false` (flip to `true` when ready) |
 | `FEATURES.ROUTE_BUILDER` | `false` | `false` | `false` |
+| `FEATURES.GROUPS` | `true` | `true` | `false` (flip when tested on staging) |
 
 **Adding a new flag:**
 1. Add the key to all three files (`feature-flags.ts`, `feature-flags.staging.ts`, `feature-flags.production.ts`)
@@ -338,7 +339,7 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `prerender-routes.txt` | Routes Angular prerenders at build time |
 | `src/sitemap.xml` | Manually maintained XML sitemap submitted to Google |
 | `src/app/app.routes.ts` | All application routes |
-| `src/app/shared/models/` | `Location`, `Provider`, `MapPoint`, `Difficulty`, `Island` types |
+| `src/app/shared/models/` | `Location`, `Provider`, `MapPoint`, `Difficulty`, `Island`, `Group`, `GroupMember`, `GroupMessage` types |
 | `src/app/shared/services/seo.service.ts` | `setPage()` and `updateMetaData()` for all SEO tags |
 | `src/app/shared/services/analytics.service.ts` | `pageView()` and `event()` wrappers around gtag |
 | `src/app/shared/services/route-builder.service.ts` | Itinerary plan generation logic |
@@ -355,6 +356,11 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `src/app/platform/map-explore/` | Main map page |
 | `src/app/platform/deals/` | Exclusive Deals map page |
 | `src/app/platform/location-list/` | Browse Locations map page |
+| `src/app/platform/explore-together/` | Hiking groups list + create form at `/malta/groups` (feature-flagged `GROUPS`) |
+| `src/app/platform/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
+| `src/app/shared/services/groups.service.ts` | All Firestore group operations — listeners, mutations, presence |
+| `src/app/components/group-card/` | Single group card for the groups list |
+| `src/app/components/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
 | `src/assets/locations.json` | All location data |
 | `src/assets/providers.json` | All provider/deal data |
 

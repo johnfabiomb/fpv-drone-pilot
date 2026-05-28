@@ -1,0 +1,131 @@
+<app-panel-shell
+  title="Explore Together"
+  (closeRequested)="bridge.panelOpen.set(false)"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (bodyDragStart)="bridge.panel.startDrag($event)"
+  (bodyDragMove)="bridge.panel.onDragMove($event)"
+  (bodyDragEnd)="bridge.panel.onDragEnd($event)">
+
+  <div class="et-content">
+
+  <!-- Intro banner -->
+  <div class="et-intro">
+    <div class="et-intro__text">
+      <p class="et-intro__desc">Find fellow explorers for Malta's best spots — join a group or start your own.</p>
+    </div>
+    <button class="et-create-btn" (click)="openCreateForm()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      New group
+    </button>
+  </div>
+
+  <!-- Create form (inline) -->
+  <div *ngIf="showCreateForm()" class="et-form">
+    <div class="et-form__header">
+      <h3 class="et-form__title">Create a hiking group</h3>
+      <button class="et-form__close" (click)="cancelCreate()" aria-label="Cancel">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="et-form__field">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="formTitle" placeholder="e.g. Blue Grotto sunrise hike" maxlength="80">
+    </div>
+
+    <div class="et-form__field et-form__field--spot">
+      <label>Spot</label>
+      <input type="text" [(ngModel)]="formSpotSearch" (input)="onSpotSearchInput()"
+        placeholder="Search a location…" autocomplete="off">
+      <ul class="et-spot-results" *ngIf="spotResults().length">
+        <li *ngFor="let s of spotResults()" (click)="selectSpot(s)">{{ s.title }}</li>
+      </ul>
+      <span class="et-form__selected-spot" *ngIf="formSpotSlug">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        {{ formSpotTitle }}
+      </span>
+    </div>
+
+    <div class="et-form__row">
+      <div class="et-form__field">
+        <label>Date</label>
+        <input type="date" [(ngModel)]="formDate" [min]="todayMin">
+      </div>
+      <div class="et-form__field">
+        <label>Time</label>
+        <input type="time" [(ngModel)]="formTime">
+      </div>
+    </div>
+
+    <div class="et-form__field">
+      <label>Difficulty</label>
+      <div class="et-form__chips">
+        <span class="chip" [class.active]="formDifficulty === 'easy'"     (click)="formDifficulty = 'easy'">Easy</span>
+        <span class="chip" [class.active]="formDifficulty === 'moderate'" (click)="formDifficulty = 'moderate'">Moderate</span>
+        <span class="chip" [class.active]="formDifficulty === 'hard'"     (click)="formDifficulty = 'hard'">Hard</span>
+      </div>
+    </div>
+
+    <div class="et-form__field">
+      <label>Description <span class="et-form__opt">(optional)</span></label>
+      <textarea [(ngModel)]="formDescription" rows="3" maxlength="400"
+        placeholder="What's the plan? Anything to know beforehand?"></textarea>
+    </div>
+
+    <div class="et-form__field">
+      <label>Max members <span class="et-form__opt">(optional)</span></label>
+      <input type="number" [(ngModel)]="formMaxMembers" min="2" max="50" placeholder="Unlimited">
+    </div>
+
+    <p class="et-form__error" *ngIf="formError()">{{ formError() }}</p>
+
+    <div class="et-form__actions">
+      <button class="et-form__cancel" (click)="cancelCreate()">Cancel</button>
+      <button class="et-form__submit" (click)="submitCreate()" [disabled]="formSubmitting()">
+        {{ formSubmitting() ? 'Creating…' : 'Create group' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="et-loading" *ngIf="groupsService.loading()">
+    <span class="et-loading__dot"></span>
+    <span class="et-loading__dot"></span>
+    <span class="et-loading__dot"></span>
+  </div>
+
+  <!-- Empty state -->
+  <div class="et-empty" *ngIf="!groupsService.loading() && groupsService.openGroups().length === 0 && !showCreateForm()">
+    <div class="et-empty__icon">🥾</div>
+    <p class="et-empty__msg">No upcoming groups yet</p>
+    <p class="et-empty__sub">Create one and invite others to explore Malta with you</p>
+    <button class="et-empty__cta" (click)="openCreateForm()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Create the first group
+    </button>
+  </div>
+
+  <!-- Group list -->
+  <div class="et-list" *ngIf="!groupsService.loading() && groupsService.openGroups().length > 0">
+    <div class="et-list__count">
+      {{ groupsService.openGroups().length }} upcoming group{{ groupsService.openGroups().length === 1 ? '' : 's' }}
+    </div>
+    <app-group-card
+      *ngFor="let group of groupsService.openGroups()"
+      [group]="group">
+    </app-group-card>
+  </div>
+
+  </div> <!-- /.et-content -->
+
+</app-panel-shell>

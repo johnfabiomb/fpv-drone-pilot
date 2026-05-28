@@ -6,6 +6,22 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- **Explore Together** — full hiking groups feature behind `FEATURES.GROUPS` flag: create groups for Malta spots, join/leave with race-safe transactions, real-time member list, group chat (last 100 messages), leader transfer, cancel group
+- `GroupsService` — all Firestore operations: `onSnapshot` listeners, `runTransaction` for join, `writeBatch` for atomic multi-doc writes, `fetchGroupsForSpot` one-shot query for location detail widget
+- `GroupCardComponent` — group card with leader avatar, date, difficulty badge, member avatars
+- `MemberAvatarsComponent` — overlapping avatar bubbles with `+N` overflow
+- `ExploreTogetherComponent` — groups list + inline create form at `/malta/groups`
+- `GroupDetailComponent` — group detail, member list with last-active, chat, leadership controls at `/malta/groups/:id`
+- Footer **Explore nav menu** — single trigger button replaces "Browse All" + "Groups" buttons; popup with Browse Locations, Exclusive Deals, Explore Together items; backdrop overlay on open
+- "Who's exploring here?" section in location detail when groups exist for that spot
+
+### Fixed
+- Footer profile popup clipped by `overflow: hidden` on `.footer-right` — removed, text truncation handled by inner elements
+- Footer nav popup positioning broken by `backdrop-filter` containing block — moved popup to direct child of `.bottom-bar`
+- Navigation lock icon removed from Google Maps direction buttons (was purely cosmetic, never gated)
+- Explore Together and Group Detail panels had no side padding — wrapped content in `.et-content` / `.gd-content` div
+
 ### Added (directions gate + sign-in nudge)
 - Guests clicking a Google Maps direction now get a 10-second interstitial countdown instead of a hard login block; a "Sign in to open straight away" nudge with a sign-in button appears in the interstitial slot
 - Logged-in users skip the interstitial entirely — Google Maps opens immediately in a new tab

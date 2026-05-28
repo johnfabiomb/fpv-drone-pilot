@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, PLATFORM_ID, inject, signal } from '@angular/core';
+import { CommonModule, DOCUMENT, DatePipe, isPlatformBrowser } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ProviderCardComponent } from '../provider-card/provider-card.component';
 import { ShareButtonComponent } from '../share-button/share-button.component';
@@ -8,6 +8,8 @@ import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component'
 import { AnalyticsService } from '../../shared/services/analytics.service';
 import { UserDataService } from '../../shared/services/user-data.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { GroupsService } from '../../shared/services/groups.service';
+import { Group } from '../../shared/models/group.model';
 import { Location, Provider, MapPoint, Route } from '../../shared/models';
 import { haversineM } from '../../shared/utils/geo.utils';
 import { getProvidersNearLocation } from '../../shared/utils/provider-utils';
@@ -19,7 +21,7 @@ import { FEATURES } from '../../feature-flags';
 @Component({
   selector: 'app-location-detail',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent],
+  imports: [CommonModule, DatePipe, RouterLink, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent],
   templateUrl: './location-detail.component.html',
   styleUrl: './location-detail.component.scss',
 })
@@ -35,8 +37,12 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   @Output() navRequested = new EventEmitter<string>();
   @Output() providerSelected = new EventEmitter<Provider>();
 
-  readonly userDataService = inject(UserDataService);
-  readonly authService = inject(AuthService);
+  readonly userDataService  = inject(UserDataService);
+  readonly authService      = inject(AuthService);
+  private readonly groupsService = inject(GroupsService);
+
+  readonly spotGroups       = signal<Group[]>([]);
+  readonly features         = FEATURES;
 
   confirmingUnsave = false;
   private unsaveTimer?: ReturnType<typeof setTimeout>;
@@ -120,6 +126,11 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       this._routeGroups = this.buildRouteGroups();
       this._sharedDest  = this.buildSharedDest();
       this._anyRouteRecorded = (location.routes ?? []).some(r => r.mapPoints.some(p => p.type === 'waypoint'));
+
+      if (FEATURES.GROUPS && isPlatformBrowser(this.platformId)) {
+        this.spotGroups.set([]);
+        this.groupsService.fetchGroupsForSpot(location.slug).then(groups => this.spotGroups.set(groups));
+      }
     }
     this.checkProximity();
   }

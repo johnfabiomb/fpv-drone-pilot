@@ -18,8 +18,9 @@ export class FooterComponent {
   readonly version = version;
   readonly authService = inject(AuthService);
   readonly userDataService = inject(UserDataService);
-  showProfile = false;
-  signingOut = false;
+  showProfile  = false;
+  showNavMenu  = false;
+  signingOut   = false;
 
   get levelLabel(): string {
     return `Explorer · Level ${this.userDataService.level()}`;
@@ -27,7 +28,14 @@ export class FooterComponent {
 
   toggleProfile(e: Event): void {
     e.stopPropagation();
+    this.showNavMenu = false;
     this.showProfile = !this.showProfile;
+  }
+
+  toggleNavMenu(e: Event): void {
+    e.stopPropagation();
+    this.showProfile = false;
+    this.showNavMenu = !this.showNavMenu;
   }
 
   toggleUpdates(e: Event): void {
@@ -49,5 +57,6 @@ export class FooterComponent {
   @HostListener('document:click')
   closePopups(): void {
     this.showProfile = false;
+    this.showNavMenu = false;
   }
 }

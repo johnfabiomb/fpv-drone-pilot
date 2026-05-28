@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/feature-flags.ts"],
+  "sourcesContent": ["// ── Development defaults ───────────────────────────────────────────────────\n// Used by `npm start` / `ng serve` only.\n// Production and staging builds swap this file via fileReplacements in angular.json.\n// Edit freely here — changes here never affect a deployed build.\nexport const FEATURES = {\n  ROUTE_BUILDER: false,\n  PROMOTIONS: true,\n  GROUPS: true,\n};\n"],
+  "mappings": ";AAIO,IAAM,WAAW;EACtB,eAAe;EACf,YAAY;EACZ,QAAQ;;",
+  "names": []
+}
