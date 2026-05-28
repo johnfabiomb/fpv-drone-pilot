@@ -60,9 +60,10 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       background: rgba(0, 0, 0, 0.5);
       z-index: 1200;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 20px;
+      overflow-y: auto;
       animation: wpFadeIn 0.3s ease;
     }
 
@@ -72,8 +73,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       padding: 36px 24px 26px;
       width: 100%;
       max-width: 340px;
-      max-height: calc(100dvh - 40px);
-      overflow-y: auto;
+      margin: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -176,6 +176,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       from { opacity: 0; transform: translateY(24px) scale(0.96); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
+
   `],
 })
 export class WelcomePopupComponent implements OnInit {

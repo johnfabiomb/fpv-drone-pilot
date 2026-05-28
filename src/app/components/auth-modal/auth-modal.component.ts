@@ -51,10 +51,11 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       inset: 0;
       background: rgba(0, 0, 0, 0.5);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       z-index: 9999;
       padding: 20px;
+      overflow-y: auto;
       animation: amFadeIn 0.25s ease;
     }
 
@@ -64,8 +65,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       padding: 36px 24px 26px;
       width: 100%;
       max-width: 340px;
-      max-height: calc(100dvh - 40px);
-      overflow-y: auto;
+      margin: auto;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -175,6 +175,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
       from { opacity: 0; transform: translateY(24px) scale(0.96); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
+
   `],
 })
 export class AuthModalComponent {
