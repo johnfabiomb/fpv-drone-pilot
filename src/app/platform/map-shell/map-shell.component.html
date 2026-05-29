@@ -49,11 +49,15 @@
         [providerPins]="bridge.providerPins()"
         [selectedLocation]="bridge.selectedLocation()"
         [fitPoint]="bridge.fitPoint()"
+        [pickModeActive]="bridge.pickMode()"
+        [meetingPointMarker]="bridge.meetingPointMarker()"
         (locationSelected)="bridge.locationSelected$.next($event)"
         (providerPinSelected)="bridge.providerPinSelected$.next($event)"
         (mapTapped)="onMapTapped()"
         (controlTapped)="onControlTapped()"
-        (gpsCoord)="bridge.gpsCoord$.next($event)">
+        (gpsCoord)="bridge.gpsCoord$.next($event)"
+        (coordPicked)="bridge.coordPicked$.next($event)"
+        (meetingPointTapped)="bridge.meetingPointClicked$.next($event)">
       </app-map>
 
       <button

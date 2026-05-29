@@ -1,0 +1,469 @@
+// ── Intro banner ──────────────────────────────────────────────────────────
+.gs-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.gs-intro__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.gs-intro__desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.45;
+
+  strong { color: var(--color-text-secondary); }
+}
+
+.gs-create-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 8px 13px;
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
+  transition: opacity var(--transition), box-shadow var(--transition);
+
+  &:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(244, 169, 34, 0.38);
+  }
+
+  &--locked {
+    background: var(--color-bg-muted);
+    color: var(--color-text-muted);
+    box-shadow: none;
+
+    &:hover {
+      background: var(--color-border);
+      opacity: 1;
+      box-shadow: none;
+    }
+  }
+}
+
+// ── Compact sign-in strip (shown below the list for guests) ──────────────
+.gs-join-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 14px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  text-align: left;
+
+  svg:first-child { flex-shrink: 0; opacity: 0.7; }
+
+  &:hover {
+    background: var(--color-bg-muted);
+    border-color: var(--color-primary);
+    color: var(--color-text-secondary);
+  }
+}
+
+.gs-join-strip__chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.gs-gate__btn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 9px 20px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
+  transition: opacity var(--transition);
+
+  &:hover { opacity: 0.9; }
+}
+
+// ── Create form ───────────────────────────────────────────────────────────
+.gs-form {
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: gsSlideDown 0.2s ease;
+}
+
+@keyframes gsSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gs-form__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gs-form__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-base);
+  margin: 0;
+}
+
+.gs-form__close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: background var(--transition);
+
+  &:hover { background: var(--color-border); }
+}
+
+.gs-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+
+  label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  input, textarea {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    font-size: 13px;
+    background: var(--color-bg);
+    color: var(--color-text-base);
+    transition: border-color var(--transition);
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+  }
+
+  textarea { resize: vertical; min-height: 72px; }
+}
+
+.gs-form__opt {
+  font-weight: 400;
+  color: var(--color-text-light);
+}
+
+.gs-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gs-form__chips {
+  display: flex;
+  gap: 6px;
+}
+
+.gs-form__locked-spot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+
+  svg { color: var(--color-primary); flex-shrink: 0; }
+}
+
+.gs-spot-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 4px 0;
+  z-index: 50;
+  max-height: 180px;
+  overflow-y: auto;
+
+  li {
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--color-text-base);
+
+    &:hover { background: var(--color-bg-muted); }
+  }
+}
+
+.gs-form__selected-spot {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.gs-meeting-pick__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+
+  &:hover, &.picking {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}
+
+.gs-meeting-set {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.gs-meeting-set__remove {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 11.5px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin-left: 4px;
+
+  &:hover { color: #dc2626; }
+}
+
+.gs-form__error {
+  font-size: 12px;
+  color: #dc2626;
+  margin: 0;
+}
+
+.gs-form__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.gs-form__cancel {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background var(--transition);
+
+  &:hover { background: var(--color-bg-muted); }
+}
+
+.gs-form__submit {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--transition);
+
+  &:hover { opacity: 0.9; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+// ── Loading ───────────────────────────────────────────────────────────────
+.gs-loading {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px 0;
+}
+
+.gs-loading__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-border);
+  animation: gsDotPulse 1.2s ease-in-out infinite;
+
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
+}
+
+@keyframes gsDotPulse {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40%            { transform: scale(1.1); opacity: 1; }
+}
+
+// ── Groups list ───────────────────────────────────────────────────────────
+.gs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gs-list__count {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 2px;
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────
+.gs-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 28px 16px;
+}
+
+.gs-empty__icon {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.gs-empty__msg {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-base);
+  margin: 0;
+}
+
+.gs-empty__sub {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.gs-empty__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 8px 16px;
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
+  transition: opacity var(--transition);
+
+  &:hover { opacity: 0.9; }
+}
+
+// ── Past groups ───────────────────────────────────────────────────────────
+.gs-past {
+  margin-top: 8px;
+}
+
+.gs-past__toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+
+  svg:first-child { flex-shrink: 0; opacity: 0.7; }
+
+  &:hover {
+    background: var(--color-bg-muted);
+    border-color: var(--color-text-light);
+    color: var(--color-text-secondary);
+  }
+}
+
+.gs-past__chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+
+  &--open { transform: rotate(180deg); }
+}
+
+.gs-past__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  opacity: 0.72;
+  animation: gsSlideDown 0.18s ease;
+}

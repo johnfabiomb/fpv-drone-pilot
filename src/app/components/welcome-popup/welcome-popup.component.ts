@@ -22,6 +22,10 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
           <p class="wp-sub">I've mapped out my favourite spots — sign in and I'll save yours too.</p>
           <ul class="wp-benefits">
             <li>
+              <span class="wp-benefit__icon">🧭</span>
+              <span>Don't explore alone — meet people who love Malta as much as you</span>
+            </li>
+            <li>
               <span class="wp-benefit__icon">🔖</span>
               <span>Save your favourite spots and revisit them anytime</span>
             </li>

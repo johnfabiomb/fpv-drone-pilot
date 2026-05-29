@@ -156,6 +156,21 @@
     font-size: 12.5px;
     font-weight: 600;
     color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    background: var(--color-primary);
+    color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
   }
 
   &__desc {
@@ -265,33 +280,13 @@
         }
     }
 
-    .profile-picture {
-        border-radius: var(--radius-lg);
-        border: 2px solid var(--color-primary);
-        box-sizing: border-box;
-        object-fit: cover;
-        flex-shrink: 0;
-    }
+    // profile picture styling owned by UserAvatarComponent
 }
 
 .profile-wrap--guest {
     cursor: pointer;
 
     .name { color: var(--color-text-muted); }
-
-    .profile-picture--guest {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--radius-lg);
-        border: 2px solid var(--color-border);
-        box-sizing: border-box;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-bg-light);
-        color: var(--color-text-light);
-    }
 }
 
 .saved-count {
@@ -367,49 +362,7 @@
     to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.about-photo {
-    width: 72px;
-    height: 72px;
-    border-radius: var(--radius-lg);
-    object-fit: cover;
-    object-position: center top;
-    border: 2px solid var(--color-primary);
-    box-shadow: 0 0 0 4px rgba(244,169,34,0.1);
-    margin-bottom: 12px;
-}
-
-// Circular override for user's Google photo
-.user-photo {
-    border-radius: 50%;
-    object-position: center center;
-}
-
-.about-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-text-base);
-    letter-spacing: -0.3px;
-}
-
-.about-email {
-    font-size: 11.5px;
-    color: var(--color-text-muted);
-    margin-top: 3px;
-    word-break: break-all;
-}
-
-.level-badge {
-    display: inline-flex;
-    align-items: center;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-    margin-top: 8px;
-}
+// avatar + name + email + level badge are now owned by UserProfileCardComponent
 
 .updates-row {
   display: flex;

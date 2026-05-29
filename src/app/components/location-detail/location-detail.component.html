@@ -119,6 +119,21 @@
   </ng-template>
 </div>
 
+<!-- Explore Together section — groups for this spot + create form -->
+<div class="exploring-section" *ngIf="features.GROUPS && location">
+  <h4 class="exploring-title">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    Explore Together
+    <span class="exploring-new-badge">New</span>
+  </h4>
+  <app-groups-section
+    [lockedLocation]="{ slug: location.slug, title: location.title, lat: location.lat, lon: location.lon }">
+  </app-groups-section>
+</div>
+
 <div class="closest-section" *ngIf="closestLocations.length">
   <h4 class="closest-title">Closest Spots</h4>
   <div class="closest-list">
@@ -134,26 +149,6 @@
       </svg>
     </div>
   </div>
-</div>
-
-<!-- Who's exploring here? — only shown when GROUPS flag is on and groups exist -->
-<div class="exploring-section" *ngIf="features.GROUPS && spotGroups().length">
-  <h4 class="exploring-title">
-    <span>👥</span> Who's exploring here?
-  </h4>
-  <a class="exploring-card" *ngFor="let g of spotGroups()"
-    [routerLink]="['/malta/groups', g.id]">
-    <img class="exploring-card__photo"
-      [src]="g.leaderPhoto || '/assets/images/default-avatar.svg'"
-      [alt]="g.leaderName"
-      width="28" height="28"
-      referrerpolicy="no-referrer">
-    <div class="exploring-card__info">
-      <span class="exploring-card__title">{{ g.title }}</span>
-      <span class="exploring-card__meta">{{ g.date.toDate() | date:'EEE d MMM' }} · {{ g.memberCount }} joining</span>
-    </div>
-    <span class="badge" [class]="'badge--' + g.difficulty">{{ g.difficulty }}</span>
-  </a>
 </div>
 
 </div>

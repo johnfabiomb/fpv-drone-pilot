@@ -1,20 +1,25 @@
 import { Component, Input, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GroupMemberPreview } from '../../shared/models/group.model';
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-member-avatars',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserAvatarComponent],
   template: `
     <div class="avatars">
-      <img *ngFor="let p of visible(); let i = index"
-        class="avatars__bubble"
-        [src]="p.photoURL || '/assets/images/default-avatar.svg'"
-        [alt]="p.displayName"
-        [style.z-index]="visible().length - i"
-        width="28" height="28"
-        referrerpolicy="no-referrer">
+      <div *ngFor="let p of visible(); let i = index"
+        class="avatars__wrap"
+        [style.z-index]="visible().length - i">
+        <app-user-avatar
+          [photoURL]="p.photoURL"
+          [displayName]="p.displayName"
+          size="sm"
+          shape="circle"
+          [level]="1">
+        </app-user-avatar>
+      </div>
       <span *ngIf="overflow() > 0" class="avatars__more">+{{ overflow() }}</span>
     </div>
   `,
@@ -24,14 +29,12 @@ import { GroupMemberPreview } from '../../shared/models/group.model';
       align-items: center;
     }
 
-    .avatars__bubble {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--color-bg);
-      box-sizing: border-box;
+    .avatars__wrap {
+      display: inline-flex;
       flex-shrink: 0;
+      border-radius: 50%;
+      /* white ring keeps overlapping avatars visually separated */
+      box-shadow: 0 0 0 2px var(--color-bg);
 
       & + & { margin-left: -8px; }
     }
@@ -41,8 +44,7 @@ import { GroupMemberPreview } from '../../shared/models/group.model';
       height: 28px;
       border-radius: 50%;
       background: var(--color-bg-muted);
-      border: 2px solid var(--color-bg);
-      box-sizing: border-box;
+      box-shadow: 0 0 0 2px var(--color-bg);
       font-size: 10px;
       font-weight: 600;
       color: var(--color-text-muted);

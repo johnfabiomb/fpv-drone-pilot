@@ -29,6 +29,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
         </ng-container>
 
         <ul class="modal-benefits" *ngIf="formState() === 'default'">
+          <li><span class="modal-benefit__icon">🧭</span><span>Don't explore alone — meet people who love Malta as much as you</span></li>
           <li><span class="modal-benefit__icon">🔖</span><span>Save your favourite spots and revisit them anytime</span></li>
           <li><span class="modal-benefit__icon">🎟️</span><span>Get real discounts from local partners I trust</span></li>
           <li><span class="modal-benefit__icon">⚡</span><span>Open Google Maps instantly — no wait</span></li>

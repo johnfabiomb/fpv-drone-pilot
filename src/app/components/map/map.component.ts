@@ -11,7 +11,7 @@ import VectorLayer from 'ol/layer/Vector';
 import { boundingExtent } from 'ol/extent';
 
 import { createMap, getCoordinatesfromLonLat, getCoordinatesfromPixel } from './map-functions';
-import { buildRouteFeatures, makePinStyle, ROUTE_COLORS } from '../../shared/utils/route-drawing';
+import { buildRouteFeatures, makePinCanvas, makePinStyle, ROUTE_COLORS } from '../../shared/utils/route-drawing';
 import { LocationTracker } from '../../shared/utils/location-tracker';
 import { locations } from '../../../assets/locations.json';
 import { Router } from '@angular/router';
@@ -52,8 +52,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private routeSource = new VectorSource();
   private routeLabelSource = new VectorSource();
+  private meetingSource = new VectorSource();
   private currentLocation: Location | null = null;
   private hasRouteFeatures = false;
+  private _pickModeActive = false;
   tracker: LocationTracker | null = null;
   compassMode = false;
   private absoluteHandler: ((e: Event) => void) | null = null;
@@ -105,11 +107,26 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  @Input() set pickModeActive(v: boolean) {
+    this._pickModeActive = v;
+    if (this.map) {
+      (this.map.getTargetElement() as HTMLElement).style.cursor = v ? 'crosshair' : '';
+    }
+  }
+
+  @Input() set meetingPointMarker(p: { lat: number; lon: number } | null) {
+    this._meetingPoint = p;
+    if (this.map) this.drawMeetingPoint(p);
+  }
+  private _meetingPoint: { lat: number; lon: number } | null = null;
+
   @Output() locationSelected = new EventEmitter<Location | null>();
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
   @Output() providerPinSelected = new EventEmitter<Provider>();
   @Output() controlTapped = new EventEmitter<void>();
+  @Output() coordPicked        = new EventEmitter<{ lat: number; lon: number }>();
+  @Output() meetingPointTapped = new EventEmitter<{ lat: number; lon: number }>();
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
@@ -128,6 +145,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.setupProviderLayer();
     this.setupLocationLayer();
     this.setupRouteLayer();
+    this.setupMeetingLayer();
     this.preloadIcons();
     requestAnimationFrame(() => this.map.updateSize());
 
@@ -142,8 +160,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
       const [lon, lat] = getCoordinatesfromPixel(evt.coordinate);
       console.log(`📍 lat: ${lat}, lon: ${lon}`);
+
+      if (this._pickModeActive) {
+        this.coordPicked.emit({ lat, lon });
+        return;
+      }
+
       const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: FeatureLike) => f);
       if (!feature) { this.mapTapped.emit(); return; }
+
+      if (feature.get('type') === 'meeting-point') {
+        this.meetingPointTapped.emit(feature.get('meetingPoint'));
+        return;
+      }
 
       if (feature.get('type') === 'provider-pin') {
         this.providerPinSelected.emit(feature.get('provider'));
@@ -474,18 +503,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : undefined;
       const label = savings ?? p.mapLabel ?? '🏷️ Deal';
-      const pillColor = savings ? '#D4A017' : undefined;
+      const pillColor = p.category === 'group' ? '#D4900A' : (savings ? '#D4A017' : undefined);
       if (p.coverImage) {
         const img = new Image();
         img.onload = () => {
           const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? '#fff');
-          if (p.emoji) this.addEmojiBadge(pin, p.emoji);
+          if (p.category === 'group') {
+            this.addGroupIconOverlay(pin);
+          } else if (p.emoji) {
+            this.addEmojiBadge(pin, p.emoji);
+          }
           this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
           this.providerLayer.changed();
         };
         img.src = p.coverImage;
       } else {
-        this.providerCanvasCache.set(p.id, this.buildPillPin(this.buildProviderEmojiPin(p), label, true, pillColor));
+        const pin = p.category === 'group'
+          ? this.buildGroupFallbackPin()
+          : this.buildProviderEmojiPin(p);
+        this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
       }
     }
   }
@@ -698,6 +734,102 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     pc.fillText(emoji, bx, by + 1);
   }
 
+  // Draws a dark scrim + white "users" SVG icon over an existing pin canvas (group pins).
+  private addGroupIconOverlay(pin: HTMLCanvasElement): void {
+    const W  = PROVIDER_PIN_SIZE;
+    const cx = W / 2, cy = W / 2;
+    const pad = 2;
+    const cr  = Math.round(W * 0.22); // must match buildCirclePin
+    const pc  = pin.getContext('2d')!;
+
+    // Scrim clipped to the same squircle shape as the image
+    pc.save();
+    pc.beginPath();
+    pc.roundRect(pad + 2, pad + 2, W - (pad + 2) * 2, W - (pad + 2) * 2, Math.max(1, cr - 2));
+    pc.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    pc.fill();
+    pc.restore();
+
+    // "Users" icon (Feather-style, 24×24 viewBox) centered in the circle
+    const iconSize = Math.round(W * 0.52);
+    const scale    = iconSize / 24;
+    const tx       = cx - 12 * scale;
+    const ty       = cy - 11 * scale;
+
+    pc.save();
+    pc.translate(tx, ty);
+    pc.scale(scale, scale);
+    pc.strokeStyle = '#ffffff';
+    pc.lineWidth   = 2.2 / scale;
+    pc.lineCap     = 'round';
+    pc.lineJoin    = 'round';
+
+    // Primary person (left group)
+    pc.stroke(new Path2D('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'));
+    const head = new Path2D(); head.arc(9, 7, 4, 0, Math.PI * 2); pc.stroke(head);
+    // Secondary person (right, slightly behind)
+    pc.stroke(new Path2D('M23 21v-2a4 4 0 0 0-3-3.87'));
+    pc.stroke(new Path2D('M16 3.13a4 4 0 0 1 0 7.75'));
+
+    pc.restore();
+  }
+
+  // Fallback group pin when no spot image is available — amber teardrop + users icon.
+  private buildGroupFallbackPin(): HTMLCanvasElement {
+    const W = PROVIDER_PIN_SIZE;
+    const tailH = Math.round(W * ICON_TAIL_H / ICON_CANVAS_SIZE);
+    const H = W + tailH;
+    const cx = W / 2, cy = W / 2;
+    const r  = W / 2 - 2;
+    const tailAngle = Math.PI / 8;
+
+    const canvas = document.createElement('canvas');
+    canvas.width  = W;
+    canvas.height = H;
+    const pc = canvas.getContext('2d')!;
+
+    // Teardrop shape filled with brand amber
+    pc.save();
+    pc.shadowColor   = 'rgba(0,0,0,0.22)';
+    pc.shadowBlur    = 8;
+    pc.shadowOffsetY = 3;
+    pc.beginPath();
+    pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
+    pc.lineTo(cx, H - 1);
+    pc.closePath();
+    pc.fillStyle = '#F4A922';
+    pc.fill();
+    pc.restore();
+
+    pc.beginPath();
+    pc.arc(cx, cy, r - 0.5, 0, Math.PI * 2);
+    pc.strokeStyle = '#fff';
+    pc.lineWidth   = 3;
+    pc.stroke();
+
+    // Users icon centered
+    const iconSize = Math.round(W * 0.52);
+    const scale    = iconSize / 24;
+    const tx       = cx - 12 * scale;
+    const ty       = cy - 11 * scale;
+
+    pc.save();
+    pc.translate(tx, ty);
+    pc.scale(scale, scale);
+    pc.strokeStyle = '#fff';
+    pc.lineWidth   = 2.2 / scale;
+    pc.lineCap     = 'round';
+    pc.lineJoin    = 'round';
+
+    pc.stroke(new Path2D('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'));
+    const head = new Path2D(); head.arc(9, 7, 4, 0, Math.PI * 2); pc.stroke(head);
+    pc.stroke(new Path2D('M23 21v-2a4 4 0 0 0-3-3.87'));
+    pc.stroke(new Path2D('M16 3.13a4 4 0 0 1 0 7.75'));
+
+    pc.restore();
+    return canvas;
+  }
+
   private fillRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number): void {
     ctx.beginPath();
     ctx.moveTo(x + r, y);
@@ -735,6 +867,34 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.addLayer(new VectorLayer({ source: this.routeSource, zIndex: 50 }));
     // Labels on a separate decluttered layer — OL auto-hides overlapping text while icons always show
     this.map.addLayer(new VectorLayer({ source: this.routeLabelSource, zIndex: 51, declutter: true }));
+  }
+
+  private setupMeetingLayer(): void {
+    this.map.addLayer(new VectorLayer({ source: this.meetingSource, zIndex: 60 }));
+    if (this._meetingPoint) this.drawMeetingPoint(this._meetingPoint);
+  }
+
+  private drawMeetingPoint(p: { lat: number; lon: number } | null): void {
+    this.meetingSource.clear();
+    if (!p) return;
+    const pin = makePinCanvas('#F4A922');
+    const composite = this.buildPillPin(pin, 'Meeting point');
+    const marker = new Feature({
+      geometry: new Point(getCoordinatesfromLonLat(p.lon, p.lat)),
+      type: 'meeting-point',
+      meetingPoint: p,
+    });
+    marker.setStyle(new Style({
+      image: new Icon({
+        img: composite,
+        size: [composite.width, composite.height],
+        scale: 1,
+        anchor: [0.5, 1.0],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+      }),
+    }));
+    this.meetingSource.addFeature(marker);
   }
 
   private drawRoute(location: Location): void {

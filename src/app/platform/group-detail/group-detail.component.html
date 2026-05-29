@@ -7,7 +7,7 @@
   (bodyDragStart)="bridge.panel.startDrag($event)"
   (bodyDragMove)="bridge.panel.onDragMove($event)"
   (bodyDragEnd)="bridge.panel.onDragEnd($event)">
-
+  <app-share-btn panelActions [url]="shareUrl" [shareTitle]="group?.title ?? 'Group'"></app-share-btn>
   <div class="gd-content">
 
   <!-- Loading / not found -->
@@ -19,14 +19,97 @@
 
   <ng-container *ngIf="group">
 
+    <!-- Edit form (leader / GM only) -->
+    <div class="gd-edit-form" *ngIf="showEditForm()">
+      <div class="gd-edit-form__header">
+        <h3 class="gd-edit-form__title">Edit group</h3>
+        <button class="gd-edit-form__close" (click)="cancelEdit()" aria-label="Cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="gd-edit-form__field">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="editTitle" placeholder="Group title" maxlength="80">
+      </div>
+
+      <div class="gd-edit-form__row">
+        <div class="gd-edit-form__field">
+          <label>Date</label>
+          <input type="date" [(ngModel)]="editDate">
+        </div>
+        <div class="gd-edit-form__field">
+          <label>Time</label>
+          <input type="time" [(ngModel)]="editTime">
+        </div>
+      </div>
+
+      <div class="gd-edit-form__field">
+        <label>Difficulty</label>
+        <div class="gd-edit-form__chips">
+          <span class="chip" [class.active]="editDifficulty === 'easy'"     (click)="editDifficulty = 'easy'">Easy</span>
+          <span class="chip" [class.active]="editDifficulty === 'moderate'" (click)="editDifficulty = 'moderate'">Moderate</span>
+          <span class="chip" [class.active]="editDifficulty === 'hard'"     (click)="editDifficulty = 'hard'">Hard</span>
+        </div>
+      </div>
+
+      <div class="gd-edit-form__field">
+        <label>Description <span class="gd-edit-form__opt">(optional)</span></label>
+        <textarea [(ngModel)]="editDescription" rows="3" maxlength="400"
+          placeholder="What's the plan? Anything to know beforehand?"></textarea>
+      </div>
+
+      <div class="gd-edit-form__field">
+        <label>Max members <span class="gd-edit-form__opt">(optional)</span></label>
+        <input type="number" [(ngModel)]="editMaxMembers" min="2" max="50" placeholder="Unlimited">
+      </div>
+
+      <div class="gd-edit-form__field">
+        <label>Meeting point <span class="gd-edit-form__opt">(optional)</span></label>
+        <div *ngIf="!editMeetingPoint" class="gd-meeting-pick">
+          <button class="gd-meeting-pick__btn"
+            [class.picking]="editPickingPoint()"
+            (click)="startEditPickingPoint()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            {{ editPickingPoint() ? 'Tap anywhere on the map…' : 'Pin on map' }}
+          </button>
+        </div>
+        <div *ngIf="editMeetingPoint" class="gd-meeting-set">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Meeting point set
+          <button class="gd-meeting-set__remove" (click)="clearEditMeetingPoint()">Remove</button>
+        </div>
+      </div>
+
+      <p class="gd-edit-form__error" *ngIf="editError()">{{ editError() }}</p>
+
+      <div class="gd-edit-form__actions">
+        <button class="gd-edit-form__cancel" (click)="cancelEdit()">Cancel</button>
+        <button class="gd-edit-form__submit" (click)="submitEdit()" [disabled]="editBusy()">
+          {{ editBusy() ? 'Saving…' : 'Save changes' }}
+        </button>
+      </div>
+    </div>
+
     <!-- Header info -->
-    <div class="gd-header">
+    <div class="gd-header" *ngIf="!showEditForm()">
       <div class="gd-header__leader">
-        <img class="gd-header__photo"
-          [src]="group.leaderPhoto || '/assets/images/default-avatar.svg'"
-          [alt]="group.leaderName"
-          width="40" height="40"
-          referrerpolicy="no-referrer">
+        <app-user-avatar
+          [photoURL]="group.leaderPhoto"
+          [displayName]="group.leaderName"
+          size="md"
+          shape="circle"
+          [level]="isLeader ? userDataService.levelInfo().id : (group.leaderIsAdmin ? 6 : 1)"
+          [isAdmin]="group.leaderIsAdmin"
+          [isSelf]="isLeader"
+          roleLabel="👑 Group leader">
+        </app-user-avatar>
         <div class="gd-header__info">
           <span class="gd-header__title">{{ group.title }}</span>
           <span class="gd-header__sub">{{ group.date.toDate() | date:'EEEE d MMMM' }} · {{ group.time }} · {{ group.leaderName }} leading</span>
@@ -45,69 +128,282 @@
       </div>
 
       <p class="gd-header__desc" *ngIf="group.description">{{ group.description }}</p>
+
+      <div class="gd-exploring-banner" *ngIf="group.status === 'exploring'">
+        🧭 This group is currently exploring!
+      </div>
+
+      <button *ngIf="group.meetingPoint && group.status !== 'exploring'" class="gd-meeting-row" (click)="showMeetingModal.set(true)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Meeting point set
+        <svg class="gd-meeting-row__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
     </div>
 
+    <!-- Meeting point modal — outside the login gate so any visitor can open it -->
+    <app-modal *ngIf="showMeetingModal()" maxWidth="280px" (closeRequested)="showMeetingModal.set(false)">
+      <div class="gd-mp-modal">
+        <div class="gd-mp-modal__icon">📍</div>
+        <div class="gd-mp-modal__title">Meeting point</div>
+        <div class="gd-mp-modal__sub" *ngIf="group.meetingPoint?.label">{{ group.meetingPoint!.label }}</div>
+        <a class="gd-mp-modal__btn"
+          [href]="meetingPointMapsUrl"
+          target="_blank"
+          rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Open in Google Maps
+        </a>
+      </div>
+    </app-modal>
+
     <!-- Join / Leave / Cancel -->
-    <div class="gd-actions" *ngIf="authService.isLoggedIn()">
+    <div class="gd-actions" *ngIf="authService.isLoggedIn() && !showEditForm()">
       <button *ngIf="canJoin" class="gd-join-btn" (click)="join()" [disabled]="actionBusy()">
         {{ actionBusy() ? 'Joining…' : 'Join group' }}
       </button>
-      <button *ngIf="isMember && !isLeader" class="gd-leave-btn" (click)="leave()" [disabled]="actionBusy()">
+
+      <button *ngIf="isMember && !isLeader" class="gd-leave-btn"
+        (click)="confirmingAction.set('leave')" [disabled]="actionBusy()">
         Leave group
       </button>
+
       <div *ngIf="isLeader" class="gd-leader-actions">
-        <button class="gd-leave-btn" (click)="leave()" [disabled]="actionBusy()">Leave group</button>
-        <button *ngIf="group.status !== 'cancelled'" class="gd-cancel-btn" (click)="cancelGroup()" [disabled]="actionBusy()">
-          Cancel group
+        <!-- Primary CTA — full width -->
+        <button *ngIf="canStartExploring" class="gd-explore-btn"
+          (click)="confirmingAction.set('explore')" [disabled]="actionBusy()">
+          🧭 Start exploring
         </button>
+
+        <!-- Destructive actions — side by side -->
+        <div class="gd-leader-row">
+          <button class="gd-leave-btn" (click)="confirmingAction.set('leave')" [disabled]="actionBusy()">
+            Leave group
+          </button>
+          <button *ngIf="group.status !== 'cancelled' && group.status !== 'exploring'" class="gd-cancel-btn"
+            (click)="confirmingAction.set('cancel')" [disabled]="actionBusy()">
+            Cancel group
+          </button>
+        </div>
       </div>
+
+      <!-- Edit — right-aligned utility action -->
+      <button *ngIf="canEdit && group.status !== 'cancelled'" class="gd-edit-btn" (click)="openEdit()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Edit group
+      </button>
+
+      <!-- Single confirm popup — rendered at action-row level so it's always within panel bounds -->
+      <app-confirm-popup *ngIf="confirmingAction()"
+        [message]="confirmingAction() === 'leave'   ? 'Leave this group?' :
+                   confirmingAction() === 'explore'  ? 'Start exploring? No new members can join once you begin.' :
+                                                       'Cancel this group? All members will be notified.'"
+        [confirmLabel]="confirmingAction() === 'leave'  ? 'Leave' :
+                        confirmingAction() === 'explore' ? 'Start exploring' :
+                                                           'Cancel group'"
+        [cancelLabel]="confirmingAction() === 'leave'  ? 'Stay' :
+                       confirmingAction() === 'explore' ? 'Not yet' :
+                                                          'Keep it'"
+        [danger]="confirmingAction() !== 'explore'"
+        (confirmed)="executeConfirmedAction()"
+        (cancelled)="confirmingAction.set(null)">
+      </app-confirm-popup>
+
       <p class="gd-action-error" *ngIf="actionError()">{{ actionError() }}</p>
     </div>
 
-    <!-- Sign-in gate -->
-    <div class="gd-gate" *ngIf="!authService.isLoggedIn()">
-      <p class="gd-gate__msg">Sign in to see who's joining and chat with the group</p>
-      <button class="gd-gate__btn" (click)="authService.openLoginModal()">Sign in</button>
+    <!-- Sign-in gate — invitation framing for shared links -->
+    <div class="gd-gate" *ngIf="!authService.isLoggedIn() && !showEditForm()">
+      <p class="gd-gate__msg">
+        <strong>{{ group.leaderName }}</strong> is organising a hike at <strong>{{ group.spotTitle }}</strong>.
+        Sign in to join the group and chat with the members.
+      </p>
+      <button class="gd-gate__btn" (click)="openJoinLogin()" [disabled]="autoJoining()">
+        {{ autoJoining() ? 'Joining…' : 'Sign in to join' }}
+      </button>
     </div>
 
-    <!-- Member list (logged-in only) -->
-    <ng-container *ngIf="authService.isLoggedIn()">
-      <div class="gd-section-label">
-        {{ members.length }} member{{ members.length === 1 ? '' : 's' }}
-        <span *ngIf="group.maxMembers"> · {{ group.maxMembers - group.memberCount }} spot{{ (group.maxMembers - group.memberCount) === 1 ? '' : 's' }} left</span>
-      </div>
+    <!-- Member list + chat (logged-in only) -->
+    <ng-container *ngIf="authService.isLoggedIn() && !showEditForm()">
 
       <!-- Transfer leadership panel -->
       <div class="gd-transfer" *ngIf="showTransfer()">
         <p class="gd-transfer__label">Choose a new leader before you leave:</p>
         <button *ngFor="let m of nonLeaderMembers" class="gd-transfer__member"
           (click)="transferTo(m.uid)" [disabled]="actionBusy()">
-          <img [src]="m.photoURL || '/assets/images/default-avatar.svg'" [alt]="m.displayName"
-            width="24" height="24" referrerpolicy="no-referrer">
+          <app-user-avatar [photoURL]="m.photoURL" [displayName]="m.displayName" size="xs" shape="circle"></app-user-avatar>
           {{ m.displayName }}
         </button>
         <button class="gd-transfer__cancel" (click)="showTransfer.set(false)">Cancel</button>
       </div>
 
-      <div class="gd-members">
-        <div class="gd-member" *ngFor="let m of members">
-          <img class="gd-member__photo"
-            [src]="m.photoURL || '/assets/images/default-avatar.svg'"
-            [alt]="m.displayName"
-            width="36" height="36"
-            referrerpolicy="no-referrer">
+      <!-- Compact members row — always visible, click to expand/collapse -->
+      <div class="gd-members-row" (click)="toggleMembers()">
+        <app-member-avatars
+          [previews]="group.memberPreviews"
+          [total]="group.memberCount">
+        </app-member-avatars>
+        <span class="gd-members-row__label">
+          <strong>{{ group.memberCount }}</strong> member{{ group.memberCount === 1 ? '' : 's' }}
+          <span *ngIf="group.maxMembers" class="gd-members-row__spots">· {{ group.maxMembers - group.memberCount }} spot{{ (group.maxMembers - group.memberCount) === 1 ? '' : 's' }} left</span>
+        </span>
+        <svg class="gd-members-row__chevron" [class.gd-members-row__chevron--open]="membersExpanded()"
+          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+
+      <!-- Full member list — only when expanded -->
+      <div class="gd-members" *ngIf="membersExpanded()">
+        <div class="gd-members-header">
+          <span class="gd-section-label" style="margin-bottom:0">{{ members.length }} member{{ members.length === 1 ? '' : 's' }}</span>
+          <div class="gd-members-header__actions">
+            <button *ngIf="canManageMembers && bulkEligibleMembers.length >= 1"
+              class="gd-bulk-select-btn" [class.gd-bulk-select-btn--active]="bulkSelectMode()"
+              (click)="bulkSelectMode() ? exitBulkMode() : bulkSelectMode.set(true)">
+              {{ bulkSelectMode() ? 'Cancel' : 'Select' }}
+            </button>
+            <button class="gd-members-close" (click)="toggleMembers()" aria-label="Close member list">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="gd-member"
+          [class.gd-member--selectable]="bulkSelectMode() && isBulkSelected(m.uid) !== undefined && m.uid !== currentUser?.uid && m.role !== 'leader'"
+          [class.gd-member--selected]="isBulkSelected(m.uid)"
+          (click)="bulkSelectMode() && m.uid !== currentUser?.uid && m.role !== 'leader' ? toggleBulkSelect(m.uid) : null"
+          *ngFor="let m of members">
+          <!-- Checkbox shown in bulk mode for eligible members -->
+          <div *ngIf="bulkSelectMode() && m.uid !== currentUser?.uid && m.role !== 'leader'"
+            class="gd-member__checkbox" [class.gd-member__checkbox--checked]="isBulkSelected(m.uid)">
+            <svg *ngIf="isBulkSelected(m.uid)" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <app-user-avatar
+            [photoURL]="m.photoURL"
+            [displayName]="m.displayName"
+            size="md"
+            shape="circle"
+            [level]="m.uid === currentUser?.uid ? userDataService.levelInfo().id : 1"
+            [isAdmin]="m.uid === currentUser?.uid && userDataService.isAdmin()"
+            [roleLabel]="memberRoleLabel(m)"
+            [activeLabel]="formatLastActive(m.lastActive)">
+          </app-user-avatar>
           <div class="gd-member__info">
             <span class="gd-member__name">
               {{ m.displayName }}
               <span class="gd-member__badge gd-member__badge--leader" *ngIf="m.role === 'leader'">leader</span>
+              <span class="gd-member__badge gd-member__badge--muted" *ngIf="isMemberMuted(m)">muted</span>
             </span>
             <span class="gd-member__active">{{ formatLastActive(m.lastActive) }}</span>
           </div>
+
+          <!-- ⋮ action menu — leader/admin only, not for self, hidden in bulk mode -->
+          <div class="gd-member__menu-wrap"
+            *ngIf="canManageMembers && m.uid !== currentUser?.uid && !bulkSelectMode()">
+            <button class="gd-member__menu-btn"
+              [class.gd-member__menu-btn--open]="memberActionMenu() === m.uid"
+              (click)="toggleMemberMenu(m.uid, $event)"
+              title="Member actions">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div class="gd-member__menu" *ngIf="memberActionMenu() === m.uid" (click)="$event.stopPropagation()">
+              <button *ngIf="m.role !== 'leader'"
+                class="gd-member__menu-item"
+                (click)="pickMemberAction('make-leader', m, $event)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Make leader
+              </button>
+              <button class="gd-member__menu-item"
+                (click)="pickMemberAction(isMemberMuted(m) ? 'unmute' : 'mute', m, $event)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+                  <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+                  <line *ngIf="isMemberMuted(m)" x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+                {{ isMemberMuted(m) ? 'Unmute' : 'Mute 1h' }}
+              </button>
+              <button *ngIf="m.role !== 'leader'"
+                class="gd-member__menu-item gd-member__menu-item--danger"
+                (click)="pickMemberAction('remove', m, $event)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14H6L5 6"/>
+                  <path d="M10 11v6"/><path d="M14 11v6"/>
+                  <path d="M9 6V4h6v2"/>
+                </svg>
+                Remove
+              </button>
+            </div>
+
+            <!-- Confirm popup — only for make-leader and unmute (mute/remove go through bulk flow) -->
+            <app-confirm-popup
+              *ngIf="confirmingMemberAction()?.member?.uid === m.uid"
+              [message]="confirmingMemberAction()!.action === 'make-leader'
+                ? 'Make ' + m.displayName + ' the new leader? You\'ll become a regular member.'
+                : 'Unmute ' + m.displayName + '?'"
+              [confirmLabel]="confirmingMemberAction()!.action === 'make-leader' ? 'Transfer' : 'Unmute'"
+              cancelLabel="Cancel"
+              [danger]="false"
+              (confirmed)="executeMemberAction()"
+              (cancelled)="confirmingMemberAction.set(null)">
+            </app-confirm-popup>
+          </div>
+
+          <!-- Decorative chevron when no actions available (hidden in bulk mode) -->
+          <svg *ngIf="(!canManageMembers || m.uid === currentUser?.uid) && !bulkSelectMode()"
+            class="gd-member__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
         </div>
+
+        <!-- Bulk action bar -->
+        <div class="gd-bulk-bar" *ngIf="bulkSelectMode()">
+          <span class="gd-bulk-bar__count">
+            {{ bulkCount() > 0 ? bulkCount() + ' selected' : 'Tap members to select' }}
+          </span>
+          <button class="gd-bulk-bar__select-all" *ngIf="bulkCount() < bulkEligibleMembers.length"
+            (click)="selectAllMembers()">Select all</button>
+          <button *ngIf="bulkCount() > 0" class="gd-bulk-bar__btn"
+            (click)="confirmingBulkAction.set('mute')">Mute 1h</button>
+          <button *ngIf="bulkCount() > 0" class="gd-bulk-bar__btn gd-bulk-bar__btn--danger"
+            (click)="confirmingBulkAction.set('remove')">Remove</button>
+        </div>
+
+        <!-- Bulk confirm popup -->
+        <app-confirm-popup *ngIf="confirmingBulkAction()"
+          [message]="confirmingBulkAction() === 'remove'
+            ? 'Remove ' + bulkCount() + ' member' + (bulkCount() === 1 ? '' : 's') + ' from this group?'
+            : 'Mute ' + bulkCount() + ' member' + (bulkCount() === 1 ? '' : 's') + ' for 1 hour?'"
+          [confirmLabel]="confirmingBulkAction() === 'remove' ? 'Remove all' : 'Mute all'"
+          cancelLabel="Cancel"
+          [danger]="confirmingBulkAction() === 'remove'"
+          (confirmed)="executeBulkAction()"
+          (cancelled)="confirmingBulkAction.set(null)">
+        </app-confirm-popup>
       </div>
 
-      <!-- Chat -->
-      <div class="gd-chat">
+
+      <!-- Chat — only when members section is collapsed -->
+      <div class="gd-chat" *ngIf="!membersExpanded()">
         <div class="gd-section-label gd-section-label--chat">Chat</div>
 
         <div class="gd-messages">
@@ -118,12 +414,12 @@
           <div *ngFor="let msg of messages"
             class="gd-msg"
             [class.gd-msg--own]="msg.uid === currentUser?.uid">
-            <img *ngIf="msg.uid !== currentUser?.uid"
-              class="gd-msg__avatar"
-              [src]="msg.photoURL || '/assets/images/default-avatar.svg'"
-              [alt]="msg.displayName"
-              width="26" height="26"
-              referrerpolicy="no-referrer">
+            <app-user-avatar *ngIf="msg.uid !== currentUser?.uid"
+              [photoURL]="msg.photoURL"
+              [displayName]="msg.displayName"
+              size="sm"
+              shape="circle">
+            </app-user-avatar>
             <div class="gd-msg__body">
               <span *ngIf="msg.uid !== currentUser?.uid" class="gd-msg__name">{{ msg.displayName }}</span>
               <span class="gd-msg__text">{{ msg.text }}</span>
@@ -134,7 +430,24 @@
           <div #messagesEnd></div>
         </div>
 
-        <div class="gd-input" *ngIf="isMember">
+        <p class="gd-chat-error" *ngIf="chatError()">{{ chatError() }}</p>
+
+        <!-- Muted state: replace input with a friendly explanation -->
+        <div class="gd-muted-banner" *ngIf="isMuted">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+            <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+            <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+          <div class="gd-muted-banner__text">
+            <span class="gd-muted-banner__title">You've been muted by the group leader</span>
+            <span class="gd-muted-banner__sub">You can read the chat but can't reply for {{ mutedMinutesLeft }} more minute{{ mutedMinutesLeft === 1 ? '' : 's' }}.</span>
+          </div>
+        </div>
+
+        <!-- Normal input — only when not muted -->
+        <div class="gd-input" *ngIf="isMember && !isMuted">
           <textarea class="gd-input__field"
             [ngModel]="messageText()"
             (ngModelChange)="messageText.set($event)"
@@ -143,11 +456,16 @@
             rows="1"
             maxlength="500">
           </textarea>
-          <button class="gd-input__send" (click)="sendMessage()" [disabled]="!messageText().trim() || sendingMessage()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
+          <button class="gd-input__send"
+            (click)="sendMessage()"
+            [disabled]="!messageText().trim() || sendingMessage() || cooldownSecs() > 0">
+            <span *ngIf="cooldownSecs() > 0; else sendIcon" class="gd-cooldown">{{ cooldownSecs() }}s</span>
+            <ng-template #sendIcon>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </ng-template>
           </button>
         </div>
 
@@ -155,6 +473,7 @@
           Join the group to chat
         </p>
       </div>
+
     </ng-container>
 
   </ng-container>

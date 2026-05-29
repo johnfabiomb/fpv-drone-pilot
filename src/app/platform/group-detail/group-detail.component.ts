@@ -1,24 +1,34 @@
 import {
   AfterViewChecked, Component, DestroyRef, ElementRef, HostListener,
-  OnDestroy, OnInit, PLATFORM_ID, ViewChild, inject, signal,
+  OnDestroy, OnInit, PLATFORM_ID, ViewChild, computed, effect, inject, signal,
 } from '@angular/core';
-import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, DatePipe, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 
 import { PanelShellComponent } from '../../components/panel-shell/panel-shell.component';
+import { UserAvatarComponent } from '../../components/user-avatar/user-avatar.component';
+import { ConfirmPopupComponent } from '../../components/confirm-popup/confirm-popup.component';
+import { MemberAvatarsComponent } from '../../components/member-avatars/member-avatars.component';
+import { AppModalComponent } from '../../components/app-modal/app-modal.component';
+import { ShareButtonComponent } from '../../components/share-button/share-button.component';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { GroupsService } from '../../shared/services/groups.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserDataService } from '../../shared/services/user-data.service';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
-import { GroupFullError, LeaderMustTransferError } from '../../shared/models/group.model';
+import { CooldownError, GroupFullError, GroupMember, LeaderMustTransferError, MeetingPoint, SpamMutedError, UpdateGroupPayload } from '../../shared/models/group.model';
+import { Location } from '../../shared/models';
+
+import { locations } from '../../../assets/locations.json';
 
 @Component({
   selector: 'app-group-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, PanelShellComponent],
+  imports: [CommonModule, FormsModule, DatePipe, PanelShellComponent, UserAvatarComponent, ConfirmPopupComponent, MemberAvatarsComponent, AppModalComponent, ShareButtonComponent],
   templateUrl: './group-detail.component.html',
   styleUrl: './group-detail.component.scss',
 })
@@ -26,6 +36,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   @ViewChild('messagesEnd') private messagesEnd!: ElementRef<HTMLDivElement>;
 
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document   = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly route      = inject(ActivatedRoute);
   readonly router             = inject(Router);
@@ -34,16 +45,128 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   readonly bridge             = inject(MapBridgeService);
   readonly groupsService      = inject(GroupsService);
   readonly authService        = inject(AuthService);
+  readonly userDataService    = inject(UserDataService);
 
   // ── UI state ──────────────────────────────────────────────────────────────
   readonly actionError      = signal<string | null>(null);
   readonly actionBusy       = signal(false);
-  readonly showTransfer     = signal(false);
+  readonly showTransfer      = signal(false);
+  readonly confirmingAction  = signal<'leave' | 'cancel' | 'explore' | null>(null);
+
+  // Member management (leader / admin)
+  readonly memberActionMenu       = signal<string | null>(null); // uid of member with open ⋮ menu
+  readonly confirmingMemberAction = signal<{ action: 'remove' | 'make-leader' | 'mute' | 'unmute'; member: GroupMember } | null>(null);
+
+  // Bulk selection
+  readonly bulkSelectMode        = signal(false);
+  private  bulkSelectedUids      = signal<Set<string>>(new Set());
+  readonly bulkCount             = computed(() => this.bulkSelectedUids().size);
+  readonly confirmingBulkAction  = signal<'mute' | 'remove' | null>(null);
   readonly messageText      = signal('');
   readonly sendingMessage   = signal(false);
+  readonly cooldownSecs     = signal(0);
+  readonly chatError        = signal<string | null>(null);
+  readonly autoJoining        = signal(false);
+  readonly showMeetingModal   = signal(false);
+
+  // ── Edit form state ───────────────────────────────────────────────────────
+  readonly showEditForm        = signal(false);
+  readonly editError           = signal<string | null>(null);
+  readonly editBusy            = signal(false);
+  readonly editPickingPoint    = signal(false);
+  editTitle       = '';
+  editDate        = '';
+  editTime        = '';
+  editDescription = '';
+  editDifficulty: 'easy' | 'moderate' | 'hard' = 'easy';
+  editMaxMembers  = '';
+  editMeetingPoint: MeetingPoint | null = null;
+
+  // ?view=members in the URL drives the expanded/collapsed members section
+  readonly membersExpanded = toSignal(
+    this.route.queryParamMap.pipe(map(p => p.get('view') === 'members')),
+    { initialValue: false }
+  );
+
+  // Set to true when a non-logged-in user clicks "Sign in to join"
+  private pendingAutoJoin = false;
+
+  // Start/stop the full members subcollection listener based on UI state.
+  // Avoids loading N member docs when the user only wants to read + chat.
+  private readonly _membersListenerEffect = effect(() => {
+    const needFullList = this.membersExpanded() || this.showTransfer();
+    if (!this.groupId) return;
+    if (needFullList) {
+      this.groupsService.startMembersListener(this.groupId);
+    } else {
+      this.groupsService.stopMembersListener();
+    }
+  });
+
+  // When the leader views a group whose time has passed (and it's not exploring), auto-complete it.
+  // Exploring groups are exempt — the leader is still out; they'll cancel or it'll be cleaned up later.
+  private autoCompleted = false;
+  private readonly _autoCompleteEffect = effect(() => {
+    const group = this.groupsService.detailGroup();
+    if (!group || this.autoCompleted) return;
+    if ((group.status === 'open' || group.status === 'full')
+      && GroupsService.isGroupPast(group)
+      && this.isLeader) {
+      this.autoCompleted = true;
+      queueMicrotask(() => this.groupsService.completeGroup(group.id).catch(() => {}));
+    }
+  });
+
+  // Auto-join when a non-logged-in user signs in after clicking "Sign in to join"
+  private readonly _autoJoinEffect = effect(() => {
+    const user    = this.authService.user();
+    const group   = this.groupsService.detailGroup();
+    // currentUserIsMember is already set by the 1-doc listener — safe to read
+    const already = this.groupsService.currentUserIsMember();
+    if (!user || !group || !this.pendingAutoJoin || already) return;
+    if (group.status === 'open') {
+      this.pendingAutoJoin = false;
+      queueMicrotask(() => this.doAutoJoin());
+    }
+  });
+
+  // Auto-heal memberCount drift: when the leader opens the full member list and
+  // the denormalized count doesn't match the subcollection, silently correct it.
+  private readonly _memberCountHealEffect = effect(() => {
+    const members = this.groupsService.detailMembers();
+    const group   = this.groupsService.detailGroup();
+    if (!group || members.length === 0 || !this.isLeader) return;
+    if (members.length !== group.memberCount) {
+      queueMicrotask(() =>
+        this.groupsService.correctMemberCount(group.id, members).catch(() => {})
+      );
+    }
+  });
+
+  // Fit the map to the spot once the group doc first loads.
+  private locationApplied = false;
+  private readonly _spotLocationEffect = effect(() => {
+    const group = this.groupsService.detailGroup();
+    if (!group || this.locationApplied) return;
+    const loc = (locations as Location[]).find(l => l.slug === group.spotSlug) ?? null;
+    if (!loc) return;
+    this.locationApplied = true;
+    this.bridge.selectedLocation.set(loc);
+  });
+
+  // Reactively sync the meeting point marker. Hides it when exploring has started
+  // (the group is moving — no fixed meeting point), and respects the edit form's
+  // temporary state by skipping when the form is open.
+  private readonly _meetingPointEffect = effect(() => {
+    const group = this.groupsService.detailGroup();
+    if (!group || this.showEditForm()) return;
+    const show = !!group.meetingPoint && (group.status === 'open' || group.status === 'full');
+    this.bridge.meetingPointMarker.set(show ? group.meetingPoint : null);
+  });
 
   private groupId = '';
   private shouldScrollToBottom = false;
+  private cooldownTimer: ReturnType<typeof setInterval> | null = null;
 
   // ── Computed helpers ──────────────────────────────────────────────────────
   get currentUser() { return this.authService.user(); }
@@ -55,14 +178,49 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     return !!this.currentUser && this.group?.leaderId === this.currentUser.uid;
   }
 
+  // Derived from the 1-doc member listener — no subcollection needed
   get isMember(): boolean {
-    return !!this.currentUser && this.members.some(m => m.uid === this.currentUser!.uid);
+    return !!this.currentUser && this.groupsService.currentUserIsMember();
   }
 
   get canJoin(): boolean {
     const g = this.group;
     if (!g) return false;
-    return g.status === 'open' && !this.isMember;
+    return g.status === 'open' && !this.isMember && !this.isLeader;
+  }
+
+  get canEdit(): boolean {
+    const g = this.group;
+    if (!g || g.status === 'cancelled' || g.status === 'completed') return false;
+    return this.isLeader || this.userDataService.isAdmin();
+  }
+
+  get canStartExploring(): boolean {
+    const g = this.group;
+    if (!g || (g.status !== 'open' && g.status !== 'full')) return false;
+    return this.isLeader || this.userDataService.isAdmin();
+  }
+
+  get shareUrl(): string {
+    if (!isPlatformBrowser(this.platformId)) return '';
+    return `${this.document.location.origin}/malta/groups/${this.groupId}`;
+  }
+
+  get meetingPointMapsUrl(): string {
+    const mp = this.group?.meetingPoint;
+    if (!mp) return '';
+    return `https://www.google.com/maps?q=${mp.lat},${mp.lon}`;
+  }
+
+  get isMuted(): boolean {
+    const ts = this.groupsService.mutedUntil();
+    return !!ts && ts.toMillis() > Date.now();
+  }
+
+  get mutedMinutesLeft(): number {
+    const ts = this.groupsService.mutedUntil();
+    if (!ts) return 0;
+    return Math.max(1, Math.ceil((ts.toMillis() - Date.now()) / 60_000));
   }
 
   ngOnInit(): void {
@@ -73,10 +231,26 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
     this.groupsService.startDetailListener(this.groupId);
 
+    // If navigating directly to ?view=members, start the full list immediately
+    if (this.membersExpanded()) {
+      this.groupsService.startMembersListener(this.groupId);
+    }
+
     this.bridge.enterPanelMode([], { label: 'Back to groups' });
 
     this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.router.navigate(['/malta/groups']));
+
+    this.bridge.coordPicked$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ lat, lon }) => {
+        this.editMeetingPoint = { lat, lon };
+        this.bridge.meetingPointMarker.set({ lat, lon });
+        this.bridge.pickMode.set(false);
+        this.editPickingPoint.set(false);
+      });
+
+    this.bridge.meetingPointClicked$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.showMeetingModal.set(true));
 
     if (this.isMember) this.groupsService.updateLastActive(this.groupId);
 
@@ -85,6 +259,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
   ngOnDestroy(): void {
     this.groupsService.stopDetailListener();
+    this.bridge.meetingPointMarker.set(null);
+    this.bridge.pickMode.set(false);
+    this.clearCooldownTimer();
   }
 
   ngAfterViewChecked(): void {
@@ -121,6 +298,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   async leave(): Promise<void> {
+    this.confirmingAction.set(null);
     this.actionError.set(null);
     this.actionBusy.set(true);
     try {
@@ -152,7 +330,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   async cancelGroup(): Promise<void> {
-    if (!confirm('Cancel this group? All members will be notified.')) return;
+    this.confirmingAction.set(null);
     this.actionError.set(null);
     this.actionBusy.set(true);
     try {
@@ -164,17 +342,139 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     }
   }
 
+  executeConfirmedAction(): void {
+    if (this.confirmingAction() === 'leave')   this.leave();
+    if (this.confirmingAction() === 'cancel')  this.cancelGroup();
+    if (this.confirmingAction() === 'explore') this.startExploring();
+  }
+
+  async startExploring(): Promise<void> {
+    this.confirmingAction.set(null);
+    this.actionError.set(null);
+    this.actionBusy.set(true);
+    try {
+      await this.groupsService.startExploring(this.groupId);
+    } catch (e) {
+      this.actionError.set(e instanceof Error ? e.message : 'Could not start exploring.');
+    } finally {
+      this.actionBusy.set(false);
+    }
+  }
+
+  openEdit(): void {
+    const g = this.group;
+    if (!g) return;
+    const d = g.date.toDate();
+    this.editTitle        = g.title;
+    this.editDate         = d.toISOString().split('T')[0];
+    this.editTime         = g.time;
+    this.editDescription  = g.description;
+    this.editDifficulty   = g.difficulty;
+    this.editMaxMembers   = g.maxMembers != null ? String(g.maxMembers) : '';
+    this.editMeetingPoint = g.meetingPoint ?? null;
+    this.editError.set(null);
+    this.showEditForm.set(true);
+    if (this.editMeetingPoint) {
+      this.bridge.meetingPointMarker.set(this.editMeetingPoint);
+    }
+  }
+
+  cancelEdit(): void {
+    this.showEditForm.set(false);
+    this.editError.set(null);
+    this.bridge.pickMode.set(false);
+    this.editPickingPoint.set(false);
+    // Restore the saved meeting point (not the draft one)
+    this.bridge.meetingPointMarker.set(this.group?.meetingPoint ?? null);
+  }
+
+  async submitEdit(): Promise<void> {
+    const g = this.group;
+    if (!g) return;
+
+    if (!this.editTitle.trim() || !this.editDate) {
+      this.editError.set('Title and date are required.');
+      return;
+    }
+
+    const dateObj = new Date(this.editDate + 'T' + this.editTime);
+    if (isNaN(dateObj.getTime())) {
+      this.editError.set('Invalid date or time.');
+      return;
+    }
+
+    const payload: UpdateGroupPayload = {
+      title:        this.editTitle.trim(),
+      date:         dateObj,
+      time:         this.editTime,
+      description:  this.editDescription.trim(),
+      difficulty:   this.editDifficulty,
+      maxMembers:   this.editMaxMembers ? parseInt(this.editMaxMembers, 10) : null,
+      meetingPoint: this.editMeetingPoint,
+    };
+
+    this.editError.set(null);
+    this.editBusy.set(true);
+    try {
+      await this.groupsService.updateGroup(this.groupId, payload);
+      this.showEditForm.set(false);
+      this.bridge.pickMode.set(false);
+      this.editPickingPoint.set(false);
+    } catch (e) {
+      this.editError.set(e instanceof Error ? e.message : 'Could not save changes.');
+    } finally {
+      this.editBusy.set(false);
+    }
+  }
+
+  startEditPickingPoint(): void {
+    this.editPickingPoint.set(true);
+    this.bridge.pickMode.set(true);
+  }
+
+  clearEditMeetingPoint(): void {
+    this.editMeetingPoint = null;
+    this.bridge.meetingPointMarker.set(null);
+    this.editPickingPoint.set(false);
+    this.bridge.pickMode.set(false);
+  }
+
+  // Opens the login modal and marks that the user wants to join on sign-in
+  openJoinLogin(): void {
+    this.pendingAutoJoin = true;
+    this.authService.openLoginModal();
+  }
+
+  // Toggles members section between compact row and full list via URL query param
+  toggleMembers(): void {
+    const next = this.membersExpanded() ? null : 'members';
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { view: next },
+      queryParamsHandling: 'merge',
+    });
+  }
+
   async sendMessage(): Promise<void> {
     const text = this.messageText().trim();
-    if (!text || this.sendingMessage()) return;
+    if (!text || this.sendingMessage() || this.cooldownSecs() > 0 || this.isMuted) return;
 
+    this.chatError.set(null);
     this.sendingMessage.set(true);
     try {
       await this.groupsService.sendMessage(this.groupId, text);
       this.messageText.set('');
       this.shouldScrollToBottom = true;
-    } catch {
-      // silent — message send failures are transient
+      this.startCooldown(5);
+    } catch (e) {
+      if (e instanceof CooldownError) {
+        this.startCooldown(e.secondsLeft);
+      } else if (e instanceof SpamMutedError) {
+        this.chatError.set(`You've been muted for ${e.minutesLeft} min${e.minutesLeft === 1 ? '' : 's'} for sending too many messages.`);
+      } else {
+        this.chatError.set('Could not send message. Check your connection and try again.');
+        console.error('[sendMessage]', e);
+      }
     } finally {
       this.sendingMessage.set(false);
     }
@@ -187,13 +487,147 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     }
   }
 
+  private async doAutoJoin(): Promise<void> {
+    this.autoJoining.set(true);
+    try {
+      await this.groupsService.joinGroup(this.groupId);
+      await this.groupsService.updateLastActive(this.groupId);
+    } catch { /* silent — the group state updates reactively */ } finally {
+      this.autoJoining.set(false);
+    }
+  }
+
+  private startCooldown(seconds: number): void {
+    this.cooldownSecs.set(seconds);
+    this.clearCooldownTimer();
+    this.cooldownTimer = setInterval(() => {
+      const remaining = this.cooldownSecs() - 1;
+      if (remaining <= 0) {
+        this.cooldownSecs.set(0);
+        this.clearCooldownTimer();
+      } else {
+        this.cooldownSecs.set(remaining);
+      }
+    }, 1000);
+  }
+
+  private clearCooldownTimer(): void {
+    if (this.cooldownTimer !== null) {
+      clearInterval(this.cooldownTimer);
+      this.cooldownTimer = null;
+    }
+  }
+
   formatLastActive(ts: unknown): string {
     if (!ts) return '';
-    // ts is Firestore Timestamp
     return GroupsService.formatLastActive(ts as Parameters<typeof GroupsService.formatLastActive>[0]);
   }
 
   get nonLeaderMembers() {
     return this.members.filter(m => m.uid !== this.group?.leaderId);
+  }
+
+  get canManageMembers(): boolean {
+    const g = this.group;
+    if (!g || g.status === 'cancelled' || g.status === 'completed') return false;
+    return this.isLeader || this.userDataService.isAdmin();
+  }
+
+  isMemberMuted(m: GroupMember): boolean {
+    return !!m.mutedUntil && m.mutedUntil.toMillis() > Date.now();
+  }
+
+  toggleMemberMenu(uid: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.memberActionMenu.set(this.memberActionMenu() === uid ? null : uid);
+  }
+
+  pickMemberAction(action: 'remove' | 'make-leader' | 'mute' | 'unmute', member: GroupMember, event: MouseEvent): void {
+    event.stopPropagation();
+    this.memberActionMenu.set(null);
+
+    // make-leader and unmute stay as single-confirm actions
+    if (action === 'make-leader' || action === 'unmute') {
+      this.confirmingMemberAction.set({ action, member });
+      return;
+    }
+
+    // mute / remove: enter bulk mode with this member pre-selected
+    // so the leader can add more before confirming — single writeBatch regardless
+    const s = new Set(this.bulkSelectedUids());
+    s.add(member.uid);
+    this.bulkSelectedUids.set(s);
+    this.bulkSelectMode.set(true);
+  }
+
+  async executeMemberAction(): Promise<void> {
+    const target = this.confirmingMemberAction();
+    if (!target) return;
+    this.confirmingMemberAction.set(null);
+    this.actionError.set(null);
+    this.actionBusy.set(true);
+    try {
+      const { action, member } = target;
+      if (action === 'remove')      await this.groupsService.removeMember(this.groupId, member.uid);
+      if (action === 'make-leader') await this.groupsService.transferOwnership(this.groupId, member.uid);
+      if (action === 'mute')        await this.groupsService.muteMember(this.groupId, member.uid, 60);
+      if (action === 'unmute')      await this.groupsService.unmuteMember(this.groupId, member.uid);
+    } catch (e) {
+      this.actionError.set(e instanceof Error ? e.message : 'Action failed.');
+    } finally {
+      this.actionBusy.set(false);
+    }
+  }
+
+  @HostListener('document:click')
+  closeMemberMenu(): void {
+    if (this.memberActionMenu()) this.memberActionMenu.set(null);
+  }
+
+  // ── Bulk selection ────────────────────────────────────────────────────────
+
+  get bulkEligibleMembers(): GroupMember[] {
+    return this.members.filter(m => m.uid !== this.group?.leaderId && m.uid !== this.currentUser?.uid);
+  }
+
+  isBulkSelected(uid: string): boolean {
+    return this.bulkSelectedUids().has(uid);
+  }
+
+  toggleBulkSelect(uid: string): void {
+    const s = new Set(this.bulkSelectedUids());
+    s.has(uid) ? s.delete(uid) : s.add(uid);
+    this.bulkSelectedUids.set(s);
+  }
+
+  selectAllMembers(): void {
+    this.bulkSelectedUids.set(new Set(this.bulkEligibleMembers.map(m => m.uid)));
+  }
+
+  exitBulkMode(): void {
+    this.bulkSelectMode.set(false);
+    this.bulkSelectedUids.set(new Set());
+    this.confirmingBulkAction.set(null);
+  }
+
+  async executeBulkAction(): Promise<void> {
+    const action = this.confirmingBulkAction();
+    const uids   = [...this.bulkSelectedUids()];
+    if (!action || !uids.length) return;
+    this.confirmingBulkAction.set(null);
+    this.actionBusy.set(true);
+    try {
+      if (action === 'remove') await this.groupsService.bulkRemoveMembers(this.groupId, uids);
+      if (action === 'mute')   await this.groupsService.bulkMuteMembers(this.groupId, uids, 60);
+      this.exitBulkMode();
+    } catch (e) {
+      this.actionError.set(e instanceof Error ? e.message : 'Action failed.');
+    } finally {
+      this.actionBusy.set(false);
+    }
+  }
+
+  memberRoleLabel(m: GroupMember): string {
+    return m.role === 'leader' ? '👑 Group leader' : 'Member';
   }
 }

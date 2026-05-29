@@ -1,12 +1,18 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-export type GroupStatus = 'open' | 'full' | 'cancelled' | 'completed';
+export type GroupStatus = 'open' | 'full' | 'exploring' | 'cancelled' | 'completed';
 export type GroupRole = 'leader' | 'member';
 
 export interface GroupMemberPreview {
   uid: string;
   displayName: string;
   photoURL: string;
+}
+
+export interface MeetingPoint {
+  lat: number;
+  lon: number;
+  label?: string;
 }
 
 export interface Group {
@@ -25,8 +31,10 @@ export interface Group {
   leaderId: string;
   leaderName: string;
   leaderPhoto: string;
+  leaderIsAdmin: boolean;
   memberCount: number;
   memberPreviews: GroupMemberPreview[];
+  meetingPoint: MeetingPoint | null;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -38,6 +46,7 @@ export interface GroupMember {
   role: GroupRole;
   joinedAt: Timestamp;
   lastActive: Timestamp;
+  mutedUntil?: Timestamp;
 }
 
 export interface GroupMessage {
@@ -60,6 +69,31 @@ export interface CreateGroupPayload {
   description: string;
   difficulty: 'easy' | 'moderate' | 'hard';
   maxMembers: number | null;
+  meetingPoint: MeetingPoint | null;
+}
+
+export interface UpdateGroupPayload {
+  title: string;
+  date: Date;
+  time: string;
+  description: string;
+  difficulty: 'easy' | 'moderate' | 'hard';
+  maxMembers: number | null;
+  meetingPoint: MeetingPoint | null;
+}
+
+export class CooldownError extends Error {
+  constructor(public readonly secondsLeft: number) {
+    super(`Please wait ${secondsLeft}s before sending again.`);
+    this.name = 'CooldownError';
+  }
+}
+
+export class SpamMutedError extends Error {
+  constructor(public readonly minutesLeft: number) {
+    super(`You've been muted for ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}.`);
+    this.name = 'SpamMutedError';
+  }
 }
 
 export class GroupFullError extends Error {
@@ -73,5 +107,12 @@ export class LeaderMustTransferError extends Error {
   constructor() {
     super('You must transfer leadership before leaving the group.');
     this.name = 'LeaderMustTransferError';
+  }
+}
+
+export class AlreadyHasActiveGroupError extends Error {
+  constructor() {
+    super('You already have an active group. Cancel or complete it before creating a new one.');
+    this.name = 'AlreadyHasActiveGroupError';
   }
 }

@@ -1,66 +1,44 @@
 import {
-  Component, DestroyRef, HostListener, OnDestroy, OnInit,
+  Component, DestroyRef, OnDestroy, OnInit,
   PLATFORM_ID, effect, inject, signal,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { PanelShellComponent } from '../../components/panel-shell/panel-shell.component';
-import { GroupCardComponent } from '../../components/group-card/group-card.component';
+import { GroupsSectionComponent } from '../../components/groups-section/groups-section.component';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { GroupsService } from '../../shared/services/groups.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserDataService } from '../../shared/services/user-data.service';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
-import { CreateGroupPayload } from '../../shared/models/group.model';
 import { Location } from '../../shared/models';
-
-import { locations } from '../../../assets/locations.json';
 
 @Component({
   selector: 'app-explore-together',
   standalone: true,
-  imports: [CommonModule, FormsModule, PanelShellComponent, GroupCardComponent],
+  imports: [CommonModule, PanelShellComponent, GroupsSectionComponent],
   templateUrl: './explore-together.component.html',
   styleUrl: './explore-together.component.scss',
 })
 export class ExploreTogetherComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly router     = inject(Router);
+  readonly router             = inject(Router);
   private readonly seo        = inject(SeoService);
   private readonly analytics  = inject(AnalyticsService);
   readonly bridge             = inject(MapBridgeService);
   readonly groupsService      = inject(GroupsService);
   readonly authService        = inject(AuthService);
+  readonly userDataService    = inject(UserDataService);
 
-  // ── UI state ──────────────────────────────────────────────────────────────
-  readonly showCreateForm = signal(false);
-  readonly formError      = signal<string | null>(null);
-  readonly formSubmitting = signal(false);
-  readonly spotResults    = signal<Array<{ slug: string; title: string; lat: number; lon: number }>>([]);
-
-  // ── Create form fields ────────────────────────────────────────────────────
-  formTitle       = '';
-  formDate        = '';
-  formTime        = '08:00';
-  formDescription = '';
-  formDifficulty: 'easy' | 'moderate' | 'hard' = 'easy';
-  formMaxMembers  = '';
-  formSpotSearch  = '';
-  formSpotSlug    = '';
-  formSpotTitle   = '';
-  formSpotLat     = 0;
-  formSpotLon     = 0;
-
-  private readonly allSpots = (locations as Location[]).map(l => ({
-    slug: l.slug, title: l.title, lat: l.lat, lon: l.lon,
-  }));
+  // Admin-only migration state
+  readonly migrating    = signal(false);
+  readonly migrateResult = signal<string | null>(null);
 
   constructor() {
-    // Keep map group pins in sync reactively as groups load
     effect(() => {
       this.bridge.providerPins.set(this.groupsService.groupsAsProviderPins());
     });
@@ -91,102 +69,20 @@ export class ExploreTogetherComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.groupsService.stopGroupsListener();
+    this.bridge.pickMode.set(false);
+    this.bridge.meetingPointMarker.set(null);
   }
 
-  // ── Spot search ───────────────────────────────────────────────────────────
-  onSpotSearchInput(): void {
-    const q = this.formSpotSearch.trim().toLowerCase();
-    if (!q) { this.spotResults.set([]); return; }
-    this.spotResults.set(
-      this.allSpots.filter(s => s.title.toLowerCase().includes(q)).slice(0, 6),
-    );
-  }
-
-  selectSpot(spot: { slug: string; title: string; lat: number; lon: number }): void {
-    this.formSpotSlug   = spot.slug;
-    this.formSpotTitle  = spot.title;
-    this.formSpotLat    = spot.lat;
-    this.formSpotLon    = spot.lon;
-    this.formSpotSearch = spot.title;
-    this.spotResults.set([]);
-  }
-
-  // ── Create form ───────────────────────────────────────────────────────────
-  openCreateForm(): void {
-    if (!this.authService.isLoggedIn()) {
-      this.authService.openLoginModal();
-      return;
-    }
-    this.showCreateForm.set(true);
-  }
-
-  cancelCreate(): void {
-    this.showCreateForm.set(false);
-    this.formError.set(null);
-    this.resetForm();
-  }
-
-  async submitCreate(): Promise<void> {
-    if (!this.formTitle.trim() || !this.formSpotSlug || !this.formDate) {
-      this.formError.set('Please fill in title, spot, and date.');
-      return;
-    }
-
-    const dateObj = new Date(this.formDate + 'T' + this.formTime);
-    if (isNaN(dateObj.getTime())) {
-      this.formError.set('Invalid date or time.');
-      return;
-    }
-
-    const payload: CreateGroupPayload = {
-      title:       this.formTitle.trim(),
-      spotSlug:    this.formSpotSlug,
-      spotTitle:   this.formSpotTitle,
-      spotLat:     this.formSpotLat,
-      spotLon:     this.formSpotLon,
-      date:        dateObj,
-      time:        this.formTime,
-      description: this.formDescription.trim(),
-      difficulty:  this.formDifficulty,
-      maxMembers:  this.formMaxMembers ? parseInt(this.formMaxMembers, 10) : null,
-    };
-
-    this.formError.set(null);
-    this.formSubmitting.set(true);
-
+  async runMigration(): Promise<void> {
+    this.migrating.set(true);
+    this.migrateResult.set(null);
     try {
-      const groupId = await this.groupsService.createGroup(payload);
-      this.showCreateForm.set(false);
-      this.resetForm();
-      this.router.navigate(['/malta/groups', groupId]);
+      const count = await this.groupsService.migrateLeaderIsAdmin();
+      this.migrateResult.set(`✅ Done — ${count} group${count === 1 ? '' : 's'} updated.`);
     } catch (e) {
-      this.formError.set(e instanceof Error ? e.message : 'Something went wrong.');
+      this.migrateResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
     } finally {
-      this.formSubmitting.set(false);
+      this.migrating.set(false);
     }
-  }
-
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
-    if (this.showCreateForm()) this.cancelCreate();
-  }
-
-  get todayMin(): string {
-    return new Date().toISOString().split('T')[0];
-  }
-
-  private resetForm(): void {
-    this.formTitle       = '';
-    this.formDate        = '';
-    this.formTime        = '08:00';
-    this.formDescription = '';
-    this.formDifficulty  = 'easy';
-    this.formMaxMembers  = '';
-    this.formSpotSearch  = '';
-    this.formSpotSlug    = '';
-    this.formSpotTitle   = '';
-    this.formSpotLat     = 0;
-    this.formSpotLon     = 0;
-    this.spotResults.set([]);
   }
 }

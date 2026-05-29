@@ -3,12 +3,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { UserRole } from '../models/user.model';
+import { LEVELS, NEW_LEVEL_DURATION_MS, getLevelForSaved, getNewLevel } from '../utils/level.utils';
 
 interface CachedUserData {
   savedLocations: string[];
   role: UserRole;
   level: number;
   receiveUpdates: boolean;
+  createdAt: number | null; // ms timestamp
 }
 
 const CACHE_KEY = 'vm_ud';
@@ -21,11 +23,20 @@ export class UserDataService {
   private readonly platformId = inject(PLATFORM_ID);
 
   readonly savedLocations = signal<Set<string>>(new Set());
-  readonly role = signal<UserRole>('explorer');
-  readonly level = signal<number>(1);
+  readonly role           = signal<UserRole>('explorer');
+  readonly level          = signal<number>(1);
   readonly receiveUpdates = signal<boolean>(true);
+  readonly createdAt      = signal<number | null>(null);
 
-  readonly isAdmin = computed(() => this.role() === 'admin');
+  readonly isAdmin   = computed(() => this.role() === 'admin');
+  readonly levelInfo = computed(() => {
+    if (this.isAdmin()) return LEVELS.find(l => l.id === 6)!;
+    const createdAt = this.createdAt();
+    if (createdAt !== null && Date.now() - createdAt < NEW_LEVEL_DURATION_MS) {
+      return getNewLevel();
+    }
+    return getLevelForSaved(this.savedLocations().size);
+  });
 
   private saveDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -40,6 +51,7 @@ export class UserDataService {
           this.role.set('explorer');
           this.level.set(1);
           this.receiveUpdates.set(true);
+          this.createdAt.set(null);
         }
       });
     }
@@ -66,29 +78,42 @@ export class UserDataService {
     this.role.set(data.role);
     this.level.set(data.level);
     this.receiveUpdates.set(data.receiveUpdates);
+    this.createdAt.set(data.createdAt);
   }
 
   private async loadUserData(uid: string): Promise<void> {
-    // Serve from cache to avoid a Firestore read on every session
     const cached = this.readCache(uid);
-    if (cached) { this.applyData(cached); return; }
+    if (cached) {
+      this.applyData(cached);
+      // Always refresh in the background — role or other fields may have changed
+      // since the cache was written (e.g. admin promotion). Updates signals + cache.
+      this.fetchAndApply(uid).catch(() => {});
+      return;
+    }
+    await this.fetchAndApply(uid);
+  }
 
+  private async fetchAndApply(uid: string): Promise<void> {
     const ref = doc(this.firestore, 'users', uid);
     const snap = await getDoc(ref);
 
     if (snap.exists()) {
       const d = snap.data();
+      const raw = d['createdAt'];
+      const createdAt = raw?.toMillis?.() ?? (raw instanceof Date ? raw.getTime() : null);
       const data: CachedUserData = {
         savedLocations: d['savedLocations'] ?? [],
         role: (d['role'] as UserRole) ?? 'explorer',
         level: d['level'] ?? 1,
         receiveUpdates: d['receiveUpdates'] ?? true,
+        createdAt,
       };
       this.applyData(data);
       this.writeCache(uid, data);
     } else {
       const user = this.authService.user()!;
-      const data: CachedUserData = { savedLocations: [], role: 'explorer', level: 1, receiveUpdates: true };
+      const now = Date.now();
+      const data: CachedUserData = { savedLocations: [], role: 'explorer', level: 1, receiveUpdates: true, createdAt: now };
       await setDoc(ref, {
         email: user.email,
         displayName: user.displayName,

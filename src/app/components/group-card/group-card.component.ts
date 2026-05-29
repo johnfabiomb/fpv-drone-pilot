@@ -3,20 +3,25 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Group } from '../../shared/models/group.model';
 import { MemberAvatarsComponent } from '../member-avatars/member-avatars.component';
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-group-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, MemberAvatarsComponent, DatePipe],
+  imports: [CommonModule, RouterLink, MemberAvatarsComponent, UserAvatarComponent, DatePipe],
   template: `
     <a class="group-card" [routerLink]="['/malta/groups', group.id]">
 
       <div class="group-card__top">
-        <img class="group-card__avatar"
-          [src]="group.leaderPhoto || '/assets/images/default-avatar.svg'"
-          [alt]="group.leaderName"
-          width="36" height="36"
-          referrerpolicy="no-referrer">
+        <app-user-avatar
+          [photoURL]="group.leaderPhoto"
+          [displayName]="group.leaderName"
+          size="md"
+          shape="circle"
+          [level]="group.leaderIsAdmin ? 6 : 1"
+          [isAdmin]="group.leaderIsAdmin"
+          roleLabel="👑 Group leader">
+        </app-user-avatar>
 
         <div class="group-card__main">
           <div class="group-card__title-row">
@@ -24,10 +29,13 @@ import { MemberAvatarsComponent } from '../member-avatars/member-avatars.compone
             <span class="group-card__status" [class]="'group-card__status--' + group.status"
               *ngIf="group.status !== 'open'">{{ group.status }}</span>
           </div>
-          <span class="group-card__date">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            {{ group.date.toDate() | date:'EEE d MMM' }} · {{ group.time }}
-          </span>
+          <div class="group-card__date-row">
+            <span class="group-card__date">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              {{ group.date.toDate() | date:'EEE d MMM' }} · {{ group.time }}
+            </span>
+            <span *ngIf="whenLabel" class="group-card__when" [class]="'group-card__when--' + whenVariant">{{ whenLabel }}</span>
+          </div>
         </div>
       </div>
 
@@ -78,16 +86,6 @@ import { MemberAvatarsComponent } from '../member-avatars/member-avatars.compone
       margin-bottom: 12px;
     }
 
-    .group-card__avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
-      border: 2px solid var(--color-bg-muted);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-
     .group-card__main {
       flex: 1;
       min-width: 0;
@@ -134,6 +132,7 @@ import { MemberAvatarsComponent } from '../member-avatars/member-avatars.compone
       margin-top: 1px;
 
       &--full      { background: #fef3c7; color: #92400e; }
+      &--exploring { background: #dbeafe; color: #1d4ed8; }
       &--cancelled { background: #fee2e2; color: #dc2626; }
       &--completed { background: var(--color-bg-muted); color: var(--color-text-muted); }
     }
@@ -183,10 +182,82 @@ import { MemberAvatarsComponent } from '../member-avatars/member-avatars.compone
       font-weight: 400;
       color: var(--color-text-muted);
     }
+
+    .group-card__date-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .group-card__when {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+
+      &--upcoming  { background: #dcfce7; color: #15803d; }
+      &--today     { background: #fef9c3; color: #a16207; }
+      &--soon      { background: #fef3c7; color: #b45309; }
+      &--exploring { background: #dbeafe; color: #1d4ed8; }
+      &--past      { background: var(--color-bg-muted); color: var(--color-text-muted); }
+    }
   `],
 })
 export class GroupCardComponent {
   @Input({ required: true }) group!: Group;
+
+  get whenLabel(): string | null {
+    if (this.group.status === 'exploring') return '🧭 Exploring now';
+    if (this.group.status === 'completed') return 'Completed';
+    if (this.group.status === 'cancelled') return 'Cancelled';
+
+    const dt = this.group.date.toDate();
+    const [h, m] = this.group.time.split(':').map(Number);
+    dt.setHours(h, m, 0, 0);
+    const diffMs = dt.getTime() - Date.now();
+    const diffH  = diffMs / 3_600_000;
+    const diffD  = diffMs / 86_400_000;
+
+    if (diffMs < 0) {
+      const agoH = Math.abs(diffH);
+      if (agoH < 1)  return 'Just now';
+      if (agoH < 24) return `${Math.round(agoH)}h ago`;
+      const agoD = Math.round(Math.abs(diffD));
+      return agoD === 1 ? 'Yesterday' : `${agoD} days ago`;
+    }
+
+    if (diffH < 2)  return 'Starting soon!';
+
+    const today    = new Date();
+    const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+    if (dt.toDateString() === today.toDateString())    return 'Today';
+    if (dt.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
+    if (diffD < 7) return `In ${Math.ceil(diffD)} days`;
+
+    return null;
+  }
+
+  get whenVariant(): string {
+    const s = this.group.status;
+    if (s === 'exploring') return 'exploring';
+    if (s === 'completed' || s === 'cancelled') return 'past';
+
+    const dt = this.group.date.toDate();
+    const [h, m] = this.group.time.split(':').map(Number);
+    dt.setHours(h, m, 0, 0);
+    const diffMs = dt.getTime() - Date.now();
+    if (diffMs < 0) return 'past';
+
+    const diffH = diffMs / 3_600_000;
+    if (diffH < 2) return 'soon';
+
+    const today = new Date();
+    if (dt.toDateString() === today.toDateString()) return 'today';
+
+    return 'upcoming';
+  }
 
   shortName(fullName: string): string {
     const parts = fullName.trim().split(' ');
