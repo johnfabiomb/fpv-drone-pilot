@@ -11,7 +11,7 @@ import { ProviderCardComponent } from '../../components/provider-card/provider-c
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { Difficulty, Location, Provider } from '../../shared/models';
 import { haversineKm } from '../../shared/utils/geo.utils';
-import { matchesFilter, FilterId, FilterOption, FILTER_OPTIONS, getIslandLabel, difficultyColor as getDifficultyColor } from '../../shared/utils/location-filter.util';
+import { matchesFilter, normalizeForSearch, FilterId, FilterOption, FILTER_OPTIONS, getIslandLabel, difficultyColor as getDifficultyColor } from '../../shared/utils/location-filter.util';
 import { isDiscountValid } from '../../shared/utils/provider.utils';
 import { FEATURES } from '../../feature-flags';
 
@@ -54,7 +54,7 @@ export class LocationListComponent implements OnInit {
   );
 
   readonly filteredLocations = computed(() => {
-    const q = this.searchQuery().trim().toLowerCase();
+    const q = normalizeForSearch(this.searchQuery().trim());
     const activeFilter = this.activeFilter();
     const lat = this.userLat();
     const lon = this.userLon();
@@ -67,7 +67,7 @@ export class LocationListComponent implements OnInit {
           matchesFilter(loc, activeFilter as FilterId, { dealLocationIds: dealIds })
         );
 
-    if (q) list = list.filter(loc => loc.title.toLowerCase().includes(q));
+    if (q) list = list.filter(loc => normalizeForSearch(loc.title).includes(q));
 
     if (mode === 'distance' && lat !== null) {
       return list

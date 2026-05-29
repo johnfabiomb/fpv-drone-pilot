@@ -638,6 +638,31 @@ var GroupsService = class _GroupsService {
       this.analytics.event("group_message_sent", { group_id: groupId });
     });
   }
+  pinMessage(groupId, msg) {
+    return __async(this, null, function* () {
+      if (!this.authService.user())
+        throw new Error("Not authenticated");
+      yield updateDoc(doc(this.firestore, "groups", groupId), {
+        pinnedMessage: {
+          id: msg.id,
+          text: msg.text.substring(0, 120),
+          authorName: msg.displayName,
+          pinnedAt: serverTimestamp()
+        },
+        updatedAt: serverTimestamp()
+      });
+    });
+  }
+  unpinMessage(groupId) {
+    return __async(this, null, function* () {
+      if (!this.authService.user())
+        throw new Error("Not authenticated");
+      yield updateDoc(doc(this.firestore, "groups", groupId), {
+        pinnedMessage: null,
+        updatedAt: serverTimestamp()
+      });
+    });
+  }
   updateLastActive(groupId) {
     return __async(this, null, function* () {
       const user = this.authService.user();
@@ -715,4 +740,4 @@ export {
   AlreadyHasActiveGroupError,
   GroupsService
 };
-//# sourceMappingURL=chunk-N6BDKNKS.js.map
+//# sourceMappingURL=chunk-MBSJCOXS.js.map

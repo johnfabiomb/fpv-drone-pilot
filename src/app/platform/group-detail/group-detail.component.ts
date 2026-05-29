@@ -20,8 +20,9 @@ import { AuthService } from '../../shared/services/auth.service';
 import { UserDataService } from '../../shared/services/user-data.service';
 import { SeoService } from '../../shared/services/seo.service';
 import { AnalyticsService } from '../../shared/services/analytics.service';
-import { CooldownError, GroupFullError, GroupMember, LeaderMustTransferError, MeetingPoint, SpamMutedError, UpdateGroupPayload } from '../../shared/models/group.model';
+import { CooldownError, GroupFullError, GroupMember, GroupMessage, LeaderMustTransferError, MeetingPoint, SpamMutedError, UpdateGroupPayload } from '../../shared/models/group.model';
 import { Location } from '../../shared/models';
+import { normalizeForSearch } from '../../shared/utils/location-filter.util';
 
 import { locations } from '../../../assets/locations.json';
 
@@ -64,6 +65,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   readonly confirmingBulkAction  = signal<'mute' | 'remove' | null>(null);
   readonly messageText      = signal('');
   readonly sendingMessage   = signal(false);
+  readonly hoveredMessageId = signal<string | null>(null);
+  readonly pinnedExpanded   = signal(false);
   readonly cooldownSecs     = signal(0);
   readonly chatError        = signal<string | null>(null);
   readonly autoJoining        = signal(false);
@@ -73,14 +76,25 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   readonly showEditForm        = signal(false);
   readonly editError           = signal<string | null>(null);
   readonly editBusy            = signal(false);
-  readonly editPickingPoint    = signal(false);
-  editTitle       = '';
-  editDate        = '';
-  editTime        = '';
-  editDescription = '';
+  readonly editPickingPoint       = signal(false);
+  readonly editPendingMeetingPoint = signal<{ lat: number; lon: number } | null>(null);
+  readonly editSpotResults     = signal<{ slug: string; title: string; lat: number; lon: number }[]>([]);
+  editTitle        = '';
+  editDate         = '';
+  editTime         = '';
+  editDescription  = '';
   editDifficulty: 'easy' | 'moderate' | 'hard' = 'easy';
-  editMaxMembers  = '';
+  editMaxMembers   = '';
   editMeetingPoint: MeetingPoint | null = null;
+  editSpotSearch   = '';
+  editSpotSlug     = '';
+  editSpotTitle    = '';
+  editSpotLat      = 0;
+  editSpotLon      = 0;
+
+  private readonly allSpots = (locations as Location[]).map(l => ({
+    slug: l.slug, title: l.title, lat: l.lat, lon: l.lon,
+  }));
 
   // ?view=members in the URL drives the expanded/collapsed members section
   readonly membersExpanded = toSignal(
@@ -147,7 +161,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   private locationApplied = false;
   private readonly _spotLocationEffect = effect(() => {
     const group = this.groupsService.detailGroup();
-    if (!group || this.locationApplied) return;
+    if (!group || this.locationApplied || !group.spotSlug) return;
     const loc = (locations as Location[]).find(l => l.slug === group.spotSlug) ?? null;
     if (!loc) return;
     this.locationApplied = true;
@@ -172,7 +186,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   get currentUser() { return this.authService.user(); }
   get group()       { return this.groupsService.detailGroup(); }
   get members()     { return this.groupsService.detailMembers(); }
-  get messages()    { return this.groupsService.messages(); }
+  get messages()    { return this.groupsService.allMessages(); }
 
   get isLeader(): boolean {
     return !!this.currentUser && this.group?.leaderId === this.currentUser.uid;
@@ -243,10 +257,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
     this.bridge.coordPicked$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(({ lat, lon }) => {
-        this.editMeetingPoint = { lat, lon };
-        this.bridge.meetingPointMarker.set({ lat, lon });
+        this.editPendingMeetingPoint.set({ lat, lon });
+        this.bridge.meetingPointMarker.set({ lat, lon }); // preview on map
         this.bridge.pickMode.set(false);
         this.editPickingPoint.set(false);
+        this.bridge.panel.expand();
       });
 
     this.bridge.meetingPointClicked$.pipe(takeUntilDestroyed(this.destroyRef))
@@ -372,6 +387,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     this.editDifficulty   = g.difficulty;
     this.editMaxMembers   = g.maxMembers != null ? String(g.maxMembers) : '';
     this.editMeetingPoint = g.meetingPoint ?? null;
+    this.editSpotSlug     = g.spotSlug   ?? '';
+    this.editSpotTitle    = g.spotTitle  ?? '';
+    this.editSpotLat      = g.spotLat    ?? 0;
+    this.editSpotLon      = g.spotLon    ?? 0;
+    this.editSpotSearch   = g.spotTitle  ?? '';
+    this.editSpotResults.set([]);
     this.editError.set(null);
     this.showEditForm.set(true);
     if (this.editMeetingPoint) {
@@ -382,6 +403,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   cancelEdit(): void {
     this.showEditForm.set(false);
     this.editError.set(null);
+    if (this.editPickingPoint()) this.bridge.panel.expand();
     this.bridge.pickMode.set(false);
     this.editPickingPoint.set(false);
     // Restore the saved meeting point (not the draft one)
@@ -405,6 +427,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
     const payload: UpdateGroupPayload = {
       title:        this.editTitle.trim(),
+      spotSlug:     this.editSpotSlug  || null,
+      spotTitle:    this.editSpotTitle || null,
+      spotLat:      this.editSpotSlug  ? this.editSpotLat : null,
+      spotLon:      this.editSpotSlug  ? this.editSpotLon : null,
       date:         dateObj,
       time:         this.editTime,
       description:  this.editDescription.trim(),
@@ -420,6 +446,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
       this.showEditForm.set(false);
       this.bridge.pickMode.set(false);
       this.editPickingPoint.set(false);
+      // Re-sync map only if there's still a spot selected
+      if (this.editSpotSlug) {
+        this.locationApplied = false;
+        this.showSpotOnMap();
+      }
     } catch (e) {
       this.editError.set(e instanceof Error ? e.message : 'Could not save changes.');
     } finally {
@@ -430,13 +461,46 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   startEditPickingPoint(): void {
     this.editPickingPoint.set(true);
     this.bridge.pickMode.set(true);
+    this.bridge.panel.minimize();
   }
 
   clearEditMeetingPoint(): void {
+    if (this.editPickingPoint()) this.bridge.panel.expand();
     this.editMeetingPoint = null;
+    this.editPendingMeetingPoint.set(null);
     this.bridge.meetingPointMarker.set(null);
     this.editPickingPoint.set(false);
     this.bridge.pickMode.set(false);
+  }
+
+  confirmEditMeetingPoint(): void {
+    const p = this.editPendingMeetingPoint();
+    if (!p) return;
+    this.editMeetingPoint = p;
+    this.editPendingMeetingPoint.set(null);
+  }
+
+  retryEditMeetingPoint(): void {
+    this.editPendingMeetingPoint.set(null);
+    this.bridge.meetingPointMarker.set(this.editMeetingPoint); // restore previous
+    this.startEditPickingPoint();
+  }
+
+  onEditSpotInput(): void {
+    const q = normalizeForSearch(this.editSpotSearch.trim());
+    if (!q) { this.editSpotResults.set([]); return; }
+    this.editSpotResults.set(
+      this.allSpots.filter(s => normalizeForSearch(s.title).includes(q)).slice(0, 6),
+    );
+  }
+
+  selectEditSpot(spot: { slug: string; title: string; lat: number; lon: number }): void {
+    this.editSpotSlug   = spot.slug;
+    this.editSpotTitle  = spot.title;
+    this.editSpotLat    = spot.lat;
+    this.editSpotLon    = spot.lon;
+    this.editSpotSearch = spot.title;
+    this.editSpotResults.set([]);
   }
 
   // Opens the login modal and marks that the user wants to join on sign-in
@@ -627,7 +691,36 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     }
   }
 
+  loadEarlier(): void {
+    this.groupsService.loadEarlierMessages(this.groupId);
+  }
+
+  showSpotOnMap(): void {
+    const group = this.group;
+    if (!group) return;
+    const loc = (locations as Location[]).find(l => l.slug === group.spotSlug) ?? null;
+    if (loc) this.bridge.selectedLocation.set(loc);
+  }
+
   memberRoleLabel(m: GroupMember): string {
     return m.role === 'leader' ? '👑 Group leader' : 'Member';
+  }
+
+  // ── Pinned message ────────────────────────────────────────────────────────
+
+  get canPin(): boolean {
+    return this.isLeader || this.userDataService.isAdmin();
+  }
+
+  async pinMessage(msg: GroupMessage): Promise<void> {
+    try {
+      await this.groupsService.pinMessage(this.groupId, msg);
+      this.pinnedExpanded.set(false);
+    } catch { /* silent */ }
+  }
+
+  async unpinMessage(): Promise<void> {
+    try { await this.groupsService.unpinMessage(this.groupId); }
+    catch { /* silent */ }
   }
 }

@@ -148,7 +148,7 @@ var routes = [
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-2FJGFBTA.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-ZVFPVE6O.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
@@ -157,12 +157,12 @@ var routes = [
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-6W2W6F77.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-CUYSUHUF.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-XO3EZH3O.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-FRV5K634.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),

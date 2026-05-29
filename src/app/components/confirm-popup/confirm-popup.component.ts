@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, HostBinding, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -29,22 +29,36 @@ import { CommonModule } from '@angular/common';
       right: 0;
       z-index: 200;
     }
+    /* Fixed variant — centered above the footer, used for full-block action areas */
+    :host.is-fixed {
+      position: fixed;
+      top: auto;
+      right: auto;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+    }
+    :host.is-fixed .confirm-popup {
+      width: min(260px, 80vw);
+    }
     .confirm-popup {
       background: var(--color-bg);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 10px 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      padding: 12px 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.16);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       width: 168px;
       animation: cpPopUp 0.15s ease;
     }
     .confirm-popup__text {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 600;
       color: var(--color-text-secondary);
+      line-height: 1.45;
     }
     .confirm-popup__actions {
       display: flex;
@@ -52,13 +66,13 @@ import { CommonModule } from '@angular/common';
     }
     .confirm-popup__btn {
       flex: 1;
-      height: 28px;
+      height: 32px;
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: opacity var(--transition);
+      transition: opacity 0.15s;
       &:hover { opacity: 0.85; }
     }
     .confirm-popup__btn--cancel {
@@ -72,6 +86,10 @@ import { CommonModule } from '@angular/common';
       from { opacity: 0; transform: translateY(-4px) scale(0.97); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
+    :host.is-fixed @keyframes cpPopUp {
+      from { opacity: 0; transform: translateX(-50%) scale(0.96); }
+      to   { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
   `],
 })
 export class ConfirmPopupComponent {
@@ -79,6 +97,9 @@ export class ConfirmPopupComponent {
   @Input() confirmLabel = 'Yes';
   @Input() cancelLabel = 'No';
   @Input() danger = true;
+  /** Use fixed centering when the popup is inside a large action block (not a small anchor). */
+  @Input() set fixed(v: boolean) { this._fixed = v; }
+  @HostBinding('class.is-fixed') _fixed = false;
 
   @Output() confirmed = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();

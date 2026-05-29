@@ -43,7 +43,7 @@
 
   <!-- Spot: locked read-only chip OR free search -->
   <div class="gs-form__field">
-    <label>Spot</label>
+    <label>Spot <span class="gs-form__opt">(optional)</span></label>
     <div *ngIf="lockedLocation" class="gs-form__locked-spot">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
@@ -98,17 +98,33 @@
 
   <div class="gs-form__field">
     <label>Meeting point <span class="gs-form__opt">(optional)</span></label>
-    <div *ngIf="!formMeetingPoint" class="gs-meeting-pick">
-      <button class="gs-meeting-pick__btn"
-        [class.picking]="pickingMeetingPoint()"
-        (click)="startPickingMeetingPoint()">
+
+    <!-- Pending confirmation — user just tapped the map -->
+    <div *ngIf="pendingMeetingPoint()" class="gs-meeting-confirm">
+      <span class="gs-meeting-confirm__msg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
         </svg>
-        {{ pickingMeetingPoint() ? 'Tap anywhere on the map…' : 'Pin on map' }}
+        Is this the right spot?
+      </span>
+      <div class="gs-meeting-confirm__actions">
+        <button class="gs-meeting-confirm__retry" (click)="retryMeetingPoint()">Try again</button>
+        <button class="gs-meeting-confirm__ok" (click)="confirmMeetingPoint()">Confirm</button>
+      </div>
+    </div>
+
+    <!-- No point yet -->
+    <div *ngIf="!formMeetingPoint && !pendingMeetingPoint()" class="gs-meeting-pick">
+      <button class="gs-meeting-pick__btn" (click)="startPickingMeetingPoint()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Pin on map
       </button>
     </div>
-    <div *ngIf="formMeetingPoint" class="gs-meeting-set">
+
+    <!-- Confirmed -->
+    <div *ngIf="formMeetingPoint && !pendingMeetingPoint()" class="gs-meeting-set">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 6 9 17 4 12"/>
       </svg>

@@ -2,7 +2,7 @@ import {
   AlreadyHasActiveGroupError,
   GroupsService,
   MemberAvatarsComponent
-} from "./chunk-N6BDKNKS.js";
+} from "./chunk-MBSJCOXS.js";
 import {
   DefaultValueAccessor,
   FormsModule,
@@ -1051,4 +1051,4 @@ var GroupsSectionComponent = class _GroupsSectionComponent {
 export {
   GroupsSectionComponent
 };
-//# sourceMappingURL=chunk-PFKKQTPI.js.map
+//# sourceMappingURL=chunk-3HG2H5T5.js.map

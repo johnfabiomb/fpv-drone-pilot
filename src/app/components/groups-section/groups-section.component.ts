@@ -18,6 +18,7 @@ import {
   MeetingPoint,
 } from '../../shared/models/group.model';
 import { Location } from '../../shared/models';
+import { normalizeForSearch } from '../../shared/utils/location-filter.util';
 import { locations } from '../../../assets/locations.json';
 
 export interface LockedSpot {
@@ -61,7 +62,8 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   readonly formError         = signal<string | null>(null);
   readonly formSubmitting    = signal(false);
   readonly spotResults       = signal<SpotOption[]>([]);
-  readonly pickingMeetingPoint = signal(false);
+  readonly pickingMeetingPoint    = signal(false);
+  readonly pendingMeetingPoint    = signal<{ lat: number; lon: number } | null>(null);
   readonly showPastGroups    = signal(false);
 
   // Form fields
@@ -118,10 +120,11 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
     this.bridge.coordPicked$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(({ lat, lon }) => {
         if (!this.showCreateForm()) return;
-        this.formMeetingPoint = { lat, lon };
-        this.bridge.meetingPointMarker.set({ lat, lon });
+        this.pendingMeetingPoint.set({ lat, lon });
+        this.bridge.meetingPointMarker.set({ lat, lon }); // preview on map
         this.bridge.pickMode.set(false);
         this.pickingMeetingPoint.set(false);
+        this.bridge.panel.expand();
       });
   }
 
@@ -158,10 +161,10 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   }
 
   onSpotSearchInput(): void {
-    const q = this.formSpotSearch.trim().toLowerCase();
+    const q = normalizeForSearch(this.formSpotSearch.trim());
     if (!q) { this.spotResults.set([]); return; }
     this.spotResults.set(
-      this.allSpots.filter(s => s.title.toLowerCase().includes(q)).slice(0, 6),
+      this.allSpots.filter(s => normalizeForSearch(s.title).includes(q)).slice(0, 6),
     );
   }
 
@@ -177,18 +180,34 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   startPickingMeetingPoint(): void {
     this.pickingMeetingPoint.set(true);
     this.bridge.pickMode.set(true);
+    this.bridge.panel.minimize();
   }
 
   clearMeetingPoint(): void {
+    if (this.pickingMeetingPoint()) this.bridge.panel.expand();
     this.formMeetingPoint = null;
+    this.pendingMeetingPoint.set(null);
     this.bridge.meetingPointMarker.set(null);
     this.pickingMeetingPoint.set(false);
     this.bridge.pickMode.set(false);
   }
 
+  confirmMeetingPoint(): void {
+    const p = this.pendingMeetingPoint();
+    if (!p) return;
+    this.formMeetingPoint = p;
+    this.pendingMeetingPoint.set(null);
+  }
+
+  retryMeetingPoint(): void {
+    this.pendingMeetingPoint.set(null);
+    this.bridge.meetingPointMarker.set(this.formMeetingPoint);
+    this.startPickingMeetingPoint();
+  }
+
   async submitCreate(): Promise<void> {
-    if (!this.formTitle.trim() || !this.formSpotSlug || !this.formDate) {
-      this.formError.set('Please fill in title, spot, and date.');
+    if (!this.formTitle.trim() || !this.formDate) {
+      this.formError.set('Please fill in title and date.');
       return;
     }
     const dateObj = new Date(this.formDate + 'T' + this.formTime);
@@ -199,10 +218,10 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
 
     const payload: CreateGroupPayload = {
       title:        this.formTitle.trim(),
-      spotSlug:     this.formSpotSlug,
-      spotTitle:    this.formSpotTitle,
-      spotLat:      this.formSpotLat,
-      spotLon:      this.formSpotLon,
+      spotSlug:     this.formSpotSlug  || null,
+      spotTitle:    this.formSpotTitle || null,
+      spotLat:      this.formSpotSlug  ? this.formSpotLat : null,
+      spotLon:      this.formSpotSlug  ? this.formSpotLon : null,
       date:         dateObj,
       time:         this.formTime,
       description:  this.formDescription.trim(),

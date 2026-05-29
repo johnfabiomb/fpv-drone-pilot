@@ -502,6 +502,26 @@ button, button span {
   }
 }
 
+.floating-pick-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
 // ═══════════════════════════════════════════════════════════
 // BADGE SYSTEM
 // ═══════════════════════════════════════════════════════════

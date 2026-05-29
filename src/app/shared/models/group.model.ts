@@ -15,13 +15,20 @@ export interface MeetingPoint {
   label?: string;
 }
 
+export interface PinnedMessage {
+  id: string;
+  text: string;
+  authorName: string;
+  pinnedAt: Timestamp;
+}
+
 export interface Group {
   id: string;
   title: string;
-  spotSlug: string;
-  spotTitle: string;
-  spotLat: number;
-  spotLon: number;
+  spotSlug: string | null;
+  spotTitle: string | null;
+  spotLat: number | null;
+  spotLon: number | null;
   date: Timestamp;
   time: string;
   description: string;
@@ -35,6 +42,7 @@ export interface Group {
   memberCount: number;
   memberPreviews: GroupMemberPreview[];
   meetingPoint: MeetingPoint | null;
+  pinnedMessage?: PinnedMessage | null;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -56,14 +64,15 @@ export interface GroupMessage {
   photoURL: string;
   text: string;
   createdAt: Timestamp | null;
+  isSystem?: boolean;
 }
 
 export interface CreateGroupPayload {
   title: string;
-  spotSlug: string;
-  spotTitle: string;
-  spotLat: number;
-  spotLon: number;
+  spotSlug: string | null;
+  spotTitle: string | null;
+  spotLat: number | null;
+  spotLon: number | null;
   date: Date;
   time: string;
   description: string;
@@ -74,6 +83,10 @@ export interface CreateGroupPayload {
 
 export interface UpdateGroupPayload {
   title: string;
+  spotSlug: string | null;
+  spotTitle: string | null;
+  spotLat: number | null;
+  spotLon: number | null;
   date: Date;
   time: string;
   description: string;

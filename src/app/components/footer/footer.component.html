@@ -1,6 +1,7 @@
 <app-levels-modal *ngIf="showLevels" (closeRequested)="showLevels = false"></app-levels-modal>
 
 <div class="nav-menu-backdrop" *ngIf="showNavMenu" (click)="showNavMenu = false"></div>
+<div class="nav-menu-backdrop" *ngIf="showProfile" (click)="showProfile = false"></div>
 <div class="bottom-bar">
   <a *ngIf="features.ROUTE_BUILDER" class="route-btn" routerLink="/malta/plan">🗺️ Build My Route</a>
 
@@ -63,6 +64,25 @@
           <span class="nav-item__badge">Beta</span>
         </span>
         <span class="nav-item__desc">Join a group or start your own hike</span>
+      </span>
+      <svg class="nav-item__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+    <div class="about-divider" style="margin: 2px 0"></div>
+    <a class="nav-item nav-item--facebook"
+      href="https://www.facebook.com/groups/880861094358776"
+      target="_blank"
+      rel="noopener noreferrer"
+      (click)="showNavMenu = false">
+      <span class="nav-item__icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </span>
+      <span class="nav-item__text">
+        <span class="nav-item__label">Join our Community</span>
+        <span class="nav-item__desc">Connect with Malta explorers on Facebook</span>
       </span>
       <svg class="nav-item__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"/>
@@ -136,7 +156,9 @@
         size="md"
         shape="squircle"
         [level]="userDataService.levelInfo().id"
-        [isAdmin]="userDataService.isAdmin()">
+        [isAdmin]="userDataService.isAdmin()"
+        [isSelf]="true"  
+        >
       </app-user-avatar>
     </div>
 

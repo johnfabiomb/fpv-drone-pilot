@@ -1,6 +1,7 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import {
   Firestore,
+  QueryDocumentSnapshot,
   Timestamp,
   addDoc,
   collection,
@@ -14,6 +15,7 @@ import {
   runTransaction,
   serverTimestamp,
   setDoc,
+  startAfter,
   updateDoc,
   where,
   writeBatch,
@@ -50,6 +52,15 @@ export class GroupsService {
   readonly detailMembers      = signal<GroupMember[]>([]);
   readonly messages           = signal<GroupMessage[]>([]);
 
+  // Older messages loaded on demand (prepended to messages() for display)
+  private readonly earlierMessages = signal<GroupMessage[]>([]);
+  // Oldest snapshot doc from the real-time window — used as cursor for pagination
+  private messagesOldestDoc: QueryDocumentSnapshot | null = null;
+  readonly hasMoreMessages  = signal(false);
+  readonly loadingEarlier   = signal(false);
+  // Combined view: older pages + real-time window, in chronological order
+  readonly allMessages = computed(() => [...this.earlierMessages(), ...this.messages()]);
+
   // Current user's own member doc — 1-doc listener, always active while on detail page.
   // Used for isMember + mutedUntil without loading the full subcollection.
   readonly currentUserMember  = signal<GroupMember | null>(null);
@@ -85,21 +96,23 @@ export class GroupsService {
   );
 
   readonly groupsAsProviderPins = computed<Provider[]>(() =>
-    this.openGroups().map(g => {
-      const loc = locations.find(l => l.slug === g.spotSlug);
-      return {
-        id:             g.id,
-        name:           g.title,
-        tagline:        `${g.memberCount} explorer${g.memberCount === 1 ? '' : 's'}`,
-        category:       'group',
-        lat:            g.spotLat,
-        lon:            g.spotLon,
-        showOnMap:      true,
-        mapLabel:       'Group',
-        coverImage:     loc?.thumb ?? loc?.img ?? undefined,
-        pinBorderColor: '#F4A922',
-      };
-    }),
+    this.openGroups()
+      .filter(g => g.spotLat !== null && g.spotLon !== null)
+      .map(g => {
+        const loc = locations.find(l => l.slug === g.spotSlug);
+        return {
+          id:             g.id,
+          name:           g.title,
+          tagline:        `${g.memberCount} explorer${g.memberCount === 1 ? '' : 's'}`,
+          category:       'group',
+          lat:            g.spotLat!,
+          lon:            g.spotLon!,
+          showOnMap:      true,
+          mapLabel:       'Group',
+          coverImage:     loc?.thumb ?? loc?.img ?? undefined,
+          pinBorderColor: '#F4A922',
+        };
+      }),
   );
 
   // ── Listener state ────────────────────────────────────────────────────────
@@ -109,6 +122,9 @@ export class GroupsService {
   private membersUnsub:         (() => void) | null = null; // full subcollection, on-demand
   private messagesUnsub:        (() => void) | null = null;
   private currentDetailId       = '';
+  // Tracks the last group loaded — lets us preserve detailGroup+messages
+  // signals when the user navigates back to the same group (blank-free UX).
+  private cachedDetailId        = '';
 
   constructor() {
     // Firebase auth resolves asynchronously. If startDetailListener() fired before
@@ -131,8 +147,14 @@ export class GroupsService {
     this.stopGroupsListener();
     this.loading.set(true);
 
+    // Only fetch groups from the last 7 days onward — excludes all stale history.
+    // openGroups + recentPastGroups computed filters narrow further client-side.
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+
     const q = query(
       collection(this.firestore, 'groups'),
+      where('date', '>=', Timestamp.fromDate(weekAgo)),
       orderBy('date', 'asc'),
     );
 
@@ -154,6 +176,13 @@ export class GroupsService {
   // current user's member document (isMember + mutedUntil, 1 read instead of N).
   // The full members subcollection is loaded separately, on demand.
   startDetailListener(id: string): void {
+    // Clear stale data only when switching to a *different* group.
+    // Same group (e.g. back-navigation) keeps signals so the panel is instant.
+    if (id !== this.cachedDetailId) {
+      this.detailGroup.set(null);
+      this.messages.set([]);
+    }
+    this.cachedDetailId = id;
     this.stopDetailListener();
     this.currentDetailId = id;
 
@@ -162,14 +191,22 @@ export class GroupsService {
       this.detailGroup.set(snap.exists() ? ({ id: snap.id, ...snap.data() } as Group) : null);
     });
 
-    // Messages — latest 100 only (desc + reverse = chronological, bounded cost)
+    // Messages — latest 30 only (desc + reverse = chronological).
+    // Older pages are loaded on demand via loadEarlierMessages().
     this.messagesUnsub = onSnapshot(
       query(
         collection(this.firestore, 'groups', id, 'messages'),
         orderBy('createdAt', 'desc'),
-        limit(100),
+        limit(30),
       ),
       snap => {
+        // Track the oldest doc in the current window as the pagination cursor.
+        // Only update when no earlier pages have been loaded yet — prevents the
+        // cursor from drifting forward when new messages push docs out of the window.
+        if (this.earlierMessages().length === 0) {
+          this.messagesOldestDoc = snap.docs[snap.docs.length - 1] ?? null;
+          this.hasMoreMessages.set(snap.docs.length >= 30);
+        }
         this.messages.set(
           snap.docs
             .map(d => ({ id: d.id, ...d.data() } as GroupMessage))
@@ -193,11 +230,42 @@ export class GroupsService {
     this.currentMemberUnsub = null;
     this.currentDetailId    = '';
 
-    this.detailGroup.set(null);
+    // detailGroup + messages are intentionally kept — they serve as an instant
+    // cache when the user navigates back to the same group. They are cleared in
+    // startDetailListener() when navigating to a *different* group.
     this.detailMembers.set([]);
-    this.messages.set([]);
     this.currentUserMember.set(null);
+    this.earlierMessages.set([]);
+    this.messagesOldestDoc = null;
+    this.hasMoreMessages.set(false);
     this.messageSentAt = [];
+  }
+
+  // ── Message pagination ────────────────────────────────────────────────────
+  async loadEarlierMessages(groupId: string): Promise<void> {
+    if (!this.messagesOldestDoc || this.loadingEarlier()) return;
+    this.loadingEarlier.set(true);
+    try {
+      const snap = await getDocs(query(
+        collection(this.firestore, 'groups', groupId, 'messages'),
+        orderBy('createdAt', 'desc'),
+        startAfter(this.messagesOldestDoc),
+        limit(30),
+      ));
+      if (snap.empty) {
+        this.hasMoreMessages.set(false);
+        return;
+      }
+      // Advance the cursor to the oldest doc of this page
+      this.messagesOldestDoc = snap.docs[snap.docs.length - 1];
+      const older = snap.docs
+        .map(d => ({ id: d.id, ...d.data() } as GroupMessage))
+        .reverse();
+      this.earlierMessages.set([...older, ...this.earlierMessages()]);
+      this.hasMoreMessages.set(snap.docs.length >= 30);
+    } finally {
+      this.loadingEarlier.set(false);
+    }
   }
 
   // ── Members subcollection — on-demand ─────────────────────────────────────
@@ -205,6 +273,7 @@ export class GroupsService {
   // Stops automatically in stopDetailListener.
   startMembersListener(id: string): void {
     if (this.membersUnsub) return; // already running
+    if (!this.authService.user()) return; // Firestore rules deny guests anyway
     this.membersUnsub = onSnapshot(
       query(collection(this.firestore, 'groups', id, 'members'), orderBy('joinedAt', 'asc')),
       snap => {
@@ -300,9 +369,47 @@ export class GroupsService {
       throw new Error('Group date must be in the future.');
     }
 
+    // Detect changes before writing so we can post activity messages after
+    const old = this.detailGroup();
+    const changes: string[] = [];
+    if (old) {
+      const who = user.displayName ?? 'Someone';
+      if (old.title !== data.title) {
+        changes.push(`${who} changed the group name to "${data.title}"`);
+      }
+      const oldSpot = old.spotTitle ?? null;
+      const newSpot = data.spotTitle ?? null;
+      if (oldSpot !== newSpot) {
+        changes.push(newSpot
+          ? `${who} set the location to ${newSpot}`
+          : `${who} removed the location`);
+      }
+      const oldDt = old.date.toDate();
+      const [oh, om] = old.time.split(':').map(Number);
+      oldDt.setHours(oh, om, 0, 0);
+      if (oldDt.getTime() !== groupDateTime.getTime()) {
+        changes.push(`${who} rescheduled to ${GroupsService.formatDateShort(groupDateTime)} at ${data.time}`);
+      }
+      if ((old.description ?? '') !== (data.description ?? '')) {
+        changes.push(`${who} updated the description`);
+      }
+      if (old.difficulty !== data.difficulty) {
+        changes.push(`${who} changed difficulty to ${data.difficulty}`);
+      }
+      if (old.maxMembers !== data.maxMembers) {
+        changes.push(data.maxMembers !== null
+          ? `${who} set the member limit to ${data.maxMembers}`
+          : `${who} removed the member limit`);
+      }
+    }
+
     await updateDoc(doc(this.firestore, 'groups', groupId), {
       title:        data.title,
-      date:         Timestamp.fromDate(data.date),
+      spotSlug:     data.spotSlug,
+      spotTitle:    data.spotTitle,
+      spotLat:      data.spotLat,
+      spotLon:      data.spotLon,
+      date:         Timestamp.fromDate(groupDateTime),
       time:         data.time,
       description:  data.description,
       difficulty:   data.difficulty,
@@ -311,7 +418,32 @@ export class GroupsService {
       updatedAt:    serverTimestamp(),
     });
 
+    for (const text of changes) {
+      this.addSystemMessage(groupId, text).catch(() => {});
+    }
+
     this.analytics.event('group_updated', { groupId });
+  }
+
+  private getMemberName(targetUid: string): string {
+    return (
+      this.detailMembers().find(m => m.uid === targetUid)?.displayName ??
+      this.detailGroup()?.memberPreviews.find(p => p.uid === targetUid)?.displayName ??
+      'a member'
+    );
+  }
+
+  private async addSystemMessage(groupId: string, text: string): Promise<void> {
+    const user = this.authService.user();
+    if (!user) return;
+    await addDoc(collection(this.firestore, 'groups', groupId, 'messages'), {
+      uid:         user.uid,
+      displayName: user.displayName ?? 'Someone',
+      photoURL:    user.photoURL ?? '',
+      text,
+      isSystem:    true,
+      createdAt:   serverTimestamp(),
+    });
   }
 
   async joinGroup(groupId: string): Promise<void> {
@@ -423,6 +555,10 @@ export class GroupsService {
       updatedAt:    serverTimestamp(),
     });
     await batch.commit();
+
+    this.addSystemMessage(groupId,
+      `${user.displayName ?? 'Someone'} made ${target.displayName} the group leader`,
+    ).catch(() => {});
   }
 
   async transferOwnership(groupId: string, targetUid: string): Promise<void> {
@@ -437,8 +573,9 @@ export class GroupsService {
     if (!group) throw new Error('Group not found');
     if (group.leaderId === targetUid) throw new Error('Cannot remove the group leader.');
 
-    const groupRef  = doc(this.firestore, 'groups', groupId);
-    const memberRef = doc(this.firestore, 'groups', groupId, 'members', targetUid);
+    const targetName = this.getMemberName(targetUid);
+    const groupRef   = doc(this.firestore, 'groups', groupId);
+    const memberRef  = doc(this.firestore, 'groups', groupId, 'members', targetUid);
 
     const newCount    = group.memberCount - 1;
     const newPreviews = group.memberPreviews.filter(p => p.uid !== targetUid);
@@ -448,6 +585,9 @@ export class GroupsService {
     batch.delete(memberRef);
     await batch.commit();
 
+    this.addSystemMessage(groupId,
+      `${user.displayName ?? 'Someone'} removed ${targetName} from the group`,
+    ).catch(() => {});
     this.analytics.event('group_member_removed', { group_id: groupId });
   }
 
@@ -455,10 +595,16 @@ export class GroupsService {
     const user = this.authService.user();
     if (!user) throw new Error('Not authenticated');
 
-    const muteUntil = Timestamp.fromMillis(Date.now() + minutes * 60_000);
+    const targetName = this.getMemberName(targetUid);
+    const muteUntil  = Timestamp.fromMillis(Date.now() + minutes * 60_000);
     await updateDoc(doc(this.firestore, 'groups', groupId, 'members', targetUid), {
       mutedUntil: muteUntil,
     });
+
+    const label = minutes >= 60 ? `${minutes / 60}h` : `${minutes} min`;
+    this.addSystemMessage(groupId,
+      `${user.displayName ?? 'Someone'} muted ${targetName} for ${label}`,
+    ).catch(() => {});
     this.analytics.event('group_member_muted', { group_id: groupId, minutes });
   }
 
@@ -466,13 +612,19 @@ export class GroupsService {
     const user = this.authService.user();
     if (!user) throw new Error('Not authenticated');
 
+    const targetName = this.getMemberName(targetUid);
     await updateDoc(doc(this.firestore, 'groups', groupId, 'members', targetUid), {
       mutedUntil: null,
     });
+
+    this.addSystemMessage(groupId,
+      `${user.displayName ?? 'Someone'} unmuted ${targetName}`,
+    ).catch(() => {});
   }
 
   async bulkRemoveMembers(groupId: string, uids: string[]): Promise<void> {
-    if (!this.authService.user()) throw new Error('Not authenticated');
+    const user = this.authService.user();
+    if (!user) throw new Error('Not authenticated');
     const group = this.detailGroup();
     if (!group) throw new Error('Group not found');
 
@@ -490,11 +642,18 @@ export class GroupsService {
       batch.delete(doc(this.firestore, 'groups', groupId, 'members', uid));
     }
     await batch.commit();
+
+    const who  = user.displayName ?? 'Someone';
+    const text = toRemove.length === 1
+      ? `${who} removed ${this.getMemberName(toRemove[0])} from the group`
+      : `${who} removed ${toRemove.length} members from the group`;
+    this.addSystemMessage(groupId, text).catch(() => {});
     this.analytics.event('group_bulk_removed', { group_id: groupId, count: toRemove.length });
   }
 
   async bulkMuteMembers(groupId: string, uids: string[], minutes: number): Promise<void> {
-    if (!this.authService.user()) throw new Error('Not authenticated');
+    const user = this.authService.user();
+    if (!user) throw new Error('Not authenticated');
 
     const muteUntil = Timestamp.fromMillis(Date.now() + minutes * 60_000);
     const batch = writeBatch(this.firestore);
@@ -502,6 +661,13 @@ export class GroupsService {
       batch.update(doc(this.firestore, 'groups', groupId, 'members', uid), { mutedUntil: muteUntil });
     }
     await batch.commit();
+
+    const who   = user.displayName ?? 'Someone';
+    const label = minutes >= 60 ? `${minutes / 60}h` : `${minutes} min`;
+    const text  = uids.length === 1
+      ? `${who} muted ${this.getMemberName(uids[0])} for ${label}`
+      : `${who} muted ${uids.length} members for ${label}`;
+    this.addSystemMessage(groupId, text).catch(() => {});
     this.analytics.event('group_bulk_muted', { group_id: groupId, count: uids.length, minutes });
   }
 
@@ -581,9 +747,36 @@ export class GroupsService {
     this.analytics.event('group_message_sent', { group_id: groupId });
   }
 
+  async pinMessage(groupId: string, msg: import('../models/group.model').GroupMessage): Promise<void> {
+    if (!this.authService.user()) throw new Error('Not authenticated');
+    await updateDoc(doc(this.firestore, 'groups', groupId), {
+      pinnedMessage: {
+        id:         msg.id,
+        text:       msg.text,
+        authorName: msg.displayName,
+        pinnedAt:   serverTimestamp(),
+      },
+      updatedAt: serverTimestamp(),
+    });
+  }
+
+  async unpinMessage(groupId: string): Promise<void> {
+    if (!this.authService.user()) throw new Error('Not authenticated');
+    await updateDoc(doc(this.firestore, 'groups', groupId), {
+      pinnedMessage: null,
+      updatedAt:     serverTimestamp(),
+    });
+  }
+
   async updateLastActive(groupId: string): Promise<void> {
     const user = this.authService.user();
     if (!user) return;
+    // Skip write if lastActive was updated within the last 5 minutes
+    const member = this.currentUserMember();
+    if (member?.lastActive) {
+      const elapsed = Date.now() - member.lastActive.toMillis();
+      if (elapsed < 5 * 60 * 1000) return;
+    }
     try {
       await updateDoc(
         doc(this.firestore, 'groups', groupId, 'members', user.uid),
@@ -636,6 +829,12 @@ export class GroupsService {
     const [h, m] = g.time.split(':').map(Number);
     dt.setHours(h, m, 0, 0);
     return dt.getTime() + 24 * 60 * 60 * 1000 < Date.now();
+  }
+
+  static formatDateShort(d: Date): string {
+    const days   = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
   }
 
   static formatLastActive(ts: Timestamp): 'Active today' | 'Active this week' | 'Inactive' {
