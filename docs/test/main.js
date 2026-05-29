@@ -1,19 +1,24 @@
 import {
+  UserProfileCardComponent,
   version
-} from "./chunk-YU6KFO4W.js";
+} from "./chunk-CSUESITA.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
 import {
-  UserDataService
-} from "./chunk-VLARSKSL.js";
+  AppModalComponent
+} from "./chunk-WMRGVXS4.js";
 import {
+  ProfileModalService
+} from "./chunk-O7RR7VM6.js";
+import {
+  UserDataService,
   getFirestore,
   initializeFirestore,
   memoryLocalCache,
   persistentLocalCache,
   provideFirestore
-} from "./chunk-3PSU7TQQ.js";
+} from "./chunk-6LXICVCO.js";
 import {
   AuthService,
   getApp2 as getApp,
@@ -21,20 +26,20 @@ import {
   initializeApp,
   provideAuth,
   provideFirebaseApp
-} from "./chunk-B55ERDNS.js";
+} from "./chunk-3P7EVM2E.js";
 import {
   takeUntilDestroyed
-} from "./chunk-VNFAWDNY.js";
+} from "./chunk-KCTK3G3F.js";
 import {
   NavigationEnd,
   Router,
   RouterOutlet,
   provideRouter
-} from "./chunk-NTCFQ4HP.js";
+} from "./chunk-QWUZPIEQ.js";
 import {
   DomRendererFactory2,
   bootstrapApplication
-} from "./chunk-FNGRSLW3.js";
+} from "./chunk-N3IMGYOF.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
@@ -65,6 +70,7 @@ import {
   ɵsetClassDebugInfo,
   ɵɵadvance,
   ɵɵclassProp,
+  ɵɵconditional,
   ɵɵdefineComponent,
   ɵɵdefineInjectable,
   ɵɵelement,
@@ -86,7 +92,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1
-} from "./chunk-UX7WDOQ6.js";
+} from "./chunk-EBDCVLEQ.js";
 
 // src/app/app.routes.ts
 var routes = [
@@ -97,23 +103,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-C6Y5IFM7.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-XRX3K25P.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-NWKSK53P.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-VL2GROHQ.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-T2PHVLJI.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-BHJ3DEYY.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-5VVMURAK.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-QCS36P7A.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-VI6B7OPI.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-J3GRF536.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -121,64 +127,64 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-QFXDRFRZ.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-PWVOFOQW.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-DTQWIXAC.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-ILXUT2ZW.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-DVRY3AUH.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-GIPU7M67.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-L6LHU3U3.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-W3RVESJT.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-34QB72QY.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-N7IBJXVU.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-CWZHMJCP.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-2FJGFBTA.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-WSDIV5S5.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-2JGT2VON.js").then((m) => m.SavedPlacesComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-T34R3R7R.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-6W2W6F77.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-LH7DUZDF.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-XO3EZH3O.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-5ORU3WUS.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-3VY3A3UP.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-JTO5NTZ6.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-6JV2F5YJ.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-B3FWWDD5.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-A35ERVMX.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-4LT4YLM6.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-WWRLPGRX.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -216,7 +222,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-AHROVSOJ.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-SIBA3HBP.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -1063,34 +1069,40 @@ function AuthModalComponent_ng_container_6_Template(rf, ctx) {
 function AuthModalComponent_ul_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "ul", 15)(1, "li")(2, "span", 16);
-    \u0275\u0275text(3, "\u{1F516}");
+    \u0275\u0275text(3, "\u{1F9ED}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "span");
-    \u0275\u0275text(5, "Save your favourite spots and revisit them anytime");
+    \u0275\u0275text(5, "Don't explore alone \u2014 meet people who love Malta as much as you");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(6, "li")(7, "span", 16);
-    \u0275\u0275text(8, "\u{1F39F}\uFE0F");
+    \u0275\u0275text(8, "\u{1F516}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "span");
-    \u0275\u0275text(10, "Get real discounts from local partners I trust");
+    \u0275\u0275text(10, "Save your favourite spots and revisit them anytime");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(11, "li")(12, "span", 16);
-    \u0275\u0275text(13, "\u26A1");
+    \u0275\u0275text(13, "\u{1F39F}\uFE0F");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(14, "span");
-    \u0275\u0275text(15, "Open Google Maps instantly \u2014 no wait");
+    \u0275\u0275text(15, "Get real discounts from local partners I trust");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(16, "li")(17, "span", 16);
-    \u0275\u0275text(18, "\u{1F4F6}");
+    \u0275\u0275text(18, "\u26A1");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(19, "span");
-    \u0275\u0275text(20, "Browse the map offline, even without signal");
+    \u0275\u0275text(20, "Open Google Maps instantly \u2014 no wait");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(21, "li")(22, "span", 16);
-    \u0275\u0275text(23, "\u{1F514}");
+    \u0275\u0275text(23, "\u{1F4F6}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(24, "span");
-    \u0275\u0275text(25, "Get notified when I add new spots to the map");
+    \u0275\u0275text(25, "Browse the map offline, even without signal");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(26, "li")(27, "span", 16);
+    \u0275\u0275text(28, "\u{1F514}");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(29, "span");
+    \u0275\u0275text(30, "Get notified when I add new spots to the map");
     \u0275\u0275elementEnd()()();
   }
 }
@@ -1139,7 +1151,7 @@ var AuthModalComponent = class _AuthModalComponent {
         \u0275\u0275elementStart(3, "svg", 3);
         \u0275\u0275element(4, "line", 4)(5, "line", 5);
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(6, AuthModalComponent_ng_container_6_Template, 9, 0, "ng-container", 6)(7, AuthModalComponent_ul_7_Template, 26, 0, "ul", 7);
+        \u0275\u0275template(6, AuthModalComponent_ng_container_6_Template, 9, 0, "ng-container", 6)(7, AuthModalComponent_ul_7_Template, 31, 0, "ul", 7);
         \u0275\u0275namespaceHTML();
         \u0275\u0275elementStart(8, "app-sign-in-form", 8);
         \u0275\u0275listener("stateChange", function AuthModalComponent_Template_app_sign_in_form_stateChange_8_listener($event) {
@@ -1161,7 +1173,7 @@ var AuthModalComponent = class _AuthModalComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 181 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 182 });
 })();
 
 // src/app/components/welcome-popup/welcome-popup.component.ts
@@ -1183,34 +1195,40 @@ function WelcomePopupComponent_div_0_ng_container_2_Template(rf, ctx) {
     \u0275\u0275text(10, "I've mapped out my favourite spots \u2014 sign in and I'll save yours too.");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(11, "ul", 12)(12, "li")(13, "span", 13);
-    \u0275\u0275text(14, "\u{1F516}");
+    \u0275\u0275text(14, "\u{1F9ED}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(15, "span");
-    \u0275\u0275text(16, "Save your favourite spots and revisit them anytime");
+    \u0275\u0275text(16, "Don't explore alone \u2014 meet people who love Malta as much as you");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(17, "li")(18, "span", 13);
-    \u0275\u0275text(19, "\u{1F39F}\uFE0F");
+    \u0275\u0275text(19, "\u{1F516}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(20, "span");
-    \u0275\u0275text(21, "Get real discounts from local partners I trust");
+    \u0275\u0275text(21, "Save your favourite spots and revisit them anytime");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(22, "li")(23, "span", 13);
-    \u0275\u0275text(24, "\u26A1");
+    \u0275\u0275text(24, "\u{1F39F}\uFE0F");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(25, "span");
-    \u0275\u0275text(26, "Open Google Maps instantly \u2014 no wait");
+    \u0275\u0275text(26, "Get real discounts from local partners I trust");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(27, "li")(28, "span", 13);
-    \u0275\u0275text(29, "\u{1F4F6}");
+    \u0275\u0275text(29, "\u26A1");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(30, "span");
-    \u0275\u0275text(31, "Browse the map offline, even without signal");
+    \u0275\u0275text(31, "Open Google Maps instantly \u2014 no wait");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(32, "li")(33, "span", 13);
-    \u0275\u0275text(34, "\u{1F514}");
+    \u0275\u0275text(34, "\u{1F4F6}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(35, "span");
-    \u0275\u0275text(36, "Get notified when I add new spots to the map");
+    \u0275\u0275text(36, "Browse the map offline, even without signal");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(37, "li")(38, "span", 13);
+    \u0275\u0275text(39, "\u{1F514}");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(40, "span");
+    \u0275\u0275text(41, "Get notified when I add new spots to the map");
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementContainerEnd();
   }
@@ -1242,7 +1260,7 @@ function WelcomePopupComponent_div_0_Template(rf, ctx) {
       \u0275\u0275restoreView(_r1);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 37, 0, "ng-container", 3);
+    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 42, 0, "ng-container", 3);
     \u0275\u0275elementStart(3, "app-sign-in-form", 4);
     \u0275\u0275listener("stateChange", function WelcomePopupComponent_div_0_Template_app_sign_in_form_stateChange_3_listener($event) {
       \u0275\u0275restoreView(_r1);
@@ -1308,7 +1326,7 @@ var WelcomePopupComponent = class _WelcomePopupComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 182 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 186 });
 })();
 
 // src/app/app.component.ts
@@ -1322,6 +1340,24 @@ function AppComponent_app_auth_modal_4_Template(rf, ctx) {
     \u0275\u0275element(0, "app-auth-modal");
   }
 }
+function AppComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-modal", 3);
+    \u0275\u0275listener("closeRequested", function AppComponent_Conditional_6_Template_app_modal_closeRequested_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.profileModal.hide());
+    });
+    \u0275\u0275element(1, "app-user-profile-card", 4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const profile_r3 = ctx;
+    \u0275\u0275advance();
+    \u0275\u0275property("photoURL", profile_r3.photoURL)("displayName", profile_r3.displayName)("levelId", profile_r3.levelId)("levelLabel", profile_r3.levelLabel)("isAdmin", profile_r3.isAdmin)("roleLabel", profile_r3.roleLabel)("activeLabel", profile_r3.activeLabel);
+  }
+}
 var MAP_ROUTES = ["/malta", "/"];
 var AppComponent = class _AppComponent {
   constructor() {
@@ -1331,6 +1367,7 @@ var AppComponent = class _AppComponent {
     this.router = inject(Router);
     this.destroyRef = inject(DestroyRef);
     this.authService = inject(AuthService);
+    this.profileModal = inject(ProfileModalService);
     this._userData = inject(UserDataService);
     this.HASH_RENAMES = {
       "/list": "/malta/list",
@@ -1381,7 +1418,7 @@ var AppComponent = class _AppComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 6, vars: 3, consts: [[4, "ngIf"], [1, "app-version"]], template: function AppComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 7, vars: 4, consts: [[4, "ngIf"], [1, "app-version"], ["maxWidth", "280px"], ["maxWidth", "280px", 3, "closeRequested"], [3, "photoURL", "displayName", "levelId", "levelLabel", "isAdmin", "roleLabel", "activeLabel"]], template: function AppComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275element(0, "router-outlet");
         \u0275\u0275template(1, AppComponent_app_pwa_prompt_1_Template, 1, 0, "app-pwa-prompt", 0);
@@ -1390,20 +1427,24 @@ var AppComponent = class _AppComponent {
         \u0275\u0275elementEnd();
         \u0275\u0275template(4, AppComponent_app_auth_modal_4_Template, 1, 0, "app-auth-modal", 0);
         \u0275\u0275element(5, "app-welcome-popup");
+        \u0275\u0275template(6, AppComponent_Conditional_6_Template, 2, 7, "app-modal", 2);
       }
       if (rf & 2) {
+        let tmp_3_0;
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.isMapRoute);
         \u0275\u0275advance(2);
         \u0275\u0275textInterpolate1("v", ctx.version, "");
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.authService.showLoginModal());
+        \u0275\u0275advance(2);
+        \u0275\u0275conditional((tmp_3_0 = ctx.profileModal.current()) ? 6 : -1, tmp_3_0);
       }
-    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: var(--color-text-base);\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
+    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: var(--color-text-base);\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 23 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 26 });
 })();
 
 // src/main.ts
