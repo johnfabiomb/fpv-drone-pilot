@@ -6,6 +6,84 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- **Explore Together** — full hiking groups feature behind `FEATURES.GROUPS` flag: create groups for Malta spots, join/leave with race-safe transactions, real-time member list, group chat (last 100 messages), leader transfer, cancel group
+- `GroupsService` — all Firestore operations: `onSnapshot` listeners, `runTransaction` for join, `writeBatch` for atomic multi-doc writes, `fetchGroupsForSpot` one-shot query for location detail widget
+- `GroupCardComponent` — group card with leader avatar, date, difficulty badge, member avatars
+- `MemberAvatarsComponent` — overlapping avatar bubbles with `+N` overflow
+- `ExploreTogetherComponent` — groups list + inline create form at `/malta/groups`
+- `GroupDetailComponent` — group detail, member list with last-active, chat, leadership controls at `/malta/groups/:id`
+- Footer **Explore nav menu** — single trigger button replaces "Browse All" + "Groups" buttons; popup with Browse Locations, Exclusive Deals, Explore Together items; backdrop overlay on open
+- "Who's exploring here?" section in location detail when groups exist for that spot
+
+### Fixed
+- Footer profile popup clipped by `overflow: hidden` on `.footer-right` — removed, text truncation handled by inner elements
+- Footer nav popup positioning broken by `backdrop-filter` containing block — moved popup to direct child of `.bottom-bar`
+- Navigation lock icon removed from Google Maps direction buttons (was purely cosmetic, never gated)
+- Explore Together and Group Detail panels had no side padding — wrapped content in `.et-content` / `.gd-content` div
+
+### Added (directions gate + sign-in nudge)
+- Guests clicking a Google Maps direction now get a 10-second interstitial countdown instead of a hard login block; a "Sign in to open straight away" nudge with a sign-in button appears in the interstitial slot
+- Logged-in users skip the interstitial entirely — Google Maps opens immediately in a new tab
+- Direction buttons updated: lock icon removed, hint now reads "Opens in 10s · sign in to skip" for guests
+- Two new benefits added to both auth modal and welcome popup: ⚡ "Open Google Maps instantly — no wait" and 📶 "Browse the map offline, even without signal"
+
+### Changed (copy & tone)
+- Replaced all instances of "exclusive" in UI copy with honest, peer-to-peer language ("Local Deals", "Partner deal", "real discounts from local partners I trust")
+- Auth modal title: "Sign in to unlock it all" → "It's way better signed in"
+- Auth modal benefits aligned with welcome popup wording
+- Email sent state: "Check your email" → "Link on its way! ✉️"; "We sent..." → "I've sent..."
+- Saved places empty state: more personal, first-person copy
+- Deals intro: "Exclusive discounts" → first-person "partners I've personally connected with"
+- iOS IAB note: rewritten to friendly peer-to-peer tone
+- Welcome popup subtitle updated to first-person; benefit copy aligned across both modals
+
+### Added (auth UX overhaul)
+- `SignInFormComponent` — shared reusable form used by both `AuthModalComponent` and `WelcomePopupComponent`; handles all four states: `default`, `android-redirect`, `email-input`, `email-sent`; emits `stateChange` so parents can show/hide chrome conditionally; `:host { display: contents }` slots into any parent flex layout
+- `InAppBrowserService.isAndroid()` — added to gate Android Chrome redirect vs iOS email-only flow
+- `AuthService.openLoginModal()` — now no-ops if user is already logged in (prevents ghost modal)
+- Footer sign-out: `signingOut` loading state disables button and shows "Signing out…" while Firebase `signOut()` resolves
+- `effect()` in both `AuthModalComponent` and `WelcomePopupComponent` auto-dismisses when `isLoggedIn()` becomes true, regardless of which sign-in path was used
+- `busy` getter guards all sign-in buttons against double-click race conditions
+
+### Changed (auth UX overhaul)
+- `AuthModalComponent` rewritten as a thin wrapper around `SignInFormComponent`; header and benefits shown only while `formState === 'default'`; legal text hidden on `email-sent` state
+- `WelcomePopupComponent` rewritten to embed `SignInFormComponent`; welcome chrome (title, benefits) collapses once form advances past `default` state
+- Duplicate sign-in logic (Google OAuth, email link, error handling, loading flags) removed from both modal/popup and centralised in `SignInFormComponent`
+
+### Added (IAB auth)
+- `InAppBrowserService` — detects Instagram/Facebook/Line in-app browsers; `openInChrome()` redirects Android IAB users to Chrome via `intent://` scheme
+- `AuthModalComponent` — IAB-aware states: Android auto-redirects to Chrome; iOS shows email magic link flow (`email-input` → `email-sent` with numbered steps + manual "Check sign-in" button)
+- `AuthService.sendEmailSignInLink()` — sends Firebase email sign-in link; email embedded in `continueUrl` for cross-browser sign-in completion
+- `AuthService.completeEmailSignIn()` — called on app init to detect and complete a pending email link sign-in from any browser; cleans URL after completion
+- `AppComponent.handleEmailSignInLink()` — checks `window.location.href` on startup and completes email link auth if detected, then navigates to `/malta`
+
+### Added
+- `WelcomePopupComponent` — one-time guest welcome modal (shown 2.5s after first visit, suppressed once dismissed via `vm_welcome_shown` localStorage key); lists save/deals/directions benefits; "Sign in with Google" CTA + "Continue as guest" dismiss
+
+### Changed (auth modal)
+- Redesigned `AuthModalComponent` to match welcome popup style: same emoji + photo header, benefit rows, branded gold "Continue with Google" button, matching bounce animation
+
+### Changed
+- Dev about button: photo reduced to 65% opacity (85% on hover) + gold "i" info badge overlaid at bottom-right so users know it's tappable
+- Save buttons (header + body): pulsing `deals-pulse` glow animation while unsaved; animation stops once saved
+
+### Changed (prior)
+- Design token audit: replaced all hardcoded hex colours and pixel values with `var(--token)` references across all component SCSS and inline `styles:` arrays — affects `app.component.scss`, `footer.component.scss`, `map.component.scss`, `nav-interstitial.component.scss`, `location-detail.component.scss`, `provider-card.component.scss`, `provider-detail.component.scss`, `image-gallery.component.scss`, `about.component.scss`, `contact.component.scss`, `map-shell.component.scss`, `payment.component.scss`, `payment-success.component.scss`, `route-builder.component.scss`, `saved-places.component.scss`, `top-places.component.scss`, and inline styles in `auth-modal`, `confirm-popup`, `coupon-reminder`, `pwa-prompt`, `share-button`, and `provider-avatar` components
+
+### Added
+- Firebase Authentication with Google OAuth — sign-in modal, auth state persisted via `onAuthStateChanged`
+- `AuthService` — signals-based service (`user`, `isLoggedIn`, `showLoginModal`); `signInWithGoogle()`, `signOut()`, `openLoginModal()`
+- `UserDataService` — eagerly instantiated at app startup; creates Firestore user document on first login with `role: 'explorer'` and `savedLocations: []`; supports `toggleSaveLocation()`
+- `AuthModalComponent` — overlay modal with Google sign-in button, backdrop dismiss, loading state
+- Footer: "Sign in" button shown when logged out; logged-in user's Google avatar shown when signed in
+- Footer: user popup (above avatar) shows name, email, and "Sign out" button
+- Provider detail: coupon code blurred behind login; phone number locked behind login; Book Now locked behind login
+- Block Hotel provider data corrected: name, tagline, description, highlights, discount label and instructions
+
+### Fixed
+- `UserDataService` was never instantiated at startup — `AppComponent` now eagerly injects it so the `effect()` watching auth state fires on login
+
 ---
 
 ## 2026-05-20

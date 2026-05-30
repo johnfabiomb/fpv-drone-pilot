@@ -41,7 +41,7 @@ const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
       max-width: 420px;
       margin: 0 auto;
       right: 16px;
-      background: #fff;
+      background: var(--color-bg);
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
       padding: 14px 25px 14px 14px;
@@ -72,12 +72,12 @@ const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
       gap: 2px;
       font-size: 13px;
       line-height: 1.4;
-      color: #374151;
+      color: var(--color-text-secondary);
 
       strong {
         font-size: 14px;
         font-weight: 700;
-        color: #111827;
+        color: var(--color-text-base);
       }
 
       .ios-share {
@@ -104,12 +104,12 @@ const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
     }
 
     .btn-later {
-      background: #f3f4f6;
-      color: #6b7280;
+      background: var(--color-bg-muted);
+      color: var(--color-text-muted);
     }
 
     .btn-install {
-      background: #F4A922;
+      background: var(--color-primary);
       color: #fff;
     }
 
@@ -121,7 +121,7 @@ const DISMISS_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
       border: none;
       font-size: 18px;
       line-height: 1;
-      color: #9ca3af;
+      color: var(--color-text-light);
       cursor: pointer;
       padding: 0;
     }

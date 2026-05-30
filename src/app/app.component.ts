@@ -4,6 +4,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
+import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
+import { WelcomePopupComponent } from './components/welcome-popup/welcome-popup.component';
+import { AppModalComponent } from './components/app-modal/app-modal.component';
+import { UserProfileCardComponent } from './components/user-profile-card/user-profile-card.component';
+import { AuthService } from './shared/services/auth.service';
+import { UserDataService } from './shared/services/user-data.service';
+import { ProfileModalService } from './shared/services/profile-modal.service';
 import { version } from '../../package.json';
 import { filter } from 'rxjs/operators';
 
@@ -12,7 +19,7 @@ const MAP_ROUTES = ['/malta', '/'];
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, PwaPromptComponent],
+  imports: [RouterOutlet, CommonModule, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -23,6 +30,10 @@ export class AppComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  readonly authService = inject(AuthService);
+  readonly profileModal = inject(ProfileModalService);
+  // Eagerly instantiate so its effect() runs from app startup
+  private readonly _userData = inject(UserDataService);
 
   private readonly HASH_RENAMES: Record<string, string> = {
     '/list':  '/malta/list',
@@ -34,6 +45,7 @@ export class AppComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.handleLegacyHashUrls();
       this.handleRedirectParam();
+      this.handleEmailSignInLink();
     }
 
     this.router.events
@@ -65,5 +77,15 @@ export class AppComponent implements OnInit {
     if (redirect) {
       this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
     }
+  }
+
+  private handleEmailSignInLink(): void {
+    if (!this.authService.isEmailSignInLink(window.location.href)) return;
+    this.authService.completeEmailSignIn(window.location.href).then(completed => {
+      if (completed) {
+        // Strip auth params from the URL after sign-in
+        this.router.navigateByUrl('/malta', { replaceUrl: true });
+      }
+    });
   }
 }

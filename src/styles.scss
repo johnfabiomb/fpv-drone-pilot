@@ -40,6 +40,30 @@ body {
   --shadow-md:            0 2px 14px rgba(0, 0, 0, 0.14);
   --shadow-panel:         0 -4px 24px rgba(0, 0, 0, 0.12);
   --transition:           0.15s;
+
+  // ── Semantic state colors ────────────────────────────────
+  --color-danger:              #dc2626;
+  --color-danger-dark:         #991b1b;
+  --color-danger-bg:           #fef2f2;
+  --color-danger-bg-hover:     #fee2e2;
+  --color-danger-border:       #fecaca;
+
+  --color-success:             #059669;
+  --color-success-bg:          #ecfdf5;
+  --color-success-bg-hover:    #d1fae5;
+  --color-success-border:      #a7f3d0;
+  --color-success-border-hover:#6ee7b7;
+
+  --color-warning:             #92400e;
+  --color-warning-bg:          #fffbeb;
+  --color-warning-bg-hover:    #fef3c7;
+  --color-warning-border:      #fde68a;
+
+  --color-info:                #1d4ed8;
+  --color-info-bg:             #eff6ff;
+  --color-info-bg-hover:       #dbeafe;
+  --color-info-border:         #bfdbfe;
+  --color-info-border-hover:   #93c5fd;
 }
 
 html,
@@ -262,46 +286,6 @@ button, button span {
 .ol-control button {
   outline: none !important;
   -webkit-tap-highlight-color: transparent;
-}
-
-.ol-zoom {
-  top: auto !important;
-  bottom: 50px;
-  left: auto !important;
-  right: 8px;
-  background: transparent !important;
-  padding: 0 !important;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-
-  button {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 40px !important;
-    height: 40px !important;
-    background: #fff !important;
-    border: none !important;
-    border-radius: 0 !important;
-    color: #555 !important;
-    font-size: 20px !important;
-    font-weight: 400 !important;
-    line-height: 1 !important;
-    cursor: pointer;
-    padding: 0 !important;
-    margin: 0 !important;
-    transition: background 0.15s, color 0.15s;
-
-    &:hover {
-      background: #f5f5f5 !important;
-      color: #111 !important;
-    }
-
-    &.ol-zoom-in {
-      border-bottom: 1px solid #e0e0e0 !important;
-    }
-  }
 }
 
 
@@ -540,6 +524,26 @@ button, button span {
       box-shadow: 0 4px 20px rgba(244, 169, 34, 0.45);
     }
   }
+}
+
+.floating-pick-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
 }
 
 // ═══════════════════════════════════════════════════════════

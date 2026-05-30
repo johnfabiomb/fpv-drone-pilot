@@ -11,6 +11,19 @@ export function toLocationSlug(title: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+// Strips Maltese-specific characters so users can search with a plain English
+// keyboard. Għ→gh and Ħ→h must be replaced before NFD decomposition.
+// NFD + combining-mark removal then handles Ċ→c, Ġ→g, Ż→z automatically.
+// Applied to both the query AND the candidate title — originals are never changed.
+export function normalizeForSearch(str: string): string {
+  return str
+    .toLowerCase()
+    .replace(/għ/gi, 'gh')
+    .replace(/ħ/gi, 'h')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '');
+}
+
 export interface FilterOption {
   id: FilterId;
   label: string;

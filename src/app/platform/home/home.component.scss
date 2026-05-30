@@ -1,4 +1,4 @@
-@import '../../../styles2.scss';
+@use '../../../styles2.scss' as *;
 
 a:link {
     text-decoration: none;
@@ -86,10 +86,10 @@ a:active {
         .ig-section{
             flex-grow: 0.3;
             iframe{
+                width: 100%;
                 @include tabletAndDesktop {
                     min-width: 350px;
                 }
-                width: 100%;
             }
         }
        

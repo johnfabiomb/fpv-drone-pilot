@@ -7,7 +7,7 @@ import { fromLonLat } from 'ol/proj';
 const PIN_W = 22;
 const PIN_H = 32;
 
-function makePinCanvas(color: string): HTMLCanvasElement {
+export function makePinCanvas(color: string): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width  = PIN_W;
   canvas.height = PIN_H;

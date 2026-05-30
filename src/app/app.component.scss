@@ -8,7 +8,7 @@ a {
     right: 10px;
     transform: translateX(-50%);
     font-size: 6px;
-    color: #111827;
+    color: var(--color-text-base);
     opacity: 0.4;
     pointer-events: none;
     z-index: 9999;

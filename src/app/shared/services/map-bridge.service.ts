@@ -51,7 +51,7 @@ export class MapBridgeService {
 
   // ── Nav interstitial ───────────────────────────────────────
   readonly pendingNavUrl         = signal<string | null>(null);
-  readonly navDuration           = signal(6);
+  readonly navDuration           = signal(3);
   readonly interstitialProviders = signal<Provider[]>([]);
   /** Set when Book Now triggers the interstitial — shows coupon instead of ads. */
   readonly interstitialProvider  = signal<Provider | null>(null);
@@ -64,10 +64,20 @@ export class MapBridgeService {
     this.interstitialLabel.set(null);
   }
 
+  // ── Meeting point pick mode ────────────────────────────────
+  /** When true, map clicks emit coordPicked$ instead of selecting locations. */
+  readonly pickMode             = signal(false);
+  /** Marker position shown on map (set by form after pick, or by group detail). */
+  readonly meetingPointMarker   = signal<{ lat: number; lon: number } | null>(null);
+
   // ── Events: map → panels ───────────────────────────────────
   readonly locationSelected$    = new Subject<Location | null>();
   readonly providerPinSelected$ = new Subject<Provider>();
   readonly gpsCoord$            = new Subject<{ lat: number; lon: number }>();
+  /** Emitted when user taps the map while pickMode is true. */
+  readonly coordPicked$           = new Subject<{ lat: number; lon: number }>();
+  /** Emitted when the user taps the meeting point marker on the map. */
+  readonly meetingPointClicked$   = new Subject<{ lat: number; lon: number }>();
 
   // ── Events: panels → shell ─────────────────────────────────
   readonly interstitialProviderSelected$ = new Subject<Provider>();

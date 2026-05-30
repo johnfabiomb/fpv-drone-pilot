@@ -1,7 +1,7 @@
 import {
   UserProfileCardComponent,
   version
-} from "./chunk-TWFNT6JO.js";
+} from "./chunk-2RWEJCW4.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -10,7 +10,7 @@ import {
 } from "./chunk-6W5N77V2.js";
 import {
   ProfileModalService
-} from "./chunk-P2CHI26T.js";
+} from "./chunk-WETHF3DM.js";
 import {
   UserDataService,
   getFirestore,
@@ -18,7 +18,7 @@ import {
   memoryLocalCache,
   persistentLocalCache,
   provideFirestore
-} from "./chunk-44EY3WPE.js";
+} from "./chunk-AUG5IYR7.js";
 import {
   AuthService,
   getApp2 as getApp,
@@ -127,7 +127,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-JUKCJXWK.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-W33DDAN5.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -148,21 +148,26 @@ var routes = [
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-QLUN7X67.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-VM2UOSHV.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-R5W4ECH2.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-GOJZXY3R.js").then((m) => m.SavedPlacesComponent)
+          },
+          {
+            path: "admin",
+            canMatch: [() => inject(UserDataService).isAdmin()],
+            loadComponent: () => import("./chunk-7PGLHH5F.js").then((m) => m.AdminPanelComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-BUGEJGA3.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-VH5Y33EF.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-CIYCWKEB.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-XKPGFBHL.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),

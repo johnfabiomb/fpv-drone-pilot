@@ -11,6 +11,8 @@ export class NavigationService {
       this.router.navigate(['/malta/30-places-2026']);
     } else if (backTo === 'list') {
       this.router.navigate(['/malta/list']);
+    } else if (backTo === 'groups') {
+      this.router.navigate(['/malta/groups']);
     } else if (backTo === 'location') {
       const fromLocation = params.get('fromLocation');
       const locationBackTo = params.get('locationBackTo');
