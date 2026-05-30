@@ -65,6 +65,8 @@ export interface GroupMessage {
   text: string;
   createdAt: Timestamp | null;
   isSystem?: boolean;
+  level?: number;
+  isAdmin?: boolean;
 }
 
 export interface CreateGroupPayload {

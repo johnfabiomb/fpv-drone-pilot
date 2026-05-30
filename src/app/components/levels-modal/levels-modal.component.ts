@@ -216,6 +216,7 @@ import { LEVELS, NEW_LEVEL_DURATION_MS, getNextLevel } from '../../shared/utils/
       font-size: 10.5px;
       color: var(--color-text-muted);
       line-height: 1.4;
+      display:none;
     }
 
     .lm-level__req {

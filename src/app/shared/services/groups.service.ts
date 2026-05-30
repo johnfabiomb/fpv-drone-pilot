@@ -741,6 +741,8 @@ export class GroupsService {
       photoURL:    user.photoURL ?? '',
       text:        text.trim().substring(0, 500),
       createdAt:   serverTimestamp(),
+      level:       this.userDataService.levelInfo().id,
+      isAdmin:     this.userDataService.isAdmin(),
     });
 
     this.messageSentAt.push(now);

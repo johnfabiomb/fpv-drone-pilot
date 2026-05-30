@@ -86,10 +86,11 @@ import { CommonModule } from '@angular/common';
       from { opacity: 0; transform: translateY(-4px) scale(0.97); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-    :host.is-fixed @keyframes cpPopUp {
+    @keyframes cpPopUpFixed {
       from { opacity: 0; transform: translateX(-50%) scale(0.96); }
       to   { opacity: 1; transform: translateX(-50%) scale(1); }
     }
+    :host.is-fixed .confirm-popup { animation-name: cpPopUpFixed; }
   `],
 })
 export class ConfirmPopupComponent {

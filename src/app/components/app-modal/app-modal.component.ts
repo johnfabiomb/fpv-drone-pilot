@@ -6,12 +6,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   template: `
     <div class="am-backdrop" (click)="close()">
       <div class="am-card" [style.maxWidth]="maxWidth" (click)="$event.stopPropagation()">
-        <button class="am-close" (click)="close()" aria-label="Close">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
+        @if (showClose) {
+          <button class="am-close" (click)="close()" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        }
         <ng-content></ng-content>
       </div>
     </div>
@@ -71,6 +73,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AppModalComponent {
   @Input() maxWidth = '380px';
+  @Input() showClose = true;
   @Output() closeRequested = new EventEmitter<void>();
 
   close(): void {

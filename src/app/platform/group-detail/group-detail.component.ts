@@ -5,8 +5,7 @@ import {
 import { CommonModule, DOCUMENT, DatePipe, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { PanelShellComponent } from '../../components/panel-shell/panel-shell.component';
 import { UserAvatarComponent } from '../../components/user-avatar/user-avatar.component';
@@ -34,7 +33,8 @@ import { locations } from '../../../assets/locations.json';
   styleUrl: './group-detail.component.scss',
 })
 export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked {
-  @ViewChild('messagesEnd') private messagesEnd!: ElementRef<HTMLDivElement>;
+  @ViewChild('messagesEnd')       private messagesEnd!: ElementRef<HTMLDivElement>;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef<HTMLDivElement>;
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document   = inject(DOCUMENT);
@@ -65,8 +65,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   readonly confirmingBulkAction  = signal<'mute' | 'remove' | null>(null);
   readonly messageText      = signal('');
   readonly sendingMessage   = signal(false);
-  readonly hoveredMessageId = signal<string | null>(null);
-  readonly pinnedExpanded   = signal(false);
+  readonly hoveredMessageId  = signal<string | null>(null);
+  readonly pinnedExpanded    = signal(false);
+  readonly confirmingPinMsg  = signal<GroupMessage | null>(null);
   readonly cooldownSecs     = signal(0);
   readonly chatError        = signal<string | null>(null);
   readonly autoJoining        = signal(false);
@@ -96,19 +97,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     slug: l.slug, title: l.title, lat: l.lat, lon: l.lon,
   }));
 
-  // ?view=members in the URL drives the expanded/collapsed members section
-  readonly membersExpanded = toSignal(
-    this.route.queryParamMap.pipe(map(p => p.get('view') === 'members')),
-    { initialValue: false }
-  );
+  readonly showMembersModal = signal(false);
+  readonly activeTab = signal<'info' | 'chat'>('info');
 
   // Set to true when a non-logged-in user clicks "Sign in to join"
   private pendingAutoJoin = false;
 
-  // Start/stop the full members subcollection listener based on UI state.
-  // Avoids loading N member docs when the user only wants to read + chat.
+  // Start/stop the full members subcollection listener when the modal is open
+  // or the transfer-ownership flow is active.
   private readonly _membersListenerEffect = effect(() => {
-    const needFullList = this.membersExpanded() || this.showTransfer();
+    const needFullList = this.showMembersModal() || this.showTransfer();
     if (!this.groupId) return;
     if (needFullList) {
       this.groupsService.startMembersListener(this.groupId);
@@ -178,6 +176,31 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     this.bridge.meetingPointMarker.set(show ? group.meetingPoint : null);
   });
 
+  // Scroll rules:
+  // - Switching TO the chat tab → always scroll to bottom (first view should show latest)
+  // - New message arrives while already on chat → scroll only if user was near the bottom
+  //   (so reading history isn't interrupted)
+  // Tracks messages() only (live window) — load-earlier updates earlierMessages(), not
+  // messages(), so pagination never triggers an unwanted scroll.
+  private _wasOnChat = false;
+  private readonly _chatScrollEffect = effect(() => {
+    this.groupsService.messages(); // track live message window
+    const onChat = this.activeTab() === 'chat';
+    const justSwitched = onChat && !this._wasOnChat;
+    this._wasOnChat = onChat;
+
+    if (!onChat) return;
+    if (justSwitched || this.isNearBottom()) {
+      this.shouldScrollToBottom = true;
+    }
+  });
+
+  private isNearBottom(): boolean {
+    const el = this.messagesContainer?.nativeElement;
+    if (!el) return true; // not yet in DOM → default to scroll on first render
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+  }
+
   private groupId = '';
   private shouldScrollToBottom = false;
   private cooldownTimer: ReturnType<typeof setInterval> | null = null;
@@ -243,12 +266,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     this.groupId = this.route.snapshot.paramMap.get('id') ?? '';
     if (!this.groupId) { this.router.navigate(['/malta/groups']); return; }
 
-    this.groupsService.startDetailListener(this.groupId);
-
-    // If navigating directly to ?view=members, start the full list immediately
-    if (this.membersExpanded()) {
-      this.groupsService.startMembersListener(this.groupId);
+    if (this.route.snapshot.queryParamMap.get('tab') === 'chat') {
+      this.activeTab.set('chat');
     }
+
+    this.groupsService.startDetailListener(this.groupId);
 
     this.bridge.enterPanelMode([], { label: 'Back to groups' });
 
@@ -509,14 +531,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     this.authService.openLoginModal();
   }
 
-  // Toggles members section between compact row and full list via URL query param
-  toggleMembers(): void {
-    const next = this.membersExpanded() ? null : 'members';
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { view: next },
-      queryParamsHandling: 'merge',
-    });
+  closeMembersModal(): void {
+    this.showMembersModal.set(false);
+    this.exitBulkMode();
   }
 
   async sendMessage(): Promise<void> {
@@ -704,6 +721,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
   memberRoleLabel(m: GroupMember): string {
     return m.role === 'leader' ? '👑 Group leader' : 'Member';
+  }
+
+  setTab(tab: 'info' | 'chat'): void {
+    this.activeTab.set(tab);
+    const base = window.location.pathname;
+    window.history.replaceState(null, '', tab === 'chat' ? `${base}?tab=chat` : base);
   }
 
   // ── Pinned message ────────────────────────────────────────────────────────
