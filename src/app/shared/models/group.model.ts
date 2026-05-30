@@ -43,6 +43,7 @@ export interface Group {
   memberPreviews: GroupMemberPreview[];
   meetingPoint: MeetingPoint | null;
   pinnedMessage?: PinnedMessage | null;
+  completedAt?: Timestamp;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

@@ -37,7 +37,7 @@ import { GroupsService } from '../../shared/services/groups.service';
             <div class="ap-action">
               <div class="ap-action__info">
                 <span class="ap-action__label">Fix groups data</span>
-                <span class="ap-action__desc">Backfill leaderIsAdmin on all group docs</span>
+                <span class="ap-action__desc">Backfill leaderIsAdmin + completedAt on all group docs</span>
               </div>
               <button class="ap-action__btn" (click)="runMigration()" [disabled]="migrating()">
                 {{ migrating() ? 'Updating…' : '🔧 Run' }}
@@ -242,8 +242,16 @@ export class AdminPanelComponent implements OnInit {
     this.migrating.set(true);
     this.migrateResult.set(null);
     try {
-      const count = await this.groupsService.migrateLeaderIsAdmin();
-      this.migrateResult.set(`✅ Done — ${count} group${count === 1 ? '' : 's'} updated.`);
+      const [leaderCount, completedAtCount] = await Promise.all([
+        this.groupsService.migrateLeaderIsAdmin(),
+        this.groupsService.migrateCompletedAt(),
+      ]);
+      const parts: string[] = [];
+      if (leaderCount > 0)     parts.push(`${leaderCount} leaderIsAdmin updated`);
+      if (completedAtCount > 0) parts.push(`${completedAtCount} completedAt backfilled`);
+      this.migrateResult.set(parts.length
+        ? `✅ Done — ${parts.join(', ')}.`
+        : '✅ Nothing to fix — all data is up to date.');
     } catch (e) {
       this.migrateResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
     } finally {

@@ -678,6 +678,7 @@ export class GroupsService {
       status:    'exploring',
       updatedAt: serverTimestamp(),
     });
+    this.addSystemMessage(groupId, '🧭 The group has started exploring!').catch(() => {});
     this.analytics.event('group_exploring_started', { groupId });
   }
 
@@ -686,13 +687,16 @@ export class GroupsService {
       status:    'cancelled',
       updatedAt: serverTimestamp(),
     });
+    this.addSystemMessage(groupId, '❌ This group has been cancelled.').catch(() => {});
   }
 
   async completeGroup(groupId: string): Promise<void> {
     await updateDoc(doc(this.firestore, 'groups', groupId), {
-      status:    'completed',
-      updatedAt: serverTimestamp(),
+      status:      'completed',
+      completedAt: serverTimestamp(),
+      updatedAt:   serverTimestamp(),
     });
+    this.addSystemMessage(groupId, '🏁 This group has been completed! The chat will remain open for 12 hours.').catch(() => {});
   }
 
   // Silently re-syncs memberCount + memberPreviews when the denormalized count
@@ -833,6 +837,23 @@ export class GroupsService {
       const isAdmin  = userSnap.exists() && userSnap.data()['role'] === 'admin';
       await updateDoc(groupDoc.ref, { leaderIsAdmin: isAdmin });
       updated++;
+    }));
+    return updated;
+  }
+
+  // Backfills completedAt for groups that were completed before the field was introduced.
+  // Uses updatedAt as the best available proxy for when the group was completed.
+  async migrateCompletedAt(): Promise<number> {
+    const snap = await getDocs(
+      query(collection(this.firestore, 'groups'), where('status', '==', 'completed'))
+    );
+    let updated = 0;
+    await Promise.all(snap.docs.map(async groupDoc => {
+      const data = groupDoc.data() as { completedAt?: unknown; updatedAt: Timestamp };
+      if (!data.completedAt && data.updatedAt) {
+        await updateDoc(groupDoc.ref, { completedAt: data.updatedAt });
+        updated++;
+      }
     }));
     return updated;
   }
