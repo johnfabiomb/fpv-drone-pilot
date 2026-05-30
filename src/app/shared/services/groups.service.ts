@@ -806,6 +806,21 @@ export class GroupsService {
     return snap.docs.map(d => ({ id: d.id, ...d.data() } as Group));
   }
 
+  // ── Admin: per-user feature activation ───────────────────────────────────
+
+  /** Finds a user doc by email and sets featureAccess.groups = true. */
+  async activateGroupsAccess(email: string): Promise<'ok' | 'not_found'> {
+    const q = query(
+      collection(this.firestore, 'users'),
+      where('email', '==', email),
+      limit(1),
+    );
+    const snap = await getDocs(q);
+    if (snap.empty) return 'not_found';
+    await updateDoc(snap.docs[0].ref, { 'featureAccess.groups': true });
+    return 'ok';
+  }
+
   // ── One-time migration ────────────────────────────────────────────────────
   // Backfills leaderIsAdmin on all existing group docs.
   // Safe to call multiple times — idempotent.

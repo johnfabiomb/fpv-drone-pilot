@@ -1,6 +1,6 @@
 import {
   Component, DestroyRef, Input, OnDestroy, OnInit,
-  PLATFORM_ID, inject, signal,
+  PLATFORM_ID, computed, inject, signal,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { GroupCardComponent } from '../group-card/group-card.component';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
 import { GroupsService } from '../../shared/services/groups.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserDataService } from '../../shared/services/user-data.service';
 import {
   AlreadyHasActiveGroupError,
   CreateGroupPayload,
@@ -49,6 +50,8 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   private readonly bridge = inject(MapBridgeService);
   readonly groupsService = inject(GroupsService);
   readonly authService = inject(AuthService);
+  readonly userDataService = inject(UserDataService);
+  readonly groupsUnlocked = computed(() => this.userDataService.groupsUnlocked());
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);

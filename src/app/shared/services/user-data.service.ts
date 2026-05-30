@@ -11,6 +11,7 @@ interface CachedUserData {
   level: number;
   receiveUpdates: boolean;
   createdAt: number | null; // ms timestamp
+  featureAccess?: { groups?: boolean };
 }
 
 const CACHE_KEY = 'vm_ud';
@@ -27,6 +28,10 @@ export class UserDataService {
   readonly level          = signal<number>(1);
   readonly receiveUpdates = signal<boolean>(true);
   readonly createdAt      = signal<number | null>(null);
+
+  private readonly _featureAccess = signal<{ groups?: boolean } | null>(null);
+  /** True only when the user's Firestore doc has featureAccess.groups === true. */
+  readonly groupsUnlocked = computed(() => this._featureAccess()?.groups === true);
 
   readonly isAdmin   = computed(() => this.role() === 'admin');
   readonly levelInfo = computed(() => {
@@ -52,6 +57,7 @@ export class UserDataService {
           this.level.set(1);
           this.receiveUpdates.set(true);
           this.createdAt.set(null);
+          this._featureAccess.set(null);
         }
       });
     }
@@ -79,6 +85,7 @@ export class UserDataService {
     this.level.set(data.level);
     this.receiveUpdates.set(data.receiveUpdates);
     this.createdAt.set(data.createdAt);
+    this._featureAccess.set(data.featureAccess ?? null);
   }
 
   private async loadUserData(uid: string): Promise<void> {
@@ -107,6 +114,7 @@ export class UserDataService {
         level: d['level'] ?? 1,
         receiveUpdates: d['receiveUpdates'] ?? true,
         createdAt,
+        featureAccess: d['featureAccess'] as { groups?: boolean } | undefined,
       };
       this.applyData(data);
       this.writeCache(uid, data);

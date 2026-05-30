@@ -10,14 +10,29 @@
   <app-share-btn panelActions [url]="shareUrl" [shareTitle]="group?.title ?? 'Group'"></app-share-btn>
   <div class="gd-content">
 
+  <!-- Locked / coming-soon state -->
+  <div class="gd-locked" *ngIf="!groupsUnlocked()">
+    <div class="gd-locked__icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <h3 class="gd-locked__title">Explore Together</h3>
+    <p class="gd-locked__sub">Coming Soon</p>
+    <p class="gd-locked__desc">Find other explorers and join hikes at Malta's best spots. Stay tuned!</p>
+  </div>
+
   <!-- Loading -->
-  <div class="gd-loading" *ngIf="!group">
+  <div class="gd-loading" *ngIf="groupsUnlocked() && !group">
     <span class="gd-loading__dot"></span>
     <span class="gd-loading__dot"></span>
     <span class="gd-loading__dot"></span>
   </div>
 
-  <ng-container *ngIf="group">
+  <ng-container *ngIf="groupsUnlocked() && group">
 
     <!-- Edit form — replaces the entire panel content when open -->
     <div class="gd-edit-scroll" *ngIf="showEditForm()">
@@ -215,6 +230,10 @@
                 (click)="confirmingAction.set('explore')" [disabled]="actionBusy()">
                 🧭 Start exploring
               </button>
+              <button *ngIf="group.status === 'exploring'" class="gd-complete-btn"
+                (click)="confirmingAction.set('complete')" [disabled]="actionBusy()">
+                ✓ Complete group
+              </button>
               <div class="gd-leader-row">
                 <button class="gd-leave-btn" (click)="confirmingAction.set('leave')" [disabled]="actionBusy()">
                   Leave group
@@ -236,16 +255,19 @@
 
             <app-confirm-popup *ngIf="confirmingAction()"
               [fixed]="true"
-              [message]="confirmingAction() === 'leave'   ? 'Leave this group?' :
-                         confirmingAction() === 'explore'  ? 'Start exploring? No new members can join once you begin.' :
-                                                             'Cancel this group? All members will be notified.'"
-              [confirmLabel]="confirmingAction() === 'leave'  ? 'Leave' :
-                              confirmingAction() === 'explore' ? 'Start exploring' :
-                                                                 'Cancel group'"
-              [cancelLabel]="confirmingAction() === 'leave'  ? 'Stay' :
-                             confirmingAction() === 'explore' ? 'Not yet' :
-                                                                'Keep it'"
-              [danger]="confirmingAction() !== 'explore'"
+              [message]="confirmingAction() === 'leave'    ? 'Leave this group?' :
+                         confirmingAction() === 'explore'   ? 'Start exploring? No new members can join once you begin.' :
+                         confirmingAction() === 'complete'  ? 'Mark this group as completed?' :
+                                                              'Cancel this group? All members will be notified.'"
+              [confirmLabel]="confirmingAction() === 'leave'    ? 'Leave' :
+                              confirmingAction() === 'explore'  ? 'Start exploring' :
+                              confirmingAction() === 'complete' ? 'Complete' :
+                                                                  'Cancel group'"
+              [cancelLabel]="confirmingAction() === 'leave'    ? 'Stay' :
+                             confirmingAction() === 'explore'  ? 'Not yet' :
+                             confirmingAction() === 'complete' ? 'Not yet' :
+                                                                 'Keep it'"
+              [danger]="confirmingAction() !== 'explore' && confirmingAction() !== 'complete'"
               (confirmed)="executeConfirmedAction()"
               (cancelled)="confirmingAction.set(null)">
             </app-confirm-popup>

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
 import { FEATURES } from './feature-flags';
+import { UserDataService } from './shared/services/user-data.service';
 
 export const routes: Routes = [
     {
@@ -59,6 +61,11 @@ export const routes: Routes = [
                     {
                         path: 'saved',
                         loadComponent: () => import('./platform/saved-places/saved-places.component').then(m => m.SavedPlacesComponent)
+                    },
+                    {
+                        path: 'admin',
+                        canMatch: [() => inject(UserDataService).isAdmin()],
+                        loadComponent: () => import('./platform/admin-panel/admin-panel.component').then(m => m.AdminPanelComponent)
                     },
                     {
                         path: 'groups',

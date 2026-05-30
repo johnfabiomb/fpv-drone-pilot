@@ -48,11 +48,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   readonly authService        = inject(AuthService);
   readonly userDataService    = inject(UserDataService);
 
+  readonly groupsUnlocked = computed(() => this.userDataService.groupsUnlocked());
+
   // ── UI state ──────────────────────────────────────────────────────────────
   readonly actionError      = signal<string | null>(null);
   readonly actionBusy       = signal(false);
   readonly showTransfer      = signal(false);
-  readonly confirmingAction  = signal<'leave' | 'cancel' | 'explore' | null>(null);
+  readonly confirmingAction  = signal<'leave' | 'cancel' | 'explore' | 'complete' | null>(null);
 
   // Member management (leader / admin)
   readonly memberActionMenu       = signal<string | null>(null); // uid of member with open ⋮ menu
@@ -172,7 +174,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   private readonly _meetingPointEffect = effect(() => {
     const group = this.groupsService.detailGroup();
     if (!group || this.showEditForm()) return;
-    const show = !!group.meetingPoint && (group.status === 'open' || group.status === 'full');
+    const show = !!group.meetingPoint && group.status !== 'cancelled' && group.status !== 'completed';
     this.bridge.meetingPointMarker.set(show ? group.meetingPoint : null);
   });
 
@@ -380,9 +382,23 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   executeConfirmedAction(): void {
-    if (this.confirmingAction() === 'leave')   this.leave();
-    if (this.confirmingAction() === 'cancel')  this.cancelGroup();
-    if (this.confirmingAction() === 'explore') this.startExploring();
+    if (this.confirmingAction() === 'leave')    this.leave();
+    if (this.confirmingAction() === 'cancel')   this.cancelGroup();
+    if (this.confirmingAction() === 'explore')  this.startExploring();
+    if (this.confirmingAction() === 'complete') this.completeGroup();
+  }
+
+  async completeGroup(): Promise<void> {
+    this.confirmingAction.set(null);
+    this.actionError.set(null);
+    this.actionBusy.set(true);
+    try {
+      await this.groupsService.completeGroup(this.groupId);
+    } catch (e) {
+      this.actionError.set(e instanceof Error ? e.message : 'Could not complete group.');
+    } finally {
+      this.actionBusy.set(false);
+    }
   }
 
   async startExploring(): Promise<void> {

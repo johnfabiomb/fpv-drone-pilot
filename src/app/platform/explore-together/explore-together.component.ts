@@ -1,6 +1,6 @@
 import {
   Component, DestroyRef, OnDestroy, OnInit,
-  PLATFORM_ID, effect, inject, signal,
+  PLATFORM_ID, computed, effect, inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
@@ -34,9 +34,7 @@ export class ExploreTogetherComponent implements OnInit, OnDestroy {
   readonly authService        = inject(AuthService);
   readonly userDataService    = inject(UserDataService);
 
-  // Admin-only migration state
-  readonly migrating    = signal(false);
-  readonly migrateResult = signal<string | null>(null);
+  readonly groupsUnlocked = computed(() => this.userDataService.groupsUnlocked());
 
   constructor() {
     effect(() => {
@@ -73,16 +71,4 @@ export class ExploreTogetherComponent implements OnInit, OnDestroy {
     this.bridge.meetingPointMarker.set(null);
   }
 
-  async runMigration(): Promise<void> {
-    this.migrating.set(true);
-    this.migrateResult.set(null);
-    try {
-      const count = await this.groupsService.migrateLeaderIsAdmin();
-      this.migrateResult.set(`✅ Done — ${count} group${count === 1 ? '' : 's'} updated.`);
-    } catch (e) {
-      this.migrateResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
-    } finally {
-      this.migrating.set(false);
-    }
-  }
 }

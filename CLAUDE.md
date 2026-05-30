@@ -300,7 +300,14 @@ Feature flags live in `src/app/feature-flags.ts` and are swapped at build time v
 |---|---|---|---|
 | `FEATURES.PROMOTIONS` | `true` | `true` | `false` (flip to `true` when ready) |
 | `FEATURES.ROUTE_BUILDER` | `false` | `false` | `false` |
-| `FEATURES.GROUPS` | `true` | `true` | `false` (flip when tested on staging) |
+| `FEATURES.GROUPS` | `true` | `true` | `true` (teaser visible to all; per-user `featureAccess.groups` in Firestore controls real access) |
+
+**Per-user feature access (Groups early access):**
+- `FEATURES.GROUPS = true` shows the teaser to all users (locked state with "Coming soon")
+- `users/{uid}.featureAccess.groups = true` in Firestore gives real access to a specific user
+- Checked via `UserDataService.groupsUnlocked()` computed signal (read once at login, 24h cache)
+- Admin activates users via the **Users** tab in the dedicated admin panel at `/malta/admin` (email input)
+- Change takes effect on the user's next login
 
 **Adding a new flag:**
 1. Add the key to all three files (`feature-flags.ts`, `feature-flags.staging.ts`, `feature-flags.production.ts`)
@@ -358,11 +365,13 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `src/app/platform/location-list/` | Browse Locations map page |
 | `src/app/platform/explore-together/` | Hiking groups list + create form at `/malta/groups` (feature-flagged `GROUPS`) |
 | `src/app/platform/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
+| `src/app/platform/admin-panel/` | Dedicated admin panel at `/malta/admin` — guarded by `isAdmin()` canMatch; Groups tab (migration) + Users tab (early-access activation) |
 | `src/app/shared/services/groups.service.ts` | All Firestore group operations — listeners, mutations, presence |
 | `src/app/components/group-card/` | Single group card for the groups list |
 | `src/app/components/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
 | `src/assets/locations.json` | All location data |
 | `src/assets/providers.json` | All provider/deal data |
+| `firestore.rules` | Firestore security rules — deploy with `firebase deploy --only firestore:rules` or paste in Firebase console |
 
 ---
 
