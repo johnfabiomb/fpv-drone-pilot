@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, computed, DestroyRef, ElementRef, HostListener, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, PLATFORM_ID, computed, DestroyRef, ElementRef, HostListener, OnDestroy, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { FilterBarComponent } from '../../components/filter-bar/filter-bar.component';
@@ -11,6 +11,7 @@ import { CouponReminderComponent } from '../../components/coupon-reminder/coupon
 import { ProviderCardComponent } from '../../components/provider-card/provider-card.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { MapBridgeService } from '../../shared/services/map-bridge.service';
+import { InAppBrowserService } from '../../shared/services/in-app-browser.service';
 import { Provider, Route } from '../../shared/models';
 import { PanelResize } from '../../shared/utils/panel-resize.util';
 import { ROUTE_COLORS } from '../../shared/utils/route-drawing';
@@ -28,14 +29,17 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   @ViewChild('panelWrap') private panelWrap?: ElementRef<HTMLDivElement>;
   @ViewChild(MapComponent) private mapComp?: MapComponent;
 
-  readonly bridge = inject(MapBridgeService);
-  readonly auth = inject(AuthService);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
+  readonly bridge      = inject(MapBridgeService);
+  readonly auth        = inject(AuthService);
+  readonly iab         = inject(InAppBrowserService);
+  private readonly platformId  = inject(PLATFORM_ID);
+  private readonly destroyRef  = inject(DestroyRef);
+  private readonly router      = inject(Router);
 
   readonly version = version;
   isOnline = true;
   showDevAbout = false;
+  iabLabel: string | null = null;
 
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
@@ -73,6 +77,10 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId) && this.iab.isInAppBrowser()) {
+      this.iabLabel = this.iab.getAppLabel();
+    }
+
     this.bridge.registerPanelGetter(() => this.panelWrap);
     this.bridge.registerMap(this.mapComp!);
 

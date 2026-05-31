@@ -1,7 +1,8 @@
 import {
+  InAppBrowserService,
   UserProfileCardComponent,
   version
-} from "./chunk-YAOXQ5NE.js";
+} from "./chunk-GSBZ357Y.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -127,7 +128,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-INTJPDXJ.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-OK7BSEDI.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -640,30 +641,6 @@ var PwaPromptComponent = class _PwaPromptComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/components/pwa-prompt/pwa-prompt.component.ts", lineNumber: 131 });
 })();
-
-// src/app/shared/services/in-app-browser.service.ts
-var InAppBrowserService = class _InAppBrowserService {
-  isInAppBrowser() {
-    const ua = navigator.userAgent;
-    return /Instagram|FBAN|FBAV|FB_IAB|FB4A|Line\/|Musical\.ly/i.test(ua);
-  }
-  isAndroid() {
-    return /android/i.test(navigator.userAgent);
-  }
-  /** Launches the current URL in Chrome on Android via the intent:// scheme. */
-  openInChrome() {
-    const stripped = window.location.href.replace(/^https?:\/\//, "");
-    window.location.href = `intent://${stripped}#Intent;scheme=https;package=com.android.chrome;end`;
-  }
-  static {
-    this.\u0275fac = function InAppBrowserService_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _InAppBrowserService)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _InAppBrowserService, factory: _InAppBrowserService.\u0275fac, providedIn: "root" });
-  }
-};
 
 // src/app/components/sign-in-form/sign-in-form.component.ts
 function SignInFormComponent_ng_container_0_p_8_Template(rf, ctx) {

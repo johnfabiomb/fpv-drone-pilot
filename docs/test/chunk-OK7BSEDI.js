@@ -10,9 +10,10 @@ import {
   matchesFilter
 } from "./chunk-SFBGFQ5L.js";
 import {
+  InAppBrowserService,
   UserProfileCardComponent,
   version
-} from "./chunk-YAOXQ5NE.js";
+} from "./chunk-GSBZ357Y.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -73,6 +74,7 @@ import {
   ɵɵadvance,
   ɵɵattribute,
   ɵɵclassProp,
+  ɵɵconditional,
   ɵɵdefineComponent,
   ɵɵelement,
   ɵɵelementContainerEnd,
@@ -1110,7 +1112,7 @@ var FooterComponent = class _FooterComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", !ctx.authService.isLoggedIn());
       }
-    }, dependencies: [NgIf, RouterLink, UserAvatarComponent, LevelsModalComponent, UserProfileCardComponent], styles: ['\n\n.bottom-bar[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 64px;\n  padding: 0 16px;\n  box-sizing: border-box;\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  background: rgba(255, 255, 255, 0.92);\n  backdrop-filter: blur(14px);\n  -webkit-backdrop-filter: blur(14px);\n  border-top: 1px solid rgba(0, 0, 0, 0.08);\n  position: relative;\n  z-index: 400;\n}\n.route-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--color-primary);\n  color: #fff;\n  text-decoration: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 18px;\n  font-weight: 700;\n  font-size: 14px;\n  box-shadow: 0 2px 10px rgba(244, 169, 34, 0.35);\n  white-space: nowrap;\n  transition: box-shadow var(--transition), opacity var(--transition);\n}\n.route-btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.9;\n  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);\n}\n.list-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: var(--color-bg-light);\n  color: var(--color-text-secondary);\n  text-decoration: none;\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  border: 1px solid var(--color-border);\n  white-space: nowrap;\n  flex-shrink: 0;\n  transition: background var(--transition), box-shadow var(--transition);\n}\n.list-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n.nav-menu-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.25);\n  z-index: 398;\n}\n.nav-menu-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.nav-menu-trigger[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--color-bg-light);\n  color: var(--color-text-secondary);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  white-space: nowrap;\n  transition: background var(--transition), box-shadow var(--transition);\n}\n.nav-menu-trigger[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n.nav-menu-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 8px);\n  left: 16px;\n  width: 260px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n  z-index: 100;\n}\n.nav-menu-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  left: 20px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n.nav-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 12px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  text-decoration: none;\n  transition: background var(--transition);\n}\n.nav-item[_ngcontent-%COMP%]:hover, \n.nav-item[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.nav-item__icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  width: 28px;\n  height: 28px;\n  border-radius: var(--radius-md);\n  background: var(--color-bg);\n  border: 1px solid var(--color-border);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: var(--color-text-secondary);\n}\n.nav-item__text[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  text-align: left;\n}\n.nav-item__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.nav-item__badge[_ngcontent-%COMP%] {\n  font-size: 9px;\n  font-weight: 700;\n  padding: 1px 5px;\n  border-radius: 8px;\n  background: var(--color-primary);\n  color: #fff;\n  letter-spacing: 0.04em;\n  text-transform: uppercase;\n  flex-shrink: 0;\n}\n.nav-item__badge--soon[_ngcontent-%COMP%] {\n  background: var(--color-text-light);\n}\n.nav-item__desc[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n}\n.nav-item__chevron[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.nav-item--facebook[_ngcontent-%COMP%]   .nav-item__icon[_ngcontent-%COMP%] {\n  background: rgba(24, 119, 242, 0.08);\n  border-color: rgba(24, 119, 242, 0.2);\n  color: #1877F2;\n}\n.nav-item--admin[_ngcontent-%COMP%]   .nav-item__icon[_ngcontent-%COMP%] {\n  background: rgba(107, 114, 128, 0.08);\n  border-color: rgba(107, 114, 128, 0.2);\n  color: var(--color-text-muted);\n}\n.nav-item--locked[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  cursor: default;\n  pointer-events: none;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.about-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-left: 10px;\n}\n.about-trigger[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--radius-md);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-border);\n  box-sizing: border-box;\n  display: block;\n  transition: border-color var(--transition);\n}\n.about-trigger[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n}\n.about-popup--dev[_ngcontent-%COMP%] {\n  left: 0;\n  right: auto;\n}\n.about-popup--dev[_ngcontent-%COMP%]::after {\n  left: 10px;\n  right: auto;\n}\n.footer-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  margin-left: auto;\n  padding-left: 12px;\n  min-width: 0;\n}\n.signin-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  background: transparent;\n  color: var(--color-primary);\n  border: 1.5px solid var(--color-primary);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  white-space: nowrap;\n  transition: background var(--transition);\n}\n.signin-btn[_ngcontent-%COMP%]:hover {\n  background: #fffbeb;\n}\n.profile-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n  position: relative;\n  -webkit-user-select: none;\n  user-select: none;\n  min-width: 0;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n  text-align: right;\n  min-width: 0;\n  overflow: hidden;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%]   .name[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  line-height: 1.3;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%]   .title[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 10px;\n  color: var(--color-text-muted);\n  font-weight: 400;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.profile-wrap--guest[_ngcontent-%COMP%] {\n  cursor: pointer;\n}\n.profile-wrap--guest[_ngcontent-%COMP%]   .name[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n}\n.saved-count[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  width: 100%;\n  padding: 11px 14px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  text-decoration: none;\n  margin-top: 16px;\n  transition: background var(--transition);\n}\n.saved-count[_ngcontent-%COMP%]:hover, \n.saved-count[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.saved-count__icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-secondary);\n}\n.saved-count__text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  text-align: left;\n}\n.saved-count__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n}\n.saved-count__sub[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n}\n.saved-count__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.about-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 12px);\n  right: 0;\n  width: 264px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 24px 20px 18px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n  z-index: 100;\n}\n.about-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  right: 22px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n@keyframes _ngcontent-%COMP%_popUp {\n  from {\n    opacity: 0;\n    transform: translateY(8px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.updates-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  padding: 11px 14px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  margin-top: 6px;\n  margin-bottom: 0;\n  gap: 10px;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.updates-row[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.updates-text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  text-align: left;\n}\n.updates-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n}\n.updates-icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-secondary);\n}\n.updates-sub[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n  padding-left: 19px;\n}\n.updates-toggle[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 20px;\n  border-radius: 10px;\n  background: var(--color-border);\n  position: relative;\n  flex-shrink: 0;\n  transition: background 0.2s;\n}\n.updates-toggle__knob[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #fff;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n  transition: transform 0.2s;\n}\n.updates-toggle.on[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n}\n.updates-toggle.on[_ngcontent-%COMP%]   .updates-toggle__knob[_ngcontent-%COMP%] {\n  transform: translateX(14px);\n}\n.about-divider[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 1px;\n  background: var(--color-border);\n  margin: 14px 0;\n}\n.signout-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 7px;\n  width: 100%;\n  padding: 11px 16px;\n  background: var(--color-bg-muted);\n  border: none;\n  border-radius: var(--radius-lg);\n  color: var(--color-text-secondary);\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  margin-bottom: 10px;\n  transition: background var(--transition), color var(--transition);\n}\n.signout-btn[_ngcontent-%COMP%]:hover, \n.signout-btn[_ngcontent-%COMP%]:active {\n  background: #fef2f2;\n  color: #dc2626;\n}\n.signout-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.about-version[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  font-size: 10px;\n  color: var(--color-text-light);\n  font-family: monospace;\n}\n@media (max-width: 900px) {\n  .footer-links[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n/*# sourceMappingURL=footer.component.css.map */'] });
+    }, dependencies: [NgIf, RouterLink, UserAvatarComponent, LevelsModalComponent, UserProfileCardComponent], styles: ['\n\n.bottom-bar[_ngcontent-%COMP%] {\n  width: 100%;\n  height: calc(64px + env(safe-area-inset-bottom));\n  padding: 0 16px env(safe-area-inset-bottom);\n  box-sizing: border-box;\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  background: rgba(255, 255, 255, 0.92);\n  backdrop-filter: blur(14px);\n  -webkit-backdrop-filter: blur(14px);\n  border-top: 1px solid rgba(0, 0, 0, 0.08);\n  position: relative;\n  z-index: 400;\n}\n.route-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--color-primary);\n  color: #fff;\n  text-decoration: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 18px;\n  font-weight: 700;\n  font-size: 14px;\n  box-shadow: 0 2px 10px rgba(244, 169, 34, 0.35);\n  white-space: nowrap;\n  transition: box-shadow var(--transition), opacity var(--transition);\n}\n.route-btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.9;\n  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);\n}\n.list-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: var(--color-bg-light);\n  color: var(--color-text-secondary);\n  text-decoration: none;\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  border: 1px solid var(--color-border);\n  white-space: nowrap;\n  flex-shrink: 0;\n  transition: background var(--transition), box-shadow var(--transition);\n}\n.list-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n.nav-menu-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.25);\n  z-index: 398;\n}\n.nav-menu-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.nav-menu-trigger[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--color-bg-light);\n  color: var(--color-text-secondary);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  white-space: nowrap;\n  transition: background var(--transition), box-shadow var(--transition);\n}\n.nav-menu-trigger[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n.nav-menu-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 8px);\n  left: 16px;\n  width: 260px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n  z-index: 100;\n}\n.nav-menu-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  left: 20px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n.nav-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 12px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  text-decoration: none;\n  transition: background var(--transition);\n}\n.nav-item[_ngcontent-%COMP%]:hover, \n.nav-item[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.nav-item__icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  width: 28px;\n  height: 28px;\n  border-radius: var(--radius-md);\n  background: var(--color-bg);\n  border: 1px solid var(--color-border);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: var(--color-text-secondary);\n}\n.nav-item__text[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  text-align: left;\n}\n.nav-item__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.nav-item__badge[_ngcontent-%COMP%] {\n  font-size: 9px;\n  font-weight: 700;\n  padding: 1px 5px;\n  border-radius: 8px;\n  background: var(--color-primary);\n  color: #fff;\n  letter-spacing: 0.04em;\n  text-transform: uppercase;\n  flex-shrink: 0;\n}\n.nav-item__badge--soon[_ngcontent-%COMP%] {\n  background: var(--color-text-light);\n}\n.nav-item__desc[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n}\n.nav-item__chevron[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.nav-item--facebook[_ngcontent-%COMP%]   .nav-item__icon[_ngcontent-%COMP%] {\n  background: rgba(24, 119, 242, 0.08);\n  border-color: rgba(24, 119, 242, 0.2);\n  color: #1877F2;\n}\n.nav-item--admin[_ngcontent-%COMP%]   .nav-item__icon[_ngcontent-%COMP%] {\n  background: rgba(107, 114, 128, 0.08);\n  border-color: rgba(107, 114, 128, 0.2);\n  color: var(--color-text-muted);\n}\n.nav-item--locked[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  cursor: default;\n  pointer-events: none;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.about-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-left: 10px;\n}\n.about-trigger[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--radius-md);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-border);\n  box-sizing: border-box;\n  display: block;\n  transition: border-color var(--transition);\n}\n.about-trigger[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n}\n.about-popup--dev[_ngcontent-%COMP%] {\n  left: 0;\n  right: auto;\n}\n.about-popup--dev[_ngcontent-%COMP%]::after {\n  left: 10px;\n  right: auto;\n}\n.footer-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  margin-left: auto;\n  padding-left: 12px;\n  min-width: 0;\n}\n.signin-btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  background: transparent;\n  color: var(--color-primary);\n  border: 1.5px solid var(--color-primary);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  white-space: nowrap;\n  transition: background var(--transition);\n}\n.signin-btn[_ngcontent-%COMP%]:hover {\n  background: #fffbeb;\n}\n.profile-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n  position: relative;\n  -webkit-user-select: none;\n  user-select: none;\n  min-width: 0;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%] {\n  text-align: right;\n  min-width: 0;\n  overflow: hidden;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%]   .name[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  line-height: 1.3;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.profile-wrap[_ngcontent-%COMP%]   .text[_ngcontent-%COMP%]   .title[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 10px;\n  color: var(--color-text-muted);\n  font-weight: 400;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.profile-wrap--guest[_ngcontent-%COMP%] {\n  cursor: pointer;\n}\n.profile-wrap--guest[_ngcontent-%COMP%]   .name[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n}\n.saved-count[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  width: 100%;\n  padding: 11px 14px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  text-decoration: none;\n  margin-top: 16px;\n  transition: background var(--transition);\n}\n.saved-count[_ngcontent-%COMP%]:hover, \n.saved-count[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.saved-count__icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-secondary);\n}\n.saved-count__text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  text-align: left;\n}\n.saved-count__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n}\n.saved-count__sub[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n}\n.saved-count__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.about-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 12px);\n  right: 0;\n  width: 264px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 24px 20px 18px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n  z-index: 100;\n}\n.about-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  right: 22px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n@keyframes _ngcontent-%COMP%_popUp {\n  from {\n    opacity: 0;\n    transform: translateY(8px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.updates-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  width: 100%;\n  padding: 11px 14px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  margin-top: 6px;\n  margin-bottom: 0;\n  gap: 10px;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.updates-row[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.updates-text[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  text-align: left;\n}\n.updates-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n}\n.updates-icon[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-secondary);\n}\n.updates-sub[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-light);\n  padding-left: 19px;\n}\n.updates-toggle[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 20px;\n  border-radius: 10px;\n  background: var(--color-border);\n  position: relative;\n  flex-shrink: 0;\n  transition: background 0.2s;\n}\n.updates-toggle__knob[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #fff;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n  transition: transform 0.2s;\n}\n.updates-toggle.on[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n}\n.updates-toggle.on[_ngcontent-%COMP%]   .updates-toggle__knob[_ngcontent-%COMP%] {\n  transform: translateX(14px);\n}\n.about-divider[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 1px;\n  background: var(--color-border);\n  margin: 14px 0;\n}\n.signout-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 7px;\n  width: 100%;\n  padding: 11px 16px;\n  background: var(--color-bg-muted);\n  border: none;\n  border-radius: var(--radius-lg);\n  color: var(--color-text-secondary);\n  font-weight: 600;\n  font-size: 13px;\n  cursor: pointer;\n  margin-bottom: 10px;\n  transition: background var(--transition), color var(--transition);\n}\n.signout-btn[_ngcontent-%COMP%]:hover, \n.signout-btn[_ngcontent-%COMP%]:active {\n  background: #fef2f2;\n  color: #dc2626;\n}\n.signout-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.about-version[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  font-size: 10px;\n  color: var(--color-text-light);\n  font-family: monospace;\n}\n@media (max-width: 900px) {\n  .footer-links[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n/*# sourceMappingURL=footer.component.css.map */'] });
   }
 };
 (() => {
@@ -28254,28 +28256,106 @@ function MapShellComponent_app_nav_interstitial_0_Template(rf, ctx) {
     \u0275\u0275property("ngIf", !ctx_r2.bridge.interstitialProvider() && ctx_r2.bridge.interstitialProviders()[1]);
   }
 }
-function MapShellComponent_app_filter_bar_4_Template(rf, ctx) {
+function MapShellComponent_div_4_button_1_Case_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 35);
+    \u0275\u0275element(1, "rect", 39)(2, "circle", 40)(3, "circle", 41);
+    \u0275\u0275elementEnd();
+  }
+}
+function MapShellComponent_div_4_button_1_Case_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 36);
+    \u0275\u0275element(1, "rect", 42)(2, "path", 43);
+    \u0275\u0275elementEnd();
+  }
+}
+function MapShellComponent_div_4_button_1_Case_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 37);
+    \u0275\u0275element(1, "path", 44);
+    \u0275\u0275elementEnd();
+  }
+}
+function MapShellComponent_div_4_button_1_Case_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 38);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r2.iabLabel);
+  }
+}
+function MapShellComponent_div_4_button_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-filter-bar", 28);
-    \u0275\u0275listener("filterChange", function MapShellComponent_app_filter_bar_4_Template_app_filter_bar_filterChange_0_listener($event) {
+    \u0275\u0275elementStart(0, "button", 31);
+    \u0275\u0275listener("click", function MapShellComponent_div_4_button_1_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r6);
-      const ctx_r2 = \u0275\u0275nextContext();
+      const ctx_r2 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r2.iab.closeWebview());
+    });
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 32);
+    \u0275\u0275element(2, "polyline", 33);
+    \u0275\u0275elementEnd();
+    \u0275\u0275namespaceHTML();
+    \u0275\u0275elementStart(3, "span", 34);
+    \u0275\u0275text(4, "Back to");
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(5, MapShellComponent_div_4_button_1_Case_5_Template, 4, 0, ":svg:svg", 35)(6, MapShellComponent_div_4_button_1_Case_6_Template, 3, 0, ":svg:svg", 36)(7, MapShellComponent_div_4_button_1_Case_7_Template, 2, 0, ":svg:svg", 37)(8, MapShellComponent_div_4_button_1_Case_8_Template, 2, 1, "span", 38);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_4_0;
+    const ctx_r2 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(5);
+    \u0275\u0275conditional((tmp_4_0 = ctx_r2.iabLabel) === "Instagram" ? 5 : tmp_4_0 === "Facebook" ? 6 : tmp_4_0 === "Line" ? 7 : 8);
+  }
+}
+function MapShellComponent_div_4_app_filter_bar_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-filter-bar", 45);
+    \u0275\u0275listener("filterChange", function MapShellComponent_div_4_app_filter_bar_2_Template_app_filter_bar_filterChange_0_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.bridge.filters.set($event));
     });
     \u0275\u0275elementEnd();
   }
 }
+function MapShellComponent_div_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 28);
+    \u0275\u0275template(1, MapShellComponent_div_4_button_1_Template, 9, 1, "button", 29)(2, MapShellComponent_div_4_app_filter_bar_2_Template, 1, 0, "app-filter-bar", 30);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275classProp("filter-bar-row--iab", ctx_r2.iabLabel);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r2.iabLabel);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r2.bridge.showFilterBar());
+  }
+}
 function MapShellComponent_button_7_Template(rf, ctx) {
   if (rf & 1) {
-    const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 29);
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 46);
     \u0275\u0275listener("click", function MapShellComponent_button_7_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r7);
+      \u0275\u0275restoreView(_r8);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.bridge.floatingBackBtnClicked$.next());
     });
-    \u0275\u0275element(1, "i", 30);
+    \u0275\u0275element(1, "i", 47);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -28288,10 +28368,10 @@ function MapShellComponent_button_7_Template(rf, ctx) {
 }
 function MapShellComponent_div_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 31);
+    \u0275\u0275elementStart(0, "div", 48);
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(1, "svg", 32);
-    \u0275\u0275element(2, "path", 33)(3, "circle", 34);
+    \u0275\u0275element(2, "path", 49)(3, "circle", 50);
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, " Tap the map to place the meeting point ");
     \u0275\u0275elementEnd();
@@ -28299,14 +28379,14 @@ function MapShellComponent_div_8_Template(rf, ctx) {
 }
 function MapShellComponent_button_9_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 35);
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 51);
     \u0275\u0275listener("click", function MapShellComponent_button_9_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r8);
+      \u0275\u0275restoreView(_r9);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.bridge.openPanel());
     });
-    \u0275\u0275element(1, "i", 36);
+    \u0275\u0275element(1, "i", 52);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -28323,48 +28403,48 @@ function MapShellComponent_div_10_button_3_span_1_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const r_r12 = \u0275\u0275nextContext().$implicit;
+    const r_r13 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1("", r_r12.emoji, "\xA0");
+    \u0275\u0275textInterpolate1("", r_r13.emoji, "\xA0");
   }
 }
 function MapShellComponent_div_10_button_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 38);
+    const _r11 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 54);
     \u0275\u0275listener("click", function MapShellComponent_div_10_button_3_Template_button_click_0_listener() {
-      const i_r11 = \u0275\u0275restoreView(_r10).index;
+      const i_r12 = \u0275\u0275restoreView(_r11).index;
       const ctx_r2 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r2.onSelectRoute(i_r11));
+      return \u0275\u0275resetView(ctx_r2.onSelectRoute(i_r12));
     });
-    \u0275\u0275template(1, MapShellComponent_div_10_button_3_span_1_Template, 2, 1, "span", 40);
+    \u0275\u0275template(1, MapShellComponent_div_10_button_3_span_1_Template, 2, 1, "span", 56);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const r_r12 = ctx.$implicit;
-    const i_r11 = ctx.index;
+    const r_r13 = ctx.$implicit;
+    const i_r12 = ctx.index;
     const ctx_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleProp("--tab-active-color", ctx_r2.routeColors[i_r11]);
-    \u0275\u0275classProp("active", ctx_r2.bridge.activeRouteIndex() === i_r11);
+    \u0275\u0275styleProp("--tab-active-color", ctx_r2.routeColors[i_r12]);
+    \u0275\u0275classProp("active", ctx_r2.bridge.activeRouteIndex() === i_r12);
     \u0275\u0275advance();
-    \u0275\u0275property("ngIf", r_r12.emoji);
+    \u0275\u0275property("ngIf", r_r13.emoji);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1("", r_r12.label, " ");
+    \u0275\u0275textInterpolate1("", r_r13.label, " ");
   }
 }
 function MapShellComponent_div_10_Template(rf, ctx) {
   if (rf & 1) {
-    const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 37)(1, "button", 38);
+    const _r10 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 53)(1, "button", 54);
     \u0275\u0275listener("click", function MapShellComponent_div_10_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r9);
+      \u0275\u0275restoreView(_r10);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.onSelectAllRoutes());
     });
     \u0275\u0275text(2, " All ");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(3, MapShellComponent_div_10_button_3_Template, 3, 6, "button", 39);
+    \u0275\u0275template(3, MapShellComponent_div_10_button_3_Template, 3, 6, "button", 55);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -28377,25 +28457,25 @@ function MapShellComponent_div_10_Template(rf, ctx) {
 }
 function MapShellComponent_div_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 41);
-    \u0275\u0275element(1, "span", 42);
+    \u0275\u0275elementStart(0, "div", 57);
+    \u0275\u0275element(1, "span", 58);
     \u0275\u0275text(2, " Offline \u2014 cached map active ");
     \u0275\u0275elementEnd();
   }
 }
 function MapShellComponent_div_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r13 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 43);
+    const _r14 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 59);
     \u0275\u0275listener("click", function MapShellComponent_div_13_Template_div_click_0_listener($event) {
-      \u0275\u0275restoreView(_r13);
+      \u0275\u0275restoreView(_r14);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(1, "img", 44);
-    \u0275\u0275elementStart(2, "div", 45);
+    \u0275\u0275element(1, "img", 60);
+    \u0275\u0275elementStart(2, "div", 61);
     \u0275\u0275text(3, "John Monta\xF1o");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 46)(5, "span");
+    \u0275\u0275elementStart(4, "div", 62)(5, "span");
     \u0275\u0275text(6, "FPV Drone Pilot");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(7, "span");
@@ -28407,67 +28487,67 @@ function MapShellComponent_div_13_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "span");
     \u0275\u0275text(12, "Malta");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(13, "div", 47);
-    \u0275\u0275elementStart(14, "div", 48)(15, "a", 49);
+    \u0275\u0275element(13, "div", 63);
+    \u0275\u0275elementStart(14, "div", 64)(15, "a", 65);
     \u0275\u0275listener("click", function MapShellComponent_div_13_Template_a_click_15_listener() {
-      \u0275\u0275restoreView(_r13);
+      \u0275\u0275restoreView(_r14);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.showDevAbout = false);
     });
     \u0275\u0275text(16, "About");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "a", 50);
+    \u0275\u0275elementStart(17, "a", 66);
     \u0275\u0275listener("click", function MapShellComponent_div_13_Template_a_click_17_listener() {
-      \u0275\u0275restoreView(_r13);
+      \u0275\u0275restoreView(_r14);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.showDevAbout = false);
     });
     \u0275\u0275text(18, "Privacy Policy");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "a", 51);
+    \u0275\u0275elementStart(19, "a", 67);
     \u0275\u0275listener("click", function MapShellComponent_div_13_Template_a_click_19_listener() {
-      \u0275\u0275restoreView(_r13);
+      \u0275\u0275restoreView(_r14);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.showDevAbout = false);
     });
     \u0275\u0275text(20, "Cookie Policy");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "a", 52);
+    \u0275\u0275elementStart(21, "a", 68);
     \u0275\u0275listener("click", function MapShellComponent_div_13_Template_a_click_21_listener() {
-      \u0275\u0275restoreView(_r13);
+      \u0275\u0275restoreView(_r14);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.showDevAbout = false);
     });
     \u0275\u0275text(22, "Contact");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(23, "div", 53)(24, "a", 54);
+    \u0275\u0275elementStart(23, "div", 69)(24, "a", 70);
     \u0275\u0275text(25, "creator@johnfabiomb.com");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(26, "div", 55)(27, "a", 56);
+    \u0275\u0275elementStart(26, "div", 71)(27, "a", 72);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(28, "svg", 57);
-    \u0275\u0275element(29, "path", 58);
+    \u0275\u0275elementStart(28, "svg", 73);
+    \u0275\u0275element(29, "path", 74);
     \u0275\u0275elementEnd();
     \u0275\u0275text(30, " @johnfabiomb ");
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(31, "a", 59);
+    \u0275\u0275elementStart(31, "a", 75);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(32, "svg", 57);
-    \u0275\u0275element(33, "path", 60);
+    \u0275\u0275elementStart(32, "svg", 73);
+    \u0275\u0275element(33, "path", 76);
     \u0275\u0275elementEnd();
     \u0275\u0275text(34, " John Monta\xF1o ");
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(35, "a", 61);
+    \u0275\u0275elementStart(35, "a", 77);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(36, "svg", 57);
-    \u0275\u0275element(37, "path", 62);
+    \u0275\u0275elementStart(36, "svg", 73);
+    \u0275\u0275element(37, "path", 78);
     \u0275\u0275elementEnd();
     \u0275\u0275text(38, " @johnfabiomb ");
     \u0275\u0275elementEnd()();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(39, "div", 63);
+    \u0275\u0275elementStart(39, "div", 79);
     \u0275\u0275text(40);
     \u0275\u0275elementEnd()();
   }
@@ -28479,14 +28559,14 @@ function MapShellComponent_div_13_Template(rf, ctx) {
 }
 function MapShellComponent_button_18_Template(rf, ctx) {
   if (rf & 1) {
-    const _r14 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 64);
+    const _r15 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 80);
     \u0275\u0275listener("click", function MapShellComponent_button_18_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r14);
+      \u0275\u0275restoreView(_r15);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.bridge.mapOnly.set(true));
     });
-    \u0275\u0275element(1, "i", 65);
+    \u0275\u0275element(1, "i", 81);
     \u0275\u0275elementEnd();
   }
 }
@@ -28494,11 +28574,14 @@ var MapShellComponent = class _MapShellComponent {
   constructor() {
     this.bridge = inject(MapBridgeService);
     this.auth = inject(AuthService);
+    this.iab = inject(InAppBrowserService);
+    this.platformId = inject(PLATFORM_ID);
     this.destroyRef = inject(DestroyRef);
     this.router = inject(Router);
     this.version = version;
     this.isOnline = true;
     this.showDevAbout = false;
+    this.iabLabel = null;
     this.currentUrl = toSignal(this.router.events.pipe(filter((e) => e instanceof NavigationEnd), map(() => this.router.url)), { initialValue: this.router.url });
     this.isDeals = computed(() => this.currentUrl().includes("/malta/deals"));
     this.routes = computed(() => this.bridge.selectedLocation()?.routes ?? []);
@@ -28527,6 +28610,9 @@ var MapShellComponent = class _MapShellComponent {
     this.bridge.panel.minimize();
   }
   ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId) && this.iab.isInAppBrowser()) {
+      this.iabLabel = this.iab.getAppLabel();
+    }
     this.bridge.registerPanelGetter(() => this.panelWrap);
     this.bridge.registerMap(this.mapComp);
     this.bridge.scrollToTop$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -28594,12 +28680,12 @@ var MapShellComponent = class _MapShellComponent {
           return ctx.closeDevAbout();
         }, false, \u0275\u0275resolveDocument);
       }
-    }, features: [\u0275\u0275ProvidersFeature([MapBridgeService])], decls: 21, vars: 17, consts: [["mapComp", ""], ["panelWrap", ""], [3, "url", "duration", "buttonLabel", "openNewTab", "showGuestNudge", "signInRequested", "closed", 4, "ngIf"], [1, "map-layout"], [1, "map-layout__main"], [1, "map-layout__map"], [3, "filterChange", 4, "ngIf"], [3, "locationSelected", "providerPinSelected", "mapTapped", "controlTapped", "gpsCoord", "coordPicked", "meetingPointTapped", "activeFilters", "providerPins", "selectedLocation", "fitPoint", "pickModeActive", "meetingPointMarker"], ["class", "floating-back-btn", 3, "floating-back-btn--accent", "click", 4, "ngIf"], ["class", "floating-pick-hint", 4, "ngIf"], ["class", "show-panel-btn", 3, "show-panel-btn--primary", "click", 4, "ngIf"], ["class", "floating-route-tabs", 4, "ngIf"], ["class", "offline-pill", 4, "ngIf"], [1, "dev-about-wrap"], ["class", "dev-popup", 3, "click", 4, "ngIf"], [1, "dev-about-btn", 3, "click"], ["src", "/assets/images/profile.webp", "alt", "About", "width", "28", "height", "28"], [1, "map-layout__panel"], ["class", "collapse-btn", "title", "Fullscreen map", 3, "click", 4, "ngIf"], [3, "signInRequested", "closed", "url", "duration", "buttonLabel", "openNewTab", "showGuestNudge"], ["slot-top", "", 4, "ngIf"], ["slot-bottom", "", 3, "provider", "selected", 4, "ngIf"], ["slot-top", ""], [3, "provider"], ["class", "interstitial-near-label", 4, "ngIf"], [3, "selected", "provider"], [1, "interstitial-near-label"], ["slot-bottom", "", 3, "selected", "provider"], [3, "filterChange"], [1, "floating-back-btn", 3, "click"], [1, "fa", "fa-chevron-left"], [1, "floating-pick-hint"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "show-panel-btn", 3, "click"], [1, "fa", 3, "ngClass"], [1, "floating-route-tabs"], [1, "route-tab", 3, "click"], ["class", "route-tab", 3, "active", "--tab-active-color", "click", 4, "ngFor", "ngForOf"], [4, "ngIf"], [1, "offline-pill"], [1, "offline-dot"], [1, "dev-popup", 3, "click"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", 1, "dev-popup__photo"], [1, "dev-popup__name"], [1, "dev-popup__tags"], [1, "dev-popup__divider"], [1, "dev-popup__links"], ["routerLink", "/about", 3, "click"], ["routerLink", "/privacy", 3, "click"], ["routerLink", "/cookies", 3, "click"], ["routerLink", "/contact", 3, "click"], [1, "dev-popup__contact"], ["href", "mailto:creator@johnfabiomb.com"], [1, "dev-popup__socials"], ["href", "https://www.instagram.com/johnfabiomb/", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["width", "16", "height", "16", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"], ["href", "https://www.facebook.com/johnfabiomb/", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["d", "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"], ["href", "https://www.tiktok.com/@johnfabiomb", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["d", "M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"], [1, "dev-popup__version"], ["title", "Fullscreen map", 1, "collapse-btn", 3, "click"], [1, "fa", "fa-chevron-right"]], template: function MapShellComponent_Template(rf, ctx) {
+    }, features: [\u0275\u0275ProvidersFeature([MapBridgeService])], decls: 21, vars: 17, consts: [["mapComp", ""], ["panelWrap", ""], [3, "url", "duration", "buttonLabel", "openNewTab", "showGuestNudge", "signInRequested", "closed", 4, "ngIf"], [1, "map-layout"], [1, "map-layout__main"], [1, "map-layout__map"], ["class", "filter-bar-row", 3, "filter-bar-row--iab", 4, "ngIf"], [3, "locationSelected", "providerPinSelected", "mapTapped", "controlTapped", "gpsCoord", "coordPicked", "meetingPointTapped", "activeFilters", "providerPins", "selectedLocation", "fitPoint", "pickModeActive", "meetingPointMarker"], ["class", "floating-back-btn", 3, "floating-back-btn--accent", "click", 4, "ngIf"], ["class", "floating-pick-hint", 4, "ngIf"], ["class", "show-panel-btn", 3, "show-panel-btn--primary", "click", 4, "ngIf"], ["class", "floating-route-tabs", 4, "ngIf"], ["class", "offline-pill", 4, "ngIf"], [1, "dev-about-wrap"], ["class", "dev-popup", 3, "click", 4, "ngIf"], [1, "dev-about-btn", 3, "click"], ["src", "/assets/images/profile.webp", "alt", "About", "width", "28", "height", "28"], [1, "map-layout__panel"], ["class", "collapse-btn", "title", "Fullscreen map", 3, "click", 4, "ngIf"], [3, "signInRequested", "closed", "url", "duration", "buttonLabel", "openNewTab", "showGuestNudge"], ["slot-top", "", 4, "ngIf"], ["slot-bottom", "", 3, "provider", "selected", 4, "ngIf"], ["slot-top", ""], [3, "provider"], ["class", "interstitial-near-label", 4, "ngIf"], [3, "selected", "provider"], [1, "interstitial-near-label"], ["slot-bottom", "", 3, "selected", "provider"], [1, "filter-bar-row"], ["class", "iab-back-chip", 3, "click", 4, "ngIf"], [3, "filterChange", 4, "ngIf"], [1, "iab-back-chip", 3, "click"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "15 18 9 12 15 6"], [1, "iab-back-chip__label"], ["width", "18", "height", "18", "viewBox", "0 0 24 24", "fill", "none", "stroke", "#C13584", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["width", "18", "height", "18", "viewBox", "0 0 24 24", "fill", "none"], ["width", "18", "height", "18", "viewBox", "0 0 24 24", "fill", "#06C755"], [1, "iab-back-chip__app"], ["x", "2", "y", "2", "width", "20", "height", "20", "rx", "5"], ["cx", "12", "cy", "12", "r", "5"], ["cx", "17.5", "cy", "6.5", "r", "1.5", "fill", "#C13584", "stroke", "none"], ["width", "24", "height", "24", "rx", "5", "fill", "#1877F2"], ["d", "M13 21v-8h2.4l.4-3H13v-1.5c0-.9.5-1.5 1.8-1.5H16V4.2A16 16 0 0 0 13.7 4C11 4 9.5 5.5 9.5 8.5V10H7v3h2.5v8H13z", "fill", "white"], ["d", "M22 10.5c0-4.7-4.7-8.5-10.5-8.5S1 5.8 1 10.5c0 4.2 3.7 7.7 8.7 8.4.3.1.8.3.9.6.1.3.1.7 0 1l-.1.8c0 .3-.2 1.2 1 .7 1.3-.5 6.9-4.1 9.4-7 1.5-1.6 2.1-3.2 2.1-5z"], [3, "filterChange"], [1, "floating-back-btn", 3, "click"], [1, "fa", "fa-chevron-left"], [1, "floating-pick-hint"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "show-panel-btn", 3, "click"], [1, "fa", 3, "ngClass"], [1, "floating-route-tabs"], [1, "route-tab", 3, "click"], ["class", "route-tab", 3, "active", "--tab-active-color", "click", 4, "ngFor", "ngForOf"], [4, "ngIf"], [1, "offline-pill"], [1, "offline-dot"], [1, "dev-popup", 3, "click"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", 1, "dev-popup__photo"], [1, "dev-popup__name"], [1, "dev-popup__tags"], [1, "dev-popup__divider"], [1, "dev-popup__links"], ["routerLink", "/about", 3, "click"], ["routerLink", "/privacy", 3, "click"], ["routerLink", "/cookies", 3, "click"], ["routerLink", "/contact", 3, "click"], [1, "dev-popup__contact"], ["href", "mailto:creator@johnfabiomb.com"], [1, "dev-popup__socials"], ["href", "https://www.instagram.com/johnfabiomb/", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["width", "16", "height", "16", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"], ["href", "https://www.facebook.com/johnfabiomb/", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["d", "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"], ["href", "https://www.tiktok.com/@johnfabiomb", "target", "_blank", "rel", "noopener", 1, "dev-popup__social"], ["d", "M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"], [1, "dev-popup__version"], ["title", "Fullscreen map", 1, "collapse-btn", 3, "click"], [1, "fa", "fa-chevron-right"]], template: function MapShellComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
         \u0275\u0275template(0, MapShellComponent_app_nav_interstitial_0_Template, 4, 8, "app-nav-interstitial", 2);
         \u0275\u0275elementStart(1, "div", 3)(2, "div", 4)(3, "div", 5);
-        \u0275\u0275template(4, MapShellComponent_app_filter_bar_4_Template, 1, 0, "app-filter-bar", 6);
+        \u0275\u0275template(4, MapShellComponent_div_4_Template, 3, 4, "div", 6);
         \u0275\u0275elementStart(5, "app-map", 7, 0);
         \u0275\u0275listener("locationSelected", function MapShellComponent_Template_app_map_locationSelected_5_listener($event) {
           \u0275\u0275restoreView(_r1);
@@ -28644,7 +28730,7 @@ var MapShellComponent = class _MapShellComponent {
       if (rf & 2) {
         \u0275\u0275property("ngIf", ctx.bridge.pendingNavUrl());
         \u0275\u0275advance(4);
-        \u0275\u0275property("ngIf", ctx.bridge.showFilterBar());
+        \u0275\u0275property("ngIf", ctx.iabLabel || ctx.bridge.showFilterBar());
         \u0275\u0275advance();
         \u0275\u0275property("activeFilters", ctx.bridge.filters())("providerPins", ctx.bridge.providerPins())("selectedLocation", ctx.bridge.selectedLocation())("fitPoint", ctx.bridge.fitPoint())("pickModeActive", ctx.bridge.pickMode())("meetingPointMarker", ctx.bridge.meetingPointMarker());
         \u0275\u0275advance(2);
@@ -28664,13 +28750,13 @@ var MapShellComponent = class _MapShellComponent {
         \u0275\u0275advance(2);
         \u0275\u0275property("ngIf", ctx.bridge.panelOpen() && !ctx.bridge.mapOnly());
       }
-    }, dependencies: [CommonModule, NgClass, NgForOf, NgIf, RouterOutlet, RouterLink, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent], styles: ['\n\n.dev-about-wrap[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 30px;\n  right: 10px;\n  z-index: 200;\n}\n.dev-about-btn[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: var(--color-bg);\n  border: none;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);\n  padding: 0;\n  position: relative;\n  transition: background var(--transition);\n}\n.dev-about-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-light);\n}\n.dev-about-btn[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n  object-fit: cover;\n  object-position: center top;\n  display: block;\n  opacity: 0.65;\n  transition: opacity var(--transition);\n}\n.dev-about-btn[_ngcontent-%COMP%]:hover   img[_ngcontent-%COMP%] {\n  opacity: 0.85;\n}\n.dev-about-btn[_ngcontent-%COMP%]::after {\n  content: "i";\n  position: absolute;\n  bottom: 3px;\n  right: 3px;\n  width: 14px;\n  height: 14px;\n  border-radius: 50%;\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 9px;\n  font-weight: 800;\n  font-style: italic;\n  font-family: Georgia, serif;\n  line-height: 14px;\n  text-align: center;\n  pointer-events: none;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n.dev-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 8px);\n  right: 0;\n  width: 240px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 24px 20px 18px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.dev-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  right: 18px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n.dev-popup__photo[_ngcontent-%COMP%] {\n  width: 72px;\n  height: 72px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);\n  margin-bottom: 12px;\n}\n.dev-popup__name[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  letter-spacing: -0.3px;\n}\n.dev-popup__tags[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 5px;\n  margin-top: 10px;\n}\n.dev-popup__tags[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-muted);\n  background: var(--color-bg-muted);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-sm);\n  padding: 3px 9px;\n  white-space: nowrap;\n}\n.dev-popup__divider[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 1px;\n  background: var(--color-border);\n  margin: 14px 0;\n}\n.dev-popup__links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  width: 100%;\n  margin-bottom: 10px;\n}\n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: block;\n  padding: 11px 16px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  color: var(--color-text-base);\n  text-decoration: none;\n  font-weight: 600;\n  font-size: 13px;\n  transition: background var(--transition);\n}\n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover, \n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.dev-popup__contact[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-text-muted);\n  margin-bottom: 12px;\n}\n.dev-popup__contact[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  font-weight: 600;\n  text-decoration: none;\n}\n.dev-popup__contact[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.dev-popup__socials[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}\n.dev-popup__social[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  text-decoration: none;\n  transition: opacity 0.2s;\n  padding: 2px 0;\n}\n.dev-popup__social[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.dev-popup__version[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  font-size: 10px;\n  color: var(--color-text-light);\n  font-family: monospace;\n}\n@keyframes _ngcontent-%COMP%_devPopUp {\n  from {\n    opacity: 0;\n    transform: translateY(8px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.floating-route-tabs[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 16px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 200;\n  display: flex;\n  gap: 4px;\n  background: rgba(255, 255, 255, 0.92);\n  backdrop-filter: blur(8px);\n  -webkit-backdrop-filter: blur(8px);\n  border-radius: 20px;\n  padding: 4px 5px;\n  box-shadow: var(--shadow-md);\n  white-space: nowrap;\n}\n@media (max-width: 768px) {\n  .floating-route-tabs[_ngcontent-%COMP%] {\n    bottom: 26px;\n  }\n}\n.route-tab[_ngcontent-%COMP%] {\n  height: 30px;\n  padding: 0 13px;\n  border-radius: 16px;\n  border: none;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  background: transparent;\n  color: var(--color-text-muted);\n  transition: background var(--transition), color var(--transition);\n}\n.route-tab.active[_ngcontent-%COMP%] {\n  background: var(--tab-active-color, var(--color-primary));\n  color: #fff;\n}\n.route-tab[_ngcontent-%COMP%]:hover:not(.active) {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\napp-filter-bar[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 10px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 10;\n  pointer-events: auto;\n  max-width: calc(100vw - 24px);\n  width: max-content;\n}\n.offline-pill[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 25px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 210;\n  background: rgba(30, 30, 30, 0.88);\n  color: #fff;\n  font-size: 12px;\n  font-weight: 500;\n  padding: 6px 14px;\n  border-radius: var(--radius-pill, 20px);\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  white-space: nowrap;\n  -webkit-backdrop-filter: blur(6px);\n  backdrop-filter: blur(6px);\n  pointer-events: none;\n}\n.floating-route-tabs[_ngcontent-%COMP%]    ~ .offline-pill[_ngcontent-%COMP%] {\n  bottom: 64px;\n}\n@media (max-width: 768px) {\n  .floating-route-tabs[_ngcontent-%COMP%]    ~ .offline-pill[_ngcontent-%COMP%] {\n    bottom: 74px;\n  }\n}\n.offline-dot[_ngcontent-%COMP%] {\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: #f87171;\n  flex-shrink: 0;\n}\n.interstitial-near-label[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 10.5px;\n  font-weight: 700;\n  letter-spacing: 0.07em;\n  text-transform: uppercase;\n  color: var(--color-text-light);\n}\n.show-panel-btn--primary[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  font-size: 16px;\n}\n.panel--hidden[_ngcontent-%COMP%] {\n  display: none;\n}\n/*# sourceMappingURL=map-shell.component.css.map */'] });
+    }, dependencies: [CommonModule, NgClass, NgForOf, NgIf, RouterOutlet, RouterLink, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent], styles: ['\n\n.dev-about-wrap[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 30px;\n  right: 10px;\n  z-index: 200;\n}\n.dev-about-btn[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: var(--color-bg);\n  border: none;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);\n  padding: 0;\n  position: relative;\n  transition: background var(--transition);\n}\n.dev-about-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-light);\n}\n.dev-about-btn[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n  object-fit: cover;\n  object-position: center top;\n  display: block;\n  opacity: 0.65;\n  transition: opacity var(--transition);\n}\n.dev-about-btn[_ngcontent-%COMP%]:hover   img[_ngcontent-%COMP%] {\n  opacity: 0.85;\n}\n.dev-about-btn[_ngcontent-%COMP%]::after {\n  content: "i";\n  position: absolute;\n  bottom: 3px;\n  right: 3px;\n  width: 14px;\n  height: 14px;\n  border-radius: 50%;\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 9px;\n  font-weight: 800;\n  font-style: italic;\n  font-family: Georgia, serif;\n  line-height: 14px;\n  text-align: center;\n  pointer-events: none;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n.dev-popup[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: calc(100% + 8px);\n  right: 0;\n  width: 240px;\n  background: var(--color-bg);\n  border-radius: 14px;\n  padding: 24px 20px 18px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);\n  border: 1px solid rgba(0, 0, 0, 0.07);\n  animation: _ngcontent-%COMP%_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.dev-popup[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  bottom: -6px;\n  right: 18px;\n  width: 12px;\n  height: 12px;\n  background: var(--color-bg);\n  border-right: 1px solid rgba(0, 0, 0, 0.07);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.07);\n  transform: rotate(45deg);\n}\n.dev-popup__photo[_ngcontent-%COMP%] {\n  width: 72px;\n  height: 72px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);\n  margin-bottom: 12px;\n}\n.dev-popup__name[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  letter-spacing: -0.3px;\n}\n.dev-popup__tags[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 5px;\n  margin-top: 10px;\n}\n.dev-popup__tags[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-muted);\n  background: var(--color-bg-muted);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-sm);\n  padding: 3px 9px;\n  white-space: nowrap;\n}\n.dev-popup__divider[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 1px;\n  background: var(--color-border);\n  margin: 14px 0;\n}\n.dev-popup__links[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  width: 100%;\n  margin-bottom: 10px;\n}\n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: block;\n  padding: 11px 16px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  color: var(--color-text-base);\n  text-decoration: none;\n  font-weight: 600;\n  font-size: 13px;\n  transition: background var(--transition);\n}\n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover, \n.dev-popup__links[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:active {\n  background: var(--color-border);\n}\n.dev-popup__contact[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-text-muted);\n  margin-bottom: 12px;\n}\n.dev-popup__contact[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  font-weight: 600;\n  text-decoration: none;\n}\n.dev-popup__contact[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.dev-popup__socials[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}\n.dev-popup__social[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  text-decoration: none;\n  transition: opacity 0.2s;\n  padding: 2px 0;\n}\n.dev-popup__social[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.dev-popup__version[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  font-size: 10px;\n  color: var(--color-text-light);\n  font-family: monospace;\n}\n@keyframes _ngcontent-%COMP%_devPopUp {\n  from {\n    opacity: 0;\n    transform: translateY(8px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n.floating-route-tabs[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 16px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 200;\n  display: flex;\n  gap: 4px;\n  background: rgba(255, 255, 255, 0.92);\n  backdrop-filter: blur(8px);\n  -webkit-backdrop-filter: blur(8px);\n  border-radius: 20px;\n  padding: 4px 5px;\n  box-shadow: var(--shadow-md);\n  white-space: nowrap;\n}\n@media (max-width: 768px) {\n  .floating-route-tabs[_ngcontent-%COMP%] {\n    bottom: 26px;\n  }\n}\n.route-tab[_ngcontent-%COMP%] {\n  height: 30px;\n  padding: 0 13px;\n  border-radius: 16px;\n  border: none;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  background: transparent;\n  color: var(--color-text-muted);\n  transition: background var(--transition), color var(--transition);\n}\n.route-tab.active[_ngcontent-%COMP%] {\n  background: var(--tab-active-color, var(--color-primary));\n  color: #fff;\n}\n.route-tab[_ngcontent-%COMP%]:hover:not(.active) {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\n.filter-bar-row[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 10px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 10;\n  pointer-events: auto;\n  display: flex;\n  align-items: stretch;\n  gap: 6px;\n}\n.filter-bar-row--iab[_ngcontent-%COMP%] {\n  width: calc(100vw - 24px);\n  max-width: calc(100vw - 24px);\n}\n.filter-bar-row--iab[_ngcontent-%COMP%]   app-filter-bar[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n}\n.iab-back-chip[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 5px;\n  padding: 0 14px;\n  background: var(--color-bg);\n  border-radius: var(--radius-xl);\n  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);\n  border: none;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  white-space: nowrap;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.iab-back-chip[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.iab-back-chip__label[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  font-weight: 500;\n}\n.iab-back-chip__app[_ngcontent-%COMP%] {\n  color: var(--color-text-base);\n}\napp-filter-bar[_ngcontent-%COMP%] {\n  max-width: calc(100vw - 24px);\n}\n.offline-pill[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 25px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 210;\n  background: rgba(30, 30, 30, 0.88);\n  color: #fff;\n  font-size: 12px;\n  font-weight: 500;\n  padding: 6px 14px;\n  border-radius: var(--radius-pill, 20px);\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  white-space: nowrap;\n  -webkit-backdrop-filter: blur(6px);\n  backdrop-filter: blur(6px);\n  pointer-events: none;\n}\n.floating-route-tabs[_ngcontent-%COMP%]    ~ .offline-pill[_ngcontent-%COMP%] {\n  bottom: 64px;\n}\n@media (max-width: 768px) {\n  .floating-route-tabs[_ngcontent-%COMP%]    ~ .offline-pill[_ngcontent-%COMP%] {\n    bottom: 74px;\n  }\n}\n.offline-dot[_ngcontent-%COMP%] {\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: #f87171;\n  flex-shrink: 0;\n}\n.interstitial-near-label[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 10.5px;\n  font-weight: 700;\n  letter-spacing: 0.07em;\n  text-transform: uppercase;\n  color: var(--color-text-light);\n}\n.show-panel-btn--primary[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  font-size: 16px;\n}\n.panel--hidden[_ngcontent-%COMP%] {\n  display: none;\n}\n/*# sourceMappingURL=map-shell.component.css.map */'] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapShellComponent, { className: "MapShellComponent", filePath: "src/app/platform/map-shell/map-shell.component.ts", lineNumber: 27 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MapShellComponent, { className: "MapShellComponent", filePath: "src/app/platform/map-shell/map-shell.component.ts", lineNumber: 28 });
 })();
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-INTJPDXJ.js.map
+//# sourceMappingURL=chunk-OK7BSEDI.js.map

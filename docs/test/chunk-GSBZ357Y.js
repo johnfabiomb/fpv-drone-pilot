@@ -8,6 +8,7 @@ import {
   ɵɵadvance,
   ɵɵclassProp,
   ɵɵdefineComponent,
+  ɵɵdefineInjectable,
   ɵɵelement,
   ɵɵelementEnd,
   ɵɵelementStart,
@@ -23,7 +24,49 @@ import {
 } from "./chunk-E43Y6J77.js";
 
 // package.json
-var version = "1.1.32";
+var version = "1.1.33";
+
+// src/app/shared/services/in-app-browser.service.ts
+var InAppBrowserService = class _InAppBrowserService {
+  isInAppBrowser() {
+    const ua = navigator.userAgent;
+    return /Instagram|FBAN|FBAV|FB_IAB|FB4A|Line\/|Musical\.ly/i.test(ua);
+  }
+  isAndroid() {
+    return /android/i.test(navigator.userAgent);
+  }
+  /** Returns the name of the detected in-app browser for labelling the back button. */
+  getAppLabel() {
+    const ua = navigator.userAgent;
+    if (/Instagram/i.test(ua))
+      return "Instagram";
+    if (/FBAN|FBAV|FB_IAB|FB4A/i.test(ua))
+      return "Facebook";
+    if (/Line\//i.test(ua))
+      return "Line";
+    if (/Musical\.ly/i.test(ua))
+      return "TikTok";
+    return "App";
+  }
+  /** Closes the webview and returns the user to the host app. */
+  closeWebview() {
+    window.close();
+    setTimeout(() => history.back(), 300);
+  }
+  /** Launches the current URL in Chrome on Android via the intent:// scheme. */
+  openInChrome() {
+    const stripped = window.location.href.replace(/^https?:\/\//, "");
+    window.location.href = `intent://${stripped}#Intent;scheme=https;package=com.android.chrome;end`;
+  }
+  static {
+    this.\u0275fac = function InAppBrowserService_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _InAppBrowserService)();
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _InAppBrowserService, factory: _InAppBrowserService.\u0275fac, providedIn: "root" });
+  }
+};
 
 // src/app/components/user-profile-card/user-profile-card.component.ts
 var _c0 = ["*"];
@@ -120,6 +163,7 @@ var UserProfileCardComponent = class _UserProfileCardComponent {
 
 export {
   version,
-  UserProfileCardComponent
+  UserProfileCardComponent,
+  InAppBrowserService
 };
-//# sourceMappingURL=chunk-YAOXQ5NE.js.map
+//# sourceMappingURL=chunk-GSBZ357Y.js.map
