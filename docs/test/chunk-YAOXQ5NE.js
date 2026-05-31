@@ -23,7 +23,7 @@ import {
 } from "./chunk-E43Y6J77.js";
 
 // package.json
-var version = "1.1.31";
+var version = "1.1.32";
 
 // src/app/components/user-profile-card/user-profile-card.component.ts
 var _c0 = ["*"];
@@ -122,4 +122,4 @@ export {
   version,
   UserProfileCardComponent
 };
-//# sourceMappingURL=chunk-JUJVBJM6.js.map
+//# sourceMappingURL=chunk-YAOXQ5NE.js.map

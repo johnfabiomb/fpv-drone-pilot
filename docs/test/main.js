@@ -1,7 +1,7 @@
 import {
   UserProfileCardComponent,
   version
-} from "./chunk-JUJVBJM6.js";
+} from "./chunk-YAOXQ5NE.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -127,7 +127,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-PXJ2HB2I.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-INTJPDXJ.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -644,7 +644,6 @@ var PwaPromptComponent = class _PwaPromptComponent {
 // src/app/shared/services/in-app-browser.service.ts
 var InAppBrowserService = class _InAppBrowserService {
   isInAppBrowser() {
-    return true;
     const ua = navigator.userAgent;
     return /Instagram|FBAN|FBAV|FB_IAB|FB4A|Line\/|Musical\.ly/i.test(ua);
   }

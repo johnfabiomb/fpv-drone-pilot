@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 export class InAppBrowserService {
 
   isInAppBrowser(): boolean {
-    return true; // Force IAB mode for testing on desktop; replace with actual detection logic as needed
     const ua = navigator.userAgent;
     return /Instagram|FBAN|FBAV|FB_IAB|FB4A|Line\/|Musical\.ly/i.test(ua);
   }

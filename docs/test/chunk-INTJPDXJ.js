@@ -12,7 +12,7 @@ import {
 import {
   UserProfileCardComponent,
   version
-} from "./chunk-JUJVBJM6.js";
+} from "./chunk-YAOXQ5NE.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -28673,4 +28673,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-PXJ2HB2I.js.map
+//# sourceMappingURL=chunk-INTJPDXJ.js.map
