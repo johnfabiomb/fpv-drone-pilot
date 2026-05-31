@@ -22,10 +22,26 @@ export class InAppBrowserService {
     return 'App';
   }
 
-  /** Closes the webview and returns the user to the host app. */
+  /** Returns the user to the host app using its URL scheme, falling back to window.close(). */
   closeWebview(): void {
+    const ua = navigator.userAgent;
+    if (/Instagram/i.test(ua)) {
+      window.location.href = 'instagram://';
+      return;
+    }
+    if (/FBAN|FBAV|FB_IAB|FB4A/i.test(ua)) {
+      window.location.href = 'fb://';
+      return;
+    }
+    if (/Line\//i.test(ua)) {
+      window.location.href = 'line://';
+      return;
+    }
+    if (/Musical\.ly/i.test(ua)) {
+      window.location.href = 'snssdk1128://';
+      return;
+    }
     window.close();
-    // Fallback: if window.close() is blocked, go back in history
     setTimeout(() => history.back(), 300);
   }
 

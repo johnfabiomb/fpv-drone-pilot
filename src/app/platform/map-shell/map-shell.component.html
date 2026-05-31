@@ -38,7 +38,7 @@
   <div class="map-layout__main">
 
     <div class="map-layout__map">
-      <div class="filter-bar-row" [class.filter-bar-row--iab]="iabLabel" *ngIf="iabLabel || bridge.showFilterBar()">
+      <div class="filter-bar-row" [class.filter-bar-row--iab]="iabLabel" *ngIf="bridge.showFilterBar()">
         <button *ngIf="iabLabel" class="iab-back-chip" (click)="iab.closeWebview()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
