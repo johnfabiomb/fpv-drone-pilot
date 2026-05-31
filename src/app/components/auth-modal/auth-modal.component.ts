@@ -1,7 +1,8 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, PLATFORM_ID, effect, inject, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.component';
+import { InAppBrowserService } from '../../shared/services/in-app-browser.service';
 
 @Component({
   selector: 'app-auth-modal',
@@ -28,7 +29,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
           <h2 class="modal-title">It's way better signed in</h2>
         </ng-container>
 
-        <ul class="modal-benefits" *ngIf="formState() === 'default'">
+        <ul class="modal-benefits" *ngIf="formState() === 'default' || formState() === 'email-input'">
           <li><span class="modal-benefit__icon">🧭</span><span>Don't explore alone — meet people who love Malta as much as you</span></li>
           <li><span class="modal-benefit__icon">🔖</span><span>Save your favourite spots and revisit them anytime</span></li>
           <li><span class="modal-benefit__icon">🎟️</span><span>Get real discounts from local partners I trust</span></li>
@@ -42,6 +43,12 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
         <p class="modal-legal" *ngIf="formState() !== 'email-sent'">
           By signing in you agree to our <a href="/privacy" target="_blank">Privacy Policy</a>.
         </p>
+
+        <button class="modal-guest"
+          *ngIf="formState() === 'default' || formState() === 'email-input'"
+          (click)="auth.closeLoginModal()">
+          Maybe later — continue as guest
+        </button>
 
       </div>
     </div>
@@ -163,8 +170,19 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
     .modal-legal {
       font-size: 11px;
       color: var(--color-text-light);
-      margin: 0;
+      margin: 0 0 4px;
       a { color: var(--color-text-muted); text-decoration: underline; }
+    }
+
+    .modal-guest {
+      background: none;
+      border: none;
+      padding: 6px 0 2px;
+      font-size: 12px;
+      color: var(--color-text-light);
+      cursor: pointer;
+      transition: color var(--transition);
+      &:hover { color: var(--color-text-muted); }
     }
 
     @keyframes amFadeIn {
@@ -180,11 +198,18 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
   `],
 })
 export class AuthModalComponent {
-  readonly auth = inject(AuthService);
+  readonly auth       = inject(AuthService);
+  private readonly iab        = inject(InAppBrowserService);
+  private readonly platformId = inject(PLATFORM_ID);
+
   readonly formState = signal<FormState>('default');
 
   constructor() {
-    // Auto-close as soon as sign-in completes, regardless of which path was used
+    // Set the correct initial state before first render so header/benefits show correctly
+    if (isPlatformBrowser(this.platformId) && this.iab.isInAppBrowser()) {
+      this.formState.set(this.iab.isAndroid() ? 'android-redirect' : 'email-input');
+    }
+
     effect(() => {
       if (this.auth.isLoggedIn()) {
         this.auth.showLoginModal.set(false);

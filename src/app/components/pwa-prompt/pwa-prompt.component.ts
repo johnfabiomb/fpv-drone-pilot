@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, effect, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../../shared/services/auth.service';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -131,36 +132,45 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   visible = false;
   isIos = false;
 
-  private platformId = inject(PLATFORM_ID);
+  private readonly auth       = inject(AuthService);
+  private readonly platformId = inject(PLATFORM_ID);
+
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
-  private installHandler = (e: Event) => {
-    e.preventDefault();
-    this.deferredPrompt = e as BeforeInstallPromptEvent;
-    this.scheduleShow();
-  };
+  private readonly wantsToShow = signal(false);
+
+  constructor() {
+    // Show only once the user is logged in — avoids colliding with the welcome popup
+    // which auto-dismisses on login, so by the time we show the prompt it's already gone.
+    effect(() => {
+      if (this.auth.isLoggedIn() && this.wantsToShow()) {
+        this.wantsToShow.set(false);
+        setTimeout(() => { this.visible = true; }, 4000);
+      }
+    });
+  }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    // Already installed as PWA — don't show
     if (window.matchMedia('(display-mode: standalone)').matches) return;
     if ((window.navigator as any).standalone) return;
 
-    // Dismissed recently
     const ts = localStorage.getItem(DISMISSED_KEY);
     if (ts && Date.now() - parseInt(ts) < DISMISS_TTL) return;
 
     this.isIos = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 
     if (this.isIos) {
-      this.scheduleShow();
+      this.wantsToShow.set(true);
     } else {
       window.addEventListener('beforeinstallprompt', this.installHandler);
     }
   }
 
-  private scheduleShow(): void {
-    setTimeout(() => { this.visible = true; }, 4000);
-  }
+  private readonly installHandler = (e: Event) => {
+    e.preventDefault();
+    this.deferredPrompt = e as BeforeInstallPromptEvent;
+    this.wantsToShow.set(true);
+  };
 
   async install(): Promise<void> {
     if (!this.deferredPrompt) return;

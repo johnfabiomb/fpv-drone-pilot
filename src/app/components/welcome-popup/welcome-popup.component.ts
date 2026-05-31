@@ -2,6 +2,7 @@ import { Component, OnInit, PLATFORM_ID, effect, inject, signal } from '@angular
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.component';
+import { InAppBrowserService } from '../../shared/services/in-app-browser.service';
 
 @Component({
   selector: 'app-welcome-popup',
@@ -11,8 +12,8 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
     <div *ngIf="visible()" class="wp-backdrop" (click)="dismiss()">
       <div class="wp-card" (click)="$event.stopPropagation()">
 
-        <!-- Welcome content: only on the main sign-in screen -->
-        <ng-container *ngIf="formState() === 'default'">
+        <!-- Welcome content: shown on default and IAB email-input states -->
+        <ng-container *ngIf="formState() === 'default' || formState() === 'email-input'">
           <div class="wp-header">
             <span class="wp-emoji">🗺️</span>
             <img class="wp-photo" src="/assets/images/profile.webp" alt="John Montaño" width="52" height="52" style="flex-shrink:0">
@@ -50,7 +51,7 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
 
         <app-sign-in-form (stateChange)="formState.set($event)"></app-sign-in-form>
 
-        <button *ngIf="formState() === 'default'" class="wp-ghost" (click)="dismiss()">
+        <button *ngIf="formState() === 'default' || formState() === 'email-input'" class="wp-ghost" (click)="dismiss()">
           Continue as guest
         </button>
 
@@ -184,14 +185,20 @@ import { SignInFormComponent, FormState } from '../sign-in-form/sign-in-form.com
   `],
 })
 export class WelcomePopupComponent implements OnInit {
-  private readonly auth = inject(AuthService);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly auth        = inject(AuthService);
+  private readonly iab         = inject(InAppBrowserService);
+  private readonly platformId  = inject(PLATFORM_ID);
 
-  readonly visible = signal(false);
+  readonly visible   = signal(false);
   readonly formState = signal<FormState>('default');
   private readonly STORAGE_KEY = 'vm_welcome_shown';
 
   constructor() {
+    // Initialize correct IAB state before first render so header/benefits stay visible
+    if (isPlatformBrowser(this.platformId) && this.iab.isInAppBrowser()) {
+      this.formState.set(this.iab.isAndroid() ? 'android-redirect' : 'email-input');
+    }
+
     // Auto-dismiss when sign-in completes
     effect(() => {
       if (this.auth.isLoggedIn() && this.visible()) {
