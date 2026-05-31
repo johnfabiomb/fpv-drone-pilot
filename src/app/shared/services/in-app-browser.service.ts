@@ -12,39 +12,6 @@ export class InAppBrowserService {
     return /android/i.test(navigator.userAgent);
   }
 
-  /** Returns the name of the detected in-app browser for labelling the back button. */
-  getAppLabel(): string {
-    const ua = navigator.userAgent;
-    if (/Instagram/i.test(ua))          return 'Instagram';
-    if (/FBAN|FBAV|FB_IAB|FB4A/i.test(ua)) return 'Facebook';
-    if (/Line\//i.test(ua))             return 'Line';
-    if (/Musical\.ly/i.test(ua))        return 'TikTok';
-    return 'App';
-  }
-
-  /** Returns the user to the host app using its URL scheme, falling back to window.close(). */
-  closeWebview(): void {
-    const ua = navigator.userAgent;
-    if (/Instagram/i.test(ua)) {
-      window.location.href = 'instagram://';
-      return;
-    }
-    if (/FBAN|FBAV|FB_IAB|FB4A/i.test(ua)) {
-      window.location.href = 'fb://';
-      return;
-    }
-    if (/Line\//i.test(ua)) {
-      window.location.href = 'line://';
-      return;
-    }
-    if (/Musical\.ly/i.test(ua)) {
-      window.location.href = 'snssdk1128://';
-      return;
-    }
-    window.close();
-    setTimeout(() => history.back(), 300);
-  }
-
   /** Launches the current URL in Chrome on Android via the intent:// scheme. */
   openInChrome(): void {
     const stripped = window.location.href.replace(/^https?:\/\//, '');
