@@ -1,5 +1,5 @@
 import {
-  Component, DestroyRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject, signal,
+  Component, DestroyRef, EventEmitter, Input, OnDestroy, OnInit, Output, computed, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MapBridgeService } from '@core/services/map-bridge.service';
 import { GroupsService } from '@core/services/groups.service';
+import { UserDataService } from '@core/services/user-data.service';
 import { Group, MeetingPoint, UpdateGroupPayload } from '@core/models/group.model';
 import { Location } from '@core/models';
 import { normalizeForSearch } from '@core/utils/location-filter.util';
@@ -27,9 +28,12 @@ export class GroupEditFormComponent implements OnInit, OnDestroy {
   @Output() saved     = new EventEmitter<string | null>();
   @Output() cancelled = new EventEmitter<void>();
 
-  private readonly bridge       = inject(MapBridgeService);
-  private readonly groupsService = inject(GroupsService);
-  private readonly destroyRef   = inject(DestroyRef);
+  private readonly bridge          = inject(MapBridgeService);
+  private readonly groupsService   = inject(GroupsService);
+  private readonly userDataService = inject(UserDataService);
+  private readonly destroyRef      = inject(DestroyRef);
+
+  readonly canSetPrice = computed(() => this.userDataService.canSetPrice());
 
   readonly editError            = signal<string | null>(null);
   readonly editBusy             = signal(false);
@@ -43,6 +47,7 @@ export class GroupEditFormComponent implements OnInit, OnDestroy {
   editDescription  = '';
   editDifficulty: 'easy' | 'moderate' | 'hard' = 'easy';
   editMaxMembers   = '';
+  editPrice        = '';
   editMeetingPoint: MeetingPoint | null = null;
   editSpotSearch   = '';
   editSpotSlug     = '';
@@ -63,6 +68,7 @@ export class GroupEditFormComponent implements OnInit, OnDestroy {
     this.editDescription  = g.description;
     this.editDifficulty   = g.difficulty;
     this.editMaxMembers   = g.maxMembers != null ? String(g.maxMembers) : '';
+    this.editPrice        = g.price != null ? String(g.price) : '';
     this.editMeetingPoint = g.meetingPoint ?? null;
     this.editSpotSlug     = g.spotSlug   ?? '';
     this.editSpotTitle    = g.spotTitle  ?? '';
@@ -112,6 +118,7 @@ export class GroupEditFormComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const priceVal = this.canSetPrice() && this.editPrice ? parseFloat(this.editPrice) : null;
     const payload: UpdateGroupPayload = {
       title:        this.editTitle.trim(),
       spotSlug:     this.editSpotSlug  || null,
@@ -123,6 +130,7 @@ export class GroupEditFormComponent implements OnInit, OnDestroy {
       description:  this.editDescription.trim(),
       difficulty:   this.editDifficulty,
       maxMembers:   this.editMaxMembers ? parseInt(this.editMaxMembers, 10) : null,
+      price:        priceVal !== null && !isNaN(priceVal) && priceVal > 0 ? priceVal : null,
       meetingPoint: this.editMeetingPoint,
     };
 

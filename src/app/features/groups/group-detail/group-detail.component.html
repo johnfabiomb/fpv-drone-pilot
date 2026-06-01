@@ -90,6 +90,8 @@
             </div>
             <div class="gd-header__meta">
               <span class="badge" [class]="'badge--' + group.difficulty">{{ group.difficulty }}</span>
+              <span *ngIf="group.price" class="gd-price-badge">€{{ group.price }} per person</span>
+              <span *ngIf="!group.price" class="gd-price-badge gd-price-badge--free">Free</span>
               <button *ngIf="group.spotTitle" class="gd-header__spot" (click)="showSpotOnMap()" title="Show on map">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
@@ -118,9 +120,31 @@
             </svg>
           </button>
 
+          <!-- Contact form for paid groups -->
+          <div *ngIf="showContactForm()" class="gd-contact-form" (click)="$event.stopPropagation()">
+            <p class="gd-contact-form__title">
+              💳 €{{ group.price }} per person
+            </p>
+            <p class="gd-contact-form__desc">
+              <strong>{{ group.leaderName }}</strong> will contact you to arrange payment. Share your phone number so they can reach you.
+            </p>
+            <input class="gd-contact-form__input"
+              type="tel"
+              [(ngModel)]="contactPhone"
+              placeholder="+356 9999 9999"
+              (keydown.enter)="submitContactAndJoin()">
+            <p *ngIf="contactFormError()" class="gd-contact-form__error">{{ contactFormError() }}</p>
+            <div class="gd-contact-form__actions">
+              <button class="gd-contact-form__cancel" (click)="cancelContactForm()">Cancel</button>
+              <button class="gd-contact-form__submit" (click)="submitContactAndJoin()" [disabled]="actionBusy()">
+                {{ actionBusy() ? 'Joining…' : 'Join & share number' }}
+              </button>
+            </div>
+          </div>
+
           <!-- Actions (logged in) -->
           <div class="gd-actions" *ngIf="authService.isLoggedIn()">
-            <button *ngIf="canJoin" class="gd-join-btn" (click)="join()" [disabled]="actionBusy()">
+            <button *ngIf="canJoin && !showContactForm()" class="gd-join-btn" (click)="join()" [disabled]="actionBusy()">
               {{ actionBusy() ? 'Joining…' : 'Join group' }}
             </button>
 

@@ -7,6 +7,10 @@ All notable changes to Venture Map are recorded here.
 ## [Unreleased]
 
 ### Added
+- **Paid group join contact form** — joining a paid group intercepts the join button and shows an inline form asking for a phone number; the guide sees each member's phone in the Members modal; free groups join instantly as before; `contact_phone` stored on `group_members`
+- **Guide role** — new `UserRole.Guide` (`'guide'`) in `users.role` constraint; `UserDataService.isGuide()` and `canSetPrice()` computed signals; admin panel "Grant guide role" section (email-based, same pattern as Groups activation)
+- **Paid group tours** — `price_eur DECIMAL(8,2)` column on `groups` table; guides and admins can set a price when creating or editing a group; price field visible but disabled for regular users with a lock hint; `€X per person` badge on group detail, `€X` / `Free` pill on group cards
+- `activate_guide_role(p_email TEXT)` Supabase RPC — sets `users.role = 'guide'` for the given email; admin-only via `GroupsService.activateGuideRole()`
 - **XP & Level system** — 7-level progression (New → Explorer → Legend) driven by XP earned from location views, saves, group actions, daily login, session time, and friend referrals; level gates group creation; each level raises max-member cap
 - `award_xp` Supabase RPC — atomic XP + level update with daily caps, unique-index deduplication, and level-up detection
 - `InteractionTrackingService` — per-user stats counter via `track_interaction` RPC; tracks view/save/share counts per location and view/book_now/coupon_copy/share counts per provider; signals-based `stats` map for reactive reads

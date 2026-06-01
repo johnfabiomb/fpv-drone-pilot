@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.users (
   email           TEXT NOT NULL,
   display_name    TEXT,
   photo_url       TEXT,
-  role            TEXT DEFAULT 'explorer' CHECK (role IN ('explorer', 'admin')),
+  role            TEXT DEFAULT 'explorer' CHECK (role IN ('explorer', 'admin', 'guide')),
   level           INTEGER DEFAULT 1 CHECK (level BETWEEN 1 AND 6),
   xp              INTEGER NOT NULL DEFAULT 0,
   saved_locations TEXT[] DEFAULT '{}',
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS public.groups (
   description     TEXT,
   difficulty      TEXT CHECK (difficulty IN ('easy', 'moderate', 'hard')),
   max_members     INTEGER,
+  price_eur       DECIMAL(8,2),
   status          TEXT DEFAULT 'open' CHECK (status IN ('open','full','exploring','cancelled','completed')),
   leader_id       UUID REFERENCES public.users(id),
   member_count    INTEGER DEFAULT 0,
@@ -50,13 +51,14 @@ CREATE TABLE IF NOT EXISTS public.groups (
 
 -- group_members profile columns removed — JOIN user_profiles view instead
 CREATE TABLE IF NOT EXISTS public.group_members (
-  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  group_id     UUID REFERENCES public.groups(id) ON DELETE CASCADE,
-  uid          UUID REFERENCES public.users(id),
-  role         TEXT DEFAULT 'member' CHECK (role IN ('leader','member')),
-  joined_at    TIMESTAMPTZ DEFAULT NOW(),
-  last_active  TIMESTAMPTZ DEFAULT NOW(),
-  muted_until  TIMESTAMPTZ,
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  group_id      UUID REFERENCES public.groups(id) ON DELETE CASCADE,
+  uid           UUID REFERENCES public.users(id),
+  role          TEXT DEFAULT 'member' CHECK (role IN ('leader','member')),
+  joined_at     TIMESTAMPTZ DEFAULT NOW(),
+  last_active   TIMESTAMPTZ DEFAULT NOW(),
+  muted_until   TIMESTAMPTZ,
+  contact_phone TEXT,
   UNIQUE(group_id, uid)
 );
 
@@ -94,6 +96,13 @@ ALTER TABLE public.users ADD COLUMN IF NOT EXISTS xp            INTEGER NOT NULL
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS referral_code TEXT    UNIQUE;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS referred_by   UUID    REFERENCES public.users(id) ON DELETE SET NULL;
 
+-- users: extend role to include 'guide'
+ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_role_check;
+ALTER TABLE public.users ADD CONSTRAINT users_role_check CHECK (role IN ('explorer', 'admin', 'guide'));
+
+-- groups: guide tour pricing
+ALTER TABLE public.groups ADD COLUMN IF NOT EXISTS price_eur DECIMAL(8,2) NULL;
+
 -- groups: drop denormalized leader profile columns
 ALTER TABLE public.groups DROP COLUMN IF EXISTS leader_name;
 ALTER TABLE public.groups DROP COLUMN IF EXISTS leader_photo;
@@ -103,6 +112,9 @@ ALTER TABLE public.groups DROP COLUMN IF EXISTS leader_level;
 -- group_members: drop denormalized member profile columns
 ALTER TABLE public.group_members DROP COLUMN IF EXISTS display_name;
 ALTER TABLE public.group_members DROP COLUMN IF EXISTS photo_url;
+
+-- group_members: contact info for paid tour members
+ALTER TABLE public.group_members ADD COLUMN IF NOT EXISTS contact_phone TEXT NULL;
 
 -- groups: extend status to include 'archived' (soft-delete for admin cleanup)
 ALTER TABLE public.groups DROP CONSTRAINT IF EXISTS groups_status_check;
@@ -185,7 +197,7 @@ WHERE referral_code IS NULL;
 -- Server looks up the caller's profile from users directly —
 -- no client-supplied name/photo, preventing spoofing.
 
-CREATE OR REPLACE FUNCTION public.join_group(p_group_id UUID)
+CREATE OR REPLACE FUNCTION public.join_group(p_group_id UUID, p_phone TEXT DEFAULT NULL)
 RETURNS VOID AS $$
 DECLARE
   v_uid   UUID := auth.uid();
@@ -212,8 +224,8 @@ BEGIN
     RAISE EXCEPTION 'group_full';
   END IF;
 
-  INSERT INTO public.group_members (group_id, uid)
-  VALUES (p_group_id, v_uid)
+  INSERT INTO public.group_members (group_id, uid, contact_phone)
+  VALUES (p_group_id, v_uid, p_phone)
   ON CONFLICT (group_id, uid) DO NOTHING;
 
   UPDATE public.groups
@@ -276,6 +288,21 @@ BEGIN
   SELECT id INTO v_user_id FROM public.users WHERE email = p_email LIMIT 1;
   IF NOT FOUND THEN RETURN 'not_found'; END IF;
   UPDATE public.users SET feature_access = feature_access || '{"groups": true}'::jsonb WHERE id = v_user_id;
+  RETURN 'ok';
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+-- ── RPC: activate_guide_role ─────────────────────────────────
+
+CREATE OR REPLACE FUNCTION public.activate_guide_role(p_email TEXT)
+RETURNS TEXT AS $$
+DECLARE
+  v_user_id UUID;
+BEGIN
+  SELECT id INTO v_user_id FROM public.users WHERE email = p_email LIMIT 1;
+  IF NOT FOUND THEN RETURN 'not_found'; END IF;
+  UPDATE public.users SET role = 'guide' WHERE id = v_user_id;
   RETURN 'ok';
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -509,9 +536,10 @@ GRANT SELECT, INSERT, DELETE ON public.group_messages TO authenticated;
 GRANT SELECT, INSERT       ON public.xp_events      TO authenticated;
 
 GRANT EXECUTE ON FUNCTION public.is_admin()                TO anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.join_group(UUID)          TO authenticated;
+GRANT EXECUTE ON FUNCTION public.join_group(UUID, TEXT)    TO authenticated;
 GRANT EXECUTE ON FUNCTION public.leave_group(UUID, UUID)   TO authenticated;
 GRANT EXECUTE ON FUNCTION public.activate_groups_access(TEXT) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.activate_guide_role(TEXT)   TO authenticated;
 GRANT EXECUTE ON FUNCTION public.award_xp(TEXT, TEXT)     TO authenticated;
 GRANT EXECUTE ON FUNCTION public.process_referral(UUID)   TO authenticated;
 

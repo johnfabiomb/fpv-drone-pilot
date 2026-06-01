@@ -44,6 +44,9 @@
           <span class="gd-member__badge gd-member__badge--muted" *ngIf="isMemberMuted(m)">muted</span>
         </span>
         <span class="gd-member__active">{{ formatLastActive(m.lastActive) }}</span>
+        <span *ngIf="canManageMembers && m.contactPhone" class="gd-member__phone">
+          📞 {{ m.contactPhone }}
+        </span>
       </div>
 
       <div class="gd-member__menu-wrap"

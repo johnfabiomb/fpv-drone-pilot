@@ -75,6 +75,25 @@ import { ReportRow } from '@core/models/group.model';
             @if (activateResult()) {
               <p class="ap-result">{{ activateResult() }}</p>
             }
+
+            <p class="ap-view__title" style="margin-top:20px">Grant guide role</p>
+            <p class="ap-view__desc">Guides can set a price on their group tours. Takes effect on their next login.</p>
+            <div class="ap-input-row">
+              <input class="ap-email-input"
+                type="email"
+                placeholder="user@email.com"
+                [ngModel]="guideEmail()"
+                (ngModelChange)="guideEmail.set($event)"
+                (keydown.enter)="activateGuideForUser()">
+              <button class="ap-submit-btn"
+                (click)="activateGuideForUser()"
+                [disabled]="activatingGuide() || !guideEmail().trim()">
+                {{ activatingGuide() ? '…' : 'Grant' }}
+              </button>
+            </div>
+            @if (guideResult()) {
+              <p class="ap-result">{{ guideResult() }}</p>
+            }
           </div>
         }
 
@@ -364,6 +383,9 @@ export class AdminPanelComponent implements OnInit {
   readonly activating     = signal(false);
   readonly activateEmail  = signal('');
   readonly activateResult = signal<string | null>(null);
+  readonly activatingGuide = signal(false);
+  readonly guideEmail     = signal('');
+  readonly guideResult    = signal<string | null>(null);
   readonly reports        = signal<ReportRow[]>([]);
   readonly reportsLoading = signal(false);
 
@@ -430,6 +452,26 @@ export class AdminPanelComponent implements OnInit {
       this.activateResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
     } finally {
       this.activating.set(false);
+    }
+  }
+
+  async activateGuideForUser(): Promise<void> {
+    const email = this.guideEmail().trim();
+    if (!email) return;
+    this.activatingGuide.set(true);
+    this.guideResult.set(null);
+    try {
+      const result = await this.groupsService.activateGuideRole(email);
+      if (result === 'not_found') {
+        this.guideResult.set('❌ No user found with that email.');
+      } else {
+        this.guideResult.set(`✅ Guide role granted to ${email}`);
+        this.guideEmail.set('');
+      }
+    } catch (e) {
+      this.guideResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
+    } finally {
+      this.activatingGuide.set(false);
     }
   }
 }

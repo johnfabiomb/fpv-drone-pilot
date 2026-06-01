@@ -32,11 +32,13 @@ export interface Group {
   description: string;
   difficulty: Difficulty;
   maxMembers: number | null;
+  price: number | null;
   status: GroupStatus;
   leaderId: string;
   leaderName: string;
   leaderPhoto: string;
   leaderIsAdmin: boolean;
+  leaderIsGuide: boolean;
   leaderLevel: number;
   memberCount: number;
   memberPreviews: GroupMemberPreview[];
@@ -57,6 +59,7 @@ export interface GroupMember {
   joinedAt: Timestamp;
   lastActive: Timestamp;
   mutedUntil?: Timestamp;
+  contactPhone?: string | null;
 }
 
 export interface GroupMessage {
@@ -82,6 +85,7 @@ export interface CreateGroupPayload {
   description: string;
   difficulty: Difficulty;
   maxMembers: number | null;
+  price: number | null;
   meetingPoint: MeetingPoint | null;
 }
 
@@ -96,6 +100,7 @@ export interface UpdateGroupPayload {
   description: string;
   difficulty: Difficulty;
   maxMembers: number | null;
+  price: number | null;
   meetingPoint: MeetingPoint | null;
 }
 

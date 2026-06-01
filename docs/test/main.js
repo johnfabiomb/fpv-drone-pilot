@@ -133,7 +133,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-XMAGBHQT.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-4BX7B27G.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",

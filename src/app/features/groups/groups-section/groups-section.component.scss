@@ -207,6 +207,35 @@
   color: var(--color-text-light);
 }
 
+.gs-form__lock-hint {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  vertical-align: middle;
+}
+
+.gs-price-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .gs-price-euro {
+    position: absolute;
+    left: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  input {
+    padding-left: 24px;
+    width: 100%;
+  }
+}
+
 .gs-form__hint {
   display: block;
   font-size: 11px;

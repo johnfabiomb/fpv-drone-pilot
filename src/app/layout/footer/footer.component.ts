@@ -61,6 +61,11 @@ export class FooterComponent {
       });
   }
 
+  openExternal(url: string): void {
+    this.showNavMenu = false;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
   get levelLabel(): string {
     const info = this.userDataService.levelInfo();
     if (info.id === 0) return '✨ New';

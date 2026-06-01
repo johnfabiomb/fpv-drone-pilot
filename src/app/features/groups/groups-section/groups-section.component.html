@@ -141,6 +141,18 @@
   </div>
 
   <div class="gs-form__field">
+    <label>
+      Tour price <span class="gs-form__opt">(optional)</span>
+      <span *ngIf="!canSetPrice()" class="gs-form__lock-hint">🔒 Guide or admin only</span>
+    </label>
+    <div class="gs-price-wrap">
+      <span class="gs-price-euro">€</span>
+      <input type="number" [(ngModel)]="formPrice" min="0" step="0.01" placeholder="Free"
+        [disabled]="!canSetPrice()">
+    </div>
+  </div>
+
+  <div class="gs-form__field">
     <label>Meeting point <span class="gs-form__opt">(optional)</span></label>
 
     <!-- Pending confirmation — user just tapped the map -->

@@ -83,6 +83,37 @@
   letter-spacing: 0;
 }
 
+.gd-edit-form__lock-hint {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  vertical-align: middle;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.gd-price-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .gd-price-euro {
+    position: absolute;
+    left: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  input {
+    padding-left: 24px;
+    width: 100%;
+  }
+}
+
 .gd-edit-form__spot-wrap {
   position: relative;
 }

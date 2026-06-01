@@ -58,9 +58,9 @@ export class GroupsService {
         ),
       )
       .sort((a, b) => {
-        const rankA = a.leaderIsAdmin ? 7 : a.leaderLevel;
-        const rankB = b.leaderIsAdmin ? 7 : b.leaderLevel;
-        if (rankB !== rankA) return rankB - rankA;
+        const rank = (g: Group) => g.leaderIsAdmin ? 8 : g.leaderIsGuide ? 7 : g.leaderLevel;
+        const diff = rank(b) - rank(a);
+        if (diff !== 0) return diff;
         return a.date.toMillis() - b.date.toMillis();
       })
   );
@@ -153,11 +153,13 @@ export class GroupsService {
       description:   (row['description'] as string) ?? '',
       difficulty:    row['difficulty'] as 'easy' | 'moderate' | 'hard',
       maxMembers:    row['max_members'] as number | null,
+      price:         (row['price_eur'] as number | null) ?? null,
       status:        row['status'] as Group['status'],
       leaderId:      row['leader_id'] as string,
       leaderName:    (leader['display_name'] as string) ?? '',
       leaderPhoto:   (leader['photo_url'] as string) ?? '',
       leaderIsAdmin: (leader['role'] as string) === UserRole.Admin,
+      leaderIsGuide: (leader['role'] as string) === UserRole.Guide,
       leaderLevel:   (leader['level'] as number) ?? 1,
       memberCount:   (row['member_count'] as number) ?? 0,
       memberPreviews: (row['member_previews'] as Group['memberPreviews']) ?? [],
@@ -186,7 +188,8 @@ export class GroupsService {
       role:        row['role'] as GroupMember['role'],
       joinedAt:    Timestamp.fromISO(row['joined_at'] as string),
       lastActive:  Timestamp.fromISO(row['last_active'] as string),
-      mutedUntil:  row['muted_until'] ? Timestamp.fromISO(row['muted_until'] as string) : undefined,
+      mutedUntil:   row['muted_until'] ? Timestamp.fromISO(row['muted_until'] as string) : undefined,
+      contactPhone: (row['contact_phone'] as string | null) ?? null,
     };
   }
 
@@ -556,6 +559,7 @@ export class GroupsService {
         description:     data.description,
         difficulty:      data.difficulty,
         max_members:     data.maxMembers,
+        price_eur:       data.price ?? null,
         status:          'open',
         leader_id:       user.id,
         meeting_point:   data.meetingPoint ?? null,
@@ -635,6 +639,7 @@ export class GroupsService {
       description:   data.description,
       difficulty:    data.difficulty,
       max_members:   data.maxMembers,
+      price_eur:     data.price ?? null,
       meeting_point: data.meetingPoint ?? null,
       updated_at:    new Date().toISOString(),
     }).eq('id', groupId);
@@ -646,11 +651,14 @@ export class GroupsService {
     this.analytics.event('group_updated', { groupId });
   }
 
-  async joinGroup(groupId: string): Promise<void> {
+  async joinGroup(groupId: string, phone?: string): Promise<void> {
     const user = this.authService.user();
     if (!user) throw new Error('Not authenticated');
 
-    const { error } = await supabase.rpc('join_group', { p_group_id: groupId });
+    const { error } = await supabase.rpc('join_group', {
+      p_group_id: groupId,
+      p_phone:    phone ?? null,
+    });
 
     if (error) {
       if (error.message.includes('group_full'))         throw new GroupFullError();
@@ -947,6 +955,12 @@ export class GroupsService {
   // ── Admin: per-user feature activation ───────────────────────────────────────
   async activateGroupsAccess(email: string): Promise<'ok' | 'not_found'> {
     const { data, error } = await supabase.rpc('activate_groups_access', { p_email: email });
+    if (error) throw error;
+    return data as 'ok' | 'not_found';
+  }
+
+  async activateGuideRole(email: string): Promise<'ok' | 'not_found'> {
+    const { data, error } = await supabase.rpc('activate_guide_role', { p_email: email });
     if (error) throw error;
     return data as 'ok' | 'not_found';
   }

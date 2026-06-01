@@ -156,6 +156,12 @@
   color: var(--color-text-muted);
 }
 
+.gd-member__phone {
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
 .gd-member__chevron {
   margin-left: auto;
   flex-shrink: 0;

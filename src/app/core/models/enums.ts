@@ -26,5 +26,5 @@ export const GroupRole = { Leader: 'leader', Member: 'member' } as const;
 export type GroupRole = typeof GroupRole[keyof typeof GroupRole];
 
 // ── UserRole ──────────────────────────────────────────────────────────────────
-export const UserRole = { Explorer: 'explorer', Admin: 'admin' } as const;
+export const UserRole = { Explorer: 'explorer', Admin: 'admin', Guide: 'guide' } as const;
 export type UserRole = typeof UserRole[keyof typeof UserRole];

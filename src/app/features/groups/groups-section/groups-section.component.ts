@@ -68,8 +68,9 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   /** True while the user is tapping a location pin to fill the spot field. */
   readonly pickingSpot            = signal(false);
 
-  readonly isAdmin    = computed(() => this.userDataService.isAdmin());
-  readonly currentUid = computed(() => this.authService.user()?.id ?? null);
+  readonly isAdmin      = computed(() => this.userDataService.isAdmin());
+  readonly canSetPrice  = computed(() => this.userDataService.canSetPrice());
+  readonly currentUid   = computed(() => this.authService.user()?.id ?? null);
 
   /** Open groups the current user leads or is a member of. */
   readonly myGroups = computed(() => {
@@ -95,6 +96,7 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
   formDescription  = '';
   formDifficulty: 'easy' | 'moderate' | 'hard' = 'easy';
   formMaxMembers   = '';
+  formPrice        = '';
   formSpotSlug     = '';
   formSpotTitle    = '';
   formSpotLat      = 0;
@@ -105,8 +107,9 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
     const all = this.lockedLocation ? this.spotGroups() : this.groupsService.openGroups();
     const uid = this.authService.user()?.id;
     const score = (g: Group) => {
-      if (g.leaderIsAdmin) return 2;       // admin groups always first for everyone
-      if (uid && g.leaderId === uid) return 1; // own group second
+      if (g.leaderIsAdmin)                      return 3; // admin first
+      if (g.leaderIsGuide)                      return 2; // guide second
+      if (uid && g.leaderId === uid)             return 1; // own group third
       return 0;
     };
     return [...all].sort((a, b) => score(b) - score(a));
@@ -277,6 +280,7 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
       maxMembers = maxMembers !== null ? Math.min(maxMembers, cap) : cap;
     }
 
+    const priceVal = this.canSetPrice() && this.formPrice ? parseFloat(this.formPrice) : null;
     const payload: CreateGroupPayload = {
       title:        this.formTitle.trim(),
       spotSlug:     this.formSpotSlug  || null,
@@ -288,6 +292,7 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
       description:  this.formDescription.trim(),
       difficulty:   this.formDifficulty,
       maxMembers,
+      price:        priceVal !== null && !isNaN(priceVal) && priceVal > 0 ? priceVal : null,
       meetingPoint: this.formMeetingPoint,
     };
 
@@ -367,6 +372,7 @@ export class GroupsSectionComponent implements OnInit, OnDestroy {
     this.formDescription  = '';
     this.formDifficulty   = 'easy';
     this.formMaxMembers   = '';
+    this.formPrice        = '';
     this.formMeetingPoint = null;
     this.pendingMeetingPoint.set(null);
     this.pickingMeetingPoint.set(false);

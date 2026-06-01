@@ -45,6 +45,8 @@ import { UserAvatarComponent } from '@ui/user-avatar/user-avatar.component';
       <div class="group-card__bottom">
         <div class="group-card__meta-row">
           <span class="badge" [class]="'badge--' + group.difficulty">{{ group.difficulty }}</span>
+          <span *ngIf="group.price" class="group-card__price">€{{ group.price }}</span>
+          <span *ngIf="!group.price" class="group-card__price group-card__price--free">Free</span>
           <span class="group-card__leader">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             {{ shortName(group.leaderName) }} leading
@@ -155,6 +157,22 @@ import { UserAvatarComponent } from '@ui/user-avatar/user-avatar.component';
       display: flex;
       align-items: center;
       gap: 7px;
+    }
+
+    .group-card__price {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: rgba(244, 169, 34, 0.12);
+      color: #92620a;
+
+      &--free {
+        background: #dcfce7;
+        color: #15803d;
+        font-weight: 600;
+      }
     }
 
     .group-card__leader {

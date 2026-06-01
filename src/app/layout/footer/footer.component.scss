@@ -125,8 +125,15 @@
   gap: 10px;
   padding: 10px 12px;
   background: var(--color-bg-muted);
+  border: none;
   border-radius: var(--radius-lg);
   text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: left;
+  box-sizing: border-box;
   transition: background var(--transition);
   &:hover, &:active { background: var(--color-border); }
 

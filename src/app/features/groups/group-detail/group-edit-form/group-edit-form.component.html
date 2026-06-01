@@ -62,6 +62,18 @@
   </div>
 
   <div class="gd-edit-form__field">
+    <label>
+      Tour price <span class="gd-edit-form__opt">(optional)</span>
+      <span *ngIf="!canSetPrice()" class="gd-edit-form__lock-hint">🔒 Guide or admin only</span>
+    </label>
+    <div class="gd-price-wrap">
+      <span class="gd-price-euro">€</span>
+      <input type="number" [(ngModel)]="editPrice" min="0" step="0.01" placeholder="Free"
+        [disabled]="!canSetPrice()">
+    </div>
+  </div>
+
+  <div class="gd-edit-form__field">
     <label>Meeting point <span class="gd-edit-form__opt">(optional)</span></label>
 
     <div *ngIf="editPendingMeetingPoint()" class="gd-meeting-confirm">

@@ -3,6 +3,7 @@ import {
   computed, effect, inject, signal,
 } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -30,7 +31,7 @@ import { locations } from '@assets/locations.json';
   selector: 'app-group-detail',
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule, FormsModule,
     PanelShellComponent, UserAvatarComponent, ConfirmPopupComponent,
     MemberAvatarsComponent, AppModalComponent, ShareButtonComponent,
     GroupChatComponent, GroupMembersModalComponent, GroupEditFormComponent,
@@ -54,16 +55,19 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   readonly groupsUnlocked = computed(() => this.userDataService.groupsUnlocked());
 
   // ── UI state ──────────────────────────────────────────────────────────────
-  readonly actionError     = signal<string | null>(null);
-  readonly actionBusy      = signal(false);
-  readonly showTransfer    = signal(false);
+  readonly actionError      = signal<string | null>(null);
+  readonly actionBusy       = signal(false);
+  readonly showTransfer     = signal(false);
   readonly confirmingAction = signal<'leave' | 'cancel' | 'explore' | 'complete' | null>(null);
-  readonly autoJoining     = signal(false);
+  readonly autoJoining      = signal(false);
   readonly showMeetingModal = signal(false);
   readonly showMembersModal = signal(false);
   readonly showEditForm     = signal(false);
   readonly activeTab        = signal<'info' | 'chat'>('info');
   readonly unreadCount      = signal(0);
+  readonly showContactForm  = signal(false);
+  contactPhone              = '';
+  readonly contactFormError = signal<string | null>(null);
 
   private lastSeenMessageCount = 0;
   private messagesInitialized  = false;
@@ -287,10 +291,37 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   // ── Group actions ─────────────────────────────────────────────────────────
   async join(): Promise<void> {
     if (!this.authService.isLoggedIn()) { this.authService.openLoginModal(); return; }
+    const group = this.groupsService.detailGroup();
+    if (group?.price) {
+      this.contactPhone = '';
+      this.contactFormError.set(null);
+      this.showContactForm.set(true);
+      return;
+    }
+    await this._doJoin();
+  }
+
+  async submitContactAndJoin(): Promise<void> {
+    const phone = this.contactPhone.trim();
+    if (!phone) {
+      this.contactFormError.set('Please enter your phone number.');
+      return;
+    }
+    this.showContactForm.set(false);
+    await this._doJoin(phone);
+  }
+
+  cancelContactForm(): void {
+    this.showContactForm.set(false);
+    this.contactFormError.set(null);
+    this.contactPhone = '';
+  }
+
+  private async _doJoin(phone?: string): Promise<void> {
     this.actionError.set(null);
     this.actionBusy.set(true);
     try {
-      await this.groupsService.joinGroup(this.groupId);
+      await this.groupsService.joinGroup(this.groupId, phone);
       await this.groupsService.updateLastActive(this.groupId);
     } catch (e) {
       if (e instanceof GroupFullError) {

@@ -36,6 +36,8 @@ export class UserDataService {
   private readonly _featureAccess = signal<{ groups?: boolean } | null>(null);
   readonly groupsUnlocked = computed(() => this._featureAccess()?.groups !== false);
   readonly isAdmin        = computed(() => this.role() === UserRole.Admin);
+  readonly isGuide        = computed(() => this.role() === UserRole.Guide);
+  readonly canSetPrice    = computed(() => this.isAdmin() || this.isGuide());
 
   readonly daysSinceRegistration = computed(() => {
     const createdAt = this.createdAt();
