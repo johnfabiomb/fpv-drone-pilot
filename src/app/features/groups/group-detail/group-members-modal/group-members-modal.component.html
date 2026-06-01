@@ -17,11 +17,11 @@
     </div>
 
     <div class="gd-member"
-      [class.gd-member--selectable]="bulkSelectMode() && isBulkSelected(m.uid) !== undefined && m.uid !== currentUser?.id && m.role !== 'leader'"
+      [class.gd-member--selectable]="bulkSelectMode() && m.uid !== currentUser?.id && m.uid !== group.leaderId"
       [class.gd-member--selected]="isBulkSelected(m.uid)"
-      (click)="bulkSelectMode() && m.uid !== currentUser?.id && m.role !== 'leader' ? toggleBulkSelect(m.uid) : null"
+      (click)="bulkSelectMode() && m.uid !== currentUser?.id && m.uid !== group.leaderId ? toggleBulkSelect(m.uid) : null"
       *ngFor="let m of members">
-      <div *ngIf="bulkSelectMode() && m.uid !== currentUser?.id && m.role !== 'leader'"
+      <div *ngIf="bulkSelectMode() && m.uid !== currentUser?.id && m.uid !== group.leaderId"
         class="gd-member__checkbox" [class.gd-member__checkbox--checked]="isBulkSelected(m.uid)">
         <svg *ngIf="isBulkSelected(m.uid)" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"/>

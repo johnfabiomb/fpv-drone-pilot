@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Output, EventEmitter, Renderer2, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -37,7 +37,7 @@ import { CommonModule } from '@angular/common';
       bottom: 90px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 500;
+      z-index: 10000;
     }
     :host.is-fixed .confirm-popup {
       width: min(260px, 80vw);
@@ -93,7 +93,10 @@ import { CommonModule } from '@angular/common';
     :host.is-fixed .confirm-popup { animation-name: cpPopUpFixed; }
   `],
 })
-export class ConfirmPopupComponent {
+export class ConfirmPopupComponent implements OnInit, OnDestroy {
+  private readonly el       = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
   @Input() message = 'Are you sure?';
   @Input() confirmLabel = 'Yes';
   @Input() cancelLabel = 'No';
@@ -104,4 +107,16 @@ export class ConfirmPopupComponent {
 
   @Output() confirmed = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
+
+  ngOnInit(): void {
+    if (this._fixed) {
+      this.renderer.appendChild(document.body, this.el.nativeElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this._fixed && document.body.contains(this.el.nativeElement)) {
+      this.renderer.removeChild(document.body, this.el.nativeElement);
+    }
+  }
 }

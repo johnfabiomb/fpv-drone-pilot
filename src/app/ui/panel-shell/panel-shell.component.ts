@@ -52,19 +52,23 @@ export class PanelShellComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const body = this.panelBody.nativeElement;
     let touchStartY = 0;
+    let startScrollTop = 0;
     let isIntercepting = false;
 
     const onStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
+      startScrollTop = body.scrollTop;
       isIntercepting = false;
     };
 
     const onMove = (e: TouchEvent) => {
       const dy = e.touches[0].clientY - touchStartY;
 
-      // Only intercept a downward pull when the content is already at the top.
-      // Upward swipes are always native scroll.
-      if (dy > 0 && body.scrollTop <= 0) {
+      // Only intercept a downward pull when the content was ALREADY at the top
+      // when the touch started. If the user started scrolling from further down
+      // and reached the top mid-gesture, let the native scroll finish — do not
+      // hijack into a panel drag.
+      if (dy > 0 && startScrollTop <= 0 && body.scrollTop <= 0) {
         e.preventDefault();
         if (!isIntercepting) {
           isIntercepting = true;

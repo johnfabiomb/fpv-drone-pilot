@@ -7,6 +7,9 @@ All notable changes to Venture Map are recorded here.
 ## [Unreleased]
 
 ### Fixed
+- **Panel shell** — scrolling up through panel content no longer hijacks into a panel drag once `scrollTop` reaches 0; drag is only intercepted if the touch started with the content already at the top
+- **Group members modal** — confirm popup now renders at `document.body` level when `fixed=true`, escaping the modal's stacking context so it overlays correctly instead of appearing trapped inside the card
+- **Group members modal** — bulk-select checkboxes now guard by `group.leaderId` instead of `m.role === 'leader'` so the leader row is never selectable regardless of the role field value; `bulkRemoveMembers` also filters out the current user's UID as a safety net
 - **Group chat** — group leader (admin) now always sees the chat input; previously `isMember` was `false` for the leader so they saw "Join the group to chat" instead of the message box
 
 ### Changed

@@ -787,7 +787,7 @@ export class GroupsService {
     const group = this.detailGroup();
     if (!group) throw new Error('Group not found');
 
-    const toRemove = uids.filter(uid => uid !== group.leaderId);
+    const toRemove = uids.filter(uid => uid !== group.leaderId && uid !== user.id);
     if (!toRemove.length) return;
 
     await supabase.from('group_members').delete()
