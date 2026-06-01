@@ -2,7 +2,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-IP6E4YY5.js";
+} from "./chunk-N6U5E7I2.js";
 import {
   AppModalComponent
 } from "./chunk-62NNIWOP.js";
@@ -85,6 +85,8 @@ import {
   ɵɵpipeBind1,
   ɵɵproperty,
   ɵɵreference,
+  ɵɵrepeater,
+  ɵɵrepeaterCreate,
   ɵɵresetView,
   ɵɵrestoreView,
   ɵɵstyleProp,
@@ -133,7 +135,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-6TES4DQ4.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-QTUG5OYW.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -173,7 +175,7 @@ var routes = [
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-DA4IHQDX.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-LAB3ZBT4.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/features/map/shell/map-shell.component.ts" } : {}),
@@ -1035,69 +1037,89 @@ var SignInFormComponent = class _SignInFormComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignInFormComponent, { className: "SignInFormComponent", filePath: "src/app/ui/sign-in-form/sign-in-form.component.ts", lineNumber: 297 });
 })();
 
+// src/app/ui/benefits-list/benefits-list.component.ts
+var _forTrack0 = ($index, $item) => $item.icon;
+function BenefitsListComponent_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "li")(1, "span", 1);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const b_r1 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(b_r1.icon);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(b_r1.text);
+  }
+}
+var BENEFITS = [
+  { icon: "\u2B50", text: "Level up and get benefits \u2014 unlock more as you explore Malta" },
+  { icon: "\u{1F9ED}", text: "Don't explore alone \u2014 meet people who love Malta as much as you" },
+  { icon: "\u{1F516}", text: "Save your favourite spots and revisit them anytime" },
+  { icon: "\u{1F39F}\uFE0F", text: "Get real discounts from local partners I trust" },
+  { icon: "\u26A1", text: "Open Google Maps instantly \u2014 no wait" },
+  { icon: "\u{1F4F6}", text: "Browse the map offline, even without signal" },
+  { icon: "\u{1F514}", text: "Get notified when I add new spots to the map" }
+];
+var BenefitsListComponent = class _BenefitsListComponent {
+  constructor() {
+    this.benefits = BENEFITS;
+  }
+  static {
+    this.\u0275fac = function BenefitsListComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _BenefitsListComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BenefitsListComponent, selectors: [["app-benefits-list"]], decls: 3, vars: 0, consts: [[1, "benefits-list"], [1, "benefits-list__icon"]], template: function BenefitsListComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "ul", 0);
+        \u0275\u0275repeaterCreate(1, BenefitsListComponent_For_2_Template, 5, 2, "li", null, _forTrack0);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance();
+        \u0275\u0275repeater(ctx.benefits);
+      }
+    }, styles: ["\n\n.benefits-list[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 20px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.benefits-list[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.benefits-list__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n/*# sourceMappingURL=benefits-list.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BenefitsListComponent, { className: "BenefitsListComponent", filePath: "src/app/ui/benefits-list/benefits-list.component.ts", lineNumber: 57 });
+})();
+
 // src/app/layout/auth-modal/auth-modal.component.ts
 function AuthModalComponent_ng_container_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "div", 11)(2, "span", 12);
+    \u0275\u0275elementStart(1, "div", 10)(2, "span", 11);
     \u0275\u0275text(3, "\u{1F5FA}\uFE0F");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "img", 13);
+    \u0275\u0275element(4, "img", 12);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "p", 14);
+    \u0275\u0275elementStart(5, "p", 13);
     \u0275\u0275text(6, "Hey, I'm John \u{1F44B}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "h2", 15);
+    \u0275\u0275elementStart(7, "h2", 14);
     \u0275\u0275text(8, "It's way better signed in");
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
 }
-function AuthModalComponent_ul_7_Template(rf, ctx) {
+function AuthModalComponent_app_benefits_list_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "ul", 16)(1, "li")(2, "span", 17);
-    \u0275\u0275text(3, "\u{1F9ED}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span");
-    \u0275\u0275text(5, "Don't explore alone \u2014 meet people who love Malta as much as you");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "li")(7, "span", 17);
-    \u0275\u0275text(8, "\u{1F516}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "span");
-    \u0275\u0275text(10, "Save your favourite spots and revisit them anytime");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(11, "li")(12, "span", 17);
-    \u0275\u0275text(13, "\u{1F39F}\uFE0F");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "span");
-    \u0275\u0275text(15, "Get real discounts from local partners I trust");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "li")(17, "span", 17);
-    \u0275\u0275text(18, "\u26A1");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "span");
-    \u0275\u0275text(20, "Open Google Maps instantly \u2014 no wait");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(21, "li")(22, "span", 17);
-    \u0275\u0275text(23, "\u{1F4F6}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "span");
-    \u0275\u0275text(25, "Browse the map offline, even without signal");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(26, "li")(27, "span", 17);
-    \u0275\u0275text(28, "\u{1F514}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "span");
-    \u0275\u0275text(30, "Get notified when I add new spots to the map");
-    \u0275\u0275elementEnd()()();
+    \u0275\u0275element(0, "app-benefits-list");
   }
 }
 function AuthModalComponent_p_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 18);
+    \u0275\u0275elementStart(0, "p", 15);
     \u0275\u0275text(1, " By signing in you agree to our ");
-    \u0275\u0275elementStart(2, "a", 19);
+    \u0275\u0275elementStart(2, "a", 16);
     \u0275\u0275text(3, "Privacy Policy");
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, ". ");
@@ -1107,7 +1129,7 @@ function AuthModalComponent_p_9_Template(rf, ctx) {
 function AuthModalComponent_button_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 20);
+    \u0275\u0275elementStart(0, "button", 17);
     \u0275\u0275listener("click", function AuthModalComponent_button_10_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -1138,7 +1160,7 @@ var AuthModalComponent = class _AuthModalComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AuthModalComponent, selectors: [["app-auth-modal"]], decls: 11, vars: 4, consts: [[1, "modal-backdrop", 3, "click"], [1, "modal-card", 3, "click"], ["aria-label", "Close", 1, "modal-close", 3, "click"], ["width", "16", "height", "16", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [4, "ngIf"], ["class", "modal-benefits", 4, "ngIf"], [3, "stateChange"], ["class", "modal-legal", 4, "ngIf"], ["class", "modal-guest", 3, "click", 4, "ngIf"], [1, "modal-header"], [1, "modal-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "modal-photo"], [1, "modal-hey"], [1, "modal-title"], [1, "modal-benefits"], [1, "modal-benefit__icon"], [1, "modal-legal"], ["href", "/privacy", "target", "_blank"], [1, "modal-guest", 3, "click"]], template: function AuthModalComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AuthModalComponent, selectors: [["app-auth-modal"]], decls: 11, vars: 4, consts: [[1, "modal-backdrop", 3, "click"], [1, "modal-card", 3, "click"], ["aria-label", "Close", 1, "modal-close", 3, "click"], ["width", "16", "height", "16", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [4, "ngIf"], [3, "stateChange"], ["class", "modal-legal", 4, "ngIf"], ["class", "modal-guest", 3, "click", 4, "ngIf"], [1, "modal-header"], [1, "modal-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "modal-photo"], [1, "modal-hey"], [1, "modal-title"], [1, "modal-legal"], ["href", "/privacy", "target", "_blank"], [1, "modal-guest", 3, "click"]], template: function AuthModalComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "div", 0);
         \u0275\u0275listener("click", function AuthModalComponent_Template_div_click_0_listener() {
@@ -1156,14 +1178,14 @@ var AuthModalComponent = class _AuthModalComponent {
         \u0275\u0275elementStart(3, "svg", 3);
         \u0275\u0275element(4, "line", 4)(5, "line", 5);
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(6, AuthModalComponent_ng_container_6_Template, 9, 0, "ng-container", 6)(7, AuthModalComponent_ul_7_Template, 31, 0, "ul", 7);
+        \u0275\u0275template(6, AuthModalComponent_ng_container_6_Template, 9, 0, "ng-container", 6)(7, AuthModalComponent_app_benefits_list_7_Template, 1, 0, "app-benefits-list", 6);
         \u0275\u0275namespaceHTML();
-        \u0275\u0275elementStart(8, "app-sign-in-form", 8);
+        \u0275\u0275elementStart(8, "app-sign-in-form", 7);
         \u0275\u0275listener("stateChange", function AuthModalComponent_Template_app_sign_in_form_stateChange_8_listener($event) {
           return ctx.formState.set($event);
         });
         \u0275\u0275elementEnd();
-        \u0275\u0275template(9, AuthModalComponent_p_9_Template, 5, 0, "p", 9)(10, AuthModalComponent_button_10_Template, 2, 0, "button", 10);
+        \u0275\u0275template(9, AuthModalComponent_p_9_Template, 5, 0, "p", 8)(10, AuthModalComponent_button_10_Template, 2, 0, "button", 9);
         \u0275\u0275elementEnd()();
       }
       if (rf & 2) {
@@ -1176,11 +1198,11 @@ var AuthModalComponent = class _AuthModalComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.formState() === "default" || ctx.formState() === "email-input");
       }
-    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  z-index: 9999;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_amFadeIn 0.25s ease;\n}\n.modal-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_amSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 6px;\n  color: var(--color-text-muted);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background var(--transition);\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.modal-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.modal-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n  flex-shrink: 0;\n}\n.modal-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 18px;\n  font-size: 21px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.modal-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 20px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.modal-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.modal-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.modal-legal[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: var(--color-text-light);\n  margin: 0 0 4px;\n}\n.modal-legal[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  text-decoration: underline;\n}\n.modal-guest[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  padding: 6px 0 2px;\n  font-size: 12px;\n  color: var(--color-text-light);\n  cursor: pointer;\n  transition: color var(--transition);\n}\n.modal-guest[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-muted);\n}\n@keyframes _ngcontent-%COMP%_amFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_amSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=auth-modal.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf, SignInFormComponent, BenefitsListComponent], styles: ["\n\n.modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  z-index: 9999;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_amFadeIn 0.25s ease;\n}\n.modal-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_amSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.modal-close[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 14px;\n  right: 14px;\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 6px;\n  color: var(--color-text-muted);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background var(--transition);\n}\n.modal-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.modal-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.modal-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n  flex-shrink: 0;\n}\n.modal-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.modal-title[_ngcontent-%COMP%] {\n  margin: 0 0 18px;\n  font-size: 21px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.modal-legal[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: var(--color-text-light);\n  margin: 0 0 4px;\n}\n.modal-legal[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  text-decoration: underline;\n}\n.modal-guest[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  padding: 6px 0 2px;\n  font-size: 12px;\n  color: var(--color-text-light);\n  cursor: pointer;\n  transition: color var(--transition);\n}\n.modal-guest[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-muted);\n}\n@keyframes _ngcontent-%COMP%_amFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_amSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=auth-modal.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/layout/auth-modal/auth-modal.component.ts", lineNumber: 200 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/layout/auth-modal/auth-modal.component.ts", lineNumber: 169 });
 })();
 
 // src/app/layout/welcome-popup/welcome-popup.component.ts
@@ -1201,43 +1223,14 @@ function WelcomePopupComponent_div_0_ng_container_2_Template(rf, ctx) {
     \u0275\u0275elementStart(9, "p", 11);
     \u0275\u0275text(10, "I've mapped out my favourite spots \u2014 sign in and I'll save yours too.");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "ul", 12)(12, "li")(13, "span", 13);
-    \u0275\u0275text(14, "\u{1F9ED}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "span");
-    \u0275\u0275text(16, "Join or start a group for any spot \u2014 find people heading the same way");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(17, "li")(18, "span", 13);
-    \u0275\u0275text(19, "\u{1F4AC}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "span");
-    \u0275\u0275text(21, "Every group has a live chat \u2014 plan the day, share tips, never explore alone");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(22, "li")(23, "span", 13);
-    \u0275\u0275text(24, "\u{1F516}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "span");
-    \u0275\u0275text(26, "Save your favourite spots and build your own bucket list");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(27, "li")(28, "span", 13);
-    \u0275\u0275text(29, "\u{1F39F}\uFE0F");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "span");
-    \u0275\u0275text(31, "Unlock real discounts from local partners I personally trust");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(32, "li")(33, "span", 13);
-    \u0275\u0275text(34, "\u{1F4F6}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(35, "span");
-    \u0275\u0275text(36, "Works offline \u2014 explore without signal, no problem");
-    \u0275\u0275elementEnd()()();
+    \u0275\u0275element(11, "app-benefits-list");
     \u0275\u0275elementContainerEnd();
   }
 }
 function WelcomePopupComponent_div_0_button_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 14);
+    \u0275\u0275elementStart(0, "button", 12);
     \u0275\u0275listener("click", function WelcomePopupComponent_div_0_button_4_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -1261,7 +1254,7 @@ function WelcomePopupComponent_div_0_Template(rf, ctx) {
       \u0275\u0275restoreView(_r1);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 37, 0, "ng-container", 3);
+    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 12, 0, "ng-container", 3);
     \u0275\u0275elementStart(3, "app-sign-in-form", 4);
     \u0275\u0275listener("stateChange", function WelcomePopupComponent_div_0_Template_app_sign_in_form_stateChange_3_listener($event) {
       \u0275\u0275restoreView(_r1);
@@ -1320,18 +1313,18 @@ var WelcomePopupComponent = class _WelcomePopupComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _WelcomePopupComponent, selectors: [["app-welcome-popup"]], decls: 1, vars: 1, consts: [["class", "wp-backdrop", 3, "click", 4, "ngIf"], [1, "wp-backdrop", 3, "click"], [1, "wp-card", 3, "click"], [4, "ngIf"], [3, "stateChange"], ["class", "wp-ghost", 3, "click", 4, "ngIf"], [1, "wp-header"], [1, "wp-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "wp-photo", 2, "flex-shrink", "0"], [1, "wp-hey"], [1, "wp-title"], [1, "wp-sub"], [1, "wp-benefits"], [1, "wp-benefit__icon"], [1, "wp-ghost", 3, "click"]], template: function WelcomePopupComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _WelcomePopupComponent, selectors: [["app-welcome-popup"]], decls: 1, vars: 1, consts: [["class", "wp-backdrop", 3, "click", 4, "ngIf"], [1, "wp-backdrop", 3, "click"], [1, "wp-card", 3, "click"], [4, "ngIf"], [3, "stateChange"], ["class", "wp-ghost", 3, "click", 4, "ngIf"], [1, "wp-header"], [1, "wp-emoji"], ["src", "/assets/images/profile.webp", "alt", "John Monta\xF1o", "width", "52", "height", "52", 1, "wp-photo", 2, "flex-shrink", "0"], [1, "wp-hey"], [1, "wp-title"], [1, "wp-sub"], [1, "wp-ghost", 3, "click"]], template: function WelcomePopupComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275template(0, WelcomePopupComponent_div_0_Template, 5, 2, "div", 0);
       }
       if (rf & 2) {
         \u0275\u0275property("ngIf", ctx.visible());
       }
-    }, dependencies: [CommonModule, NgIf, SignInFormComponent], styles: ["\n\n.wp-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1200;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_wpFadeIn 0.3s ease;\n}\n.wp-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.wp-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.wp-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.wp-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n}\n.wp-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.wp-title[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 20px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.wp-sub[_ngcontent-%COMP%] {\n  margin: 0 0 20px;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  line-height: 1.5;\n}\n.wp-benefits[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 24px;\n  padding: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.wp-benefits[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  text-align: left;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-secondary);\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n}\n.wp-benefit__icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.wp-ghost[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-muted);\n  padding: 6px 0;\n  transition: color var(--transition);\n}\n.wp-ghost[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n@keyframes _ngcontent-%COMP%_wpFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_wpSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=welcome-popup.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf, SignInFormComponent, BenefitsListComponent], styles: ["\n\n.wp-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1200;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding: 20px;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_wpFadeIn 0.3s ease;\n}\n.wp-card[_ngcontent-%COMP%] {\n  background: var(--color-bg);\n  border-radius: 22px;\n  padding: 36px 24px 26px;\n  width: 100%;\n  max-width: 340px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);\n  animation: _ngcontent-%COMP%_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.wp-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin-bottom: 18px;\n}\n.wp-emoji[_ngcontent-%COMP%] {\n  font-size: 56px;\n  line-height: 1;\n  width: 52px;\n  text-align: center;\n}\n.wp-photo[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border-radius: var(--radius-lg);\n  object-fit: cover;\n  object-position: center top;\n  border: 2px solid var(--color-primary);\n  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);\n}\n.wp-hey[_ngcontent-%COMP%] {\n  margin: 0 0 4px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  letter-spacing: 0.01em;\n}\n.wp-title[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  font-size: 20px;\n  font-weight: 800;\n  color: var(--color-text-base);\n  letter-spacing: -0.4px;\n  line-height: 1.2;\n}\n.wp-sub[_ngcontent-%COMP%] {\n  margin: 0 0 20px;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  line-height: 1.5;\n}\n.wp-ghost[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--color-text-muted);\n  padding: 6px 0;\n  transition: color var(--transition);\n}\n.wp-ghost[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n@keyframes _ngcontent-%COMP%_wpFadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_wpSlideUp {\n  from {\n    opacity: 0;\n    transform: translateY(24px) scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=welcome-popup.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/layout/welcome-popup/welcome-popup.component.ts", lineNumber: 183 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/layout/welcome-popup/welcome-popup.component.ts", lineNumber: 138 });
 })();
 
 // src/app/layout/levels-modal/levels-modal.component.ts

@@ -4,11 +4,11 @@ import {
 import {
   ConfirmPopupComponent,
   MemberAvatarsComponent
-} from "./chunk-FWFPBLTY.js";
+} from "./chunk-QK7V7YXY.js";
 import {
   AnalyticsService,
   GroupsService
-} from "./chunk-WFROJCO2.js";
+} from "./chunk-4YCTGCDT.js";
 import {
   DefaultValueAccessor,
   FormsModule,
@@ -24,16 +24,16 @@ import {
 } from "./chunk-ULPD6IJP.js";
 import {
   normalizeForSearch
-} from "./chunk-UG6IT3UN.js";
+} from "./chunk-DV4PQ35C.js";
 import {
   AppModalComponent
 } from "./chunk-62NNIWOP.js";
 import {
   UserAvatarComponent
-} from "./chunk-BS6XIB6G.js";
+} from "./chunk-2WMPE2GG.js";
 import {
   UserDataService
-} from "./chunk-AOR6446T.js";
+} from "./chunk-HWJTBDX2.js";
 import {
   CooldownError,
   GroupFullError,
@@ -41,7 +41,7 @@ import {
   GroupStatus,
   LeaderMustTransferError,
   SpamMutedError
-} from "./chunk-LLZT5DQF.js";
+} from "./chunk-PHYDDMB4.js";
 import {
   AuthService
 } from "./chunk-HMI5MUHL.js";
@@ -849,15 +849,15 @@ function GroupMembersModalComponent_button_6_Template(rf, ctx) {
 function GroupMembersModalComponent_div_11_div_1__svg_svg_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 27);
-    \u0275\u0275element(1, "polyline", 28);
+    \u0275\u0275elementStart(0, "svg", 28);
+    \u0275\u0275element(1, "polyline", 29);
     \u0275\u0275elementEnd();
   }
 }
 function GroupMembersModalComponent_div_11_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 25);
-    \u0275\u0275template(1, GroupMembersModalComponent_div_11_div_1__svg_svg_1_Template, 2, 0, "svg", 26);
+    \u0275\u0275elementStart(0, "div", 26);
+    \u0275\u0275template(1, GroupMembersModalComponent_div_11_div_1__svg_svg_1_Template, 2, 0, "svg", 27);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -870,84 +870,96 @@ function GroupMembersModalComponent_div_11_div_1_Template(rf, ctx) {
 }
 function GroupMembersModalComponent_div_11_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275elementStart(0, "span", 30);
     \u0275\u0275text(1, "leader");
     \u0275\u0275elementEnd();
   }
 }
 function GroupMembersModalComponent_div_11_span_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 30);
+    \u0275\u0275elementStart(0, "span", 31);
     \u0275\u0275text(1, "muted");
     \u0275\u0275elementEnd();
   }
 }
-function GroupMembersModalComponent_div_11_div_10_div_6_button_1_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11_span_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 32);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const m_r4 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" \u{1F4DE} ", m_r4.contactPhone, " ");
+  }
+}
+function GroupMembersModalComponent_div_11_div_11_div_6_button_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 40);
-    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_10_div_6_button_1_Template_button_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "button", 42);
+    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_11_div_6_button_1_Template_button_click_0_listener($event) {
       \u0275\u0275restoreView(_r7);
       const m_r4 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.pickMemberAction("make-leader", m_r4, $event));
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 41);
-    \u0275\u0275element(2, "polygon", 48);
+    \u0275\u0275elementStart(1, "svg", 43);
+    \u0275\u0275element(2, "polygon", 50);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3, " Make leader ");
     \u0275\u0275elementEnd();
   }
 }
-function GroupMembersModalComponent_div_11_div_10_div_6__svg_line_8_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11_div_11_div_6__svg_line_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275element(0, "line", 49);
+    \u0275\u0275element(0, "line", 51);
   }
 }
-function GroupMembersModalComponent_div_11_div_10_div_6_button_10_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11_div_11_div_6_button_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 50);
-    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_10_div_6_button_10_Template_button_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "button", 52);
+    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_11_div_6_button_10_Template_button_click_0_listener($event) {
       \u0275\u0275restoreView(_r8);
       const m_r4 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.pickMemberAction("remove", m_r4, $event));
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 41);
-    \u0275\u0275element(2, "polyline", 51)(3, "path", 52)(4, "path", 53)(5, "path", 54)(6, "path", 55);
+    \u0275\u0275elementStart(1, "svg", 43);
+    \u0275\u0275element(2, "polyline", 53)(3, "path", 54)(4, "path", 55)(5, "path", 56)(6, "path", 57);
     \u0275\u0275elementEnd();
     \u0275\u0275text(7, " Remove ");
     \u0275\u0275elementEnd();
   }
 }
-function GroupMembersModalComponent_div_11_div_10_div_6_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11_div_11_div_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 38);
-    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_10_div_6_Template_div_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 40);
+    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_11_div_6_Template_div_click_0_listener($event) {
       \u0275\u0275restoreView(_r6);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275template(1, GroupMembersModalComponent_div_11_div_10_div_6_button_1_Template, 4, 0, "button", 39);
-    \u0275\u0275elementStart(2, "button", 40);
-    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_10_div_6_Template_button_click_2_listener($event) {
+    \u0275\u0275template(1, GroupMembersModalComponent_div_11_div_11_div_6_button_1_Template, 4, 0, "button", 41);
+    \u0275\u0275elementStart(2, "button", 42);
+    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_11_div_6_Template_button_click_2_listener($event) {
       \u0275\u0275restoreView(_r6);
       const m_r4 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.pickMemberAction(ctx_r1.isMemberMuted(m_r4) ? "unmute" : "mute", m_r4, $event));
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(3, "svg", 41);
-    \u0275\u0275element(4, "path", 42)(5, "path", 43)(6, "line", 44)(7, "line", 45);
-    \u0275\u0275template(8, GroupMembersModalComponent_div_11_div_10_div_6__svg_line_8_Template, 1, 0, "line", 46);
+    \u0275\u0275elementStart(3, "svg", 43);
+    \u0275\u0275element(4, "path", 44)(5, "path", 45)(6, "line", 46)(7, "line", 47);
+    \u0275\u0275template(8, GroupMembersModalComponent_div_11_div_11_div_6__svg_line_8_Template, 1, 0, "line", 48);
     \u0275\u0275elementEnd();
     \u0275\u0275text(9);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(10, GroupMembersModalComponent_div_11_div_10_div_6_button_10_Template, 8, 0, "button", 47);
+    \u0275\u0275template(10, GroupMembersModalComponent_div_11_div_11_div_6_button_10_Template, 8, 0, "button", 49);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -963,21 +975,21 @@ function GroupMembersModalComponent_div_11_div_10_div_6_Template(rf, ctx) {
     \u0275\u0275property("ngIf", m_r4.role !== "leader");
   }
 }
-function GroupMembersModalComponent_div_11_div_10_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11_div_11_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 31)(1, "button", 32);
-    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_10_Template_button_click_1_listener($event) {
+    \u0275\u0275elementStart(0, "div", 33)(1, "button", 34);
+    \u0275\u0275listener("click", function GroupMembersModalComponent_div_11_div_11_Template_button_click_1_listener($event) {
       \u0275\u0275restoreView(_r5);
       const m_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleMemberMenu(m_r4.uid, $event));
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 33);
-    \u0275\u0275element(3, "circle", 34)(4, "circle", 35)(5, "circle", 36);
+    \u0275\u0275elementStart(2, "svg", 35);
+    \u0275\u0275element(3, "circle", 36)(4, "circle", 37)(5, "circle", 38);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(6, GroupMembersModalComponent_div_11_div_10_div_6_Template, 11, 4, "div", 37);
+    \u0275\u0275template(6, GroupMembersModalComponent_div_11_div_11_div_6_Template, 11, 4, "div", 39);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -989,11 +1001,11 @@ function GroupMembersModalComponent_div_11_div_10_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r1.memberActionMenu() === m_r4.uid);
   }
 }
-function GroupMembersModalComponent_div_11__svg_svg_11_Template(rf, ctx) {
+function GroupMembersModalComponent_div_11__svg_svg_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 56);
-    \u0275\u0275element(1, "polyline", 57);
+    \u0275\u0275elementStart(0, "svg", 58);
+    \u0275\u0275element(1, "polyline", 59);
     \u0275\u0275elementEnd();
   }
 }
@@ -1014,8 +1026,10 @@ function GroupMembersModalComponent_div_11_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(8, "span", 22);
     \u0275\u0275text(9);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(10, GroupMembersModalComponent_div_11_div_10_Template, 7, 3, "div", 23)(11, GroupMembersModalComponent_div_11__svg_svg_11_Template, 2, 0, "svg", 24);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(10, GroupMembersModalComponent_div_11_span_10_Template, 2, 1, "span", 23);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(11, GroupMembersModalComponent_div_11_div_11_Template, 7, 3, "div", 24)(12, GroupMembersModalComponent_div_11__svg_svg_12_Template, 2, 0, "svg", 25);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1035,6 +1049,8 @@ function GroupMembersModalComponent_div_11_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(ctx_r1.formatLastActive(m_r4.lastActive));
     \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.canManageMembers && m_r4.contactPhone);
+    \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r1.canManageMembers && m_r4.uid !== (ctx_r1.currentUser == null ? null : ctx_r1.currentUser.id) && !ctx_r1.bulkSelectMode());
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", (!ctx_r1.canManageMembers || m_r4.uid === (ctx_r1.currentUser == null ? null : ctx_r1.currentUser.id)) && !ctx_r1.bulkSelectMode());
@@ -1043,7 +1059,7 @@ function GroupMembersModalComponent_div_11_Template(rf, ctx) {
 function GroupMembersModalComponent_div_12_button_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 63);
+    \u0275\u0275elementStart(0, "button", 65);
     \u0275\u0275listener("click", function GroupMembersModalComponent_div_12_button_3_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -1056,7 +1072,7 @@ function GroupMembersModalComponent_div_12_button_3_Template(rf, ctx) {
 function GroupMembersModalComponent_div_12_button_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 64);
+    \u0275\u0275elementStart(0, "button", 66);
     \u0275\u0275listener("click", function GroupMembersModalComponent_div_12_button_4_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -1069,7 +1085,7 @@ function GroupMembersModalComponent_div_12_button_4_Template(rf, ctx) {
 function GroupMembersModalComponent_div_12_button_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 65);
+    \u0275\u0275elementStart(0, "button", 67);
     \u0275\u0275listener("click", function GroupMembersModalComponent_div_12_button_5_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -1081,10 +1097,10 @@ function GroupMembersModalComponent_div_12_button_5_Template(rf, ctx) {
 }
 function GroupMembersModalComponent_div_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 58)(1, "span", 59);
+    \u0275\u0275elementStart(0, "div", 60)(1, "span", 61);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(3, GroupMembersModalComponent_div_12_button_3_Template, 2, 0, "button", 60)(4, GroupMembersModalComponent_div_12_button_4_Template, 2, 0, "button", 61)(5, GroupMembersModalComponent_div_12_button_5_Template, 2, 0, "button", 62);
+    \u0275\u0275template(3, GroupMembersModalComponent_div_12_button_3_Template, 2, 0, "button", 62)(4, GroupMembersModalComponent_div_12_button_4_Template, 2, 0, "button", 63)(5, GroupMembersModalComponent_div_12_button_5_Template, 2, 0, "button", 64);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1102,7 +1118,7 @@ function GroupMembersModalComponent_div_12_Template(rf, ctx) {
 function GroupMembersModalComponent_app_confirm_popup_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-confirm-popup", 66);
+    \u0275\u0275elementStart(0, "app-confirm-popup", 68);
     \u0275\u0275listener("confirmed", function GroupMembersModalComponent_app_confirm_popup_13_Template_app_confirm_popup_confirmed_0_listener() {
       \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -1122,7 +1138,7 @@ function GroupMembersModalComponent_app_confirm_popup_13_Template(rf, ctx) {
 function GroupMembersModalComponent_app_confirm_popup_14_Template(rf, ctx) {
   if (rf & 1) {
     const _r13 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-confirm-popup", 66);
+    \u0275\u0275elementStart(0, "app-confirm-popup", 68);
     \u0275\u0275listener("confirmed", function GroupMembersModalComponent_app_confirm_popup_14_Template_app_confirm_popup_confirmed_0_listener() {
       \u0275\u0275restoreView(_r13);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -1141,7 +1157,7 @@ function GroupMembersModalComponent_app_confirm_popup_14_Template(rf, ctx) {
 }
 function GroupMembersModalComponent_p_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 67);
+    \u0275\u0275elementStart(0, "p", 69);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -1282,7 +1298,7 @@ var GroupMembersModalComponent = class _GroupMembersModalComponent {
           return ctx.closeMemberMenu();
         }, false, \u0275\u0275resolveDocument);
       }
-    }, inputs: { groupId: "groupId", group: "group", members: "members", canManageMembers: "canManageMembers", currentUser: "currentUser" }, outputs: { closeRequested: "closeRequested" }, decls: 16, vars: 9, consts: [[3, "closeRequested", "showClose"], [1, "gd-members-modal"], [1, "gd-members-header"], [1, "gd-section-label", 2, "margin-bottom", "0"], [1, "gd-members-header__actions"], ["class", "gd-bulk-select-btn", 3, "gd-bulk-select-btn--active", "click", 4, "ngIf"], ["aria-label", "Close", 1, "gd-members-close", 3, "click"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], ["class", "gd-member", 3, "gd-member--selectable", "gd-member--selected", "click", 4, "ngFor", "ngForOf"], ["class", "gd-bulk-bar", 4, "ngIf"], ["cancelLabel", "Cancel", 3, "fixed", "message", "confirmLabel", "danger", "confirmed", "cancelled", 4, "ngIf"], ["class", "gd-member-action-error", 4, "ngIf"], [1, "gd-bulk-select-btn", 3, "click"], [1, "gd-member", 3, "click"], ["class", "gd-member__checkbox", 3, "gd-member__checkbox--checked", 4, "ngIf"], ["size", "md", "shape", "circle", 3, "photoURL", "displayName", "level", "isAdmin", "roleLabel", "activeLabel"], [1, "gd-member__info"], [1, "gd-member__name"], ["class", "gd-member__badge gd-member__badge--leader", 4, "ngIf"], ["class", "gd-member__badge gd-member__badge--muted", 4, "ngIf"], [1, "gd-member__active"], ["class", "gd-member__menu-wrap", 4, "ngIf"], ["class", "gd-member__chevron", "width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 4, "ngIf"], [1, "gd-member__checkbox"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "3", "stroke-linecap", "round", "stroke-linejoin", "round", 4, "ngIf"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "3", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-member__badge", "gd-member__badge--leader"], [1, "gd-member__badge", "gd-member__badge--muted"], [1, "gd-member__menu-wrap"], ["title", "Member actions", 1, "gd-member__menu-btn", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "currentColor"], ["cx", "12", "cy", "5", "r", "1.5"], ["cx", "12", "cy", "12", "r", "1.5"], ["cx", "12", "cy", "19", "r", "1.5"], ["class", "gd-member__menu", 3, "click", 4, "ngIf"], [1, "gd-member__menu", 3, "click"], ["class", "gd-member__menu-item", 3, "click", 4, "ngIf"], [1, "gd-member__menu-item", 3, "click"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"], ["d", "M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"], ["x1", "12", "y1", "19", "x2", "12", "y2", "23"], ["x1", "8", "y1", "23", "x2", "16", "y2", "23"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23", 4, "ngIf"], ["class", "gd-member__menu-item gd-member__menu-item--danger", 3, "click", 4, "ngIf"], ["points", "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23"], [1, "gd-member__menu-item", "gd-member__menu-item--danger", 3, "click"], ["points", "3 6 5 6 21 6"], ["d", "M19 6l-1 14H6L5 6"], ["d", "M10 11v6"], ["d", "M14 11v6"], ["d", "M9 6V4h6v2"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 1, "gd-member__chevron"], ["points", "9 18 15 12 9 6"], [1, "gd-bulk-bar"], [1, "gd-bulk-bar__count"], ["class", "gd-bulk-bar__select-all", 3, "click", 4, "ngIf"], ["class", "gd-bulk-bar__btn", 3, "click", 4, "ngIf"], ["class", "gd-bulk-bar__btn gd-bulk-bar__btn--danger", 3, "click", 4, "ngIf"], [1, "gd-bulk-bar__select-all", 3, "click"], [1, "gd-bulk-bar__btn", 3, "click"], [1, "gd-bulk-bar__btn", "gd-bulk-bar__btn--danger", 3, "click"], ["cancelLabel", "Cancel", 3, "confirmed", "cancelled", "fixed", "message", "confirmLabel", "danger"], [1, "gd-member-action-error"]], template: function GroupMembersModalComponent_Template(rf, ctx) {
+    }, inputs: { groupId: "groupId", group: "group", members: "members", canManageMembers: "canManageMembers", currentUser: "currentUser" }, outputs: { closeRequested: "closeRequested" }, decls: 16, vars: 9, consts: [[3, "closeRequested", "showClose"], [1, "gd-members-modal"], [1, "gd-members-header"], [1, "gd-section-label", 2, "margin-bottom", "0"], [1, "gd-members-header__actions"], ["class", "gd-bulk-select-btn", 3, "gd-bulk-select-btn--active", "click", 4, "ngIf"], ["aria-label", "Close", 1, "gd-members-close", 3, "click"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], ["class", "gd-member", 3, "gd-member--selectable", "gd-member--selected", "click", 4, "ngFor", "ngForOf"], ["class", "gd-bulk-bar", 4, "ngIf"], ["cancelLabel", "Cancel", 3, "fixed", "message", "confirmLabel", "danger", "confirmed", "cancelled", 4, "ngIf"], ["class", "gd-member-action-error", 4, "ngIf"], [1, "gd-bulk-select-btn", 3, "click"], [1, "gd-member", 3, "click"], ["class", "gd-member__checkbox", 3, "gd-member__checkbox--checked", 4, "ngIf"], ["size", "md", "shape", "circle", 3, "photoURL", "displayName", "level", "isAdmin", "roleLabel", "activeLabel"], [1, "gd-member__info"], [1, "gd-member__name"], ["class", "gd-member__badge gd-member__badge--leader", 4, "ngIf"], ["class", "gd-member__badge gd-member__badge--muted", 4, "ngIf"], [1, "gd-member__active"], ["class", "gd-member__phone", 4, "ngIf"], ["class", "gd-member__menu-wrap", 4, "ngIf"], ["class", "gd-member__chevron", "width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 4, "ngIf"], [1, "gd-member__checkbox"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "3", "stroke-linecap", "round", "stroke-linejoin", "round", 4, "ngIf"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "3", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-member__badge", "gd-member__badge--leader"], [1, "gd-member__badge", "gd-member__badge--muted"], [1, "gd-member__phone"], [1, "gd-member__menu-wrap"], ["title", "Member actions", 1, "gd-member__menu-btn", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "currentColor"], ["cx", "12", "cy", "5", "r", "1.5"], ["cx", "12", "cy", "12", "r", "1.5"], ["cx", "12", "cy", "19", "r", "1.5"], ["class", "gd-member__menu", 3, "click", 4, "ngIf"], [1, "gd-member__menu", 3, "click"], ["class", "gd-member__menu-item", 3, "click", 4, "ngIf"], [1, "gd-member__menu-item", 3, "click"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"], ["d", "M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"], ["x1", "12", "y1", "19", "x2", "12", "y2", "23"], ["x1", "8", "y1", "23", "x2", "16", "y2", "23"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23", 4, "ngIf"], ["class", "gd-member__menu-item gd-member__menu-item--danger", 3, "click", 4, "ngIf"], ["points", "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23"], [1, "gd-member__menu-item", "gd-member__menu-item--danger", 3, "click"], ["points", "3 6 5 6 21 6"], ["d", "M19 6l-1 14H6L5 6"], ["d", "M10 11v6"], ["d", "M14 11v6"], ["d", "M9 6V4h6v2"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 1, "gd-member__chevron"], ["points", "9 18 15 12 9 6"], [1, "gd-bulk-bar"], [1, "gd-bulk-bar__count"], ["class", "gd-bulk-bar__select-all", 3, "click", 4, "ngIf"], ["class", "gd-bulk-bar__btn", 3, "click", 4, "ngIf"], ["class", "gd-bulk-bar__btn gd-bulk-bar__btn--danger", 3, "click", 4, "ngIf"], [1, "gd-bulk-bar__select-all", 3, "click"], [1, "gd-bulk-bar__btn", 3, "click"], [1, "gd-bulk-bar__btn", "gd-bulk-bar__btn--danger", 3, "click"], ["cancelLabel", "Cancel", 3, "confirmed", "cancelled", "fixed", "message", "confirmLabel", "danger"], [1, "gd-member-action-error"]], template: function GroupMembersModalComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "app-modal", 0);
         \u0275\u0275listener("closeRequested", function GroupMembersModalComponent_Template_app_modal_closeRequested_0_listener() {
@@ -1301,7 +1317,7 @@ var GroupMembersModalComponent = class _GroupMembersModalComponent {
         \u0275\u0275elementStart(8, "svg", 7);
         \u0275\u0275element(9, "line", 8)(10, "line", 9);
         \u0275\u0275elementEnd()()()();
-        \u0275\u0275template(11, GroupMembersModalComponent_div_11_Template, 12, 17, "div", 10)(12, GroupMembersModalComponent_div_12_Template, 6, 4, "div", 11)(13, GroupMembersModalComponent_app_confirm_popup_13_Template, 1, 4, "app-confirm-popup", 12)(14, GroupMembersModalComponent_app_confirm_popup_14_Template, 1, 4, "app-confirm-popup", 12)(15, GroupMembersModalComponent_p_15_Template, 2, 1, "p", 13);
+        \u0275\u0275template(11, GroupMembersModalComponent_div_11_Template, 13, 18, "div", 10)(12, GroupMembersModalComponent_div_12_Template, 6, 4, "div", 11)(13, GroupMembersModalComponent_app_confirm_popup_13_Template, 1, 4, "app-confirm-popup", 12)(14, GroupMembersModalComponent_app_confirm_popup_14_Template, 1, 4, "app-confirm-popup", 12)(15, GroupMembersModalComponent_p_15_Template, 2, 1, "p", 13);
         \u0275\u0275elementEnd()();
       }
       if (rf & 2) {
@@ -1321,7 +1337,7 @@ var GroupMembersModalComponent = class _GroupMembersModalComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.actionError());
       }
-    }, dependencies: [CommonModule, NgForOf, NgIf, AppModalComponent, UserAvatarComponent, ConfirmPopupComponent], styles: ["\n\n.gd-members-modal[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  padding-top: 4px;\n}\n.gd-section-label[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  margin-bottom: 10px;\n}\n.gd-members-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 14px;\n}\n.gd-members-header__actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.gd-bulk-select-btn[_ngcontent-%COMP%] {\n  padding: 4px 10px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: transparent;\n  color: var(--color-text-muted);\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition:\n    background var(--transition),\n    color var(--transition),\n    border-color var(--transition);\n}\n.gd-bulk-select-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\n.gd-bulk-select-btn--active[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  border-color: var(--color-text-light);\n}\n.gd-members-close[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-bg-muted);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-md);\n  width: 28px;\n  height: 28px;\n  cursor: pointer;\n  color: var(--color-text-muted);\n  transition: background var(--transition), color var(--transition);\n}\n.gd-members-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n  color: var(--color-text-secondary);\n}\n.gd-member[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.gd-member--clickable[_ngcontent-%COMP%] {\n  cursor: pointer;\n  border-radius: var(--radius-lg);\n  padding: 4px 6px;\n  margin: 0 -6px;\n  transition: background var(--transition);\n}\n.gd-member--clickable[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member--selectable[_ngcontent-%COMP%] {\n  cursor: pointer;\n  border-radius: var(--radius-lg);\n  padding: 6px 8px;\n  margin: 0 -8px;\n  transition: background var(--transition);\n}\n.gd-member--selectable[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member--selected[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n}\n.gd-member--selected[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.gd-member__checkbox[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border-radius: var(--radius-sm);\n  border: 2px solid var(--color-border);\n  background: var(--color-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: border-color var(--transition), background var(--transition);\n}\n.gd-member__checkbox--checked[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  border-color: var(--color-primary);\n  color: #fff;\n}\n.gd-member__info[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.gd-member__name[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.gd-member__badge[_ngcontent-%COMP%] {\n  font-size: 10px;\n  font-weight: 600;\n  padding: 1px 7px;\n  border-radius: 20px;\n  text-transform: capitalize;\n}\n.gd-member__badge--leader[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg-hover);\n  color: var(--color-warning);\n}\n.gd-member__badge--muted[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg-hover);\n  color: var(--color-danger-dark);\n}\n.gd-member__active[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n}\n.gd-member__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.gd-member__menu-wrap[_ngcontent-%COMP%] {\n  margin-left: auto;\n  position: relative;\n  flex-shrink: 0;\n}\n.gd-member__menu-btn[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border: none;\n  border-radius: var(--radius-md);\n  background: transparent;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: var(--color-text-light);\n  transition: background var(--transition), color var(--transition);\n}\n.gd-member__menu-btn[_ngcontent-%COMP%]:hover, \n.gd-member__menu-btn--open[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\n.gd-member__menu[_ngcontent-%COMP%] {\n  position: absolute;\n  top: calc(100% + 4px);\n  right: 0;\n  background: var(--color-bg);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  box-shadow: var(--shadow-md);\n  min-width: 148px;\n  z-index: 60;\n  overflow: hidden;\n  animation: _ngcontent-%COMP%_gdMenuPop 0.12s ease;\n}\n.gd-member__menu-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  width: 100%;\n  padding: 9px 12px;\n  border: none;\n  background: transparent;\n  font-size: 13px;\n  color: var(--color-text-secondary);\n  cursor: pointer;\n  text-align: left;\n  transition: background var(--transition);\n}\n.gd-member__menu-item[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member__menu-item--danger[_ngcontent-%COMP%] {\n  color: var(--color-danger);\n}\n.gd-member__menu-item--danger[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n}\n.gd-bulk-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  flex-wrap: wrap;\n  padding: 10px 12px;\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  margin-top: 4px;\n  animation: _ngcontent-%COMP%_gdMenuPop 0.14s ease;\n}\n.gd-bulk-bar__count[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  flex: 1;\n  min-width: 80px;\n}\n.gd-bulk-bar__select-all[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 0;\n  text-decoration: underline;\n  text-underline-offset: 2px;\n}\n.gd-bulk-bar__select-all[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n.gd-bulk-bar__btn[_ngcontent-%COMP%] {\n  padding: 6px 12px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg);\n  color: var(--color-text-secondary);\n  font-size: 12.5px;\n  font-weight: 600;\n  cursor: pointer;\n  white-space: nowrap;\n  transition:\n    background var(--transition),\n    border-color var(--transition),\n    color var(--transition);\n}\n.gd-bulk-bar__btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-bulk-bar__btn--danger[_ngcontent-%COMP%] {\n  color: var(--color-danger);\n  border-color: var(--color-danger-border);\n  background: var(--color-danger-bg);\n}\n.gd-bulk-bar__btn--danger[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n  border-color: var(--color-danger-border);\n}\n.gd-member-action-error[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-danger);\n  margin: 0;\n  text-align: center;\n}\n@keyframes _ngcontent-%COMP%_gdMenuPop {\n  from {\n    opacity: 0;\n    transform: translateY(-4px) scale(0.97);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=group-members-modal.component.css.map */"] });
+    }, dependencies: [CommonModule, NgForOf, NgIf, AppModalComponent, UserAvatarComponent, ConfirmPopupComponent], styles: ["\n\n.gd-members-modal[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  padding-top: 4px;\n}\n.gd-section-label[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  margin-bottom: 10px;\n}\n.gd-members-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 14px;\n}\n.gd-members-header__actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.gd-bulk-select-btn[_ngcontent-%COMP%] {\n  padding: 4px 10px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: transparent;\n  color: var(--color-text-muted);\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  transition:\n    background var(--transition),\n    color var(--transition),\n    border-color var(--transition);\n}\n.gd-bulk-select-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\n.gd-bulk-select-btn--active[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  border-color: var(--color-text-light);\n}\n.gd-members-close[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-bg-muted);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-md);\n  width: 28px;\n  height: 28px;\n  cursor: pointer;\n  color: var(--color-text-muted);\n  transition: background var(--transition), color var(--transition);\n}\n.gd-members-close[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n  color: var(--color-text-secondary);\n}\n.gd-member[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.gd-member--clickable[_ngcontent-%COMP%] {\n  cursor: pointer;\n  border-radius: var(--radius-lg);\n  padding: 4px 6px;\n  margin: 0 -6px;\n  transition: background var(--transition);\n}\n.gd-member--clickable[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member--selectable[_ngcontent-%COMP%] {\n  cursor: pointer;\n  border-radius: var(--radius-lg);\n  padding: 6px 8px;\n  margin: 0 -8px;\n  transition: background var(--transition);\n}\n.gd-member--selectable[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member--selected[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n}\n.gd-member--selected[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.gd-member__checkbox[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border-radius: var(--radius-sm);\n  border: 2px solid var(--color-border);\n  background: var(--color-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: border-color var(--transition), background var(--transition);\n}\n.gd-member__checkbox--checked[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  border-color: var(--color-primary);\n  color: #fff;\n}\n.gd-member__info[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.gd-member__name[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.gd-member__badge[_ngcontent-%COMP%] {\n  font-size: 10px;\n  font-weight: 600;\n  padding: 1px 7px;\n  border-radius: 20px;\n  text-transform: capitalize;\n}\n.gd-member__badge--leader[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg-hover);\n  color: var(--color-warning);\n}\n.gd-member__badge--muted[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg-hover);\n  color: var(--color-danger-dark);\n}\n.gd-member__active[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n}\n.gd-member__phone[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-secondary);\n  font-weight: 500;\n}\n.gd-member__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  flex-shrink: 0;\n  color: var(--color-text-light);\n}\n.gd-member__menu-wrap[_ngcontent-%COMP%] {\n  margin-left: auto;\n  position: relative;\n  flex-shrink: 0;\n}\n.gd-member__menu-btn[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border: none;\n  border-radius: var(--radius-md);\n  background: transparent;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: var(--color-text-light);\n  transition: background var(--transition), color var(--transition);\n}\n.gd-member__menu-btn[_ngcontent-%COMP%]:hover, \n.gd-member__menu-btn--open[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n}\n.gd-member__menu[_ngcontent-%COMP%] {\n  position: absolute;\n  top: calc(100% + 4px);\n  right: 0;\n  background: var(--color-bg);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  box-shadow: var(--shadow-md);\n  min-width: 148px;\n  z-index: 60;\n  overflow: hidden;\n  animation: _ngcontent-%COMP%_gdMenuPop 0.12s ease;\n}\n.gd-member__menu-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  width: 100%;\n  padding: 9px 12px;\n  border: none;\n  background: transparent;\n  font-size: 13px;\n  color: var(--color-text-secondary);\n  cursor: pointer;\n  text-align: left;\n  transition: background var(--transition);\n}\n.gd-member__menu-item[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-member__menu-item--danger[_ngcontent-%COMP%] {\n  color: var(--color-danger);\n}\n.gd-member__menu-item--danger[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n}\n.gd-bulk-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  flex-wrap: wrap;\n  padding: 10px 12px;\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  margin-top: 4px;\n  animation: _ngcontent-%COMP%_gdMenuPop 0.14s ease;\n}\n.gd-bulk-bar__count[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  flex: 1;\n  min-width: 80px;\n}\n.gd-bulk-bar__select-all[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 0;\n  text-decoration: underline;\n  text-underline-offset: 2px;\n}\n.gd-bulk-bar__select-all[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n.gd-bulk-bar__btn[_ngcontent-%COMP%] {\n  padding: 6px 12px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg);\n  color: var(--color-text-secondary);\n  font-size: 12.5px;\n  font-weight: 600;\n  cursor: pointer;\n  white-space: nowrap;\n  transition:\n    background var(--transition),\n    border-color var(--transition),\n    color var(--transition);\n}\n.gd-bulk-bar__btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-bulk-bar__btn--danger[_ngcontent-%COMP%] {\n  color: var(--color-danger);\n  border-color: var(--color-danger-border);\n  background: var(--color-danger-bg);\n}\n.gd-bulk-bar__btn--danger[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n  border-color: var(--color-danger-border);\n}\n.gd-member-action-error[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-danger);\n  margin: 0;\n  text-align: center;\n}\n@keyframes _ngcontent-%COMP%_gdMenuPop {\n  from {\n    opacity: 0;\n    transform: translateY(-4px) scale(0.97);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n/*# sourceMappingURL=group-members-modal.component.css.map */"] });
   }
 };
 (() => {
@@ -1332,7 +1348,7 @@ var GroupMembersModalComponent = class _GroupMembersModalComponent {
 function GroupEditFormComponent_ul_19_li_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "li", 30);
+    \u0275\u0275elementStart(0, "li", 34);
     \u0275\u0275listener("click", function GroupEditFormComponent_ul_19_li_1_Template_li_click_0_listener() {
       const s_r2 = \u0275\u0275restoreView(_r1).$implicit;
       const ctx_r2 = \u0275\u0275nextContext(2);
@@ -1349,8 +1365,8 @@ function GroupEditFormComponent_ul_19_li_1_Template(rf, ctx) {
 }
 function GroupEditFormComponent_ul_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "ul", 28);
-    \u0275\u0275template(1, GroupEditFormComponent_ul_19_li_1_Template, 2, 1, "li", 29);
+    \u0275\u0275elementStart(0, "ul", 32);
+    \u0275\u0275template(1, GroupEditFormComponent_ul_19_li_1_Template, 2, 1, "li", 33);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1361,10 +1377,10 @@ function GroupEditFormComponent_ul_19_Template(rf, ctx) {
 }
 function GroupEditFormComponent_span_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 31);
+    \u0275\u0275elementStart(0, "span", 35);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 32);
-    \u0275\u0275element(2, "polyline", 33);
+    \u0275\u0275elementStart(1, "svg", 36);
+    \u0275\u0275element(2, "polyline", 37);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
@@ -1375,27 +1391,34 @@ function GroupEditFormComponent_span_20_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r2.editSpotTitle, " ");
   }
 }
-function GroupEditFormComponent_div_57_Template(rf, ctx) {
+function GroupEditFormComponent_span_57_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 38);
+    \u0275\u0275text(1, "\u{1F512} Guide or admin only");
+    \u0275\u0275elementEnd();
+  }
+}
+function GroupEditFormComponent_div_67_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 34)(1, "span", 35);
+    \u0275\u0275elementStart(0, "div", 39)(1, "span", 40);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 36);
-    \u0275\u0275element(3, "path", 37)(4, "circle", 38);
+    \u0275\u0275elementStart(2, "svg", 41);
+    \u0275\u0275element(3, "path", 42)(4, "circle", 43);
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " Is this the right spot? ");
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(6, "div", 39)(7, "button", 40);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_57_Template_button_click_7_listener() {
+    \u0275\u0275elementStart(6, "div", 44)(7, "button", 45);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_67_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.retryPoint());
     });
     \u0275\u0275text(8, "Try again");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 41);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_57_Template_button_click_9_listener() {
+    \u0275\u0275elementStart(9, "button", 46);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_67_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.confirmPendingPoint());
@@ -1404,35 +1427,35 @@ function GroupEditFormComponent_div_57_Template(rf, ctx) {
     \u0275\u0275elementEnd()()();
   }
 }
-function GroupEditFormComponent_div_58_Template(rf, ctx) {
+function GroupEditFormComponent_div_68_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 42)(1, "button", 43);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_58_Template_button_click_1_listener() {
+    \u0275\u0275elementStart(0, "div", 47)(1, "button", 48);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_68_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.startPickingPoint());
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 36);
-    \u0275\u0275element(3, "path", 37)(4, "circle", 38);
+    \u0275\u0275elementStart(2, "svg", 41);
+    \u0275\u0275element(3, "path", 42)(4, "circle", 43);
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " Pin on map ");
     \u0275\u0275elementEnd()();
   }
 }
-function GroupEditFormComponent_div_59_Template(rf, ctx) {
+function GroupEditFormComponent_div_69_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 44);
+    \u0275\u0275elementStart(0, "div", 49);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 36);
-    \u0275\u0275element(2, "polyline", 33);
+    \u0275\u0275elementStart(1, "svg", 41);
+    \u0275\u0275element(2, "polyline", 37);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3, " Meeting point set ");
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(4, "button", 45);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_59_Template_button_click_4_listener() {
+    \u0275\u0275elementStart(4, "button", 50);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_69_Template_button_click_4_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.clearMeetingPoint());
@@ -1441,9 +1464,9 @@ function GroupEditFormComponent_div_59_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
 }
-function GroupEditFormComponent_p_60_Template(rf, ctx) {
+function GroupEditFormComponent_p_70_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 46);
+    \u0275\u0275elementStart(0, "p", 51);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -1459,7 +1482,9 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
     this.cancelled = new EventEmitter();
     this.bridge = inject(MapBridgeService);
     this.groupsService = inject(GroupsService);
+    this.userDataService = inject(UserDataService);
     this.destroyRef = inject(DestroyRef);
+    this.canSetPrice = computed(() => this.userDataService.canSetPrice());
     this.editError = signal(null);
     this.editBusy = signal(false);
     this.editPickingPoint = signal(false);
@@ -1471,6 +1496,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
     this.editDescription = "";
     this.editDifficulty = "easy";
     this.editMaxMembers = "";
+    this.editPrice = "";
     this.editMeetingPoint = null;
     this.editSpotSearch = "";
     this.editSpotSlug = "";
@@ -1493,6 +1519,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
     this.editDescription = g.description;
     this.editDifficulty = g.difficulty;
     this.editMaxMembers = g.maxMembers != null ? String(g.maxMembers) : "";
+    this.editPrice = g.price != null ? String(g.price) : "";
     this.editMeetingPoint = g.meetingPoint ?? null;
     this.editSpotSlug = g.spotSlug ?? "";
     this.editSpotTitle = g.spotTitle ?? "";
@@ -1536,6 +1563,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         this.editError.set("Invalid date or time.");
         return;
       }
+      const priceVal = this.canSetPrice() && this.editPrice ? parseFloat(this.editPrice) : null;
       const payload = {
         title: this.editTitle.trim(),
         spotSlug: this.editSpotSlug || null,
@@ -1547,6 +1575,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         description: this.editDescription.trim(),
         difficulty: this.editDifficulty,
         maxMembers: this.editMaxMembers ? parseInt(this.editMaxMembers, 10) : null,
+        price: priceVal !== null && !isNaN(priceVal) && priceVal > 0 ? priceVal : null,
         meetingPoint: this.editMeetingPoint
       };
       this.editError.set(null);
@@ -1611,7 +1640,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GroupEditFormComponent, selectors: [["app-group-edit-form"]], inputs: { group: "group", groupId: "groupId" }, outputs: { saved: "saved", cancelled: "cancelled" }, decls: 66, vars: 20, consts: [[1, "gd-edit-form"], [1, "gd-edit-form__header"], [1, "gd-edit-form__title"], ["aria-label", "Cancel", 1, "gd-edit-form__close", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [1, "gd-edit-form__field"], ["type", "text", "placeholder", "Group title", "maxlength", "80", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__opt"], [1, "gd-edit-form__spot-wrap"], ["type", "text", "placeholder", "Search a location\u2026", "autocomplete", "off", 3, "ngModelChange", "input", "ngModel"], ["class", "gd-edit-form__spot-results", 4, "ngIf"], ["class", "gd-edit-form__spot-selected", 4, "ngIf"], [1, "gd-edit-form__row"], ["type", "date", 3, "ngModelChange", "ngModel"], ["type", "time", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__chips"], [1, "chip", 3, "click"], ["rows", "3", "maxlength", "400", "placeholder", "What's the plan? Anything to know beforehand?", 3, "ngModelChange", "ngModel"], ["type", "number", "min", "2", "max", "50", "placeholder", "Unlimited", 3, "ngModelChange", "ngModel"], ["class", "gd-meeting-confirm", 4, "ngIf"], ["class", "gd-meeting-pick", 4, "ngIf"], ["class", "gd-meeting-set", 4, "ngIf"], ["class", "gd-edit-form__error", 4, "ngIf"], [1, "gd-edit-form__actions"], [1, "gd-edit-form__cancel", 3, "click"], [1, "gd-edit-form__submit", 3, "click", "disabled"], [1, "gd-edit-form__spot-results"], [3, "click", 4, "ngFor", "ngForOf"], [3, "click"], [1, "gd-edit-form__spot-selected"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-meeting-confirm"], [1, "gd-meeting-confirm__msg"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-meeting-confirm__actions"], [1, "gd-meeting-confirm__retry", 3, "click"], [1, "gd-meeting-confirm__ok", 3, "click"], [1, "gd-meeting-pick"], [1, "gd-meeting-pick__btn", 3, "click"], [1, "gd-meeting-set"], [1, "gd-meeting-set__remove", 3, "click"], [1, "gd-edit-form__error"]], template: function GroupEditFormComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GroupEditFormComponent, selectors: [["app-group-edit-form"]], inputs: { group: "group", groupId: "groupId" }, outputs: { saved: "saved", cancelled: "cancelled" }, decls: 76, vars: 23, consts: [[1, "gd-edit-form"], [1, "gd-edit-form__header"], [1, "gd-edit-form__title"], ["aria-label", "Cancel", 1, "gd-edit-form__close", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [1, "gd-edit-form__field"], ["type", "text", "placeholder", "Group title", "maxlength", "80", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__opt"], [1, "gd-edit-form__spot-wrap"], ["type", "text", "placeholder", "Search a location\u2026", "autocomplete", "off", 3, "ngModelChange", "input", "ngModel"], ["class", "gd-edit-form__spot-results", 4, "ngIf"], ["class", "gd-edit-form__spot-selected", 4, "ngIf"], [1, "gd-edit-form__row"], ["type", "date", 3, "ngModelChange", "ngModel"], ["type", "time", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__chips"], [1, "chip", 3, "click"], ["rows", "3", "maxlength", "400", "placeholder", "What's the plan? Anything to know beforehand?", 3, "ngModelChange", "ngModel"], ["type", "number", "min", "2", "max", "50", "placeholder", "Unlimited", 3, "ngModelChange", "ngModel"], ["class", "gd-edit-form__lock-hint", 4, "ngIf"], [1, "gd-price-wrap"], [1, "gd-price-euro"], ["type", "number", "min", "0", "step", "0.01", "placeholder", "Free", 3, "ngModelChange", "ngModel", "disabled"], ["class", "gd-meeting-confirm", 4, "ngIf"], ["class", "gd-meeting-pick", 4, "ngIf"], ["class", "gd-meeting-set", 4, "ngIf"], ["class", "gd-edit-form__error", 4, "ngIf"], [1, "gd-edit-form__actions"], [1, "gd-edit-form__cancel", 3, "click"], [1, "gd-edit-form__submit", 3, "click", "disabled"], [1, "gd-edit-form__spot-results"], [3, "click", 4, "ngFor", "ngForOf"], [3, "click"], [1, "gd-edit-form__spot-selected"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-edit-form__lock-hint"], [1, "gd-meeting-confirm"], [1, "gd-meeting-confirm__msg"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-meeting-confirm__actions"], [1, "gd-meeting-confirm__retry", 3, "click"], [1, "gd-meeting-confirm__ok", 3, "click"], [1, "gd-meeting-pick"], [1, "gd-meeting-pick__btn", 3, "click"], [1, "gd-meeting-set"], [1, "gd-meeting-set__remove", 3, "click"], [1, "gd-edit-form__error"]], template: function GroupEditFormComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "h3", 2);
         \u0275\u0275text(3, "Edit group");
@@ -1714,24 +1743,40 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         });
         \u0275\u0275elementEnd()();
         \u0275\u0275elementStart(52, "div", 7)(53, "label");
-        \u0275\u0275text(54, "Meeting point ");
+        \u0275\u0275text(54, " Tour price ");
         \u0275\u0275elementStart(55, "span", 9);
         \u0275\u0275text(56, "(optional)");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275template(57, GroupEditFormComponent_div_57_Template, 11, 0, "div", 21)(58, GroupEditFormComponent_div_58_Template, 6, 0, "div", 22)(59, GroupEditFormComponent_div_59_Template, 6, 0, "div", 23);
         \u0275\u0275elementEnd();
-        \u0275\u0275template(60, GroupEditFormComponent_p_60_Template, 2, 1, "p", 24);
-        \u0275\u0275elementStart(61, "div", 25)(62, "button", 26);
-        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_62_listener() {
+        \u0275\u0275template(57, GroupEditFormComponent_span_57_Template, 2, 0, "span", 21);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(58, "div", 22)(59, "span", 23);
+        \u0275\u0275text(60, "\u20AC");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(61, "input", 24);
+        \u0275\u0275twoWayListener("ngModelChange", function GroupEditFormComponent_Template_input_ngModelChange_61_listener($event) {
+          \u0275\u0275twoWayBindingSet(ctx.editPrice, $event) || (ctx.editPrice = $event);
+          return $event;
+        });
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(62, "div", 7)(63, "label");
+        \u0275\u0275text(64, "Meeting point ");
+        \u0275\u0275elementStart(65, "span", 9);
+        \u0275\u0275text(66, "(optional)");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(67, GroupEditFormComponent_div_67_Template, 11, 0, "div", 25)(68, GroupEditFormComponent_div_68_Template, 6, 0, "div", 26)(69, GroupEditFormComponent_div_69_Template, 6, 0, "div", 27);
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(70, GroupEditFormComponent_p_70_Template, 2, 1, "p", 28);
+        \u0275\u0275elementStart(71, "div", 29)(72, "button", 30);
+        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_72_listener() {
           return ctx.cancel();
         });
-        \u0275\u0275text(63, "Cancel");
+        \u0275\u0275text(73, "Cancel");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(64, "button", 27);
-        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_64_listener() {
+        \u0275\u0275elementStart(74, "button", 31);
+        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_74_listener() {
           return ctx.submit();
         });
-        \u0275\u0275text(65);
+        \u0275\u0275text(75);
         \u0275\u0275elementEnd()()();
       }
       if (rf & 2) {
@@ -1758,6 +1803,11 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         \u0275\u0275advance(6);
         \u0275\u0275twoWayProperty("ngModel", ctx.editMaxMembers);
         \u0275\u0275advance(6);
+        \u0275\u0275property("ngIf", !ctx.canSetPrice());
+        \u0275\u0275advance(4);
+        \u0275\u0275twoWayProperty("ngModel", ctx.editPrice);
+        \u0275\u0275property("disabled", !ctx.canSetPrice());
+        \u0275\u0275advance(6);
         \u0275\u0275property("ngIf", ctx.editPendingMeetingPoint());
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", !ctx.editMeetingPoint && !ctx.editPendingMeetingPoint());
@@ -1770,11 +1820,11 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         \u0275\u0275advance();
         \u0275\u0275textInterpolate1(" ", ctx.editBusy() ? "Saving\u2026" : "Save changes", " ");
       }
-    }, dependencies: [CommonModule, NgForOf, NgIf, FormsModule, DefaultValueAccessor, NumberValueAccessor, NgControlStatus, MaxLengthValidator, MinValidator, MaxValidator, NgModel], styles: ["\n\n[_nghost-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  overflow-y: auto;\n  padding: 20px;\n  display: block;\n}\n.gd-edit-form[_ngcontent-%COMP%] {\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-xl);\n  padding: 16px;\n  margin-bottom: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n.gd-edit-form__header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.gd-edit-form__title[_ngcontent-%COMP%] {\n  font-size: 15px;\n  font-weight: 700;\n  margin: 0;\n  color: var(--color-text-base);\n}\n.gd-edit-form__close[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: none;\n  background: none;\n  color: var(--color-text-muted);\n  cursor: pointer;\n  border-radius: var(--radius-sm);\n  transition: background var(--transition);\n}\n.gd-edit-form__close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-hover);\n}\n.gd-edit-form__field[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 9px 11px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  font-size: 13.5px;\n  color: var(--color-text-base);\n  background: var(--color-bg);\n  box-sizing: border-box;\n  transition: border-color var(--transition);\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, \n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: var(--color-primary);\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  resize: vertical;\n  min-height: 70px;\n}\n.gd-edit-form__opt[_ngcontent-%COMP%] {\n  font-weight: 400;\n  color: var(--color-text-light);\n  text-transform: none;\n  letter-spacing: 0;\n}\n.gd-edit-form__spot-wrap[_ngcontent-%COMP%] {\n  position: relative;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%] {\n  position: absolute;\n  top: calc(100% + 4px);\n  left: 0;\n  right: 0;\n  background: var(--color-bg);\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  box-shadow: var(--shadow-md);\n  list-style: none;\n  margin: 0;\n  padding: 4px 0;\n  z-index: 10;\n  max-height: 180px;\n  overflow-y: auto;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  padding: 8px 12px;\n  font-size: 13px;\n  color: var(--color-text-base);\n  cursor: pointer;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-edit-form__spot-selected[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  margin-top: 2px;\n}\n.gd-edit-form__spot-selected[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-edit-form__row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 10px;\n}\n.gd-edit-form__row[_ngcontent-%COMP%]   .gd-edit-form__field[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.gd-edit-form__chips[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.gd-edit-form__error[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: var(--color-danger);\n  margin: 0;\n}\n.gd-edit-form__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  justify-content: flex-end;\n}\n.gd-edit-form__cancel[_ngcontent-%COMP%] {\n  padding: 9px 16px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: none;\n  color: var(--color-text-secondary);\n  font-size: 13.5px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-edit-form__cancel[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-hover);\n}\n.gd-edit-form__submit[_ngcontent-%COMP%] {\n  padding: 9px 18px;\n  border-radius: var(--radius-md);\n  border: none;\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 13.5px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-edit-form__submit[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-edit-form__submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-meeting-pick[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.gd-meeting-pick__btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 7px 12px;\n  border-radius: var(--radius-md);\n  border: 1.5px dashed var(--color-border);\n  background: var(--color-bg);\n  color: var(--color-text-secondary);\n  font-size: 12.5px;\n  font-weight: 500;\n  cursor: pointer;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-meeting-pick__btn[_ngcontent-%COMP%]:hover, \n.gd-meeting-pick__btn.picking[_ngcontent-%COMP%] {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-meeting-pick__btn.picking[_ngcontent-%COMP%] {\n  animation: _ngcontent-%COMP%_gdPickPulse 1.4s ease-in-out infinite;\n}\n@keyframes _ngcontent-%COMP%_gdPickPulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.6;\n  }\n}\n.gd-meeting-set[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 12.5px;\n  font-weight: 500;\n  color: var(--color-success);\n}\n.gd-meeting-set[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  stroke: var(--color-success);\n}\n.gd-meeting-set__remove[_ngcontent-%COMP%] {\n  margin-left: 4px;\n  padding: 2px 8px;\n  border-radius: var(--radius-sm);\n  border: 1px solid var(--color-border);\n  background: none;\n  color: var(--color-text-muted);\n  font-size: 11px;\n  cursor: pointer;\n  transition: color var(--transition), border-color var(--transition);\n}\n.gd-meeting-set__remove[_ngcontent-%COMP%]:hover {\n  color: var(--color-danger);\n  border-color: var(--color-danger);\n}\n.gd-meeting-confirm[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.gd-meeting-confirm__msg[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12.5px;\n  font-weight: 500;\n  color: var(--color-text-base);\n}\n.gd-meeting-confirm__msg[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-meeting-confirm__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.gd-meeting-confirm__retry[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 6px 10px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  background: none;\n  font-size: 12.5px;\n  color: var(--color-text-secondary);\n  cursor: pointer;\n}\n.gd-meeting-confirm__retry[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-meeting-confirm__ok[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 6px 10px;\n  border: none;\n  border-radius: var(--radius-md);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 12.5px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.gd-meeting-confirm__ok[_ngcontent-%COMP%]:hover {\n  background: var(--color-primary-hover);\n}\n/*# sourceMappingURL=group-edit-form.component.css.map */"] });
+    }, dependencies: [CommonModule, NgForOf, NgIf, FormsModule, DefaultValueAccessor, NumberValueAccessor, NgControlStatus, MaxLengthValidator, MinValidator, MaxValidator, NgModel], styles: ["\n\n[_nghost-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  overflow-y: auto;\n  padding: 20px;\n  display: block;\n}\n.gd-edit-form[_ngcontent-%COMP%] {\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-xl);\n  padding: 16px;\n  margin-bottom: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n.gd-edit-form__header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.gd-edit-form__title[_ngcontent-%COMP%] {\n  font-size: 15px;\n  font-weight: 700;\n  margin: 0;\n  color: var(--color-text-base);\n}\n.gd-edit-form__close[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: none;\n  background: none;\n  color: var(--color-text-muted);\n  cursor: pointer;\n  border-radius: var(--radius-sm);\n  transition: background var(--transition);\n}\n.gd-edit-form__close[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-hover);\n}\n.gd-edit-form__field[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], \n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 9px 11px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  font-size: 13.5px;\n  color: var(--color-text-base);\n  background: var(--color-bg);\n  box-sizing: border-box;\n  transition: border-color var(--transition);\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, \n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: var(--color-primary);\n}\n.gd-edit-form__field[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  resize: vertical;\n  min-height: 70px;\n}\n.gd-edit-form__opt[_ngcontent-%COMP%] {\n  font-weight: 400;\n  color: var(--color-text-light);\n  text-transform: none;\n  letter-spacing: 0;\n}\n.gd-edit-form__lock-hint[_ngcontent-%COMP%] {\n  display: inline-block;\n  margin-left: 6px;\n  font-size: 10.5px;\n  font-weight: 500;\n  color: var(--color-text-light);\n  vertical-align: middle;\n  text-transform: none;\n  letter-spacing: 0;\n}\n.gd-price-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n.gd-price-wrap[_ngcontent-%COMP%]   .gd-price-euro[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 10px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  pointer-events: none;\n}\n.gd-price-wrap[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  padding-left: 24px;\n  width: 100%;\n}\n.gd-edit-form__spot-wrap[_ngcontent-%COMP%] {\n  position: relative;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%] {\n  position: absolute;\n  top: calc(100% + 4px);\n  left: 0;\n  right: 0;\n  background: var(--color-bg);\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  box-shadow: var(--shadow-md);\n  list-style: none;\n  margin: 0;\n  padding: 4px 0;\n  z-index: 10;\n  max-height: 180px;\n  overflow-y: auto;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  padding: 8px 12px;\n  font-size: 13px;\n  color: var(--color-text-base);\n  cursor: pointer;\n}\n.gd-edit-form__spot-results[_ngcontent-%COMP%]   li[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-edit-form__spot-selected[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  margin-top: 2px;\n}\n.gd-edit-form__spot-selected[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-edit-form__row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 10px;\n}\n.gd-edit-form__row[_ngcontent-%COMP%]   .gd-edit-form__field[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.gd-edit-form__chips[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.gd-edit-form__error[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: var(--color-danger);\n  margin: 0;\n}\n.gd-edit-form__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  justify-content: flex-end;\n}\n.gd-edit-form__cancel[_ngcontent-%COMP%] {\n  padding: 9px 16px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--color-border);\n  background: none;\n  color: var(--color-text-secondary);\n  font-size: 13.5px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-edit-form__cancel[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-hover);\n}\n.gd-edit-form__submit[_ngcontent-%COMP%] {\n  padding: 9px 18px;\n  border-radius: var(--radius-md);\n  border: none;\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 13.5px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-edit-form__submit[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-edit-form__submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-meeting-pick[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.gd-meeting-pick__btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 7px 12px;\n  border-radius: var(--radius-md);\n  border: 1.5px dashed var(--color-border);\n  background: var(--color-bg);\n  color: var(--color-text-secondary);\n  font-size: 12.5px;\n  font-weight: 500;\n  cursor: pointer;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-meeting-pick__btn[_ngcontent-%COMP%]:hover, \n.gd-meeting-pick__btn.picking[_ngcontent-%COMP%] {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-meeting-pick__btn.picking[_ngcontent-%COMP%] {\n  animation: _ngcontent-%COMP%_gdPickPulse 1.4s ease-in-out infinite;\n}\n@keyframes _ngcontent-%COMP%_gdPickPulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.6;\n  }\n}\n.gd-meeting-set[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 12.5px;\n  font-weight: 500;\n  color: var(--color-success);\n}\n.gd-meeting-set[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  stroke: var(--color-success);\n}\n.gd-meeting-set__remove[_ngcontent-%COMP%] {\n  margin-left: 4px;\n  padding: 2px 8px;\n  border-radius: var(--radius-sm);\n  border: 1px solid var(--color-border);\n  background: none;\n  color: var(--color-text-muted);\n  font-size: 11px;\n  cursor: pointer;\n  transition: color var(--transition), border-color var(--transition);\n}\n.gd-meeting-set__remove[_ngcontent-%COMP%]:hover {\n  color: var(--color-danger);\n  border-color: var(--color-danger);\n}\n.gd-meeting-confirm[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.gd-meeting-confirm__msg[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12.5px;\n  font-weight: 500;\n  color: var(--color-text-base);\n}\n.gd-meeting-confirm__msg[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-meeting-confirm__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.gd-meeting-confirm__retry[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 6px 10px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  background: none;\n  font-size: 12.5px;\n  color: var(--color-text-secondary);\n  cursor: pointer;\n}\n.gd-meeting-confirm__retry[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n}\n.gd-meeting-confirm__ok[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 6px 10px;\n  border: none;\n  border-radius: var(--radius-md);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 12.5px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.gd-meeting-confirm__ok[_ngcontent-%COMP%]:hover {\n  background: var(--color-primary-hover);\n}\n/*# sourceMappingURL=group-edit-form.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GroupEditFormComponent, { className: "GroupEditFormComponent", filePath: "src/app/features/groups/group-detail/group-edit-form/group-edit-form.component.ts", lineNumber: 23 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GroupEditFormComponent, { className: "GroupEditFormComponent", filePath: "src/app/features/groups/group-detail/group-edit-form/group-edit-form.component.ts", lineNumber: 24 });
 })();
 
 // src/app/features/groups/group-detail/group-detail.component.ts
@@ -1836,18 +1886,37 @@ function GroupDetailComponent_ng_container_5_ng_container_2_span_8_Template(rf, 
     \u0275\u0275textInterpolate(ctx_r1.unreadCount() > 99 ? "99+" : ctx_r1.unreadCount());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_13_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 52);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1("\u20AC", ctx_r1.group.price, " per person");
+  }
+}
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 53);
+    \u0275\u0275text(1, "Free");
+    \u0275\u0275elementEnd();
+  }
+}
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_15_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 49);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_13_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 54);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_15_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.showSpotOnMap());
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 50);
-    \u0275\u0275element(2, "path", 51)(3, "circle", 52);
+    \u0275\u0275elementStart(1, "svg", 55);
+    \u0275\u0275element(2, "path", 56)(3, "circle", 57);
     \u0275\u0275elementEnd();
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
@@ -1858,16 +1927,16 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_13_Tem
     \u0275\u0275textInterpolate1(" ", ctx_r1.group.spotTitle, " ");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_14_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 53);
+    \u0275\u0275elementStart(0, "span", 58);
     \u0275\u0275text(1, "No location set");
     \u0275\u0275elementEnd();
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_p_17_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_p_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 54);
+    \u0275\u0275elementStart(0, "p", 59);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -1877,38 +1946,113 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_p_17_Template
     \u0275\u0275textInterpolate(ctx_r1.group.description);
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_18_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 55);
+    \u0275\u0275elementStart(0, "div", 60);
     \u0275\u0275text(1, " \u{1F9ED} This group is currently exploring! ");
     \u0275\u0275elementEnd();
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_19_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_21_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 56);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_19_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 61);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_21_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.showMeetingModal.set(true));
     });
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(1, "svg", 26);
-    \u0275\u0275element(2, "path", 51)(3, "circle", 52);
+    \u0275\u0275element(2, "path", 56)(3, "circle", 57);
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, " Meeting point set ");
-    \u0275\u0275elementStart(5, "svg", 57);
-    \u0275\u0275element(6, "polyline", 58);
+    \u0275\u0275elementStart(5, "svg", 62);
+    \u0275\u0275element(6, "polyline", 63);
     \u0275\u0275elementEnd()();
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_1_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_p_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 72);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(5);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.contactFormError());
+  }
+}
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 66);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_1_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 64);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template_div_click_0_listener($event) {
       \u0275\u0275restoreView(_r6);
+      return \u0275\u0275resetView($event.stopPropagation());
+    });
+    \u0275\u0275elementStart(1, "p", 65);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "p", 66)(4, "strong");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(6, " will contact you to arrange payment. Share your phone number so they can reach you. ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "input", 67);
+    \u0275\u0275twoWayListener("ngModelChange", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template_input_ngModelChange_7_listener($event) {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      \u0275\u0275twoWayBindingSet(ctx_r1.contactPhone, $event) || (ctx_r1.contactPhone = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275listener("keydown.enter", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template_input_keydown_enter_7_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.submitContactAndJoin());
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(8, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_p_8_Template, 2, 1, "p", 68);
+    \u0275\u0275elementStart(9, "div", 69)(10, "button", 70);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template_button_click_10_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.cancelContactForm());
+    });
+    \u0275\u0275text(11, "Cancel");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(12, "button", 71);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template_button_click_12_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.submitContactAndJoin());
+    });
+    \u0275\u0275text(13);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" \u{1F4B3} \u20AC", ctx_r1.group.price, " per person ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(ctx_r1.group.leaderName);
+    \u0275\u0275advance(2);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.contactPhone);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.contactFormError());
+    \u0275\u0275advance(4);
+    \u0275\u0275property("disabled", ctx_r1.actionBusy());
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r1.actionBusy() ? "Joining\u2026" : "Join & share number", " ");
+  }
+}
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 80);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_1_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r7);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.join());
     });
@@ -1922,12 +2066,12 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button
     \u0275\u0275textInterpolate1(" ", ctx_r1.actionBusy() ? "Joining\u2026" : "Join group", " ");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_2_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 67);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_2_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r7);
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 81);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_2_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r8);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set("leave"));
     });
@@ -1939,12 +2083,12 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button
     \u0275\u0275property("disabled", ctx_r1.actionBusy());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_1_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 72);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_1_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r8);
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 86);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_1_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext(6);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set("explore"));
     });
@@ -1956,12 +2100,12 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_
     \u0275\u0275property("disabled", ctx_r1.actionBusy());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_2_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 73);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_2_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r9);
+    const _r10 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 87);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_2_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(6);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set("complete"));
     });
@@ -1973,12 +2117,12 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_
     \u0275\u0275property("disabled", ctx_r1.actionBusy());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_button_3_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_button_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 76);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_button_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r11);
+    const _r12 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 90);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_button_3_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext(7);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set("cancel"));
     });
@@ -1990,18 +2134,18 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_
     \u0275\u0275property("disabled", ctx_r1.actionBusy());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 74)(1, "button", 67);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r10);
+    const _r11 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 88)(1, "button", 81);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext(6);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set("leave"));
     });
     \u0275\u0275text(2, " Leave group ");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_button_3_Template, 2, 1, "button", 75);
+    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_button_3_Template, 2, 1, "button", 89);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -2012,10 +2156,10 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_
     \u0275\u0275property("ngIf", ctx_r1.group.status !== "cancelled" && ctx_r1.group.status !== "exploring");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 68);
-    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_1_Template, 2, 1, "button", 69)(2, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_button_2_Template, 2, 1, "button", 70)(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_div_3_Template, 4, 2, "div", 71);
+    \u0275\u0275elementStart(0, "div", 82);
+    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_1_Template, 2, 1, "button", 83)(2, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_button_2_Template, 2, 1, "button", 84)(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_div_3_Template, 4, 2, "div", 85);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -2028,33 +2172,33 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_
     \u0275\u0275property("ngIf", ctx_r1.group.status !== "completed");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_4_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 77);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_4_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r12);
+    const _r13 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 91);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_4_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r13);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.openEdit());
     });
     \u0275\u0275namespaceSVG();
     \u0275\u0275elementStart(1, "svg", 26);
-    \u0275\u0275element(2, "path", 78)(3, "path", 79);
+    \u0275\u0275element(2, "path", 92)(3, "path", 93);
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, " Edit group ");
     \u0275\u0275elementEnd();
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_app_confirm_popup_5_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_app_confirm_popup_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r13 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-confirm-popup", 80);
-    \u0275\u0275listener("confirmed", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_app_confirm_popup_5_Template_app_confirm_popup_confirmed_0_listener() {
-      \u0275\u0275restoreView(_r13);
+    const _r14 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-confirm-popup", 94);
+    \u0275\u0275listener("confirmed", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_app_confirm_popup_5_Template_app_confirm_popup_confirmed_0_listener() {
+      \u0275\u0275restoreView(_r14);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.executeConfirmedAction());
-    })("cancelled", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_app_confirm_popup_5_Template_app_confirm_popup_cancelled_0_listener() {
-      \u0275\u0275restoreView(_r13);
+    })("cancelled", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_app_confirm_popup_5_Template_app_confirm_popup_cancelled_0_listener() {
+      \u0275\u0275restoreView(_r14);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.confirmingAction.set(null));
     });
@@ -2065,9 +2209,9 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_app_co
     \u0275\u0275property("fixed", true)("message", ctx_r1.confirmingAction() === "leave" ? "Leave this group?" : ctx_r1.confirmingAction() === "explore" ? "Start exploring? No new members can join once you begin." : ctx_r1.confirmingAction() === "complete" ? "Mark this group as completed?" : "Cancel this group? All members will be notified.")("confirmLabel", ctx_r1.confirmingAction() === "leave" ? "Leave" : ctx_r1.confirmingAction() === "explore" ? "Start exploring" : ctx_r1.confirmingAction() === "complete" ? "Complete" : "Cancel group")("cancelLabel", ctx_r1.confirmingAction() === "leave" ? "Stay" : ctx_r1.confirmingAction() === "explore" ? "Not yet" : ctx_r1.confirmingAction() === "complete" ? "Not yet" : "Keep it")("danger", ctx_r1.confirmingAction() !== "explore" && ctx_r1.confirmingAction() !== "complete");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_p_6_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_p_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 81);
+    \u0275\u0275elementStart(0, "p", 95);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -2077,16 +2221,16 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_p_6_Te
     \u0275\u0275textInterpolate(ctx_r1.actionError());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 59);
-    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_1_Template, 2, 2, "button", 60)(2, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_2_Template, 2, 1, "button", 61)(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_div_3_Template, 4, 3, "div", 62)(4, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_button_4_Template, 5, 0, "button", 63)(5, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_app_confirm_popup_5_Template, 1, 5, "app-confirm-popup", 64)(6, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_p_6_Template, 2, 1, "p", 65);
+    \u0275\u0275elementStart(0, "div", 73);
+    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_1_Template, 2, 2, "button", 74)(2, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_2_Template, 2, 1, "button", 75)(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_div_3_Template, 4, 3, "div", 76)(4, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_button_4_Template, 5, 0, "button", 77)(5, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_app_confirm_popup_5_Template, 1, 5, "app-confirm-popup", 78)(6, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_p_6_Template, 2, 1, "p", 79);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r1.canJoin);
+    \u0275\u0275property("ngIf", ctx_r1.canJoin && !ctx_r1.showContactForm());
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r1.isMember && !ctx_r1.isLeader && ctx_r1.group.status !== "completed");
     \u0275\u0275advance();
@@ -2099,57 +2243,57 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_Templa
     \u0275\u0275property("ngIf", ctx_r1.actionError());
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_21_ng_container_1_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_24_ng_container_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainer(0);
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_21_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_24_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_21_ng_container_1_Template, 1, 0, "ng-container", 82);
+    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_24_ng_container_1_Template, 1, 0, "ng-container", 96);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
     \u0275\u0275nextContext(2);
-    const signInGate_r14 = \u0275\u0275reference(14);
+    const signInGate_r15 = \u0275\u0275reference(14);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", signInGate_r14);
+    \u0275\u0275property("ngTemplateOutlet", signInGate_r15);
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_button_3_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_button_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r17 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 94);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_button_3_Template_button_click_0_listener() {
-      const m_r18 = \u0275\u0275restoreView(_r17).$implicit;
+    const _r18 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 108);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_button_3_Template_button_click_0_listener() {
+      const m_r19 = \u0275\u0275restoreView(_r18).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.transferTo(m_r18.uid));
+      return \u0275\u0275resetView(ctx_r1.transferTo(m_r19.uid));
     });
-    \u0275\u0275element(1, "app-user-avatar", 95);
+    \u0275\u0275element(1, "app-user-avatar", 109);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const m_r18 = ctx.$implicit;
+    const m_r19 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(6);
     \u0275\u0275property("disabled", ctx_r1.actionBusy());
     \u0275\u0275advance();
-    \u0275\u0275property("photoURL", m_r18.photoURL)("displayName", m_r18.displayName);
+    \u0275\u0275property("photoURL", m_r19.photoURL)("displayName", m_r19.displayName);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", m_r18.displayName, " ");
+    \u0275\u0275textInterpolate1(" ", m_r19.displayName, " ");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r16 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 90)(1, "p", 91);
+    const _r17 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 104)(1, "p", 105);
     \u0275\u0275text(2, "Choose a new leader before you leave:");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_button_3_Template, 3, 4, "button", 92);
-    \u0275\u0275elementStart(4, "button", 93);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_Template_button_click_4_listener() {
-      \u0275\u0275restoreView(_r16);
+    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_button_3_Template, 3, 4, "button", 106);
+    \u0275\u0275elementStart(4, "button", 107);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_Template_button_click_4_listener() {
+      \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.showTransfer.set(false));
     });
@@ -2162,9 +2306,9 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_
     \u0275\u0275property("ngForOf", ctx_r1.nonLeaderMembers);
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_span_10_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_span_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 110);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -2174,30 +2318,30 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_
     \u0275\u0275textInterpolate2("\xB7 ", ctx_r1.group.maxMembers - ctx_r1.group.memberCount, " spot", ctx_r1.group.maxMembers - ctx_r1.group.memberCount === 1 ? "" : "s", " left");
   }
 }
-function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_Template(rf, ctx) {
+function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_Template(rf, ctx) {
   if (rf & 1) {
-    const _r15 = \u0275\u0275getCurrentView();
+    const _r16 = \u0275\u0275getCurrentView();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "div", 83);
+    \u0275\u0275elementStart(1, "div", 97);
     \u0275\u0275text(2, "Members");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_div_3_Template, 6, 1, "div", 84);
-    \u0275\u0275elementStart(4, "div", 85);
-    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_Template_div_click_4_listener() {
-      \u0275\u0275restoreView(_r15);
+    \u0275\u0275template(3, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_div_3_Template, 6, 1, "div", 98);
+    \u0275\u0275elementStart(4, "div", 99);
+    \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_Template_div_click_4_listener() {
+      \u0275\u0275restoreView(_r16);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.showMembersModal.set(true));
     });
-    \u0275\u0275element(5, "app-member-avatars", 86);
-    \u0275\u0275elementStart(6, "span", 87)(7, "strong");
+    \u0275\u0275element(5, "app-member-avatars", 100);
+    \u0275\u0275elementStart(6, "span", 101)(7, "strong");
     \u0275\u0275text(8);
     \u0275\u0275elementEnd();
     \u0275\u0275text(9);
-    \u0275\u0275template(10, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_span_10_Template, 2, 2, "span", 88);
+    \u0275\u0275template(10, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_span_10_Template, 2, 2, "span", 102);
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(11, "svg", 89);
-    \u0275\u0275element(12, "polyline", 58);
+    \u0275\u0275elementStart(11, "svg", 103);
+    \u0275\u0275element(12, "polyline", 63);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -2229,11 +2373,11 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template(rf, 
     \u0275\u0275elementStart(10, "div", 40)(11, "span", 41);
     \u0275\u0275text(12);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(13, GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_13_Template, 5, 1, "button", 42)(14, GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_14_Template, 2, 0, "span", 43);
-    \u0275\u0275elementStart(15, "span", 44);
-    \u0275\u0275text(16);
+    \u0275\u0275template(13, GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_13_Template, 2, 1, "span", 42)(14, GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_14_Template, 2, 0, "span", 43)(15, GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_15_Template, 5, 1, "button", 44)(16, GroupDetailComponent_ng_container_5_ng_container_2_div_10_span_16_Template, 2, 0, "span", 45);
+    \u0275\u0275elementStart(17, "span", 46);
+    \u0275\u0275text(18);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275template(17, GroupDetailComponent_ng_container_5_ng_container_2_div_10_p_17_Template, 2, 1, "p", 45)(18, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_18_Template, 2, 0, "div", 46)(19, GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_19_Template, 7, 0, "button", 47)(20, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_Template, 7, 6, "div", 48)(21, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_21_Template, 2, 1, "ng-container", 6)(22, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_22_Template, 13, 6, "ng-container", 6);
+    \u0275\u0275template(19, GroupDetailComponent_ng_container_5_ng_container_2_div_10_p_19_Template, 2, 1, "p", 47)(20, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_20_Template, 2, 0, "div", 48)(21, GroupDetailComponent_ng_container_5_ng_container_2_div_10_button_21_Template, 7, 0, "button", 49)(22, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_22_Template, 14, 6, "div", 50)(23, GroupDetailComponent_ng_container_5_ng_container_2_div_10_div_23_Template, 7, 6, "div", 51)(24, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_24_Template, 2, 1, "ng-container", 6)(25, GroupDetailComponent_ng_container_5_ng_container_2_div_10_ng_container_25_Template, 13, 6, "ng-container", 6);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -2243,11 +2387,15 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template(rf, 
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r1.group.title);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate3("", \u0275\u0275pipeBind2(9, 23, ctx_r1.group.date.toDate(), "EEEE d MMMM"), " \xB7 ", ctx_r1.group.time, " \xB7 ", ctx_r1.group.leaderName, " leading");
+    \u0275\u0275textInterpolate3("", \u0275\u0275pipeBind2(9, 26, ctx_r1.group.date.toDate(), "EEEE d MMMM"), " \xB7 ", ctx_r1.group.time, " \xB7 ", ctx_r1.group.leaderName, " leading");
     \u0275\u0275advance(3);
     \u0275\u0275classMap("badge--" + ctx_r1.group.difficulty);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.group.difficulty);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.group.price);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r1.group.price);
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r1.group.spotTitle);
     \u0275\u0275advance();
@@ -2263,6 +2411,8 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template(rf, 
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r1.group.meetingPoint && ctx_r1.group.status !== "exploring" && ctx_r1.authService.isLoggedIn());
     \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r1.showContactForm());
+    \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r1.authService.isLoggedIn());
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", !ctx_r1.authService.isLoggedIn());
@@ -2272,7 +2422,7 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template(rf, 
 }
 function GroupDetailComponent_ng_container_5_ng_container_2_app_group_chat_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "app-group-chat", 97);
+    \u0275\u0275element(0, "app-group-chat", 111);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(3);
@@ -2287,14 +2437,14 @@ function GroupDetailComponent_ng_container_5_ng_container_2_div_12_ng_container_
 function GroupDetailComponent_ng_container_5_ng_container_2_div_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 33);
-    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_12_ng_container_1_Template, 1, 0, "ng-container", 82);
+    \u0275\u0275template(1, GroupDetailComponent_ng_container_5_ng_container_2_div_12_ng_container_1_Template, 1, 0, "ng-container", 96);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     \u0275\u0275nextContext();
-    const signInGate_r14 = \u0275\u0275reference(14);
+    const signInGate_r15 = \u0275\u0275reference(14);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", signInGate_r14);
+    \u0275\u0275property("ngTemplateOutlet", signInGate_r15);
   }
 }
 function GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_ng_container_5_Template(rf, ctx) {
@@ -2314,17 +2464,17 @@ function GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_ng_co
 }
 function GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 98)(1, "p", 99)(2, "strong");
+    const _r20 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 112)(1, "p", 113)(2, "strong");
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
     \u0275\u0275text(4, " is organising a group");
     \u0275\u0275template(5, GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_ng_container_5_Template, 4, 1, "ng-container", 6);
     \u0275\u0275text(6, ". Sign in to join the group and chat with the members. ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "button", 100);
+    \u0275\u0275elementStart(7, "button", 114);
     \u0275\u0275listener("click", function GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_Template_button_click_7_listener() {
-      \u0275\u0275restoreView(_r19);
+      \u0275\u0275restoreView(_r20);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.openJoinLogin());
     });
@@ -2370,7 +2520,7 @@ function GroupDetailComponent_ng_container_5_ng_container_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275namespaceHTML();
     \u0275\u0275elementStart(9, "div", 29);
-    \u0275\u0275template(10, GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template, 23, 26, "div", 30)(11, GroupDetailComponent_ng_container_5_ng_container_2_app_group_chat_11_Template, 1, 7, "app-group-chat", 31)(12, GroupDetailComponent_ng_container_5_ng_container_2_div_12_Template, 2, 1, "div", 30);
+    \u0275\u0275template(10, GroupDetailComponent_ng_container_5_ng_container_2_div_10_Template, 26, 29, "div", 30)(11, GroupDetailComponent_ng_container_5_ng_container_2_app_group_chat_11_Template, 1, 7, "app-group-chat", 31)(12, GroupDetailComponent_ng_container_5_ng_container_2_div_12_Template, 2, 1, "div", 30);
     \u0275\u0275elementEnd();
     \u0275\u0275template(13, GroupDetailComponent_ng_container_5_ng_container_2_ng_template_13_Template, 9, 4, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
     \u0275\u0275elementContainerEnd();
@@ -2393,7 +2543,7 @@ function GroupDetailComponent_ng_container_5_ng_container_2_Template(rf, ctx) {
 }
 function GroupDetailComponent_ng_container_5_app_modal_3_div_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 108);
+    \u0275\u0275elementStart(0, "div", 122);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -2405,24 +2555,24 @@ function GroupDetailComponent_ng_container_5_app_modal_3_div_6_Template(rf, ctx)
 }
 function GroupDetailComponent_ng_container_5_app_modal_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r20 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-modal", 101);
+    const _r21 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-modal", 115);
     \u0275\u0275listener("closeRequested", function GroupDetailComponent_ng_container_5_app_modal_3_Template_app_modal_closeRequested_0_listener() {
-      \u0275\u0275restoreView(_r20);
+      \u0275\u0275restoreView(_r21);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.showMeetingModal.set(false));
     });
-    \u0275\u0275elementStart(1, "div", 102)(2, "div", 103);
+    \u0275\u0275elementStart(1, "div", 116)(2, "div", 117);
     \u0275\u0275text(3, "\u{1F4CD}");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 104);
+    \u0275\u0275elementStart(4, "div", 118);
     \u0275\u0275text(5, "Meeting point");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(6, GroupDetailComponent_ng_container_5_app_modal_3_div_6_Template, 2, 1, "div", 105);
-    \u0275\u0275elementStart(7, "a", 106);
+    \u0275\u0275template(6, GroupDetailComponent_ng_container_5_app_modal_3_div_6_Template, 2, 1, "div", 119);
+    \u0275\u0275elementStart(7, "a", 120);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(8, "svg", 107);
-    \u0275\u0275element(9, "path", 51)(10, "circle", 52);
+    \u0275\u0275elementStart(8, "svg", 121);
+    \u0275\u0275element(9, "path", 56)(10, "circle", 57);
     \u0275\u0275elementEnd();
     \u0275\u0275text(11, " Open in Google Maps ");
     \u0275\u0275elementEnd()()();
@@ -2437,10 +2587,10 @@ function GroupDetailComponent_ng_container_5_app_modal_3_Template(rf, ctx) {
 }
 function GroupDetailComponent_ng_container_5_app_group_members_modal_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r21 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-group-members-modal", 109);
+    const _r22 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-group-members-modal", 123);
     \u0275\u0275listener("closeRequested", function GroupDetailComponent_ng_container_5_app_group_members_modal_4_Template_app_group_members_modal_closeRequested_0_listener() {
-      \u0275\u0275restoreView(_r21);
+      \u0275\u0275restoreView(_r22);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.showMembersModal.set(false));
     });
@@ -2493,6 +2643,9 @@ var GroupDetailComponent = class _GroupDetailComponent {
     this.showEditForm = signal(false);
     this.activeTab = signal("info");
     this.unreadCount = signal(0);
+    this.showContactForm = signal(false);
+    this.contactPhone = "";
+    this.contactFormError = signal(null);
     this.lastSeenMessageCount = 0;
     this.messagesInitialized = false;
     this.pendingAutoJoin = false;
@@ -2589,7 +2742,7 @@ var GroupDetailComponent = class _GroupDetailComponent {
     return !!this.currentUser && this.group?.leaderId === this.currentUser.id;
   }
   get isMember() {
-    return !!this.currentUser && this.groupsService.currentUserIsMember();
+    return !!this.currentUser && (this.groupsService.currentUserIsMember() || this.isLeader);
   }
   get canJoin() {
     const g = this.group;
@@ -2698,10 +2851,38 @@ var GroupDetailComponent = class _GroupDetailComponent {
         this.authService.openLoginModal();
         return;
       }
+      const group = this.groupsService.detailGroup();
+      if (group?.price) {
+        this.contactPhone = "";
+        this.contactFormError.set(null);
+        this.showContactForm.set(true);
+        return;
+      }
+      yield this._doJoin();
+    });
+  }
+  submitContactAndJoin() {
+    return __async(this, null, function* () {
+      const phone = this.contactPhone.trim();
+      if (!phone) {
+        this.contactFormError.set("Please enter your phone number.");
+        return;
+      }
+      this.showContactForm.set(false);
+      yield this._doJoin(phone);
+    });
+  }
+  cancelContactForm() {
+    this.showContactForm.set(false);
+    this.contactFormError.set(null);
+    this.contactPhone = "";
+  }
+  _doJoin(phone) {
+    return __async(this, null, function* () {
       this.actionError.set(null);
       this.actionBusy.set(true);
       try {
-        yield this.groupsService.joinGroup(this.groupId);
+        yield this.groupsService.joinGroup(this.groupId, phone);
         yield this.groupsService.updateLastActive(this.groupId);
       } catch (e) {
         if (e instanceof GroupFullError) {
@@ -2857,7 +3038,7 @@ var GroupDetailComponent = class _GroupDetailComponent {
           return ctx.onVisibilityChange();
         }, false, \u0275\u0275resolveDocument);
       }
-    }, decls: 6, vars: 6, consts: [["signInGate", ""], [3, "closeRequested", "dragStart", "dragMove", "dragEnd", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "title"], ["panelActions", "", 3, "url", "shareTitle"], [1, "gd-content"], ["class", "gd-locked", 4, "ngIf"], ["class", "gd-loading", 4, "ngIf"], [4, "ngIf"], [1, "gd-locked"], [1, "gd-locked__icon"], ["width", "32", "height", "32", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"], ["cx", "9", "cy", "7", "r", "4"], ["d", "M23 21v-2a4 4 0 0 0-3-3.87"], ["d", "M16 3.13a4 4 0 0 1 0 7.75"], [1, "gd-locked__title"], [1, "gd-locked__sub"], [1, "gd-locked__desc"], [1, "gd-loading"], [1, "gd-loading__dot"], [3, "group", "groupId", "saved", "cancelled", 4, "ngIf"], ["maxWidth", "280px", 3, "closeRequested", 4, "ngIf"], [3, "groupId", "group", "members", "canManageMembers", "currentUser", "closeRequested", 4, "ngIf"], [3, "saved", "cancelled", "group", "groupId"], [1, "gd-tabs"], [1, "gd-tab", 3, "click"], [1, "gd-tab", "gd-tab--chat", 3, "click"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"], ["class", "gd-tab__badge", 4, "ngIf"], [1, "gd-tab-body"], ["class", "gd-tab-pane", 4, "ngIf"], [3, "groupId", "group", "canPin", "isMember", "isMuted", "mutedMinutesLeft", "chatClosesAt", 4, "ngIf"], [1, "gd-tab__badge"], [1, "gd-tab-pane"], [1, "gd-header"], [1, "gd-header__leader"], ["size", "md", "shape", "circle", "roleLabel", "\u{1F451} Group leader", 3, "photoURL", "displayName", "level", "isAdmin", "isSelf"], [1, "gd-header__info"], [1, "gd-header__title"], [1, "gd-header__sub"], [1, "gd-header__meta"], [1, "badge"], ["class", "gd-header__spot", "title", "Show on map", 3, "click", 4, "ngIf"], ["class", "gd-header__spot gd-header__spot--none", 4, "ngIf"], [1, "gd-status"], ["class", "gd-header__desc", 4, "ngIf"], ["class", "gd-exploring-banner", 4, "ngIf"], ["class", "gd-meeting-row", 3, "click", 4, "ngIf"], ["class", "gd-actions", 4, "ngIf"], ["title", "Show on map", 1, "gd-header__spot", 3, "click"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-header__spot", "gd-header__spot--none"], [1, "gd-header__desc"], [1, "gd-exploring-banner"], [1, "gd-meeting-row", 3, "click"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 1, "gd-meeting-row__chevron"], ["points", "9 18 15 12 9 6"], [1, "gd-actions"], ["class", "gd-join-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leave-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leader-actions", 4, "ngIf"], ["class", "gd-edit-btn", 3, "click", 4, "ngIf"], [3, "fixed", "message", "confirmLabel", "cancelLabel", "danger", "confirmed", "cancelled", 4, "ngIf"], ["class", "gd-action-error", 4, "ngIf"], [1, "gd-join-btn", 3, "click", "disabled"], [1, "gd-leave-btn", 3, "click", "disabled"], [1, "gd-leader-actions"], ["class", "gd-explore-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-complete-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leader-row", 4, "ngIf"], [1, "gd-explore-btn", 3, "click", "disabled"], [1, "gd-complete-btn", 3, "click", "disabled"], [1, "gd-leader-row"], ["class", "gd-cancel-btn", 3, "disabled", "click", 4, "ngIf"], [1, "gd-cancel-btn", 3, "click", "disabled"], [1, "gd-edit-btn", 3, "click"], ["d", "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"], ["d", "M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"], [3, "confirmed", "cancelled", "fixed", "message", "confirmLabel", "cancelLabel", "danger"], [1, "gd-action-error"], [4, "ngTemplateOutlet"], [1, "gd-members-section-label"], ["class", "gd-transfer", 4, "ngIf"], [1, "gd-members-row", 3, "click"], [3, "previews", "total"], [1, "gd-members-row__label"], ["class", "gd-members-row__spots", 4, "ngIf"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "gd-members-row__chevron"], [1, "gd-transfer"], [1, "gd-transfer__label"], ["class", "gd-transfer__member", 3, "disabled", "click", 4, "ngFor", "ngForOf"], [1, "gd-transfer__cancel", 3, "click"], [1, "gd-transfer__member", 3, "click", "disabled"], ["size", "xs", "shape", "circle", 3, "photoURL", "displayName"], [1, "gd-members-row__spots"], [3, "groupId", "group", "canPin", "isMember", "isMuted", "mutedMinutesLeft", "chatClosesAt"], [1, "gd-gate"], [1, "gd-gate__msg"], [1, "gd-gate__btn", 3, "click", "disabled"], ["maxWidth", "280px", 3, "closeRequested"], [1, "gd-mp-modal"], [1, "gd-mp-modal__icon"], [1, "gd-mp-modal__title"], ["class", "gd-mp-modal__sub", 4, "ngIf"], ["target", "_blank", "rel", "noopener noreferrer", 1, "gd-mp-modal__btn", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], [1, "gd-mp-modal__sub"], [3, "closeRequested", "groupId", "group", "members", "canManageMembers", "currentUser"]], template: function GroupDetailComponent_Template(rf, ctx) {
+    }, decls: 6, vars: 6, consts: [["signInGate", ""], [3, "closeRequested", "dragStart", "dragMove", "dragEnd", "bodyDragStart", "bodyDragMove", "bodyDragEnd", "title"], ["panelActions", "", 3, "url", "shareTitle"], [1, "gd-content"], ["class", "gd-locked", 4, "ngIf"], ["class", "gd-loading", 4, "ngIf"], [4, "ngIf"], [1, "gd-locked"], [1, "gd-locked__icon"], ["width", "32", "height", "32", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"], ["cx", "9", "cy", "7", "r", "4"], ["d", "M23 21v-2a4 4 0 0 0-3-3.87"], ["d", "M16 3.13a4 4 0 0 1 0 7.75"], [1, "gd-locked__title"], [1, "gd-locked__sub"], [1, "gd-locked__desc"], [1, "gd-loading"], [1, "gd-loading__dot"], [3, "group", "groupId", "saved", "cancelled", 4, "ngIf"], ["maxWidth", "280px", 3, "closeRequested", 4, "ngIf"], [3, "groupId", "group", "members", "canManageMembers", "currentUser", "closeRequested", 4, "ngIf"], [3, "saved", "cancelled", "group", "groupId"], [1, "gd-tabs"], [1, "gd-tab", 3, "click"], [1, "gd-tab", "gd-tab--chat", 3, "click"], ["width", "13", "height", "13", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"], ["class", "gd-tab__badge", 4, "ngIf"], [1, "gd-tab-body"], ["class", "gd-tab-pane", 4, "ngIf"], [3, "groupId", "group", "canPin", "isMember", "isMuted", "mutedMinutesLeft", "chatClosesAt", 4, "ngIf"], [1, "gd-tab__badge"], [1, "gd-tab-pane"], [1, "gd-header"], [1, "gd-header__leader"], ["size", "md", "shape", "circle", "roleLabel", "\u{1F451} Group leader", 3, "photoURL", "displayName", "level", "isAdmin", "isSelf"], [1, "gd-header__info"], [1, "gd-header__title"], [1, "gd-header__sub"], [1, "gd-header__meta"], [1, "badge"], ["class", "gd-price-badge", 4, "ngIf"], ["class", "gd-price-badge gd-price-badge--free", 4, "ngIf"], ["class", "gd-header__spot", "title", "Show on map", 3, "click", 4, "ngIf"], ["class", "gd-header__spot gd-header__spot--none", 4, "ngIf"], [1, "gd-status"], ["class", "gd-header__desc", 4, "ngIf"], ["class", "gd-exploring-banner", 4, "ngIf"], ["class", "gd-meeting-row", 3, "click", 4, "ngIf"], ["class", "gd-contact-form", 3, "click", 4, "ngIf"], ["class", "gd-actions", 4, "ngIf"], [1, "gd-price-badge"], [1, "gd-price-badge", "gd-price-badge--free"], ["title", "Show on map", 1, "gd-header__spot", 3, "click"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-header__spot", "gd-header__spot--none"], [1, "gd-header__desc"], [1, "gd-exploring-banner"], [1, "gd-meeting-row", 3, "click"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", 1, "gd-meeting-row__chevron"], ["points", "9 18 15 12 9 6"], [1, "gd-contact-form", 3, "click"], [1, "gd-contact-form__title"], [1, "gd-contact-form__desc"], ["type", "tel", "placeholder", "+356 9999 9999", 1, "gd-contact-form__input", 3, "ngModelChange", "keydown.enter", "ngModel"], ["class", "gd-contact-form__error", 4, "ngIf"], [1, "gd-contact-form__actions"], [1, "gd-contact-form__cancel", 3, "click"], [1, "gd-contact-form__submit", 3, "click", "disabled"], [1, "gd-contact-form__error"], [1, "gd-actions"], ["class", "gd-join-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leave-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leader-actions", 4, "ngIf"], ["class", "gd-edit-btn", 3, "click", 4, "ngIf"], [3, "fixed", "message", "confirmLabel", "cancelLabel", "danger", "confirmed", "cancelled", 4, "ngIf"], ["class", "gd-action-error", 4, "ngIf"], [1, "gd-join-btn", 3, "click", "disabled"], [1, "gd-leave-btn", 3, "click", "disabled"], [1, "gd-leader-actions"], ["class", "gd-explore-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-complete-btn", 3, "disabled", "click", 4, "ngIf"], ["class", "gd-leader-row", 4, "ngIf"], [1, "gd-explore-btn", 3, "click", "disabled"], [1, "gd-complete-btn", 3, "click", "disabled"], [1, "gd-leader-row"], ["class", "gd-cancel-btn", 3, "disabled", "click", 4, "ngIf"], [1, "gd-cancel-btn", 3, "click", "disabled"], [1, "gd-edit-btn", 3, "click"], ["d", "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"], ["d", "M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"], [3, "confirmed", "cancelled", "fixed", "message", "confirmLabel", "cancelLabel", "danger"], [1, "gd-action-error"], [4, "ngTemplateOutlet"], [1, "gd-members-section-label"], ["class", "gd-transfer", 4, "ngIf"], [1, "gd-members-row", 3, "click"], [3, "previews", "total"], [1, "gd-members-row__label"], ["class", "gd-members-row__spots", 4, "ngIf"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "gd-members-row__chevron"], [1, "gd-transfer"], [1, "gd-transfer__label"], ["class", "gd-transfer__member", 3, "disabled", "click", 4, "ngFor", "ngForOf"], [1, "gd-transfer__cancel", 3, "click"], [1, "gd-transfer__member", 3, "click", "disabled"], ["size", "xs", "shape", "circle", 3, "photoURL", "displayName"], [1, "gd-members-row__spots"], [3, "groupId", "group", "canPin", "isMember", "isMuted", "mutedMinutesLeft", "chatClosesAt"], [1, "gd-gate"], [1, "gd-gate__msg"], [1, "gd-gate__btn", 3, "click", "disabled"], ["maxWidth", "280px", 3, "closeRequested"], [1, "gd-mp-modal"], [1, "gd-mp-modal__icon"], [1, "gd-mp-modal__title"], ["class", "gd-mp-modal__sub", 4, "ngIf"], ["target", "_blank", "rel", "noopener noreferrer", 1, "gd-mp-modal__btn", 3, "href"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], [1, "gd-mp-modal__sub"], [3, "closeRequested", "groupId", "group", "members", "canManageMembers", "currentUser"]], template: function GroupDetailComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "app-panel-shell", 1);
         \u0275\u0275listener("closeRequested", function GroupDetailComponent_Template_app_panel_shell_closeRequested_0_listener() {
@@ -2898,6 +3079,10 @@ var GroupDetailComponent = class _GroupDetailComponent {
       NgIf,
       NgTemplateOutlet,
       DatePipe,
+      FormsModule,
+      DefaultValueAccessor,
+      NgControlStatus,
+      NgModel,
       PanelShellComponent,
       UserAvatarComponent,
       ConfirmPopupComponent,
@@ -2907,13 +3092,13 @@ var GroupDetailComponent = class _GroupDetailComponent {
       GroupChatComponent,
       GroupMembersModalComponent,
       GroupEditFormComponent
-    ], styles: ["\n\n[_nghost-%COMP%]     .panel-body {\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n}\n.gd-content[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.gd-info[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  padding: 20px 20px 0;\n}\n.gd-tabs[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 6px;\n  padding: 8px 16px 0;\n  flex-shrink: 0;\n}\n.gd-tab[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 34px;\n  padding: 0 10px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  background: var(--color-bg-light);\n  color: var(--color-text-muted);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 5px;\n  transition:\n    background var(--transition),\n    color var(--transition),\n    box-shadow var(--transition),\n    border-color var(--transition);\n}\n.gd-tab--active[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border-color: var(--color-primary);\n  box-shadow: 0 2px 8px var(--color-primary-shadow);\n  animation: none;\n}\n.gd-tab--chat[_ngcontent-%COMP%]:not(.gd-tab--active) {\n  animation: _ngcontent-%COMP%_chatTabPulse 2.4s ease-in-out infinite;\n}\n.gd-tab__badge[_ngcontent-%COMP%] {\n  min-width: 17px;\n  height: 17px;\n  padding: 0 4px;\n  border-radius: 8.5px;\n  background: #ef4444;\n  color: #fff;\n  font-size: 10px;\n  font-weight: 700;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n@keyframes _ngcontent-%COMP%_chatTabPulse {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(244, 169, 34, 0.45);\n  }\n  50% {\n    box-shadow: 0 0 0 5px rgba(244, 169, 34, 0);\n  }\n}\n.gd-tab-body[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n}\n.gd-tab-pane[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 16px 20px 24px;\n}\n.gd-header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding-bottom: 16px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--color-border);\n}\n.gd-header__leader[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n}\n.gd-header__info[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n}\n.gd-header__title[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  line-height: 1.3;\n}\n.gd-header__sub[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n}\n.gd-header__meta[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.gd-header__spot[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  background: none;\n  border: none;\n  padding: 2px 6px 2px 4px;\n  border-radius: var(--radius-sm);\n  cursor: pointer;\n  transition: background var(--transition), color var(--transition);\n}\n.gd-header__spot[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  color: var(--color-text-base);\n}\n.gd-header__spot--none[_ngcontent-%COMP%] {\n  cursor: default;\n  font-style: italic;\n  opacity: 0.6;\n}\n.gd-header__spot--none[_ngcontent-%COMP%]:hover {\n  background: none;\n  color: var(--color-text-muted);\n}\n.gd-status[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 600;\n  padding: 2px 8px;\n  border-radius: 20px;\n  text-transform: capitalize;\n}\n.gd-status--open[_ngcontent-%COMP%] {\n  background: var(--color-success-bg-hover);\n  color: #065f46;\n}\n.gd-status--full[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg-hover);\n  color: var(--color-warning);\n}\n.gd-status--exploring[_ngcontent-%COMP%] {\n  background: var(--color-info-bg-hover);\n  color: var(--color-info);\n}\n.gd-status--cancelled[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg-hover);\n  color: var(--color-danger);\n}\n.gd-status--completed[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-muted);\n}\n.gd-meeting-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  width: 100%;\n  padding: 9px 14px;\n  border-radius: var(--radius-lg);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  box-sizing: border-box;\n  margin-bottom: 4px;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-meeting-row[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%]:first-child {\n  color: var(--color-primary);\n  stroke: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-meeting-row[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-meeting-row__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  color: var(--color-text-light);\n}\n.gd-exploring-banner[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 14px;\n  border-radius: var(--radius-lg);\n  background: var(--color-info-bg);\n  border: 1px solid var(--color-info-border);\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-info);\n}\n.gd-header__desc[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-secondary);\n  line-height: 1.6;\n  margin: 0 0 14px;\n}\n.gd-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  margin-top: 20px;\n  padding-top: 16px;\n  border-top: 1px solid var(--color-border);\n  position: relative;\n}\n.gd-leader-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.gd-leader-row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.gd-leader-row[_ngcontent-%COMP%]    > button[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.gd-join-btn[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-join-btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-join-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-leave-btn[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-leave-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.gd-leave-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-explore-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  background: var(--color-success-bg);\n  color: var(--color-success);\n  border: 1.5px solid var(--color-success-border);\n  border-radius: var(--radius-lg);\n  padding: 12px 14px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-explore-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-success-bg-hover);\n  border-color: var(--color-success-border-hover);\n}\n.gd-explore-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-complete-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  background: var(--color-info-bg);\n  color: var(--color-info);\n  border: 1.5px solid var(--color-info-border);\n  border-radius: var(--radius-lg);\n  padding: 12px 14px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-complete-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-info-bg-hover);\n  border-color: var(--color-info-border-hover);\n}\n.gd-complete-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-cancel-btn[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg);\n  color: var(--color-danger);\n  border: 1px solid var(--color-danger-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-cancel-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n}\n.gd-cancel-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-action-error[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-danger);\n  margin: 0;\n}\n.gd-gate[_ngcontent-%COMP%] {\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-xl);\n  padding: 20px 16px;\n  text-align: center;\n  margin-bottom: 20px;\n}\n.gd-gate__msg[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  color: var(--color-text-secondary);\n  margin: 0 0 12px;\n  line-height: 1.5;\n}\n.gd-gate__btn[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 24px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-gate__btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-transfer[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg);\n  border: 1px solid var(--color-warning-border);\n  border-radius: var(--radius-xl);\n  padding: 14px;\n  margin-bottom: 14px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.gd-transfer__label[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-warning);\n  margin: 0;\n}\n.gd-transfer__member[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: var(--color-bg);\n  border: 1px solid var(--color-warning-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 12px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-transfer__member[_ngcontent-%COMP%]:hover {\n  background: var(--color-warning-bg-hover);\n}\n.gd-transfer__member[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-transfer__cancel[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  cursor: pointer;\n  padding: 4px 0;\n  text-align: left;\n}\n.gd-transfer__cancel[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n.gd-members-section-label[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 700;\n  color: var(--color-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding-top: 20px;\n  padding-bottom: 8px;\n  border-top: 1px solid var(--color-border);\n  margin-top: 16px;\n}\n.gd-members-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 14px;\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-members-row[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  border-color: var(--color-text-light);\n}\n.gd-members-row__label[_ngcontent-%COMP%] {\n  flex: 1;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.gd-members-row__spots[_ngcontent-%COMP%] {\n  font-weight: 400;\n  color: var(--color-text-muted);\n}\n.gd-members-row__chevron[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-muted);\n}\n.gd-loading[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 6px;\n  padding: 40px 0;\n}\n.gd-loading__dot[_ngcontent-%COMP%] {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--color-primary);\n  animation: _ngcontent-%COMP%_gdDotPulse 1.2s ease-in-out infinite;\n}\n.gd-loading__dot[_ngcontent-%COMP%]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.gd-loading__dot[_ngcontent-%COMP%]:nth-child(3) {\n  animation-delay: 0.4s;\n}\n@keyframes _ngcontent-%COMP%_gdDotPulse {\n  0%, 80%, 100% {\n    opacity: 0.3;\n    transform: scale(0.8);\n  }\n  40% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n.gd-locked[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  padding: 60px 24px 48px;\n  flex: 1;\n}\n.gd-locked__icon[_ngcontent-%COMP%] {\n  color: var(--color-text-light);\n  margin-bottom: 18px;\n}\n.gd-locked__title[_ngcontent-%COMP%] {\n  font-size: 17px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  margin: 0 0 4px;\n  letter-spacing: -0.3px;\n}\n.gd-locked__sub[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.08em;\n  color: var(--color-primary);\n  margin: 0 0 14px;\n}\n.gd-locked__desc[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n  margin: 0;\n  max-width: 240px;\n}\n.gd-mp-modal[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 0 4px;\n  text-align: center;\n}\n.gd-mp-modal__icon[_ngcontent-%COMP%] {\n  font-size: 36px;\n  line-height: 1;\n  margin-bottom: 2px;\n}\n.gd-mp-modal__title[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n}\n.gd-mp-modal__sub[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n}\n.gd-mp-modal__btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  margin-top: 10px;\n  padding: 11px 22px;\n  border-radius: var(--radius-lg);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 14px;\n  font-weight: 700;\n  text-decoration: none;\n  transition: opacity var(--transition);\n}\n.gd-mp-modal__btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-edit-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 9px 14px;\n  border-radius: var(--radius-lg);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  box-sizing: border-box;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-edit-btn[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  flex-shrink: 0;\n}\n.gd-edit-btn[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-edit-btn[_ngcontent-%COMP%]:hover   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n}\n/*# sourceMappingURL=group-detail.component.css.map */"] });
+    ], styles: ["\n\n[_nghost-%COMP%]     .panel-body {\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n}\n.gd-content[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.gd-info[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  padding: 20px 20px 0;\n}\n.gd-tabs[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 6px;\n  padding: 8px 16px 0;\n  flex-shrink: 0;\n}\n.gd-tab[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 34px;\n  padding: 0 10px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  background: var(--color-bg-light);\n  color: var(--color-text-muted);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 5px;\n  transition:\n    background var(--transition),\n    color var(--transition),\n    box-shadow var(--transition),\n    border-color var(--transition);\n}\n.gd-tab--active[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border-color: var(--color-primary);\n  box-shadow: 0 2px 8px var(--color-primary-shadow);\n  animation: none;\n}\n.gd-tab--chat[_ngcontent-%COMP%]:not(.gd-tab--active) {\n  animation: _ngcontent-%COMP%_chatTabPulse 2.4s ease-in-out infinite;\n}\n.gd-tab__badge[_ngcontent-%COMP%] {\n  min-width: 17px;\n  height: 17px;\n  padding: 0 4px;\n  border-radius: 8.5px;\n  background: #ef4444;\n  color: #fff;\n  font-size: 10px;\n  font-weight: 700;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n@keyframes _ngcontent-%COMP%_chatTabPulse {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(244, 169, 34, 0.45);\n  }\n  50% {\n    box-shadow: 0 0 0 5px rgba(244, 169, 34, 0);\n  }\n}\n.gd-tab-body[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n}\n.gd-tab-pane[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 16px 20px 24px;\n}\n.gd-header[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding-bottom: 16px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--color-border);\n}\n.gd-header__leader[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n}\n.gd-header__info[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n}\n.gd-header__title[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  line-height: 1.3;\n}\n.gd-header__sub[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n}\n.gd-header__meta[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.gd-header__spot[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  background: none;\n  border: none;\n  padding: 2px 6px 2px 4px;\n  border-radius: var(--radius-sm);\n  cursor: pointer;\n  transition: background var(--transition), color var(--transition);\n}\n.gd-header__spot[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  color: var(--color-text-base);\n}\n.gd-header__spot--none[_ngcontent-%COMP%] {\n  cursor: default;\n  font-style: italic;\n  opacity: 0.6;\n}\n.gd-header__spot--none[_ngcontent-%COMP%]:hover {\n  background: none;\n  color: var(--color-text-muted);\n}\n.gd-price-badge[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  font-size: 11px;\n  font-weight: 700;\n  padding: 2px 8px;\n  border-radius: 20px;\n  background: rgba(244, 169, 34, 0.12);\n  color: #92620a;\n}\n.gd-price-badge--free[_ngcontent-%COMP%] {\n  background: #dcfce7;\n  color: #15803d;\n  font-weight: 600;\n}\n.gd-status[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 600;\n  padding: 2px 8px;\n  border-radius: 20px;\n  text-transform: capitalize;\n}\n.gd-status--open[_ngcontent-%COMP%] {\n  background: var(--color-success-bg-hover);\n  color: #065f46;\n}\n.gd-status--full[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg-hover);\n  color: var(--color-warning);\n}\n.gd-status--exploring[_ngcontent-%COMP%] {\n  background: var(--color-info-bg-hover);\n  color: var(--color-info);\n}\n.gd-status--cancelled[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg-hover);\n  color: var(--color-danger);\n}\n.gd-status--completed[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-muted);\n}\n.gd-meeting-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  width: 100%;\n  padding: 9px 14px;\n  border-radius: var(--radius-lg);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  box-sizing: border-box;\n  margin-bottom: 4px;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-meeting-row[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%]:first-child {\n  color: var(--color-primary);\n  stroke: var(--color-primary);\n  flex-shrink: 0;\n}\n.gd-meeting-row[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-meeting-row__chevron[_ngcontent-%COMP%] {\n  margin-left: auto;\n  color: var(--color-text-light);\n}\n.gd-exploring-banner[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 14px;\n  border-radius: var(--radius-lg);\n  background: var(--color-info-bg);\n  border: 1px solid var(--color-info-border);\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-info);\n}\n.gd-header__desc[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-secondary);\n  line-height: 1.6;\n  margin: 0 0 14px;\n}\n.gd-contact-form[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  padding: 14px;\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-left: 3px solid var(--color-primary);\n  border-radius: var(--radius-lg);\n}\n.gd-contact-form__title[_ngcontent-%COMP%] {\n  font-size: 14px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  margin: 0 0 6px;\n}\n.gd-contact-form__desc[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-text-muted);\n  margin: 0 0 12px;\n  line-height: 1.5;\n}\n.gd-contact-form__input[_ngcontent-%COMP%] {\n  display: block;\n  width: 100%;\n  box-sizing: border-box;\n  padding: 9px 12px;\n  font-size: 14px;\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-md);\n  background: var(--color-bg);\n  color: var(--color-text-base);\n  margin-bottom: 8px;\n  outline: none;\n}\n.gd-contact-form__input[_ngcontent-%COMP%]:focus {\n  border-color: var(--color-primary);\n  box-shadow: 0 0 0 2px var(--color-primary-shadow);\n}\n.gd-contact-form__error[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: #dc2626;\n  margin: 0 0 8px;\n}\n.gd-contact-form__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.gd-contact-form__cancel[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 9px 12px;\n  background: var(--color-bg-muted);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-md);\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  cursor: pointer;\n}\n.gd-contact-form__cancel[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.gd-contact-form__submit[_ngcontent-%COMP%] {\n  flex: 2;\n  padding: 9px 12px;\n  background: var(--color-primary);\n  border: none;\n  border-radius: var(--radius-md);\n  font-size: 13px;\n  font-weight: 700;\n  color: #fff;\n  cursor: pointer;\n}\n.gd-contact-form__submit[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-contact-form__submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  margin-top: 20px;\n  padding-top: 16px;\n  border-top: 1px solid var(--color-border);\n  position: relative;\n}\n.gd-leader-actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.gd-leader-row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n}\n.gd-leader-row[_ngcontent-%COMP%]    > button[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.gd-join-btn[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-join-btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-join-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-leave-btn[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-leave-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-border);\n}\n.gd-leave-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-explore-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  background: var(--color-success-bg);\n  color: var(--color-success);\n  border: 1.5px solid var(--color-success-border);\n  border-radius: var(--radius-lg);\n  padding: 12px 14px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-explore-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-success-bg-hover);\n  border-color: var(--color-success-border-hover);\n}\n.gd-explore-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-complete-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  background: var(--color-info-bg);\n  color: var(--color-info);\n  border: 1.5px solid var(--color-info-border);\n  border-radius: var(--radius-lg);\n  padding: 12px 14px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-complete-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-info-bg-hover);\n  border-color: var(--color-info-border-hover);\n}\n.gd-complete-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-cancel-btn[_ngcontent-%COMP%] {\n  background: var(--color-danger-bg);\n  color: var(--color-danger);\n  border: 1px solid var(--color-danger-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 14px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-cancel-btn[_ngcontent-%COMP%]:hover {\n  background: var(--color-danger-bg-hover);\n}\n.gd-cancel-btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-action-error[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: var(--color-danger);\n  margin: 0;\n}\n.gd-gate[_ngcontent-%COMP%] {\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-xl);\n  padding: 20px 16px;\n  text-align: center;\n  margin-bottom: 20px;\n}\n.gd-gate__msg[_ngcontent-%COMP%] {\n  font-size: 13.5px;\n  color: var(--color-text-secondary);\n  margin: 0 0 12px;\n  line-height: 1.5;\n}\n.gd-gate__btn[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n  border: none;\n  border-radius: var(--radius-lg);\n  padding: 10px 24px;\n  font-size: 14px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: opacity var(--transition);\n}\n.gd-gate__btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-transfer[_ngcontent-%COMP%] {\n  background: var(--color-warning-bg);\n  border: 1px solid var(--color-warning-border);\n  border-radius: var(--radius-xl);\n  padding: 14px;\n  margin-bottom: 14px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.gd-transfer__label[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-warning);\n  margin: 0;\n}\n.gd-transfer__member[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: var(--color-bg);\n  border: 1px solid var(--color-warning-border);\n  border-radius: var(--radius-lg);\n  padding: 8px 12px;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-base);\n  cursor: pointer;\n  transition: background var(--transition);\n}\n.gd-transfer__member[_ngcontent-%COMP%]:hover {\n  background: var(--color-warning-bg-hover);\n}\n.gd-transfer__member[_ngcontent-%COMP%]:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.gd-transfer__cancel[_ngcontent-%COMP%] {\n  background: none;\n  border: none;\n  font-size: 12px;\n  color: var(--color-text-muted);\n  cursor: pointer;\n  padding: 4px 0;\n  text-align: left;\n}\n.gd-transfer__cancel[_ngcontent-%COMP%]:hover {\n  color: var(--color-text-secondary);\n}\n.gd-members-section-label[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 700;\n  color: var(--color-text-muted);\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  padding-top: 20px;\n  padding-bottom: 8px;\n  border-top: 1px solid var(--color-border);\n  margin-top: 16px;\n}\n.gd-members-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 14px;\n  background: var(--color-bg-light);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-lg);\n  cursor: pointer;\n  transition: background var(--transition), border-color var(--transition);\n}\n.gd-members-row[_ngcontent-%COMP%]:hover {\n  background: var(--color-bg-muted);\n  border-color: var(--color-text-light);\n}\n.gd-members-row__label[_ngcontent-%COMP%] {\n  flex: 1;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.gd-members-row__spots[_ngcontent-%COMP%] {\n  font-weight: 400;\n  color: var(--color-text-muted);\n}\n.gd-members-row__chevron[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  color: var(--color-text-muted);\n}\n.gd-loading[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 6px;\n  padding: 40px 0;\n}\n.gd-loading__dot[_ngcontent-%COMP%] {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--color-primary);\n  animation: _ngcontent-%COMP%_gdDotPulse 1.2s ease-in-out infinite;\n}\n.gd-loading__dot[_ngcontent-%COMP%]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.gd-loading__dot[_ngcontent-%COMP%]:nth-child(3) {\n  animation-delay: 0.4s;\n}\n@keyframes _ngcontent-%COMP%_gdDotPulse {\n  0%, 80%, 100% {\n    opacity: 0.3;\n    transform: scale(0.8);\n  }\n  40% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n.gd-locked[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  padding: 60px 24px 48px;\n  flex: 1;\n}\n.gd-locked__icon[_ngcontent-%COMP%] {\n  color: var(--color-text-light);\n  margin-bottom: 18px;\n}\n.gd-locked__title[_ngcontent-%COMP%] {\n  font-size: 17px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  margin: 0 0 4px;\n  letter-spacing: -0.3px;\n}\n.gd-locked__sub[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.08em;\n  color: var(--color-primary);\n  margin: 0 0 14px;\n}\n.gd-locked__desc[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n  margin: 0;\n  max-width: 240px;\n}\n.gd-mp-modal[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 0 4px;\n  text-align: center;\n}\n.gd-mp-modal__icon[_ngcontent-%COMP%] {\n  font-size: 36px;\n  line-height: 1;\n  margin-bottom: 2px;\n}\n.gd-mp-modal__title[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--color-text-base);\n}\n.gd-mp-modal__sub[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n}\n.gd-mp-modal__btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  margin-top: 10px;\n  padding: 11px 22px;\n  border-radius: var(--radius-lg);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 14px;\n  font-weight: 700;\n  text-decoration: none;\n  transition: opacity var(--transition);\n}\n.gd-mp-modal__btn[_ngcontent-%COMP%]:hover {\n  opacity: 0.88;\n}\n.gd-edit-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 9px 14px;\n  border-radius: var(--radius-lg);\n  border: 1px solid var(--color-border);\n  background: var(--color-bg-muted);\n  color: var(--color-text-secondary);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  box-sizing: border-box;\n  transition:\n    border-color var(--transition),\n    color var(--transition),\n    background var(--transition);\n}\n.gd-edit-btn[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  color: var(--color-text-muted);\n  flex-shrink: 0;\n}\n.gd-edit-btn[_ngcontent-%COMP%]:hover {\n  border-color: var(--color-primary);\n  color: var(--color-primary);\n  background: var(--color-bg-light);\n}\n.gd-edit-btn[_ngcontent-%COMP%]:hover   svg[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n}\n/*# sourceMappingURL=group-detail.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GroupDetailComponent, { className: "GroupDetailComponent", filePath: "src/app/features/groups/group-detail/group-detail.component.ts", lineNumber: 41 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GroupDetailComponent, { className: "GroupDetailComponent", filePath: "src/app/features/groups/group-detail/group-detail.component.ts", lineNumber: 42 });
 })();
 export {
   GroupDetailComponent
 };
-//# sourceMappingURL=chunk-UFGRMPWR.js.map
+//# sourceMappingURL=chunk-LAB3ZBT4.js.map

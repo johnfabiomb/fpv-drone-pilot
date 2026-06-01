@@ -3,11 +3,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '@core/services/auth.service';
 import { SignInFormComponent, FormState } from '@ui/sign-in-form/sign-in-form.component';
 import { InAppBrowserService } from '@core/services/in-app-browser.service';
+import { BenefitsListComponent } from '@ui/benefits-list/benefits-list.component';
 
 @Component({
   selector: 'app-welcome-popup',
   standalone: true,
-  imports: [CommonModule, SignInFormComponent],
+  imports: [CommonModule, SignInFormComponent, BenefitsListComponent],
   template: `
     <div *ngIf="visible()" class="wp-backdrop" (click)="dismiss()">
       <div class="wp-card" (click)="$event.stopPropagation()">
@@ -21,28 +22,7 @@ import { InAppBrowserService } from '@core/services/in-app-browser.service';
           <p class="wp-hey">Hey, I'm John 👋</p>
           <h2 class="wp-title">Welcome to My Malta Map!</h2>
           <p class="wp-sub">I've mapped out my favourite spots — sign in and I'll save yours too.</p>
-          <ul class="wp-benefits">
-            <li>
-              <span class="wp-benefit__icon">🧭</span>
-              <span>Join or start a group for any spot — find people heading the same way</span>
-            </li>
-            <li>
-              <span class="wp-benefit__icon">💬</span>
-              <span>Every group has a live chat — plan the day, share tips, never explore alone</span>
-            </li>
-            <li>
-              <span class="wp-benefit__icon">🔖</span>
-              <span>Save your favourite spots and build your own bucket list</span>
-            </li>
-            <li>
-              <span class="wp-benefit__icon">🎟️</span>
-              <span>Unlock real discounts from local partners I personally trust</span>
-            </li>
-            <li>
-              <span class="wp-benefit__icon">📶</span>
-              <span>Works offline — explore without signal, no problem</span>
-            </li>
-          </ul>
+          <app-benefits-list></app-benefits-list>
         </ng-container>
 
         <app-sign-in-form (stateChange)="formState.set($event)"></app-sign-in-form>
@@ -130,31 +110,6 @@ import { InAppBrowserService } from '@core/services/in-app-browser.service';
       color: var(--color-text-muted);
       line-height: 1.5;
     }
-
-    .wp-benefits {
-      list-style: none;
-      margin: 0 0 24px;
-      padding: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .wp-benefits li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--color-text-secondary);
-      background: var(--color-bg-muted);
-      border-radius: var(--radius-lg);
-      padding: 10px 14px;
-    }
-
-    .wp-benefit__icon { font-size: 18px; flex-shrink: 0; line-height: 1; }
 
     .wp-ghost {
       background: none;

@@ -3,11 +3,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '@core/services/auth.service';
 import { SignInFormComponent, FormState } from '@ui/sign-in-form/sign-in-form.component';
 import { InAppBrowserService } from '@core/services/in-app-browser.service';
+import { BenefitsListComponent } from '@ui/benefits-list/benefits-list.component';
 
 @Component({
   selector: 'app-auth-modal',
   standalone: true,
-  imports: [CommonModule, SignInFormComponent],
+  imports: [CommonModule, SignInFormComponent, BenefitsListComponent],
   template: `
     <div class="modal-backdrop" (click)="auth.closeLoginModal()">
       <div class="modal-card" (click)="$event.stopPropagation()">
@@ -29,14 +30,7 @@ import { InAppBrowserService } from '@core/services/in-app-browser.service';
           <h2 class="modal-title">It's way better signed in</h2>
         </ng-container>
 
-        <ul class="modal-benefits" *ngIf="formState() === 'default' || formState() === 'email-input'">
-          <li><span class="modal-benefit__icon">🧭</span><span>Don't explore alone — meet people who love Malta as much as you</span></li>
-          <li><span class="modal-benefit__icon">🔖</span><span>Save your favourite spots and revisit them anytime</span></li>
-          <li><span class="modal-benefit__icon">🎟️</span><span>Get real discounts from local partners I trust</span></li>
-          <li><span class="modal-benefit__icon">⚡</span><span>Open Google Maps instantly — no wait</span></li>
-          <li><span class="modal-benefit__icon">📶</span><span>Browse the map offline, even without signal</span></li>
-          <li><span class="modal-benefit__icon">🔔</span><span>Get notified when I add new spots to the map</span></li>
-        </ul>
+        <app-benefits-list *ngIf="formState() === 'default' || formState() === 'email-input'"></app-benefits-list>
 
         <app-sign-in-form (stateChange)="formState.set($event)"></app-sign-in-form>
 
@@ -141,31 +135,6 @@ import { InAppBrowserService } from '@core/services/in-app-browser.service';
       letter-spacing: -0.4px;
       line-height: 1.2;
     }
-
-    .modal-benefits {
-      list-style: none;
-      margin: 0 0 20px;
-      padding: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .modal-benefits li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--color-text-secondary);
-      background: var(--color-bg-muted);
-      border-radius: var(--radius-lg);
-      padding: 10px 14px;
-    }
-
-    .modal-benefit__icon { font-size: 18px; flex-shrink: 0; line-height: 1; }
 
     .modal-legal {
       font-size: 11px;

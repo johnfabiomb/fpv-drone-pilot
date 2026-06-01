@@ -6,6 +6,13 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Fixed
+- **Group chat** — group leader (admin) now always sees the chat input; previously `isMember` was `false` for the leader so they saw "Join the group to chat" instead of the message box
+
+### Changed
+- **Benefits list** — "Level up and get benefits" added as the first benefit item in `BenefitsListComponent`
+- **Benefits list** — extracted into a shared `BenefitsListComponent` (`src/app/ui/benefits-list/`); both `auth-modal` and `welcome-popup` now render the same 6 up-to-date benefits; removed duplicate inline markup and styles from both components
+
 ### Added
 - **Paid group join contact form** — joining a paid group intercepts the join button and shows an inline form asking for a phone number; the guide sees each member's phone in the Members modal; free groups join instantly as before; `contact_phone` stored on `group_members`
 - **Guide role** — new `UserRole.Guide` (`'guide'`) in `users.role` constraint; `UserDataService.isGuide()` and `canSetPrice()` computed signals; admin panel "Grant guide role" section (email-based, same pattern as Groups activation)

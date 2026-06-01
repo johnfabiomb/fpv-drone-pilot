@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/ui/benefits-list/benefits-list.component.ts"],
+  "sourcesContent": ["\n    .benefits-list {\n      list-style: none;\n      margin: 0 0 20px;\n      padding: 0;\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n      gap: 8px;\n    }\n\n    .benefits-list li {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      text-align: left;\n      font-size: 13px;\n      font-weight: 500;\n      color: var(--color-text-secondary);\n      background: var(--color-bg-muted);\n      border-radius: var(--radius-lg);\n      padding: 10px 14px;\n    }\n\n    .benefits-list__icon {\n      font-size: 18px;\n      flex-shrink: 0;\n      line-height: 1;\n    }\n  "],
+  "mappings": ";AACI,CAAA;AACE,cAAA;AACA,UAAA,EAAA,EAAA;AACA,WAAA;AACA,SAAA;AACA,WAAA;AACA,kBAAA;AACA,OAAA;;AAGF,CAVA,cAUA;AACE,WAAA;AACA,eAAA;AACA,OAAA;AACA,cAAA;AACA,aAAA;AACA,eAAA;AACA,SAAA,IAAA;AACA,cAAA,IAAA;AACA,iBAAA,IAAA;AACA,WAAA,KAAA;;AAGF,CAAA;AACE,aAAA;AACA,eAAA;AACA,eAAA;;",
+  "names": []
+}

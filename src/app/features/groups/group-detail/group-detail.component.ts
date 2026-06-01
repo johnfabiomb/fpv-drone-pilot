@@ -174,7 +174,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
   get isMember(): boolean {
-    return !!this.currentUser && this.groupsService.currentUserIsMember();
+    return !!this.currentUser && (this.groupsService.currentUserIsMember() || this.isLeader);
   }
 
   get canJoin(): boolean {
