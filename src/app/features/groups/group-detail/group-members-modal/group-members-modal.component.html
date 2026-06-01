@@ -1,0 +1,138 @@
+<app-modal [showClose]="false" (closeRequested)="onClose()">
+  <div class="gd-members-modal">
+    <div class="gd-members-header">
+      <span class="gd-section-label" style="margin-bottom:0">{{ members.length }} member{{ members.length === 1 ? '' : 's' }}</span>
+      <div class="gd-members-header__actions">
+        <button *ngIf="canManageMembers && bulkEligibleMembers.length >= 1"
+          class="gd-bulk-select-btn" [class.gd-bulk-select-btn--active]="bulkSelectMode()"
+          (click)="bulkSelectMode() ? exitBulkMode() : bulkSelectMode.set(true)">
+          {{ bulkSelectMode() ? 'Cancel' : 'Select' }}
+        </button>
+        <button class="gd-members-close" (click)="onClose()" aria-label="Close">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="gd-member"
+      [class.gd-member--selectable]="bulkSelectMode() && isBulkSelected(m.uid) !== undefined && m.uid !== currentUser?.id && m.role !== 'leader'"
+      [class.gd-member--selected]="isBulkSelected(m.uid)"
+      (click)="bulkSelectMode() && m.uid !== currentUser?.id && m.role !== 'leader' ? toggleBulkSelect(m.uid) : null"
+      *ngFor="let m of members">
+      <div *ngIf="bulkSelectMode() && m.uid !== currentUser?.id && m.role !== 'leader'"
+        class="gd-member__checkbox" [class.gd-member__checkbox--checked]="isBulkSelected(m.uid)">
+        <svg *ngIf="isBulkSelected(m.uid)" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <app-user-avatar
+        [photoURL]="m.photoURL"
+        [displayName]="m.displayName"
+        size="md"
+        shape="circle"
+        [level]="m.uid === currentUser?.id ? userDataService.levelInfo().id : m.level"
+        [isAdmin]="m.uid === currentUser?.id ? userDataService.isAdmin() : m.isAdmin"
+        [roleLabel]="memberRoleLabel(m)"
+        [activeLabel]="formatLastActive(m.lastActive)">
+      </app-user-avatar>
+      <div class="gd-member__info">
+        <span class="gd-member__name">
+          {{ m.displayName }}
+          <span class="gd-member__badge gd-member__badge--leader" *ngIf="m.role === 'leader'">leader</span>
+          <span class="gd-member__badge gd-member__badge--muted" *ngIf="isMemberMuted(m)">muted</span>
+        </span>
+        <span class="gd-member__active">{{ formatLastActive(m.lastActive) }}</span>
+      </div>
+
+      <div class="gd-member__menu-wrap"
+        *ngIf="canManageMembers && m.uid !== currentUser?.id && !bulkSelectMode()">
+        <button class="gd-member__menu-btn"
+          [class.gd-member__menu-btn--open]="memberActionMenu() === m.uid"
+          (click)="toggleMemberMenu(m.uid, $event)"
+          title="Member actions">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+          </svg>
+        </button>
+
+        <div class="gd-member__menu" *ngIf="memberActionMenu() === m.uid" (click)="$event.stopPropagation()">
+          <button *ngIf="m.role !== 'leader'"
+            class="gd-member__menu-item"
+            (click)="pickMemberAction('make-leader', m, $event)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Make leader
+          </button>
+          <button class="gd-member__menu-item"
+            (click)="pickMemberAction(isMemberMuted(m) ? 'unmute' : 'mute', m, $event)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+              <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+              <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+              <line *ngIf="isMemberMuted(m)" x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+            {{ isMemberMuted(m) ? 'Unmute' : 'Mute 1h' }}
+          </button>
+          <button *ngIf="m.role !== 'leader'"
+            class="gd-member__menu-item gd-member__menu-item--danger"
+            (click)="pickMemberAction('remove', m, $event)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6"/><path d="M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
+            Remove
+          </button>
+        </div>
+
+      </div>
+
+      <svg *ngIf="(!canManageMembers || m.uid === currentUser?.id) && !bulkSelectMode()"
+        class="gd-member__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+
+    <div class="gd-bulk-bar" *ngIf="bulkSelectMode()">
+      <span class="gd-bulk-bar__count">
+        {{ bulkCount() > 0 ? bulkCount() + ' selected' : 'Tap members to select' }}
+      </span>
+      <button class="gd-bulk-bar__select-all" *ngIf="bulkCount() < bulkEligibleMembers.length"
+        (click)="selectAllMembers()">Select all</button>
+      <button *ngIf="bulkCount() > 0" class="gd-bulk-bar__btn"
+        (click)="confirmingBulkAction.set('mute')">Mute 1h</button>
+      <button *ngIf="bulkCount() > 0" class="gd-bulk-bar__btn gd-bulk-bar__btn--danger"
+        (click)="confirmingBulkAction.set('remove')">Remove</button>
+    </div>
+
+    <app-confirm-popup *ngIf="confirmingMemberAction()"
+      [fixed]="true"
+      [message]="confirmingMemberAction()!.action === 'make-leader'
+        ? 'Make ' + confirmingMemberAction()!.member.displayName + ' the new leader? You\'ll become a regular member.'
+        : 'Unmute ' + confirmingMemberAction()!.member.displayName + '?'"
+      [confirmLabel]="confirmingMemberAction()!.action === 'make-leader' ? 'Transfer' : 'Unmute'"
+      cancelLabel="Cancel"
+      [danger]="false"
+      (confirmed)="executeMemberAction()"
+      (cancelled)="confirmingMemberAction.set(null)">
+    </app-confirm-popup>
+
+    <app-confirm-popup *ngIf="confirmingBulkAction()"
+      [fixed]="true"
+      [message]="confirmingBulkAction() === 'remove'
+        ? 'Remove ' + bulkCount() + ' member' + (bulkCount() === 1 ? '' : 's') + ' from this group?'
+        : 'Mute ' + bulkCount() + ' member' + (bulkCount() === 1 ? '' : 's') + ' for 1 hour?'"
+      [confirmLabel]="confirmingBulkAction() === 'remove' ? 'Remove all' : 'Mute all'"
+      cancelLabel="Cancel"
+      [danger]="confirmingBulkAction() === 'remove'"
+      (confirmed)="executeBulkAction()"
+      (cancelled)="confirmingBulkAction.set(null)">
+    </app-confirm-popup>
+
+    <p class="gd-member-action-error" *ngIf="actionError()">{{ actionError() }}</p>
+  </div>
+</app-modal>

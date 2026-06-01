@@ -1,0 +1,127 @@
+<div class="trend-page">
+
+  <header class="trend-header">
+    <div class="trend-badge">v2026</div>
+    <h1 class="trend-title">30 Places to Visit<br>in Malta</h1>
+    <p class="trend-sub">by <strong>&#64;johnfabiomb</strong> · Explorer</p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(revealed.length / total) * 100"></div>
+      </div>
+      <span class="progress-label">{{ revealed.length }} of {{ total }} revealed</span>
+    </div>
+
+    <a class="map-btn" routerLink="/malta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+        <line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+      </svg>
+      Explore full map
+    </a>
+  </header>
+
+  <section class="trend-intro">
+    <p class="trend-intro-text">
+      A handpicked bucket-list of Malta and Gozo's most breathtaking spots — explored firsthand and curated for curious travellers.
+      Expect dramatic sea caves, hidden valley trails, panoramic clifftop viewpoints and remote coastlines most tourists never find.
+    </p>
+    <div class="trend-chips">
+      <span class="trend-chip">Malta &amp; Gozo</span>
+      <span class="trend-chip">Sea caves</span>
+      <span class="trend-chip">Cliff trails</span>
+      <span class="trend-chip">Drone spots</span>
+      <span class="trend-chip">Updated 2026</span>
+    </div>
+  </section>
+
+
+  <!-- Explore more CTAs -->
+  <div class="trend-ctas">
+
+    <a class="trend-cta trend-cta--groups" routerLink="/malta/groups">
+      <span class="trend-cta__emoji">🧭</span>
+      <div class="trend-cta__body">
+        <span class="trend-cta__label">Explore Together</span>
+        <span class="trend-cta__desc">Find a group heading to the same places — plan the day, chat live, never explore alone</span>
+      </div>
+      <svg class="trend-cta__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+
+    <a *ngIf="features.PROMOTIONS" class="trend-cta trend-cta--deals" routerLink="/malta/deals">
+      <span class="trend-cta__emoji">🏷️</span>
+      <div class="trend-cta__body">
+        <span class="trend-cta__label">Exclusive Deals</span>
+        <span class="trend-cta__desc">Real discounts from local partners I personally trust — watersports, tours and more</span>
+      </div>
+      <svg class="trend-cta__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+
+    <a class="trend-cta trend-cta--map" routerLink="/malta">
+      <span class="trend-cta__emoji">🗺️</span>
+      <div class="trend-cta__body">
+        <span class="trend-cta__label">Explore Full Map</span>
+        <span class="trend-cta__desc">See all locations pinned on the interactive map — filter by type, difficulty or island</span>
+      </div>
+      <svg class="trend-cta__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+
+  </div>
+
+  <div class="trend-list">
+
+    <!-- Revealed locations -->
+    <button
+      *ngFor="let loc of revealed"
+      class="trend-card"
+      [class.no-map]="loc.id === null"
+      (click)="open(loc)">
+      <span class="card-num">#{{ loc.num }}</span>
+      <span class="card-name">{{ loc.name }}</span>
+      <span class="card-arrow">
+        <svg *ngIf="loc.id !== null" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+        <svg *ngIf="loc.id === null" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Locked / unrevealed -->
+    <div *ngFor="let n of locked" class="trend-card trend-card--locked">
+      <span class="card-num card-num--locked">#{{ n }}</span>
+      <span class="card-name card-name--locked">
+        <span class="redacted"></span>
+        <span class="redacted redacted--sm"></span>
+      </span>
+      <span class="card-lock">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18 10h-1V7A5 5 0 0 0 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zM9 7a3 3 0 0 1 6 0v3H9V7zm9 13H6v-8h12v8zm-6-3a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </svg>
+      </span>
+    </div>
+
+  </div>
+
+  <footer class="trend-footer">
+    <a href="https://www.instagram.com/johnfabiomb/" target="_blank" rel="noopener" class="trend-ig">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+      &#64;johnfabiomb
+    </a>
+    <span class="trend-footer-copy">Explore Malta · Interactive Map</span>
+  </footer>
+
+</div>

@@ -96,4 +96,4 @@ git checkout <feature-branch>
 
 ## Related
 
-- General build/deploy reference: [`DEPLOYMENT.md`](../DEPLOYMENT.md) at the project root
+- General build/deploy reference: [`DEPLOYMENT.md`](./DEPLOYMENT.md)

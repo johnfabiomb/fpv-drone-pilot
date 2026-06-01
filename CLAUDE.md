@@ -4,13 +4,13 @@ Angular 19 standalone-component app. No new Angular Modules. Routing via `app.ro
 
 ---
 
-## CLAUDE.md Is a Living Document
+## Living Documents — Always Keep in Sync
 
-**This file must stay in sync with the codebase at all times.**
+All files below must stay accurate at all times. After completing any task that touches the relevant area, update them immediately — before reporting the task as done. Never wait to be asked.
 
-After completing any task, if the work introduced or removed something significant, update this file immediately — before reporting the task as done. Do not wait to be asked.
+### This file (`CLAUDE.md`)
 
-**Update this file when:**
+Update when:
 - A new page or route is added or removed
 - A new shared component, service, utility, or pattern is introduced
 - A feature flag is added, changed, or removed
@@ -18,9 +18,34 @@ After completing any task, if the work introduced or removed something significa
 - A convention documented here changes in practice
 - Anything listed in Key Files is added, renamed, or deleted
 
-**What counts as significant:** if a future Claude session working on this project would be confused or would make a wrong decision without knowing about it — it belongs here.
+**What counts as significant:** if a future Claude session would be confused or make a wrong decision without knowing about it — it belongs here.
 
 **What does not belong here:** implementation details, code snippets that duplicate what the code already says, or anything derivable by reading the source files.
+
+### `documentation/CHANGELOG.md`
+
+**Must be updated before every commit.** Add a new entry under `## Unreleased` (or a dated version heading for a release). Keep entries concise — one line per meaningful change, grouped under `### Added`, `### Fixed`, or `### Changed`. Never skip this step.
+
+### `documentation/ADDING_LOCATIONS.md`
+
+Update when:
+- A new location is added (bump the max `id` field)
+- The location JSON schema changes (new fields, renamed fields, removed fields)
+- The image pipeline or scripts change
+- The `mapPoints` / `routes` structure changes
+
+### `documentation/DEPLOYMENT.md`
+
+Update when:
+- Build commands, npm scripts, or output paths change
+- A new deployment target or environment is added
+- The version-bump strategy changes
+
+### `documentation/deploy-staging-from-branch.md`
+
+Update when:
+- The staging branch name or deploy workflow changes
+- The git checkout strategy for `docs/test/` changes
 
 ---
 
@@ -220,7 +245,7 @@ Routes are prerendered via **`prerender-routes.txt`** (project root). Every rout
 /malta/deals                      (deals)
 /malta/30-places-2026             (top places editorial)
 /malta/providers/santa-maria-watersports
-/malta/locations/:slug            (all 64 location detail pages — see prerender-routes.txt)
+/malta/locations/:slug            (all 74 location detail pages — see prerender-routes.txt)
 /pay, /privacy, /cookies, /about, /contact, /pay/success
 ```
 
@@ -239,7 +264,7 @@ Location detail pages use clean `/malta/locations/:slug` URLs and **are prerende
 When adding a new public route, do **all four** of these:
 
 1. **`prerender-routes.txt`** — add the route path (e.g. `/malta/new-page`)
-2. **`src/app/shared/services/seo.service.ts`** — add a new key to `setPage()` with `title`, `desc`, `url`. Add `noindex: true` for pages that must not be indexed (e.g. payment success, internal tools)
+2. **`src/app/core/services/seo.service.ts`** — add a new key to `setPage()` with `title`, `desc`, `url`. Add `noindex: true` for pages that must not be indexed (e.g. payment success, internal tools)
 3. **`src/sitemap.xml`** — add a `<url>` entry with appropriate `priority` and `changefreq` (see priorities below). Update `lastmod` to today's date
 4. **Component `ngOnInit`** — call `this.seo.setPage('your-page-key')`
 
@@ -259,7 +284,7 @@ When adding a new public route, do **all four** of these:
 
 ### SEO checklist — adding a new location
 
-See **`ADDING_LOCATIONS.md`** for the full step-by-step workflow including image conversion and thumbnail generation.
+See **`documentation/ADDING_LOCATIONS.md`** for the full step-by-step workflow including image conversion and thumbnail generation.
 
 SEO-specific requirements when adding to `src/assets/locations.json`:
 
@@ -272,7 +297,7 @@ SEO-specific requirements when adding to `src/assets/locations.json`:
 
 ### Analytics
 
-**`AnalyticsService`** (`src/app/shared/services/analytics.service.ts`) wraps Google Analytics via `gtag`. Two methods:
+**`AnalyticsService`** (`src/app/core/services/analytics.service.ts`) wraps Google Analytics via `gtag`. Two methods:
 
 ```typescript
 analyticsService.pageView(url: string, title: string)   // fires a GA page_view event
@@ -300,13 +325,13 @@ Feature flags live in `src/app/feature-flags.ts` and are swapped at build time v
 |---|---|---|---|
 | `FEATURES.PROMOTIONS` | `true` | `true` | `false` (flip to `true` when ready) |
 | `FEATURES.ROUTE_BUILDER` | `false` | `false` | `false` |
-| `FEATURES.GROUPS` | `true` | `true` | `true` (teaser visible to all; per-user `featureAccess.groups` in Firestore controls real access) |
+| `FEATURES.GROUPS` | `true` | `true` | `true` (teaser visible to all; per-user Supabase field controls real access) |
 
 **Per-user feature access (Groups early access):**
-- `FEATURES.GROUPS = true` shows the teaser to all users (locked state with "Coming soon")
-- `users/{uid}.featureAccess.groups = true` in Firestore gives real access to a specific user
-- Checked via `UserDataService.groupsUnlocked()` computed signal (read once at login, 24h cache)
-- Admin activates users via the **Users** tab in the dedicated admin panel at `/malta/admin` (email input)
+- `FEATURES.GROUPS = true` shows the teaser to all users (locked state)
+- `users.feature_access_groups = true` in Supabase gives real access to a specific user
+- Checked via `UserDataService.groupsUnlocked()` computed signal (read once at login)
+- Admin activates users via the **Users** tab in the admin panel at `/malta/admin` (email input)
 - Change takes effect on the user's next login
 
 **Adding a new flag:**
@@ -346,32 +371,50 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | `prerender-routes.txt` | Routes Angular prerenders at build time |
 | `src/sitemap.xml` | Manually maintained XML sitemap submitted to Google |
 | `src/app/app.routes.ts` | All application routes |
-| `src/app/shared/models/` | `Location`, `Provider`, `MapPoint`, `Difficulty`, `Island`, `Group`, `GroupMember`, `GroupMessage` types |
-| `src/app/shared/services/seo.service.ts` | `setPage()` and `updateMetaData()` for all SEO tags |
-| `src/app/shared/services/analytics.service.ts` | `pageView()` and `event()` wrappers around gtag |
-| `src/app/shared/services/route-builder.service.ts` | Itinerary plan generation logic |
-| `src/app/shared/utils/panel-resize.util.ts` | Drag-to-resize + minimize/expand logic for map panels |
-| `src/app/shared/services/map-bridge.service.ts` | Scoped bridge between persistent shell map and swappable panel children |
-| `src/app/platform/map-shell/` | Persistent shell that owns `<app-map>` across /malta, /malta/list, /malta/deals, /malta/providers/:id |
-| `src/app/platform/provider-page/` | Provider detail page at `/malta/providers/:id` — SEO, Book Now, back navigation |
-| `src/app/shared/utils/location-filter.util.ts` | `matchesFilter()`, `getIslandLabel()`, `difficultyColor()` |
-| `src/app/shared/utils/geo.utils.ts` | `haversineKm()`, `haversineM()` distance helpers |
-| `src/app/shared/utils/route-drawing.ts` | Builds OpenLayers features from `mapPoints[]` |
-| `src/app/shared/utils/location-tracker.ts` | GPS dot + heading cone on the map |
-| `src/app/components/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
+| `src/app/core/models/enums.ts` | Shared typed enum constants — `Difficulty`, `Island`, `MapPointType`, `GroupStatus`, `GroupRole`, `UserRole` |
+| `src/app/core/models/` | All domain types — `Location`, `Provider`, `Group`, `GroupMessage`, `User`, etc. |
+| `src/app/core/services/seo.service.ts` | `setPage()` and `updateMetaData()` for all SEO tags |
+| `src/app/core/services/analytics.service.ts` | `pageView()` and `event()` wrappers around gtag |
+| `src/app/core/services/route-builder.service.ts` | Itinerary plan generation logic |
+| `src/app/core/services/map-bridge.service.ts` | Scoped bridge between persistent shell map and swappable panel children |
+| `src/app/core/services/groups.service.ts` | All Supabase group operations — realtime channels, mutations, presence |
+| `src/app/core/services/auth.service.ts` | Supabase auth — Google OAuth + magic link OTP; `userDisplayName()`, `userPhotoURL()`, `userEmail()` |
+| `src/app/core/services/user-data.service.ts` | User record, XP/level signals, `isAdmin()`, `groupsUnlocked()` |
+| `src/app/core/services/interaction-tracking.service.ts` | Per-entity interaction stats via `track_interaction` RPC |
+| `src/app/core/services/navigation.service.ts` | Back-button and panel navigation helpers |
+| `src/app/core/utils/panel-resize.util.ts` | Drag-to-resize + minimize/expand logic for map panels |
+| `src/app/core/utils/location-filter.util.ts` | `matchesFilter()`, `getIslandLabel()`, `difficultyColor()` |
+| `src/app/core/utils/geo.utils.ts` | `haversineKm()`, `haversineM()` distance helpers |
+| `src/app/core/utils/route-drawing.ts` | Builds OpenLayers features from `mapPoints[]` |
+| `src/app/core/utils/location-tracker.ts` | GPS dot + heading cone on the map |
+| `src/app/core/utils/level.utils.ts` | Level thresholds and XP computation |
+| `src/app/core/utils/provider.utils.ts` | `resolveProviderColor()`, `getProviderCategoryLabel()` |
+| `src/app/core/config/supabase.config.ts` | Supabase client singleton (staging); swapped at build time for production config |
+| `src/app/core/models/timestamp.ts` | Drop-in `Timestamp` wrapper used throughout groups feature |
+| `src/app/features/map/shell/` | Persistent shell that owns `<app-map>` across all `/malta/*` panel routes |
+| `src/app/features/map/explore/` | Main map page |
+| `src/app/features/map/deals/` | Exclusive Deals map page |
+| `src/app/features/map/list/` | Browse Locations map page |
+| `src/app/features/locations/location-page/` | Location detail route — SEO, back navigation |
+| `src/app/features/locations/location-detail/` | Location detail panel content |
+| `src/app/features/providers/provider-page/` | Provider detail route — SEO, Book Now, back navigation |
+| `src/app/features/providers/provider-detail/` | Provider detail panel content |
+| `src/app/features/groups/groups-list/` | Explore Together list + create form at `/malta/groups` |
+| `src/app/features/groups/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
+| `src/app/features/groups/group-card/` | Single group card for the groups list |
+| `src/app/features/groups/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
+| `src/app/features/saved-places/` | Saved locations panel |
+| `src/app/features/route-builder/` | Route builder (feature-flagged: ROUTE_BUILDER) |
+| `src/app/pages/admin/` | Admin panel — Groups migration + Users tab + Reports tab |
+| `src/app/pages/top-places/` | "30 Places to Visit in Malta" editorial |
+| `src/app/ui/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
+| `src/app/ui/share-button/` | Copy-to-clipboard share button with `(shared)` output |
+| `src/app/ui/sign-in-form/` | Shared sign-in form used by auth modal + welcome popup |
+| `src/app/ui/user-avatar/` | User avatar with level border animation |
 | `src/app/components/map/` | OpenLayers map component |
-| `src/app/platform/map-explore/` | Main map page |
-| `src/app/platform/deals/` | Exclusive Deals map page |
-| `src/app/platform/location-list/` | Browse Locations map page |
-| `src/app/platform/explore-together/` | Hiking groups list + create form at `/malta/groups` (feature-flagged `GROUPS`) |
-| `src/app/platform/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
-| `src/app/platform/admin-panel/` | Dedicated admin panel at `/malta/admin` — guarded by `isAdmin()` canMatch; Groups tab (migration) + Users tab (early-access activation) |
-| `src/app/shared/services/groups.service.ts` | All Firestore group operations — listeners, mutations, presence |
-| `src/app/components/group-card/` | Single group card for the groups list |
-| `src/app/components/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
-| `src/assets/locations.json` | All location data |
-| `src/assets/providers.json` | All provider/deal data |
-| `firestore.rules` | Firestore security rules — deploy with `firebase deploy --only firestore:rules` or paste in Firebase console |
+| `src/assets/locations.json` | All 74 location records |
+| `src/assets/providers.json` | All provider/deal records |
+| `supabase/schema.sql` | Full PostgreSQL schema — tables, RLS, triggers, RPCs. Re-run updated RPCs in Supabase SQL Editor after changes |
 
 ---
 
@@ -449,7 +492,7 @@ Map controls (compass, zoom, locate) are styled globally in `styles.scss` under 
 
 Never run `git commit` or `git push` without explicit user instruction.
 
-**Before every commit, update `CHANGELOG.md` first** — stage it as part of the same commit. Add a new entry under `## Unreleased` (or a dated version heading if this is a release). Keep entries concise: one line per meaningful change, grouped under `### Added`, `### Fixed`, or `### Changed`. Do not wait to be asked.
+**Before every commit, update `documentation/CHANGELOG.md`** — see the Living Documents section above for the update rules.
 
 ---
 

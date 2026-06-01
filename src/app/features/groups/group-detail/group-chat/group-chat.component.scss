@@ -1,0 +1,477 @@
+:host {
+  flex: 1;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  margin-top: 4px;
+}
+
+// ── Pinned message banner ─────────────────────────────────────────────────
+.gd-pinned {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  margin: 5px 5px 0px 5px;
+  background: var(--color-bg-muted);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  animation: gdMenuPop 0.15s ease;
+}
+
+.gd-pinned__icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.gd-pinned__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.gd-pinned__author {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.gd-pinned__text {
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  &--expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+}
+
+.gd-pinned__toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 3px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-align: left;
+  &:hover { opacity: 0.8; }
+}
+
+.gd-pinned__unpin {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: color var(--transition);
+  &:hover { color: var(--color-text-secondary); }
+}
+
+// ── Messages ──────────────────────────────────────────────────────────────
+.gd-messages {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding: 10px 10px 0;
+}
+
+.gd-load-earlier {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 6px;
+}
+
+.gd-load-earlier__btn {
+  font-size: 12px;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition);
+
+  &:hover:not(:disabled) { opacity: 0.75; }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+.gd-empty-chat {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.gd-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  max-width: 80%;
+
+  &--own {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+}
+
+.gd-msg__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gd-msg__name {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.gd-msg__text {
+  background: var(--color-bg-muted);
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  color: var(--color-text-base);
+  line-height: 1.45;
+  word-break: break-word;
+
+  .gd-msg--own & {
+    background: var(--color-primary);
+    color: #fff;
+  }
+}
+
+.gd-msg__time {
+  font-size: 10px;
+  color: var(--color-text-light);
+  text-align: right;
+}
+
+.gd-msg--pinned .gd-msg__text {
+  outline: 1.5px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 14px;
+}
+
+.gd-msg--system {
+  justify-content: center;
+  max-width: 100%;
+  padding: 2px 0;
+}
+
+.gd-msg__system-text {
+  font-size: 11.5px;
+  color: var(--color-text-light);
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  padding: 4px 12px;
+  text-align: center;
+}
+
+.gd-msg__actions {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.gd-msg__pin-btn,
+.gd-msg__report-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition:
+    opacity var(--transition),
+    color var(--transition);
+
+  @media (max-width: 768px) { opacity: 1; }
+}
+
+.gd-msg__pin-btn {
+  color: var(--color-text-light);
+  &--visible { opacity: 1; }
+  &--active  { color: var(--color-primary); opacity: 1; }
+  &:hover    { color: var(--color-primary); }
+}
+
+.gd-msg__report-btn {
+  color: var(--color-text-light);
+  &--visible { opacity: 1; }
+  &--done    { opacity: 1; color: #ef4444; cursor: default; }
+  &:not(:disabled):hover { color: #ef4444; }
+}
+
+// ── Input ─────────────────────────────────────────────────────────────────
+.gd-input-row {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-inline: 5px;
+  margin-bottom: 5px;
+}
+
+.gd-input {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 4px 4px 4px 10px;
+  min-height: 38px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.gd-emoji-wrap {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.gd-input__emoji {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition);
+  height: 30px;
+  width: 30px;
+
+  &:hover { color: var(--color-text-muted); }
+  &--active { color: var(--color-primary); }
+}
+
+.gd-emoji-picker {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: gdMenuPop 0.15s ease;
+
+  // Design token overrides — pierce shadow DOM via CSS custom properties
+  --background: var(--color-bg);
+  --border-color: var(--color-border);
+  --border-size: 1px;
+  --button-active-background: var(--color-bg-hover);
+  --button-hover-background: var(--color-bg-muted);
+  --indicator-color: var(--color-primary);
+  --input-border-color: var(--color-border);
+  --input-font-color: var(--color-text-base);
+  --input-placeholder-color: var(--color-text-light);
+  --outline-color: var(--color-primary);
+  --category-emoji-size: 1.1rem;
+  --emoji-size: 1.4rem;
+  --num-columns: 8;
+
+  @media (max-width: 420px) {
+    right: -30px; // keep picker visible on narrow phones
+  }
+}
+
+.gd-input__field {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px; // keep 16px — iOS zooms on anything smaller
+  color: var(--color-text-base);
+  font-family: inherit;
+  line-height: 1.3;
+  max-height: 72px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.gd-input__send {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity var(--transition);
+  &:hover    { opacity: 0.88; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+// ── Muted banner ──────────────────────────────────────────────────────────
+.gd-muted-banner {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  color: var(--color-warning);
+
+  svg { flex-shrink: 0; margin-top: 1px; }
+}
+
+.gd-muted-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gd-muted-banner__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.gd-muted-banner__sub {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.gd-chat-error {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 4px 0 6px;
+}
+
+.gd-cooldown {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.gd-join-hint {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 8px 0 0;
+}
+
+// ── Completed banner ──────────────────────────────────────────────────────
+.gd-completed-banner {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius-md);
+  padding: 7px 10px;
+  margin: 0 5px 4px;
+}
+
+.gd-completed-banner__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-success);
+  white-space: nowrap;
+}
+
+.gd-completed-banner__countdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--color-success);
+  opacity: 0.8;
+  white-space: nowrap;
+
+  strong {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+}
+
+// ── Archived / cancelled banner ───────────────────────────────────────────
+.gd-archived-banner {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  margin: 0 5px 8px;
+}
+
+.gd-archived-banner__icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.gd-archived-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gd-archived-banner__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.gd-archived-banner__sub {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+@keyframes gdMenuPop {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}

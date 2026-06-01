@@ -231,6 +231,8 @@ button span {
 .ol-attribution ul li a {
   color: inherit !important;
   text-decoration: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
 }
 .ol-scale-line {
   background: rgba(255, 255, 255, 0.85) !important;
@@ -426,7 +428,7 @@ button span {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 210;
   background: rgba(0, 0, 0, 0.72);
   color: #fff;
   border-radius: 999px;
@@ -439,6 +441,10 @@ button span {
   gap: 7px;
   pointer-events: none;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s;
+}
+.floating-pick-hint--warn {
+  background: rgba(220, 38, 38, 0.85);
 }
 .badge {
   font-size: 10px;
@@ -504,6 +510,13 @@ button span {
   }
   50% {
     box-shadow: 0 0 0 5px rgba(244, 169, 34, 0);
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 

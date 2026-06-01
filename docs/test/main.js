@@ -1,63 +1,60 @@
 import {
+  LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-KXY3ESFU.js";
+} from "./chunk-YLOOUTEI.js";
+import {
+  AppModalComponent
+} from "./chunk-62NNIWOP.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
 import {
-  AppModalComponent
-} from "./chunk-6W5N77V2.js";
+  ProfileModalService,
+  UserAvatarComponent
+} from "./chunk-BS6XIB6G.js";
 import {
-  ProfileModalService
-} from "./chunk-WETHF3DM.js";
-import {
+  LEVELS,
+  NEW_LEVEL_DURATION_MS,
   UserDataService,
-  getFirestore,
-  initializeFirestore,
-  memoryLocalCache,
-  persistentLocalCache,
-  provideFirestore
-} from "./chunk-AUG5IYR7.js";
+  XP_ACTIONS,
+  getNextLevel
+} from "./chunk-AOR6446T.js";
+import "./chunk-LLZT5DQF.js";
 import {
-  AuthService,
-  getApp2 as getApp,
-  getAuth,
-  initializeApp,
-  provideAuth,
-  provideFirebaseApp
-} from "./chunk-HPOPY4XD.js";
+  AuthService
+} from "./chunk-HMI5MUHL.js";
 import {
   takeUntilDestroyed
-} from "./chunk-YJYHGMFB.js";
+} from "./chunk-WILWZNDO.js";
 import {
   NavigationEnd,
   Router,
   RouterOutlet,
   provideRouter
-} from "./chunk-6DNTZJP4.js";
+} from "./chunk-ZPEFIUFS.js";
 import {
   DomRendererFactory2,
   bootstrapApplication
-} from "./chunk-CGA4Y22O.js";
+} from "./chunk-ADG4HADG.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
   CommonModule,
   DOCUMENT,
+  DecimalPipe,
   DestroyRef,
   EventEmitter,
   IMAGE_CONFIG,
   Injectable,
   InjectionToken,
   Injector,
+  NgForOf,
   NgIf,
   NgZone,
   PLATFORM_ID,
   RendererFactory2,
   RuntimeError,
-  __async,
-  __spreadValues,
   computed,
   effect,
   filter,
@@ -84,15 +81,24 @@ import {
   ɵɵnamespaceHTML,
   ɵɵnamespaceSVG,
   ɵɵnextContext,
+  ɵɵpipe,
+  ɵɵpipeBind1,
   ɵɵproperty,
   ɵɵreference,
   ɵɵresetView,
   ɵɵrestoreView,
+  ɵɵstyleProp,
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate,
-  ɵɵtextInterpolate1
-} from "./chunk-E43Y6J77.js";
+  ɵɵtextInterpolate1,
+  ɵɵtextInterpolate2,
+  ɵɵtextInterpolate3
+} from "./chunk-7275G3GP.js";
+import {
+  __async,
+  __spreadValues
+} from "./chunk-TWWAJFRB.js";
 
 // src/app/app.routes.ts
 var routes = [
@@ -103,94 +109,94 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-625BICRR.js").then((mod) => mod.HomeComponent)
-  }, false ? { \u0275entryName: "src/app/platform/home/home.component.ts" } : {}),
+    loadComponent: () => import("./chunk-KXZD2NSU.js").then((mod) => mod.HomeComponent)
+  }, false ? { \u0275entryName: "src/app/pages/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-X757D7HT.js").then((mod) => mod.PrivacyComponent)
-  }, false ? { \u0275entryName: "src/app/platform/privacy/privacy.component.ts" } : {}),
+    loadComponent: () => import("./chunk-4CZG2E5P.js").then((mod) => mod.PrivacyComponent)
+  }, false ? { \u0275entryName: "src/app/pages/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-RRZQ67KU.js").then((mod) => mod.CookiesComponent)
-  }, false ? { \u0275entryName: "src/app/platform/cookies/cookies.component.ts" } : {}),
+    loadComponent: () => import("./chunk-5CYLL3EQ.js").then((mod) => mod.CookiesComponent)
+  }, false ? { \u0275entryName: "src/app/pages/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-GSNHEDL5.js").then((mod) => mod.AboutComponent)
-  }, false ? { \u0275entryName: "src/app/platform/about/about.component.ts" } : {}),
+    loadComponent: () => import("./chunk-GSGLRWZW.js").then((mod) => mod.AboutComponent)
+  }, false ? { \u0275entryName: "src/app/pages/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-PT5PDIC6.js").then((mod) => mod.ContactComponent)
-  }, false ? { \u0275entryName: "src/app/platform/contact/contact.component.ts" } : {}),
+    loadComponent: () => import("./chunk-2DH4AV5Y.js").then((mod) => mod.ContactComponent)
+  }, false ? { \u0275entryName: "src/app/pages/contact/contact.component.ts" } : {}),
   {
     path: "malta",
     children: [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-Q4HBAW3M.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-XMAGBHQT.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-3VUI7ENT.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-U23YQQ73.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-LCQQG726.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-P7XD4QBG.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-JUBR7HFT.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-JA43I3RC.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-2NT7Z42M.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-AAXJU6UY.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-VM2UOSHV.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-ZDP3EZZQ.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-GOJZXY3R.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-WLIRHEIW.js").then((m) => m.SavedPlacesComponent)
           },
           {
             path: "admin",
             canMatch: [() => inject(UserDataService).isAdmin()],
-            loadComponent: () => import("./chunk-7PGLHH5F.js").then((m) => m.AdminPanelComponent)
+            loadComponent: () => import("./chunk-I4D7AQWU.js").then((m) => m.AdminPanelComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-VH5Y33EF.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-U6QFMWV5.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-XKPGFBHL.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-UFGRMPWR.js").then((m) => m.GroupDetailComponent)
           }
         ]
-      }, false ? { \u0275entryName: "src/app/platform/map-shell/map-shell.component.ts" } : {}),
+      }, false ? { \u0275entryName: "src/app/features/map/shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-MKK4MPT5.js").then((m) => m.TopPlacesComponent)
-      }, false ? { \u0275entryName: "src/app/platform/top-places/top-places.component.ts" } : {}),
+        loadComponent: () => import("./chunk-Q4RAWBIG.js").then((m) => m.TopPlacesComponent)
+      }, false ? { \u0275entryName: "src/app/pages/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-QYBAKHYK.js").then((m) => m.RouteBuilderComponent)
-      }, false ? { \u0275entryName: "src/app/platform/route-builder/route-builder.component.ts" } : {})
+        loadComponent: () => import("./chunk-EHOCHSWO.js").then((m) => m.RouteBuilderComponent)
+      }, false ? { \u0275entryName: "src/app/features/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-F4RGLCW2.js").then((m) => m.PaymentComponent)
-  }, false ? { \u0275entryName: "src/app/platform/payment/payment.component.ts" } : {}),
+    loadComponent: () => import("./chunk-A2WTGJZT.js").then((m) => m.PaymentComponent)
+  }, false ? { \u0275entryName: "src/app/pages/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-OTLLCKQ3.js").then((m) => m.PaymentSuccessComponent)
-  }, false ? { \u0275entryName: "src/app/platform/payment-success/payment-success.component.ts" } : {})
+    loadComponent: () => import("./chunk-UUEZAGJT.js").then((m) => m.PaymentSuccessComponent)
+  }, false ? { \u0275entryName: "src/app/pages/payment-success/payment-success.component.ts" } : {})
 ];
 
 // node_modules/@angular/platform-browser/fesm2022/animations/async.mjs
@@ -227,7 +233,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-Y6FR3UKK.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-WC7HOF2T.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -430,16 +436,6 @@ function provideAnimationsAsync(type = "animations") {
   }]);
 }
 
-// src/app/shared/config/firebase.config.ts
-var firebaseConfig = {
-  apiKey: "AIzaSyBkkjVmAcq4CZRkr-Oc0lcCGKfSqSZRjdQ",
-  authDomain: "venture-map-web.firebaseapp.com",
-  projectId: "venture-map-web",
-  storageBucket: "venture-map-web.firebasestorage.app",
-  messagingSenderId: "457351831227",
-  appId: "1:457351831227:web:c2bb8010bf390f49cf939e"
-};
-
 // src/app/app.config.ts
 var appConfig = {
   providers: [
@@ -451,22 +447,11 @@ var appConfig = {
         disableImageSizeWarning: true,
         disableImageLazyLoadWarning: true
       }
-    },
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => {
-      try {
-        return initializeFirestore(getApp(), {
-          localCache: typeof indexedDB !== "undefined" ? persistentLocalCache() : memoryLocalCache()
-        });
-      } catch {
-        return getFirestore(getApp());
-      }
-    })
+    }
   ]
 };
 
-// src/app/components/pwa-prompt/pwa-prompt.component.ts
+// src/app/layout/pwa-prompt/pwa-prompt.component.ts
 function PwaPromptComponent_div_0_span_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
@@ -638,10 +623,10 @@ var PwaPromptComponent = class _PwaPromptComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/components/pwa-prompt/pwa-prompt.component.ts", lineNumber: 131 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PwaPromptComponent, { className: "PwaPromptComponent", filePath: "src/app/layout/pwa-prompt/pwa-prompt.component.ts", lineNumber: 131 });
 })();
 
-// src/app/shared/services/in-app-browser.service.ts
+// src/app/core/services/in-app-browser.service.ts
 var InAppBrowserService = class _InAppBrowserService {
   isInAppBrowser() {
     const ua = navigator.userAgent;
@@ -665,7 +650,7 @@ var InAppBrowserService = class _InAppBrowserService {
   }
 };
 
-// src/app/components/sign-in-form/sign-in-form.component.ts
+// src/app/ui/sign-in-form/sign-in-form.component.ts
 function SignInFormComponent_ng_container_0_p_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "p", 16);
@@ -970,9 +955,8 @@ var SignInFormComponent = class _SignInFormComponent {
       try {
         yield this.auth.signInWithGoogle();
       } catch (err) {
-        this.googleError = this.resolveGoogleError(err?.code);
-      } finally {
         this.loadingGoogle = false;
+        this.googleError = this.resolveGoogleError(err?.message);
       }
     });
   }
@@ -1019,18 +1003,11 @@ var SignInFormComponent = class _SignInFormComponent {
     this.state.set(s);
     this.stateChange.emit(s);
   }
-  resolveGoogleError(code) {
-    switch (code) {
-      case "auth/popup-closed-by-user":
-      case "auth/cancelled-popup-request":
-        return "Sign-in was cancelled.";
-      case "auth/popup-blocked":
-        return "Popup blocked \u2014 please allow popups for this site.";
-      case "auth/network-request-failed":
-        return "Network error. Please check your connection.";
-      default:
-        return "Sign-in failed. Please try again.";
+  resolveGoogleError(message) {
+    if (message?.toLowerCase().includes("network") || message?.toLowerCase().includes("fetch")) {
+      return "Network error. Please check your connection.";
     }
+    return "Sign-in failed. Please try again.";
   }
   static {
     this.\u0275fac = function SignInFormComponent_Factory(__ngFactoryType__) {
@@ -1055,10 +1032,10 @@ var SignInFormComponent = class _SignInFormComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignInFormComponent, { className: "SignInFormComponent", filePath: "src/app/components/sign-in-form/sign-in-form.component.ts", lineNumber: 297 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignInFormComponent, { className: "SignInFormComponent", filePath: "src/app/ui/sign-in-form/sign-in-form.component.ts", lineNumber: 297 });
 })();
 
-// src/app/components/auth-modal/auth-modal.component.ts
+// src/app/layout/auth-modal/auth-modal.component.ts
 function AuthModalComponent_ng_container_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
@@ -1203,10 +1180,10 @@ var AuthModalComponent = class _AuthModalComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/components/auth-modal/auth-modal.component.ts", lineNumber: 200 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthModalComponent, { className: "AuthModalComponent", filePath: "src/app/layout/auth-modal/auth-modal.component.ts", lineNumber: 200 });
 })();
 
-// src/app/components/welcome-popup/welcome-popup.component.ts
+// src/app/layout/welcome-popup/welcome-popup.component.ts
 function WelcomePopupComponent_div_0_ng_container_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
@@ -1228,37 +1205,31 @@ function WelcomePopupComponent_div_0_ng_container_2_Template(rf, ctx) {
     \u0275\u0275text(14, "\u{1F9ED}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(15, "span");
-    \u0275\u0275text(16, "Don't explore alone \u2014 meet people who love Malta as much as you");
+    \u0275\u0275text(16, "Join or start a group for any spot \u2014 find people heading the same way");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(17, "li")(18, "span", 13);
-    \u0275\u0275text(19, "\u{1F516}");
+    \u0275\u0275text(19, "\u{1F4AC}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(20, "span");
-    \u0275\u0275text(21, "Save your favourite spots and revisit them anytime");
+    \u0275\u0275text(21, "Every group has a live chat \u2014 plan the day, share tips, never explore alone");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(22, "li")(23, "span", 13);
-    \u0275\u0275text(24, "\u{1F39F}\uFE0F");
+    \u0275\u0275text(24, "\u{1F516}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(25, "span");
-    \u0275\u0275text(26, "Get real discounts from local partners I trust");
+    \u0275\u0275text(26, "Save your favourite spots and build your own bucket list");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(27, "li")(28, "span", 13);
-    \u0275\u0275text(29, "\u26A1");
+    \u0275\u0275text(29, "\u{1F39F}\uFE0F");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(30, "span");
-    \u0275\u0275text(31, "Open Google Maps instantly \u2014 no wait");
+    \u0275\u0275text(31, "Unlock real discounts from local partners I personally trust");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(32, "li")(33, "span", 13);
     \u0275\u0275text(34, "\u{1F4F6}");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(35, "span");
-    \u0275\u0275text(36, "Browse the map offline, even without signal");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(37, "li")(38, "span", 13);
-    \u0275\u0275text(39, "\u{1F514}");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "span");
-    \u0275\u0275text(41, "Get notified when I add new spots to the map");
+    \u0275\u0275text(36, "Works offline \u2014 explore without signal, no problem");
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementContainerEnd();
   }
@@ -1290,7 +1261,7 @@ function WelcomePopupComponent_div_0_Template(rf, ctx) {
       \u0275\u0275restoreView(_r1);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 42, 0, "ng-container", 3);
+    \u0275\u0275template(2, WelcomePopupComponent_div_0_ng_container_2_Template, 37, 0, "ng-container", 3);
     \u0275\u0275elementStart(3, "app-sign-in-form", 4);
     \u0275\u0275listener("stateChange", function WelcomePopupComponent_div_0_Template_app_sign_in_form_stateChange_3_listener($event) {
       \u0275\u0275restoreView(_r1);
@@ -1360,7 +1331,268 @@ var WelcomePopupComponent = class _WelcomePopupComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/components/welcome-popup/welcome-popup.component.ts", lineNumber: 187 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(WelcomePopupComponent, { className: "WelcomePopupComponent", filePath: "src/app/layout/welcome-popup/welcome-popup.component.ts", lineNumber: 183 });
+})();
+
+// src/app/layout/levels-modal/levels-modal.component.ts
+function LevelsModalComponent_div_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 13);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 14);
+    \u0275\u0275element(2, "circle", 15)(3, "polyline", 16);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" Levelling up unlocks in ", ctx_r0.hoursLeft(), "h ");
+  }
+}
+function LevelsModalComponent_ng_container_10_div_1_div_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 24);
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(1, "svg", 25);
+    \u0275\u0275element(2, "circle", 15)(3, "polyline", 16);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate2(" ", ctx_r0.nextLevelDaysLeft(), " more day", ctx_r0.nextLevelDaysLeft() === 1 ? "" : "s", " as a member required ");
+  }
+}
+function LevelsModalComponent_ng_container_10_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 19)(1, "div", 20)(2, "span");
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "div", 21);
+    \u0275\u0275element(7, "div", 22);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(8, LevelsModalComponent_ng_container_10_div_1_div_8_Template, 5, 2, "div", 23);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const next_r2 = ctx.ngIf;
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1("", ctx_r0.xp(), " XP");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", ctx_r0.nextLevelXp(), " XP to ", next_r2.name, "");
+    \u0275\u0275advance(2);
+    \u0275\u0275styleProp("width", ctx_r0.progressPct(), "%");
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.nextLevelDaysLeft() > 0);
+  }
+}
+function LevelsModalComponent_ng_container_10_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 26);
+    \u0275\u0275text(1, " \u{1F3C6} You've reached the highest level! ");
+    \u0275\u0275elementEnd();
+  }
+}
+function LevelsModalComponent_ng_container_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275template(1, LevelsModalComponent_ng_container_10_div_1_Template, 9, 6, "div", 17)(2, LevelsModalComponent_ng_container_10_div_2_Template, 2, 0, "div", 18);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.nextLevel());
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !ctx_r0.nextLevel());
+  }
+}
+function LevelsModalComponent_div_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 27)(1, "span", 28);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span", 29);
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const item_r3 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r3.label);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("+", item_r3.xp, " XP");
+  }
+}
+function LevelsModalComponent_div_15_ng_container_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275text(1, "24h");
+    \u0275\u0275elementContainerEnd();
+  }
+}
+function LevelsModalComponent_div_15_ng_container_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275text(1, "\u2713");
+    \u0275\u0275elementContainerEnd();
+  }
+}
+function LevelsModalComponent_div_15_ng_container_11_span_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 37);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const lvl_r4 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1("\xB7 ", lvl_r4.minDays, "d");
+  }
+}
+function LevelsModalComponent_div_15_ng_container_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "number");
+    \u0275\u0275template(3, LevelsModalComponent_div_15_ng_container_11_span_3_Template, 2, 1, "span", 36);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    const lvl_r4 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind1(2, 2, lvl_r4.minXp), "+ XP ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", lvl_r4.minDays > 0);
+  }
+}
+function LevelsModalComponent_div_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 30)(1, "span", 31);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span", 32)(4, "span", 33);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "span", 34);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(8, "span", 35);
+    \u0275\u0275template(9, LevelsModalComponent_div_15_ng_container_9_Template, 2, 0, "ng-container", 7)(10, LevelsModalComponent_div_15_ng_container_10_Template, 2, 0, "ng-container", 7)(11, LevelsModalComponent_div_15_ng_container_11_Template, 4, 4, "ng-container", 7);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const lvl_r4 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classProp("lm-level--achieved", lvl_r4.id < ctx_r0.levelInfo().id)("lm-level--current", lvl_r4.id === ctx_r0.levelInfo().id)("lm-level--locked", lvl_r4.id > ctx_r0.levelInfo().id);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(lvl_r4.emoji);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(lvl_r4.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(lvl_r4.perk);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", lvl_r4.id === 0);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", lvl_r4.id > 0 && lvl_r4.id <= ctx_r0.levelInfo().id);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", lvl_r4.id > ctx_r0.levelInfo().id);
+  }
+}
+var LevelsModalComponent = class _LevelsModalComponent {
+  constructor() {
+    this.closeRequested = new EventEmitter();
+    this.auth = inject(AuthService);
+    this.userData = inject(UserDataService);
+    this.allLevels = LEVELS;
+    this.xpItems = [
+      { label: "View a location", xp: XP_ACTIONS.location_viewed },
+      { label: "Save a location", xp: XP_ACTIONS.location_saved },
+      { label: "Join a group", xp: XP_ACTIONS.group_joined },
+      { label: "Create a group", xp: XP_ACTIONS.group_created },
+      { label: "Group completes", xp: XP_ACTIONS.group_completed },
+      { label: "Chat message", xp: XP_ACTIONS.message_sent },
+      { label: "Daily login", xp: XP_ACTIONS.daily_active },
+      { label: "Invite a friend", xp: XP_ACTIONS.friend_referred }
+    ];
+    this.xp = computed(() => this.userData.xp());
+    this.levelInfo = computed(() => this.userData.levelInfo());
+    this.nextLevel = computed(() => getNextLevel(this.levelInfo().id));
+    this.nextLevelXp = computed(() => this.userData.nextLevelXp());
+    this.nextLevelDaysLeft = computed(() => this.userData.nextLevelDaysLeft());
+    this.hoursLeft = computed(() => {
+      const createdAt = this.userData.createdAt();
+      if (!createdAt)
+        return 0;
+      return Math.max(0, Math.ceil((createdAt + NEW_LEVEL_DURATION_MS - Date.now()) / 36e5));
+    });
+    this.progressPct = computed(() => {
+      return Math.round(this.userData.xpProgress() * 100);
+    });
+  }
+  static {
+    this.\u0275fac = function LevelsModalComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _LevelsModalComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LevelsModalComponent, selectors: [["app-levels-modal"]], outputs: { closeRequested: "closeRequested" }, decls: 16, vars: 12, consts: [[3, "closeRequested"], [1, "lm-hero"], ["size", "xl", "shape", "circle", 3, "photoURL", "displayName", "level"], [1, "lm-name"], [1, "lm-badge"], [1, "lm-desc"], ["class", "lm-new-lock", 4, "ngIf"], [4, "ngIf"], [1, "lm-xp-grid"], ["class", "lm-xp-row", 4, "ngFor", "ngForOf"], [1, "lm-divider"], [1, "lm-levels"], ["class", "lm-level", 3, "lm-level--achieved", "lm-level--current", "lm-level--locked", 4, "ngFor", "ngForOf"], [1, "lm-new-lock"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round"], ["cx", "12", "cy", "12", "r", "10"], ["points", "12 6 12 12 16 14"], ["class", "lm-progress", 4, "ngIf"], ["class", "lm-maxed", 4, "ngIf"], [1, "lm-progress"], [1, "lm-progress__labels"], [1, "lm-progress__bar"], [1, "lm-progress__fill"], ["class", "lm-days-gate", 4, "ngIf"], [1, "lm-days-gate"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2", "stroke-linecap", "round"], [1, "lm-maxed"], [1, "lm-xp-row"], [1, "lm-xp-row__label"], [1, "lm-xp-row__val"], [1, "lm-level"], [1, "lm-level__emoji"], [1, "lm-level__info"], [1, "lm-level__name"], [1, "lm-level__perk"], [1, "lm-level__req"], ["class", "lm-level__days", 4, "ngIf"], [1, "lm-level__days"]], template: function LevelsModalComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "app-modal", 0);
+        \u0275\u0275listener("closeRequested", function LevelsModalComponent_Template_app_modal_closeRequested_0_listener() {
+          return ctx.closeRequested.emit();
+        });
+        \u0275\u0275elementStart(1, "div", 1);
+        \u0275\u0275element(2, "app-user-avatar", 2);
+        \u0275\u0275elementStart(3, "p", 3);
+        \u0275\u0275text(4);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "div", 4);
+        \u0275\u0275text(6);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p", 5);
+        \u0275\u0275text(8);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(9, LevelsModalComponent_div_9_Template, 5, 1, "div", 6)(10, LevelsModalComponent_ng_container_10_Template, 3, 2, "ng-container", 7);
+        \u0275\u0275elementStart(11, "div", 8);
+        \u0275\u0275template(12, LevelsModalComponent_div_12_Template, 5, 2, "div", 9);
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(13, "div", 10);
+        \u0275\u0275elementStart(14, "div", 11);
+        \u0275\u0275template(15, LevelsModalComponent_div_15_Template, 12, 12, "div", 12);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance(2);
+        \u0275\u0275property("photoURL", ctx.auth.userPhotoURL())("displayName", ctx.auth.userDisplayName())("level", ctx.levelInfo().id);
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.auth.userDisplayName());
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate3("", ctx.levelInfo().emoji, " ", ctx.levelInfo().name, " \xB7 Level ", ctx.levelInfo().id, "");
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.levelInfo().description);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.levelInfo().id === 0);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.levelInfo().id > 0);
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngForOf", ctx.xpItems);
+        \u0275\u0275advance(3);
+        \u0275\u0275property("ngForOf", ctx.allLevels);
+      }
+    }, dependencies: [CommonModule, NgForOf, NgIf, DecimalPipe, AppModalComponent, UserAvatarComponent], styles: ["\n\n.lm-hero[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 20px;\n  padding-top: 4px;\n}\n.lm-name[_ngcontent-%COMP%] {\n  margin: 4px 0 0;\n  font-size: 15px;\n  font-weight: 700;\n  color: var(--color-text-base);\n}\n.lm-badge[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      var(--color-primary) 0%,\n      var(--color-primary-hover) 100%);\n  color: #fff;\n  font-size: 12px;\n  font-weight: 700;\n  padding: 4px 14px;\n  border-radius: 20px;\n  letter-spacing: 0.03em;\n}\n.lm-desc[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 12.5px;\n  color: var(--color-text-muted);\n  text-align: center;\n  line-height: 1.5;\n}\n.lm-new-lock[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  font-size: 12.5px;\n  font-weight: 600;\n  color: #16a34a;\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  border-radius: var(--radius-lg);\n  padding: 10px 14px;\n  margin-bottom: 20px;\n}\n.lm-progress[_ngcontent-%COMP%] {\n  margin-bottom: 16px;\n}\n.lm-progress__labels[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n  margin-bottom: 6px;\n}\n.lm-progress__bar[_ngcontent-%COMP%] {\n  height: 6px;\n  border-radius: 3px;\n  background: var(--color-bg-muted);\n  overflow: hidden;\n}\n.lm-progress__fill[_ngcontent-%COMP%] {\n  height: 100%;\n  border-radius: 3px;\n  background:\n    linear-gradient(\n      90deg,\n      var(--color-primary),\n      var(--color-primary-hover));\n  transition: width 0.6s ease;\n  min-width: 4px;\n}\n.lm-maxed[_ngcontent-%COMP%] {\n  text-align: center;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--color-primary);\n  margin-bottom: 16px;\n}\n.lm-xp-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 4px 12px;\n  background: var(--color-bg-muted);\n  border-radius: var(--radius-lg);\n  padding: 10px 12px;\n  margin-bottom: 16px;\n}\n.lm-xp-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 11px;\n  padding: 2px 0;\n}\n.lm-xp-row__label[_ngcontent-%COMP%] {\n  color: var(--color-text-secondary);\n}\n.lm-xp-row__val[_ngcontent-%COMP%] {\n  font-weight: 700;\n  color: var(--color-primary);\n}\n.lm-divider[_ngcontent-%COMP%] {\n  height: 1px;\n  background: var(--color-border);\n  margin-bottom: 14px;\n}\n.lm-levels[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.lm-level[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 10px 12px;\n  border-radius: var(--radius-lg);\n  background: var(--color-bg-muted);\n}\n.lm-level--current[_ngcontent-%COMP%] {\n  background: #fffbeb;\n  outline: 1.5px solid var(--color-primary);\n}\n.lm-level--locked[_ngcontent-%COMP%] {\n  opacity: 0.42;\n}\n.lm-level__emoji[_ngcontent-%COMP%] {\n  font-size: 20px;\n  width: 26px;\n  text-align: center;\n  flex-shrink: 0;\n  line-height: 1;\n}\n.lm-level__info[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.lm-level__name[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--color-text-base);\n}\n.lm-level__perk[_ngcontent-%COMP%] {\n  font-size: 10.5px;\n  color: var(--color-text-muted);\n  line-height: 1.4;\n}\n.lm-level__req[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--color-text-muted);\n  flex-shrink: 0;\n  white-space: nowrap;\n  text-align: right;\n}\n.lm-level--achieved[_ngcontent-%COMP%]   .lm-level__req[_ngcontent-%COMP%] {\n  color: #16a34a;\n}\n.lm-level--current[_ngcontent-%COMP%]   .lm-level__req[_ngcontent-%COMP%] {\n  color: var(--color-primary);\n}\n.lm-level__days[_ngcontent-%COMP%] {\n  color: var(--color-text-light);\n  font-weight: 500;\n}\n.lm-days-gate[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-top: 8px;\n  font-size: 11.5px;\n  font-weight: 600;\n  color: #d97706;\n  background: #fffbeb;\n  border: 1px solid #fde68a;\n  border-radius: var(--radius-md);\n  padding: 6px 10px;\n}\n/*# sourceMappingURL=levels-modal.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LevelsModalComponent, { className: "LevelsModalComponent", filePath: "src/app/layout/levels-modal/levels-modal.component.ts", lineNumber: 292 });
 })();
 
 // src/app/app.component.ts
@@ -1374,22 +1606,51 @@ function AppComponent_app_auth_modal_4_Template(rf, ctx) {
     \u0275\u0275element(0, "app-auth-modal");
   }
 }
-function AppComponent_Conditional_6_Template(rf, ctx) {
+function AppComponent_div_6_Template(rf, ctx) {
   if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-modal", 3);
-    \u0275\u0275listener("closeRequested", function AppComponent_Conditional_6_Template_app_modal_closeRequested_0_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.profileModal.hide());
-    });
-    \u0275\u0275element(1, "app-user-profile-card", 4);
+    \u0275\u0275elementStart(0, "div", 5);
+    \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const profile_r3 = ctx;
+    const toast_r1 = ctx.ngIf;
     \u0275\u0275advance();
-    \u0275\u0275property("photoURL", profile_r3.photoURL)("displayName", profile_r3.displayName)("levelId", profile_r3.levelId)("levelLabel", profile_r3.levelLabel)("isAdmin", profile_r3.isAdmin)("roleLabel", profile_r3.roleLabel)("activeLabel", profile_r3.activeLabel);
+    \u0275\u0275textInterpolate2(" \u{1F389} Level up! ", toast_r1.emoji, " ", toast_r1.name, "\n");
+  }
+}
+function AppComponent_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-modal", 6);
+    \u0275\u0275listener("closeRequested", function AppComponent_Conditional_7_Template_app_modal_closeRequested_0_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.profileModal.hide());
+    });
+    \u0275\u0275elementStart(1, "app-user-profile-card", 7);
+    \u0275\u0275listener("levelClicked", function AppComponent_Conditional_7_Template_app_user_profile_card_levelClicked_1_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.levelsModal.open());
+    });
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const profile_r4 = ctx;
+    \u0275\u0275advance();
+    \u0275\u0275property("photoURL", profile_r4.photoURL)("displayName", profile_r4.displayName)("levelId", profile_r4.levelId)("levelLabel", profile_r4.levelLabel)("isAdmin", profile_r4.isAdmin)("roleLabel", profile_r4.roleLabel)("activeLabel", profile_r4.activeLabel)("levelClickable", true);
+  }
+}
+function AppComponent_app_levels_modal_8_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r5 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "app-levels-modal", 8);
+    \u0275\u0275listener("closeRequested", function AppComponent_app_levels_modal_8_Template_app_levels_modal_closeRequested_0_listener() {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.levelsModal.close());
+    });
+    \u0275\u0275elementEnd();
   }
 }
 var MAP_ROUTES = ["/malta", "/"];
@@ -1402,7 +1663,9 @@ var AppComponent = class _AppComponent {
     this.destroyRef = inject(DestroyRef);
     this.authService = inject(AuthService);
     this.profileModal = inject(ProfileModalService);
-    this._userData = inject(UserDataService);
+    this.levelsModal = inject(LevelsModalService);
+    this.userData = inject(UserDataService);
+    this.levelUpToast = computed(() => this.userData.levelUpToast());
     this.HASH_RENAMES = {
       "/list": "/malta/list",
       "/trend": "/malta/30-places-2026",
@@ -1413,12 +1676,24 @@ var AppComponent = class _AppComponent {
     if (isPlatformBrowser(this.platformId)) {
       this.handleLegacyHashUrls();
       this.handleRedirectParam();
-      this.handleEmailSignInLink();
+      this.handleAuthRedirect();
+      this.captureReferralCode();
     }
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe((e) => {
       const url = e.urlAfterRedirects;
       this.isMapRoute = MAP_ROUTES.some((r) => url === r || url.startsWith(r + "?") || url.startsWith("/malta/"));
     });
+  }
+  captureReferralCode() {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (!ref)
+      return;
+    sessionStorage.setItem("vm_ref", ref);
+    params.delete("ref");
+    const newSearch = params.toString();
+    const newUrl = window.location.pathname + (newSearch ? "?" + newSearch : "") + window.location.hash;
+    window.history.replaceState({}, "", newUrl);
   }
   handleLegacyHashUrls() {
     const hash = window.location.hash;
@@ -1437,14 +1712,13 @@ var AppComponent = class _AppComponent {
       this.router.navigateByUrl(decodeURIComponent(redirect), { replaceUrl: true });
     }
   }
-  handleEmailSignInLink() {
-    if (!this.authService.isEmailSignInLink(window.location.href))
-      return;
-    this.authService.completeEmailSignIn(window.location.href).then((completed) => {
-      if (completed) {
-        this.router.navigateByUrl("/malta", { replaceUrl: true });
-      }
-    });
+  handleAuthRedirect() {
+    const hash = window.location.hash;
+    const search = window.location.search;
+    if (hash.includes("access_token=") || new URLSearchParams(search).has("code")) {
+      const returnPath = this.authService.consumeReturnPath();
+      this.router.navigateByUrl(returnPath, { replaceUrl: true });
+    }
   }
   static {
     this.\u0275fac = function AppComponent_Factory(__ngFactoryType__) {
@@ -1452,7 +1726,7 @@ var AppComponent = class _AppComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 7, vars: 4, consts: [[4, "ngIf"], [1, "app-version"], ["maxWidth", "280px"], ["maxWidth", "280px", 3, "closeRequested"], [3, "photoURL", "displayName", "levelId", "levelLabel", "isAdmin", "roleLabel", "activeLabel"]], template: function AppComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 9, vars: 6, consts: [[4, "ngIf"], [1, "app-version"], ["class", "level-up-toast", 4, "ngIf"], ["maxWidth", "280px"], [3, "closeRequested", 4, "ngIf"], [1, "level-up-toast"], ["maxWidth", "280px", 3, "closeRequested"], [3, "levelClicked", "photoURL", "displayName", "levelId", "levelLabel", "isAdmin", "roleLabel", "activeLabel", "levelClickable"], [3, "closeRequested"]], template: function AppComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275element(0, "router-outlet");
         \u0275\u0275template(1, AppComponent_app_pwa_prompt_1_Template, 1, 0, "app-pwa-prompt", 0);
@@ -1461,10 +1735,10 @@ var AppComponent = class _AppComponent {
         \u0275\u0275elementEnd();
         \u0275\u0275template(4, AppComponent_app_auth_modal_4_Template, 1, 0, "app-auth-modal", 0);
         \u0275\u0275element(5, "app-welcome-popup");
-        \u0275\u0275template(6, AppComponent_Conditional_6_Template, 2, 7, "app-modal", 2);
+        \u0275\u0275template(6, AppComponent_div_6_Template, 2, 2, "div", 2)(7, AppComponent_Conditional_7_Template, 2, 8, "app-modal", 3)(8, AppComponent_app_levels_modal_8_Template, 1, 0, "app-levels-modal", 4);
       }
       if (rf & 2) {
-        let tmp_3_0;
+        let tmp_4_0;
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.isMapRoute);
         \u0275\u0275advance(2);
@@ -1472,13 +1746,17 @@ var AppComponent = class _AppComponent {
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.authService.showLoginModal());
         \u0275\u0275advance(2);
-        \u0275\u0275conditional((tmp_3_0 = ctx.profileModal.current()) ? 6 : -1, tmp_3_0);
+        \u0275\u0275property("ngIf", ctx.levelUpToast());
+        \u0275\u0275advance();
+        \u0275\u0275conditional((tmp_4_0 = ctx.profileModal.current()) ? 7 : -1, tmp_4_0);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.levelsModal.isOpen());
       }
-    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  right: 10px;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: var(--color-text-base);\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
+    }, dependencies: [RouterOutlet, CommonModule, NgIf, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent, LevelsModalComponent], styles: ["\n\na[_ngcontent-%COMP%] {\n  text-decoration: none;\n}\n.level-up-toast[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 84px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--color-primary);\n  color: #fff;\n  font-size: 13px;\n  font-weight: 700;\n  padding: 10px 20px;\n  border-radius: 24px;\n  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);\n  white-space: nowrap;\n  z-index: 9000;\n  pointer-events: none;\n  animation: _ngcontent-%COMP%_toastPop 0.2s ease;\n}\n@keyframes _ngcontent-%COMP%_toastPop {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(8px) scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0) scale(1);\n  }\n}\n.app-version[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 2px;\n  left: 50%;\n  transform: translateX(-50%);\n  font-size: 6px;\n  color: var(--color-text-base);\n  opacity: 0.4;\n  pointer-events: none;\n  z-index: 9999;\n  letter-spacing: 0.3px;\n  font-family: monospace;\n  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);\n}\n/*# sourceMappingURL=app.component.css.map */"] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 26 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 28 });
 })();
 
 // src/main.ts
