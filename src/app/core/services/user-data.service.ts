@@ -179,11 +179,15 @@ export class UserDataService {
   }
 
   private async fetchAndApply(uid: string): Promise<void> {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('users')
       .select('saved_locations, role, level, xp, receive_updates, feature_access, created_at, referral_code, phone')
       .eq('id', uid)
       .maybeSingle();
+
+    // A query error (e.g. missing column) must never fall through to the upsert
+    // path below — that upsert hardcodes role=Explorer and would overwrite admin.
+    if (error) return;
 
     if (data) {
       const createdAt  = data['created_at'] ? new Date(data['created_at']).getTime() : null;
