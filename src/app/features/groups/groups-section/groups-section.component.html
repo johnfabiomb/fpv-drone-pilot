@@ -1,0 +1,384 @@
+<!-- Locked coming-soon placeholder (used in location-detail when user has no access) -->
+<div *ngIf="!groupsUnlocked()" class="gs-locked">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+  <span>Explore Together — <strong>Coming soon</strong></span>
+</div>
+
+<!-- All content — only shown when user has access -->
+<ng-container *ngIf="groupsUnlocked()">
+
+<!-- Intro banner -->
+<div class="gs-intro">
+  <div class="gs-intro__text">
+    <p class="gs-intro__desc" *ngIf="!lockedLocation">
+      Find fellow explorers for Malta's best spots — join a group or start your own.
+    </p>
+    <p class="gs-intro__desc" *ngIf="lockedLocation">
+      Planning a visit to <strong>{{ lockedLocation.title }}</strong>? Join a group or start your own.
+    </p>
+  </div>
+
+  <button *ngIf="authService.isLoggedIn()" class="gs-create-btn" (click)="openCreateForm()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    New group
+  </button>
+
+  <button *ngIf="!authService.isLoggedIn()" class="gs-create-btn gs-create-btn--locked" (click)="authService.openLoginModal()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    Sign in to join
+  </button>
+</div>
+
+<!-- Create form — logged-in only -->
+<div *ngIf="showCreateForm()" class="gs-form">
+  <div class="gs-form__header">
+    <h3 class="gs-form__title">Create a group</h3>
+    <button class="gs-form__close" (click)="cancelCreate()" aria-label="Cancel">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="gs-form__field">
+    <label>Title</label>
+    <input type="text" [(ngModel)]="formTitle" placeholder="e.g. Blue Grotto sunrise hike" maxlength="80">
+  </div>
+
+  <!-- Spot: locked read-only chip OR free search -->
+  <div class="gs-form__field">
+    <label>Spot <span class="gs-form__opt">(optional)</span></label>
+    <div *ngIf="lockedLocation" class="gs-form__locked-spot">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      {{ lockedLocation.title }}
+    </div>
+    <div *ngIf="!lockedLocation" class="gs-form__field--spot">
+
+      <!-- No spot picked + not picking: show "Pick from map" button -->
+      <div *ngIf="!formSpotSlug && !pickingSpot()" class="gs-spot-pick">
+        <button class="gs-spot-pick__btn" type="button" (click)="startPickingSpot()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Pick from map
+        </button>
+      </div>
+
+      <!-- Picking mode: panel minimized, waiting for pin tap -->
+      <div *ngIf="pickingSpot()" class="gs-spot-picking">
+        <span class="gs-spot-picking__msg">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Tap a location pin on the map…
+        </span>
+        <button class="gs-spot-picking__cancel" type="button" (click)="cancelPickSpot()">Cancel</button>
+      </div>
+
+      <!-- Spot selected: show name + route is on map -->
+      <div *ngIf="formSpotSlug" class="gs-spot-selected">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span class="gs-spot-selected__name">{{ formSpotTitle }}</span>
+        <div class="gs-spot-selected__actions">
+          <button class="gs-spot-selected__change" type="button" (click)="clearSpot(); startPickingSpot()">Change</button>
+          <button class="gs-spot-selected__remove" type="button" (click)="clearSpot()">Remove</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="gs-form__row">
+    <div class="gs-form__field">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="formDate" [min]="minDate">
+    </div>
+    <div class="gs-form__field">
+      <label>Time</label>
+      <input type="time" [(ngModel)]="formTime">
+    </div>
+  </div>
+
+  <div class="gs-form__field">
+    <label>Difficulty</label>
+    <div class="gs-form__chips">
+      <span class="chip" [class.active]="formDifficulty === 'easy'"     (click)="formDifficulty = 'easy'">Easy</span>
+      <span class="chip" [class.active]="formDifficulty === 'moderate'" (click)="formDifficulty = 'moderate'">Moderate</span>
+      <span class="chip" [class.active]="formDifficulty === 'hard'"     (click)="formDifficulty = 'hard'">Hard</span>
+    </div>
+  </div>
+
+  <div class="gs-form__field">
+    <label>Description <span class="gs-form__opt">(optional)</span></label>
+    <textarea [(ngModel)]="formDescription" rows="3" maxlength="400"
+      placeholder="What's the plan? Anything to know beforehand?"></textarea>
+  </div>
+
+  <div class="gs-form__field">
+    <label>Max members <span class="gs-form__opt">(optional)</span></label>
+    <input type="number" [(ngModel)]="formMaxMembers" min="2"
+      [max]="maxMembersCap() ?? 999" placeholder="Unlimited">
+    <span class="gs-form__hint" *ngIf="maxMembersCap() !== null">
+      Your level allows up to {{ maxMembersCap() }} members
+    </span>
+    <span class="gs-form__hint" *ngIf="maxMembersCap() === null">
+      No member limit — Legend tier
+    </span>
+  </div>
+
+  <div class="gs-form__field">
+    <label>
+      Tour price <span class="gs-form__opt">(optional)</span>
+      <span *ngIf="!canSetPrice()" class="gs-form__lock-hint">🔒 Guide or admin only</span>
+    </label>
+    <div class="gs-price-wrap">
+      <span class="gs-price-euro">€</span>
+      <input type="number" [(ngModel)]="formPrice" min="0" step="0.01" placeholder="Free"
+        [disabled]="!canSetPrice()">
+    </div>
+  </div>
+
+  <div class="gs-form__field">
+    <label>Meeting point <span class="gs-form__opt">(optional)</span></label>
+
+    <!-- Pending confirmation — user just tapped the map -->
+    <div *ngIf="pendingMeetingPoint()" class="gs-meeting-confirm">
+      <span class="gs-meeting-confirm__msg">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Is this the right spot?
+      </span>
+      <div class="gs-meeting-confirm__actions">
+        <button class="gs-meeting-confirm__retry" (click)="retryMeetingPoint()">Try again</button>
+        <button class="gs-meeting-confirm__ok" (click)="confirmMeetingPoint()">Confirm</button>
+      </div>
+    </div>
+
+    <!-- No point yet -->
+    <div *ngIf="!formMeetingPoint && !pendingMeetingPoint()" class="gs-meeting-pick">
+      <button class="gs-meeting-pick__btn" (click)="startPickingMeetingPoint()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Pin on map
+      </button>
+    </div>
+
+    <!-- Confirmed -->
+    <div *ngIf="formMeetingPoint && !pendingMeetingPoint()" class="gs-meeting-set">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Meeting point set
+      <button class="gs-meeting-set__remove" (click)="clearMeetingPoint()">Remove</button>
+    </div>
+  </div>
+
+  <p class="gs-form__error" *ngIf="formError()">{{ formError() }}</p>
+
+  <div class="gs-form__actions">
+    <button class="gs-form__cancel" (click)="cancelCreate()">Cancel</button>
+    <button class="gs-form__submit" (click)="submitCreate()" [disabled]="formSubmitting()">
+      {{ formSubmitting() ? 'Creating…' : 'Create group' }}
+    </button>
+  </div>
+</div>
+
+<!-- Loading — always visible -->
+<div class="gs-loading" *ngIf="isLoading">
+  <span class="gs-loading__dot"></span>
+  <span class="gs-loading__dot"></span>
+  <span class="gs-loading__dot"></span>
+</div>
+
+<!-- ── Locked spot: flat list ─────────────────────────────────────────── -->
+<div class="gs-list" *ngIf="lockedLocation && !isLoading && groups.length > 0">
+  <div class="gs-list__count">
+    {{ groups.length }} upcoming group{{ groups.length === 1 ? '' : 's' }}
+  </div>
+  <app-group-card *ngFor="let g of groups" [group]="g"></app-group-card>
+</div>
+
+<!-- ── Full list: My Groups collapsible section ──────────────────────── -->
+<div class="gs-my-groups" *ngIf="!lockedLocation && !isLoading && authService.isLoggedIn() && myGroups().length > 0">
+  <button class="gs-section-toggle" (click)="showMyGroups.set(!showMyGroups())">
+    <span class="gs-section-label">My groups</span>
+    <span class="gs-section-badge">{{ myGroups().length }}</span>
+    <svg class="gs-section-chevron" [class.gs-section-chevron--open]="showMyGroups()"
+      width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+  <div class="gs-section-list" *ngIf="showMyGroups()">
+    <app-group-card *ngFor="let g of myGroups()" [group]="g"></app-group-card>
+  </div>
+</div>
+
+<!-- ── Full list: Explore section ────────────────────────────────────── -->
+<div class="gs-list" *ngIf="!lockedLocation && !isLoading && exploreGroups().length > 0">
+  <div class="gs-list__count" *ngIf="myGroups().length > 0">Explore</div>
+  <div class="gs-list__count" *ngIf="myGroups().length === 0">
+    {{ groupsService.openGroups().length }} upcoming group{{ groupsService.openGroups().length === 1 ? '' : 's' }}
+  </div>
+  <app-group-card *ngFor="let g of exploreGroups()" [group]="g"></app-group-card>
+</div>
+
+<!-- Guest strip — compact sign-in prompt below the list -->
+<button class="gs-join-strip"
+  *ngIf="!authService.isLoggedIn() && !isLoading && groupsService.openGroups().length > 0"
+  (click)="authService.openLoginModal()">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+  Sign in to join a group or create your own
+  <svg class="gs-join-strip__chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>
+</button>
+
+<!-- Empty state — logged in, full groups page -->
+<div class="gs-empty"
+  *ngIf="!isLoading && !showCreateForm() && !lockedLocation && authService.isLoggedIn() &&
+         groupsService.openGroups().length === 0">
+  <div class="gs-empty__icon">🥾</div>
+  <p class="gs-empty__msg">No upcoming groups yet</p>
+  <p class="gs-empty__sub">Be the first to organise one!</p>
+  <button class="gs-empty__cta" (click)="openCreateForm()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    Create the first group
+  </button>
+</div>
+
+<!-- Empty state — guest, full groups page -->
+<div class="gs-empty"
+  *ngIf="!isLoading && !lockedLocation && !authService.isLoggedIn() &&
+         groupsService.openGroups().length === 0">
+  <div class="gs-empty__icon">🥾</div>
+  <p class="gs-empty__msg">No upcoming groups yet</p>
+  <p class="gs-empty__sub">Sign in to be the first to organise one!</p>
+  <button class="gs-gate__btn" (click)="authService.openLoginModal()">Sign in</button>
+</div>
+
+<!-- Empty state — locked spot (location page), any auth state -->
+<div class="gs-empty gs-empty--spot"
+  *ngIf="!isLoading && !showCreateForm() && lockedLocation && groups.length === 0">
+  <div class="gs-empty__icon">💬</div>
+  <p class="gs-empty__msg">No groups at this spot yet</p>
+  <p class="gs-empty__sub">Meet other explorers, share tips and plan visits together in the groups chat.</p>
+  <button class="gs-empty__explore" (click)="router.navigate(['/malta/groups'])">
+    See all groups &amp; chat
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Past groups + logged-in only content -->
+<ng-container *ngIf="authService.isLoggedIn()">
+
+  <!-- Past groups (last 7 days) — only on the full list, not locked-spot view -->
+  <div class="gs-past" *ngIf="!lockedLocation && pastGroups.length > 0">
+    <div class="gs-past__header">
+      <button class="gs-past__toggle" (click)="showPastGroups.set(!showPastGroups()); exitPastBulk()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        {{ pastGroups.length }} past group{{ pastGroups.length === 1 ? '' : 's' }} this week
+        <svg class="gs-past__chevron" [class.gs-past__chevron--open]="showPastGroups()"
+          width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <button *ngIf="isAdmin() && cancelledPastGroups.length >= 1 && showPastGroups()"
+        class="gs-bulk-select-btn"
+        [class.gs-bulk-select-btn--active]="pastBulkMode()"
+        (click)="pastBulkMode() ? exitPastBulk() : pastBulkMode.set(true)">
+        {{ pastBulkMode() ? 'Cancel' : 'Select' }}
+      </button>
+    </div>
+
+    <div class="gs-past__list" *ngIf="showPastGroups()">
+      <div class="gs-past__item"
+        *ngFor="let g of pastGroups"
+        [class.gs-past__item--selectable]="pastBulkMode() && g.status === 'cancelled'"
+        [class.gs-past__item--selected]="isPastBulkSelected(g.id)"
+        (click)="pastBulkMode() && g.status === 'cancelled' ? togglePastBulkSelect(g.id, $event) : null">
+
+        <!-- Checkbox on left (bulk mode only) -->
+        <div *ngIf="pastBulkMode() && g.status === 'cancelled'"
+          class="gs-past__checkbox" [class.gs-past__checkbox--checked]="isPastBulkSelected(g.id)">
+          <svg *ngIf="isPastBulkSelected(g.id)" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+
+        <!-- Card -->
+        <div class="gs-card-wrap">
+          <app-group-card [group]="g"></app-group-card>
+        </div>
+
+        <!-- × on right (single action, non-bulk admin mode) -->
+        <button *ngIf="isAdmin() && g.status === 'cancelled' && !pastBulkMode()"
+          class="gs-archive-btn"
+          (click)="confirmArchive(g.id, $event)"
+          title="Remove from view">×</button>
+      </div>
+    </div>
+
+    <app-confirm-popup *ngIf="confirmingArchiveId()"
+      [fixed]="true"
+      message="Remove this cancelled group from the list?"
+      confirmLabel="Remove"
+      cancelLabel="Keep"
+      [danger]="false"
+      (confirmed)="executeArchive()"
+      (cancelled)="confirmingArchiveId.set(null)">
+    </app-confirm-popup>
+
+    <div class="gs-bulk-bar" *ngIf="pastBulkMode()">
+      <span class="gs-bulk-bar__count">
+        {{ pastBulkSelected().size > 0 ? pastBulkSelected().size + ' selected' : 'Tap groups to select' }}
+      </span>
+      <button class="gs-bulk-bar__select-all"
+        *ngIf="pastBulkSelected().size < cancelledPastGroups.length"
+        (click)="selectAllPastCancelled()">Select all</button>
+      <button *ngIf="pastBulkSelected().size > 0"
+        class="gs-bulk-bar__btn gs-bulk-bar__btn--danger"
+        (click)="confirmingBulkArchive.set(true)">
+        Remove {{ pastBulkSelected().size }}
+      </button>
+    </div>
+
+    <app-confirm-popup *ngIf="confirmingBulkArchive()"
+      [fixed]="true"
+      [message]="'Remove ' + pastBulkSelected().size + ' cancelled group' + (pastBulkSelected().size === 1 ? '' : 's') + ' from the list?'"
+      confirmLabel="Remove all"
+      cancelLabel="Cancel"
+      [danger]="false"
+      (confirmed)="executeBulkArchive()"
+      (cancelled)="confirmingBulkArchive.set(false)">
+    </app-confirm-popup>
+
+  </div>
+
+</ng-container>
+
+</ng-container>

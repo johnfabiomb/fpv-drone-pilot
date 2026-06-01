@@ -2,6 +2,7 @@
 /malta
 /malta/list
 /malta/deals
+/malta/groups
 /malta/providers/santa-maria-watersports
 /malta/providers/block-hotel-gozo
 /malta/30-places-2026

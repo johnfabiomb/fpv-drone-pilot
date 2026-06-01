@@ -1,3 +1,26 @@
 <router-outlet></router-outlet>
 <app-pwa-prompt *ngIf="isMapRoute"></app-pwa-prompt>
 <span class="app-version">v{{ version }}</span>
+<app-auth-modal *ngIf="authService.showLoginModal()"></app-auth-modal>
+<app-welcome-popup></app-welcome-popup>
+<div class="level-up-toast" *ngIf="levelUpToast() as toast">
+  🎉 Level up! {{ toast.emoji }} {{ toast.name }}
+</div>
+
+@if (profileModal.current(); as profile) {
+  <app-modal maxWidth="280px" (closeRequested)="profileModal.hide()">
+    <app-user-profile-card
+      [photoURL]="profile.photoURL"
+      [displayName]="profile.displayName"
+      [levelId]="profile.levelId"
+      [levelLabel]="profile.levelLabel"
+      [isAdmin]="profile.isAdmin"
+      [roleLabel]="profile.roleLabel"
+      [activeLabel]="profile.activeLabel"
+      [levelClickable]="true"
+      (levelClicked)="levelsModal.open()">
+    </app-user-profile-card>
+  </app-modal>
+}
+
+<app-levels-modal *ngIf="levelsModal.isOpen()" (closeRequested)="levelsModal.close()"></app-levels-modal>

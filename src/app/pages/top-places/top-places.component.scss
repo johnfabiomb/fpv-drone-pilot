@@ -1,0 +1,390 @@
+.trend-page {
+  min-height: 100dvh;
+  background: #f6f7f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 48px;
+  overflow-x: hidden;
+      padding: 20px !important;
+      padding-top: 0px !important;
+}
+
+// ── Header / Hero ─────────────────────────────────────────
+.trend-header {
+  width: 100%;
+  max-width: 100%;
+  padding: 72px 24px 52px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 28px 28px;
+
+  // Blurred background image
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('../../../assets/images/places/ta-maria-cave/TaMarijaCave.webp') center / cover no-repeat;
+    filter: blur(2px);
+    transform: scale(1.15);
+    z-index: 0;
+  }
+
+  // Dark gradient overlay for readability
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.70) 100%);
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.trend-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.trend-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.6px;
+  line-height: 1.25;
+  margin: 0 0 10px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+.trend-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  margin: 0 0 28px;
+
+  strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+}
+
+.progress-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 240px;
+  height: 4px;
+  background: rgba(255,255,255,0.22);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.progress-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.3px;
+}
+
+// ── Map button (sits on dark hero) ───────────────────────
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 24px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: var(--radius-lg);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  backdrop-filter: blur(4px);
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+
+  svg { flex-shrink: 0; color: var(--color-primary); }
+
+  &:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(244,169,34,0.7);
+    box-shadow: 0 2px 14px rgba(244,169,34,0.2);
+  }
+}
+
+// ── Intro section ─────────────────────────────────────────
+.trend-intro {
+  width: 100%;
+  max-width: 480px;
+  padding: 28px 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trend-intro-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #4b5563;
+  margin: 0;
+  text-align: center;
+}
+
+.trend-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.trend-chip {
+  padding: 5px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.2px;
+}
+
+// ── CTAs ─────────────────────────────────────────────────
+.trend-ctas {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trend-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  text-decoration: none;
+  transition: box-shadow var(--transition), border-color var(--transition), transform 0.12s;
+
+  &:hover {
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: scale(0.99); }
+
+  &--groups,
+  &--deals,
+  &--map    { border-left: 3px solid var(--color-primary); }
+  &--deals  { background: var(--color-bg-light); }
+  &--map    { background: var(--color-bg-muted); }
+}
+
+.trend-cta__emoji {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.trend-cta__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trend-cta__label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text-base);
+}
+
+.trend-cta__desc {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.trend-cta__arrow {
+  flex-shrink: 0;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  transition: color var(--transition), transform var(--transition);
+
+  .trend-cta:hover & { color: var(--color-primary); transform: translateX(2px); }
+}
+
+// ── List ─────────────────────────────────────────────────
+.trend-list {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// ── Revealed card ─────────────────────────────────────────
+.trend-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow var(--transition), border-color var(--transition), transform 0.12s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: scale(0.99); }
+
+  &.no-map {
+    cursor: default;
+    .card-arrow { color: #d1d5db; }
+    &:hover { transform: none; box-shadow: none; }
+  }
+}
+
+.card-num {
+  min-width: 36px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.2px;
+  flex-shrink: 0;
+}
+
+.card-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-base);
+  line-height: 1.3;
+}
+
+.card-arrow {
+  color: var(--color-text-light);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition), transform var(--transition);
+
+  .trend-card:hover & {
+    color: var(--color-primary);
+    transform: translateX(2px);
+  }
+}
+
+// ── Locked card ───────────────────────────────────────────
+.trend-card--locked {
+  cursor: default;
+  background: #fafafa;
+  border-color: #f0f0f0;
+
+  &:hover {
+    box-shadow: none;
+    border-color: #f0f0f0;
+    transform: none;
+  }
+}
+
+.card-num--locked {
+  color: #d1d5db;
+}
+
+.card-name--locked {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.redacted {
+  display: block;
+  height: 10px;
+  width: 160px;
+  background: #e9eaec;
+  border-radius: 4px;
+
+  &--sm {
+    width: 90px;
+  }
+}
+
+.card-lock {
+  color: #d1d5db;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+// ── Footer ────────────────────────────────────────────────
+.trend-footer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.trend-ig {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.8; }
+}
+
+.trend-footer-copy {
+  font-size: 11px;
+  color: var(--color-text-light);
+}

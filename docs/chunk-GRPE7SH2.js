@@ -1,1 +1,0 @@
-function r(t,a,n,M){let s=(n-t)*Math.PI/180,o=(M-a)*Math.PI/180,h=Math.sin(s/2)**2+Math.cos(t*Math.PI/180)*Math.cos(n*Math.PI/180)*Math.sin(o/2)**2;return 2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h))}function e(t,a,n,M){return 6371*r(t,a,n,M)}function c(t,a,n,M){return 6371*1e3*r(t,a,n,M)}export{e as a,c as b};

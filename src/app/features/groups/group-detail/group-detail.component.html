@@ -1,0 +1,309 @@
+<app-panel-shell
+  [title]="group?.title || 'Group'"
+  (closeRequested)="router.navigate(['/malta/groups'])"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (bodyDragStart)="bridge.panel.startDrag($event)"
+  (bodyDragMove)="bridge.panel.onDragMove($event)"
+  (bodyDragEnd)="bridge.panel.onDragEnd($event)">
+  <app-share-btn panelActions [url]="shareUrl" [shareTitle]="group?.title ?? 'Group'"></app-share-btn>
+  <div class="gd-content">
+
+  <!-- Locked / coming-soon state -->
+  <div class="gd-locked" *ngIf="!groupsUnlocked()">
+    <div class="gd-locked__icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <h3 class="gd-locked__title">Explore Together</h3>
+    <p class="gd-locked__sub">Coming Soon</p>
+    <p class="gd-locked__desc">Find other explorers and join hikes at Malta's best spots. Stay tuned!</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="gd-loading" *ngIf="groupsUnlocked() && !group">
+    <span class="gd-loading__dot"></span>
+    <span class="gd-loading__dot"></span>
+    <span class="gd-loading__dot"></span>
+  </div>
+
+  <ng-container *ngIf="groupsUnlocked() && group">
+
+    <!-- Edit form — replaces the entire panel content when open -->
+    <app-group-edit-form
+      *ngIf="showEditForm()"
+      [group]="group!"
+      [groupId]="groupId"
+      (saved)="onEditSaved($event)"
+      (cancelled)="onEditCancelled()">
+    </app-group-edit-form>
+
+    <!-- Main layout: tabs + tab content -->
+    <ng-container *ngIf="!showEditForm()">
+
+      <!-- Tab bar -->
+      <div class="gd-tabs">
+        <button class="gd-tab"
+          [class.gd-tab--active]="activeTab() === 'info'"
+          (click)="setTab('info')">
+          Details
+        </button>
+        <button class="gd-tab gd-tab--chat"
+          [class.gd-tab--active]="activeTab() === 'chat'"
+          (click)="setTab('chat')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Chat
+          <span class="gd-tab__badge" *ngIf="unreadCount() > 0">{{ unreadCount() > 99 ? '99+' : unreadCount() }}</span>
+        </button>
+      </div>
+
+      <!-- Tab body -->
+      <div class="gd-tab-body">
+
+        <!-- ── Details tab ── -->
+        <div class="gd-tab-pane" *ngIf="activeTab() === 'info'">
+
+          <!-- Header: leader, title, meta -->
+          <div class="gd-header">
+            <div class="gd-header__leader">
+              <app-user-avatar
+                [photoURL]="group.leaderPhoto"
+                [displayName]="group.leaderName"
+                size="md"
+                shape="circle"
+                [level]="isLeader ? userDataService.levelInfo().id : group.leaderLevel"
+                [isAdmin]="group.leaderIsAdmin"
+                [isSelf]="isLeader"
+                roleLabel="👑 Group leader">
+              </app-user-avatar>
+              <div class="gd-header__info">
+                <span class="gd-header__title">{{ group.title }}</span>
+                <span class="gd-header__sub">{{ group.date.toDate() | date:'EEEE d MMMM' }} · {{ group.time }} · {{ group.leaderName }} leading</span>
+              </div>
+            </div>
+            <div class="gd-header__meta">
+              <span class="badge" [class]="'badge--' + group.difficulty">{{ group.difficulty }}</span>
+              <span *ngIf="group.price" class="gd-price-badge">€{{ group.price }} per person</span>
+              <span *ngIf="!group.price" class="gd-price-badge gd-price-badge--free">Free</span>
+              <button *ngIf="group.spotTitle" class="gd-header__spot" (click)="showSpotOnMap()" title="Show on map">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                {{ group.spotTitle }}
+              </button>
+              <span *ngIf="!group.spotTitle" class="gd-header__spot gd-header__spot--none">No location set</span>
+              <span class="gd-status" [class]="'gd-status--' + group.status">{{ group.status }}</span>
+            </div>
+          </div>
+
+          <p class="gd-header__desc" *ngIf="group.description">{{ group.description }}</p>
+
+          <div class="gd-exploring-banner" *ngIf="group.status === 'exploring'">
+            🧭 This group is currently exploring!
+          </div>
+
+          <button *ngIf="group.meetingPoint && group.status !== 'exploring' && authService.isLoggedIn()"
+            class="gd-meeting-row" (click)="showMeetingModal.set(true)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Meeting point set
+            <svg class="gd-meeting-row__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+
+          <!-- Contact form for paid groups -->
+          <div *ngIf="showContactForm()" class="gd-contact-form" (click)="$event.stopPropagation()">
+            <p class="gd-contact-form__title">
+              💳 €{{ group.price }} per person
+            </p>
+            <p class="gd-contact-form__desc">
+              <strong>{{ group.leaderName }}</strong> will contact you to arrange payment. Share your phone number so they can reach you.
+            </p>
+            <input class="gd-contact-form__input"
+              type="tel"
+              [(ngModel)]="contactPhone"
+              placeholder="+356 9999 9999"
+              (keydown.enter)="submitContactAndJoin()">
+            <p *ngIf="contactFormError()" class="gd-contact-form__error">{{ contactFormError() }}</p>
+            <div class="gd-contact-form__actions">
+              <button class="gd-contact-form__cancel" (click)="cancelContactForm()">Cancel</button>
+              <button class="gd-contact-form__submit" (click)="submitContactAndJoin()" [disabled]="actionBusy()">
+                {{ actionBusy() ? 'Joining…' : 'Join & share number' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Actions (logged in) -->
+          <div class="gd-actions" *ngIf="authService.isLoggedIn()">
+            <button *ngIf="canJoin && !showContactForm()" class="gd-join-btn" (click)="join()" [disabled]="actionBusy()">
+              {{ actionBusy() ? 'Joining…' : 'Join group' }}
+            </button>
+
+            <button *ngIf="isMember && !isLeader && group.status !== 'completed'" class="gd-leave-btn"
+              (click)="confirmingAction.set('leave')" [disabled]="actionBusy()">
+              Leave group
+            </button>
+
+            <div *ngIf="isLeader" class="gd-leader-actions">
+              <button *ngIf="canStartExploring" class="gd-explore-btn"
+                (click)="confirmingAction.set('explore')" [disabled]="actionBusy()">
+                🧭 Start exploring
+              </button>
+              <button *ngIf="group.status === 'exploring'" class="gd-complete-btn"
+                (click)="confirmingAction.set('complete')" [disabled]="actionBusy()">
+                ✓ Complete group
+              </button>
+              <div *ngIf="group.status !== 'completed'" class="gd-leader-row">
+                <button class="gd-leave-btn" (click)="confirmingAction.set('leave')" [disabled]="actionBusy()">
+                  Leave group
+                </button>
+                <button *ngIf="group.status !== 'cancelled' && group.status !== 'exploring'" class="gd-cancel-btn"
+                  (click)="confirmingAction.set('cancel')" [disabled]="actionBusy()">
+                  Cancel group
+                </button>
+              </div>
+            </div>
+
+            <button *ngIf="canEdit && group.status !== 'cancelled'" class="gd-edit-btn" (click)="openEdit()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Edit group
+            </button>
+
+            <app-confirm-popup *ngIf="confirmingAction()"
+              [fixed]="true"
+              [message]="confirmingAction() === 'leave'    ? 'Leave this group?' :
+                         confirmingAction() === 'explore'   ? 'Start exploring? No new members can join once you begin.' :
+                         confirmingAction() === 'complete'  ? 'Mark this group as completed?' :
+                                                              'Cancel this group? All members will be notified.'"
+              [confirmLabel]="confirmingAction() === 'leave'    ? 'Leave' :
+                              confirmingAction() === 'explore'  ? 'Start exploring' :
+                              confirmingAction() === 'complete' ? 'Complete' :
+                                                                  'Cancel group'"
+              [cancelLabel]="confirmingAction() === 'leave'    ? 'Stay' :
+                             confirmingAction() === 'explore'  ? 'Not yet' :
+                             confirmingAction() === 'complete' ? 'Not yet' :
+                                                                 'Keep it'"
+              [danger]="confirmingAction() !== 'explore' && confirmingAction() !== 'complete'"
+              (confirmed)="executeConfirmedAction()"
+              (cancelled)="confirmingAction.set(null)">
+            </app-confirm-popup>
+
+            <p class="gd-action-error" *ngIf="actionError()">{{ actionError() }}</p>
+          </div>
+
+          <!-- Sign-in gate (not logged in) -->
+          <ng-container *ngIf="!authService.isLoggedIn()">
+            <ng-container *ngTemplateOutlet="signInGate"></ng-container>
+          </ng-container>
+
+          <!-- Members section (logged in) -->
+          <ng-container *ngIf="authService.isLoggedIn()">
+            <div class="gd-members-section-label">Members</div>
+            <div class="gd-transfer" *ngIf="showTransfer()">
+              <p class="gd-transfer__label">Choose a new leader before you leave:</p>
+              <button *ngFor="let m of nonLeaderMembers" class="gd-transfer__member"
+                (click)="transferTo(m.uid)" [disabled]="actionBusy()">
+                <app-user-avatar [photoURL]="m.photoURL" [displayName]="m.displayName" size="xs" shape="circle"></app-user-avatar>
+                {{ m.displayName }}
+              </button>
+              <button class="gd-transfer__cancel" (click)="showTransfer.set(false)">Cancel</button>
+            </div>
+
+            <div class="gd-members-row" (click)="showMembersModal.set(true)">
+              <app-member-avatars
+                [previews]="group.memberPreviews"
+                [total]="group.memberCount">
+              </app-member-avatars>
+              <span class="gd-members-row__label">
+                <strong>{{ group.memberCount }}</strong> member{{ group.memberCount === 1 ? '' : 's' }}
+                <span *ngIf="group.maxMembers" class="gd-members-row__spots">· {{ group.maxMembers - group.memberCount }} spot{{ (group.maxMembers - group.memberCount) === 1 ? '' : 's' }} left</span>
+              </span>
+              <svg class="gd-members-row__chevron"
+                width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </ng-container>
+
+        </div>
+
+        <!-- ── Chat tab (logged in) ── -->
+        <app-group-chat
+          *ngIf="activeTab() === 'chat' && authService.isLoggedIn()"
+          [groupId]="groupId"
+          [group]="group!"
+          [canPin]="canPin"
+          [isMember]="isMember"
+          [isMuted]="isMuted"
+          [mutedMinutesLeft]="mutedMinutesLeft"
+          [chatClosesAt]="chatClosesAt">
+        </app-group-chat>
+
+        <!-- ── Chat tab (not logged in) ── -->
+        <div class="gd-tab-pane" *ngIf="activeTab() === 'chat' && !authService.isLoggedIn()">
+          <ng-container *ngTemplateOutlet="signInGate"></ng-container>
+        </div>
+
+      </div><!-- /.gd-tab-body -->
+
+      <!-- Shared sign-in gate template — stamped in both Details and Chat tabs -->
+      <ng-template #signInGate>
+        <div class="gd-gate">
+          <p class="gd-gate__msg">
+            <strong>{{ group!.leaderName }}</strong> is organising a group<ng-container *ngIf="group!.spotTitle"> at <strong>{{ group!.spotTitle }}</strong></ng-container>.
+            Sign in to join the group and chat with the members.
+          </p>
+          <button class="gd-gate__btn" (click)="openJoinLogin()" [disabled]="autoJoining()">
+            {{ autoJoining() ? 'Joining…' : 'Sign in to join' }}
+          </button>
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+    <!-- Meeting point modal — position:fixed -->
+    <app-modal *ngIf="showMeetingModal()" maxWidth="280px" (closeRequested)="showMeetingModal.set(false)">
+      <div class="gd-mp-modal">
+        <div class="gd-mp-modal__icon">📍</div>
+        <div class="gd-mp-modal__title">Meeting point</div>
+        <div class="gd-mp-modal__sub" *ngIf="group.meetingPoint?.label">{{ group.meetingPoint!.label }}</div>
+        <a class="gd-mp-modal__btn"
+          [href]="meetingPointMapsUrl"
+          target="_blank"
+          rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Open in Google Maps
+        </a>
+      </div>
+    </app-modal>
+
+    <!-- Members modal -->
+    <app-group-members-modal
+      *ngIf="showMembersModal() && authService.isLoggedIn()"
+      [groupId]="groupId"
+      [group]="group!"
+      [members]="members"
+      [canManageMembers]="canManageMembers"
+      [currentUser]="currentUser"
+      (closeRequested)="showMembersModal.set(false)">
+    </app-group-members-modal>
+
+  </ng-container>
+
+  </div><!-- /.gd-content -->
+
+</app-panel-shell>

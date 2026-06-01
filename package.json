@@ -1,6 +1,6 @@
 {
   "name": "venture-map",
-  "version": "1.1.27",
+  "version": "2.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -30,6 +30,8 @@
     "@angular/ssr": "^19.2.25",
     "@nguniversal/express-engine": "^7.0.2",
     "@stripe/stripe-js": "^9.4.0",
+    "@supabase/supabase-js": "^2.106.2",
+    "emoji-picker-element": "^1.29.1",
     "ol": "^9.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -37,7 +39,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.1",
-    "sharp": "^0.34.5",
     "@angular/cli": "^19.2.1",
     "@angular/compiler-cli": "^19.2.1",
     "@types/jasmine": "~5.1.0",
@@ -47,6 +48,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "sharp": "^0.34.5",
     "typescript": "~5.8.2"
   }
 }

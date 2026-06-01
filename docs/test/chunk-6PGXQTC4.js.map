@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/utils/geo.utils.ts"],
-  "sourcesContent": ["const EARTH_RADIUS_KM = 6371;\n\nfunction haversineRad(lat1: number, lon1: number, lat2: number, lon2: number): number {\n  const dLat = (lat2 - lat1) * Math.PI / 180;\n  const dLon = (lon2 - lon1) * Math.PI / 180;\n  const a =\n    Math.sin(dLat / 2) ** 2 +\n    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;\n  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));\n}\n\nexport function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {\n  return EARTH_RADIUS_KM * haversineRad(lat1, lon1, lat2, lon2);\n}\n\nexport function haversineM(lat1: number, lon1: number, lat2: number, lon2: number): number {\n  return EARTH_RADIUS_KM * 1000 * haversineRad(lat1, lon1, lat2, lon2);\n}\n"],
-  "mappings": ";AAAA,IAAM,kBAAkB;AAExB,SAAS,aAAa,MAAc,MAAc,MAAc,MAAY;AAC1E,QAAM,QAAQ,OAAO,QAAQ,KAAK,KAAK;AACvC,QAAM,QAAQ,OAAO,QAAQ,KAAK,KAAK;AACvC,QAAM,IACJ,KAAK,IAAI,OAAO,CAAC,KAAK,IACtB,KAAK,IAAI,OAAO,KAAK,KAAK,GAAG,IAAI,KAAK,IAAI,OAAO,KAAK,KAAK,GAAG,IAAI,KAAK,IAAI,OAAO,CAAC,KAAK;AAC1F,SAAO,IAAI,KAAK,MAAM,KAAK,KAAK,CAAC,GAAG,KAAK,KAAK,IAAI,CAAC,CAAC;AACtD;AAEM,SAAU,YAAY,MAAc,MAAc,MAAc,MAAY;AAChF,SAAO,kBAAkB,aAAa,MAAM,MAAM,MAAM,IAAI;AAC9D;AAEM,SAAU,WAAW,MAAc,MAAc,MAAc,MAAY;AAC/E,SAAO,kBAAkB,MAAO,aAAa,MAAM,MAAM,MAAM,IAAI;AACrE;",
-  "names": []
-}

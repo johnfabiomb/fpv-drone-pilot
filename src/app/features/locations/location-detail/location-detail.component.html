@@ -1,0 +1,155 @@
+<!-- Confirm close banner (shown when hiking mode is active and close is requested) -->
+<div class="confirm-banner" *ngIf="confirmingClose">
+  <span class="confirm-text">Leave your route?</span>
+  <div class="confirm-actions">
+    <button class="confirm-stay" (click)="cancelClose()">Stay</button>
+    <button class="confirm-leave" (click)="confirmClose()">Leave</button>
+  </div>
+</div>
+
+<!-- Nearby prompt — shown when GPS places user within 500 m -->
+<div class="nearby-banner" *ngIf="showNearbyPrompt">
+  <div class="nearby-banner__text">
+    <i class="fa fa-map-marker"></i>
+    You're close to this location — are you starting your hike?
+  </div>
+  <div class="nearby-banner__actions">
+    <button class="nearby-btn nearby-btn--stay" (click)="dismissNearbyPrompt()">Just exploring</button>
+    <button class="nearby-btn nearby-btn--start" (click)="activateHikingMode()">I'm heading there!</button>
+  </div>
+</div>
+
+<!-- Hiking mode indicator -->
+<div class="hiking-active" *ngIf="nearbyMode">
+  <i class="fa fa-street-view"></i> Route active — closing will ask for confirmation
+</div>
+
+<div class="px-header">
+    <div class="meta" *ngIf="location?.tags?.length || location?.rating">
+  <span class="tag" *ngFor="let tag of location?.tags">{{ formatTag(tag) }}</span>
+  <span class="rating" *ngIf="location?.rating"><i class="fa fa-star"></i> {{ location?.rating }}</span>
+</div>
+
+<app-image-gallery [src]="galleryImages"></app-image-gallery>
+
+</div>
+
+<div class="px-2"> 
+<div [innerHTML]="location?.description" class="description"></div>
+
+<!-- Nearby experience providers (replaces ad when present) -->
+<div class="nearby-experiences" *ngIf="nearbyProviders.length">
+  <div class="nearby-experiences__label">Deals near this spot</div>
+  <app-provider-card
+    *ngFor="let p of nearbyProviders"
+    [provider]="p"
+    (selected)="providerSelected.emit($event)">
+  </app-provider-card>
+</div>
+
+<div class="actions">
+  <div class="actions-row">
+    <div (click)="onExplore()" class="button">Explore Malta <i class="fa fa-map"></i></div>
+    <app-share-btn [url]="shareUrl" [shareTitle]="location?.title ?? ''" label="Share"></app-share-btn>
+    <div class="save-wrap">
+      <button class="save-btn" [class.saved]="isSaved" (click)="onSaveClick($event)" [title]="isSaved ? 'Remove from saved' : 'Save'">
+        <svg width="16" height="16" viewBox="0 0 24 24" [attr.fill]="isSaved ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </button>
+      <app-confirm-popup
+        *ngIf="confirmingUnsave"
+        message="Remove from saved?"
+        confirmLabel="Remove"
+        cancelLabel="Keep"
+        [danger]="true"
+        (confirmed)="confirmUnsave()"
+        (cancelled)="confirmingUnsave = false">
+      </app-confirm-popup>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- All-routes mode: show one direction section per route -->
+  <ng-container *ngIf="activeRouteIndex < 0 && (location?.routes?.length ?? 0) >= 2; else singleRouteNav">
+    <div *ngIf="anyRouteHasRecordedRoute()" class="route-alert">
+      <svg width="18" height="24" viewBox="0 0 24 30" fill="#EA4335" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 22 8 22s8-16.5 8-22c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
+      Follow the routes on the map above — Google Maps may take different paths.
+    </div>
+    <ng-container *ngFor="let group of allRoutesVisiblePoints(); trackBy: trackByRouteGroup">
+      <div *ngIf="group.points.length" class="nav-section">
+        <div class="nav-section__label">
+          <ng-container *ngIf="group.route.emoji">{{ group.route.emoji }}&nbsp;</ng-container>{{ group.route.label }} — Google Maps
+        </div>
+        <div
+          *ngFor="let point of group.points; let i = index"
+          (click)="navigateTo(point, i, group.points)"
+          class="button nav-btn">
+          <span>{{ pointLabel(point, i) }}</span>
+          <span class="nav-btn__hint">{{ authService.isLoggedIn() ? 'Opens Google Maps' : 'Opens in 10s · sign in to skip' }}</span>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="sharedRouteDestination() as dest" class="nav-section">
+      <div class="nav-section__label">Final destination — Google Maps</div>
+      <div (click)="navigateTo(dest, 0)" class="button nav-btn">
+        <span>{{ pointLabel(dest, 1) }}</span>
+        <span class="nav-btn__hint">Opens Google Maps</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Single-route mode (or locations with only one route / no routes) -->
+  <ng-template #singleRouteNav>
+    <div *ngIf="visibleMapPoints().length" class="nav-section">
+      <div *ngIf="hasRecordedRoute()" class="route-alert">
+        <svg width="18" height="24" viewBox="0 0 24 30" fill="#EA4335" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 22 8 22s8-16.5 8-22c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
+        Follow the route on the map above — Google Maps may take a different path.
+      </div>
+      <div class="nav-section__label">Google Maps directions</div>
+      <div
+        *ngFor="let point of visibleMapPoints(); let i = index"
+        (click)="navigateTo(point, i)"
+        class="button nav-btn">
+        <span>{{ pointLabel(point, i) }}</span>
+        <span class="nav-btn__hint">Opens Google Maps</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Explore Together section — groups for this spot + create form -->
+<div class="exploring-section" *ngIf="features.GROUPS && location">
+  <h4 class="exploring-title">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    Explore Together
+    <span class="exploring-new-badge">New</span>
+  </h4>
+  <app-groups-section
+    [lockedLocation]="{ slug: location.slug, title: location.title, lat: location.lat, lon: location.lon }">
+  </app-groups-section>
+</div>
+
+<div class="closest-section" *ngIf="closestLocations.length">
+  <h4 class="closest-title">Closest Spots</h4>
+  <div class="closest-list">
+    <div class="closest-card" *ngFor="let item of closestLocations" (click)="clickon(item.location)">
+      <img class="closest-thumb" [src]="item.location.img" [alt]="item.location.title">
+      <div class="closest-info">
+        <span class="closest-name">{{ item.location.title }}</span>
+        <span class="closest-tag" *ngIf="item.location.tags[0]">{{ formatTag(item.location.tags[0]) }}</span>
+      </div>
+      <span class="closest-dist">{{ item.distanceKm }} km</span>
+      <svg class="closest-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+</div>
+

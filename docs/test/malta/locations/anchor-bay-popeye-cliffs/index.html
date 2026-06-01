@@ -691,7 +691,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
 }
 /*# sourceMappingURL=/test/map.component.css.map */</style><style ng-app-id="ng">
 
-.bottom-bar[_ngcontent-ng-c3178630197] {
+.bottom-bar[_ngcontent-ng-c3600482293] {
   width: 100%;
   height: calc(64px + env(safe-area-inset-bottom));
   padding: 0 16px env(safe-area-inset-bottom);
@@ -706,7 +706,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   position: relative;
   z-index: 400;
 }
-.route-btn[_ngcontent-ng-c3178630197] {
+.route-btn[_ngcontent-ng-c3600482293] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -721,11 +721,11 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   white-space: nowrap;
   transition: box-shadow var(--transition), opacity var(--transition);
 }
-.route-btn[_ngcontent-ng-c3178630197]:hover {
+.route-btn[_ngcontent-ng-c3600482293]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
 }
-.list-btn[_ngcontent-ng-c3178630197] {
+.list-btn[_ngcontent-ng-c3600482293] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -741,23 +741,23 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   flex-shrink: 0;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.list-btn[_ngcontent-ng-c3178630197]:hover {
+.list-btn[_ngcontent-ng-c3600482293]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.nav-menu-backdrop[_ngcontent-ng-c3178630197] {
+.nav-menu-backdrop[_ngcontent-ng-c3600482293] {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
   z-index: 398;
 }
-.nav-menu-wrap[_ngcontent-ng-c3178630197] {
+.nav-menu-wrap[_ngcontent-ng-c3600482293] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
 }
-.nav-menu-trigger[_ngcontent-ng-c3178630197] {
+.nav-menu-trigger[_ngcontent-ng-c3600482293] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -772,11 +772,11 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   white-space: nowrap;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.nav-menu-trigger[_ngcontent-ng-c3178630197]:hover {
+.nav-menu-trigger[_ngcontent-ng-c3600482293]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.nav-menu-popup[_ngcontent-ng-c3178630197] {
+.nav-menu-popup[_ngcontent-ng-c3600482293] {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 16px;
@@ -789,10 +789,10 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   gap: 4px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c3178630197_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3600482293_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.nav-menu-popup[_ngcontent-ng-c3178630197]::after {
+.nav-menu-popup[_ngcontent-ng-c3600482293]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -804,21 +804,28 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-.nav-item[_ngcontent-ng-c3178630197] {
+.nav-item[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
   background: var(--color-bg-muted);
+  border: none;
   border-radius: var(--radius-lg);
   text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: left;
+  box-sizing: border-box;
   transition: background var(--transition);
 }
-.nav-item[_ngcontent-ng-c3178630197]:hover, 
-.nav-item[_ngcontent-ng-c3178630197]:active {
+.nav-item[_ngcontent-ng-c3600482293]:hover, 
+.nav-item[_ngcontent-ng-c3600482293]:active {
   background: var(--color-border);
 }
-.nav-item__icon[_ngcontent-ng-c3178630197] {
+.nav-item__icon[_ngcontent-ng-c3600482293] {
   flex-shrink: 0;
   width: 28px;
   height: 28px;
@@ -830,7 +837,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   justify-content: center;
   color: var(--color-text-secondary);
 }
-.nav-item__text[_ngcontent-ng-c3178630197] {
+.nav-item__text[_ngcontent-ng-c3600482293] {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -838,7 +845,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   gap: 2px;
   text-align: left;
 }
-.nav-item__label[_ngcontent-ng-c3178630197] {
+.nav-item__label[_ngcontent-ng-c3600482293] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
@@ -846,7 +853,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   align-items: center;
   gap: 6px;
 }
-.nav-item__badge[_ngcontent-ng-c3178630197] {
+.nav-item__badge[_ngcontent-ng-c3600482293] {
   font-size: 9px;
   font-weight: 700;
   padding: 1px 5px;
@@ -857,42 +864,42 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   text-transform: uppercase;
   flex-shrink: 0;
 }
-.nav-item__badge--soon[_ngcontent-ng-c3178630197] {
+.nav-item__badge--soon[_ngcontent-ng-c3600482293] {
   background: var(--color-text-light);
 }
-.nav-item__desc[_ngcontent-ng-c3178630197] {
+.nav-item__desc[_ngcontent-ng-c3600482293] {
   font-size: 10.5px;
   color: var(--color-text-light);
 }
-.nav-item__chevron[_ngcontent-ng-c3178630197] {
+.nav-item__chevron[_ngcontent-ng-c3600482293] {
   flex-shrink: 0;
   color: var(--color-text-light);
 }
-.nav-item--facebook[_ngcontent-ng-c3178630197]   .nav-item__icon[_ngcontent-ng-c3178630197] {
+.nav-item--facebook[_ngcontent-ng-c3600482293]   .nav-item__icon[_ngcontent-ng-c3600482293] {
   background: rgba(24, 119, 242, 0.08);
   border-color: rgba(24, 119, 242, 0.2);
   color: #1877F2;
 }
-.nav-item--admin[_ngcontent-ng-c3178630197]   .nav-item__icon[_ngcontent-ng-c3178630197] {
+.nav-item--admin[_ngcontent-ng-c3600482293]   .nav-item__icon[_ngcontent-ng-c3600482293] {
   background: rgba(107, 114, 128, 0.08);
   border-color: rgba(107, 114, 128, 0.2);
   color: var(--color-text-muted);
 }
-.nav-item--locked[_ngcontent-ng-c3178630197] {
+.nav-item--locked[_ngcontent-ng-c3600482293] {
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
   -webkit-user-select: none;
   user-select: none;
 }
-.about-wrap[_ngcontent-ng-c3178630197] {
+.about-wrap[_ngcontent-ng-c3600482293] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   margin-left: 10px;
 }
-.about-trigger[_ngcontent-ng-c3178630197] {
+.about-trigger[_ngcontent-ng-c3600482293] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -903,18 +910,18 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   display: block;
   transition: border-color var(--transition);
 }
-.about-trigger[_ngcontent-ng-c3178630197]:hover {
+.about-trigger[_ngcontent-ng-c3600482293]:hover {
   border-color: var(--color-primary);
 }
-.about-popup--dev[_ngcontent-ng-c3178630197] {
+.about-popup--dev[_ngcontent-ng-c3600482293] {
   left: 0;
   right: auto;
 }
-.about-popup--dev[_ngcontent-ng-c3178630197]::after {
+.about-popup--dev[_ngcontent-ng-c3600482293]::after {
   left: 10px;
   right: auto;
 }
-.footer-right[_ngcontent-ng-c3178630197] {
+.footer-right[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -922,7 +929,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   padding-left: 12px;
   min-width: 0;
 }
-.signin-btn[_ngcontent-ng-c3178630197] {
+.signin-btn[_ngcontent-ng-c3600482293] {
   display: inline-flex;
   align-items: center;
   background: transparent;
@@ -936,17 +943,17 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   white-space: nowrap;
   transition: background var(--transition);
 }
-.signin-btn[_ngcontent-ng-c3178630197]:hover {
+.signin-btn[_ngcontent-ng-c3600482293]:hover {
   background: #fffbeb;
 }
-.profile-wrap[_ngcontent-ng-c3178630197] {
+.profile-wrap[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 10px;
   position: relative;
   min-width: 0;
 }
-.profile-wrap[_ngcontent-ng-c3178630197]   .profile-trigger[_ngcontent-ng-c3178630197] {
+.profile-wrap[_ngcontent-ng-c3600482293]   .profile-trigger[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -955,12 +962,12 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   user-select: none;
   min-width: 0;
 }
-.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197] {
+.profile-wrap[_ngcontent-ng-c3600482293]   .text[_ngcontent-ng-c3600482293] {
   text-align: right;
   min-width: 0;
   overflow: hidden;
 }
-.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197]   .name[_ngcontent-ng-c3178630197] {
+.profile-wrap[_ngcontent-ng-c3600482293]   .text[_ngcontent-ng-c3600482293]   .name[_ngcontent-ng-c3600482293] {
   display: block;
   font-size: 13px;
   font-weight: 600;
@@ -970,7 +977,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197]   .title[_ngcontent-ng-c3178630197] {
+.profile-wrap[_ngcontent-ng-c3600482293]   .text[_ngcontent-ng-c3600482293]   .title[_ngcontent-ng-c3600482293] {
   display: block;
   font-size: 10px;
   color: var(--color-text-muted);
@@ -979,13 +986,13 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.profile-wrap--guest[_ngcontent-ng-c3178630197] {
+.profile-wrap--guest[_ngcontent-ng-c3600482293] {
   cursor: pointer;
 }
-.profile-wrap--guest[_ngcontent-ng-c3178630197]   .name[_ngcontent-ng-c3178630197] {
+.profile-wrap--guest[_ngcontent-ng-c3600482293]   .name[_ngcontent-ng-c3600482293] {
   color: var(--color-text-muted);
 }
-.saved-count[_ngcontent-ng-c3178630197] {
+.saved-count[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -997,35 +1004,35 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   margin-top: 16px;
   transition: background var(--transition);
 }
-.saved-count[_ngcontent-ng-c3178630197]:hover, 
-.saved-count[_ngcontent-ng-c3178630197]:active {
+.saved-count[_ngcontent-ng-c3600482293]:hover, 
+.saved-count[_ngcontent-ng-c3600482293]:active {
   background: var(--color-border);
 }
-.saved-count__icon[_ngcontent-ng-c3178630197] {
+.saved-count__icon[_ngcontent-ng-c3600482293] {
   flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.saved-count__text[_ngcontent-ng-c3178630197] {
+.saved-count__text[_ngcontent-ng-c3600482293] {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: left;
 }
-.saved-count__label[_ngcontent-ng-c3178630197] {
+.saved-count__label[_ngcontent-ng-c3600482293] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
 }
-.saved-count__sub[_ngcontent-ng-c3178630197] {
+.saved-count__sub[_ngcontent-ng-c3600482293] {
   font-size: 10.5px;
   color: var(--color-text-light);
 }
-.saved-count__chevron[_ngcontent-ng-c3178630197] {
+.saved-count__chevron[_ngcontent-ng-c3600482293] {
   margin-left: auto;
   flex-shrink: 0;
   color: var(--color-text-light);
 }
-.about-popup[_ngcontent-ng-c3178630197] {
+.about-popup[_ngcontent-ng-c3600482293] {
   position: absolute;
   bottom: calc(100% + 12px);
   right: 0;
@@ -1039,10 +1046,10 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c3178630197_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3600482293_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.about-popup[_ngcontent-ng-c3178630197]::after {
+.about-popup[_ngcontent-ng-c3600482293]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -1054,7 +1061,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-@keyframes _ngcontent-ng-c3178630197_popUp {
+@keyframes _ngcontent-ng-c3600482293_popUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -1064,7 +1071,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
     transform: translateY(0) scale(1);
   }
 }
-.updates-row[_ngcontent-ng-c3178630197] {
+.updates-row[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1078,16 +1085,16 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.updates-row[_ngcontent-ng-c3178630197]:hover {
+.updates-row[_ngcontent-ng-c3600482293]:hover {
   background: var(--color-border);
 }
-.updates-text[_ngcontent-ng-c3178630197] {
+.updates-text[_ngcontent-ng-c3600482293] {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: left;
 }
-.updates-label[_ngcontent-ng-c3178630197] {
+.updates-label[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1095,16 +1102,16 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   font-weight: 600;
   color: var(--color-text-secondary);
 }
-.updates-icon[_ngcontent-ng-c3178630197] {
+.updates-icon[_ngcontent-ng-c3600482293] {
   flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.updates-sub[_ngcontent-ng-c3178630197] {
+.updates-sub[_ngcontent-ng-c3600482293] {
   font-size: 10.5px;
   color: var(--color-text-light);
   padding-left: 19px;
 }
-.updates-toggle[_ngcontent-ng-c3178630197] {
+.updates-toggle[_ngcontent-ng-c3600482293] {
   width: 34px;
   height: 20px;
   border-radius: 10px;
@@ -1113,7 +1120,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   flex-shrink: 0;
   transition: background 0.2s;
 }
-.updates-toggle__knob[_ngcontent-ng-c3178630197] {
+.updates-toggle__knob[_ngcontent-ng-c3600482293] {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -1124,19 +1131,19 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
-.updates-toggle.on[_ngcontent-ng-c3178630197] {
+.updates-toggle.on[_ngcontent-ng-c3600482293] {
   background: var(--color-primary);
 }
-.updates-toggle.on[_ngcontent-ng-c3178630197]   .updates-toggle__knob[_ngcontent-ng-c3178630197] {
+.updates-toggle.on[_ngcontent-ng-c3600482293]   .updates-toggle__knob[_ngcontent-ng-c3600482293] {
   transform: translateX(14px);
 }
-.about-divider[_ngcontent-ng-c3178630197] {
+.about-divider[_ngcontent-ng-c3600482293] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.signout-btn[_ngcontent-ng-c3178630197] {
+.signout-btn[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1153,16 +1160,16 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   margin-bottom: 10px;
   transition: background var(--transition), color var(--transition);
 }
-.signout-btn[_ngcontent-ng-c3178630197]:hover, 
-.signout-btn[_ngcontent-ng-c3178630197]:active {
+.signout-btn[_ngcontent-ng-c3600482293]:hover, 
+.signout-btn[_ngcontent-ng-c3600482293]:active {
   background: #fef2f2;
   color: #dc2626;
 }
-.signout-btn[_ngcontent-ng-c3178630197]:disabled {
+.signout-btn[_ngcontent-ng-c3600482293]:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.about-version[_ngcontent-ng-c3178630197] {
+.about-version[_ngcontent-ng-c3600482293] {
   width: 100%;
   margin-top: 12px;
   font-size: 10px;
@@ -1170,7 +1177,7 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   font-family: monospace;
   text-align: center;
 }
-.referral-row[_ngcontent-ng-c3178630197] {
+.referral-row[_ngcontent-ng-c3600482293] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1181,14 +1188,14 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   margin-top: 6px;
   gap: 10px;
 }
-.referral-row__text[_ngcontent-ng-c3178630197] {
+.referral-row__text[_ngcontent-ng-c3600482293] {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: left;
   min-width: 0;
 }
-.referral-row__label[_ngcontent-ng-c3178630197] {
+.referral-row__label[_ngcontent-ng-c3600482293] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
@@ -1196,11 +1203,11 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.referral-row__sub[_ngcontent-ng-c3178630197] {
+.referral-row__sub[_ngcontent-ng-c3600482293] {
   font-size: 10.5px;
   color: var(--color-text-light);
 }
-.referral-row__btn[_ngcontent-ng-c3178630197] {
+.referral-row__btn[_ngcontent-ng-c3600482293] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -1215,22 +1222,22 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.referral-row__btn[_ngcontent-ng-c3178630197]:hover {
+.referral-row__btn[_ngcontent-ng-c3600482293]:hover {
   background: #fffbeb;
 }
-.referral-row__btn--copied[_ngcontent-ng-c3178630197] {
+.referral-row__btn--copied[_ngcontent-ng-c3600482293] {
   border-color: #16a34a;
   color: #16a34a;
 }
-.referral-row__btn--copied[_ngcontent-ng-c3178630197]:hover {
+.referral-row__btn--copied[_ngcontent-ng-c3600482293]:hover {
   background: #f0fdf4;
 }
 @media (max-width: 900px) {
-  .footer-links[_ngcontent-ng-c3178630197] {
+  .footer-links[_ngcontent-ng-c3600482293] {
     display: none;
   }
 }
-.so-modal[_ngcontent-ng-c3178630197] {
+.so-modal[_ngcontent-ng-c3600482293] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1238,20 +1245,20 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   padding: 8px 0 4px;
   text-align: center;
 }
-.so-spinner[_ngcontent-ng-c3178630197] {
+.so-spinner[_ngcontent-ng-c3600482293] {
   width: 40px;
   height: 40px;
   border: 3px solid var(--color-bg-muted);
   border-top-color: var(--color-primary);
   border-radius: 50%;
-  animation: _ngcontent-ng-c3178630197_so-spin 0.7s linear infinite;
+  animation: _ngcontent-ng-c3600482293_so-spin 0.7s linear infinite;
 }
-@keyframes _ngcontent-ng-c3178630197_so-spin {
+@keyframes _ngcontent-ng-c3600482293_so-spin {
   to {
     transform: rotate(360deg);
   }
 }
-.so-check[_ngcontent-ng-c3178630197] {
+.so-check[_ngcontent-ng-c3600482293] {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -1262,13 +1269,13 @@ app-filter-bar[_ngcontent-ng-c1575752761] {
   align-items: center;
   justify-content: center;
 }
-.so-title[_ngcontent-ng-c3178630197] {
+.so-title[_ngcontent-ng-c3600482293] {
   margin: 0;
   font-size: 15px;
   font-weight: 700;
   color: var(--color-text-base);
 }
-.so-sub[_ngcontent-ng-c3178630197] {
+.so-sub[_ngcontent-ng-c3600482293] {
   margin: 0;
   font-size: 13px;
   color: var(--color-text-muted);
@@ -2060,7 +2067,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
 }
 /*# sourceMappingURL=/test/image-gallery.component.css.map */</style><style ng-app-id="ng">
 
-.gs-locked[_ngcontent-ng-c226430213] {
+.gs-locked[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2071,11 +2078,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-size: 13px;
   color: var(--color-text-muted);
 }
-.gs-locked[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+.gs-locked[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947] {
   flex-shrink: 0;
   color: var(--color-text-light);
 }
-.gs-intro[_ngcontent-ng-c226430213] {
+.gs-intro[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2086,20 +2093,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 12px 14px;
   margin-bottom: 16px;
 }
-.gs-intro__text[_ngcontent-ng-c226430213] {
+.gs-intro__text[_ngcontent-ng-c2811580947] {
   flex: 1;
   min-width: 0;
 }
-.gs-intro__desc[_ngcontent-ng-c226430213] {
+.gs-intro__desc[_ngcontent-ng-c2811580947] {
   font-size: 12.5px;
   color: var(--color-text-muted);
   margin: 0;
   line-height: 1.45;
 }
-.gs-intro__desc[_ngcontent-ng-c226430213]   strong[_ngcontent-ng-c226430213] {
+.gs-intro__desc[_ngcontent-ng-c2811580947]   strong[_ngcontent-ng-c2811580947] {
   color: var(--color-text-secondary);
 }
-.gs-create-btn[_ngcontent-ng-c226430213] {
+.gs-create-btn[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2116,21 +2123,21 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition), box-shadow var(--transition);
 }
-.gs-create-btn[_ngcontent-ng-c226430213]:hover {
+.gs-create-btn[_ngcontent-ng-c2811580947]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 12px rgba(244, 169, 34, 0.38);
 }
-.gs-create-btn--locked[_ngcontent-ng-c226430213] {
+.gs-create-btn--locked[_ngcontent-ng-c2811580947] {
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
   box-shadow: none;
 }
-.gs-create-btn--locked[_ngcontent-ng-c226430213]:hover {
+.gs-create-btn--locked[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-border);
   opacity: 1;
   box-shadow: none;
 }
-.gs-join-strip[_ngcontent-ng-c226430213] {
+.gs-join-strip[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2150,20 +2157,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     color var(--transition);
   text-align: left;
 }
-.gs-join-strip[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213]:first-child {
+.gs-join-strip[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947]:first-child {
   flex-shrink: 0;
   opacity: 0.7;
 }
-.gs-join-strip[_ngcontent-ng-c226430213]:hover {
+.gs-join-strip[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
   border-color: var(--color-primary);
   color: var(--color-text-secondary);
 }
-.gs-join-strip__chevron[_ngcontent-ng-c226430213] {
+.gs-join-strip__chevron[_ngcontent-ng-c2811580947] {
   margin-left: auto;
   flex-shrink: 0;
 }
-.gs-gate__btn[_ngcontent-ng-c226430213] {
+.gs-gate__btn[_ngcontent-ng-c2811580947] {
   background: var(--color-primary);
   color: #fff;
   border: none;
@@ -2175,10 +2182,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition);
 }
-.gs-gate__btn[_ngcontent-ng-c226430213]:hover {
+.gs-gate__btn[_ngcontent-ng-c2811580947]:hover {
   opacity: 0.9;
 }
-.gs-form[_ngcontent-ng-c226430213] {
+.gs-form[_ngcontent-ng-c2811580947] {
   background: var(--color-bg-light);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
@@ -2187,9 +2194,9 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  animation: _ngcontent-ng-c226430213_gsSlideDown 0.2s ease;
+  animation: _ngcontent-ng-c2811580947_gsSlideDown 0.2s ease;
 }
-@keyframes _ngcontent-ng-c226430213_gsSlideDown {
+@keyframes _ngcontent-ng-c2811580947_gsSlideDown {
   from {
     opacity: 0;
     transform: translateY(-6px);
@@ -2199,18 +2206,18 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     transform: translateY(0);
   }
 }
-.gs-form__header[_ngcontent-ng-c226430213] {
+.gs-form__header[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.gs-form__title[_ngcontent-ng-c226430213] {
+.gs-form__title[_ngcontent-ng-c2811580947] {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-base);
   margin: 0;
 }
-.gs-form__close[_ngcontent-ng-c226430213] {
+.gs-form__close[_ngcontent-ng-c2811580947] {
   width: 28px;
   height: 28px;
   border: none;
@@ -2223,23 +2230,23 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-muted);
   transition: background var(--transition);
 }
-.gs-form__close[_ngcontent-ng-c226430213]:hover {
+.gs-form__close[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-border);
 }
-.gs-form__field[_ngcontent-ng-c226430213] {
+.gs-form__field[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
 }
-.gs-form__field[_ngcontent-ng-c226430213]   label[_ngcontent-ng-c226430213] {
+.gs-form__field[_ngcontent-ng-c2811580947]   label[_ngcontent-ng-c2811580947] {
   font-size: 11.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
   letter-spacing: 0.02em;
 }
-.gs-form__field[_ngcontent-ng-c226430213]   input[_ngcontent-ng-c226430213], 
-.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213] {
+.gs-form__field[_ngcontent-ng-c2811580947]   input[_ngcontent-ng-c2811580947], 
+.gs-form__field[_ngcontent-ng-c2811580947]   textarea[_ngcontent-ng-c2811580947] {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 8px 10px;
@@ -2250,35 +2257,60 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   width: 100%;
   box-sizing: border-box;
 }
-.gs-form__field[_ngcontent-ng-c226430213]   input[_ngcontent-ng-c226430213]:focus, 
-.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213]:focus {
+.gs-form__field[_ngcontent-ng-c2811580947]   input[_ngcontent-ng-c2811580947]:focus, 
+.gs-form__field[_ngcontent-ng-c2811580947]   textarea[_ngcontent-ng-c2811580947]:focus {
   outline: none;
   border-color: var(--color-primary);
 }
-.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213] {
+.gs-form__field[_ngcontent-ng-c2811580947]   textarea[_ngcontent-ng-c2811580947] {
   resize: vertical;
   min-height: 72px;
 }
-.gs-form__opt[_ngcontent-ng-c226430213] {
+.gs-form__opt[_ngcontent-ng-c2811580947] {
   font-weight: 400;
   color: var(--color-text-light);
 }
-.gs-form__hint[_ngcontent-ng-c226430213] {
+.gs-form__lock-hint[_ngcontent-ng-c2811580947] {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  vertical-align: middle;
+}
+.gs-price-wrap[_ngcontent-ng-c2811580947] {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.gs-price-wrap[_ngcontent-ng-c2811580947]   .gs-price-euro[_ngcontent-ng-c2811580947] {
+  position: absolute;
+  left: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.gs-price-wrap[_ngcontent-ng-c2811580947]   input[_ngcontent-ng-c2811580947] {
+  padding-left: 24px;
+  width: 100%;
+}
+.gs-form__hint[_ngcontent-ng-c2811580947] {
   display: block;
   font-size: 11px;
   color: var(--color-text-muted);
   margin-top: 4px;
 }
-.gs-form__row[_ngcontent-ng-c226430213] {
+.gs-form__row[_ngcontent-ng-c2811580947] {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-.gs-form__chips[_ngcontent-ng-c226430213] {
+.gs-form__chips[_ngcontent-ng-c2811580947] {
   display: flex;
   gap: 6px;
 }
-.gs-form__locked-spot[_ngcontent-ng-c226430213] {
+.gs-form__locked-spot[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2290,14 +2322,14 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-secondary);
   font-weight: 600;
 }
-.gs-form__locked-spot[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+.gs-form__locked-spot[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947] {
   color: var(--color-primary);
   flex-shrink: 0;
 }
-.gs-form__field--spot[_ngcontent-ng-c226430213] {
+.gs-form__field--spot[_ngcontent-ng-c2811580947] {
   position: relative;
 }
-.gs-spot-pick__btn[_ngcontent-ng-c226430213] {
+.gs-spot-pick__btn[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2310,11 +2342,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition);
 }
-.gs-spot-pick__btn[_ngcontent-ng-c226430213]:hover {
+.gs-spot-pick__btn[_ngcontent-ng-c2811580947]:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
-.gs-spot-picking[_ngcontent-ng-c226430213] {
+.gs-spot-picking[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2324,7 +2356,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   border: 1px solid rgba(244, 169, 34, 0.3);
   border-radius: var(--radius-md);
 }
-.gs-spot-picking__msg[_ngcontent-ng-c226430213] {
+.gs-spot-picking__msg[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2332,10 +2364,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 500;
   color: var(--color-primary);
 }
-.gs-spot-picking__msg[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+.gs-spot-picking__msg[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947] {
   flex-shrink: 0;
 }
-.gs-spot-picking__cancel[_ngcontent-ng-c226430213] {
+.gs-spot-picking__cancel[_ngcontent-ng-c2811580947] {
   background: none;
   border: none;
   color: var(--color-text-muted);
@@ -2345,10 +2377,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   flex-shrink: 0;
   text-decoration: underline;
 }
-.gs-spot-picking__cancel[_ngcontent-ng-c226430213]:hover {
+.gs-spot-picking__cancel[_ngcontent-ng-c2811580947]:hover {
   color: var(--color-text-secondary);
 }
-.gs-spot-selected[_ngcontent-ng-c226430213] {
+.gs-spot-selected[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2357,11 +2389,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.gs-spot-selected[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+.gs-spot-selected[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947] {
   flex-shrink: 0;
   color: var(--color-primary);
 }
-.gs-spot-selected__name[_ngcontent-ng-c226430213] {
+.gs-spot-selected__name[_ngcontent-ng-c2811580947] {
   flex: 1;
   font-size: 13px;
   font-weight: 600;
@@ -2371,13 +2403,13 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.gs-spot-selected__actions[_ngcontent-ng-c226430213] {
+.gs-spot-selected__actions[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
 }
-.gs-spot-selected__change[_ngcontent-ng-c226430213] {
+.gs-spot-selected__change[_ngcontent-ng-c2811580947] {
   background: none;
   border: none;
   font-size: 11.5px;
@@ -2386,10 +2418,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 0;
   font-weight: 600;
 }
-.gs-spot-selected__change[_ngcontent-ng-c226430213]:hover {
+.gs-spot-selected__change[_ngcontent-ng-c2811580947]:hover {
   text-decoration: underline;
 }
-.gs-spot-selected__remove[_ngcontent-ng-c226430213] {
+.gs-spot-selected__remove[_ngcontent-ng-c2811580947] {
   background: none;
   border: none;
   font-size: 11.5px;
@@ -2398,10 +2430,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 0;
   text-decoration: underline;
 }
-.gs-spot-selected__remove[_ngcontent-ng-c226430213]:hover {
+.gs-spot-selected__remove[_ngcontent-ng-c2811580947]:hover {
   color: #dc2626;
 }
-.gs-meeting-pick__btn[_ngcontent-ng-c226430213] {
+.gs-meeting-pick__btn[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2414,12 +2446,12 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition);
 }
-.gs-meeting-pick__btn[_ngcontent-ng-c226430213]:hover, 
-.gs-meeting-pick__btn.picking[_ngcontent-ng-c226430213] {
+.gs-meeting-pick__btn[_ngcontent-ng-c2811580947]:hover, 
+.gs-meeting-pick__btn.picking[_ngcontent-ng-c2811580947] {
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
-.gs-meeting-set[_ngcontent-ng-c226430213] {
+.gs-meeting-set[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2427,7 +2459,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: #22c55e;
   font-weight: 500;
 }
-.gs-meeting-set__remove[_ngcontent-ng-c226430213] {
+.gs-meeting-set__remove[_ngcontent-ng-c2811580947] {
   background: none;
   border: none;
   color: var(--color-text-muted);
@@ -2437,15 +2469,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 0;
   margin-left: 4px;
 }
-.gs-meeting-set__remove[_ngcontent-ng-c226430213]:hover {
+.gs-meeting-set__remove[_ngcontent-ng-c2811580947]:hover {
   color: #dc2626;
 }
-.gs-meeting-confirm[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.gs-meeting-confirm__msg[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm__msg[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2453,15 +2485,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 500;
   color: var(--color-text-base);
 }
-.gs-meeting-confirm__msg[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm__msg[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947] {
   color: var(--color-primary);
   flex-shrink: 0;
 }
-.gs-meeting-confirm__actions[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm__actions[_ngcontent-ng-c2811580947] {
   display: flex;
   gap: 8px;
 }
-.gs-meeting-confirm__retry[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm__retry[_ngcontent-ng-c2811580947] {
   flex: 1;
   padding: 6px 10px;
   border: 1.5px solid var(--color-border);
@@ -2471,10 +2503,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-secondary);
   cursor: pointer;
 }
-.gs-meeting-confirm__retry[_ngcontent-ng-c226430213]:hover {
+.gs-meeting-confirm__retry[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
 }
-.gs-meeting-confirm__ok[_ngcontent-ng-c226430213] {
+.gs-meeting-confirm__ok[_ngcontent-ng-c2811580947] {
   flex: 1;
   padding: 6px 10px;
   border: none;
@@ -2485,20 +2517,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 600;
   cursor: pointer;
 }
-.gs-meeting-confirm__ok[_ngcontent-ng-c226430213]:hover {
+.gs-meeting-confirm__ok[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-primary-hover);
 }
-.gs-form__error[_ngcontent-ng-c226430213] {
+.gs-form__error[_ngcontent-ng-c2811580947] {
   font-size: 12px;
   color: #dc2626;
   margin: 0;
 }
-.gs-form__actions[_ngcontent-ng-c226430213] {
+.gs-form__actions[_ngcontent-ng-c2811580947] {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
 }
-.gs-form__cancel[_ngcontent-ng-c226430213] {
+.gs-form__cancel[_ngcontent-ng-c2811580947] {
   padding: 8px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -2508,10 +2540,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.gs-form__cancel[_ngcontent-ng-c226430213]:hover {
+.gs-form__cancel[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
 }
-.gs-form__submit[_ngcontent-ng-c226430213] {
+.gs-form__submit[_ngcontent-ng-c2811580947] {
   padding: 8px 16px;
   border: none;
   border-radius: var(--radius-md);
@@ -2522,33 +2554,33 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: opacity var(--transition);
 }
-.gs-form__submit[_ngcontent-ng-c226430213]:hover {
+.gs-form__submit[_ngcontent-ng-c2811580947]:hover {
   opacity: 0.9;
 }
-.gs-form__submit[_ngcontent-ng-c226430213]:disabled {
+.gs-form__submit[_ngcontent-ng-c2811580947]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.gs-loading[_ngcontent-ng-c226430213] {
+.gs-loading[_ngcontent-ng-c2811580947] {
   display: flex;
   justify-content: center;
   gap: 6px;
   padding: 24px 0;
 }
-.gs-loading__dot[_ngcontent-ng-c226430213] {
+.gs-loading__dot[_ngcontent-ng-c2811580947] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--color-border);
-  animation: _ngcontent-ng-c226430213_gsDotPulse 1.2s ease-in-out infinite;
+  animation: _ngcontent-ng-c2811580947_gsDotPulse 1.2s ease-in-out infinite;
 }
-.gs-loading__dot[_ngcontent-ng-c226430213]:nth-child(2) {
+.gs-loading__dot[_ngcontent-ng-c2811580947]:nth-child(2) {
   animation-delay: 0.2s;
 }
-.gs-loading__dot[_ngcontent-ng-c226430213]:nth-child(3) {
+.gs-loading__dot[_ngcontent-ng-c2811580947]:nth-child(3) {
   animation-delay: 0.4s;
 }
-@keyframes _ngcontent-ng-c226430213_gsDotPulse {
+@keyframes _ngcontent-ng-c2811580947_gsDotPulse {
   0%, 80%, 100% {
     transform: scale(0.8);
     opacity: 0.4;
@@ -2558,12 +2590,12 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     opacity: 1;
   }
 }
-.gs-list[_ngcontent-ng-c226430213] {
+.gs-list[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.gs-list__count[_ngcontent-ng-c226430213] {
+.gs-list__count[_ngcontent-ng-c2811580947] {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -2571,7 +2603,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-light);
   margin-bottom: 2px;
 }
-.gs-empty[_ngcontent-ng-c226430213] {
+.gs-empty[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2579,23 +2611,23 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   gap: 6px;
   padding: 28px 16px;
 }
-.gs-empty__icon[_ngcontent-ng-c226430213] {
+.gs-empty__icon[_ngcontent-ng-c2811580947] {
   font-size: 28px;
   line-height: 1;
   margin-bottom: 4px;
 }
-.gs-empty__msg[_ngcontent-ng-c226430213] {
+.gs-empty__msg[_ngcontent-ng-c2811580947] {
   font-size: 14px;
   font-weight: 600;
   color: var(--color-text-base);
   margin: 0;
 }
-.gs-empty__sub[_ngcontent-ng-c226430213] {
+.gs-empty__sub[_ngcontent-ng-c2811580947] {
   font-size: 12.5px;
   color: var(--color-text-muted);
   margin: 0;
 }
-.gs-empty__cta[_ngcontent-ng-c226430213] {
+.gs-empty__cta[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2611,10 +2643,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition);
 }
-.gs-empty__cta[_ngcontent-ng-c226430213]:hover {
+.gs-empty__cta[_ngcontent-ng-c2811580947]:hover {
   opacity: 0.9;
 }
-.gs-empty--spot[_ngcontent-ng-c226430213] {
+.gs-empty--spot[_ngcontent-ng-c2811580947] {
   background:
     linear-gradient(
       135deg,
@@ -2624,11 +2656,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   border-radius: var(--radius-xl);
   padding: 24px 16px;
 }
-.gs-empty--spot[_ngcontent-ng-c226430213]   .gs-empty__sub[_ngcontent-ng-c226430213] {
+.gs-empty--spot[_ngcontent-ng-c2811580947]   .gs-empty__sub[_ngcontent-ng-c2811580947] {
   max-width: 230px;
   line-height: 1.5;
 }
-.gs-empty__explore[_ngcontent-ng-c226430213] {
+.gs-empty__explore[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2644,13 +2676,13 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition);
 }
-.gs-empty__explore[_ngcontent-ng-c226430213]:hover {
+.gs-empty__explore[_ngcontent-ng-c2811580947]:hover {
   opacity: 0.9;
 }
-.gs-my-groups[_ngcontent-ng-c226430213] {
+.gs-my-groups[_ngcontent-ng-c2811580947] {
   margin-bottom: 16px;
 }
-.gs-section-toggle[_ngcontent-ng-c226430213] {
+.gs-section-toggle[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -2661,14 +2693,14 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   text-align: left;
 }
-.gs-section-label[_ngcontent-ng-c226430213] {
+.gs-section-label[_ngcontent-ng-c2811580947] {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--color-text-light);
 }
-.gs-section-badge[_ngcontent-ng-c226430213] {
+.gs-section-badge[_ngcontent-ng-c2811580947] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2681,27 +2713,27 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-size: 9.5px;
   font-weight: 700;
 }
-.gs-section-chevron[_ngcontent-ng-c226430213] {
+.gs-section-chevron[_ngcontent-ng-c2811580947] {
   margin-left: auto;
   flex-shrink: 0;
   transition: transform var(--transition);
   color: var(--color-text-light);
 }
-.gs-section-chevron--open[_ngcontent-ng-c226430213] {
+.gs-section-chevron--open[_ngcontent-ng-c2811580947] {
   transform: rotate(180deg);
 }
-.gs-section-list[_ngcontent-ng-c226430213] {
+.gs-section-list[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  animation: _ngcontent-ng-c226430213_gsSlideDown 0.18s ease;
+  animation: _ngcontent-ng-c2811580947_gsSlideDown 0.18s ease;
 }
-.gs-card-wrap[_ngcontent-ng-c226430213] {
+.gs-card-wrap[_ngcontent-ng-c2811580947] {
   position: relative;
   flex: 1;
   min-width: 0;
 }
-.gs-archive-btn[_ngcontent-ng-c226430213] {
+.gs-archive-btn[_ngcontent-ng-c2811580947] {
   flex-shrink: 0;
   align-self: center;
   width: 28px;
@@ -2718,18 +2750,18 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 400;
   transition: background var(--transition);
 }
-.gs-archive-btn[_ngcontent-ng-c226430213]:hover {
+.gs-archive-btn[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-danger-bg-hover);
 }
-.gs-past[_ngcontent-ng-c226430213] {
+.gs-past[_ngcontent-ng-c2811580947] {
   margin-top: 8px;
 }
-.gs-past__header[_ngcontent-ng-c226430213] {
+.gs-past__header[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.gs-bulk-select-btn[_ngcontent-ng-c226430213] {
+.gs-bulk-select-btn[_ngcontent-ng-c2811580947] {
   flex-shrink: 0;
   padding: 4px 10px;
   border-radius: var(--radius-md);
@@ -2744,28 +2776,28 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     color var(--transition),
     border-color var(--transition);
 }
-.gs-bulk-select-btn[_ngcontent-ng-c226430213]:hover {
+.gs-bulk-select-btn[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
   color: var(--color-text-secondary);
 }
-.gs-bulk-select-btn--active[_ngcontent-ng-c226430213] {
+.gs-bulk-select-btn--active[_ngcontent-ng-c2811580947] {
   background: var(--color-bg-muted);
   color: var(--color-text-secondary);
   border-color: var(--color-text-light);
 }
-.gs-past__item[_ngcontent-ng-c226430213] {
+.gs-past__item[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: flex-start;
   gap: 8px;
 }
-.gs-past__item--selectable[_ngcontent-ng-c226430213] {
+.gs-past__item--selectable[_ngcontent-ng-c2811580947] {
   cursor: pointer;
 }
-.gs-past__item--selected[_ngcontent-ng-c226430213]   .gs-card-wrap[_ngcontent-ng-c226430213] {
+.gs-past__item--selected[_ngcontent-ng-c2811580947]   .gs-card-wrap[_ngcontent-ng-c2811580947] {
   outline: 2px solid var(--color-primary);
   border-radius: var(--radius-xl);
 }
-.gs-past__checkbox[_ngcontent-ng-c226430213] {
+.gs-past__checkbox[_ngcontent-ng-c2811580947] {
   width: 20px;
   height: 20px;
   border-radius: var(--radius-sm);
@@ -2778,12 +2810,12 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   margin-top: 14px;
   transition: border-color var(--transition), background var(--transition);
 }
-.gs-past__checkbox--checked[_ngcontent-ng-c226430213] {
+.gs-past__checkbox--checked[_ngcontent-ng-c2811580947] {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #fff;
 }
-.gs-bulk-bar[_ngcontent-ng-c226430213] {
+.gs-bulk-bar[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2794,14 +2826,14 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   border-radius: var(--radius-lg);
   margin-top: 8px;
 }
-.gs-bulk-bar__count[_ngcontent-ng-c226430213] {
+.gs-bulk-bar__count[_ngcontent-ng-c2811580947] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
   flex: 1;
   min-width: 80px;
 }
-.gs-bulk-bar__select-all[_ngcontent-ng-c226430213] {
+.gs-bulk-bar__select-all[_ngcontent-ng-c2811580947] {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-muted);
@@ -2812,10 +2844,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.gs-bulk-bar__select-all[_ngcontent-ng-c226430213]:hover {
+.gs-bulk-bar__select-all[_ngcontent-ng-c2811580947]:hover {
   color: var(--color-text-secondary);
 }
-.gs-bulk-bar__btn[_ngcontent-ng-c226430213] {
+.gs-bulk-bar__btn[_ngcontent-ng-c2811580947] {
   padding: 6px 12px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
@@ -2830,18 +2862,18 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     border-color var(--transition),
     color var(--transition);
 }
-.gs-bulk-bar__btn[_ngcontent-ng-c226430213]:hover {
+.gs-bulk-bar__btn[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
 }
-.gs-bulk-bar__btn--danger[_ngcontent-ng-c226430213] {
+.gs-bulk-bar__btn--danger[_ngcontent-ng-c2811580947] {
   color: var(--color-danger);
   border-color: var(--color-danger-border);
   background: var(--color-danger-bg);
 }
-.gs-bulk-bar__btn--danger[_ngcontent-ng-c226430213]:hover {
+.gs-bulk-bar__btn--danger[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-danger-bg-hover);
 }
-.gs-past__toggle[_ngcontent-ng-c226430213] {
+.gs-past__toggle[_ngcontent-ng-c2811580947] {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -2860,30 +2892,30 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     border-color var(--transition),
     color var(--transition);
 }
-.gs-past__toggle[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213]:first-child {
+.gs-past__toggle[_ngcontent-ng-c2811580947]   svg[_ngcontent-ng-c2811580947]:first-child {
   flex-shrink: 0;
   opacity: 0.7;
 }
-.gs-past__toggle[_ngcontent-ng-c226430213]:hover {
+.gs-past__toggle[_ngcontent-ng-c2811580947]:hover {
   background: var(--color-bg-muted);
   border-color: var(--color-text-light);
   color: var(--color-text-secondary);
 }
-.gs-past__chevron[_ngcontent-ng-c226430213] {
+.gs-past__chevron[_ngcontent-ng-c2811580947] {
   margin-left: auto;
   flex-shrink: 0;
   transition: transform var(--transition);
 }
-.gs-past__chevron--open[_ngcontent-ng-c226430213] {
+.gs-past__chevron--open[_ngcontent-ng-c2811580947] {
   transform: rotate(180deg);
 }
-.gs-past__list[_ngcontent-ng-c226430213] {
+.gs-past__list[_ngcontent-ng-c2811580947] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 10px;
   opacity: 0.72;
-  animation: _ngcontent-ng-c226430213_gsSlideDown 0.18s ease;
+  animation: _ngcontent-ng-c2811580947_gsSlideDown 0.18s ease;
 }
 /*# sourceMappingURL=/test/groups-section.component.css.map */</style><style ng-app-id="ng">
 
@@ -3227,15 +3259,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "1"
 }--><!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
-}--><!--container--></div><div _ngcontent-ng-c2063673587="" class="exploring-section"><h4 _ngcontent-ng-c2063673587="" class="exploring-title"><svg _ngcontent-ng-c2063673587="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c2063673587="" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c2063673587="" cx="9" cy="7" r="4"></circle><path _ngcontent-ng-c2063673587="" d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path _ngcontent-ng-c2063673587="" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Explore Together <span _ngcontent-ng-c2063673587="" class="exploring-new-badge">New</span></h4><app-groups-section _ngcontent-ng-c2063673587="" _nghost-ng-c226430213="" ng-reflect-locked-location="[object Object]"><!--bindings={
+}--><!--container--></div><div _ngcontent-ng-c2063673587="" class="exploring-section"><h4 _ngcontent-ng-c2063673587="" class="exploring-title"><svg _ngcontent-ng-c2063673587="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c2063673587="" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c2063673587="" cx="9" cy="7" r="4"></circle><path _ngcontent-ng-c2063673587="" d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path _ngcontent-ng-c2063673587="" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Explore Together <span _ngcontent-ng-c2063673587="" class="exploring-new-badge">New</span></h4><app-groups-section _ngcontent-ng-c2063673587="" _nghost-ng-c2811580947="" ng-reflect-locked-location="[object Object]"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c226430213="" class="gs-intro"><div _ngcontent-ng-c226430213="" class="gs-intro__text"><!--bindings={
+}--><div _ngcontent-ng-c2811580947="" class="gs-intro"><div _ngcontent-ng-c2811580947="" class="gs-intro__text"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><p _ngcontent-ng-c226430213="" class="gs-intro__desc"> Planning a visit to <strong _ngcontent-ng-c226430213="">Anchor Bay &amp; Popeye Cliffs</strong>? Join a group or start your own. </p><!--bindings={
+}--><p _ngcontent-ng-c2811580947="" class="gs-intro__desc"> Planning a visit to <strong _ngcontent-ng-c2811580947="">Anchor Bay &amp; Popeye Cliffs</strong>? Join a group or start your own. </p><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><button _ngcontent-ng-c226430213="" class="gs-create-btn gs-create-btn--locked"><svg _ngcontent-ng-c226430213="" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect _ngcontent-ng-c226430213="" x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path _ngcontent-ng-c226430213="" d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Sign in to join </button><!--bindings={
+}--><button _ngcontent-ng-c2811580947="" class="gs-create-btn gs-create-btn--locked"><svg _ngcontent-ng-c2811580947="" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect _ngcontent-ng-c2811580947="" x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path _ngcontent-ng-c2811580947="" d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Sign in to join </button><!--bindings={
   "ng-reflect-ng-if": "true"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -3253,7 +3285,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c226430213="" class="gs-empty gs-empty--spot"><div _ngcontent-ng-c226430213="" class="gs-empty__icon">💬</div><p _ngcontent-ng-c226430213="" class="gs-empty__msg">No groups at this spot yet</p><p _ngcontent-ng-c226430213="" class="gs-empty__sub">Meet other explorers, share tips and plan visits together in the groups chat.</p><button _ngcontent-ng-c226430213="" class="gs-empty__explore"> See all groups &amp; chat <svg _ngcontent-ng-c226430213="" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline _ngcontent-ng-c226430213="" points="9 18 15 12 9 6"></polyline></svg></button></div><!--bindings={
+}--><div _ngcontent-ng-c2811580947="" class="gs-empty gs-empty--spot"><div _ngcontent-ng-c2811580947="" class="gs-empty__icon">💬</div><p _ngcontent-ng-c2811580947="" class="gs-empty__msg">No groups at this spot yet</p><p _ngcontent-ng-c2811580947="" class="gs-empty__sub">Meet other explorers, share tips and plan visits together in the groups chat.</p><button _ngcontent-ng-c2811580947="" class="gs-empty__explore"> See all groups &amp; chat <svg _ngcontent-ng-c2811580947="" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline _ngcontent-ng-c2811580947="" points="9 18 15 12 9 6"></polyline></svg></button></div><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -3275,25 +3307,25 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "4"
 }--></div></app-location-detail><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c1575752761="" _nghost-ng-c3178630197=""><!--bindings={
+}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c1575752761="" _nghost-ng-c3600482293=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3178630197="" class="bottom-bar"><!--bindings={
+}--><div _ngcontent-ng-c3600482293="" class="bottom-bar"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3178630197="" class="nav-menu-wrap"><button _ngcontent-ng-c3178630197="" class="nav-menu-trigger"><svg _ngcontent-ng-c3178630197="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c3178630197="" x1="3" y1="12" x2="21" y2="12"></line><line _ngcontent-ng-c3178630197="" x1="3" y1="6" x2="21" y2="6"></line><line _ngcontent-ng-c3178630197="" x1="3" y1="18" x2="21" y2="18"></line></svg> Explore </button></div><!--bindings={
+}--><div _ngcontent-ng-c3600482293="" class="nav-menu-wrap"><button _ngcontent-ng-c3600482293="" class="nav-menu-trigger"><svg _ngcontent-ng-c3600482293="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c3600482293="" x1="3" y1="12" x2="21" y2="12"></line><line _ngcontent-ng-c3600482293="" x1="3" y1="6" x2="21" y2="6"></line><line _ngcontent-ng-c3600482293="" x1="3" y1="18" x2="21" y2="18"></line></svg> Explore </button></div><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3178630197="" class="footer-right"><!--bindings={
+}--><div _ngcontent-ng-c3600482293="" class="footer-right"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c3178630197="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3178630197="" class="text"><span _ngcontent-ng-c3178630197="" class="name">Sign in</span><span _ngcontent-ng-c3178630197="" class="title">Save places &amp; unlock deals</span></div><app-user-avatar _ngcontent-ng-c3178630197="" size="md" shape="squircle" _nghost-ng-c1744324182="" ng-reflect-size="md" ng-reflect-shape="squircle" ng-reflect-photo-u-r-l=""><div _ngcontent-ng-c1744324182="" class="uav-wrap"><div _ngcontent-ng-c1744324182="" class="uav uav--guest uav--md uav--squircle"><!--container--><svg _ngcontent-ng-c1744324182="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="uav-guest-icon"><path _ngcontent-ng-c1744324182="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c1744324182="" cx="12" cy="7" r="4"></circle></svg><!--container--></div><!--container--></div></app-user-avatar></div><!--bindings={
+}--><div _ngcontent-ng-c3600482293="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3600482293="" class="text"><span _ngcontent-ng-c3600482293="" class="name">Sign in</span><span _ngcontent-ng-c3600482293="" class="title">Save places &amp; unlock deals</span></div><app-user-avatar _ngcontent-ng-c3600482293="" size="md" shape="squircle" _nghost-ng-c1744324182="" ng-reflect-size="md" ng-reflect-shape="squircle" ng-reflect-photo-u-r-l=""><div _ngcontent-ng-c1744324182="" class="uav-wrap"><div _ngcontent-ng-c1744324182="" class="uav uav--guest uav--md uav--squircle"><!--container--><svg _ngcontent-ng-c1744324182="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="uav-guest-icon"><path _ngcontent-ng-c1744324182="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c1744324182="" cx="12" cy="7" r="4"></circle></svg><!--container--></div><!--container--></div></app-user-avatar></div><!--bindings={
   "ng-reflect-ng-if": "true"
 }--></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c719644931="" _nghost-ng-c2979277173=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c719644931="" class="app-version">v2.0.0</span><!--bindings={
+}--><span _ngcontent-ng-c719644931="" class="app-version">v2.0.2</span><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><app-welcome-popup _ngcontent-ng-c719644931="" _nghost-ng-c2212365901=""><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -3303,7 +3335,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "false"
 }--></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-YLOOUTEI.js"><link rel="modulepreload" href="chunk-62NNIWOP.js"><link rel="modulepreload" href="chunk-AFV7OAE7.js"><link rel="modulepreload" href="chunk-BS6XIB6G.js"><link rel="modulepreload" href="chunk-AOR6446T.js"><link rel="modulepreload" href="chunk-LLZT5DQF.js"><link rel="modulepreload" href="chunk-HMI5MUHL.js"><link rel="modulepreload" href="chunk-WILWZNDO.js"><link rel="modulepreload" href="chunk-ZPEFIUFS.js"><link rel="modulepreload" href="chunk-ADG4HADG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-IP6E4YY5.js"><link rel="modulepreload" href="chunk-62NNIWOP.js"><link rel="modulepreload" href="chunk-AFV7OAE7.js"><link rel="modulepreload" href="chunk-2WMPE2GG.js"><link rel="modulepreload" href="chunk-HWJTBDX2.js"><link rel="modulepreload" href="chunk-PHYDDMB4.js"><link rel="modulepreload" href="chunk-HMI5MUHL.js"><link rel="modulepreload" href="chunk-WILWZNDO.js"><link rel="modulepreload" href="chunk-ZPEFIUFS.js"><link rel="modulepreload" href="chunk-ADG4HADG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>

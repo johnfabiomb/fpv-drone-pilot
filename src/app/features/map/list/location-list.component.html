@@ -1,0 +1,105 @@
+<app-panel-shell
+  title="Browse Locations"
+  (closeRequested)="goToMap()"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (bodyDragStart)="bridge.panel.startDrag($event)"
+  (bodyDragMove)="bridge.panel.onDragMove($event)"
+  (bodyDragEnd)="bridge.panel.onDragEnd($event)">
+
+  <span panelActions class="list-count">{{ activeFilter() === 'deals' ? allProviders.length : filteredLocations().length }}</span>
+
+  <div class="controls">
+    <div class="search-row" [class.search-row--focused]="searchFocused()">
+      <div class="search-wrap">
+        <i class="fa fa-search search-icon"></i>
+        <input
+          class="search-input"
+          type="search"
+          placeholder="Search locations…"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          (focus)="searchFocused.set(true)"
+          (blur)="searchFocused.set(false)"
+          autocomplete="off">
+        <button *ngIf="searchQuery()" class="search-clear" (click)="searchQuery.set('')">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="sort-inline">
+        <button class="sort-btn" [class.active]="sortMode() === 'distance'" (click)="setSort('distance')" [disabled]="!hasGps()">
+          📍
+        </button>
+        <button class="sort-btn" [class.active]="sortMode() === 'rating'" (click)="setSort('rating')">
+          ⭐
+        </button>
+        <button class="sort-btn" [class.active]="sortMode() === 'alpha'" (click)="setSort('alpha')">
+          A–Z
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-chips">
+      <div
+        *ngFor="let f of filters"
+        class="chip"
+        [class.chip--deals]="f.id === 'deals'"
+        [class.active]="activeFilter() === f.id"
+        (click)="toggleFilter(f.id)">
+        {{ f.emoji }} {{ f.label }}
+      </div>
+    </div>
+  </div>
+
+  <div class="location-list">
+
+    <div class="deals-banner" *ngIf="FEATURES.PROMOTIONS !== false && activeFilter() !== 'deals'" (click)="browseDeals()">
+      <div class="deals-banner__left">
+        <span class="deals-banner__icon">🏷️</span>
+        <div>
+          <div class="deals-banner__title">Local Deals</div>
+          <div class="deals-banner__sub">Tours, stays, dining & more · {{ allProviders.length }} offers</div>
+        </div>
+      </div>
+      <div class="deals-banner__cta">
+        View all
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let item of displayList()">
+      <div class="loc-card" *ngIf="item.type === 'location'" (click)="openLocation(item.data)">
+        <img class="loc-thumb" [src]="item.data.img" [alt]="item.data.title" loading="lazy">
+        <div class="loc-info">
+          <div class="loc-top">
+            <span class="loc-title">{{ item.data.title }}</span>
+            <span class="loc-rating" *ngIf="item.data.rating">⭐ {{ item.data.rating }}</span>
+          </div>
+          <div class="loc-badges">
+            <span class="badge" [style.background]="difficultyColor(item.data.difficulty)">{{ item.data.difficulty }}</span>
+            <span class="badge badge--island" *ngIf="islandLabel(item.data)">{{ islandLabel(item.data) }}</span>
+            <span class="badge badge--hidden" *ngIf="item.data.hidden">hidden gem</span>
+          </div>
+          <div class="loc-distance" *ngIf="item.distance">
+            📍 {{ item.distance }}
+          </div>
+        </div>
+      </div>
+
+      <app-provider-card
+        *ngIf="item.type === 'provider'"
+        [provider]="item.data"
+        (selected)="openProvider($event)">
+      </app-provider-card>
+    </ng-container>
+
+    <div class="empty" *ngIf="displayList().length === 0">
+      {{ activeFilter() === 'deals' ? 'No deals available yet.' : 'No locations match the selected filters.' }}
+    </div>
+  </div>
+
+</app-panel-shell>

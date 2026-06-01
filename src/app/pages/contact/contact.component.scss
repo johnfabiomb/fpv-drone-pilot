@@ -1,0 +1,52 @@
+.legal-page {
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.legal-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--color-text-base);
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--color-text-base);
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.legal-title {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.legal-updated {
+  color: var(--color-text-muted);
+  margin-bottom: 30px;
+}
+
+section {
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+p,
+li {
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

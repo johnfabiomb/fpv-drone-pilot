@@ -90,6 +90,10 @@
                 {
                   "replace": "src/app/feature-flags.ts",
                   "with": "src/environments/feature-flags.production.ts"
+                },
+                {
+                  "replace": "src/app/shared/config/supabase.config.ts",
+                  "with": "src/environments/supabase.config.production.ts"
                 }
               ],
               "budgets": [
@@ -100,8 +104,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kb",
-                  "maximumError": "12kb"
+                  "maximumWarning": "16kb",
+                  "maximumError": "24kb"
                 }
               ],
               "outputHashing": "all",
