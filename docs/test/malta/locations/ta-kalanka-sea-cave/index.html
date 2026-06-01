@@ -2,7 +2,7 @@
   <meta charset="utf-8">
   <title>Ta' Kalanka Sea Cave - Malta Hidden Gem | Explore Malta</title>
   <base href="/test/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <!-- Block all indexing and crawling -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
@@ -24,13 +24,40 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
 
-a[_ngcontent-ng-c3320137235] {
+a[_ngcontent-ng-c719644931] {
   text-decoration: none;
 }
-.app-version[_ngcontent-ng-c3320137235] {
+.level-up-toast[_ngcontent-ng-c719644931] {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
+  white-space: nowrap;
+  z-index: 9000;
+  pointer-events: none;
+  animation: _ngcontent-ng-c719644931_toastPop 0.2s ease;
+}
+@keyframes _ngcontent-ng-c719644931_toastPop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+.app-version[_ngcontent-ng-c719644931] {
   position: fixed;
   bottom: 2px;
-  right: 10px;
+  left: 50%;
   transform: translateX(-50%);
   font-size: 6px;
   color: var(--color-text-base);
@@ -170,7 +197,7 @@ a[_ngcontent-ng-c3320137235] {
 }
 /*# sourceMappingURL=/test/welcome-popup.component.css.map */</style><style ng-app-id="ng">
 
-.pwa-card[_ngcontent-ng-c454289037] {
+.pwa-card[_ngcontent-ng-c2979277173] {
   position: fixed;
   bottom: 80px;
   left: 16px;
@@ -186,10 +213,10 @@ a[_ngcontent-ng-c3320137235] {
   align-items: flex-start;
   gap: 12px;
   z-index: 9999;
-  animation: _ngcontent-ng-c454289037_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: _ngcontent-ng-c2979277173_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
-@keyframes _ngcontent-ng-c454289037_slideUp {
+@keyframes _ngcontent-ng-c2979277173_slideUp {
   from {
     transform: translateY(120%);
     opacity: 0;
@@ -199,13 +226,13 @@ a[_ngcontent-ng-c3320137235] {
     opacity: 1;
   }
 }
-.pwa-card__icon[_ngcontent-ng-c454289037] {
+.pwa-card__icon[_ngcontent-ng-c2979277173] {
   font-size: 26px;
   line-height: 1;
   flex-shrink: 0;
   margin-top: 2px;
 }
-.pwa-card__body[_ngcontent-ng-c454289037] {
+.pwa-card__body[_ngcontent-ng-c2979277173] {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -214,22 +241,22 @@ a[_ngcontent-ng-c3320137235] {
   line-height: 1.4;
   color: var(--color-text-secondary);
 }
-.pwa-card__body[_ngcontent-ng-c454289037]   strong[_ngcontent-ng-c454289037] {
+.pwa-card__body[_ngcontent-ng-c2979277173]   strong[_ngcontent-ng-c2979277173] {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-base);
 }
-.pwa-card__body[_ngcontent-ng-c454289037]   .ios-share[_ngcontent-ng-c454289037] {
+.pwa-card__body[_ngcontent-ng-c2979277173]   .ios-share[_ngcontent-ng-c2979277173] {
   font-size: 15px;
   font-weight: 700;
 }
-.pwa-card__actions[_ngcontent-ng-c454289037] {
+.pwa-card__actions[_ngcontent-ng-c2979277173] {
   display: flex;
   flex-direction: column;
   gap: 6px;
   flex-shrink: 0;
 }
-.pwa-card__actions[_ngcontent-ng-c454289037]   button[_ngcontent-ng-c454289037] {
+.pwa-card__actions[_ngcontent-ng-c2979277173]   button[_ngcontent-ng-c2979277173] {
   border: none;
   border-radius: 20px;
   padding: 6px 14px;
@@ -238,15 +265,15 @@ a[_ngcontent-ng-c3320137235] {
   cursor: pointer;
   white-space: nowrap;
 }
-.btn-later[_ngcontent-ng-c454289037] {
+.btn-later[_ngcontent-ng-c2979277173] {
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
 }
-.btn-install[_ngcontent-ng-c454289037] {
+.btn-install[_ngcontent-ng-c2979277173] {
   background: var(--color-primary);
   color: #fff;
 }
-.pwa-card__close[_ngcontent-ng-c454289037] {
+.pwa-card__close[_ngcontent-ng-c2979277173] {
   position: absolute;
   top: 8px;
   right: 10px;
@@ -260,13 +287,13 @@ a[_ngcontent-ng-c3320137235] {
 }
 /*# sourceMappingURL=/test/pwa-prompt.component.css.map */</style><style ng-app-id="ng">
 
-.dev-about-wrap[_ngcontent-ng-c411513486] {
+.dev-about-wrap[_ngcontent-ng-c1575752761] {
   position: absolute;
   bottom: 30px;
   right: 10px;
   z-index: 200;
 }
-.dev-about-btn[_ngcontent-ng-c411513486] {
+.dev-about-btn[_ngcontent-ng-c1575752761] {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -281,10 +308,10 @@ a[_ngcontent-ng-c3320137235] {
   position: relative;
   transition: background var(--transition);
 }
-.dev-about-btn[_ngcontent-ng-c411513486]:hover {
+.dev-about-btn[_ngcontent-ng-c1575752761]:hover {
   background: var(--color-bg-light);
 }
-.dev-about-btn[_ngcontent-ng-c411513486]   img[_ngcontent-ng-c411513486] {
+.dev-about-btn[_ngcontent-ng-c1575752761]   img[_ngcontent-ng-c1575752761] {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -294,10 +321,10 @@ a[_ngcontent-ng-c3320137235] {
   opacity: 0.65;
   transition: opacity var(--transition);
 }
-.dev-about-btn[_ngcontent-ng-c411513486]:hover   img[_ngcontent-ng-c411513486] {
+.dev-about-btn[_ngcontent-ng-c1575752761]:hover   img[_ngcontent-ng-c1575752761] {
   opacity: 0.85;
 }
-.dev-about-btn[_ngcontent-ng-c411513486]::after {
+.dev-about-btn[_ngcontent-ng-c1575752761]::after {
   content: "i";
   position: absolute;
   bottom: 3px;
@@ -316,7 +343,7 @@ a[_ngcontent-ng-c3320137235] {
   pointer-events: none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-.dev-popup[_ngcontent-ng-c411513486] {
+.dev-popup[_ngcontent-ng-c1575752761] {
   position: absolute;
   bottom: calc(100% + 8px);
   right: 0;
@@ -330,9 +357,9 @@ a[_ngcontent-ng-c3320137235] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c411513486_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c1575752761_devPopUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.dev-popup[_ngcontent-ng-c411513486]::after {
+.dev-popup[_ngcontent-ng-c1575752761]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -344,7 +371,7 @@ a[_ngcontent-ng-c3320137235] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-.dev-popup__photo[_ngcontent-ng-c411513486] {
+.dev-popup__photo[_ngcontent-ng-c1575752761] {
   width: 72px;
   height: 72px;
   border-radius: var(--radius-lg);
@@ -354,20 +381,20 @@ a[_ngcontent-ng-c3320137235] {
   box-shadow: 0 0 0 4px rgba(244, 169, 34, 0.1);
   margin-bottom: 12px;
 }
-.dev-popup__name[_ngcontent-ng-c411513486] {
+.dev-popup__name[_ngcontent-ng-c1575752761] {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-text-base);
   letter-spacing: -0.3px;
 }
-.dev-popup__tags[_ngcontent-ng-c411513486] {
+.dev-popup__tags[_ngcontent-ng-c1575752761] {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 5px;
   margin-top: 10px;
 }
-.dev-popup__tags[_ngcontent-ng-c411513486]   span[_ngcontent-ng-c411513486] {
+.dev-popup__tags[_ngcontent-ng-c1575752761]   span[_ngcontent-ng-c1575752761] {
   font-size: 10.5px;
   color: var(--color-text-muted);
   background: var(--color-bg-muted);
@@ -376,20 +403,20 @@ a[_ngcontent-ng-c3320137235] {
   padding: 3px 9px;
   white-space: nowrap;
 }
-.dev-popup__divider[_ngcontent-ng-c411513486] {
+.dev-popup__divider[_ngcontent-ng-c1575752761] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.dev-popup__links[_ngcontent-ng-c411513486] {
+.dev-popup__links[_ngcontent-ng-c1575752761] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
   margin-bottom: 10px;
 }
-.dev-popup__links[_ngcontent-ng-c411513486]   a[_ngcontent-ng-c411513486] {
+.dev-popup__links[_ngcontent-ng-c1575752761]   a[_ngcontent-ng-c1575752761] {
   display: block;
   padding: 11px 16px;
   background: var(--color-bg-muted);
@@ -400,30 +427,30 @@ a[_ngcontent-ng-c3320137235] {
   font-size: 13px;
   transition: background var(--transition);
 }
-.dev-popup__links[_ngcontent-ng-c411513486]   a[_ngcontent-ng-c411513486]:hover, 
-.dev-popup__links[_ngcontent-ng-c411513486]   a[_ngcontent-ng-c411513486]:active {
+.dev-popup__links[_ngcontent-ng-c1575752761]   a[_ngcontent-ng-c1575752761]:hover, 
+.dev-popup__links[_ngcontent-ng-c1575752761]   a[_ngcontent-ng-c1575752761]:active {
   background: var(--color-border);
 }
-.dev-popup__contact[_ngcontent-ng-c411513486] {
+.dev-popup__contact[_ngcontent-ng-c1575752761] {
   font-size: 12px;
   color: var(--color-text-muted);
   margin-bottom: 12px;
 }
-.dev-popup__contact[_ngcontent-ng-c411513486]   a[_ngcontent-ng-c411513486] {
+.dev-popup__contact[_ngcontent-ng-c1575752761]   a[_ngcontent-ng-c1575752761] {
   color: var(--color-primary);
   font-weight: 600;
   text-decoration: none;
 }
-.dev-popup__contact[_ngcontent-ng-c411513486]   a[_ngcontent-ng-c411513486]:hover {
+.dev-popup__contact[_ngcontent-ng-c1575752761]   a[_ngcontent-ng-c1575752761]:hover {
   opacity: 0.8;
 }
-.dev-popup__socials[_ngcontent-ng-c411513486] {
+.dev-popup__socials[_ngcontent-ng-c1575752761] {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
 }
-.dev-popup__social[_ngcontent-ng-c411513486] {
+.dev-popup__social[_ngcontent-ng-c1575752761] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -434,16 +461,16 @@ a[_ngcontent-ng-c3320137235] {
   transition: opacity 0.2s;
   padding: 2px 0;
 }
-.dev-popup__social[_ngcontent-ng-c411513486]:hover {
+.dev-popup__social[_ngcontent-ng-c1575752761]:hover {
   opacity: 0.8;
 }
-.dev-popup__version[_ngcontent-ng-c411513486] {
+.dev-popup__version[_ngcontent-ng-c1575752761] {
   margin-top: 12px;
   font-size: 10px;
   color: var(--color-text-light);
   font-family: monospace;
 }
-@keyframes _ngcontent-ng-c411513486_devPopUp {
+@keyframes _ngcontent-ng-c1575752761_devPopUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -453,7 +480,7 @@ a[_ngcontent-ng-c3320137235] {
     transform: translateY(0) scale(1);
   }
 }
-.floating-route-tabs[_ngcontent-ng-c411513486] {
+.floating-route-tabs[_ngcontent-ng-c1575752761] {
   position: absolute;
   bottom: 16px;
   left: 50%;
@@ -470,11 +497,11 @@ a[_ngcontent-ng-c3320137235] {
   white-space: nowrap;
 }
 @media (max-width: 768px) {
-  .floating-route-tabs[_ngcontent-ng-c411513486] {
+  .floating-route-tabs[_ngcontent-ng-c1575752761] {
     bottom: 26px;
   }
 }
-.route-tab[_ngcontent-ng-c411513486] {
+.route-tab[_ngcontent-ng-c1575752761] {
   height: 30px;
   padding: 0 13px;
   border-radius: 16px;
@@ -486,15 +513,15 @@ a[_ngcontent-ng-c3320137235] {
   color: var(--color-text-muted);
   transition: background var(--transition), color var(--transition);
 }
-.route-tab.active[_ngcontent-ng-c411513486] {
+.route-tab.active[_ngcontent-ng-c1575752761] {
   background: var(--tab-active-color, var(--color-primary));
   color: #fff;
 }
-.route-tab[_ngcontent-ng-c411513486]:hover:not(.active) {
+.route-tab[_ngcontent-ng-c1575752761]:hover:not(.active) {
   background: var(--color-bg-muted);
   color: var(--color-text-secondary);
 }
-app-filter-bar[_ngcontent-ng-c411513486] {
+app-filter-bar[_ngcontent-ng-c1575752761] {
   position: absolute;
   top: 10px;
   left: 50%;
@@ -504,7 +531,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   max-width: calc(100vw - 24px);
   width: max-content;
 }
-.offline-pill[_ngcontent-ng-c411513486] {
+.offline-pill[_ngcontent-ng-c1575752761] {
   position: absolute;
   bottom: 25px;
   left: 50%;
@@ -524,22 +551,24 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   backdrop-filter: blur(6px);
   pointer-events: none;
 }
-.floating-route-tabs[_ngcontent-ng-c411513486]    ~ .offline-pill[_ngcontent-ng-c411513486] {
+.floating-route-tabs[_ngcontent-ng-c1575752761]    ~ .offline-pill[_ngcontent-ng-c1575752761], 
+.floating-route-tabs[_ngcontent-ng-c1575752761]    ~ .floating-pick-hint[_ngcontent-ng-c1575752761] {
   bottom: 64px;
 }
 @media (max-width: 768px) {
-  .floating-route-tabs[_ngcontent-ng-c411513486]    ~ .offline-pill[_ngcontent-ng-c411513486] {
+  .floating-route-tabs[_ngcontent-ng-c1575752761]    ~ .offline-pill[_ngcontent-ng-c1575752761], 
+   .floating-route-tabs[_ngcontent-ng-c1575752761]    ~ .floating-pick-hint[_ngcontent-ng-c1575752761] {
     bottom: 74px;
   }
 }
-.offline-dot[_ngcontent-ng-c411513486] {
+.offline-dot[_ngcontent-ng-c1575752761] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #f87171;
   flex-shrink: 0;
 }
-.interstitial-near-label[_ngcontent-ng-c411513486] {
+.interstitial-near-label[_ngcontent-ng-c1575752761] {
   margin: 0 0 8px;
   font-size: 10.5px;
   font-weight: 700;
@@ -547,11 +576,11 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   text-transform: uppercase;
   color: var(--color-text-light);
 }
-.show-panel-btn--primary[_ngcontent-ng-c411513486] {
+.show-panel-btn--primary[_ngcontent-ng-c1575752761] {
   color: var(--color-primary);
   font-size: 16px;
 }
-.panel--hidden[_ngcontent-ng-c411513486] {
+.panel--hidden[_ngcontent-ng-c1575752761] {
   display: none;
 }
 /*# sourceMappingURL=/test/map-shell.component.css.map */</style><style ng-app-id="ng">
@@ -662,10 +691,10 @@ app-filter-bar[_ngcontent-ng-c411513486] {
 }
 /*# sourceMappingURL=/test/map.component.css.map */</style><style ng-app-id="ng">
 
-.bottom-bar[_ngcontent-ng-c383542925] {
+.bottom-bar[_ngcontent-ng-c3178630197] {
   width: 100%;
-  height: 64px;
-  padding: 0 16px;
+  height: calc(64px + env(safe-area-inset-bottom));
+  padding: 0 16px env(safe-area-inset-bottom);
   box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
@@ -677,7 +706,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   position: relative;
   z-index: 400;
 }
-.route-btn[_ngcontent-ng-c383542925] {
+.route-btn[_ngcontent-ng-c3178630197] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -692,11 +721,11 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   white-space: nowrap;
   transition: box-shadow var(--transition), opacity var(--transition);
 }
-.route-btn[_ngcontent-ng-c383542925]:hover {
+.route-btn[_ngcontent-ng-c3178630197]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
 }
-.list-btn[_ngcontent-ng-c383542925] {
+.list-btn[_ngcontent-ng-c3178630197] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -712,23 +741,23 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   flex-shrink: 0;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.list-btn[_ngcontent-ng-c383542925]:hover {
+.list-btn[_ngcontent-ng-c3178630197]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.nav-menu-backdrop[_ngcontent-ng-c383542925] {
+.nav-menu-backdrop[_ngcontent-ng-c3178630197] {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
   z-index: 398;
 }
-.nav-menu-wrap[_ngcontent-ng-c383542925] {
+.nav-menu-wrap[_ngcontent-ng-c3178630197] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
 }
-.nav-menu-trigger[_ngcontent-ng-c383542925] {
+.nav-menu-trigger[_ngcontent-ng-c3178630197] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -743,11 +772,11 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   white-space: nowrap;
   transition: background var(--transition), box-shadow var(--transition);
 }
-.nav-menu-trigger[_ngcontent-ng-c383542925]:hover {
+.nav-menu-trigger[_ngcontent-ng-c3178630197]:hover {
   background: var(--color-bg-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.nav-menu-popup[_ngcontent-ng-c383542925] {
+.nav-menu-popup[_ngcontent-ng-c3178630197] {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 16px;
@@ -760,10 +789,10 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   gap: 4px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c383542925_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3178630197_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.nav-menu-popup[_ngcontent-ng-c383542925]::after {
+.nav-menu-popup[_ngcontent-ng-c3178630197]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -775,7 +804,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-.nav-item[_ngcontent-ng-c383542925] {
+.nav-item[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -785,11 +814,11 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   text-decoration: none;
   transition: background var(--transition);
 }
-.nav-item[_ngcontent-ng-c383542925]:hover, 
-.nav-item[_ngcontent-ng-c383542925]:active {
+.nav-item[_ngcontent-ng-c3178630197]:hover, 
+.nav-item[_ngcontent-ng-c3178630197]:active {
   background: var(--color-border);
 }
-.nav-item__icon[_ngcontent-ng-c383542925] {
+.nav-item__icon[_ngcontent-ng-c3178630197] {
   flex-shrink: 0;
   width: 28px;
   height: 28px;
@@ -801,7 +830,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   justify-content: center;
   color: var(--color-text-secondary);
 }
-.nav-item__text[_ngcontent-ng-c383542925] {
+.nav-item__text[_ngcontent-ng-c3178630197] {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -809,7 +838,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   gap: 2px;
   text-align: left;
 }
-.nav-item__label[_ngcontent-ng-c383542925] {
+.nav-item__label[_ngcontent-ng-c3178630197] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
@@ -817,7 +846,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   align-items: center;
   gap: 6px;
 }
-.nav-item__badge[_ngcontent-ng-c383542925] {
+.nav-item__badge[_ngcontent-ng-c3178630197] {
   font-size: 9px;
   font-weight: 700;
   padding: 1px 5px;
@@ -828,27 +857,42 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   text-transform: uppercase;
   flex-shrink: 0;
 }
-.nav-item__desc[_ngcontent-ng-c383542925] {
+.nav-item__badge--soon[_ngcontent-ng-c3178630197] {
+  background: var(--color-text-light);
+}
+.nav-item__desc[_ngcontent-ng-c3178630197] {
   font-size: 10.5px;
   color: var(--color-text-light);
 }
-.nav-item__chevron[_ngcontent-ng-c383542925] {
+.nav-item__chevron[_ngcontent-ng-c3178630197] {
   flex-shrink: 0;
   color: var(--color-text-light);
 }
-.nav-item--facebook[_ngcontent-ng-c383542925]   .nav-item__icon[_ngcontent-ng-c383542925] {
+.nav-item--facebook[_ngcontent-ng-c3178630197]   .nav-item__icon[_ngcontent-ng-c3178630197] {
   background: rgba(24, 119, 242, 0.08);
   border-color: rgba(24, 119, 242, 0.2);
   color: #1877F2;
 }
-.about-wrap[_ngcontent-ng-c383542925] {
+.nav-item--admin[_ngcontent-ng-c3178630197]   .nav-item__icon[_ngcontent-ng-c3178630197] {
+  background: rgba(107, 114, 128, 0.08);
+  border-color: rgba(107, 114, 128, 0.2);
+  color: var(--color-text-muted);
+}
+.nav-item--locked[_ngcontent-ng-c3178630197] {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.about-wrap[_ngcontent-ng-c3178630197] {
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   margin-left: 10px;
 }
-.about-trigger[_ngcontent-ng-c383542925] {
+.about-trigger[_ngcontent-ng-c3178630197] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -859,18 +903,18 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   display: block;
   transition: border-color var(--transition);
 }
-.about-trigger[_ngcontent-ng-c383542925]:hover {
+.about-trigger[_ngcontent-ng-c3178630197]:hover {
   border-color: var(--color-primary);
 }
-.about-popup--dev[_ngcontent-ng-c383542925] {
+.about-popup--dev[_ngcontent-ng-c3178630197] {
   left: 0;
   right: auto;
 }
-.about-popup--dev[_ngcontent-ng-c383542925]::after {
+.about-popup--dev[_ngcontent-ng-c3178630197]::after {
   left: 10px;
   right: auto;
 }
-.footer-right[_ngcontent-ng-c383542925] {
+.footer-right[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -878,7 +922,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   padding-left: 12px;
   min-width: 0;
 }
-.signin-btn[_ngcontent-ng-c383542925] {
+.signin-btn[_ngcontent-ng-c3178630197] {
   display: inline-flex;
   align-items: center;
   background: transparent;
@@ -892,25 +936,31 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   white-space: nowrap;
   transition: background var(--transition);
 }
-.signin-btn[_ngcontent-ng-c383542925]:hover {
+.signin-btn[_ngcontent-ng-c3178630197]:hover {
   background: #fffbeb;
 }
-.profile-wrap[_ngcontent-ng-c383542925] {
+.profile-wrap[_ngcontent-ng-c3178630197] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  min-width: 0;
+}
+.profile-wrap[_ngcontent-ng-c3178630197]   .profile-trigger[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  position: relative;
   -webkit-user-select: none;
   user-select: none;
   min-width: 0;
 }
-.profile-wrap[_ngcontent-ng-c383542925]   .text[_ngcontent-ng-c383542925] {
+.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197] {
   text-align: right;
   min-width: 0;
   overflow: hidden;
 }
-.profile-wrap[_ngcontent-ng-c383542925]   .text[_ngcontent-ng-c383542925]   .name[_ngcontent-ng-c383542925] {
+.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197]   .name[_ngcontent-ng-c3178630197] {
   display: block;
   font-size: 13px;
   font-weight: 600;
@@ -920,7 +970,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.profile-wrap[_ngcontent-ng-c383542925]   .text[_ngcontent-ng-c383542925]   .title[_ngcontent-ng-c383542925] {
+.profile-wrap[_ngcontent-ng-c3178630197]   .text[_ngcontent-ng-c3178630197]   .title[_ngcontent-ng-c3178630197] {
   display: block;
   font-size: 10px;
   color: var(--color-text-muted);
@@ -929,13 +979,13 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.profile-wrap--guest[_ngcontent-ng-c383542925] {
+.profile-wrap--guest[_ngcontent-ng-c3178630197] {
   cursor: pointer;
 }
-.profile-wrap--guest[_ngcontent-ng-c383542925]   .name[_ngcontent-ng-c383542925] {
+.profile-wrap--guest[_ngcontent-ng-c3178630197]   .name[_ngcontent-ng-c3178630197] {
   color: var(--color-text-muted);
 }
-.saved-count[_ngcontent-ng-c383542925] {
+.saved-count[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -947,35 +997,35 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   margin-top: 16px;
   transition: background var(--transition);
 }
-.saved-count[_ngcontent-ng-c383542925]:hover, 
-.saved-count[_ngcontent-ng-c383542925]:active {
+.saved-count[_ngcontent-ng-c3178630197]:hover, 
+.saved-count[_ngcontent-ng-c3178630197]:active {
   background: var(--color-border);
 }
-.saved-count__icon[_ngcontent-ng-c383542925] {
+.saved-count__icon[_ngcontent-ng-c3178630197] {
   flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.saved-count__text[_ngcontent-ng-c383542925] {
+.saved-count__text[_ngcontent-ng-c3178630197] {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: left;
 }
-.saved-count__label[_ngcontent-ng-c383542925] {
+.saved-count__label[_ngcontent-ng-c3178630197] {
   font-size: 12.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
 }
-.saved-count__sub[_ngcontent-ng-c383542925] {
+.saved-count__sub[_ngcontent-ng-c3178630197] {
   font-size: 10.5px;
   color: var(--color-text-light);
 }
-.saved-count__chevron[_ngcontent-ng-c383542925] {
+.saved-count__chevron[_ngcontent-ng-c3178630197] {
   margin-left: auto;
   flex-shrink: 0;
   color: var(--color-text-light);
 }
-.about-popup[_ngcontent-ng-c383542925] {
+.about-popup[_ngcontent-ng-c3178630197] {
   position: absolute;
   bottom: calc(100% + 12px);
   right: 0;
@@ -989,10 +1039,10 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   text-align: center;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.07);
-  animation: _ngcontent-ng-c383542925_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: _ngcontent-ng-c3178630197_popUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 100;
 }
-.about-popup[_ngcontent-ng-c383542925]::after {
+.about-popup[_ngcontent-ng-c3178630197]::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -1004,7 +1054,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   transform: rotate(45deg);
 }
-@keyframes _ngcontent-ng-c383542925_popUp {
+@keyframes _ngcontent-ng-c3178630197_popUp {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.95);
@@ -1014,7 +1064,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
     transform: translateY(0) scale(1);
   }
 }
-.updates-row[_ngcontent-ng-c383542925] {
+.updates-row[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1028,16 +1078,16 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.updates-row[_ngcontent-ng-c383542925]:hover {
+.updates-row[_ngcontent-ng-c3178630197]:hover {
   background: var(--color-border);
 }
-.updates-text[_ngcontent-ng-c383542925] {
+.updates-text[_ngcontent-ng-c3178630197] {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: left;
 }
-.updates-label[_ngcontent-ng-c383542925] {
+.updates-label[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1045,16 +1095,16 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   font-weight: 600;
   color: var(--color-text-secondary);
 }
-.updates-icon[_ngcontent-ng-c383542925] {
+.updates-icon[_ngcontent-ng-c3178630197] {
   flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.updates-sub[_ngcontent-ng-c383542925] {
+.updates-sub[_ngcontent-ng-c3178630197] {
   font-size: 10.5px;
   color: var(--color-text-light);
   padding-left: 19px;
 }
-.updates-toggle[_ngcontent-ng-c383542925] {
+.updates-toggle[_ngcontent-ng-c3178630197] {
   width: 34px;
   height: 20px;
   border-radius: 10px;
@@ -1063,7 +1113,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   flex-shrink: 0;
   transition: background 0.2s;
 }
-.updates-toggle__knob[_ngcontent-ng-c383542925] {
+.updates-toggle__knob[_ngcontent-ng-c3178630197] {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -1074,19 +1124,19 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
-.updates-toggle.on[_ngcontent-ng-c383542925] {
+.updates-toggle.on[_ngcontent-ng-c3178630197] {
   background: var(--color-primary);
 }
-.updates-toggle.on[_ngcontent-ng-c383542925]   .updates-toggle__knob[_ngcontent-ng-c383542925] {
+.updates-toggle.on[_ngcontent-ng-c3178630197]   .updates-toggle__knob[_ngcontent-ng-c3178630197] {
   transform: translateX(14px);
 }
-.about-divider[_ngcontent-ng-c383542925] {
+.about-divider[_ngcontent-ng-c3178630197] {
   width: 100%;
   height: 1px;
   background: var(--color-border);
   margin: 14px 0;
 }
-.signout-btn[_ngcontent-ng-c383542925] {
+.signout-btn[_ngcontent-ng-c3178630197] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1103,32 +1153,132 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   margin-bottom: 10px;
   transition: background var(--transition), color var(--transition);
 }
-.signout-btn[_ngcontent-ng-c383542925]:hover, 
-.signout-btn[_ngcontent-ng-c383542925]:active {
+.signout-btn[_ngcontent-ng-c3178630197]:hover, 
+.signout-btn[_ngcontent-ng-c3178630197]:active {
   background: #fef2f2;
   color: #dc2626;
 }
-.signout-btn[_ngcontent-ng-c383542925]:disabled {
+.signout-btn[_ngcontent-ng-c3178630197]:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.about-version[_ngcontent-ng-c383542925] {
+.about-version[_ngcontent-ng-c3178630197] {
+  width: 100%;
   margin-top: 12px;
   font-size: 10px;
   color: var(--color-text-light);
   font-family: monospace;
+  text-align: center;
+}
+.referral-row[_ngcontent-ng-c3178630197] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+  margin-top: 6px;
+  gap: 10px;
+}
+.referral-row__text[_ngcontent-ng-c3178630197] {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  min-width: 0;
+}
+.referral-row__label[_ngcontent-ng-c3178630197] {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.referral-row__sub[_ngcontent-ng-c3178630197] {
+  font-size: 10.5px;
+  color: var(--color-text-light);
+}
+.referral-row__btn[_ngcontent-ng-c3178630197] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.referral-row__btn[_ngcontent-ng-c3178630197]:hover {
+  background: #fffbeb;
+}
+.referral-row__btn--copied[_ngcontent-ng-c3178630197] {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+.referral-row__btn--copied[_ngcontent-ng-c3178630197]:hover {
+  background: #f0fdf4;
 }
 @media (max-width: 900px) {
-  .footer-links[_ngcontent-ng-c383542925] {
+  .footer-links[_ngcontent-ng-c3178630197] {
     display: none;
   }
 }
+.so-modal[_ngcontent-ng-c3178630197] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 4px;
+  text-align: center;
+}
+.so-spinner[_ngcontent-ng-c3178630197] {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-bg-muted);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: _ngcontent-ng-c3178630197_so-spin 0.7s linear infinite;
+}
+@keyframes _ngcontent-ng-c3178630197_so-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.so-check[_ngcontent-ng-c3178630197] {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  border: 2px solid #bbf7d0;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.so-title[_ngcontent-ng-c3178630197] {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-base);
+}
+.so-sub[_ngcontent-ng-c3178630197] {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
 /*# sourceMappingURL=/test/footer.component.css.map */</style><style ng-app-id="ng">
 
-[_nghost-ng-c468838826] {
+[_nghost-ng-c180806562] {
   display: contents;
 }
-.header-save-btn[_ngcontent-ng-c468838826] {
+.header-save-btn[_ngcontent-ng-c180806562] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -1143,18 +1293,42 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   color: var(--color-text-muted);
   animation: deals-pulse 2.4s ease-in-out infinite;
 }
-.header-save-btn[_ngcontent-ng-c468838826]:hover {
+.header-save-btn[_ngcontent-ng-c180806562]:hover {
   background: var(--color-border);
 }
-.header-save-btn--saved[_ngcontent-ng-c468838826] {
+.header-save-btn--saved[_ngcontent-ng-c180806562] {
   background: rgba(244, 169, 34, 0.12);
   color: var(--color-primary);
   animation: none;
 }
-.header-save-btn--saved[_ngcontent-ng-c468838826]:hover {
+.header-save-btn--saved[_ngcontent-ng-c180806562]:hover {
   background: rgba(244, 169, 34, 0.2);
 }
-.save-wrap[_ngcontent-ng-c468838826] {
+.lp-stats-bar[_ngcontent-ng-c180806562] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  padding: 6px 16px;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  background: var(--color-bg-light);
+  border-bottom: 1px solid var(--color-border);
+}
+.lp-stats-bar__item[_ngcontent-ng-c180806562] {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lp-stats-bar__item--personal[_ngcontent-ng-c180806562] {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+.lp-stats-bar__sep[_ngcontent-ng-c180806562] {
+  color: var(--color-border);
+}
+.save-wrap[_ngcontent-ng-c180806562] {
   position: relative;
   display: flex;
   align-items: center;
@@ -1270,7 +1444,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
 }
 /*# sourceMappingURL=/test/panel-shell.component.css.map */</style><meta name="description" content="Hidden along the coastline of Delimara, Ta' Kalanka Sea Cave is a natural wonder known mostly to locals and adventurous swimmers. The cave opens out int..."><meta name="keywords" content="Ta' Kalanka Sea Cave, Delimara, Malta, sea cave, cliff jumping, hidden swimming spot, snorkeling, rugged coast, turquoise waters"><meta property="og:title" content="Ta' Kalanka Sea Cave - Malta Hidden Gem | Explore Malta"><meta property="og:description" content="Hidden along the coastline of Delimara, Ta' Kalanka Sea Cave is a natural wonder known mostly to locals and adventurous swimmers. The cave opens out int..."><meta property="og:image" content="https://johnfabiomb.com/assets/images/places/ta-kalanka-sea-cave.webp"><meta property="og:image:alt" content="Ta' Kalanka Sea Cave - Malta"><meta property="og:url" content="https://johnfabiomb.com/malta/locations/ta-kalanka-sea-cave"><meta property="og:locale" content="en_US"><meta name="twitter:title" content="Ta' Kalanka Sea Cave - Malta Hidden Gem | Explore Malta"><meta name="twitter:description" content="Hidden along the coastline of Delimara, Ta' Kalanka Sea Cave is a natural wonder known mostly to locals and adventurous swimmers. The cave opens out int..."><meta name="twitter:image" content="https://johnfabiomb.com/assets/images/places/ta-kalanka-sea-cave.webp"><meta name="twitter:image:alt" content="Ta' Kalanka Sea Cave - Malta"><link rel="canonical" href="https://johnfabiomb.com/malta/locations/ta-kalanka-sea-cave"><style ng-app-id="ng">
 
-.share-btn[_ngcontent-ng-c3137596793] {
+.share-btn[_ngcontent-ng-c26941943] {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -1284,10 +1458,10 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   transition: background var(--transition);
   color: var(--color-text-muted);
 }
-.share-btn[_ngcontent-ng-c3137596793]:hover {
+.share-btn[_ngcontent-ng-c26941943]:hover {
   background: var(--color-border);
 }
-.share-btn--labeled[_ngcontent-ng-c3137596793] {
+.share-btn--labeled[_ngcontent-ng-c26941943] {
   width: 100%;
   height: 42px;
   border-radius: var(--radius-lg);
@@ -1299,7 +1473,7 @@ app-filter-bar[_ngcontent-ng-c411513486] {
   padding: 0 14px;
   gap: 7px;
 }
-.share-btn--labeled[_ngcontent-ng-c3137596793]:hover {
+.share-btn--labeled[_ngcontent-ng-c26941943]:hover {
   background: var(--color-bg-muted);
 }
 /*# sourceMappingURL=/test/share-button.component.css.map */</style><style ng-app-id="ng">
@@ -1886,7 +2060,22 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
 }
 /*# sourceMappingURL=/test/image-gallery.component.css.map */</style><style ng-app-id="ng">
 
-.gs-intro[_ngcontent-ng-c2711559338] {
+.gs-locked[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.gs-locked[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+  flex-shrink: 0;
+  color: var(--color-text-light);
+}
+.gs-intro[_ngcontent-ng-c226430213] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1897,20 +2086,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 12px 14px;
   margin-bottom: 16px;
 }
-.gs-intro__text[_ngcontent-ng-c2711559338] {
+.gs-intro__text[_ngcontent-ng-c226430213] {
   flex: 1;
   min-width: 0;
 }
-.gs-intro__desc[_ngcontent-ng-c2711559338] {
+.gs-intro__desc[_ngcontent-ng-c226430213] {
   font-size: 12.5px;
   color: var(--color-text-muted);
   margin: 0;
   line-height: 1.45;
 }
-.gs-intro__desc[_ngcontent-ng-c2711559338]   strong[_ngcontent-ng-c2711559338] {
+.gs-intro__desc[_ngcontent-ng-c226430213]   strong[_ngcontent-ng-c226430213] {
   color: var(--color-text-secondary);
 }
-.gs-create-btn[_ngcontent-ng-c2711559338] {
+.gs-create-btn[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -1927,21 +2116,21 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition), box-shadow var(--transition);
 }
-.gs-create-btn[_ngcontent-ng-c2711559338]:hover {
+.gs-create-btn[_ngcontent-ng-c226430213]:hover {
   opacity: 0.9;
   box-shadow: 0 4px 12px rgba(244, 169, 34, 0.38);
 }
-.gs-create-btn--locked[_ngcontent-ng-c2711559338] {
+.gs-create-btn--locked[_ngcontent-ng-c226430213] {
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
   box-shadow: none;
 }
-.gs-create-btn--locked[_ngcontent-ng-c2711559338]:hover {
+.gs-create-btn--locked[_ngcontent-ng-c226430213]:hover {
   background: var(--color-border);
   opacity: 1;
   box-shadow: none;
 }
-.gs-join-strip[_ngcontent-ng-c2711559338] {
+.gs-join-strip[_ngcontent-ng-c226430213] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1961,20 +2150,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     color var(--transition);
   text-align: left;
 }
-.gs-join-strip[_ngcontent-ng-c2711559338]   svg[_ngcontent-ng-c2711559338]:first-child {
+.gs-join-strip[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213]:first-child {
   flex-shrink: 0;
   opacity: 0.7;
 }
-.gs-join-strip[_ngcontent-ng-c2711559338]:hover {
+.gs-join-strip[_ngcontent-ng-c226430213]:hover {
   background: var(--color-bg-muted);
   border-color: var(--color-primary);
   color: var(--color-text-secondary);
 }
-.gs-join-strip__chevron[_ngcontent-ng-c2711559338] {
+.gs-join-strip__chevron[_ngcontent-ng-c226430213] {
   margin-left: auto;
   flex-shrink: 0;
 }
-.gs-gate__btn[_ngcontent-ng-c2711559338] {
+.gs-gate__btn[_ngcontent-ng-c226430213] {
   background: var(--color-primary);
   color: #fff;
   border: none;
@@ -1986,10 +2175,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition);
 }
-.gs-gate__btn[_ngcontent-ng-c2711559338]:hover {
+.gs-gate__btn[_ngcontent-ng-c226430213]:hover {
   opacity: 0.9;
 }
-.gs-form[_ngcontent-ng-c2711559338] {
+.gs-form[_ngcontent-ng-c226430213] {
   background: var(--color-bg-light);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
@@ -1998,9 +2187,9 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  animation: _ngcontent-ng-c2711559338_gsSlideDown 0.2s ease;
+  animation: _ngcontent-ng-c226430213_gsSlideDown 0.2s ease;
 }
-@keyframes _ngcontent-ng-c2711559338_gsSlideDown {
+@keyframes _ngcontent-ng-c226430213_gsSlideDown {
   from {
     opacity: 0;
     transform: translateY(-6px);
@@ -2010,18 +2199,18 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     transform: translateY(0);
   }
 }
-.gs-form__header[_ngcontent-ng-c2711559338] {
+.gs-form__header[_ngcontent-ng-c226430213] {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.gs-form__title[_ngcontent-ng-c2711559338] {
+.gs-form__title[_ngcontent-ng-c226430213] {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-base);
   margin: 0;
 }
-.gs-form__close[_ngcontent-ng-c2711559338] {
+.gs-form__close[_ngcontent-ng-c226430213] {
   width: 28px;
   height: 28px;
   border: none;
@@ -2034,23 +2223,23 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-muted);
   transition: background var(--transition);
 }
-.gs-form__close[_ngcontent-ng-c2711559338]:hover {
+.gs-form__close[_ngcontent-ng-c226430213]:hover {
   background: var(--color-border);
 }
-.gs-form__field[_ngcontent-ng-c2711559338] {
+.gs-form__field[_ngcontent-ng-c226430213] {
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
 }
-.gs-form__field[_ngcontent-ng-c2711559338]   label[_ngcontent-ng-c2711559338] {
+.gs-form__field[_ngcontent-ng-c226430213]   label[_ngcontent-ng-c226430213] {
   font-size: 11.5px;
   font-weight: 600;
   color: var(--color-text-secondary);
   letter-spacing: 0.02em;
 }
-.gs-form__field[_ngcontent-ng-c2711559338]   input[_ngcontent-ng-c2711559338], 
-.gs-form__field[_ngcontent-ng-c2711559338]   textarea[_ngcontent-ng-c2711559338] {
+.gs-form__field[_ngcontent-ng-c226430213]   input[_ngcontent-ng-c226430213], 
+.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213] {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 8px 10px;
@@ -2061,29 +2250,35 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   width: 100%;
   box-sizing: border-box;
 }
-.gs-form__field[_ngcontent-ng-c2711559338]   input[_ngcontent-ng-c2711559338]:focus, 
-.gs-form__field[_ngcontent-ng-c2711559338]   textarea[_ngcontent-ng-c2711559338]:focus {
+.gs-form__field[_ngcontent-ng-c226430213]   input[_ngcontent-ng-c226430213]:focus, 
+.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213]:focus {
   outline: none;
   border-color: var(--color-primary);
 }
-.gs-form__field[_ngcontent-ng-c2711559338]   textarea[_ngcontent-ng-c2711559338] {
+.gs-form__field[_ngcontent-ng-c226430213]   textarea[_ngcontent-ng-c226430213] {
   resize: vertical;
   min-height: 72px;
 }
-.gs-form__opt[_ngcontent-ng-c2711559338] {
+.gs-form__opt[_ngcontent-ng-c226430213] {
   font-weight: 400;
   color: var(--color-text-light);
 }
-.gs-form__row[_ngcontent-ng-c2711559338] {
+.gs-form__hint[_ngcontent-ng-c226430213] {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+.gs-form__row[_ngcontent-ng-c226430213] {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-.gs-form__chips[_ngcontent-ng-c2711559338] {
+.gs-form__chips[_ngcontent-ng-c226430213] {
   display: flex;
   gap: 6px;
 }
-.gs-form__locked-spot[_ngcontent-ng-c2711559338] {
+.gs-form__locked-spot[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2095,44 +2290,14 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-secondary);
   font-weight: 600;
 }
-.gs-form__locked-spot[_ngcontent-ng-c2711559338]   svg[_ngcontent-ng-c2711559338] {
+.gs-form__locked-spot[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
   color: var(--color-primary);
   flex-shrink: 0;
 }
-.gs-spot-results[_ngcontent-ng-c2711559338] {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  list-style: none;
-  margin: 2px 0 0;
-  padding: 4px 0;
-  z-index: 50;
-  max-height: 180px;
-  overflow-y: auto;
+.gs-form__field--spot[_ngcontent-ng-c226430213] {
+  position: relative;
 }
-.gs-spot-results[_ngcontent-ng-c2711559338]   li[_ngcontent-ng-c2711559338] {
-  padding: 8px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  color: var(--color-text-base);
-}
-.gs-spot-results[_ngcontent-ng-c2711559338]   li[_ngcontent-ng-c2711559338]:hover {
-  background: var(--color-bg-muted);
-}
-.gs-form__selected-spot[_ngcontent-ng-c2711559338] {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: #22c55e;
-  font-weight: 600;
-}
-.gs-meeting-pick__btn[_ngcontent-ng-c2711559338] {
+.gs-spot-pick__btn[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2145,12 +2310,116 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition);
 }
-.gs-meeting-pick__btn[_ngcontent-ng-c2711559338]:hover, 
-.gs-meeting-pick__btn.picking[_ngcontent-ng-c2711559338] {
+.gs-spot-pick__btn[_ngcontent-ng-c226430213]:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
-.gs-meeting-set[_ngcontent-ng-c2711559338] {
+.gs-spot-picking[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(244, 169, 34, 0.08);
+  border: 1px solid rgba(244, 169, 34, 0.3);
+  border-radius: var(--radius-md);
+}
+.gs-spot-picking__msg[_ngcontent-ng-c226430213] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+.gs-spot-picking__msg[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+  flex-shrink: 0;
+}
+.gs-spot-picking__cancel[_ngcontent-ng-c226430213] {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  text-decoration: underline;
+}
+.gs-spot-picking__cancel[_ngcontent-ng-c226430213]:hover {
+  color: var(--color-text-secondary);
+}
+.gs-spot-selected[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.gs-spot-selected[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+.gs-spot-selected__name[_ngcontent-ng-c226430213] {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gs-spot-selected__actions[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.gs-spot-selected__change[_ngcontent-ng-c226430213] {
+  background: none;
+  border: none;
+  font-size: 11.5px;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
+}
+.gs-spot-selected__change[_ngcontent-ng-c226430213]:hover {
+  text-decoration: underline;
+}
+.gs-spot-selected__remove[_ngcontent-ng-c226430213] {
+  background: none;
+  border: none;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+.gs-spot-selected__remove[_ngcontent-ng-c226430213]:hover {
+  color: #dc2626;
+}
+.gs-meeting-pick__btn[_ngcontent-ng-c226430213] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+.gs-meeting-pick__btn[_ngcontent-ng-c226430213]:hover, 
+.gs-meeting-pick__btn.picking[_ngcontent-ng-c226430213] {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.gs-meeting-set[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2158,7 +2427,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: #22c55e;
   font-weight: 500;
 }
-.gs-meeting-set__remove[_ngcontent-ng-c2711559338] {
+.gs-meeting-set__remove[_ngcontent-ng-c226430213] {
   background: none;
   border: none;
   color: var(--color-text-muted);
@@ -2168,15 +2437,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   padding: 0;
   margin-left: 4px;
 }
-.gs-meeting-set__remove[_ngcontent-ng-c2711559338]:hover {
+.gs-meeting-set__remove[_ngcontent-ng-c226430213]:hover {
   color: #dc2626;
 }
-.gs-meeting-confirm[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm[_ngcontent-ng-c226430213] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.gs-meeting-confirm__msg[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm__msg[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2184,15 +2453,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 500;
   color: var(--color-text-base);
 }
-.gs-meeting-confirm__msg[_ngcontent-ng-c2711559338]   svg[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm__msg[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213] {
   color: var(--color-primary);
   flex-shrink: 0;
 }
-.gs-meeting-confirm__actions[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm__actions[_ngcontent-ng-c226430213] {
   display: flex;
   gap: 8px;
 }
-.gs-meeting-confirm__retry[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm__retry[_ngcontent-ng-c226430213] {
   flex: 1;
   padding: 6px 10px;
   border: 1.5px solid var(--color-border);
@@ -2202,10 +2471,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-secondary);
   cursor: pointer;
 }
-.gs-meeting-confirm__retry[_ngcontent-ng-c2711559338]:hover {
+.gs-meeting-confirm__retry[_ngcontent-ng-c226430213]:hover {
   background: var(--color-bg-muted);
 }
-.gs-meeting-confirm__ok[_ngcontent-ng-c2711559338] {
+.gs-meeting-confirm__ok[_ngcontent-ng-c226430213] {
   flex: 1;
   padding: 6px 10px;
   border: none;
@@ -2216,20 +2485,20 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   font-weight: 600;
   cursor: pointer;
 }
-.gs-meeting-confirm__ok[_ngcontent-ng-c2711559338]:hover {
+.gs-meeting-confirm__ok[_ngcontent-ng-c226430213]:hover {
   background: var(--color-primary-hover);
 }
-.gs-form__error[_ngcontent-ng-c2711559338] {
+.gs-form__error[_ngcontent-ng-c226430213] {
   font-size: 12px;
   color: #dc2626;
   margin: 0;
 }
-.gs-form__actions[_ngcontent-ng-c2711559338] {
+.gs-form__actions[_ngcontent-ng-c226430213] {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
 }
-.gs-form__cancel[_ngcontent-ng-c2711559338] {
+.gs-form__cancel[_ngcontent-ng-c226430213] {
   padding: 8px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -2239,10 +2508,10 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: background var(--transition);
 }
-.gs-form__cancel[_ngcontent-ng-c2711559338]:hover {
+.gs-form__cancel[_ngcontent-ng-c226430213]:hover {
   background: var(--color-bg-muted);
 }
-.gs-form__submit[_ngcontent-ng-c2711559338] {
+.gs-form__submit[_ngcontent-ng-c226430213] {
   padding: 8px 16px;
   border: none;
   border-radius: var(--radius-md);
@@ -2253,33 +2522,33 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   cursor: pointer;
   transition: opacity var(--transition);
 }
-.gs-form__submit[_ngcontent-ng-c2711559338]:hover {
+.gs-form__submit[_ngcontent-ng-c226430213]:hover {
   opacity: 0.9;
 }
-.gs-form__submit[_ngcontent-ng-c2711559338]:disabled {
+.gs-form__submit[_ngcontent-ng-c226430213]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.gs-loading[_ngcontent-ng-c2711559338] {
+.gs-loading[_ngcontent-ng-c226430213] {
   display: flex;
   justify-content: center;
   gap: 6px;
   padding: 24px 0;
 }
-.gs-loading__dot[_ngcontent-ng-c2711559338] {
+.gs-loading__dot[_ngcontent-ng-c226430213] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--color-border);
-  animation: _ngcontent-ng-c2711559338_gsDotPulse 1.2s ease-in-out infinite;
+  animation: _ngcontent-ng-c226430213_gsDotPulse 1.2s ease-in-out infinite;
 }
-.gs-loading__dot[_ngcontent-ng-c2711559338]:nth-child(2) {
+.gs-loading__dot[_ngcontent-ng-c226430213]:nth-child(2) {
   animation-delay: 0.2s;
 }
-.gs-loading__dot[_ngcontent-ng-c2711559338]:nth-child(3) {
+.gs-loading__dot[_ngcontent-ng-c226430213]:nth-child(3) {
   animation-delay: 0.4s;
 }
-@keyframes _ngcontent-ng-c2711559338_gsDotPulse {
+@keyframes _ngcontent-ng-c226430213_gsDotPulse {
   0%, 80%, 100% {
     transform: scale(0.8);
     opacity: 0.4;
@@ -2289,12 +2558,12 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     opacity: 1;
   }
 }
-.gs-list[_ngcontent-ng-c2711559338] {
+.gs-list[_ngcontent-ng-c226430213] {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.gs-list__count[_ngcontent-ng-c2711559338] {
+.gs-list__count[_ngcontent-ng-c226430213] {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -2302,7 +2571,7 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   color: var(--color-text-light);
   margin-bottom: 2px;
 }
-.gs-empty[_ngcontent-ng-c2711559338] {
+.gs-empty[_ngcontent-ng-c226430213] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2310,23 +2579,23 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   gap: 6px;
   padding: 28px 16px;
 }
-.gs-empty__icon[_ngcontent-ng-c2711559338] {
+.gs-empty__icon[_ngcontent-ng-c226430213] {
   font-size: 28px;
   line-height: 1;
   margin-bottom: 4px;
 }
-.gs-empty__msg[_ngcontent-ng-c2711559338] {
+.gs-empty__msg[_ngcontent-ng-c226430213] {
   font-size: 14px;
   font-weight: 600;
   color: var(--color-text-base);
   margin: 0;
 }
-.gs-empty__sub[_ngcontent-ng-c2711559338] {
+.gs-empty__sub[_ngcontent-ng-c226430213] {
   font-size: 12.5px;
   color: var(--color-text-muted);
   margin: 0;
 }
-.gs-empty__cta[_ngcontent-ng-c2711559338] {
+.gs-empty__cta[_ngcontent-ng-c226430213] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2342,17 +2611,242 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
   transition: opacity var(--transition);
 }
-.gs-empty__cta[_ngcontent-ng-c2711559338]:hover {
+.gs-empty__cta[_ngcontent-ng-c226430213]:hover {
   opacity: 0.9;
 }
-.gs-past[_ngcontent-ng-c2711559338] {
-  margin-top: 8px;
+.gs-empty--spot[_ngcontent-ng-c226430213] {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(244, 169, 34, 0.05) 0%,
+      transparent 70%);
+  border: 1px dashed rgba(244, 169, 34, 0.25);
+  border-radius: var(--radius-xl);
+  padding: 24px 16px;
 }
-.gs-past__toggle[_ngcontent-ng-c2711559338] {
+.gs-empty--spot[_ngcontent-ng-c226430213]   .gs-empty__sub[_ngcontent-ng-c226430213] {
+  max-width: 230px;
+  line-height: 1.5;
+}
+.gs-empty__explore[_ngcontent-ng-c226430213] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 9px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(244, 169, 34, 0.28);
+  transition: opacity var(--transition);
+}
+.gs-empty__explore[_ngcontent-ng-c226430213]:hover {
+  opacity: 0.9;
+}
+.gs-my-groups[_ngcontent-ng-c226430213] {
+  margin-bottom: 16px;
+}
+.gs-section-toggle[_ngcontent-ng-c226430213] {
   display: flex;
   align-items: center;
   gap: 7px;
   width: 100%;
+  border: none;
+  background: none;
+  padding: 2px 0 8px;
+  cursor: pointer;
+  text-align: left;
+}
+.gs-section-label[_ngcontent-ng-c226430213] {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+}
+.gs-section-badge[_ngcontent-ng-c226430213] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.gs-section-chevron[_ngcontent-ng-c226430213] {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+  color: var(--color-text-light);
+}
+.gs-section-chevron--open[_ngcontent-ng-c226430213] {
+  transform: rotate(180deg);
+}
+.gs-section-list[_ngcontent-ng-c226430213] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: _ngcontent-ng-c226430213_gsSlideDown 0.18s ease;
+}
+.gs-card-wrap[_ngcontent-ng-c226430213] {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.gs-archive-btn[_ngcontent-ng-c226430213] {
+  flex-shrink: 0;
+  align-self: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-danger-border);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  transition: background var(--transition);
+}
+.gs-archive-btn[_ngcontent-ng-c226430213]:hover {
+  background: var(--color-danger-bg-hover);
+}
+.gs-past[_ngcontent-ng-c226430213] {
+  margin-top: 8px;
+}
+.gs-past__header[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gs-bulk-select-btn[_ngcontent-ng-c226430213] {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+.gs-bulk-select-btn[_ngcontent-ng-c226430213]:hover {
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+}
+.gs-bulk-select-btn--active[_ngcontent-ng-c226430213] {
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  border-color: var(--color-text-light);
+}
+.gs-past__item[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.gs-past__item--selectable[_ngcontent-ng-c226430213] {
+  cursor: pointer;
+}
+.gs-past__item--selected[_ngcontent-ng-c226430213]   .gs-card-wrap[_ngcontent-ng-c226430213] {
+  outline: 2px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+}
+.gs-past__checkbox[_ngcontent-ng-c226430213] {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 14px;
+  transition: border-color var(--transition), background var(--transition);
+}
+.gs-past__checkbox--checked[_ngcontent-ng-c226430213] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+.gs-bulk-bar[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-top: 8px;
+}
+.gs-bulk-bar__count[_ngcontent-ng-c226430213] {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  flex: 1;
+  min-width: 80px;
+}
+.gs-bulk-bar__select-all[_ngcontent-ng-c226430213] {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gs-bulk-bar__select-all[_ngcontent-ng-c226430213]:hover {
+  color: var(--color-text-secondary);
+}
+.gs-bulk-bar__btn[_ngcontent-ng-c226430213] {
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+.gs-bulk-bar__btn[_ngcontent-ng-c226430213]:hover {
+  background: var(--color-bg-muted);
+}
+.gs-bulk-bar__btn--danger[_ngcontent-ng-c226430213] {
+  color: var(--color-danger);
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-bg);
+}
+.gs-bulk-bar__btn--danger[_ngcontent-ng-c226430213]:hover {
+  background: var(--color-danger-bg-hover);
+}
+.gs-past__toggle[_ngcontent-ng-c226430213] {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  min-width: 0;
   padding: 9px 12px;
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-lg);
@@ -2366,30 +2860,30 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
     border-color var(--transition),
     color var(--transition);
 }
-.gs-past__toggle[_ngcontent-ng-c2711559338]   svg[_ngcontent-ng-c2711559338]:first-child {
+.gs-past__toggle[_ngcontent-ng-c226430213]   svg[_ngcontent-ng-c226430213]:first-child {
   flex-shrink: 0;
   opacity: 0.7;
 }
-.gs-past__toggle[_ngcontent-ng-c2711559338]:hover {
+.gs-past__toggle[_ngcontent-ng-c226430213]:hover {
   background: var(--color-bg-muted);
   border-color: var(--color-text-light);
   color: var(--color-text-secondary);
 }
-.gs-past__chevron[_ngcontent-ng-c2711559338] {
+.gs-past__chevron[_ngcontent-ng-c226430213] {
   margin-left: auto;
   flex-shrink: 0;
   transition: transform var(--transition);
 }
-.gs-past__chevron--open[_ngcontent-ng-c2711559338] {
+.gs-past__chevron--open[_ngcontent-ng-c226430213] {
   transform: rotate(180deg);
 }
-.gs-past__list[_ngcontent-ng-c2711559338] {
+.gs-past__list[_ngcontent-ng-c226430213] {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 10px;
   opacity: 0.72;
-  animation: _ngcontent-ng-c2711559338_gsSlideDown 0.18s ease;
+  animation: _ngcontent-ng-c226430213_gsSlideDown 0.18s ease;
 }
 /*# sourceMappingURL=/test/groups-section.component.css.map */</style><style ng-app-id="ng">
 
@@ -2831,11 +3325,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
 /*# sourceMappingURL=/test/user-avatar.component.css.map */</style></head>
 
 <body>
-  <app-root ng-version="19.2.1" _nghost-ng-c3320137235="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3320137235=""></router-outlet><app-map-shell _nghost-ng-c411513486=""><!--bindings={
+  <app-root ng-version="19.2.1" _nghost-ng-c719644931="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c719644931=""></router-outlet><app-map-shell _nghost-ng-c1575752761=""><!--bindings={
   "ng-reflect-ng-if": null
-}--><div _ngcontent-ng-c411513486="" class="map-layout"><div _ngcontent-ng-c411513486="" class="map-layout__main"><div _ngcontent-ng-c411513486="" class="map-layout__map"><!--bindings={
+}--><div _ngcontent-ng-c1575752761="" class="map-layout"><div _ngcontent-ng-c1575752761="" class="map-layout__main"><div _ngcontent-ng-c1575752761="" class="map-layout__map"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-map _ngcontent-ng-c411513486="" _nghost-ng-c3430546674="" ng-reflect-active-filters="" ng-reflect-provider-pins="" ng-reflect-pick-mode-active="false" class=""><div _ngcontent-ng-c3430546674="" id="ol-map" class="map-container"><button _ngcontent-ng-c3430546674="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3430546674="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3430546674="" title="My location" class="locate-btn"><i _ngcontent-ng-c3430546674="" class="fa fa-location-arrow"></i></button><!--bindings={
+}--><app-map _ngcontent-ng-c1575752761="" _nghost-ng-c3430546674="" ng-reflect-active-filters="" ng-reflect-provider-pins="" ng-reflect-pick-mode-active="false" class=""><div _ngcontent-ng-c3430546674="" id="ol-map" class="map-container"><button _ngcontent-ng-c3430546674="" title="Compass mode" class="compass-btn"><i _ngcontent-ng-c3430546674="" class="fa fa-compass"></i></button><button _ngcontent-ng-c3430546674="" title="My location" class="locate-btn"><i _ngcontent-ng-c3430546674="" class="fa fa-location-arrow"></i></button><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></div></app-map><!--bindings={
   "ng-reflect-ng-if": null
@@ -2847,11 +3341,13 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c411513486="" class="dev-about-wrap"><!--bindings={
+}--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><button _ngcontent-ng-c411513486="" class="dev-about-btn"><img _ngcontent-ng-c411513486="" src="/assets/images/profile.webp" alt="About" width="28" height="28"></button></div></div><div _ngcontent-ng-c411513486="" class="map-layout__panel panel--hidden"><!--bindings={
+}--><div _ngcontent-ng-c1575752761="" class="dev-about-wrap"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><router-outlet _ngcontent-ng-c411513486=""></router-outlet><app-location-page _nghost-ng-c468838826=""><app-panel-shell _ngcontent-ng-c468838826="" _nghost-ng-c1262857848="" ng-reflect-title="Ta' Kalanka Sea Cave"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Ta' Kalanka Sea Cave</span><app-share-btn _ngcontent-ng-c468838826="" panelactions="" _nghost-ng-c3137596793="" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Ta' Kalanka Sea Cave"><button _ngcontent-ng-c3137596793="" class="share-btn" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+}--><button _ngcontent-ng-c1575752761="" class="dev-about-btn"><img _ngcontent-ng-c1575752761="" src="/assets/images/profile.webp" alt="About" width="28" height="28"></button></div></div><div _ngcontent-ng-c1575752761="" class="map-layout__panel panel--hidden"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><router-outlet _ngcontent-ng-c1575752761=""></router-outlet><app-location-page _nghost-ng-c180806562=""><app-panel-shell _ngcontent-ng-c180806562="" _nghost-ng-c1262857848="" ng-reflect-title="Ta' Kalanka Sea Cave"><div _ngcontent-ng-c1262857848="" class="panel-header"><div _ngcontent-ng-c1262857848="" class="drag-bar"></div><div _ngcontent-ng-c1262857848="" class="panel-header__row"><button _ngcontent-ng-c1262857848="" title="Close" class="close-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-arrow-left"></i></button><div _ngcontent-ng-c1262857848="" class="panel-header__left"><span _ngcontent-ng-c1262857848="" class="panel-title">Ta' Kalanka Sea Cave</span><app-share-btn _ngcontent-ng-c180806562="" panelactions="" _nghost-ng-c26941943="" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Ta' Kalanka Sea Cave"><button _ngcontent-ng-c26941943="" class="share-btn" title="Share"><svg _ngcontent-ng-c26941943="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c26941943="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c26941943="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c26941943="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c26941943="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c26941943="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -2859,11 +3355,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": ""
 }--></button></app-share-btn><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--><div _ngcontent-ng-c468838826="" panelactions="" class="save-wrap"><button _ngcontent-ng-c468838826="" class="header-save-btn" title="Save"><svg _ngcontent-ng-c468838826="" width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path _ngcontent-ng-c468838826="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><!--bindings={
+}--><div _ngcontent-ng-c180806562="" panelactions="" class="save-wrap"><button _ngcontent-ng-c180806562="" class="header-save-btn" title="Save"><svg _ngcontent-ng-c180806562="" width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path _ngcontent-ng-c180806562="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><app-location-detail _ngcontent-ng-c468838826="" _nghost-ng-c2063673587="" ng-reflect-location="[object Object]" ng-reflect-active-route-index="-1"><!--bindings={
+}--></div><button _ngcontent-ng-c1262857848="" title="Close" class="close-map-btn"><i _ngcontent-ng-c1262857848="" class="fa fa-times"></i></button></div></div><div _ngcontent-ng-c1262857848="" class="panel-body"><div _ngcontent-ng-c180806562="" class="lp-stats-bar"><span _ngcontent-ng-c180806562="" class="lp-stats-bar__item"><svg _ngcontent-ng-c180806562="" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c180806562="" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle _ngcontent-ng-c180806562="" cx="12" cy="12" r="3"></circle></svg> 2K </span><span _ngcontent-ng-c180806562="" class="lp-stats-bar__sep">·</span><span _ngcontent-ng-c180806562="" class="lp-stats-bar__item"><svg _ngcontent-ng-c180806562="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c180806562="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg> 48 saves </span><span _ngcontent-ng-c180806562="" class="lp-stats-bar__sep">·</span><span _ngcontent-ng-c180806562="" class="lp-stats-bar__item"><svg _ngcontent-ng-c180806562="" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c180806562="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c180806562="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c180806562="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c180806562="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c180806562="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> 12 shares </span><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div><!--bindings={
+  "ng-reflect-ng-if": "[object Object]"
+}--><app-location-detail _ngcontent-ng-c180806562="" _nghost-ng-c2063673587="" ng-reflect-location="[object Object]" ng-reflect-active-route-index="-1"><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -2889,11 +3389,11 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-for-of": "[object Object]"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "1"
-}--><div _ngcontent-ng-c2063673587="" class="actions"><div _ngcontent-ng-c2063673587="" class="actions-row"><div _ngcontent-ng-c2063673587="" class="button">Explore Malta <i _ngcontent-ng-c2063673587="" class="fa fa-map"></i></div><app-share-btn _ngcontent-ng-c2063673587="" label="Share" _nghost-ng-c3137596793="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Ta' Kalanka Sea Cave" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c3137596793="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c3137596793="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c3137596793="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c3137596793="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c3137596793="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c3137596793="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
+}--><div _ngcontent-ng-c2063673587="" class="actions"><div _ngcontent-ng-c2063673587="" class="actions-row"><div _ngcontent-ng-c2063673587="" class="button">Explore Malta <i _ngcontent-ng-c2063673587="" class="fa fa-map"></i></div><app-share-btn _ngcontent-ng-c2063673587="" label="Share" _nghost-ng-c26941943="" ng-reflect-label="Share" ng-reflect-url="https://johnfabiomb.com/malta/" ng-reflect-share-title="Ta' Kalanka Sea Cave" style="flex: 1; min-width: 0;"><button _ngcontent-ng-c26941943="" class="share-btn share-btn--labeled" title="Share"><svg _ngcontent-ng-c26941943="" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle _ngcontent-ng-c26941943="" cx="18" cy="5" r="3"></circle><circle _ngcontent-ng-c26941943="" cx="6" cy="12" r="3"></circle><circle _ngcontent-ng-c26941943="" cx="18" cy="19" r="3"></circle><line _ngcontent-ng-c26941943="" x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line _ngcontent-ng-c26941943="" x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><span _ngcontent-ng-c3137596793="">Share</span><!--bindings={
+}--><span _ngcontent-ng-c26941943="">Share</span><!--bindings={
   "ng-reflect-ng-if": "Share"
 }--></button></app-share-btn><div _ngcontent-ng-c2063673587="" class="save-wrap"><button _ngcontent-ng-c2063673587="" class="save-btn" title="Save"><svg _ngcontent-ng-c2063673587="" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path _ngcontent-ng-c2063673587="" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -2905,13 +3405,15 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "1"
 }--><!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
-}--><!--container--></div><div _ngcontent-ng-c2063673587="" class="exploring-section"><h4 _ngcontent-ng-c2063673587="" class="exploring-title"><svg _ngcontent-ng-c2063673587="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c2063673587="" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c2063673587="" cx="9" cy="7" r="4"></circle><path _ngcontent-ng-c2063673587="" d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path _ngcontent-ng-c2063673587="" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Explore Together <span _ngcontent-ng-c2063673587="" class="exploring-new-badge">New</span></h4><app-groups-section _ngcontent-ng-c2063673587="" _nghost-ng-c2711559338="" ng-reflect-locked-location="[object Object]"><div _ngcontent-ng-c2711559338="" class="gs-intro"><div _ngcontent-ng-c2711559338="" class="gs-intro__text"><!--bindings={
+}--><!--container--></div><div _ngcontent-ng-c2063673587="" class="exploring-section"><h4 _ngcontent-ng-c2063673587="" class="exploring-title"><svg _ngcontent-ng-c2063673587="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path _ngcontent-ng-c2063673587="" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c2063673587="" cx="9" cy="7" r="4"></circle><path _ngcontent-ng-c2063673587="" d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path _ngcontent-ng-c2063673587="" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Explore Together <span _ngcontent-ng-c2063673587="" class="exploring-new-badge">New</span></h4><app-groups-section _ngcontent-ng-c2063673587="" _nghost-ng-c226430213="" ng-reflect-locked-location="[object Object]"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><p _ngcontent-ng-c2711559338="" class="gs-intro__desc"> Planning a visit to <strong _ngcontent-ng-c2711559338="">Ta' Kalanka Sea Cave</strong>? Join a group or start your own. </p><!--bindings={
+}--><div _ngcontent-ng-c226430213="" class="gs-intro"><div _ngcontent-ng-c226430213="" class="gs-intro__text"><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><p _ngcontent-ng-c226430213="" class="gs-intro__desc"> Planning a visit to <strong _ngcontent-ng-c226430213="">Ta' Kalanka Sea Cave</strong>? Join a group or start your own. </p><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><button _ngcontent-ng-c2711559338="" class="gs-create-btn gs-create-btn--locked"><svg _ngcontent-ng-c2711559338="" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect _ngcontent-ng-c2711559338="" x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path _ngcontent-ng-c2711559338="" d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Sign in to join </button><!--bindings={
+}--><button _ngcontent-ng-c226430213="" class="gs-create-btn gs-create-btn--locked"><svg _ngcontent-ng-c226430213="" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect _ngcontent-ng-c226430213="" x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path _ngcontent-ng-c226430213="" d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Sign in to join </button><!--bindings={
   "ng-reflect-ng-if": "true"
 }--></div><!--bindings={
   "ng-reflect-ng-if": "false"
@@ -2923,14 +3425,18 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c2711559338="" class="gs-empty"><div _ngcontent-ng-c2711559338="" class="gs-empty__icon">🥾</div><!--bindings={
+}--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><p _ngcontent-ng-c2711559338="" class="gs-empty__msg">No groups at this spot yet</p><!--bindings={
-  "ng-reflect-ng-if": "[object Object]"
-}--><p _ngcontent-ng-c2711559338="" class="gs-empty__sub">Sign in to be the first to organise one!</p><button _ngcontent-ng-c2711559338="" class="gs-gate__btn">Sign in</button></div><!--bindings={
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><div _ngcontent-ng-c226430213="" class="gs-empty gs-empty--spot"><div _ngcontent-ng-c226430213="" class="gs-empty__icon">💬</div><p _ngcontent-ng-c226430213="" class="gs-empty__msg">No groups at this spot yet</p><p _ngcontent-ng-c226430213="" class="gs-empty__sub">Meet other explorers, share tips and plan visits together in the groups chat.</p><button _ngcontent-ng-c226430213="" class="gs-empty__explore"> See all groups &amp; chat <svg _ngcontent-ng-c226430213="" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline _ngcontent-ng-c226430213="" points="9 18 15 12 9 6"></polyline></svg></button></div><!--bindings={
   "ng-reflect-ng-if": "true"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
+}--><!--ng-container--><!--bindings={
+  "ng-reflect-ng-if": "true"
 }--></app-groups-section></div><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
 }--><div _ngcontent-ng-c2063673587="" class="closest-section"><h4 _ngcontent-ng-c2063673587="" class="closest-title">Closest Spots</h4><div _ngcontent-ng-c2063673587="" class="closest-list"><div _ngcontent-ng-c2063673587="" class="closest-card"><img _ngcontent-ng-c2063673587="" class="closest-thumb" src="/assets/images/places/10.webp" alt="Hofriet Window"><div _ngcontent-ng-c2063673587="" class="closest-info"><span _ngcontent-ng-c2063673587="" class="closest-name">Hofriet Window</span><span _ngcontent-ng-c2063673587="" class="closest-tag">Hidden</span><!--bindings={
@@ -2947,31 +3453,35 @@ app-ad-banner[_ngcontent-ng-c2063673587] {
   "ng-reflect-ng-if": "4"
 }--></div></app-location-detail><!--bindings={
   "ng-reflect-ng-if": "[object Object]"
-}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c411513486="" _nghost-ng-c383542925=""><!--bindings={
+}--></div></app-panel-shell></app-location-page><!--container--></div></div><app-footer _ngcontent-ng-c1575752761="" _nghost-ng-c3178630197=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
 }--><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c383542925="" class="bottom-bar"><!--bindings={
+}--><div _ngcontent-ng-c3178630197="" class="bottom-bar"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c383542925="" class="nav-menu-wrap"><button _ngcontent-ng-c383542925="" class="nav-menu-trigger"><svg _ngcontent-ng-c383542925="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c383542925="" x1="3" y1="12" x2="21" y2="12"></line><line _ngcontent-ng-c383542925="" x1="3" y1="6" x2="21" y2="6"></line><line _ngcontent-ng-c383542925="" x1="3" y1="18" x2="21" y2="18"></line></svg> Explore </button></div><!--bindings={
+}--><div _ngcontent-ng-c3178630197="" class="nav-menu-wrap"><button _ngcontent-ng-c3178630197="" class="nav-menu-trigger"><svg _ngcontent-ng-c3178630197="" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line _ngcontent-ng-c3178630197="" x1="3" y1="12" x2="21" y2="12"></line><line _ngcontent-ng-c3178630197="" x1="3" y1="6" x2="21" y2="6"></line><line _ngcontent-ng-c3178630197="" x1="3" y1="18" x2="21" y2="18"></line></svg> Explore </button></div><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c383542925="" class="footer-right"><!--bindings={
+}--><div _ngcontent-ng-c3178630197="" class="footer-right"><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><div _ngcontent-ng-c383542925="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c383542925="" class="text"><span _ngcontent-ng-c383542925="" class="name">Sign in</span><span _ngcontent-ng-c383542925="" class="title">Save places &amp; unlock deals</span></div><app-user-avatar _ngcontent-ng-c383542925="" size="md" shape="squircle" _nghost-ng-c1744324182="" ng-reflect-size="md" ng-reflect-shape="squircle" ng-reflect-photo-u-r-l=""><div _ngcontent-ng-c1744324182="" class="uav-wrap"><div _ngcontent-ng-c1744324182="" class="uav uav--guest uav--md uav--squircle"><!--container--><svg _ngcontent-ng-c1744324182="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="uav-guest-icon"><path _ngcontent-ng-c1744324182="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c1744324182="" cx="12" cy="7" r="4"></circle></svg><!--container--></div><!--container--></div></app-user-avatar></div><!--bindings={
+}--><div _ngcontent-ng-c3178630197="" class="profile-wrap profile-wrap--guest"><div _ngcontent-ng-c3178630197="" class="text"><span _ngcontent-ng-c3178630197="" class="name">Sign in</span><span _ngcontent-ng-c3178630197="" class="title">Save places &amp; unlock deals</span></div><app-user-avatar _ngcontent-ng-c3178630197="" size="md" shape="squircle" _nghost-ng-c1744324182="" ng-reflect-size="md" ng-reflect-shape="squircle" ng-reflect-photo-u-r-l=""><div _ngcontent-ng-c1744324182="" class="uav-wrap"><div _ngcontent-ng-c1744324182="" class="uav uav--guest uav--md uav--squircle"><!--container--><svg _ngcontent-ng-c1744324182="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="uav-guest-icon"><path _ngcontent-ng-c1744324182="" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle _ngcontent-ng-c1744324182="" cx="12" cy="7" r="4"></circle></svg><!--container--></div><!--container--></div></app-user-avatar></div><!--bindings={
   "ng-reflect-ng-if": "true"
-}--></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c3320137235="" _nghost-ng-c454289037=""><!--bindings={
+}--></div></div></app-footer></div></app-map-shell><!--container--><app-pwa-prompt _ngcontent-ng-c719644931="" _nghost-ng-c2979277173=""><!--bindings={
   "ng-reflect-ng-if": "false"
 }--></app-pwa-prompt><!--bindings={
   "ng-reflect-ng-if": "true"
-}--><span _ngcontent-ng-c3320137235="" class="app-version">v1.1.29</span><!--bindings={
+}--><span _ngcontent-ng-c719644931="" class="app-version">v2.0.0</span><!--bindings={
   "ng-reflect-ng-if": "false"
-}--><app-welcome-popup _ngcontent-ng-c3320137235="" _nghost-ng-c2212365901=""><!--bindings={
+}--><app-welcome-popup _ngcontent-ng-c719644931="" _nghost-ng-c2212365901=""><!--bindings={
   "ng-reflect-ng-if": "false"
-}--></app-welcome-popup><!--container--></app-root>
+}--></app-welcome-popup><!--bindings={
+  "ng-reflect-ng-if": null
+}--><!--container--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-root>
   <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
-<link rel="modulepreload" href="chunk-TWFNT6JO.js"><link rel="modulepreload" href="chunk-AFV7OAE7.js"><link rel="modulepreload" href="chunk-6W5N77V2.js"><link rel="modulepreload" href="chunk-P2CHI26T.js"><link rel="modulepreload" href="chunk-44EY3WPE.js"><link rel="modulepreload" href="chunk-HPOPY4XD.js"><link rel="modulepreload" href="chunk-YJYHGMFB.js"><link rel="modulepreload" href="chunk-6DNTZJP4.js"><link rel="modulepreload" href="chunk-CGA4Y22O.js"><link rel="modulepreload" href="chunk-E43Y6J77.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+<link rel="modulepreload" href="chunk-YLOOUTEI.js"><link rel="modulepreload" href="chunk-62NNIWOP.js"><link rel="modulepreload" href="chunk-AFV7OAE7.js"><link rel="modulepreload" href="chunk-BS6XIB6G.js"><link rel="modulepreload" href="chunk-AOR6446T.js"><link rel="modulepreload" href="chunk-LLZT5DQF.js"><link rel="modulepreload" href="chunk-HMI5MUHL.js"><link rel="modulepreload" href="chunk-WILWZNDO.js"><link rel="modulepreload" href="chunk-ZPEFIUFS.js"><link rel="modulepreload" href="chunk-ADG4HADG.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
 
 
 </body></html>
