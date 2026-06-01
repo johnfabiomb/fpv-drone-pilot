@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, PLATFORM_ID, computed, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, PLATFORM_ID, computed, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
@@ -9,10 +9,12 @@ import { WelcomePopupComponent } from '@layout/welcome-popup/welcome-popup.compo
 import { AppModalComponent } from '@ui/modal/app-modal.component';
 import { UserProfileCardComponent } from '@layout/user-profile-card/user-profile-card.component';
 import { LevelsModalComponent } from '@layout/levels-modal/levels-modal.component';
+import { EditProfileModalComponent } from '@ui/edit-profile-modal/edit-profile-modal.component';
 import { AuthService } from '@core/services/auth.service';
 import { UserDataService } from '@core/services/user-data.service';
 import { ProfileModalService } from '@core/services/profile-modal.service';
 import { LevelsModalService } from '@core/services/levels-modal.service';
+import { EditProfileModalService } from '@core/services/edit-profile-modal.service';
 import { version } from '../../package.json';
 import { filter } from 'rxjs/operators';
 
@@ -21,7 +23,7 @@ const MAP_ROUTES = ['/malta', '/'];
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent, LevelsModalComponent],
+  imports: [RouterOutlet, CommonModule, PwaPromptComponent, AuthModalComponent, WelcomePopupComponent, AppModalComponent, UserProfileCardComponent, LevelsModalComponent, EditProfileModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -35,8 +37,17 @@ export class AppComponent implements OnInit {
   readonly authService          = inject(AuthService);
   readonly profileModal         = inject(ProfileModalService);
   readonly levelsModal          = inject(LevelsModalService);
+  readonly editProfileModal     = inject(EditProfileModalService);
   readonly userData             = inject(UserDataService);
   readonly levelUpToast         = computed(() => this.userData.levelUpToast());
+
+  constructor() {
+    effect(() => {
+      if (this.userData.needsDisplayName()) {
+        this.editProfileModal.open('first-login');
+      }
+    });
+  }
 
   private readonly HASH_RENAMES: Record<string, string> = {
     '/list':  '/malta/list',

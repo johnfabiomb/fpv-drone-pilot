@@ -6,6 +6,15 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- **Edit profile modal** — users can update their display name and phone number from the profile popup (Edit profile button above Sign out); opens a centered modal with backdrop
+- **First-login name prompt** — magic link users with no display name are shown a blocking modal on first login asking for their name before they can proceed; name is written to both `users.display_name` and `auth.user_metadata` so it propagates everywhere
+- `users.phone` column added to Supabase schema (run `ALTER TABLE public.users ADD COLUMN IF NOT EXISTS phone TEXT NULL` in SQL Editor)
+- `EditProfileModalService` — UI-state-only service (open/close/mode) following the same pattern as `LevelsModalService`
+- `UserDataService.updateProfile()` — single method that writes display name + phone to `users` table and patches `auth.user_metadata.full_name`
+- `UserDataService.needsDisplayName` computed signal — true when logged in and `user_metadata.full_name` is absent
+- `UserDataService.phone` signal — loaded from DB on login, kept in sync after profile update
+
 ### Fixed
 - **Panel shell** — scrolling up through panel content no longer hijacks into a panel drag once `scrollTop` reaches 0; drag is only intercepted if the touch started with the content already at the top
 - **Group members modal** — confirm popup now renders at `document.body` level when `fixed=true`, escaping the modal's stacking context so it overlays correctly instead of appearing trapped inside the card

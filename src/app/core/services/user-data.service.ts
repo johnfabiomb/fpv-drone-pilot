@@ -14,6 +14,7 @@ interface CachedUserData {
   createdAt: number | null;
   featureAccess?: { groups?: boolean };
   referralCode?: string | null;
+  phone?: string | null;
 }
 
 const CACHE_KEY = 'vm_ud';
@@ -31,7 +32,13 @@ export class UserDataService {
   readonly receiveUpdates = signal<boolean>(true);
   readonly createdAt      = signal<number | null>(null);
   readonly referralCode   = signal<string | null>(null);
+  readonly phone          = signal<string | null>(null);
   readonly levelUpToast   = signal<LevelDefinition | null>(null);
+
+  readonly needsDisplayName = computed(() =>
+    this.authService.isLoggedIn() &&
+    !this.authService.user()?.user_metadata?.['full_name']
+  );
 
   private readonly _featureAccess = signal<{ groups?: boolean } | null>(null);
   readonly groupsUnlocked = computed(() => this._featureAccess()?.groups !== false);
@@ -141,6 +148,24 @@ export class UserDataService {
     this.createdAt.set(data.createdAt);
     this._featureAccess.set(data.featureAccess ?? null);
     this.referralCode.set(data.referralCode ?? null);
+    this.phone.set(data.phone ?? null);
+  }
+
+  async updateProfile(data: { displayName: string; phone?: string | null }): Promise<void> {
+    const user = this.authService.user();
+    if (!user) throw new Error('Not authenticated');
+
+    const name = data.displayName.trim();
+    if (!name) throw new Error('Name is required');
+
+    // Update auth user_metadata so userDisplayName() signal updates everywhere
+    await supabase.auth.updateUser({ data: { full_name: name } });
+
+    const update: Record<string, unknown> = { display_name: name };
+    if (data.phone !== undefined) update['phone'] = data.phone || null;
+    await supabase.from('users').update(update).eq('id', user.id);
+
+    if (data.phone !== undefined) this.phone.set(data.phone || null);
   }
 
   private async loadUserData(uid: string): Promise<void> {
@@ -156,7 +181,7 @@ export class UserDataService {
   private async fetchAndApply(uid: string): Promise<void> {
     const { data } = await supabase
       .from('users')
-      .select('saved_locations, role, level, xp, receive_updates, feature_access, created_at, referral_code')
+      .select('saved_locations, role, level, xp, receive_updates, feature_access, created_at, referral_code, phone')
       .eq('id', uid)
       .maybeSingle();
 
@@ -174,6 +199,7 @@ export class UserDataService {
         createdAt,
         featureAccess:  data['feature_access'] as { groups?: boolean } | undefined,
         referralCode:   (data['referral_code'] as string | null) ?? null,
+        phone:          (data['phone'] as string | null) ?? null,
       };
       this.applyData(userData);
       this.writeCache(uid, userData);

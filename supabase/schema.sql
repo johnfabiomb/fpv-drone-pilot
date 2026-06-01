@@ -95,6 +95,8 @@ CREATE TABLE IF NOT EXISTS public.xp_events (
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS xp            INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS referral_code TEXT    UNIQUE;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS referred_by   UUID    REFERENCES public.users(id) ON DELETE SET NULL;
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS phone         TEXT    NULL;
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS phone         TEXT    NULL;
 
 -- users: extend role to include 'guide'
 ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_role_check;

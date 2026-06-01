@@ -24,3 +24,10 @@
 }
 
 <app-levels-modal *ngIf="levelsModal.isOpen()" (closeRequested)="levelsModal.close()"></app-levels-modal>
+
+<app-edit-profile-modal
+  *ngIf="editProfileModal.isOpen()"
+  [isFirstLogin]="editProfileModal.mode() === 'first-login'"
+  (saved)="editProfileModal.close()"
+  (dismissed)="editProfileModal.close()">
+</app-edit-profile-modal>
