@@ -25,8 +25,7 @@ const homeExtra = `
     </image:image>`;
 
 const staticUrls = [
-  url('/',                    '1.0', 'weekly',  homeExtra),
-  url('/malta',               '0.7', 'weekly'),
+  url('/malta',               '1.0', 'weekly',  homeExtra),
   url('/malta/list',          '0.7', 'weekly'),
   url('/malta/deals',         '0.7', 'weekly'),
   url('/malta/30-places-2026','0.6', 'monthly'),

@@ -79,7 +79,7 @@ export class SeoService {
       map: {
         title: DEFAULT_TITLE,
         desc: DEFAULT_DESC,
-        url: `${BASE}/`,
+        url: `${BASE}/malta`,
       },
       list: {
         title: 'Browse All Locations · Explore Malta',
@@ -224,7 +224,7 @@ export class SeoService {
       image,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Malta',
+        addressLocality: location.locality ?? 'Malta',
         addressCountry: 'MT',
       },
       creator: { '@id': `${BASE_URL}/#person` },
