@@ -1348,7 +1348,7 @@ var GroupMembersModalComponent = class _GroupMembersModalComponent {
 function GroupEditFormComponent_ul_19_li_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "li", 33);
+    \u0275\u0275elementStart(0, "li", 34);
     \u0275\u0275listener("click", function GroupEditFormComponent_ul_19_li_1_Template_li_click_0_listener() {
       const s_r2 = \u0275\u0275restoreView(_r1).$implicit;
       const ctx_r2 = \u0275\u0275nextContext(2);
@@ -1365,8 +1365,8 @@ function GroupEditFormComponent_ul_19_li_1_Template(rf, ctx) {
 }
 function GroupEditFormComponent_ul_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "ul", 31);
-    \u0275\u0275template(1, GroupEditFormComponent_ul_19_li_1_Template, 2, 1, "li", 32);
+    \u0275\u0275elementStart(0, "ul", 32);
+    \u0275\u0275template(1, GroupEditFormComponent_ul_19_li_1_Template, 2, 1, "li", 33);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -1377,10 +1377,10 @@ function GroupEditFormComponent_ul_19_Template(rf, ctx) {
 }
 function GroupEditFormComponent_span_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 34);
+    \u0275\u0275elementStart(0, "span", 35);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 35);
-    \u0275\u0275element(2, "polyline", 36);
+    \u0275\u0275elementStart(1, "svg", 36);
+    \u0275\u0275element(2, "polyline", 37);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
@@ -1391,27 +1391,34 @@ function GroupEditFormComponent_span_20_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r2.editSpotTitle, " ");
   }
 }
-function GroupEditFormComponent_div_66_Template(rf, ctx) {
+function GroupEditFormComponent_span_57_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 38);
+    \u0275\u0275text(1, "\u{1F512} Guide or admin only");
+    \u0275\u0275elementEnd();
+  }
+}
+function GroupEditFormComponent_div_67_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 37)(1, "span", 38);
+    \u0275\u0275elementStart(0, "div", 39)(1, "span", 40);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 39);
-    \u0275\u0275element(3, "path", 40)(4, "circle", 41);
+    \u0275\u0275elementStart(2, "svg", 41);
+    \u0275\u0275element(3, "path", 42)(4, "circle", 43);
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " Is this the right spot? ");
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(6, "div", 42)(7, "button", 43);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_66_Template_button_click_7_listener() {
+    \u0275\u0275elementStart(6, "div", 44)(7, "button", 45);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_67_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.retryPoint());
     });
     \u0275\u0275text(8, "Try again");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 44);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_66_Template_button_click_9_listener() {
+    \u0275\u0275elementStart(9, "button", 46);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_67_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.confirmPendingPoint());
@@ -1420,35 +1427,35 @@ function GroupEditFormComponent_div_66_Template(rf, ctx) {
     \u0275\u0275elementEnd()()();
   }
 }
-function GroupEditFormComponent_div_67_Template(rf, ctx) {
+function GroupEditFormComponent_div_68_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 45)(1, "button", 46);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_67_Template_button_click_1_listener() {
+    \u0275\u0275elementStart(0, "div", 47)(1, "button", 48);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_68_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.startPickingPoint());
     });
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(2, "svg", 39);
-    \u0275\u0275element(3, "path", 40)(4, "circle", 41);
+    \u0275\u0275elementStart(2, "svg", 41);
+    \u0275\u0275element(3, "path", 42)(4, "circle", 43);
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " Pin on map ");
     \u0275\u0275elementEnd()();
   }
 }
-function GroupEditFormComponent_div_68_Template(rf, ctx) {
+function GroupEditFormComponent_div_69_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 47);
+    \u0275\u0275elementStart(0, "div", 49);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 39);
-    \u0275\u0275element(2, "polyline", 36);
+    \u0275\u0275elementStart(1, "svg", 41);
+    \u0275\u0275element(2, "polyline", 37);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3, " Meeting point set ");
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(4, "button", 48);
-    \u0275\u0275listener("click", function GroupEditFormComponent_div_68_Template_button_click_4_listener() {
+    \u0275\u0275elementStart(4, "button", 50);
+    \u0275\u0275listener("click", function GroupEditFormComponent_div_69_Template_button_click_4_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r2 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r2.clearMeetingPoint());
@@ -1457,9 +1464,9 @@ function GroupEditFormComponent_div_68_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
 }
-function GroupEditFormComponent_p_69_Template(rf, ctx) {
+function GroupEditFormComponent_p_70_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 49);
+    \u0275\u0275elementStart(0, "p", 51);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -1633,7 +1640,7 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GroupEditFormComponent, selectors: [["app-group-edit-form"]], inputs: { group: "group", groupId: "groupId" }, outputs: { saved: "saved", cancelled: "cancelled" }, decls: 75, vars: 22, consts: [[1, "gd-edit-form"], [1, "gd-edit-form__header"], [1, "gd-edit-form__title"], ["aria-label", "Cancel", 1, "gd-edit-form__close", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [1, "gd-edit-form__field"], ["type", "text", "placeholder", "Group title", "maxlength", "80", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__opt"], [1, "gd-edit-form__spot-wrap"], ["type", "text", "placeholder", "Search a location\u2026", "autocomplete", "off", 3, "ngModelChange", "input", "ngModel"], ["class", "gd-edit-form__spot-results", 4, "ngIf"], ["class", "gd-edit-form__spot-selected", 4, "ngIf"], [1, "gd-edit-form__row"], ["type", "date", 3, "ngModelChange", "ngModel"], ["type", "time", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__chips"], [1, "chip", 3, "click"], ["rows", "3", "maxlength", "400", "placeholder", "What's the plan? Anything to know beforehand?", 3, "ngModelChange", "ngModel"], ["type", "number", "min", "2", "max", "50", "placeholder", "Unlimited", 3, "ngModelChange", "ngModel"], [1, "gd-price-wrap"], [1, "gd-price-euro"], ["type", "number", "min", "0", "step", "0.01", "placeholder", "Free", 3, "ngModelChange", "ngModel", "disabled"], ["class", "gd-meeting-confirm", 4, "ngIf"], ["class", "gd-meeting-pick", 4, "ngIf"], ["class", "gd-meeting-set", 4, "ngIf"], ["class", "gd-edit-form__error", 4, "ngIf"], [1, "gd-edit-form__actions"], [1, "gd-edit-form__cancel", 3, "click"], [1, "gd-edit-form__submit", 3, "click", "disabled"], [1, "gd-edit-form__spot-results"], [3, "click", 4, "ngFor", "ngForOf"], [3, "click"], [1, "gd-edit-form__spot-selected"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-meeting-confirm"], [1, "gd-meeting-confirm__msg"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-meeting-confirm__actions"], [1, "gd-meeting-confirm__retry", 3, "click"], [1, "gd-meeting-confirm__ok", 3, "click"], [1, "gd-meeting-pick"], [1, "gd-meeting-pick__btn", 3, "click"], [1, "gd-meeting-set"], [1, "gd-meeting-set__remove", 3, "click"], [1, "gd-edit-form__error"]], template: function GroupEditFormComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GroupEditFormComponent, selectors: [["app-group-edit-form"]], inputs: { group: "group", groupId: "groupId" }, outputs: { saved: "saved", cancelled: "cancelled" }, decls: 76, vars: 23, consts: [[1, "gd-edit-form"], [1, "gd-edit-form__header"], [1, "gd-edit-form__title"], ["aria-label", "Cancel", 1, "gd-edit-form__close", 3, "click"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round"], ["x1", "18", "y1", "6", "x2", "6", "y2", "18"], ["x1", "6", "y1", "6", "x2", "18", "y2", "18"], [1, "gd-edit-form__field"], ["type", "text", "placeholder", "Group title", "maxlength", "80", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__opt"], [1, "gd-edit-form__spot-wrap"], ["type", "text", "placeholder", "Search a location\u2026", "autocomplete", "off", 3, "ngModelChange", "input", "ngModel"], ["class", "gd-edit-form__spot-results", 4, "ngIf"], ["class", "gd-edit-form__spot-selected", 4, "ngIf"], [1, "gd-edit-form__row"], ["type", "date", 3, "ngModelChange", "ngModel"], ["type", "time", 3, "ngModelChange", "ngModel"], [1, "gd-edit-form__chips"], [1, "chip", 3, "click"], ["rows", "3", "maxlength", "400", "placeholder", "What's the plan? Anything to know beforehand?", 3, "ngModelChange", "ngModel"], ["type", "number", "min", "2", "max", "50", "placeholder", "Unlimited", 3, "ngModelChange", "ngModel"], ["class", "gd-edit-form__lock-hint", 4, "ngIf"], [1, "gd-price-wrap"], [1, "gd-price-euro"], ["type", "number", "min", "0", "step", "0.01", "placeholder", "Free", 3, "ngModelChange", "ngModel", "disabled"], ["class", "gd-meeting-confirm", 4, "ngIf"], ["class", "gd-meeting-pick", 4, "ngIf"], ["class", "gd-meeting-set", 4, "ngIf"], ["class", "gd-edit-form__error", 4, "ngIf"], [1, "gd-edit-form__actions"], [1, "gd-edit-form__cancel", 3, "click"], [1, "gd-edit-form__submit", 3, "click", "disabled"], [1, "gd-edit-form__spot-results"], [3, "click", 4, "ngFor", "ngForOf"], [3, "click"], [1, "gd-edit-form__spot-selected"], ["width", "11", "height", "11", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["points", "20 6 9 17 4 12"], [1, "gd-edit-form__lock-hint"], [1, "gd-meeting-confirm"], [1, "gd-meeting-confirm__msg"], ["width", "12", "height", "12", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2.5", "stroke-linecap", "round", "stroke-linejoin", "round"], ["d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"], ["cx", "12", "cy", "10", "r", "3"], [1, "gd-meeting-confirm__actions"], [1, "gd-meeting-confirm__retry", 3, "click"], [1, "gd-meeting-confirm__ok", 3, "click"], [1, "gd-meeting-pick"], [1, "gd-meeting-pick__btn", 3, "click"], [1, "gd-meeting-set"], [1, "gd-meeting-set__remove", 3, "click"], [1, "gd-edit-form__error"]], template: function GroupEditFormComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "h3", 2);
         \u0275\u0275text(3, "Edit group");
@@ -1739,35 +1746,37 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         \u0275\u0275text(54, " Tour price ");
         \u0275\u0275elementStart(55, "span", 9);
         \u0275\u0275text(56, "(optional)");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(57, "div", 21)(58, "span", 22);
-        \u0275\u0275text(59, "\u20AC");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(60, "input", 23);
-        \u0275\u0275twoWayListener("ngModelChange", function GroupEditFormComponent_Template_input_ngModelChange_60_listener($event) {
+        \u0275\u0275template(57, GroupEditFormComponent_span_57_Template, 2, 0, "span", 21);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(58, "div", 22)(59, "span", 23);
+        \u0275\u0275text(60, "\u20AC");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(61, "input", 24);
+        \u0275\u0275twoWayListener("ngModelChange", function GroupEditFormComponent_Template_input_ngModelChange_61_listener($event) {
           \u0275\u0275twoWayBindingSet(ctx.editPrice, $event) || (ctx.editPrice = $event);
           return $event;
         });
         \u0275\u0275elementEnd()()();
-        \u0275\u0275elementStart(61, "div", 7)(62, "label");
-        \u0275\u0275text(63, "Meeting point ");
-        \u0275\u0275elementStart(64, "span", 9);
-        \u0275\u0275text(65, "(optional)");
+        \u0275\u0275elementStart(62, "div", 7)(63, "label");
+        \u0275\u0275text(64, "Meeting point ");
+        \u0275\u0275elementStart(65, "span", 9);
+        \u0275\u0275text(66, "(optional)");
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(66, GroupEditFormComponent_div_66_Template, 11, 0, "div", 24)(67, GroupEditFormComponent_div_67_Template, 6, 0, "div", 25)(68, GroupEditFormComponent_div_68_Template, 6, 0, "div", 26);
+        \u0275\u0275template(67, GroupEditFormComponent_div_67_Template, 11, 0, "div", 25)(68, GroupEditFormComponent_div_68_Template, 6, 0, "div", 26)(69, GroupEditFormComponent_div_69_Template, 6, 0, "div", 27);
         \u0275\u0275elementEnd();
-        \u0275\u0275template(69, GroupEditFormComponent_p_69_Template, 2, 1, "p", 27);
-        \u0275\u0275elementStart(70, "div", 28)(71, "button", 29);
-        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_71_listener() {
+        \u0275\u0275template(70, GroupEditFormComponent_p_70_Template, 2, 1, "p", 28);
+        \u0275\u0275elementStart(71, "div", 29)(72, "button", 30);
+        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_72_listener() {
           return ctx.cancel();
         });
-        \u0275\u0275text(72, "Cancel");
+        \u0275\u0275text(73, "Cancel");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(73, "button", 30);
-        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_73_listener() {
+        \u0275\u0275elementStart(74, "button", 31);
+        \u0275\u0275listener("click", function GroupEditFormComponent_Template_button_click_74_listener() {
           return ctx.submit();
         });
-        \u0275\u0275text(74);
+        \u0275\u0275text(75);
         \u0275\u0275elementEnd()()();
       }
       if (rf & 2) {
@@ -1793,7 +1802,9 @@ var GroupEditFormComponent = class _GroupEditFormComponent {
         \u0275\u0275twoWayProperty("ngModel", ctx.editDescription);
         \u0275\u0275advance(6);
         \u0275\u0275twoWayProperty("ngModel", ctx.editMaxMembers);
-        \u0275\u0275advance(9);
+        \u0275\u0275advance(6);
+        \u0275\u0275property("ngIf", !ctx.canSetPrice());
+        \u0275\u0275advance(4);
         \u0275\u0275twoWayProperty("ngModel", ctx.editPrice);
         \u0275\u0275property("disabled", !ctx.canSetPrice());
         \u0275\u0275advance(6);
@@ -3090,4 +3101,4 @@ var GroupDetailComponent = class _GroupDetailComponent {
 export {
   GroupDetailComponent
 };
-//# sourceMappingURL=chunk-WSYUGJOQ.js.map
+//# sourceMappingURL=chunk-DA4IHQDX.js.map
