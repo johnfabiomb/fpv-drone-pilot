@@ -1,0 +1,62 @@
+<div class="lb-page">
+
+  <div class="lb-header">
+    <a class="lb-back" routerLink="/malta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to map
+    </a>
+    <h1 class="lb-title">🏆 Malta Explorers</h1>
+    <p class="lb-subtitle">Top explorers ranked by level &amp; XP</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="lb-loading" *ngIf="loading()">
+    <div class="lb-skeleton" *ngFor="let i of [1,2,3,4,5]"></div>
+  </div>
+
+  <!-- Error -->
+  <div class="lb-state" *ngIf="!loading() && error()">
+    <p>Couldn't load rankings. Try again later.</p>
+  </div>
+
+  <!-- Empty -->
+  <div class="lb-state" *ngIf="!loading() && !error() && !entries().length">
+    <p>No rankings yet — start exploring to earn XP!</p>
+    <a routerLink="/malta" class="lb-cta">Open the map →</a>
+  </div>
+
+  <!-- List -->
+  <div class="lb-list" *ngIf="!loading() && entries().length">
+    <div
+      class="lb-entry"
+      [class.lb-entry--gold]="entry.rank === 1"
+      [class.lb-entry--silver]="entry.rank === 2"
+      [class.lb-entry--bronze]="entry.rank === 3"
+      *ngFor="let entry of entries()">
+
+      <span class="lb-rank" [class.lb-rank--medal]="entry.rank <= 3">{{ medal(entry.rank) }}</span>
+
+      <app-user-avatar
+        [photoURL]="entry.photo_url ?? ''"
+        [displayName]="entry.display_name"
+        [level]="entry.level"
+        size="md"
+        shape="circle">
+      </app-user-avatar>
+
+      <div class="lb-info">
+        <span class="lb-name">{{ entry.display_name }}</span>
+        <span class="lb-level">{{ levelInfo(entry.level).emoji }} {{ levelInfo(entry.level).name }}</span>
+      </div>
+
+      <div class="lb-xp">
+        <span class="lb-xp__val">{{ entry.xp | number }}</span>
+        <span class="lb-xp__unit">XP</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>

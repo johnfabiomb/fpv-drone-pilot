@@ -65,6 +65,23 @@
         <polyline points="9 18 15 12 9 6"/>
       </svg>
     </a>
+    <a class="nav-item" routerLink="/malta/leaderboard" (click)="showNavMenu = false">
+      <span class="nav-item__icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2"/>
+          <path d="M6 2v7a6 6 0 0 0 12 0V2"/>
+          <polyline points="8 21 16 21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      </span>
+      <span class="nav-item__text">
+        <span class="nav-item__label">Rankings</span>
+        <span class="nav-item__desc">Top Malta explorers by level &amp; XP</span>
+      </span>
+      <svg class="nav-item__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
     <!-- Explore Together — unlocked (has access) -->
     <a *ngIf="features.GROUPS && userDataService.groupsUnlocked()" class="nav-item" routerLink="/malta/groups" (click)="showNavMenu = false">
       <span class="nav-item__icon">

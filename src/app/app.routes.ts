@@ -85,6 +85,10 @@ export const routes: Routes = [
                 loadComponent: () => import('@pages/top-places/top-places.component').then(m => m.TopPlacesComponent)
             },
             {
+                path: 'leaderboard',
+                loadComponent: () => import('@features/leaderboard/leaderboard.component').then(m => m.LeaderboardComponent)
+            },
+            {
                 path: 'plan',
                 canMatch: [() => FEATURES.ROUTE_BUILDER],
                 loadComponent: () => import('@features/route-builder/route-builder.component').then(m => m.RouteBuilderComponent)

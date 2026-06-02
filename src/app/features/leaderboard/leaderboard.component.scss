@@ -1,0 +1,156 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--color-bg);
+}
+
+.lb-page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+// ── Header ─────────────────────────────────────────────────────────────────
+
+.lb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin-bottom: 20px;
+  &:hover { color: var(--color-primary); }
+}
+
+.lb-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-text-base);
+  margin: 0 0 6px;
+}
+
+.lb-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin: 0 0 28px;
+}
+
+// ── Loading skeletons ───────────────────────────────────────────────────────
+
+.lb-skeleton {
+  height: 62px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, var(--color-bg-muted) 25%, var(--color-bg-hover) 50%, var(--color-bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0 }
+  100% { background-position: -200% 0 }
+}
+
+// ── Empty / error states ────────────────────────────────────────────────────
+
+.lb-state {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.lb-cta {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+// ── List ────────────────────────────────────────────────────────────────────
+
+.lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lb-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+
+  &--gold   { border-color: #f59e0b; background: #fffbeb; }
+  &--silver { border-color: #9ca3af; background: #f9fafb; }
+  &--bronze { border-color: #d97706; background: #fffdf5; }
+}
+
+// ── Rank ────────────────────────────────────────────────────────────────────
+
+.lb-rank {
+  flex-shrink: 0;
+  width: 32px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+
+  &--medal { font-size: 1.2rem; }
+}
+
+// ── Info ────────────────────────────────────────────────────────────────────
+
+.lb-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lb-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-level {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+// ── XP ──────────────────────────────────────────────────────────────────────
+
+.lb-xp {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+
+  &__val {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-base);
+  }
+
+  &__unit {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+  }
+}

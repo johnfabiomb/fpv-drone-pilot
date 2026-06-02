@@ -78,3 +78,4 @@
 /malta/locations/xlendi-tower-coastal-path
 /malta/locations/ghar-hanex
 /malta/providers/yippee-malta
+/malta/leaderboard

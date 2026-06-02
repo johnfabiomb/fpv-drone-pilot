@@ -777,3 +777,37 @@ ON CONFLICT (slug) DO UPDATE SET
   total_saves  = EXCLUDED.total_saves,
   total_shares = EXCLUDED.total_shares,
   updated_at   = now();
+
+
+-- ── Leaderboard RPC ──────────────────────────────────────────────────────────
+-- Returns top p_limit users ranked by level DESC, xp DESC, created_at ASC.
+-- Excludes admins so site owners never appear in the public ranking.
+
+CREATE OR REPLACE FUNCTION public.get_leaderboard(p_limit INTEGER DEFAULT 50)
+RETURNS TABLE (
+  rank         BIGINT,
+  user_id      UUID,
+  display_name TEXT,
+  photo_url    TEXT,
+  level        INTEGER,
+  xp           INTEGER
+)
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    ROW_NUMBER() OVER (ORDER BY u.level DESC, u.xp DESC, u.created_at ASC)::BIGINT,
+    u.id,
+    COALESCE(u.display_name, 'Explorer'),
+    u.photo_url,
+    u.level,
+    u.xp
+  FROM users u
+  WHERE u.role != 'admin'
+    AND u.xp > 0
+  ORDER BY u.level DESC, u.xp DESC, u.created_at ASC
+  LIMIT p_limit;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_leaderboard(INTEGER) TO anon, authenticated;

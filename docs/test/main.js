@@ -4,47 +4,50 @@ import {
   MaxLengthValidator,
   NgControlStatus,
   NgModel
-} from "./chunk-EW5LUM7T.js";
+} from "./chunk-7CF4WWGX.js";
 import {
   EditProfileModalService,
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-DQKTUM4S.js";
+} from "./chunk-2D7A3N45.js";
 import {
   AppModalComponent
-} from "./chunk-62NNIWOP.js";
+} from "./chunk-Y5KTKYRJ.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
 import {
   ProfileModalService,
   UserAvatarComponent
-} from "./chunk-CX7DFFU3.js";
+} from "./chunk-WCQ2L7X5.js";
+import {
+  UserDataService
+} from "./chunk-IH5CYJEM.js";
 import {
   LEVELS,
   NEW_LEVEL_DURATION_MS,
-  UserDataService,
   XP_ACTIONS,
   getNextLevel
-} from "./chunk-FIBLJZL5.js";
+} from "./chunk-YJZWMVU3.js";
 import "./chunk-PHYDDMB4.js";
 import {
   AuthService
-} from "./chunk-HMI5MUHL.js";
+} from "./chunk-LZQGUYST.js";
+import "./chunk-ETILE57P.js";
 import {
   takeUntilDestroyed
-} from "./chunk-WILWZNDO.js";
+} from "./chunk-3HMSICCD.js";
 import {
   NavigationEnd,
   Router,
   RouterOutlet,
   provideRouter
-} from "./chunk-ZPEFIUFS.js";
+} from "./chunk-JZVCYE4P.js";
 import {
   DomRendererFactory2,
   bootstrapApplication
-} from "./chunk-ADG4HADG.js";
+} from "./chunk-UEIPWXE7.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
@@ -104,7 +107,7 @@ import {
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2,
   ɵɵtextInterpolate3
-} from "./chunk-7275G3GP.js";
+} from "./chunk-435XO7VF.js";
 import {
   __async,
   __spreadValues
@@ -119,23 +122,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-CMTHEGZX.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-GBEKMFLT.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/pages/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-3YJ6D4AS.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-RLGXG74T.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/pages/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-TU3XC6CH.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-LMY4EHBV.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/pages/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-JOHI5274.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-4BDKJIJ4.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/pages/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-Q355Y73G.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-TWVPPOPW.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/pages/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -143,69 +146,73 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-NUHUG27D.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-D44YRKI6.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-AA6FIGLY.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-K4LTQ3KR.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-R5W6BVAH.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-HBNOVLZC.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-XM4T22A4.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-LFVQE4MA.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-JIV3ZDV4.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-HEYA66ZX.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-72FRX2P2.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-JXENIQWE.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-CVVMKKYD.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-NA6HFD4U.js").then((m) => m.SavedPlacesComponent)
           },
           {
             path: "admin",
             canMatch: [() => inject(UserDataService).isAdmin()],
-            loadComponent: () => import("./chunk-EE32BOJQ.js").then((m) => m.AdminPanelComponent)
+            loadComponent: () => import("./chunk-F4G42ISW.js").then((m) => m.AdminPanelComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-CKPV7HIJ.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-LL4DNAOJ.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-H6UZYNYJ.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-IRFXQPYY.js").then((m) => m.GroupDetailComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/features/map/shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-MK3Z2YPM.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-MW5V5775.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/pages/top-places/top-places.component.ts" } : {}),
+      __spreadValues({
+        path: "leaderboard",
+        loadComponent: () => import("./chunk-K7GJCN6V.js").then((m) => m.LeaderboardComponent)
+      }, false ? { \u0275entryName: "src/app/features/leaderboard/leaderboard.component.ts" } : {}),
       __spreadValues({
         path: "plan",
         canMatch: [() => FEATURES.ROUTE_BUILDER],
-        loadComponent: () => import("./chunk-V5QYOL4L.js").then((m) => m.RouteBuilderComponent)
+        loadComponent: () => import("./chunk-3265IUSX.js").then((m) => m.RouteBuilderComponent)
       }, false ? { \u0275entryName: "src/app/features/route-builder/route-builder.component.ts" } : {})
     ]
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-R7MIGVUQ.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-G2KJFWHP.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-Z5DSHAGA.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-ZK3VFMK5.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -243,7 +250,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-WC7HOF2T.js").then((m) => m);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-57HBPEHW.js").then((m) => m);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);

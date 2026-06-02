@@ -4,6 +4,9 @@ import { DOCUMENT } from '@angular/common';
 import { Location, Provider } from '@core/models';
 
 const BASE_URL = 'https://johnfabiomb.com';
+
+export type SeoPage = 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' |
+                      'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard';
 const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
 const DEFAULT_TITLE = 'Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map';
 const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by John Montaño. 70+ curated locations with routes, photos and partner deals.';
@@ -73,7 +76,7 @@ export class SeoService {
     });
   }
 
-  setPage(page: 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' | 'privacy' | 'cookies' | 'about' | 'contact' | 'groups'): void {
+  setPage(page: SeoPage): void {
     const BASE = BASE_URL;
     const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
       map: {
@@ -131,6 +134,11 @@ export class SeoService {
         title: 'Explore Together · Find Hiking Groups in Malta',
         desc: 'Join or create hiking groups for Malta\'s best spots. Find others to explore sea caves, cliffs, and hidden gems with — organised by real explorers.',
         url: `${BASE}/malta/groups`,
+      },
+      leaderboard: {
+        title: 'Malta Explorers Rankings | Explore Malta',
+        desc: 'See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard.',
+        url: `${BASE}/malta/leaderboard`,
       },
     };
 
