@@ -86,6 +86,39 @@
         "Superior Rooms: adults only, private terrace & breakfast included"
       ],
       "images": []
+    },
+    {
+      "id": "yippee-malta",
+      "name": "Yippee Malta",
+      "category": "tours",
+      "color": "#1092c4",
+      "emoji": "🛺",
+      "tagline": "Multi-award-winning Gozo & Comino day tours by Tuk-Tuk, Jeep, Quad, Buggy & boat",
+      "description": "<p>Gozo's #1 rated, multi-award-winning tour operator for day trips across <strong>Gozo and Comino</strong>.</p><p><strong>Choose your tour:</strong></p><ul><li>🛺 <strong>Tuk-Tuk</strong> — chauffeured island sightseeing</li><li>🚙 <strong>Jeep</strong> — chauffeured off-road adventure</li><li>🏍 <strong>Quad Bike</strong> — self-drive, explore at your pace</li><li>🚗 <strong>Buggy</strong> — self-drive, automatic</li><li>⛵ <strong>Comino boat</strong> — Blue Lagoon, Crystal Lagoon &amp; sea caves</li></ul><p><strong>Every full-day trip includes (~7 hrs):</strong></p><ul><li>✓ Hotel pickup &amp; drop-off from Malta or Gozo</li><li>✓ Ferry crossing both ways</li><li>✓ Multilingual guide (8+ languages)</li><li>✓ Traditional Gozitan lunch or picnic</li><li>✓ Comino swim stop (summer)</li></ul><p><em>Sunset tours &amp; Blue Lagoon cruises available mid-April to mid-October.</em></p>",
+      "coverImage": "/assets/images/providers/yippee-malta/yippee-malta-cover.webp",
+      "website": "https://yippeemalta.com/",
+      "instagram": "@yippeemalta",
+      "phone": "+356 9967 0100",
+      "lat": 36.0246,
+      "lon": 14.2986,
+      "showOnMap": true,
+      "mapLabel": "🏷️ Deal",
+      "nearLocationIds": [7, 14, 16, 17, 23, 25, 38, 41, 46, 50, 58, 62, 63, 64, 65, 66, 68, 73],
+      "discount": {
+        "label": "10% off any Gozo & Comino tour",
+        "shortLabel": "10% off",
+        "coupon": "JOHNYIP26",
+        "instructions": "Online: enter code JOHNYIP26 in the coupon / promotional code field at checkout on yippeemalta.com before paying. By phone or WhatsApp (+356 9967 0100): mention the code when booking.",
+        "validUntil": "2026-12-31"
+      },
+      "highlights": [
+        "Gozo's #1 multi-award-winning tour operator since 2018",
+        "Tuk-Tuk, Jeep, Quad Bike, Buggy & boat tours of Gozo and Comino",
+        "All-inclusive: hotel pickup, boat crossing, lunch & Comino swim stop",
+        "Multilingual chauffeured guides (8+ languages)",
+        "€25 deposit to book; free cancellation up to 24h before pickup"
+      ],
+      "images": []
     }
   ]
 }

@@ -342,7 +342,7 @@ export class SeoService {
   private categoryLabel(category: string): string {
     const labels: Record<string, string> = {
       'water-sports': 'Water Sports', 'tour': 'Boat Tour', 'hotel': 'Hotel',
-      'restaurant': 'Restaurant', 'experience': 'Experience',
+      'restaurant': 'Restaurant', 'experience': 'Experience', 'tours': 'Tours',
     };
     return labels[category] ?? category;
   }

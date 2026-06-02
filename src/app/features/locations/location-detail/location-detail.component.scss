@@ -173,6 +173,16 @@ app-ad-banner {
   color: var(--color-text-light);
 }
 
+.nearby-experiences__all {
+  display: block;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  padding: 2px 0;
+  text-decoration: none;
+  &:hover { color: var(--color-primary); }
+}
+
 // ── Divider ───────────────────────────────────────────────────────────────────
 
 .divider {

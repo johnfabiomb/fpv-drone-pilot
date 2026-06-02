@@ -48,6 +48,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   'hotel':        '#f59e0b',
   'restaurant':   '#ef4444',
   'experience':   '#10b981',
+  'tours':        '#F4A300',
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -56,6 +57,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   'hotel':        'Hotel',
   'restaurant':   'Restaurant',
   'experience':   'Experience',
+  'tours':        'Tours',
 };
 
 export function getProviderAccentColor(category: string): string {
@@ -68,4 +70,14 @@ export function resolveProviderColor(provider: Provider): string {
 
 export function getProviderCategoryLabel(category: string): string {
   return CATEGORY_LABELS[category] ?? category;
+}
+
+export function getClosestProviders(location: Location, all: Provider[], count: number): Provider[] {
+  return [...all]
+    .sort((a, b) => {
+      const da = a.lat && a.lon ? haversineKm(location.lat, location.lon, a.lat, a.lon) : Infinity;
+      const db = b.lat && b.lon ? haversineKm(location.lat, location.lon, b.lat, b.lon) : Infinity;
+      return da - db;
+    })
+    .slice(0, count);
 }

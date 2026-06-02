@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, PLATFORM_ID, inject, signal } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ImageGalleryComponent } from '@ui/image-gallery/image-gallery.component';
 import { ProviderCardComponent } from '@features/providers/provider-card/provider-card.component';
 import { ShareButtonComponent } from '@ui/share-button/share-button.component';
@@ -11,7 +11,7 @@ import { AuthService } from '@core/services/auth.service';
 import { GroupsSectionComponent } from '@features/groups/groups-section/groups-section.component';
 import { Location, Provider, MapPoint, MapPointType, Route } from '@core/models';
 import { haversineM } from '@core/utils/geo.utils';
-import { getProvidersNearLocation } from '@core/utils/provider.utils';
+import { getProvidersNearLocation, getClosestProviders } from '@core/utils/provider.utils';
 import { getIsland } from '@core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
@@ -20,7 +20,7 @@ import { FEATURES } from '../../../feature-flags';
 @Component({
   selector: 'app-location-detail',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
+  imports: [CommonModule, RouterLink, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
   templateUrl: './location-detail.component.html',
   styleUrl: './location-detail.component.scss',
 })
@@ -111,9 +111,14 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       this.showNearbyPrompt = false;
       this.dismissedNearby = false;
       this.closestLocations = this.getClosestLocations();
-      this.nearbyProviders = FEATURES.PROMOTIONS
-        ? getProvidersNearLocation(location, providers as Provider[])
-        : [];
+      if (FEATURES.PROMOTIONS) {
+        const near = getProvidersNearLocation(location, providers as Provider[]);
+        this.nearbyProviders = near.length > 0
+          ? near
+          : getClosestProviders(location, providers as Provider[], 2);
+      } else {
+        this.nearbyProviders = [];
+      }
 
       if (isPlatformBrowser(this.platformId)) {
         const srcs = location.images?.length ? location.images : [location.img];
