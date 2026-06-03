@@ -10,7 +10,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-2D7A3N45.js";
+} from "./chunk-EADOQNMG.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
@@ -146,7 +146,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-D44YRKI6.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-XEKS252I.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -163,7 +163,7 @@ var routes = [
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-HEYA66ZX.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-FMVVABOA.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
@@ -1810,8 +1810,9 @@ function AppComponent_Conditional_7_Template(rf, ctx) {
   }
   if (rf & 2) {
     const profile_r4 = ctx;
+    const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275property("photoURL", profile_r4.photoURL)("displayName", profile_r4.displayName)("levelId", profile_r4.levelId)("levelLabel", profile_r4.levelLabel)("isAdmin", profile_r4.isAdmin)("roleLabel", profile_r4.roleLabel)("activeLabel", profile_r4.activeLabel)("levelClickable", true);
+    \u0275\u0275property("photoURL", profile_r4.photoURL)("displayName", profile_r4.displayName)("levelId", profile_r4.levelId)("levelLabel", profile_r4.levelLabel)("isAdmin", profile_r4.isAdmin)("roleLabel", profile_r4.roleLabel)("activeLabel", profile_r4.activeLabel)("levelClickable", ctx_r2.authService.isLoggedIn());
   }
 }
 function AppComponent_app_levels_modal_8_Template(rf, ctx) {

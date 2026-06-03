@@ -1,12 +1,12 @@
 {
   "name": "venture-map",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "prebuild": "node scripts/convert-to-webp.js && node scripts/generate-sitemap.js",
     "build": "ng build",
-    "deploy": "node scripts/bump-version.js && ng build --configuration production",
+    "deploy": "node scripts/bump-version.js && ng build --configuration production && npm run staging",
     "staging": "ng build --configuration staging",
     "preview": "ng build --configuration production && npx http-server docs -p 4200 -c-1",
     "preview:staging": "ng build --configuration staging && npx http-server docs -p 4201 -c-1 --open /test/",

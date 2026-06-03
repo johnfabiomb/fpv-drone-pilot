@@ -19,7 +19,7 @@
 </app-image-gallery>
 
 <!-- Description -->
-<p class="provider-desc">{{ provider.description }}</p>
+<div class="provider-desc" [innerHTML]="provider.description"></div>
 
 <!-- Highlights -->
 <ul class="provider-highlights" *ngIf="provider.highlights?.length">

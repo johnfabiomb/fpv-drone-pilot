@@ -17,7 +17,7 @@
       [isAdmin]="profile.isAdmin"
       [roleLabel]="profile.roleLabel"
       [activeLabel]="profile.activeLabel"
-      [levelClickable]="true"
+      [levelClickable]="authService.isLoggedIn()"
       (levelClicked)="levelsModal.open()">
     </app-user-profile-card>
   </app-modal>
