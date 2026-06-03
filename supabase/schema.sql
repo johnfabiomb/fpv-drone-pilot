@@ -811,3 +811,196 @@ AS $$
 $$;
 
 GRANT EXECUTE ON FUNCTION public.get_leaderboard(INTEGER) TO anon, authenticated;
+
+
+-- ── Avatar storage bucket ────────────────────────────────────────────────────
+-- Run once in Supabase SQL Editor to enable profile photo uploads.
+-- Files are stored at: avatars/{user_id}/avatar.webp
+
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('avatars', 'avatars', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "avatars: public read"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'avatars');
+
+CREATE POLICY "avatars: upload own"
+  ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'avatars' AND owner = auth.uid());
+
+CREATE POLICY "avatars: update own"
+  ON storage.objects FOR UPDATE
+  USING (bucket_id = 'avatars' AND owner = auth.uid());
+
+CREATE POLICY "avatars: delete own"
+  ON storage.objects FOR DELETE
+  USING (bucket_id = 'avatars' AND owner = auth.uid());
+
+
+-- ── Notifications ─────────────────────────────────────────────────────────────
+-- Run this block in Supabase SQL Editor.
+
+CREATE TABLE IF NOT EXISTS public.notifications (
+  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  target_user  UUID        REFERENCES public.users(id) ON DELETE CASCADE,
+  type         TEXT        NOT NULL DEFAULT 'info'
+                           CHECK (type IN ('info','level_up','achievement','new_location','deal','announcement')),
+  title        TEXT        NOT NULL,
+  body         TEXT,
+  action_url   TEXT,
+  action_label TEXT,
+  image_url    TEXT,
+  created_by   UUID        REFERENCES public.users(id) ON DELETE SET NULL,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at   TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS notifications_target_user_idx ON public.notifications (target_user);
+CREATE INDEX IF NOT EXISTS notifications_created_at_idx  ON public.notifications (created_at DESC);
+
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "notifications: read own or broadcast"
+  ON public.notifications FOR SELECT
+  USING (auth.uid() IS NOT NULL AND (target_user = auth.uid() OR target_user IS NULL));
+
+CREATE TABLE IF NOT EXISTS public.notification_reads (
+  notification_id UUID        NOT NULL REFERENCES public.notifications(id) ON DELETE CASCADE,
+  user_id         UUID        NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  read_at         TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (notification_id, user_id)
+);
+
+ALTER TABLE public.notification_reads ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "notification_reads: own"
+  ON public.notification_reads FOR ALL
+  USING (user_id = auth.uid())
+  WITH CHECK (user_id = auth.uid());
+
+-- Fetch notifications for the current user (personal + broadcasts after their join date)
+CREATE OR REPLACE FUNCTION public.get_my_notifications(p_limit INTEGER DEFAULT 30)
+RETURNS TABLE (
+  id           UUID, target_user UUID, type TEXT, title TEXT, body TEXT,
+  action_url   TEXT, action_label TEXT, image_url TEXT, created_by UUID,
+  created_at   TIMESTAMPTZ, expires_at TIMESTAMPTZ,
+  is_read      BOOLEAN, read_at TIMESTAMPTZ
+)
+LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT
+    n.id, n.target_user, n.type, n.title, n.body,
+    n.action_url, n.action_label, n.image_url, n.created_by,
+    n.created_at, n.expires_at,
+    (nr.read_at IS NOT NULL), nr.read_at
+  FROM notifications n
+  LEFT JOIN notification_reads nr ON nr.notification_id = n.id AND nr.user_id = auth.uid()
+  WHERE auth.uid() IS NOT NULL
+    AND (n.target_user = auth.uid() OR n.target_user IS NULL)
+    AND (n.expires_at IS NULL OR n.expires_at > NOW())
+    AND (n.target_user IS NOT NULL OR n.created_at >= (SELECT created_at FROM users WHERE id = auth.uid()))
+  ORDER BY n.created_at DESC
+  LIMIT p_limit;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_my_notifications(INTEGER) TO authenticated;
+
+-- Mark a single notification read
+CREATE OR REPLACE FUNCTION public.mark_notification_read(p_notification_id UUID)
+RETURNS VOID LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  INSERT INTO notification_reads (notification_id, user_id)
+  VALUES (p_notification_id, auth.uid())
+  ON CONFLICT (notification_id, user_id) DO NOTHING;
+$$;
+GRANT EXECUTE ON FUNCTION public.mark_notification_read(UUID) TO authenticated;
+
+-- Mark all unread notifications read
+CREATE OR REPLACE FUNCTION public.mark_all_notifications_read()
+RETURNS VOID LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  INSERT INTO notification_reads (notification_id, user_id)
+  SELECT n.id, auth.uid()
+  FROM notifications n
+  LEFT JOIN notification_reads nr ON nr.notification_id = n.id AND nr.user_id = auth.uid()
+  WHERE (n.target_user = auth.uid() OR n.target_user IS NULL)
+    AND (n.expires_at IS NULL OR n.expires_at > NOW())
+    AND nr.notification_id IS NULL
+  ON CONFLICT (notification_id, user_id) DO NOTHING;
+$$;
+GRANT EXECUTE ON FUNCTION public.mark_all_notifications_read() TO authenticated;
+
+-- Admin: create a notification (broadcast or personal)
+CREATE OR REPLACE FUNCTION public.admin_create_notification(
+  p_type         TEXT,
+  p_title        TEXT,
+  p_body         TEXT        DEFAULT NULL,
+  p_target_user  UUID        DEFAULT NULL,
+  p_action_url   TEXT        DEFAULT NULL,
+  p_action_label TEXT        DEFAULT NULL,
+  p_image_url    TEXT        DEFAULT NULL,
+  p_expires_at   TIMESTAMPTZ DEFAULT NULL
+)
+RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE v_id UUID;
+BEGIN
+  IF NOT public.is_admin() THEN RAISE EXCEPTION 'Unauthorized'; END IF;
+  INSERT INTO notifications (target_user, type, title, body, action_url, action_label, image_url, created_by, expires_at)
+  VALUES (p_target_user, p_type, p_title, p_body, p_action_url, p_action_label, p_image_url, auth.uid(), p_expires_at)
+  RETURNING id INTO v_id;
+  RETURN v_id;
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.admin_create_notification(TEXT,TEXT,TEXT,UUID,TEXT,TEXT,TEXT,TIMESTAMPTZ) TO authenticated;
+
+-- System: create a personal notification (level-up etc.) — only for the caller themselves
+CREATE OR REPLACE FUNCTION public.create_system_notification(
+  p_user_id    UUID,
+  p_type       TEXT,
+  p_title      TEXT,
+  p_body       TEXT DEFAULT NULL,
+  p_action_url TEXT DEFAULT NULL
+)
+RETURNS VOID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF auth.uid() IS NULL OR auth.uid() != p_user_id THEN RAISE EXCEPTION 'Unauthorized'; END IF;
+  INSERT INTO notifications (target_user, type, title, body, action_url, created_by)
+  VALUES (p_user_id, p_type, p_title, p_body, p_action_url, p_user_id);
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.create_system_notification(UUID,TEXT,TEXT,TEXT,TEXT) TO authenticated;
+
+
+-- ── Notifications: enable realtime + harden RPC ───────────────────────────────
+-- Run this block in Supabase SQL Editor (fixes badge not appearing live).
+
+-- 1. Add notifications to the realtime publication (idempotent)
+DO $$
+BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE public.notifications;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- 2. Harden get_my_notifications: COALESCE guards against a NULL users.created_at
+--    (early/admin accounts) which would otherwise hide all broadcasts.
+CREATE OR REPLACE FUNCTION public.get_my_notifications(p_limit INTEGER DEFAULT 30)
+RETURNS TABLE (
+  id           UUID, target_user UUID, type TEXT, title TEXT, body TEXT,
+  action_url   TEXT, action_label TEXT, image_url TEXT, created_by UUID,
+  created_at   TIMESTAMPTZ, expires_at TIMESTAMPTZ,
+  is_read      BOOLEAN, read_at TIMESTAMPTZ
+)
+LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT
+    n.id, n.target_user, n.type, n.title, n.body,
+    n.action_url, n.action_label, n.image_url, n.created_by,
+    n.created_at, n.expires_at,
+    (nr.read_at IS NOT NULL), nr.read_at
+  FROM notifications n
+  LEFT JOIN notification_reads nr ON nr.notification_id = n.id AND nr.user_id = auth.uid()
+  WHERE auth.uid() IS NOT NULL
+    AND (n.target_user = auth.uid() OR n.target_user IS NULL)
+    AND (n.expires_at IS NULL OR n.expires_at > NOW())
+    AND (n.target_user IS NOT NULL
+         OR n.created_at >= COALESCE((SELECT created_at FROM users WHERE id = auth.uid()), '1970-01-01'::timestamptz))
+  ORDER BY n.created_at DESC
+  LIMIT p_limit;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_my_notifications(INTEGER) TO authenticated;

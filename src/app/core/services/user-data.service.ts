@@ -2,6 +2,7 @@ import { Injectable, PLATFORM_ID, computed, effect, inject, signal } from '@angu
 import { isPlatformBrowser } from '@angular/common';
 import { supabase } from '@core/config/supabase.config';
 import { AuthService } from '@core/services/auth.service';
+import { NotificationService } from '@core/services/notification.service';
 import { UserRole } from '@core/models';
 import { LEVELS, NEW_LEVEL_DURATION_MS, LevelDefinition, getLevelForXp, getNewLevel } from '@core/utils/level.utils';
 
@@ -22,8 +23,9 @@ const CACHE_TTL = 24 * 60 * 60 * 1000;
 
 @Injectable({ providedIn: 'root' })
 export class UserDataService {
-  private readonly authService = inject(AuthService);
-  private readonly platformId  = inject(PLATFORM_ID);
+  private readonly authService       = inject(AuthService);
+  private readonly platformId        = inject(PLATFORM_ID);
+  private readonly notificationService = inject(NotificationService);
 
   readonly savedLocations = signal<Set<string>>(new Set());
   readonly role           = signal<UserRole>(UserRole.Explorer);
@@ -149,6 +151,55 @@ export class UserDataService {
     this._featureAccess.set(data.featureAccess ?? null);
     this.referralCode.set(data.referralCode ?? null);
     this.phone.set(data.phone ?? null);
+  }
+
+  async uploadAvatar(file: File): Promise<void> {
+    const user = this.authService.user();
+    if (!user) throw new Error('Not authenticated');
+
+    const compressed = await this.compressAvatar(file);
+    const path = `${user.id}/avatar.webp`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(path, compressed, { contentType: 'image/webp', upsert: true });
+
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
+    // Append timestamp to bust browser cache on re-upload (same file path, new URL)
+    const cacheBustedUrl = `${publicUrl}?v=${Date.now()}`;
+
+    await supabase.from('users').update({ photo_url: cacheBustedUrl }).eq('id', user.id);
+    // Update auth user_metadata so userPhotoURL() signal refreshes everywhere
+    await supabase.auth.updateUser({ data: { avatar_url: cacheBustedUrl } });
+  }
+
+  // Canvas-based compression: center-crop to 300×300, WebP @ 80% quality
+  // Matches project thumbnail pipeline (convert-to-webp.js: quality 80, fit cover)
+  private compressAvatar(file: File): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const SIZE = 300;
+        const canvas = document.createElement('canvas');
+        canvas.width = SIZE;
+        canvas.height = SIZE;
+        const ctx = canvas.getContext('2d')!;
+        const s = Math.min(img.width, img.height);
+        const sx = (img.width - s) / 2;
+        const sy = (img.height - s) / 2;
+        ctx.drawImage(img, sx, sy, s, s, 0, 0, SIZE, SIZE);
+        canvas.toBlob(
+          blob => blob ? resolve(blob) : reject(new Error('Compression failed')),
+          'image/webp', 0.80,
+        );
+      };
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Image load failed')); };
+      img.src = objectUrl;
+    });
   }
 
   async updateProfile(data: { displayName: string; phone?: string | null }): Promise<void> {
@@ -296,6 +347,7 @@ export class UserDataService {
         setTimeout(() => {
           if (this.levelUpToast()?.id === levelDef.id) this.levelUpToast.set(null);
         }, 3500);
+        void this.notificationService.createLevelUpNotification(levelDef);
       }
     }
   }

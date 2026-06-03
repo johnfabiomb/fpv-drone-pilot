@@ -72,6 +72,15 @@
   user-select: none;
 }
 
+// Position-only — visuals come from the shared .count-badge class
+.nav-menu-notif-dot {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
 .nav-menu-trigger {
   display: inline-flex;
   align-items: center;
@@ -182,6 +191,12 @@
     &--soon {
       background: var(--color-text-light);
     }
+  }
+
+  // Spacing-only — visuals come from the shared .count-badge class
+  &__notif-badge {
+    margin-left: 5px;
+    vertical-align: middle;
   }
 
   &__desc {

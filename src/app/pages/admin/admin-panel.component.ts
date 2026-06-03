@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { PanelShellComponent } from '@ui/panel-shell/panel-shell.component';
 import { MapBridgeService } from '@core/services/map-bridge.service';
 import { GroupsService } from '@core/services/groups.service';
+import { supabase } from '@core/config/supabase.config';
 import { ReportRow } from '@core/models/group.model';
 
 @Component({
@@ -35,6 +36,8 @@ import { ReportRow } from '@core/models/group.model';
               <span class="ap-tab__badge">{{ reports().length }}</span>
             }
           </button>
+          <button class="ap-tab" [class.ap-tab--active]="adminView() === 'notifications'"
+            (click)="adminView.set('notifications')">Notify</button>
         </div>
 
         @if (adminView() === 'groups') {
@@ -93,6 +96,53 @@ import { ReportRow } from '@core/models/group.model';
             </div>
             @if (guideResult()) {
               <p class="ap-result">{{ guideResult() }}</p>
+            }
+          </div>
+        }
+
+        @if (adminView() === 'notifications') {
+          <div class="ap-view">
+            <p class="ap-view__title">Send notification</p>
+            <p class="ap-view__desc">Leave target email blank to broadcast to all users.</p>
+
+            <select class="ap-email-input" style="height:38px"
+              [ngModel]="notifType()" (ngModelChange)="notifType.set($event)">
+              <option value="announcement">📢 Announcement</option>
+              <option value="info">🔔 Info</option>
+              <option value="new_location">📍 New location</option>
+              <option value="deal">🏷️ Deal</option>
+              <option value="achievement">🏆 Achievement</option>
+            </select>
+
+            <input class="ap-email-input" type="text"
+              placeholder="Title *"
+              [ngModel]="notifTitle()" (ngModelChange)="notifTitle.set($event)">
+
+            <textarea class="ap-email-input" rows="4" style="height:auto;padding:9px 12px;resize:vertical"
+              placeholder="Body (HTML supported)"
+              [ngModel]="notifBody()" (ngModelChange)="notifBody.set($event)">
+            </textarea>
+
+            <input class="ap-email-input" type="email"
+              placeholder="Target email (blank = everyone)"
+              [ngModel]="notifTarget()" (ngModelChange)="notifTarget.set($event)">
+
+            <input class="ap-email-input" type="text"
+              placeholder="Action URL (e.g. /malta/locations/babu-valley)"
+              [ngModel]="notifActionUrl()" (ngModelChange)="notifActionUrl.set($event)">
+
+            <input class="ap-email-input" type="text"
+              placeholder="Action label (e.g. View location)"
+              [ngModel]="notifActionLabel()" (ngModelChange)="notifActionLabel.set($event)">
+
+            <button class="ap-submit-btn" style="align-self:flex-start;padding:9px 20px"
+              (click)="sendNotification()"
+              [disabled]="notifSending() || !notifTitle().trim()">
+              {{ notifSending() ? 'Sending…' : '🔔 Send' }}
+            </button>
+
+            @if (notifResult()) {
+              <p class="ap-result">{{ notifResult() }}</p>
             }
           </div>
         }
@@ -377,7 +427,7 @@ export class AdminPanelComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   readonly groupsService      = inject(GroupsService);
 
-  readonly adminView      = signal<'groups' | 'users' | 'reports'>('groups');
+  readonly adminView      = signal<'groups' | 'users' | 'reports' | 'notifications'>('groups');
   readonly migrating      = signal(false);
   readonly migrateResult  = signal<string | null>(null);
   readonly activating     = signal(false);
@@ -388,6 +438,16 @@ export class AdminPanelComponent implements OnInit {
   readonly guideResult    = signal<string | null>(null);
   readonly reports        = signal<ReportRow[]>([]);
   readonly reportsLoading = signal(false);
+
+  // Notifications tab
+  readonly notifType        = signal<string>('announcement');
+  readonly notifTitle       = signal('');
+  readonly notifBody        = signal('');
+  readonly notifTarget      = signal('');
+  readonly notifActionUrl   = signal('');
+  readonly notifActionLabel = signal('');
+  readonly notifSending     = signal(false);
+  readonly notifResult      = signal<string | null>(null);
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -472,6 +532,52 @@ export class AdminPanelComponent implements OnInit {
       this.guideResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
     } finally {
       this.activatingGuide.set(false);
+    }
+  }
+
+  async sendNotification(): Promise<void> {
+    const title = this.notifTitle().trim();
+    if (!title) return;
+    this.notifSending.set(true);
+    this.notifResult.set(null);
+    try {
+      // Resolve target email → user_id if provided
+      let targetUserId: string | null = null;
+      const email = this.notifTarget().trim();
+      if (email) {
+        const { data } = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', email)
+          .maybeSingle();
+        if (!data) { this.notifResult.set('❌ No user found with that email.'); return; }
+        targetUserId = data['id'] as string;
+      }
+
+      const { error } = await supabase.rpc('admin_create_notification', {
+        p_type:         this.notifType(),
+        p_title:        title,
+        p_body:         this.notifBody().trim() || null,
+        p_target_user:  targetUserId,
+        p_action_url:   this.notifActionUrl().trim() || null,
+        p_action_label: this.notifActionLabel().trim() || null,
+        p_image_url:    null,
+        p_expires_at:   null,
+      });
+
+      if (error) throw error;
+      this.notifResult.set(targetUserId
+        ? `✅ Notification sent to ${email}`
+        : '✅ Broadcast sent to all users');
+      this.notifTitle.set('');
+      this.notifBody.set('');
+      this.notifTarget.set('');
+      this.notifActionUrl.set('');
+      this.notifActionLabel.set('');
+    } catch (e) {
+      this.notifResult.set(`❌ Error: ${e instanceof Error ? e.message : 'Unknown error'}`);
+    } finally {
+      this.notifSending.set(false);
     }
   }
 }

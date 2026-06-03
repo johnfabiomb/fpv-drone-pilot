@@ -77,6 +77,10 @@ export const routes: Routes = [
                         canMatch: [() => FEATURES.GROUPS],
                         loadComponent: () => import('@features/groups/group-detail/group-detail.component').then(m => m.GroupDetailComponent)
                     },
+                    {
+                        path: 'notifications',
+                        loadComponent: () => import('@features/notifications/notifications.component').then(m => m.NotificationsComponent)
+                    },
                 ]
             },
             // Non-map routes are direct siblings — NOT inside the shell

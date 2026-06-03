@@ -8,6 +8,7 @@ import { FEATURES } from '../../feature-flags';
 import { version } from '../../../../package.json';
 import { AuthService } from '@core/services/auth.service';
 import { UserDataService } from '@core/services/user-data.service';
+import { NotificationService } from '@core/services/notification.service';
 import { ProfileModalService } from '@core/services/profile-modal.service';
 import { LevelsModalService } from '@core/services/levels-modal.service';
 import { EditProfileModalService } from '@core/services/edit-profile-modal.service';
@@ -25,8 +26,9 @@ import { AppModalComponent } from '@ui/modal/app-modal.component';
 export class FooterComponent {
   readonly features       = FEATURES;
   readonly version        = version;
-  readonly authService    = inject(AuthService);
-  readonly userDataService = inject(UserDataService);
+  readonly authService         = inject(AuthService);
+  readonly userDataService     = inject(UserDataService);
+  readonly notificationService = inject(NotificationService);
   readonly levelsModal    = inject(LevelsModalService);
   private readonly profileModal     = inject(ProfileModalService);
   readonly editProfileModal         = inject(EditProfileModalService);
@@ -40,6 +42,17 @@ export class FooterComponent {
   signOutDone      = false;
   copyLinkState: 'idle' | 'copied' = 'idle';
   private _navInProgress = false;
+
+  // "New" nav badges auto-hide one week after each feature's launch date.
+  private readonly NEW_BADGE_UNTIL: Record<string, string> = {
+    rankings: '2026-06-11',
+    groups:   '2026-06-11',
+  };
+
+  isNewBadge(key: string): boolean {
+    const until = this.NEW_BADGE_UNTIL[key];
+    return !!until && Date.now() < new Date(until).getTime();
+  }
 
   constructor() {
     effect(() => {

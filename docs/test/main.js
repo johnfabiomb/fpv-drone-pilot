@@ -4,16 +4,18 @@ import {
   MaxLengthValidator,
   NgControlStatus,
   NgModel
-} from "./chunk-7CF4WWGX.js";
+} from "./chunk-Z3QOGP5K.js";
 import {
-  EditProfileModalService,
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-EADOQNMG.js";
+} from "./chunk-4WINQ53P.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
+import {
+  EditProfileModalService
+} from "./chunk-QRFBYWQV.js";
 import {
   FEATURES
 } from "./chunk-AFV7OAE7.js";
@@ -23,7 +25,8 @@ import {
 } from "./chunk-WCQ2L7X5.js";
 import {
   UserDataService
-} from "./chunk-IH5CYJEM.js";
+} from "./chunk-HSUZIJJG.js";
+import "./chunk-4VPY4RR2.js";
 import {
   LEVELS,
   NEW_LEVEL_DURATION_MS,
@@ -89,24 +92,28 @@ import {
   ɵɵgetCurrentView,
   ɵɵinvalidFactory,
   ɵɵlistener,
+  ɵɵloadQuery,
   ɵɵnamespaceHTML,
   ɵɵnamespaceSVG,
   ɵɵnextContext,
   ɵɵpipe,
   ɵɵpipeBind1,
   ɵɵproperty,
+  ɵɵqueryRefresh,
   ɵɵreference,
   ɵɵrepeater,
   ɵɵrepeaterCreate,
   ɵɵresetView,
   ɵɵrestoreView,
+  ɵɵsanitizeUrl,
   ɵɵstyleProp,
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2,
-  ɵɵtextInterpolate3
+  ɵɵtextInterpolate3,
+  ɵɵviewQuery
 } from "./chunk-435XO7VF.js";
 import {
   __async,
@@ -122,23 +129,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-GBEKMFLT.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-JISYXWCC.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/pages/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-RLGXG74T.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-TVSDSVT5.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/pages/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-LMY4EHBV.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-MBRPK7LS.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/pages/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-4BDKJIJ4.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-LYUA6RLG.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/pages/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-TWVPPOPW.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-7QJ6E3N2.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/pages/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -146,58 +153,62 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-XEKS252I.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-4NW7FFTV.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-K4LTQ3KR.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-MSXDS3W3.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-HBNOVLZC.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-2WMZ5XYK.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-LFVQE4MA.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-3EVTGUUB.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-FMVVABOA.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-HU6DAYBJ.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-JXENIQWE.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-6JDKOKQB.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-NA6HFD4U.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-RVUZZUNR.js").then((m) => m.SavedPlacesComponent)
           },
           {
             path: "admin",
             canMatch: [() => inject(UserDataService).isAdmin()],
-            loadComponent: () => import("./chunk-F4G42ISW.js").then((m) => m.AdminPanelComponent)
+            loadComponent: () => import("./chunk-PRFW2Y3S.js").then((m) => m.AdminPanelComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-LL4DNAOJ.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-TICP2KTA.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-IRFXQPYY.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-P3WMFBSS.js").then((m) => m.GroupDetailComponent)
+          },
+          {
+            path: "notifications",
+            loadComponent: () => import("./chunk-MBWGWN36.js").then((m) => m.NotificationsComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/features/map/shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-MW5V5775.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-JSINLFM6.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/pages/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "leaderboard",
-        loadComponent: () => import("./chunk-K7GJCN6V.js").then((m) => m.LeaderboardComponent)
+        loadComponent: () => import("./chunk-PSND5NQT.js").then((m) => m.LeaderboardComponent)
       }, false ? { \u0275entryName: "src/app/features/leaderboard/leaderboard.component.ts" } : {}),
       __spreadValues({
         path: "plan",
@@ -208,11 +219,11 @@ var routes = [
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-G2KJFWHP.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-ESSNQJXB.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-ZK3VFMK5.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-OBILENSG.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment-success/payment-success.component.ts" } : {})
 ];
 
@@ -1604,40 +1615,83 @@ var LevelsModalComponent = class _LevelsModalComponent {
 })();
 
 // src/app/ui/edit-profile-modal/edit-profile-modal.component.ts
+var _c0 = ["fileInput"];
 function EditProfileModalComponent_p_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 15);
+    \u0275\u0275elementStart(0, "p", 27);
     \u0275\u0275text(1, "Add your name so others can recognise you in groups and chats.");
     \u0275\u0275elementEnd();
   }
 }
-function EditProfileModalComponent_p_19_Template(rf, ctx) {
+function EditProfileModalComponent_img_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 16);
+    \u0275\u0275element(0, "img", 28);
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("src", ctx_r1.displayedPhoto(), \u0275\u0275sanitizeUrl);
+  }
+}
+function EditProfileModalComponent__svg_svg_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 29);
+    \u0275\u0275element(1, "path", 30)(2, "circle", 31);
+    \u0275\u0275elementEnd();
+  }
+}
+function EditProfileModalComponent_div_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "div", 32);
+  }
+}
+function EditProfileModalComponent__svg_svg_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 33);
+    \u0275\u0275element(1, "path", 34)(2, "circle", 35);
+    \u0275\u0275elementEnd();
+  }
+}
+function EditProfileModalComponent_p_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 36);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
+    const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r0.error());
+    \u0275\u0275textInterpolate(ctx_r1.photoError());
   }
 }
-function EditProfileModalComponent_button_21_Template(rf, ctx) {
+function EditProfileModalComponent_p_32_Template(rf, ctx) {
   if (rf & 1) {
-    const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 17);
-    \u0275\u0275listener("click", function EditProfileModalComponent_button_21_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r2);
-      const ctx_r0 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r0.onDismiss());
+    \u0275\u0275elementStart(0, "p", 37);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.error());
+  }
+}
+function EditProfileModalComponent_button_34_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 38);
+    \u0275\u0275listener("click", function EditProfileModalComponent_button_34_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onDismiss());
     });
     \u0275\u0275text(1, " Cancel ");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275property("disabled", ctx_r0.saving());
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("disabled", ctx_r1.saving());
   }
 }
 var EditProfileModalComponent = class _EditProfileModalComponent {
@@ -1651,6 +1705,10 @@ var EditProfileModalComponent = class _EditProfileModalComponent {
     this.phone = signal("");
     this.saving = signal(false);
     this.error = signal(null);
+    this.uploadingPhoto = signal(false);
+    this.photoError = signal(null);
+    this.uploadedUrl = signal("");
+    this.displayedPhoto = computed(() => this.uploadedUrl() || this.authService.userPhotoURL());
   }
   ngOnInit() {
     const currentName = this.authService.userDisplayName();
@@ -1661,6 +1719,29 @@ var EditProfileModalComponent = class _EditProfileModalComponent {
     const currentPhone = this.userDataService.phone();
     if (currentPhone)
       this.phone.set(currentPhone);
+  }
+  pickPhoto() {
+    this.fileInput.nativeElement.click();
+  }
+  onFileSelected(event) {
+    return __async(this, null, function* () {
+      const file = event.target.files?.[0];
+      if (!file)
+        return;
+      event.target.value = "";
+      this.uploadingPhoto.set(true);
+      this.photoError.set(null);
+      try {
+        yield this.userDataService.uploadAvatar(file);
+        const url = this.authService.userPhotoURL();
+        if (url)
+          this.uploadedUrl.set(url);
+      } catch {
+        this.photoError.set("Upload failed. Try a smaller image.");
+      } finally {
+        this.uploadingPhoto.set(false);
+      }
+    });
   }
   save() {
     return __async(this, null, function* () {
@@ -1695,51 +1776,87 @@ var EditProfileModalComponent = class _EditProfileModalComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _EditProfileModalComponent, selectors: [["app-edit-profile-modal"]], inputs: { isFirstLogin: "isFirstLogin" }, outputs: { saved: "saved", dismissed: "dismissed" }, decls: 24, vars: 9, consts: [["maxWidth", "360px", 3, "closeRequested", "showClose"], [1, "ep"], [1, "ep__title"], ["class", "ep__sub", 4, "ngIf"], [1, "ep__field"], [1, "ep__label"], [1, "ep__required"], ["type", "text", "placeholder", "Your name", "maxlength", "50", "autofocus", "", 1, "ep__input", 3, "ngModelChange", "keydown.enter", "ngModel"], [1, "ep__optional"], ["type", "tel", "placeholder", "+356 xxxx xxxx", "maxlength", "30", 1, "ep__input", 3, "ngModelChange", "keydown.enter", "ngModel"], [1, "ep__hint"], ["class", "ep__error", 4, "ngIf"], [1, "ep__actions"], ["class", "ep__btn ep__btn--cancel", 3, "disabled", "click", 4, "ngIf"], [1, "ep__btn", "ep__btn--save", 3, "click", "disabled"], [1, "ep__sub"], [1, "ep__error"], [1, "ep__btn", "ep__btn--cancel", 3, "click", "disabled"]], template: function EditProfileModalComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _EditProfileModalComponent, selectors: [["app-edit-profile-modal"]], viewQuery: function EditProfileModalComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "app-modal", 0);
+        \u0275\u0275viewQuery(_c0, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.fileInput = _t.first);
+      }
+    }, inputs: { isFirstLogin: "isFirstLogin" }, outputs: { saved: "saved", dismissed: "dismissed" }, decls: 37, vars: 17, consts: [["fileInput", ""], ["maxWidth", "360px", 3, "closeRequested", "showClose"], [1, "ep"], [1, "ep__title"], ["class", "ep__sub", 4, "ngIf"], [1, "ep__avatar-section"], [1, "ep__avatar-wrap", 3, "click"], [1, "ep__avatar"], ["alt", "Profile photo", "class", "ep__avatar__img", "referrerpolicy", "no-referrer", 3, "src", 4, "ngIf"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.8", "stroke-linecap", "round", "stroke-linejoin", "round", "class", "ep__avatar__guest", 4, "ngIf"], [1, "ep__avatar__overlay"], ["class", "ep__spinner", 4, "ngIf"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "white", 4, "ngIf"], [1, "ep__avatar__hint"], ["class", "ep__error ep__error--photo", 4, "ngIf"], ["type", "file", "accept", "image/*", 2, "display", "none", 3, "change"], [1, "ep__field"], [1, "ep__label"], [1, "ep__required"], ["type", "text", "placeholder", "Your name", "maxlength", "50", "autofocus", "", 1, "ep__input", 3, "ngModelChange", "keydown.enter", "ngModel"], [1, "ep__optional"], ["type", "tel", "placeholder", "+356 xxxx xxxx", "maxlength", "30", 1, "ep__input", 3, "ngModelChange", "keydown.enter", "ngModel"], [1, "ep__hint"], ["class", "ep__error", 4, "ngIf"], [1, "ep__actions"], ["class", "ep__btn ep__btn--cancel", 3, "disabled", "click", 4, "ngIf"], [1, "ep__btn", "ep__btn--save", 3, "click", "disabled"], [1, "ep__sub"], ["alt", "Profile photo", "referrerpolicy", "no-referrer", 1, "ep__avatar__img", 3, "src"], ["viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "1.8", "stroke-linecap", "round", "stroke-linejoin", "round", 1, "ep__avatar__guest"], ["d", "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"], ["cx", "12", "cy", "7", "r", "4"], [1, "ep__spinner"], ["width", "14", "height", "14", "viewBox", "0 0 24 24", "fill", "white"], ["d", "M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"], ["cx", "12", "cy", "13", "r", "4", "fill", "none", "stroke", "white", "stroke-width", "2"], [1, "ep__error", "ep__error--photo"], [1, "ep__error"], [1, "ep__btn", "ep__btn--cancel", 3, "click", "disabled"]], template: function EditProfileModalComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "app-modal", 1);
         \u0275\u0275listener("closeRequested", function EditProfileModalComponent_Template_app_modal_closeRequested_0_listener() {
-          return ctx.onDismiss();
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onDismiss());
         });
-        \u0275\u0275elementStart(1, "div", 1)(2, "h2", 2);
+        \u0275\u0275elementStart(1, "div", 2)(2, "h2", 3);
         \u0275\u0275text(3);
         \u0275\u0275elementEnd();
-        \u0275\u0275template(4, EditProfileModalComponent_p_4_Template, 2, 0, "p", 3);
-        \u0275\u0275elementStart(5, "div", 4)(6, "label", 5);
-        \u0275\u0275text(7, "Name ");
-        \u0275\u0275elementStart(8, "span", 6);
-        \u0275\u0275text(9, "*");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(10, "input", 7);
-        \u0275\u0275listener("ngModelChange", function EditProfileModalComponent_Template_input_ngModelChange_10_listener($event) {
-          return ctx.displayName.set($event);
-        })("keydown.enter", function EditProfileModalComponent_Template_input_keydown_enter_10_listener() {
-          return ctx.save();
+        \u0275\u0275template(4, EditProfileModalComponent_p_4_Template, 2, 0, "p", 4);
+        \u0275\u0275elementStart(5, "div", 5)(6, "div", 6);
+        \u0275\u0275listener("click", function EditProfileModalComponent_Template_div_click_6_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.pickPhoto());
         });
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(11, "div", 4)(12, "label", 5);
-        \u0275\u0275text(13, " Phone ");
-        \u0275\u0275elementStart(14, "span", 8);
-        \u0275\u0275text(15, "optional");
-        \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(16, "input", 9);
-        \u0275\u0275listener("ngModelChange", function EditProfileModalComponent_Template_input_ngModelChange_16_listener($event) {
-          return ctx.phone.set($event);
-        })("keydown.enter", function EditProfileModalComponent_Template_input_keydown_enter_16_listener() {
-          return ctx.save();
+        \u0275\u0275elementStart(7, "div", 7);
+        \u0275\u0275template(8, EditProfileModalComponent_img_8_Template, 1, 1, "img", 8)(9, EditProfileModalComponent__svg_svg_9_Template, 3, 0, "svg", 9);
+        \u0275\u0275elementStart(10, "div", 10);
+        \u0275\u0275template(11, EditProfileModalComponent_div_11_Template, 1, 0, "div", 11)(12, EditProfileModalComponent__svg_svg_12_Template, 3, 0, "svg", 12);
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(13, "span", 13);
+        \u0275\u0275text(14);
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(15, EditProfileModalComponent_p_15_Template, 2, 1, "p", 14);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(16, "input", 15, 0);
+        \u0275\u0275listener("change", function EditProfileModalComponent_Template_input_change_16_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.onFileSelected($event));
         });
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(17, "span", 10);
-        \u0275\u0275text(18, "Shared with guides when you join a paid tour");
+        \u0275\u0275elementStart(18, "div", 16)(19, "label", 17);
+        \u0275\u0275text(20, "Name ");
+        \u0275\u0275elementStart(21, "span", 18);
+        \u0275\u0275text(22, "*");
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(19, EditProfileModalComponent_p_19_Template, 2, 1, "p", 11);
-        \u0275\u0275elementStart(20, "div", 12);
-        \u0275\u0275template(21, EditProfileModalComponent_button_21_Template, 2, 1, "button", 13);
-        \u0275\u0275elementStart(22, "button", 14);
-        \u0275\u0275listener("click", function EditProfileModalComponent_Template_button_click_22_listener() {
-          return ctx.save();
+        \u0275\u0275elementStart(23, "input", 19);
+        \u0275\u0275listener("ngModelChange", function EditProfileModalComponent_Template_input_ngModelChange_23_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.displayName.set($event));
+        })("keydown.enter", function EditProfileModalComponent_Template_input_keydown_enter_23_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.save());
         });
-        \u0275\u0275text(23);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(24, "div", 16)(25, "label", 17);
+        \u0275\u0275text(26, " Phone ");
+        \u0275\u0275elementStart(27, "span", 20);
+        \u0275\u0275text(28, "optional");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(29, "input", 21);
+        \u0275\u0275listener("ngModelChange", function EditProfileModalComponent_Template_input_ngModelChange_29_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.phone.set($event));
+        })("keydown.enter", function EditProfileModalComponent_Template_input_keydown_enter_29_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.save());
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(30, "span", 22);
+        \u0275\u0275text(31, "Shared with guides when you join a paid tour");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(32, EditProfileModalComponent_p_32_Template, 2, 1, "p", 23);
+        \u0275\u0275elementStart(33, "div", 24);
+        \u0275\u0275template(34, EditProfileModalComponent_button_34_Template, 2, 1, "button", 25);
+        \u0275\u0275elementStart(35, "button", 26);
+        \u0275\u0275listener("click", function EditProfileModalComponent_Template_button_click_35_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.save());
+        });
+        \u0275\u0275text(36);
         \u0275\u0275elementEnd()()()();
       }
       if (rf & 2) {
@@ -1748,7 +1865,21 @@ var EditProfileModalComponent = class _EditProfileModalComponent {
         \u0275\u0275textInterpolate(ctx.isFirstLogin ? "What should we call you? \u{1F44B}" : "Edit profile");
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.isFirstLogin);
-        \u0275\u0275advance(6);
+        \u0275\u0275advance(4);
+        \u0275\u0275property("ngIf", ctx.displayedPhoto());
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", !ctx.displayedPhoto());
+        \u0275\u0275advance();
+        \u0275\u0275classProp("ep__avatar__overlay--uploading", ctx.uploadingPhoto());
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.uploadingPhoto());
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", !ctx.uploadingPhoto());
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.uploadingPhoto() ? "Uploading\u2026" : "Tap to change photo");
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.photoError());
+        \u0275\u0275advance(8);
         \u0275\u0275property("ngModel", ctx.displayName());
         \u0275\u0275advance(6);
         \u0275\u0275property("ngModel", ctx.phone());
@@ -1757,15 +1888,15 @@ var EditProfileModalComponent = class _EditProfileModalComponent {
         \u0275\u0275advance(2);
         \u0275\u0275property("ngIf", !ctx.isFirstLogin);
         \u0275\u0275advance();
-        \u0275\u0275property("disabled", ctx.saving() || !ctx.displayName().trim());
+        \u0275\u0275property("disabled", ctx.saving() || ctx.uploadingPhoto() || !ctx.displayName().trim());
         \u0275\u0275advance();
         \u0275\u0275textInterpolate1(" ", ctx.saving() ? "Saving\u2026" : "Save", " ");
       }
-    }, dependencies: [CommonModule, NgIf, FormsModule, DefaultValueAccessor, NgControlStatus, MaxLengthValidator, NgModel, AppModalComponent], styles: ["\n\n.ep[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.ep__title[_ngcontent-%COMP%] {\n  font-size: 18px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  margin: 0;\n}\n.ep__sub[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n  margin: -8px 0 0;\n  line-height: 1.5;\n}\n.ep__field[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.ep__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.ep__required[_ngcontent-%COMP%] {\n  color: #e11d48;\n  font-size: 13px;\n}\n.ep__optional[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 400;\n  color: var(--color-text-muted);\n  background: var(--color-bg-muted);\n  border-radius: 4px;\n  padding: 1px 6px;\n}\n.ep__input[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 42px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  padding: 0 12px;\n  font-size: 14px;\n  color: var(--color-text-base);\n  background: var(--color-bg);\n  box-sizing: border-box;\n  transition: border-color var(--transition);\n  outline: none;\n}\n.ep__input[_ngcontent-%COMP%]:focus {\n  border-color: var(--color-primary);\n}\n.ep__input[_ngcontent-%COMP%]::placeholder {\n  color: var(--color-text-light);\n}\n.ep__hint[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n}\n.ep__error[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: #e11d48;\n  margin: 0;\n}\n.ep__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  margin-top: 4px;\n}\n.ep__btn[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 42px;\n  border-radius: var(--radius-md);\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  border: none;\n  transition: opacity var(--transition);\n}\n.ep__btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.ep__btn[_ngcontent-%COMP%]:not(:disabled):hover {\n  opacity: 0.85;\n}\n.ep__btn--cancel[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-muted);\n  border: 1px solid var(--color-border);\n}\n.ep__btn--save[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n}\n/*# sourceMappingURL=edit-profile-modal.component.css.map */"] });
+    }, dependencies: [CommonModule, NgIf, FormsModule, DefaultValueAccessor, NgControlStatus, MaxLengthValidator, NgModel, AppModalComponent], styles: ['@charset "UTF-8";\n\n\n\n.ep[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n.ep__title[_ngcontent-%COMP%] {\n  font-size: 18px;\n  font-weight: 700;\n  color: var(--color-text-base);\n  margin: 0;\n}\n.ep__sub[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--color-text-muted);\n  margin: -8px 0 0;\n  line-height: 1.5;\n}\n.ep__avatar-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 6px;\n}\n.ep__avatar-wrap[_ngcontent-%COMP%] {\n  cursor: pointer;\n  border-radius: 50%;\n}\n.ep__avatar-wrap[_ngcontent-%COMP%]:hover   .ep__avatar__overlay[_ngcontent-%COMP%] {\n  opacity: 1;\n}\n.ep__avatar[_ngcontent-%COMP%] {\n  position: relative;\n  width: 72px;\n  height: 72px;\n  border-radius: 50%;\n  overflow: hidden;\n  background: var(--color-bg-muted);\n  border: 2px solid var(--color-border);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.ep__avatar__img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  object-position: center top;\n}\n.ep__avatar__guest[_ngcontent-%COMP%] {\n  width: 50%;\n  height: 50%;\n  color: var(--color-text-light);\n}\n.ep__avatar__overlay[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  border-radius: 50%;\n  background: rgba(0, 0, 0, 0.45);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.15s;\n}\n.ep__avatar__overlay--uploading[_ngcontent-%COMP%] {\n  opacity: 1;\n}\n.ep__spinner[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border: 2.5px solid rgba(255, 255, 255, 0.3);\n  border-top-color: #fff;\n  border-radius: 50%;\n  animation: _ngcontent-%COMP%_spin 0.7s linear infinite;\n}\n@keyframes _ngcontent-%COMP%_spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n.ep__avatar__hint[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n}\n.ep__error--photo[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  margin: 0;\n}\n.ep__field[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.ep__label[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  font-weight: 600;\n  color: var(--color-text-secondary);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.ep__required[_ngcontent-%COMP%] {\n  color: #e11d48;\n  font-size: 13px;\n}\n.ep__optional[_ngcontent-%COMP%] {\n  font-size: 11px;\n  font-weight: 400;\n  color: var(--color-text-muted);\n  background: var(--color-bg-muted);\n  border-radius: 4px;\n  padding: 1px 6px;\n}\n.ep__input[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 42px;\n  border: 1.5px solid var(--color-border);\n  border-radius: var(--radius-md);\n  padding: 0 12px;\n  font-size: 14px;\n  color: var(--color-text-base);\n  background: var(--color-bg);\n  box-sizing: border-box;\n  transition: border-color var(--transition);\n  outline: none;\n}\n.ep__input[_ngcontent-%COMP%]:focus {\n  border-color: var(--color-primary);\n}\n.ep__input[_ngcontent-%COMP%]::placeholder {\n  color: var(--color-text-light);\n}\n.ep__hint[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: var(--color-text-muted);\n}\n.ep__error[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: #e11d48;\n  margin: 0;\n}\n.ep__actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 8px;\n  margin-top: 4px;\n}\n.ep__btn[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 42px;\n  border-radius: var(--radius-md);\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  border: none;\n  transition: opacity var(--transition);\n}\n.ep__btn[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.ep__btn[_ngcontent-%COMP%]:not(:disabled):hover {\n  opacity: 0.85;\n}\n.ep__btn--cancel[_ngcontent-%COMP%] {\n  background: var(--color-bg-muted);\n  color: var(--color-text-muted);\n  border: 1px solid var(--color-border);\n}\n.ep__btn--save[_ngcontent-%COMP%] {\n  background: var(--color-primary);\n  color: #fff;\n}\n/*# sourceMappingURL=edit-profile-modal.component.css.map */'] });
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(EditProfileModalComponent, { className: "EditProfileModalComponent", filePath: "src/app/ui/edit-profile-modal/edit-profile-modal.component.ts", lineNumber: 167 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(EditProfileModalComponent, { className: "EditProfileModalComponent", filePath: "src/app/ui/edit-profile-modal/edit-profile-modal.component.ts", lineNumber: 229 });
 })();
 
 // src/app/app.component.ts

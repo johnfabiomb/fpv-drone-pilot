@@ -17,6 +17,8 @@ body {
   --color-primary: #F4A922;
   --color-primary-hover: #e09a1a;
   --color-primary-shadow: rgba(244, 169, 34, 0.3);
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
   --color-text-base: #111827;
   --color-text-secondary: #374151;
   --color-text-muted: #6b7280;
@@ -468,6 +470,21 @@ button span {
 }
 .badge--hard {
   background: #ef4444;
+}
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1;
 }
 .chip {
   flex-shrink: 0;

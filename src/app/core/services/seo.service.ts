@@ -6,7 +6,7 @@ import { Location, Provider } from '@core/models';
 const BASE_URL = 'https://johnfabiomb.com';
 
 export type SeoPage = 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' |
-                      'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard';
+                      'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard' | 'notifications';
 const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
 const DEFAULT_TITLE = 'Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map';
 const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by John Montaño. 70+ curated locations with routes, photos and partner deals.';
@@ -139,6 +139,12 @@ export class SeoService {
         title: 'Malta Explorers Rankings | Explore Malta',
         desc: 'See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard.',
         url: `${BASE}/malta/leaderboard`,
+      },
+      notifications: {
+        title: 'Notifications | Explore Malta',
+        desc: 'Your updates, level-ups and announcements from Explore Malta.',
+        url: `${BASE}/malta/notifications`,
+        noindex: true,
       },
     };
 
