@@ -7,7 +7,7 @@ const BASE_URL = 'https://johnfabiomb.com';
 
 export type SeoPage = 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' |
                       'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard' | 'notifications';
-const DEFAULT_IMAGE = `${BASE_URL}/assets/map-min.png`;
+const DEFAULT_IMAGE = `${BASE_URL}/assets/og-malta.jpg`;
 const DEFAULT_TITLE = 'Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map';
 const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by John Montaño. 70+ curated locations with routes, photos and partner deals.';
 

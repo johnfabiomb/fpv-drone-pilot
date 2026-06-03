@@ -9,7 +9,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-4WINQ53P.js";
+} from "./chunk-672ZRALF.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
@@ -129,23 +129,23 @@ var routes = [
   },
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-JISYXWCC.js").then((mod) => mod.HomeComponent)
+    loadComponent: () => import("./chunk-GNJR2KS6.js").then((mod) => mod.HomeComponent)
   }, false ? { \u0275entryName: "src/app/pages/home/home.component.ts" } : {}),
   __spreadValues({
     path: "privacy",
-    loadComponent: () => import("./chunk-TVSDSVT5.js").then((mod) => mod.PrivacyComponent)
+    loadComponent: () => import("./chunk-NSZ2U24T.js").then((mod) => mod.PrivacyComponent)
   }, false ? { \u0275entryName: "src/app/pages/privacy/privacy.component.ts" } : {}),
   __spreadValues({
     path: "cookies",
-    loadComponent: () => import("./chunk-MBRPK7LS.js").then((mod) => mod.CookiesComponent)
+    loadComponent: () => import("./chunk-VQLBJWH4.js").then((mod) => mod.CookiesComponent)
   }, false ? { \u0275entryName: "src/app/pages/cookies/cookies.component.ts" } : {}),
   __spreadValues({
     path: "about",
-    loadComponent: () => import("./chunk-LYUA6RLG.js").then((mod) => mod.AboutComponent)
+    loadComponent: () => import("./chunk-J4P7ZORX.js").then((mod) => mod.AboutComponent)
   }, false ? { \u0275entryName: "src/app/pages/about/about.component.ts" } : {}),
   __spreadValues({
     path: "contact",
-    loadComponent: () => import("./chunk-7QJ6E3N2.js").then((mod) => mod.ContactComponent)
+    loadComponent: () => import("./chunk-2ES4CBN2.js").then((mod) => mod.ContactComponent)
   }, false ? { \u0275entryName: "src/app/pages/contact/contact.component.ts" } : {}),
   {
     path: "malta",
@@ -153,28 +153,28 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-4NW7FFTV.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-JR3UMHNX.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
             pathMatch: "full",
-            loadComponent: () => import("./chunk-MSXDS3W3.js").then((mod) => mod.MapExploreComponent)
+            loadComponent: () => import("./chunk-UDPWWHZB.js").then((mod) => mod.MapExploreComponent)
           },
           {
             path: "list",
-            loadComponent: () => import("./chunk-2WMZ5XYK.js").then((m) => m.LocationListComponent)
+            loadComponent: () => import("./chunk-PIFK4NKB.js").then((m) => m.LocationListComponent)
           },
           {
             path: "deals",
-            loadComponent: () => import("./chunk-3EVTGUUB.js").then((m) => m.DealsComponent)
+            loadComponent: () => import("./chunk-2ENXZEB2.js").then((m) => m.DealsComponent)
           },
           {
             path: "providers/:id",
-            loadComponent: () => import("./chunk-HU6DAYBJ.js").then((m) => m.ProviderPageComponent)
+            loadComponent: () => import("./chunk-UT25FXDP.js").then((m) => m.ProviderPageComponent)
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-6JDKOKQB.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-IR2XYSRB.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
@@ -188,27 +188,27 @@ var routes = [
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-TICP2KTA.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-QHE2OD6K.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-P3WMFBSS.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-VDZMXJBT.js").then((m) => m.GroupDetailComponent)
           },
           {
             path: "notifications",
-            loadComponent: () => import("./chunk-MBWGWN36.js").then((m) => m.NotificationsComponent)
+            loadComponent: () => import("./chunk-2ZMQTSMK.js").then((m) => m.NotificationsComponent)
           }
         ]
       }, false ? { \u0275entryName: "src/app/features/map/shell/map-shell.component.ts" } : {}),
       // Non-map routes are direct siblings — NOT inside the shell
       __spreadValues({
         path: "30-places-2026",
-        loadComponent: () => import("./chunk-JSINLFM6.js").then((m) => m.TopPlacesComponent)
+        loadComponent: () => import("./chunk-HTHCRJMN.js").then((m) => m.TopPlacesComponent)
       }, false ? { \u0275entryName: "src/app/pages/top-places/top-places.component.ts" } : {}),
       __spreadValues({
         path: "leaderboard",
-        loadComponent: () => import("./chunk-PSND5NQT.js").then((m) => m.LeaderboardComponent)
+        loadComponent: () => import("./chunk-VSCOOUOZ.js").then((m) => m.LeaderboardComponent)
       }, false ? { \u0275entryName: "src/app/features/leaderboard/leaderboard.component.ts" } : {}),
       __spreadValues({
         path: "plan",
@@ -219,11 +219,11 @@ var routes = [
   },
   __spreadValues({
     path: "pay",
-    loadComponent: () => import("./chunk-ESSNQJXB.js").then((m) => m.PaymentComponent)
+    loadComponent: () => import("./chunk-FUUU2DCF.js").then((m) => m.PaymentComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment/payment.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-OBILENSG.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-4EDICKMX.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/pages/payment-success/payment-success.component.ts" } : {})
 ];
 
