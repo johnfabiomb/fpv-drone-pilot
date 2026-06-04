@@ -225,7 +225,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   // ── Icon preloading ───────────────────────────────────────
 
   private preloadIcons(): void {
-    locations.forEach(location => {
+    (locations as Location[]).forEach(location => {
       const img = new Image();
       const pinSrc = location.thumb || location.img;
       img.onload = () => {

@@ -32,6 +32,7 @@ const REVEALED: TrendLocation[] = [
   { num: 19, name: 'Xlendi Tower Coastal Path',        id: 73 },
   { num: 20, name: 'Mini Inland Sea',                  id: 52 },
   { num: 21, name: 'Għar Ħanex Sea Cave',              id: 74 },
+  { num: 22, name: 'Carolina Grotto, Xlendi',          id: 58 },
 ];
 
 const TOTAL = 30;
