@@ -228,7 +228,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     (locations as Location[]).forEach(location => {
       const img = new Image();
       const pinSrc = location.thumb || location.img;
-      img.onload = () => {
+
+      // Build once, whichever of decode()/onload resolves first.
+      let built = false;
+      const build = () => {
+        if (built || !img.naturalWidth) return;
+        built = true;
+
         this.rawImageCache.set(location.img, img);
         this.localityIconCache.clear();
 
@@ -244,7 +250,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.iconCache.set(String(location.id), finalCanvas);
         this.clusterLayer.changed();
       };
+
+      img.onload = build;          // fallback + non-Safari path
       img.src = pinSrc;
+      // Safari can fire onload before the bitmap is decode-ready, so drawImage()
+      // paints nothing and caches a blank pin forever (clusters survive because
+      // their draw is guarded by complete && naturalWidth). decode() resolves
+      // only once the image is safe to draw to canvas.
+      img.decode?.().then(build).catch(() => { /* onload fallback covers it */ });
     });
   }
 
