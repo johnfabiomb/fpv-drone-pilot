@@ -13,7 +13,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-JBZXRODL.js";
+} from "./chunk-ISOUA6WM.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
@@ -26982,6 +26982,7 @@ var MapComponent = class _MapComponent {
     this.showingClusters = null;
     this.providerSource = new Vector_default();
     this.providerCanvasCache = /* @__PURE__ */ new Map();
+    this.providerImageCache = /* @__PURE__ */ new Map();
     this.routeSource = new Vector_default();
     this.routeLabelSource = new Vector_default();
     this.meetingSource = new Vector_default();
@@ -27142,25 +27143,17 @@ var MapComponent = class _MapComponent {
   preloadIcons() {
     locations.forEach((location) => {
       const img = new Image();
-      const pinSrc = location.thumb || location.img;
-      let built = false;
-      const build = () => {
-        if (built || !img.naturalWidth)
+      const onReady = () => {
+        if (!img.naturalWidth)
           return;
-        built = true;
         this.rawImageCache.set(location.img, img);
+        this.iconCache.delete(String(location.id));
         this.localityIconCache.clear();
-        const pin = this.buildTeardropPin(img, ICON_CANVAS_SIZE, "#fff");
-        let finalCanvas = pin;
-        if (location.showLabel) {
-          finalCanvas = this.buildPillPin(pin, location.title);
-        }
-        this.iconCache.set(String(location.id), finalCanvas);
         this.clusterLayer.changed();
       };
-      img.onload = build;
-      img.src = pinSrc;
-      img.decode?.().then(build).catch(() => {
+      img.onload = onReady;
+      img.src = location.thumb || location.img;
+      img.decode?.().then(onReady).catch(() => {
       });
     });
   }
@@ -27230,7 +27223,15 @@ var MapComponent = class _MapComponent {
     const location = feature.get("location");
     const zoom = this.map.getView().getZoom() ?? 10;
     const iconSize = this.getIconSize(zoom);
-    const canvas = this.iconCache.get(String(location.id));
+    let canvas = this.iconCache.get(String(location.id));
+    if (!canvas) {
+      const rawImg = this.rawImageCache.get(location.img);
+      if (rawImg?.complete && rawImg.naturalWidth) {
+        const pin = this.buildTeardropPin(rawImg, ICON_CANVAS_SIZE, "#fff");
+        canvas = location.showLabel ? this.buildPillPin(pin, location.title) : pin;
+        this.iconCache.set(String(location.id), canvas);
+      }
+    }
     if (canvas) {
       const coords = feature.getGeometry().getCoordinates();
       return new Style_default({
@@ -27370,6 +27371,26 @@ var MapComponent = class _MapComponent {
     if (this._providerPins.length && FEATURES.PROMOTIONS)
       this.rebuildProviderLayer();
   }
+  // Builds a provider's full pin canvas — photo circle (with group/emoji badge)
+  // or emoji/group fallback, plus the deal pill. Called synchronously for emoji
+  // pins, and lazily at render time for photo pins once the cover is decoded.
+  buildProviderCanvas(p, img) {
+    const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : void 0;
+    const label = savings ?? p.mapLabel ?? "\u{1F3F7}\uFE0F Deal";
+    const pillColor = p.category === "group" ? "#D4900A" : savings ? "#D4A017" : void 0;
+    let pin;
+    if (img) {
+      pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? "#fff");
+      if (p.category === "group") {
+        this.addGroupIconOverlay(pin);
+      } else if (p.emoji) {
+        this.addEmojiBadge(pin, p.emoji);
+      }
+    } else {
+      pin = p.category === "group" ? this.buildGroupFallbackPin() : this.buildProviderEmojiPin(p);
+    }
+    return this.buildPillPin(pin, label, true, pillColor);
+  }
   rebuildProviderLayer() {
     this.providerSource.clear();
     for (const p of this._providerPins) {
@@ -27382,31 +27403,34 @@ var MapComponent = class _MapComponent {
       }));
       if (this.providerCanvasCache.has(p.id))
         continue;
-      const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : void 0;
-      const label = savings ?? p.mapLabel ?? "\u{1F3F7}\uFE0F Deal";
-      const pillColor = p.category === "group" ? "#D4900A" : savings ? "#D4A017" : void 0;
       if (p.coverImage) {
         const img = new Image();
-        img.onload = () => {
-          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? "#fff");
-          if (p.category === "group") {
-            this.addGroupIconOverlay(pin);
-          } else if (p.emoji) {
-            this.addEmojiBadge(pin, p.emoji);
-          }
-          this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
+        const onReady = () => {
+          if (!img.naturalWidth)
+            return;
+          this.providerImageCache.set(p.id, img);
+          this.providerCanvasCache.delete(p.id);
           this.providerLayer.changed();
         };
+        img.onload = onReady;
         img.src = p.coverImage;
+        img.decode?.().then(onReady).catch(() => {
+        });
       } else {
-        const pin = p.category === "group" ? this.buildGroupFallbackPin() : this.buildProviderEmojiPin(p);
-        this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
+        this.providerCanvasCache.set(p.id, this.buildProviderCanvas(p));
       }
     }
   }
   providerPinStyle(feature) {
     const provider = feature.get("provider");
-    const canvas = this.providerCanvasCache.get(provider.id);
+    let canvas = this.providerCanvasCache.get(provider.id);
+    if (!canvas && provider.coverImage) {
+      const img = this.providerImageCache.get(provider.id);
+      if (img?.complete && img.naturalWidth) {
+        canvas = this.buildProviderCanvas(provider, img);
+        this.providerCanvasCache.set(provider.id, canvas);
+      }
+    }
     const zoom = this.map.getView().getZoom() ?? 10;
     const scale4 = zoom < CLUSTER_ZOOM ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
     if (!canvas) {
@@ -28795,4 +28819,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-4BJHI3MS.js.map
+//# sourceMappingURL=chunk-OQCZ64DH.js.map

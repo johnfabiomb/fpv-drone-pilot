@@ -49,6 +49,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private providerSource = new VectorSource();
   private providerLayer!: VectorLayer<VectorSource>;
   private providerCanvasCache = new Map<string, HTMLCanvasElement>();
+  private providerImageCache = new Map<string, HTMLImageElement>();
 
   private routeSource = new VectorSource();
   private routeLabelSource = new VectorSource();
@@ -227,37 +228,23 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private preloadIcons(): void {
     (locations as Location[]).forEach(location => {
       const img = new Image();
-      const pinSrc = location.thumb || location.img;
 
-      // Build once, whichever of decode()/onload resolves first.
-      let built = false;
-      const build = () => {
-        if (built || !img.naturalWidth) return;
-        built = true;
-
+      // Only cache the loaded bitmap here. The teardrop pin canvas is built
+      // lazily at render time in individualPinStyle — the same deferred approach
+      // the locality clusters use (buildLocalityCanvas). Building eagerly inside
+      // onload/decode is too early in Safari: drawImage() paints the white
+      // backing but not the photo, and that blank pin gets cached for the session.
+      const onReady = () => {
+        if (!img.naturalWidth) return;
         this.rawImageCache.set(location.img, img);
+        this.iconCache.delete(String(location.id)); // force rebuild from the ready bitmap
         this.localityIconCache.clear();
-
-        const pin = this.buildTeardropPin(img, ICON_CANVAS_SIZE, '#fff');
-
-        // ── Name pill (only if showLabel is true) ────────────
-        let finalCanvas = pin;
-
-        if (location.showLabel) {
-          finalCanvas = this.buildPillPin(pin, location.title);
-        }
-
-        this.iconCache.set(String(location.id), finalCanvas);
         this.clusterLayer.changed();
       };
 
-      img.onload = build;          // fallback + non-Safari path
-      img.src = pinSrc;
-      // Safari can fire onload before the bitmap is decode-ready, so drawImage()
-      // paints nothing and caches a blank pin forever (clusters survive because
-      // their draw is guarded by complete && naturalWidth). decode() resolves
-      // only once the image is safe to draw to canvas.
-      img.decode?.().then(build).catch(() => { /* onload fallback covers it */ });
+      img.onload = onReady;
+      img.src = location.thumb || location.img;
+      img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
     });
   }
 
@@ -341,7 +328,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const location = feature.get('location');
     const zoom = this.map.getView().getZoom() ?? 10;
     const iconSize = this.getIconSize(zoom);
-    const canvas = this.iconCache.get(String(location.id));
+
+    let canvas = this.iconCache.get(String(location.id));
+    if (!canvas) {
+      // Build the teardrop lazily from the loaded bitmap — deferred to render
+      // time so Safari has decoded it. Guarded like the cluster canvas; until
+      // the image is ready we fall through to the neutral placeholder below and
+      // re-render once preloadIcons' onReady fires clusterLayer.changed().
+      const rawImg = this.rawImageCache.get(location.img);
+      if (rawImg?.complete && rawImg.naturalWidth) {
+        const pin = this.buildTeardropPin(rawImg, ICON_CANVAS_SIZE, '#fff');
+        canvas = location.showLabel ? this.buildPillPin(pin, location.title) : pin;
+        this.iconCache.set(String(location.id), canvas);
+      }
+    }
 
     if (canvas) {
       const coords = (feature.getGeometry() as Point).getCoordinates();
@@ -503,6 +503,30 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (this._providerPins.length && FEATURES.PROMOTIONS) this.rebuildProviderLayer();
   }
 
+  // Builds a provider's full pin canvas — photo circle (with group/emoji badge)
+  // or emoji/group fallback, plus the deal pill. Called synchronously for emoji
+  // pins, and lazily at render time for photo pins once the cover is decoded.
+  private buildProviderCanvas(p: Provider, img?: HTMLImageElement): HTMLCanvasElement {
+    const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : undefined;
+    const label = savings ?? p.mapLabel ?? '🏷️ Deal';
+    const pillColor = p.category === 'group' ? '#D4900A' : (savings ? '#D4A017' : undefined);
+
+    let pin: HTMLCanvasElement;
+    if (img) {
+      pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? '#fff');
+      if (p.category === 'group') {
+        this.addGroupIconOverlay(pin);
+      } else if (p.emoji) {
+        this.addEmojiBadge(pin, p.emoji);
+      }
+    } else {
+      pin = p.category === 'group'
+        ? this.buildGroupFallbackPin()
+        : this.buildProviderEmojiPin(p);
+    }
+    return this.buildPillPin(pin, label, true, pillColor);
+  }
+
   private rebuildProviderLayer(): void {
     this.providerSource.clear();
     for (const p of this._providerPins) {
@@ -514,34 +538,38 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       }));
       if (this.providerCanvasCache.has(p.id)) continue;
 
-      const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : undefined;
-      const label = savings ?? p.mapLabel ?? '🏷️ Deal';
-      const pillColor = p.category === 'group' ? '#D4900A' : (savings ? '#D4A017' : undefined);
       if (p.coverImage) {
+        // Defer the canvas build to render time (providerPinStyle) so the cover
+        // photo is only drawn once Safari has decoded it — same fix as preloadIcons.
         const img = new Image();
-        img.onload = () => {
-          const pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, p.pinBorderColor ?? '#fff');
-          if (p.category === 'group') {
-            this.addGroupIconOverlay(pin);
-          } else if (p.emoji) {
-            this.addEmojiBadge(pin, p.emoji);
-          }
-          this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
+        const onReady = () => {
+          if (!img.naturalWidth) return;
+          this.providerImageCache.set(p.id, img);
+          this.providerCanvasCache.delete(p.id);
           this.providerLayer.changed();
         };
+        img.onload = onReady;
         img.src = p.coverImage;
+        img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
       } else {
-        const pin = p.category === 'group'
-          ? this.buildGroupFallbackPin()
-          : this.buildProviderEmojiPin(p);
-        this.providerCanvasCache.set(p.id, this.buildPillPin(pin, label, true, pillColor));
+        // No photo → no decode race; build synchronously.
+        this.providerCanvasCache.set(p.id, this.buildProviderCanvas(p));
       }
     }
   }
 
   private providerPinStyle(feature: FeatureLike): Style {
     const provider = feature.get('provider');
-    const canvas = this.providerCanvasCache.get(provider.id);
+    let canvas = this.providerCanvasCache.get(provider.id);
+    if (!canvas && provider.coverImage) {
+      // Build lazily from the decoded cover bitmap — deferred for Safari, which
+      // paints nothing if drawImage runs before the image is canvas-ready.
+      const img = this.providerImageCache.get(provider.id);
+      if (img?.complete && img.naturalWidth) {
+        canvas = this.buildProviderCanvas(provider, img);
+        this.providerCanvasCache.set(provider.id, canvas);
+      }
+    }
     const zoom = this.map.getView().getZoom() ?? 10;
     const scale = zoom < CLUSTER_ZOOM
       ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE

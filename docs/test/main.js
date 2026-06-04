@@ -9,7 +9,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-JBZXRODL.js";
+} from "./chunk-ISOUA6WM.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
@@ -153,7 +153,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-4BJHI3MS.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-OQCZ64DH.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
