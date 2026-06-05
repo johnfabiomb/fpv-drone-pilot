@@ -8,7 +8,7 @@ import {
 import {
   AnalyticsService,
   GroupsService
-} from "./chunk-YAVPQIKP.js";
+} from "./chunk-EQRF7B5Q.js";
 import {
   PanelShellComponent
 } from "./chunk-OCC7J5OB.js";
@@ -33,7 +33,7 @@ import {
 } from "./chunk-WCQ2L7X5.js";
 import {
   UserDataService
-} from "./chunk-HSUZIJJG.js";
+} from "./chunk-JEMGPZZW.js";
 import "./chunk-4VPY4RR2.js";
 import "./chunk-YJZWMVU3.js";
 import {
@@ -3104,4 +3104,4 @@ var GroupDetailComponent = class _GroupDetailComponent {
 export {
   GroupDetailComponent
 };
-//# sourceMappingURL=chunk-XCM6CLYH.js.map
+//# sourceMappingURL=chunk-WUCNBSLZ.js.map

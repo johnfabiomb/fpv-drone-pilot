@@ -101,9 +101,14 @@ var UserDataService = class _UserDataService {
     });
     this.saveDebounceTimer = null;
     this.heartbeatTimer = null;
+    this.loadedUserId = null;
     if (isPlatformBrowser(this.platformId)) {
       effect(() => {
         const user = this.authService.user();
+        const uid = user?.id ?? null;
+        if (uid === this.loadedUserId)
+          return;
+        this.loadedUserId = uid;
         if (user) {
           this.loadUserData(user.id);
         } else {
@@ -393,4 +398,4 @@ var UserDataService = class _UserDataService {
 export {
   UserDataService
 };
-//# sourceMappingURL=chunk-HSUZIJJG.js.map
+//# sourceMappingURL=chunk-JEMGPZZW.js.map

@@ -94,11 +94,23 @@ export class UserDataService {
 
   private saveDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   private heartbeatTimer: ReturnType<typeof setInterval> | null = null;
+  private loadedUserId: string | null = null;
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       effect(() => {
         const user = this.authService.user();
+        const uid = user?.id ?? null;
+
+        // React only to a change of *identity* (login / logout / account switch).
+        // Supabase fires USER_UPDATED on every profile metadata edit (avatar,
+        // display name), which re-runs this effect with the SAME user. Reloading
+        // then would overwrite in-memory state (saved locations, XP, level) from
+        // cache/DB — racing the 800ms save debounce and silently dropping recent
+        // saves. The mutating methods already keep the signals + cache in sync.
+        if (uid === this.loadedUserId) return;
+        this.loadedUserId = uid;
+
         if (user) {
           this.loadUserData(user.id);
         } else {

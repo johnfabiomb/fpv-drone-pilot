@@ -1,6 +1,6 @@
 import {
   GroupsService
-} from "./chunk-YAVPQIKP.js";
+} from "./chunk-EQRF7B5Q.js";
 import {
   PanelShellComponent
 } from "./chunk-OCC7J5OB.js";
@@ -13,7 +13,7 @@ import {
   SelectControlValueAccessor,
   ɵNgSelectMultipleOption
 } from "./chunk-Z3QOGP5K.js";
-import "./chunk-HSUZIJJG.js";
+import "./chunk-JEMGPZZW.js";
 import "./chunk-4VPY4RR2.js";
 import "./chunk-YJZWMVU3.js";
 import "./chunk-PHYDDMB4.js";
@@ -657,4 +657,4 @@ var AdminPanelComponent = class _AdminPanelComponent {
 export {
   AdminPanelComponent
 };
-//# sourceMappingURL=chunk-JPJ2BRD7.js.map
+//# sourceMappingURL=chunk-DXE7WDRV.js.map

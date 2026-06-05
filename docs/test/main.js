@@ -9,7 +9,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-ISOUA6WM.js";
+} from "./chunk-6XQOLE6P.js";
 import {
   AppModalComponent
 } from "./chunk-Y5KTKYRJ.js";
@@ -25,7 +25,7 @@ import {
 } from "./chunk-WCQ2L7X5.js";
 import {
   UserDataService
-} from "./chunk-HSUZIJJG.js";
+} from "./chunk-JEMGPZZW.js";
 import "./chunk-4VPY4RR2.js";
 import {
   LEVELS,
@@ -153,7 +153,7 @@ var routes = [
       __spreadValues({
         // Shell owns the persistent map — '' matches /malta, /malta/list, /malta/deals
         path: "",
-        loadComponent: () => import("./chunk-OQCZ64DH.js").then((m) => m.MapShellComponent),
+        loadComponent: () => import("./chunk-TG7MVLVB.js").then((m) => m.MapShellComponent),
         children: [
           {
             path: "",
@@ -174,26 +174,26 @@ var routes = [
           },
           {
             path: "locations/:slug",
-            loadComponent: () => import("./chunk-MOGTY2BI.js").then((m) => m.LocationPageComponent)
+            loadComponent: () => import("./chunk-Z47YLYU7.js").then((m) => m.LocationPageComponent)
           },
           {
             path: "saved",
-            loadComponent: () => import("./chunk-XTGDJQMA.js").then((m) => m.SavedPlacesComponent)
+            loadComponent: () => import("./chunk-ZESWB2BZ.js").then((m) => m.SavedPlacesComponent)
           },
           {
             path: "admin",
             canMatch: [() => inject(UserDataService).isAdmin()],
-            loadComponent: () => import("./chunk-JPJ2BRD7.js").then((m) => m.AdminPanelComponent)
+            loadComponent: () => import("./chunk-DXE7WDRV.js").then((m) => m.AdminPanelComponent)
           },
           {
             path: "groups",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-4LX2IJU5.js").then((m) => m.ExploreTogetherComponent)
+            loadComponent: () => import("./chunk-2YHQRLXR.js").then((m) => m.ExploreTogetherComponent)
           },
           {
             path: "groups/:id",
             canMatch: [() => FEATURES.GROUPS],
-            loadComponent: () => import("./chunk-XCM6CLYH.js").then((m) => m.GroupDetailComponent)
+            loadComponent: () => import("./chunk-WUCNBSLZ.js").then((m) => m.GroupDetailComponent)
           },
           {
             path: "notifications",

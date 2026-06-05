@@ -33,7 +33,7 @@ import {
 } from "./chunk-435XO7VF.js";
 
 // package.json
-var version = "2.0.16";
+var version = "2.0.17";
 
 // src/app/core/services/levels-modal.service.ts
 var LevelsModalService = class _LevelsModalService {
@@ -204,4 +204,4 @@ export {
   LevelsModalService,
   UserProfileCardComponent
 };
-//# sourceMappingURL=chunk-ISOUA6WM.js.map
+//# sourceMappingURL=chunk-6XQOLE6P.js.map
