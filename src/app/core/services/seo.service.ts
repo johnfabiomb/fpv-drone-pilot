@@ -2,14 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Location, Provider } from '@core/models';
+import {
+  SeoConfig, SeoPage, BASE_URL, DEFAULT_IMAGE,
+  DEFAULT_SEO, TREND_SEO, PAGE_SEO,
+} from './seo.config';
 
-const BASE_URL = 'https://johnfabiomb.com';
-
-export type SeoPage = 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan' |
-                      'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard' | 'notifications';
-const DEFAULT_IMAGE = `${BASE_URL}/assets/og-malta.jpg`;
-const DEFAULT_TITLE = 'Explore Malta - Hidden Gems, Caves & Secret Spots | Interactive Map';
-const DEFAULT_DESC = 'Discover Malta\'s best hidden gems, secret caves, beaches and historical sites with a free interactive map by John Montaño. 70+ curated locations with routes, photos and partner deals.';
+export type { SeoPage } from './seo.config';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -17,202 +15,79 @@ export class SeoService {
   private metaService = inject(Meta);
   private document = inject(DOCUMENT);
 
-  setTrendPage(revealed: Array<{ num: number; name: string; id: number | null }>): void {
-    const title = '30 Best Places to Visit in Malta (2026) · Explorer\'s Guide';
-    const desc = "Explore 30 of Malta's most breathtaking hidden gems — sea caves, cliff trails, remote valleys and secret coastlines most tourists never find. A firsthand bucket-list by John Montaño.";
-    const url = `${BASE_URL}/malta/30-places-2026`;
-    const image = `${BASE_URL}/assets/images/places/ta-maria-cave/TaMarijaCave.png`;
-    const keywords = 'places to visit in Malta, best places Malta 2026, Malta bucket list, Malta hidden gems, Malta travel guide, Malta sea caves, Malta cliff walks, Gozo hidden spots, Malta hiking trails, what to see in Malta, Malta must see, Malta off the beaten path';
-
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: desc });
-    this.metaService.updateTag({ name: 'keywords', content: keywords });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: desc });
-    this.metaService.updateTag({ property: 'og:url', content: url });
-    this.metaService.updateTag({ property: 'og:image', content: image });
-    this.metaService.updateTag({ property: 'og:image:alt', content: "Ta' Marija Cave — Malta hidden gem" });
-    this.metaService.updateTag({ name: 'twitter:title', content: title });
-    this.metaService.updateTag({ name: 'twitter:description', content: desc });
-    this.metaService.updateTag({ name: 'twitter:image', content: image });
-    this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
-    this.updateCanonical(url);
-
-    const script = this.document.querySelector('script[type="application/ld+json"]');
-    if (!script) return;
-    script.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'WebSite',
-          '@id': `${BASE_URL}/#website`,
-          url: `${BASE_URL}/`,
-          name: 'Explore Malta',
-          author: { '@id': `${BASE_URL}/#person` },
-        },
-        {
-          '@type': 'Person',
-          '@id': `${BASE_URL}/#person`,
-          name: 'John Montaño',
-          jobTitle: 'Explorer & Content Creator',
-          url: `${BASE_URL}/`,
-          sameAs: ['https://www.instagram.com/johnfabiomb/'],
-        },
-        {
-          '@type': 'ItemList',
-          '@id': url,
-          name: '30 Best Places to Visit in Malta',
-          description: desc,
-          url,
-          numberOfItems: 30,
-          itemListElement: revealed.map(loc => ({
-            '@type': 'ListItem',
-            position: loc.num,
-            name: loc.name,
-            url: loc.id !== null ? `${BASE_URL}/malta?locationId=${loc.id}` : url,
-          })),
-        },
-      ],
-    });
+  setPage(page: SeoPage): void {
+    this.apply(PAGE_SEO[page]);
   }
 
-  setPage(page: SeoPage): void {
-    const BASE = BASE_URL;
-    const pages: Record<string, { title: string; desc: string; url: string; noindex?: boolean }> = {
-      map: {
-        title: DEFAULT_TITLE,
-        desc: DEFAULT_DESC,
-        url: `${BASE}/malta`,
-      },
-      list: {
-        title: 'Browse All Locations · Explore Malta',
-        desc: 'Browse 70+ hidden gems, caves, beaches and historical sites across Malta and Gozo. Filter by type, sort by rating or distance from you.',
-        url: `${BASE}/malta/list`,
-      },
-      deals: {
-        title: 'Malta Local Deals | Tours, Stays & Water Sports | Explore Malta',
-        desc: 'Real discounts from local Malta businesses — water sports, kayaking, boat trips, hotels and restaurants. Partner deals personally recommended by John Montaño.',
-        url: `${BASE}/malta/deals`,
-      },
-      plan: {
-        title: 'Route Builder · Explore Malta',
-        desc: 'Plan your perfect route across Malta\'s hidden gems. Build a custom route connecting caves, beaches and historical sites curated by John Montaño.',
-        url: `${BASE}/plan`,
-      },
-      pay: {
-        title: 'Payment · John Montaño',
-        desc: 'Secure payment page for content creation services by John Montaño. Pay safely via Stripe.',
-        url: `${BASE}/pay`,
-      },
-      'pay-success': {
-        title: 'Payment Confirmed · John Montaño',
-        desc: 'Your payment has been confirmed. Book your slot with John Montaño.',
-        url: `${BASE}/pay/success`,
-        noindex: true,
-      },
-      privacy: {
-        title: 'Privacy Policy · Explore Malta',
-        desc: 'Read the Privacy Policy for Explore Malta — covering account data, XP and level system, group membership, Google Analytics, AdSense, and GDPR rights.',
-        url: `${BASE}/privacy`,
-      },
-      cookies: {
-        title: 'Cookie Policy · Explore Malta',
-        desc: 'Read the Cookie Policy for Explore Malta, including cookies and localStorage used for authentication, analytics, and personalised ads.',
-        url: `${BASE}/cookies`,
-      },
-      about: {
-        title: 'About · Explore Malta',
-        desc: 'Explore Malta is an original travel guide by John Montaño — 70+ hidden gems, sea caves, trails and partner deals across Malta and Gozo.',
-        url: `${BASE}/about`,
-      },
-      contact: {
-        title: 'Contact · Explore Malta',
-        desc: 'Contact information for Explore Malta and site owner John Montaño.',
-        url: `${BASE}/contact`,
-      },
-      groups: {
-        title: 'Explore Together · Find Hiking Groups in Malta',
-        desc: 'Join or create hiking groups for Malta\'s best spots. Find others to explore sea caves, cliffs, and hidden gems with — organised by real explorers.',
-        url: `${BASE}/malta/groups`,
-      },
-      leaderboard: {
-        title: 'Malta Explorers Rankings | Explore Malta',
-        desc: 'See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard.',
-        url: `${BASE}/malta/leaderboard`,
-      },
-      notifications: {
-        title: 'Notifications | Explore Malta',
-        desc: 'Your updates, level-ups and announcements from Explore Malta.',
-        url: `${BASE}/malta/notifications`,
-        noindex: true,
-      },
-    };
-
-    const p = pages[page];
-    if (!p) return;
-
-    this.titleService.setTitle(p.title);
-    this.metaService.updateTag({ name: 'description', content: p.desc });
-    this.metaService.updateTag({ property: 'og:title', content: p.title });
-    this.metaService.updateTag({ property: 'og:description', content: p.desc });
-    this.metaService.updateTag({ property: 'og:url', content: p.url });
-    this.metaService.updateTag({ property: 'og:image', content: DEFAULT_IMAGE });
-    this.metaService.updateTag({ name: 'twitter:title', content: p.title });
-    this.metaService.updateTag({ name: 'twitter:description', content: p.desc });
-    this.metaService.updateTag({ name: 'twitter:image', content: DEFAULT_IMAGE });
-    this.updateCanonical(p.url);
-
-    if (p.noindex) {
-      this.metaService.updateTag({ name: 'robots', content: 'noindex, nofollow' });
-    } else {
-      this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
-    }
+  setTrendPage(revealed: Array<{ num: number; name: string; id: number | null }>): void {
+    this.apply(TREND_SEO);
+    this.setTrendJsonLd(revealed);
   }
 
   updateMetaData(location?: Location): void {
-    if (location) {
-      const title = `${location.title} - Malta Hidden Gem | Explore Malta`;
-      const rawDesc = location.description.replace(/<[^>]+>/g, '').trim();
-      const description = this.truncate(rawDesc, 155);
-      const keywords = location.keywords || 'Malta, travel, nature, hidden gems, sightseeing';
-      const image = location.img?.startsWith('http') ? location.img : `${BASE_URL}${location.img}`;
-      const imageAlt = `${location.title} - Malta`;
-      const url = `${BASE_URL}/malta/locations/${location.slug}`;
-
-      this.titleService.setTitle(title);
-      this.metaService.updateTag({ name: 'description', content: description });
-      this.metaService.updateTag({ name: 'keywords', content: keywords });
-      this.metaService.updateTag({ property: 'og:title', content: title });
-      this.metaService.updateTag({ property: 'og:description', content: description });
-      this.metaService.updateTag({ property: 'og:image', content: image });
-      this.metaService.updateTag({ property: 'og:image:alt', content: imageAlt });
-      this.metaService.updateTag({ property: 'og:url', content: url });
-      this.metaService.updateTag({ property: 'og:locale', content: 'en_US' });
-      this.metaService.updateTag({ name: 'twitter:title', content: title });
-      this.metaService.updateTag({ name: 'twitter:description', content: description });
-      this.metaService.updateTag({ name: 'twitter:image', content: image });
-      this.metaService.updateTag({ name: 'twitter:image:alt', content: imageAlt });
-
-      this.updateCanonical(url);
-      this.updateJsonLd(location, url, description, image);
-    } else {
-      const url = `${BASE_URL}/`;
-      this.titleService.setTitle(DEFAULT_TITLE);
-      this.metaService.updateTag({ name: 'description', content: DEFAULT_DESC });
-      this.metaService.updateTag({ name: 'keywords', content: 'Malta hidden gems, Malta caves, Malta beaches, Malta secret spots, Malta hiking, explore Malta, Malta interactive map, Gozo hidden spots, Malta travel guide, Malta deals, Malta water sports' });
-      this.metaService.updateTag({ property: 'og:title', content: 'Explore Malta - Hidden Gems, Caves & Secret Spots' });
-      this.metaService.updateTag({ property: 'og:description', content: DEFAULT_DESC });
-      this.metaService.updateTag({ property: 'og:image', content: DEFAULT_IMAGE });
-      this.metaService.updateTag({ property: 'og:image:alt', content: 'Interactive map of Malta showing hidden gems and secret spots' });
-      this.metaService.updateTag({ property: 'og:url', content: url });
-      this.metaService.updateTag({ property: 'og:locale', content: 'en_US' });
-      this.metaService.updateTag({ name: 'twitter:title', content: 'Explore Malta - Hidden Gems, Caves & Secret Spots' });
-      this.metaService.updateTag({ name: 'twitter:description', content: DEFAULT_DESC });
-      this.metaService.updateTag({ name: 'twitter:image', content: DEFAULT_IMAGE });
-      this.metaService.updateTag({ name: 'twitter:image:alt', content: 'Interactive map of Malta showing hidden gems and secret spots' });
-      this.updateCanonical(url);
+    if (!location) {
+      this.apply(DEFAULT_SEO);
       this.resetJsonLd();
+      return;
     }
+
+    const rawDesc = location.description.replace(/<[^>]+>/g, '').trim();
+    const image = location.img?.startsWith('http') ? location.img : `${BASE_URL}${location.img}`;
+    const url = `${BASE_URL}/malta/locations/${location.slug}/`;
+
+    const config: SeoConfig = {
+      title: `${location.title} - Malta Hidden Gem | Explore Malta`,
+      desc: this.truncate(rawDesc, 155),
+      url,
+      image,
+      imageAlt: `${location.title} - Malta`,
+      keywords: location.keywords ?? 'Malta, travel, nature, hidden gems, sightseeing',
+    };
+
+    this.apply(config);
+    this.updateJsonLd(location, config);
+  }
+
+  setProviderPage(provider: Provider): void {
+    const rawDesc = provider.description?.replace(/<[^>]+>/g, '').trim() ?? provider.tagline ?? '';
+    const image = provider.coverImage
+      ? (provider.coverImage.startsWith('http') ? provider.coverImage : `${BASE_URL}${provider.coverImage}`)
+      : DEFAULT_IMAGE;
+
+    this.apply({
+      title: `${provider.name} · Malta ${this.categoryLabel(provider.category)} | Explore Malta`,
+      desc: this.truncate(rawDesc || `Book exclusive deals with ${provider.name} in Malta.`, 155),
+      url: `${BASE_URL}/malta/providers/${provider.id}/`,
+      image,
+      imageAlt: `${provider.name} - Malta`,
+      keywords: `${provider.name}, Malta ${provider.category}, Malta deals, Explore Malta`,
+    });
+  }
+
+  private apply(config: SeoConfig): void {
+    const image = config.image ?? DEFAULT_IMAGE;
+    const imageAlt = config.imageAlt ?? '';
+    const robots = config.noindex
+      ? 'noindex, nofollow'
+      : 'index, follow, max-snippet:-1, max-image-preview:large';
+
+    this.titleService.setTitle(config.title);
+    this.metaService.updateTag({ name: 'description', content: config.desc });
+    if (config.keywords) {
+      this.metaService.updateTag({ name: 'keywords', content: config.keywords });
+    }
+    this.metaService.updateTag({ property: 'og:title', content: config.title });
+    this.metaService.updateTag({ property: 'og:description', content: config.desc });
+    this.metaService.updateTag({ property: 'og:url', content: config.url });
+    this.metaService.updateTag({ property: 'og:image', content: image });
+    this.metaService.updateTag({ property: 'og:image:alt', content: imageAlt });
+    this.metaService.updateTag({ property: 'og:locale', content: 'en_US' });
+    this.metaService.updateTag({ name: 'twitter:title', content: config.title });
+    this.metaService.updateTag({ name: 'twitter:description', content: config.desc });
+    this.metaService.updateTag({ name: 'twitter:image', content: image });
+    this.metaService.updateTag({ name: 'twitter:image:alt', content: imageAlt });
+    this.metaService.updateTag({ name: 'robots', content: robots });
+    this.updateCanonical(config.url);
   }
 
   private updateCanonical(url: string): void {
@@ -225,17 +100,17 @@ export class SeoService {
     link.setAttribute('href', url);
   }
 
-  private updateJsonLd(location: Location, url: string, description: string, image: string): void {
+  private updateJsonLd(location: Location, config: SeoConfig): void {
     const script = this.document.querySelector('script[type="application/ld+json"]');
     if (!script) return;
 
     const attraction: Record<string, unknown> = {
       '@type': 'TouristAttraction',
-      '@id': url,
+      '@id': config.url,
       name: location.title,
-      description,
-      url,
-      image,
+      description: config.desc,
+      url: config.url,
+      image: config.image,
       address: {
         '@type': 'PostalAddress',
         addressLocality: location.locality ?? 'Malta',
@@ -262,22 +137,33 @@ export class SeoService {
 
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
+      '@graph': [this.websiteNode(), this.personNode(), attraction],
+    });
+  }
+
+  private setTrendJsonLd(revealed: Array<{ num: number; name: string; id: number | null }>): void {
+    const script = this.document.querySelector('script[type="application/ld+json"]');
+    if (!script) return;
+
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
       '@graph': [
+        this.websiteNode(),
+        this.personNode(),
         {
-          '@type': 'WebSite',
-          '@id': `${BASE_URL}/#website`,
-          url: `${BASE_URL}/`,
-          name: 'Explore Malta',
-          author: { '@id': `${BASE_URL}/#person` },
+          '@type': 'ItemList',
+          '@id': TREND_SEO.url,
+          name: '30 Best Places to Visit in Malta',
+          description: TREND_SEO.desc,
+          url: TREND_SEO.url,
+          numberOfItems: 30,
+          itemListElement: revealed.map(loc => ({
+            '@type': 'ListItem',
+            position: loc.num,
+            name: loc.name,
+            url: loc.id !== null ? `${BASE_URL}/malta?locationId=${loc.id}` : TREND_SEO.url,
+          })),
         },
-        {
-          '@type': 'Person',
-          '@id': `${BASE_URL}/#person`,
-          name: 'John Montaño',
-          url: `${BASE_URL}/`,
-          sameAs: ['https://www.instagram.com/johnfabiomb/'],
-        },
-        attraction,
       ],
     });
   }
@@ -285,27 +171,17 @@ export class SeoService {
   private resetJsonLd(): void {
     const script = this.document.querySelector('script[type="application/ld+json"]');
     if (!script) return;
+
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@graph': [
         {
-          '@type': 'WebSite',
-          '@id': `${BASE_URL}/#website`,
-          url: `${BASE_URL}/`,
-          name: 'Explore Malta',
-          description: 'Interactive map of Malta\'s best hidden gems, caves, beaches and historical sites curated by John Montaño.',
+          ...this.websiteNode(),
+          description: "Interactive map of Malta's best hidden gems, caves, beaches and historical sites curated by John Montaño.",
           inLanguage: 'en',
           image: DEFAULT_IMAGE,
-          author: { '@id': `${BASE_URL}/#person` },
         },
-        {
-          '@type': 'Person',
-          '@id': `${BASE_URL}/#person`,
-          name: 'John Montaño',
-          jobTitle: 'Explorer & Content Creator',
-          url: `${BASE_URL}/`,
-          sameAs: ['https://www.instagram.com/johnfabiomb/'],
-        },
+        this.personNode(),
         {
           '@type': 'TouristInformationCenter',
           '@id': `${BASE_URL}/#map`,
@@ -329,28 +205,25 @@ export class SeoService {
     });
   }
 
-  setProviderPage(provider: Provider): void {
-    const title = `${provider.name} · Malta ${this.categoryLabel(provider.category)} | Explore Malta`;
-    const rawDesc = provider.description?.replace(/<[^>]+>/g, '').trim() ?? provider.tagline ?? '';
-    const desc = this.truncate(rawDesc || `Book exclusive deals with ${provider.name} in Malta.`, 155);
-    const url = `${BASE_URL}/malta/providers/${provider.id}`;
-    const image = provider.coverImage
-      ? (provider.coverImage.startsWith('http') ? provider.coverImage : `${BASE_URL}${provider.coverImage}`)
-      : DEFAULT_IMAGE;
+  private websiteNode(): Record<string, unknown> {
+    return {
+      '@type': 'WebSite',
+      '@id': `${BASE_URL}/#website`,
+      url: `${BASE_URL}/`,
+      name: 'Explore Malta',
+      author: { '@id': `${BASE_URL}/#person` },
+    };
+  }
 
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: desc });
-    this.metaService.updateTag({ name: 'keywords', content: `${provider.name}, Malta ${provider.category}, Malta deals, Explore Malta` });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: desc });
-    this.metaService.updateTag({ property: 'og:url', content: url });
-    this.metaService.updateTag({ property: 'og:image', content: image });
-    this.metaService.updateTag({ property: 'og:image:alt', content: `${provider.name} - Malta` });
-    this.metaService.updateTag({ name: 'twitter:title', content: title });
-    this.metaService.updateTag({ name: 'twitter:description', content: desc });
-    this.metaService.updateTag({ name: 'twitter:image', content: image });
-    this.metaService.updateTag({ name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large' });
-    this.updateCanonical(url);
+  private personNode(): Record<string, unknown> {
+    return {
+      '@type': 'Person',
+      '@id': `${BASE_URL}/#person`,
+      name: 'John Montaño',
+      jobTitle: 'Explorer & Content Creator',
+      url: `${BASE_URL}/`,
+      sameAs: ['https://www.instagram.com/johnfabiomb/'],
+    };
   }
 
   private categoryLabel(category: string): string {
@@ -362,7 +235,6 @@ export class SeoService {
   }
 
   private truncate(text: string, maxLength: number): string {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength - 3) + '...';
+    return text.length <= maxLength ? text : `${text.substring(0, maxLength - 3)}...`;
   }
 }

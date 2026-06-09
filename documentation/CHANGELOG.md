@@ -16,6 +16,8 @@ All notable changes to Venture Map are recorded here.
 - `UserDataService.phone` signal — loaded from DB on login, kept in sync after profile update
 
 ### Fixed
+- **SEO / canonical URLs** — all canonical tags and sitemap `<loc>` entries now use trailing slashes to match GitHub Pages' server-level `/path` → `/path/` redirect; eliminates "Page with redirect" in Google Search Console for all prerendered routes
+- **SEO service refactor** — extracted all page/default/trend config data into `seo.config.ts`; `seo.service.ts` is now pure logic with a single private `apply()` method; eliminates ~200 lines of duplicated `updateTag()` calls
 - **Panel shell** — scrolling up through panel content no longer hijacks into a panel drag once `scrollTop` reaches 0; drag is only intercepted if the touch started with the content already at the top
 - **Group members modal** — confirm popup now renders at `document.body` level when `fixed=true`, escaping the modal's stacking context so it overlays correctly instead of appearing trapped inside the card
 - **Group members modal** — bulk-select checkboxes now guard by `group.leaderId` instead of `m.role === 'leader'` so the leader row is never selectable regardless of the role field value; `bulkRemoveMembers` also filters out the current user's UID as a safety net
