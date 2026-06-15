@@ -10,6 +10,8 @@ import { AppModalComponent } from '@map/ui/modal/app-modal.component';
 import { UserProfileCardComponent } from '@map/layout/user-profile-card/user-profile-card.component';
 import { LevelsModalComponent } from '@map/layout/levels-modal/levels-modal.component';
 import { EditProfileModalComponent } from '@map/ui/edit-profile-modal/edit-profile-modal.component';
+import { Location } from '@map/core/models';
+import { locations } from '@assets/locations.json';
 import { AuthService } from '@map/core/services/auth.service';
 import { UserDataService } from '@map/core/services/user-data.service';
 import { ProfileModalService } from '@map/core/services/profile-modal.service';
@@ -132,9 +134,42 @@ export class MapRootComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.handleLegacyHashUrls();
       this.handleRedirectParam();
+      this.handleLegacyLocationParams();
       this.handleAuthRedirect();
       this.captureReferralCode();
     }
+  }
+
+  // Old shared links use ?locationId=X or ?title=X (e.g. on the root "/"). We handle
+  // them HERE — at app boot, reading the raw window.location.search — instead of waiting
+  // for MapExploreComponent, because in-app browsers (Instagram/Facebook) drop the query
+  // string on the internal "/" → "/malta" router redirect, so by the time MapExplore
+  // runs the param is already gone. Reading the raw URL once at startup is immune to that.
+  private handleLegacyLocationParams(): void {
+    const params = new URLSearchParams(window.location.search);
+    const locId = params.get('locationId');
+    const title = params.get('title');
+    if (!locId && !title) return;
+
+    const all = locations as Location[];
+    let loc: Location | undefined;
+    if (locId) {
+      loc = all.find(l => l.id === parseInt(locId, 10));
+    }
+    if (!loc && title) {
+      // Normalise both sides (lowercase, any spaces/hyphens → single hyphen) so
+      // "Blue Lagoon", "Blue-Lagoon", "blue%20lagoon" and "Blue+Lagoon" all match.
+      const norm = (s: string) => s.toLowerCase().trim().replace(/[\s-]+/g, '-');
+      const target = norm(title);
+      loc = all.find(l => norm(l.title) === target);
+    }
+    if (!loc) return;
+
+    const backTo = params.get('backTo');
+    this.router.navigate(['/malta/locations', loc.slug], {
+      replaceUrl: true,
+      queryParams: backTo ? { backTo } : {},
+    });
   }
 
   private captureReferralCode(): void {
