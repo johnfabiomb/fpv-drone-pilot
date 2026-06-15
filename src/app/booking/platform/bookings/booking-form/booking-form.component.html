@@ -120,6 +120,20 @@
         <input [(ngModel)]="title" name="title" placeholder="e.g. Wedding shoot — Sliema" required />
       </div>
 
+      <!-- Work description — shown to the client on the payment page + invoice -->
+      <div class="field">
+        <label>Description <span class="req">*</span></label>
+        <textarea [(ngModel)]="description" name="description" rows="2" required
+          [placeholder]="isCustom ? 'Describe the work (required for a custom job)' : 'What the client is paying for'"></textarea>
+        @if (isCustom) {
+          <span class="hint">Required — describe the work; the client sees this when they pay.</span>
+        } @else if (autoDescription && description !== autoDescription) {
+          <button type="button" class="hint hint--link" (click)="resetDescription()">Reset to “{{ autoDescription }}”</button>
+        } @else {
+          <span class="hint">Auto-filled from the service — edit it if needed. The client sees this when they pay.</span>
+        }
+      </div>
+
       <!-- Price -->
       <div class="row2">
         <div class="field">
@@ -157,6 +171,29 @@
           }
         </span>
       </div>
+
+      <!-- Deposit (only relevant when the client can pay by card) -->
+      @if (paymentMode !== 'later') {
+        <div class="row2">
+          <div class="field">
+            <label>Deposit</label>
+            <select [(ngModel)]="depositMode" name="depositMode">
+              <option value="deposit">Allow a deposit</option>
+              <option value="full">Require full payment</option>
+            </select>
+            <span class="hint">Prefilled from your default — change it for this booking if needed.</span>
+          </div>
+          @if (depositMode === 'deposit') {
+            <div class="field">
+              <label>Deposit %</label>
+              <input type="number" [(ngModel)]="depositPercent" name="depositPercent" min="1" max="100" step="1" />
+              @if (priceTotal != null && priceTotal > 0) {
+                <span class="hint">Client pays {{ (priceTotal * depositPercent / 100) | currency:'EUR':'symbol':'1.0-2' }} now, {{ (priceTotal * (100 - depositPercent) / 100) | currency:'EUR':'symbol':'1.0-2' }} later.</span>
+              }
+            </div>
+          }
+        </div>
+      }
 
       <!-- Notes -->
       <div class="field">

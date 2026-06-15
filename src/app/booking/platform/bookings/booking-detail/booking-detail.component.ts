@@ -23,7 +23,7 @@ export class BookingDetailComponent implements OnInit {
   private readonly toast = inject(ToastService);
   readonly data = inject(BookingDataService);
 
-  private id = '';
+  id = '';  // booking id (used by the template for the Invoice link)
   readonly payments = signal<Payment[]>([]);
   readonly copied = signal(false);
   readonly adding = signal(false);

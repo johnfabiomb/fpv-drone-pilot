@@ -1,6 +1,6 @@
-import Stripe from 'https://esm.sh/stripe@17?target=deno';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { deleteCalendarEvent } from '../_shared/google-calendar.ts';
+import { platformStripe, resolveOrgStripe } from '../_shared/stripe.ts';
 
 // Admin cancels a booking: optionally refunds its completed card payments via
 // Stripe, removes the Google Calendar event, and sets status 'cancelled'.
@@ -41,11 +41,19 @@ Deno.serve(async (req) => {
       const { data: pays } = await service.from('payments')
         .select('id, amount, stripe_payment_intent_id')
         .eq('booking_id', bookingId).eq('status', 'completed').eq('method', 'card');
-      const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
+      const stripe = platformStripe();
+      // Direct charges live on the connected account, so refunds must target it too.
+      // Options must be undefined (never `{}`) for the platform account, or the SDK
+      // rejects it with "Unknown arguments".
+      const orgStripe = await resolveOrgStripe(service, booking.org_id);
+      const reqOpts = orgStripe.accountId ? { stripeAccount: orgStripe.accountId } : undefined;
       for (const p of (pays ?? []) as Array<{ id: string; amount: number; stripe_payment_intent_id: string | null }>) {
         if (!p.stripe_payment_intent_id) continue;
         try {
-          await stripe.refunds.create({ payment_intent: p.stripe_payment_intent_id });
+          await stripe.refunds.create(
+            { payment_intent: p.stripe_payment_intent_id },
+            ...(reqOpts ? [reqOpts] : []),
+          );
           await service.from('payments').update({ status: 'refunded' }).eq('id', p.id);
           refunded += Number(p.amount);
         } catch (e) {

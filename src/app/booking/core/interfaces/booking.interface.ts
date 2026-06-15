@@ -43,6 +43,7 @@ export interface EditableBooking {
   service_id: string | null;
   client_id: string | null;
   title: string;
+  description: string | null;   // client-facing work description (shown on the pay page + invoice)
   start_at: string;
   end_at: string;
   price_total: number;
@@ -51,6 +52,8 @@ export interface EditableBooking {
   status: BookingStatus;
   allow_card: boolean;
   allow_inperson: boolean;
+  deposit_percent: number | null;   // per-booking override; null = inherit org default
+  deposit_allowed: boolean | null;  // per-booking override; null = inherit org default
 }
 
 export interface Client {

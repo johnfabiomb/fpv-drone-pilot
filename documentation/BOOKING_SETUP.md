@@ -73,6 +73,41 @@ Stripe must notify the app when a payment succeeds, or paid bookings won't confi
   **test card** (`4242 4242 4242 4242`, any future expiry/CVC).
 - With **live** keys, any payment is real money — book the smallest deposit and refund it in Stripe.
 
+### 4f. Stripe Connect — per-org payouts (so each org is paid into its own account)
+Each organization connects **its own** Standard Stripe account in **Settings → Payments → Connect Stripe**;
+charges become **direct charges** on that account (optional platform fee). Until an org connects, it
+charges on the platform account (fallback). To enable Connect:
+
+1. **Enable Connect on the platform account:** Stripe Dashboard → **Connect → Get started** (choose
+   platform/marketplace; you'll onboard **Standard** accounts). Set your platform name/branding.
+2. **Webhook must receive connected-account events:** the existing endpoint
+   (`…/functions/v1/stripe-webhook`) must listen to `payment_intent.succeeded` **on connected accounts**
+   too (Webhook settings → "Listen to events on Connected accounts", or add a Connect endpoint with the
+   same signing secret). Direct-charge events fire on the connected account, not the platform.
+3. **Set `APP_BASE_URL`** Edge Function secret = your site origin (e.g. `https://johnfabiomb.com`).
+   It supplies the onboarding return/refresh URLs (`/bookings/settings?stripe=return|refresh`).
+4. **Deploy the functions** (see below), then in **Settings → Payments** click **Connect Stripe** and
+   complete onboarding. Status should read **Connected — charges enabled**.
+
+> The platform **secret** key never moves — it stays an Edge Function secret. The app stores only the
+> connected **account id** + onboarding flags. The `stripe_*` columns are writable only by the service
+> role (Edge Functions); org admins cannot change where payouts land. Optional platform fee:
+> `organizations.application_fee_bps` (basis points; 0 = none — leave 0 for your own org).
+
+### 4g. Deploy the Stripe Connect changes
+Apply the schema, then deploy the new/changed Edge Functions (Supabase CLI, project ref `odmwjhysvvbhxytyefhv`):
+```
+# 1. Schema (run the new Section 14 of supabase/bookings-schema.sql in the SQL editor,
+#    or apply the whole file). It is idempotent.
+# 2. Functions:
+supabase functions deploy connect-stripe-start
+supabase functions deploy connect-stripe-status
+supabase functions deploy start-card-booking
+supabase functions deploy create-payment-intent
+supabase functions deploy cancel-booking
+# (stripe-webhook needs no code change — just the dashboard "connected accounts" setting in 4f.2)
+```
+
 ---
 
 ## 5. Google Calendar (availability + auto-events)

@@ -1,0 +1,55 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Organizations</h1>
+      <p class="page__sub">The organizations you manage. Click one to switch into it.</p>
+    </div>
+    @if (auth.isPlatformAdmin()) {
+      <button class="btn btn--primary" (click)="showCreate.set(!showCreate())">{{ showCreate() ? 'Cancel' : '+ New organization' }}</button>
+    }
+  </div>
+
+  @if (showCreate()) {
+    <div class="card">
+      <h2 class="card__h">Create organization</h2>
+      <p class="hint">You become its owner. Set it up (services, staff, company details) from Settings once you're switched into it.</p>
+      <div class="grid">
+        <label class="field"><span>Name</span><input [(ngModel)]="name" placeholder="Acme Studio" /></label>
+        <label class="field"><span>Slug</span><input [(ngModel)]="slug" placeholder="acme" /></label>
+        <label class="field"><span>Timezone</span>
+          <select [(ngModel)]="timezone">@for (tz of timezones; track tz) { <option [value]="tz">{{ tz }}</option> }</select>
+        </label>
+        <label class="field"><span>Currency</span>
+          <select [(ngModel)]="currency">@for (c of currencies; track c) { <option [value]="c">{{ c }}</option> }</select>
+        </label>
+      </div>
+      <p class="hint">Public booking page: <strong>{{ origin }}/{{ slug || 'slug' }}/book</strong> &nbsp;·&nbsp; lowercase letters, numbers and hyphens only.</p>
+      <div class="actions">
+        <button class="btn btn--primary" [disabled]="!canCreate" (click)="create()">{{ creating() ? 'Creating…' : 'Create organization' }}</button>
+      </div>
+    </div>
+  }
+
+  <div class="table">
+    <div class="row row--head">
+      <span>Organization</span><span>Your role</span><span>Public page</span><span></span>
+    </div>
+    @for (o of auth.orgs(); track o.id) {
+      <div class="row" [class.row--active]="o.id === auth.orgId()">
+        <span class="org">
+          <span class="org__name">{{ o.name }}</span>
+          @if (o.id === auth.orgId()) { <span class="badge badge--active">Active</span> }
+        </span>
+        <span class="role">{{ o.role }}</span>
+        <span class="link">
+          @if (o.slug) { <a [href]="'/' + o.slug + '/book'" target="_blank" rel="noopener">/{{ o.slug }}/book</a> }
+        </span>
+        <span class="action">
+          @if (o.id !== auth.orgId()) {
+            <button class="link-btn" (click)="switchTo(o.id)">Switch</button>
+          }
+        </span>
+      </div>
+    }
+  </div>
+</div>

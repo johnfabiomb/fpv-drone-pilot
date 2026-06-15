@@ -1,7 +1,6 @@
-import { Component, OnInit, inject, effect } from '@angular/core';
+import { Component, OnInit, computed, inject, effect } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
-import { WorkingHoursService } from '@booking/core/services/working-hours.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastHostComponent } from '@booking/ui/toast/toast-host.component';
 
@@ -16,8 +15,11 @@ import { ToastHostComponent } from '@booking/ui/toast/toast-host.component';
 export class PlatformShellComponent implements OnInit {
   readonly auth = inject(BookingsAuthService);
   readonly data = inject(BookingDataService);
-  private readonly workingHours = inject(WorkingHoursService);
   private readonly router = inject(Router);
+
+  /** The currently-active org (shown as the sidebar link to /organizations). */
+  readonly activeOrg = computed(() =>
+    this.auth.orgs().find(o => o.id === this.auth.orgId()) ?? null);
 
   constructor() {
     // Redirect to login when auth resolves to a non-admin state.
@@ -34,7 +36,7 @@ export class PlatformShellComponent implements OnInit {
     // any DB query runs — prevents the token-refresh race that hangs queries.
     this.auth.initialize().then(() => {
       if (this.auth.state() === 'admin') {
-        Promise.all([this.data.load(), this.workingHours.load()]);
+        this.data.load();
       }
     });
   }

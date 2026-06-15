@@ -16,6 +16,18 @@
       </div>
     </div>
 
+    @if (activeOrg(); as org) {
+      <a class="org-link" routerLink="/bookings/organizations" routerLinkActive="org-link--active" title="Switch or manage organizations">
+        <span class="org-link__text">
+          <span class="org-link__name">{{ org.name }}</span>
+          @if (org.slug) { <span class="org-link__slug">/{{ org.slug }}</span> }
+        </span>
+        <svg class="org-link__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M7 8l3 3 3-3"/>
+        </svg>
+      </a>
+    }
+
     <nav class="nav">
       <a class="nav__item" routerLink="/bookings/dashboard" routerLinkActive="nav__item--active">
         <svg class="nav__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -44,6 +56,13 @@
           <span>Work</span>
         </a>
       }
+
+      <a class="nav__item" routerLink="/bookings/invoices" routerLinkActive="nav__item--active">
+        <svg class="nav__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M5 2h7l3 3v13H5z"/><path d="M8 8h4M8 11h4M8 14h2"/>
+        </svg>
+        <span>Invoices</span>
+      </a>
 
       <a class="nav__item" routerLink="/bookings/clients" routerLinkActive="nav__item--active">
         <svg class="nav__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">

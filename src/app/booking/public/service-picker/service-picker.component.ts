@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookingOrgService } from '@booking/core/services/booking-org.service';
 import { OrgService, servicePrice } from '@booking/core/interfaces/org.interface';
 import { currencySymbol as toSymbol } from '@booking/core/utils/currency.util';
@@ -13,6 +13,10 @@ import { currencySymbol as toSymbol } from '@booking/core/utils/currency.util';
 export class ServicePickerComponent implements OnInit {
   private readonly bookingOrg = inject(BookingOrgService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
+  /** Org slug from the route (`/:org/book`); empty = the default/primary org. */
+  private orgSlug = '';
 
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
@@ -25,7 +29,8 @@ export class ServicePickerComponent implements OnInit {
   readonly currencySymbol = computed(() => toSymbol(this.org()?.currency));
 
   async ngOnInit(): Promise<void> {
-    const data = await this.bookingOrg.load();
+    this.orgSlug = this.route.snapshot.paramMap.get('org') ?? '';
+    const data = await this.bookingOrg.load(this.orgSlug || undefined);
     if (!data) this.error.set('Could not load services. Please try again.');
     this.loading.set(false);
   }
@@ -43,6 +48,7 @@ export class ServicePickerComponent implements OnInit {
   back(): void { this.pickingWorkersFor.set(null); }
 
   private go(serviceId: string, staffId: string): void {
-    this.router.navigate(['/book/calendar'], { queryParams: { service: serviceId, staff: staffId } });
+    const cmds = this.orgSlug ? ['/', this.orgSlug, 'book', 'calendar'] : ['/book/calendar'];
+    this.router.navigate(cmds, { queryParams: { service: serviceId, staff: staffId } });
   }
 }

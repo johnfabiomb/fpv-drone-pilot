@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
 
     const { data: link } = await supabase
       .from('booking_links')
-      .select('is_active, expires_at, bookings(id, start_at, end_at, google_event_id, price_total, payments(amount, status))')
+      .select('is_active, expires_at, bookings(id, org_id, start_at, end_at, google_event_id, price_total, payments(amount, status))')
       .eq('token', token)
       .single();
 
@@ -66,6 +66,7 @@ Deno.serve(async (req) => {
 
     const booking = link.bookings as {
       id: string;
+      org_id: string;
       start_at: string;
       end_at: string;
       google_event_id: string | null;
@@ -87,11 +88,11 @@ Deno.serve(async (req) => {
       paymentStatus = 'unpaid';
     }
 
-    const available = await checkSlotAvailability(
-      booking.start_at,
-      booking.end_at,
-      booking.google_event_id ?? undefined,
-    );
+    // Only the calendar-owning org does a live Google check; others rely on the DB.
+    const calendarOrg = Deno.env.get('CALENDAR_ORG_ID');
+    const available = (calendarOrg && booking.org_id !== calendarOrg)
+      ? true
+      : await checkSlotAvailability(booking.start_at, booking.end_at, booking.google_event_id ?? undefined);
 
     return new Response(
       JSON.stringify({ available, paymentStatus, totalPaid, priceTotal }),

@@ -64,9 +64,11 @@
         <button class="btn btn--primary" [disabled]="!canSubmit() || submitting()" (click)="startCard('full')">
           Pay in full · {{ currencySymbol() }}{{ price() }}
         </button>
-        <button class="btn btn--outline" [disabled]="!canSubmit() || submitting()" (click)="startCard('deposit')">
-          Pay 30% deposit · {{ currencySymbol() }}{{ deposit() }}
-        </button>
+        @if (depositAllowed()) {
+          <button class="btn btn--outline" [disabled]="!canSubmit() || submitting()" (click)="startCard('deposit')">
+            Pay {{ depositPct() }}% deposit · {{ currencySymbol() }}{{ deposit() }}
+          </button>
+        }
         <div class="divider"><span>or</span></div>
         <button class="btn btn--ghost" [disabled]="!canSubmit() || submitting()" (click)="submitCashRequest()">
           {{ submitting() ? 'Sending…' : 'Request & pay cash on the day' }}

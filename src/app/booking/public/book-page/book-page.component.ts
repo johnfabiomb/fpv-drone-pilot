@@ -7,6 +7,8 @@ import { BookingInvoiceComponent, type InvoiceData } from '@booking/ui/booking-i
 type PageState = 'loading' | 'invalid' | 'unavailable' | 'paid' | 'partial' | 'ready' | 'paying' | 'requested' | 'confirmed' | 'error';
 type PaymentType = 'deposit' | 'full' | 'remainder';
 
+const STRIPE_PK = 'pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB';
+
 interface BookingDetails {
   title: string;
   description: string | null;
@@ -18,6 +20,8 @@ interface BookingDetails {
   booking_ref: string;
   allow_card: boolean;
   allow_inperson: boolean;
+  deposit_percent: number | null;
+  deposit_allowed: boolean | null;
 }
 
 @Component({
@@ -38,6 +42,8 @@ export class BookPageComponent implements OnInit {
   errorMessage = signal<string>('');
   totalPaid = signal<number>(0);
   confirming = signal<boolean>(false);
+  cardLoading = signal<boolean>(false);   // creating intent + Stripe form rendering
+  processing = signal<boolean>(false);    // final "Pay now" confirm in flight
 
   private token = '';
   private stripe: any = null;
@@ -57,8 +63,17 @@ export class BookPageComponent implements OnInit {
     return !!b && b.allow_inperson && !b.allow_card;
   }
 
+  /** Effective deposit % for this booking (legacy rows with no value fall back to 30). */
+  get depositPercent(): number { return this.booking()?.deposit_percent ?? 30; }
+
+  /** Whether a deposit may be offered (per-booking; legacy rows default to allowed). */
+  get depositAllowed(): boolean { return this.booking()?.deposit_allowed ?? true; }
+
+  /** Show the deposit option only when card is on, a deposit is allowed, and the date is future. */
+  get showDeposit(): boolean { return this.showCard && this.depositAllowed && !this.isPast; }
+
   get depositAmount(): number {
-    return Math.round((this.booking()?.price_total ?? 0) * 0.30 * 100) / 100;
+    return Math.round((this.booking()?.price_total ?? 0) * this.depositPercent) / 100;
   }
 
   get remainingAmount(): number {
@@ -98,7 +113,7 @@ export class BookPageComponent implements OnInit {
     try {
       const { data: link, error } = await supabase
         .from('booking_links')
-        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson)')
+        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed)')
         .eq('token', this.token)
         .single();
 
@@ -136,13 +151,19 @@ export class BookPageComponent implements OnInit {
     });
   }
 
-  private initStripe(): void {
-    this.stripe = (window as any).Stripe('pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB');
+  // For a direct charge on the org's connected account, Stripe.js must be initialized
+  // with { stripeAccount } (known only after the intent is created). The platform
+  // fallback (no connected account) uses the plain instance.
+  private initStripe(stripeAccount?: string | null): void {
+    this.stripe = stripeAccount
+      ? (window as any).Stripe(STRIPE_PK, { stripeAccount })
+      : (window as any).Stripe(STRIPE_PK);
   }
 
   async selectPayment(type: PaymentType): Promise<void> {
     this.selectedType.set(type);
     this.state.set('paying');
+    this.cardLoading.set(true);   // show a spinner until the secure form is ready
     this.errorMessage.set('');
 
     try {
@@ -150,22 +171,29 @@ export class BookPageComponent implements OnInit {
         body: { token: this.token, paymentType: type },
       });
       if (error) throw error;
-      const { clientSecret } = data;
+      const { clientSecret, stripeAccount } = data;
+
+      // Re-init Stripe.js bound to the org's connected account for this direct charge.
+      if (stripeAccount) this.initStripe(stripeAccount);
 
       this.elements = this.stripe.elements({ clientSecret, appearance: { theme: 'stripe' } });
       this.paymentElement = this.elements.create('payment');
+      // Hide the spinner only once Stripe's form has actually rendered.
+      this.paymentElement.on('ready', () => this.cardLoading.set(false));
 
       setTimeout(() => {
         this.paymentElement.mount('#payment-element');
       }, 50);
     } catch (err: any) {
       this.errorMessage.set(err.message ?? 'Something went wrong.');
+      this.cardLoading.set(false);
       this.state.set('ready');
     }
   }
 
   async submitPayment(): Promise<void> {
-    if (!this.stripe || !this.elements) return;
+    if (!this.stripe || !this.elements || this.processing()) return;
+    this.processing.set(true);
     this.errorMessage.set('');
 
     const b = this.booking()!;
@@ -189,8 +217,11 @@ export class BookPageComponent implements OnInit {
     });
 
     if (error) {
+      // Stayed on the page (declined / validation / 3-D Secure cancelled) — let them retry.
       this.errorMessage.set(error.message ?? 'Payment failed.');
+      this.processing.set(false);
     }
+    // On success Stripe redirects to return_url, so we leave `processing` on (page unloads).
   }
 
   /** Client chooses to settle in person (cash / Revolut / bank). If pay-later is the only

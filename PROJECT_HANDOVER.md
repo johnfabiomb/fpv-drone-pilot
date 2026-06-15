@@ -101,6 +101,7 @@ documented step-by-step in **`documentation/BOOKING_SETUP.md`**.
 | `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` | Google Cloud Console → APIs & Services → **Credentials**; Supabase Edge Function Secrets |
 | `GOOGLE_OAUTH_REFRESH_TOKEN` | Minted via OAuth Playground (see `BOOKING_SETUP.md`); Supabase Edge Function Secrets. Keep the OAuth app **published** or it expires in 7 days |
 | `GOOGLE_CALENDAR_ID` | Google Calendar → calendar settings; Supabase Edge Function Secrets |
+| `APP_BASE_URL` | *Not secret* — the site origin (e.g. `https://johnfabiomb.com`); Supabase Edge Function Secrets. Used for Stripe Connect onboarding return/refresh URLs |
 | Stripe **publishable** key (`pk_live_…`) | *Not secret* — already in the app source (`book-page.component.ts`). Safe to expose by design |
 
 ---
@@ -189,6 +190,14 @@ Slot-blocking ones: `hold, booked, in_progress, done`. `pending` (cash request) 
 (15-min card checkout) are temporary. Production pipeline (`bookings.production_status`):
 `to_edit → editing → to_deliver → delivered`.
 
+### Deposit policy (org default + per-booking override)
+
+Two layers: the **org default** lives in `organizations.booking_params` (`deposit_percent` = how big, `deposit_allowed` = may a deposit be paid at all, or full only), and a **per-booking override** lives on `bookings.deposit_percent` / `bookings.deposit_allowed` (nullable; NULL ⇒ inherit, legacy rows fall back to 30%/allowed). The New/Edit form prefills from the org default and saves the chosen value **explicitly** on the booking, so changing the org default never alters an existing link. `create-payment-intent` (link) and `start-card-booking` (self-serve) compute the deposit from this and **reject a deposit when it isn't allowed**; `book-page` + the self-serve checkout show the right % or hide the deposit option. (Applied live + deployed 2026-06-15.)
+
+### Invoicing
+
+Org invoicing identity lives in `organizations.invoice_details` (JSONB: legal_name, address, phone, email, vat_number, vat_registered, vat_rate, invoice_prefix, invoice_footer), edited in **Settings → Company & Invoicing** (the Settings page is tabbed). The printable invoice is a standalone route **`/book/invoice/:id`** (A4 + print-to-PDF). Its data comes ONLY from the **`get_invoice(booking)` SECURITY DEFINER RPC**, which authorizes **org admin OR the booking's own client** and returns invoice-safe fields only — the leak-proof boundary (a client can't read `organizations` via RLS, and must not see `price_revenue`/other rows). **Invoice number = booking_ref with the prefix swapped** (`BK-2026-007` → `INV-2026-007`). VAT: registered → net/VAT/gross from a VAT-inclusive total; not registered → "Article 11" note. `price_expenses` is a **client-facing** billing line ("Travel & expenses"), not a hidden cost — safe to show. Clients self-edit billing details on `/book/mine` (`ClientPortalService.upsertProfile`). **Editable invoices:** invoices are derived live from the booking by default; editing one (admin → booking detail → **Edit invoice**, route `/bookings/invoice-edit/:id`) persists line items / notes / issue date to the **`invoices`** table (1:1 with the booking, admin-RLS) **without touching the booking/calendar/work board**. `get_invoice` returns the override if present, else derived items. "Reset to booking" deletes the override. **Invoices module** (sidebar) lists confirmed bookings as invoices with a year filter + CSV export. Invoice numbers are per-org (`{prefix}-{year}-{seq}` from the booking ref) — legally only need to be unique per org; the row UUID is the global key. Access control: `/bookings/*` stays behind `adminGuard` (org owner/admin); the invoice route relies on the RPC, not a guard.
+
 ### Payments & deposits (no special "deposit" table)
 
 A **deposit is just a `payments` row** whose sum doesn't yet cover `price_total`:
@@ -270,7 +279,19 @@ into each function that imports it, so redeploy a function after changing shared
 | `check-availability` | public | for `/book/:token`: payment status + live Google free/busy check |
 | `check-integrations` | jwt | Settings page: verify Stripe + Google creds actually work |
 | `sync-calendar` | jwt | "Sync Calendar" button: push unsynced bookings / pull external events |
+| `connect-stripe-start` | jwt | Org admin starts/resumes **Stripe Connect** (Standard) onboarding for their org → mints the connected account (once), stores `stripe_account_id`, returns the hosted onboarding URL |
+| `connect-stripe-status` | jwt | Org admin reads Connect status; re-checks Stripe + caches `stripe_charges_enabled`/`stripe_details_submitted` on the org |
 | `create-booking` | (legacy) | OLD single-tenant manual create — **fully unused now**, has a hardcoded owner email. Safe to delete |
+
+### Stripe Connect (per-org payouts) — how charges are routed
+
+Each org connects its **own Standard** Stripe account in **Settings → Payments**. Charges are then created as **direct charges on that connected account** (`{ stripeAccount }`) with an optional platform fee (`organizations.application_fee_bps`, basis points). The decision is centralized in **`supabase/functions/_shared/stripe.ts`** (`resolveOrgStripe(orgId)` + `chargeRouting(org, amountCents)`) — used by `start-card-booking`, `create-payment-intent`, and `cancel-booking` (refunds must target the connected account too). The public checkout + `/book/:token` page init **Stripe.js with `{ stripeAccount }`** (the account id is returned in the intent response).
+
+- **Fallback:** `organizations.stripe_account_id IS NULL` ⇒ charge on the **platform account** directly (the original single-account behaviour). The seed org keeps working; Connect is purely additive.
+- **Guard:** an org with a connected account that hasn't finished onboarding (`stripe_charges_enabled = false`) is **rejected** before charging — never silently billed on the platform account.
+- **The platform secret key never leaves the Edge Function env** — the DB only stores the connected *account id* + onboarding flags; the frontend only ever sees the publishable key + the connected account id.
+- **SECURITY (critical):** the `stripe_account_id` / `stripe_charges_enabled` / `stripe_details_submitted` / `application_fee_bps` columns are writable **only by `service_role`** (the Edge Functions). `authenticated` (org admins) has column-level UPDATE on `name, timezone, currency, booking_params, features` only — so a compromised admin JWT can't redirect payouts or bypass onboarding. See `bookings-schema.sql` §14a.
+- **Dashboard prerequisite:** Stripe **Connect must be enabled** on the platform account, and the `stripe-webhook` endpoint must be set to **also receive connected-account events** (`payment_intent.succeeded`) — direct-charge events fire on the connected account. New Edge Function secret **`APP_BASE_URL`** (the site origin, e.g. `https://johnfabiomb.com`) supplies the onboarding return/refresh URLs.
 
 ### Calendar events — one centralized path
 
@@ -319,7 +340,7 @@ toasts; per-link payment options. Build is green (81 prerendered routes for the 
 
 **Deferred (not blocking):**
 - Transactional emails (spec'd in `documentation/BOOKING_EMAILS.md`, not built — highest-impact gap).
-- Stripe **Connect** for true per-org payments (currently one Stripe account). `organizations.stripe_account_id` column exists for it.
+- Stripe **Connect** (per-org payouts) — **code built; schema §14 + Edge Functions + `APP_BASE_URL` secret all DEPLOYED to the live project** (2026-06-15). Done: stripe columns added & org UPDATE locked to safe columns (verified live); 5 functions deployed via Supabase CLI preserving `verify_jwt` (`create-payment-intent` stays public; `connect-stripe-*`/`start-card-booking`/`cancel-booking` gated); `APP_BASE_URL=https://johnfabiomb.com` set. **Remaining (manual, can't be scripted):** (1) **deploy the FRONTEND** — the Settings "Connect Stripe" card + Stripe.js `{stripeAccount}` changes are in source but NOT built/pushed to GitHub Pages (`docs/`); (2) Stripe Dashboard → **Connect → Get started**; (3) set the `stripe-webhook` endpoint to also receive **connected-account** `payment_intent.succeeded`; (4) Settings → Payments → **Connect Stripe** → finish onboarding. Until an org connects, it charges on the platform account (fallback). Per-org **publishable** key + Stripe Connect application-fee tuning are still single-platform.
 - Per-worker Google Calendars (currently one shared owner calendar).
 - Org sign-up / slug-based public routing `/{org-slug}/book` / staff (non-admin) login.
 - `MyCalendar` / `working-hours-editor` components are orphaned (compile, unused) — can be removed.

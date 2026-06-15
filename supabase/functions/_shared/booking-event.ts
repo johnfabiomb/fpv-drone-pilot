@@ -77,11 +77,17 @@ function composeDescription(b: BookingRow): string {
  */
 export async function ensureBookingEvent(service: SupabaseClient, bookingId: string): Promise<string | null> {
   const { data } = await service.from('bookings')
-    .select('id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method)')
+    .select('id, org_id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method)')
     .eq('id', bookingId)
     .single();
   if (!data) return null;
-  const b = data as BookingRow;
+  const b = data as BookingRow & { org_id: string };
+
+  // Multi-tenant: there is ONE shared Google Calendar (the platform owner's). Only that
+  // org pushes events to it; other orgs run DB-only (availability is DB-driven and the
+  // no-overlap constraint still prevents double-booking). Per-org calendars are future.
+  const calendarOrg = Deno.env.get('CALENDAR_ORG_ID');
+  if (calendarOrg && b.org_id !== calendarOrg) return null;
 
   // Only confirmed bookings live on the calendar. (Cancellation handles deletion.)
   if (!BLOCKING_STATUSES.includes(b.status)) return b.google_event_id ?? null;

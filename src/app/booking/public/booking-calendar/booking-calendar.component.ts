@@ -23,6 +23,7 @@ export class BookingCalendarComponent implements OnInit {
 
   private serviceId = '';
   private staffId = '';
+  private orgSlug = '';
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -83,11 +84,17 @@ export class BookingCalendarComponent implements OnInit {
 
   ngOnInit(): void {
     const qp = this.route.snapshot.queryParamMap;
+    this.orgSlug = this.route.snapshot.paramMap.get('org') ?? '';
     this.serviceId = qp.get('service') ?? '';
     this.staffId = qp.get('staff') ?? '';
-    if (!this.serviceId || !this.staffId) { this.router.navigate(['/book']); return; }
-    this.bookingOrg.load();
+    if (!this.serviceId || !this.staffId) { this.router.navigate(this.bookPath()); return; }
+    this.bookingOrg.load(this.orgSlug || undefined);
     this.load();
+  }
+
+  /** Build a path into the booking flow, prefixed with the org slug when present. */
+  private bookPath(...rest: string[]): unknown[] {
+    return this.orgSlug ? ['/', this.orgSlug, 'book', ...rest] : ['/book', ...rest];
   }
 
   async load(): Promise<void> {
@@ -137,12 +144,12 @@ export class BookingCalendarComponent implements OnInit {
   continueToBook(): void {
     const sel = this.selection();
     if (!sel || !sel.valid) return;
-    this.router.navigate(['/book/checkout'], {
+    this.router.navigate(this.bookPath('checkout'), {
       queryParams: { service: this.serviceId, staff: this.staffId, start: sel.startIso, hours: sel.hours },
     });
   }
 
-  backToServices(): void { this.router.navigate(['/book']); }
+  backToServices(): void { this.router.navigate(this.bookPath()); }
 }
 
 function toDateStr(d: Date): string {

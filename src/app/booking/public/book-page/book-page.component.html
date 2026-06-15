@@ -17,8 +17,7 @@
   <div class="book-state book-state--error" *ngIf="state() === 'unavailable'">
     <div class="state-icon">📅</div>
     <h2>This slot is no longer available</h2>
-    <p>The date for this booking has been taken. Please contact John to reschedule.</p>
-    <a href="mailto:johnfabiomb@gmail.com" class="btn btn--primary">Contact John</a>
+    <p>The date for this booking has been taken. Please contact the business to reschedule.</p>
   </div>
 
   <!-- Error -->
@@ -71,6 +70,10 @@
           <span class="detail-label">Location</span>
           <span class="detail-value">{{ b.location }}</span>
         </div>
+        <div class="detail-row" *ngIf="b.description">
+          <span class="detail-label">Details</span>
+          <span class="detail-value">{{ b.description }}</span>
+        </div>
         <div class="detail-row">
           <span class="detail-label">Date</span>
           <span class="detail-value">{{ b.start_at | date:'d MMM yyyy, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span>
@@ -78,10 +81,6 @@
         <div class="detail-row">
           <span class="detail-label">Total</span>
           <span class="detail-value detail-value--price">{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</span>
-        </div>
-        <div class="detail-row" *ngIf="b.description">
-          <span class="detail-label">Notes</span>
-          <span class="detail-value">{{ b.description }}</span>
         </div>
       </div>
 
@@ -100,8 +99,8 @@
               <div class="pay-option__note">One payment, all done</div>
             </button>
 
-            <button class="pay-option pay-option--deposit" *ngIf="!isPast" (click)="selectPayment('deposit')">
-              <div class="pay-option__label">Pay 30% deposit</div>
+            <button class="pay-option pay-option--deposit" *ngIf="showDeposit" (click)="selectPayment('deposit')">
+              <div class="pay-option__label">Pay {{ depositPercent }}% deposit</div>
               <div class="pay-option__amount">{{ depositAmount | currency:'EUR':'symbol':'1.2-2' }}</div>
               <div class="pay-option__note">Remaining {{ b.price_total - depositAmount | currency:'EUR':'symbol':'1.2-2' }} due on the day</div>
             </button>
@@ -158,19 +157,27 @@
       <ng-container *ngIf="state() === 'paying'">
         <div class="book-divider"></div>
         <div class="pay-summary">
-          <span>{{ selectedType() === 'deposit' ? '30% Deposit' : selectedType() === 'remainder' ? 'Remaining balance' : 'Full payment' }}</span>
+          <span>{{ selectedType() === 'deposit' ? depositPercent + '% Deposit' : selectedType() === 'remainder' ? 'Remaining balance' : 'Full payment' }}</span>
           <span class="pay-summary__amount">
             {{ (selectedType() === 'deposit' ? depositAmount : selectedType() === 'remainder' ? remainingAmount : b.price_total) | currency:'EUR':'symbol':'1.2-2' }}
           </span>
         </div>
 
-        <div id="payment-element" class="payment-element-wrap"></div>
+        <div class="pay-loading" *ngIf="cardLoading()">
+          <span class="pay-spinner" aria-hidden="true"></span>
+          <span>Loading secure payment form…</span>
+        </div>
+
+        <div id="payment-element" class="payment-element-wrap" [class.is-hidden]="cardLoading()"></div>
 
         <p class="book-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
 
         <div class="pay-actions">
-          <button class="btn btn--ghost" (click)="goBack()">← Back</button>
-          <button class="btn btn--primary" (click)="submitPayment()">Pay now</button>
+          <button class="btn btn--ghost" (click)="goBack()" [disabled]="processing()">← Back</button>
+          <button class="btn btn--primary" (click)="submitPayment()" [disabled]="cardLoading() || processing()">
+            <span class="pay-spinner pay-spinner--btn" *ngIf="processing()" aria-hidden="true"></span>
+            {{ processing() ? 'Processing…' : 'Pay now' }}
+          </button>
         </div>
 
         <p class="book-secure">🔒 Secure payment via Stripe</p>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/map/core/config/supabase.config.ts"],
+  "sourcesContent": ["import { createClient, SupabaseClient } from '@supabase/supabase-js';\n\nconst SUPABASE_URL  = 'https://gaivtfmxcngjndadaelz.supabase.co';\nconst SUPABASE_KEY  = 'sb_publishable_CpVgzpC5epAz-gDY-Pmnbw_M8oh2cxC';\n\nexport const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {\n  auth: {\n    // Bypass the Web Locks API — prevents NavigatorLockAcquireTimeoutError in dev\n    // and in browsers/tabs where the lock can't be acquired immediately.\n    // This SPA is single-tab so the concurrency protection isn't needed.\n    lock: <R>(_n: string, _t: number, fn: () => Promise<R>) => fn(),\n  },\n});\n"],
+  "mappings": ";;;;;AAEA,IAAM,eAAgB;AACtB,IAAM,eAAgB;AAEf,IAAM,WAA2B,aAAa,cAAc,cAAc;EAC/E,MAAM;;;;IAIJ,MAAM,CAAI,IAAY,IAAY,OAAyB,GAAE;;CAEhE;",
+  "names": []
+}

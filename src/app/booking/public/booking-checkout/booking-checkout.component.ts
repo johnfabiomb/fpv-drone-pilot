@@ -31,15 +31,22 @@ export class BookingCheckoutComponent implements OnInit {
 
   // Context
   private orgId = '';
+  private orgSlug = '';
   private serviceId = '';
   private staffId = '';
   startIso = '';
   hours = 0;
 
+  /** Build a path into the booking flow, prefixed with the org slug when present. */
+  private bookPath(...rest: string[]): unknown[] {
+    return this.orgSlug ? ['/', this.orgSlug, 'book', ...rest] : ['/book', ...rest];
+  }
+
   readonly price = signal<number | null>(null);
   readonly timezone = signal('Europe/Malta');
   readonly currencySymbol = signal('€');
-  private depositPct = 30;
+  readonly depositPct = signal(30);
+  readonly depositAllowed = signal(true);
 
   // Sign-in
   email = '';
@@ -51,7 +58,7 @@ export class BookingCheckoutComponent implements OnInit {
   readonly bookingRef = signal<string | null>(null);
 
   // Card payment (Stripe Elements)
-  readonly deposit = computed(() => Math.round((this.price() ?? 0) * this.depositPct) / 100);
+  readonly deposit = computed(() => Math.round((this.price() ?? 0) * this.depositPct()) / 100);
   readonly cardError = signal<string | null>(null);
   cardAmount = 0;
   private stripe: any = null;
@@ -65,18 +72,20 @@ export class BookingCheckoutComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const qp = this.route.snapshot.queryParamMap;
+    this.orgSlug = this.route.snapshot.paramMap.get('org') ?? '';
     this.serviceId = qp.get('service') ?? '';
     this.staffId = qp.get('staff') ?? '';
     this.startIso = qp.get('start') ?? '';
     this.hours = Number(qp.get('hours') ?? 0);
-    if (!this.serviceId || !this.staffId || !this.startIso || !this.hours) { this.router.navigate(['/book']); return; }
+    if (!this.serviceId || !this.staffId || !this.startIso || !this.hours) { this.router.navigate(this.bookPath()); return; }
 
     await this.portal.init();
-    const orgData = await this.bookingOrg.load();
+    const orgData = await this.bookingOrg.load(this.orgSlug || undefined);
     if (!orgData) { this.errorMsg.set('Could not load the booking page.'); this.step.set('error'); return; }
     this.orgId = orgData.org.id;
     this.currencySymbol.set(toSymbol(orgData.org.currency) ??'€');
-    this.depositPct = orgData.org.booking_params.deposit_percent ?? 30;
+    this.depositPct.set(orgData.org.booking_params.deposit_percent ?? 30);
+    this.depositAllowed.set(orgData.org.booking_params.deposit_allowed ?? true);
 
     try {
       const date = new Date(this.startIso).toLocaleDateString('en-CA', { timeZone: orgData.org.timezone });
@@ -161,7 +170,7 @@ export class BookingCheckoutComponent implements OnInit {
       this.cardAmount = type === 'deposit' ? this.deposit() : (this.price() ?? 0);
       this.bookingRef.set(res.bookingRef ?? null);
 
-      await this.loadStripe();
+      await this.loadStripe(res.stripeAccount);
       this.elements = this.stripe.elements({ clientSecret: res.clientSecret, appearance: { theme: 'stripe' } });
       this.paymentElement = this.elements.create('payment');
       this.step.set('paying');
@@ -186,7 +195,9 @@ export class BookingCheckoutComponent implements OnInit {
     if (error) this.cardError.set(error.message ?? 'Payment failed.');
   }
 
-  private async loadStripe(): Promise<void> {
+  // For a direct charge on the org's connected account, Stripe.js MUST be initialized
+  // with { stripeAccount }; for the platform fallback (no connected account) it isn't.
+  private async loadStripe(stripeAccount?: string | null): Promise<void> {
     if (!(window as any).Stripe) {
       await new Promise<void>((resolve, reject) => {
         const s = document.createElement('script');
@@ -196,10 +207,14 @@ export class BookingCheckoutComponent implements OnInit {
         document.head.appendChild(s);
       });
     }
-    if (!this.stripe) this.stripe = (window as any).Stripe(STRIPE_PK);
+    if (!this.stripe) {
+      this.stripe = stripeAccount
+        ? (window as any).Stripe(STRIPE_PK, { stripeAccount })
+        : (window as any).Stripe(STRIPE_PK);
+    }
   }
 
   backToCalendar(): void {
-    this.router.navigate(['/book/calendar'], { queryParams: { service: this.serviceId, staff: this.staffId } });
+    this.router.navigate(this.bookPath('calendar'), { queryParams: { service: this.serviceId, staff: this.staffId } });
   }
 }

@@ -1,6 +1,6 @@
-import Stripe from 'https://esm.sh/stripe@17?target=deno';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { corsHeaders as _cors } from '../_shared/cors.ts';
+import { platformStripe, resolveOrgStripe, chargeRouting } from '../_shared/stripe.ts';
 const corsHeaders = { ..._cors, 'Content-Type': 'application/json' };
 
 Deno.serve(async (req) => {
@@ -20,7 +20,7 @@ Deno.serve(async (req) => {
 
     const { data: link } = await supabase
       .from('booking_links')
-      .select('is_active, expires_at, booking_id, bookings(id, org_id, booking_ref, title, start_at, price_total, allow_card)')
+      .select('is_active, expires_at, booking_id, bookings(id, org_id, booking_ref, title, start_at, price_total, allow_card, deposit_percent, deposit_allowed)')
       .eq('token', token)
       .single();
 
@@ -33,16 +33,21 @@ Deno.serve(async (req) => {
     }
 
     const booking = link.bookings as {
-      id: string; org_id: string; booking_ref: string; title: string; start_at: string; price_total: number; allow_card: boolean;
+      id: string; org_id: string; booking_ref: string; title: string; start_at: string; price_total: number;
+      allow_card: boolean; deposit_percent: number | null; deposit_allowed: boolean | null;
     };
 
     if (!booking.allow_card) {
       return new Response(JSON.stringify({ error: 'Card payment is not enabled for this booking' }), { status: 400, headers: corsHeaders });
     }
 
+    // Effective deposit policy: the per-booking value, or a safe default for legacy rows.
+    const depositPct = booking.deposit_percent ?? 30;
+    const depositAllowed = booking.deposit_allowed ?? true;
+
     const isPast = new Date(booking.start_at) <= new Date();
-    if (isPast && paymentType === 'deposit') {
-      return new Response(JSON.stringify({ error: 'Past bookings require full payment' }), { status: 400, headers: corsHeaders });
+    if (paymentType === 'deposit' && (isPast || !depositAllowed)) {
+      return new Response(JSON.stringify({ error: isPast ? 'Past bookings require full payment' : 'This booking requires full payment' }), { status: 400, headers: corsHeaders });
     }
 
     let amount: number;
@@ -58,25 +63,39 @@ Deno.serve(async (req) => {
         return new Response(JSON.stringify({ error: 'Booking is already fully paid' }), { status: 400, headers: corsHeaders });
       }
     } else {
-      const depositAmount = Math.round(booking.price_total * 0.30 * 100) / 100;
+      const depositAmount = Math.round(booking.price_total * depositPct) / 100;
       amount = paymentType === 'deposit' ? depositAmount : booking.price_total;
     }
     const amountCents = Math.round(amount * 100);
 
-    const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
+    // Route to the org's connected account (direct charge + platform fee) or fall back
+    // to the platform account. Reject if the org connected but hasn't finished onboarding.
+    const orgStripe = await resolveOrgStripe(supabase, booking.org_id);
+    if (orgStripe.accountId && !orgStripe.chargesEnabled) {
+      return new Response(JSON.stringify({ error: 'This business has not finished payment setup yet.' }), { status: 400, headers: corsHeaders });
+    }
+    const routing = chargeRouting(orgStripe, amountCents);
+    const stripe = platformStripe();
 
-    const intent = await stripe.paymentIntents.create({
+    const intentParams = {
       amount: amountCents,
       currency: 'eur',
       description: `${booking.title} [${booking.booking_ref}] — ${paymentType}`,
       metadata: {
         booking_id: booking.id,
         booking_ref: booking.booking_ref,
+        org_id: booking.org_id,
         payment_type: paymentType,
         token,
       },
       automatic_payment_methods: { enabled: true },
-    });
+      ...routing.intentParams,
+    };
+    // Pass per-request options ONLY for a connected account — never an empty `{}`,
+    // which the Stripe SDK rejects as "Unknown arguments".
+    const intent = routing.requestOptions
+      ? await stripe.paymentIntents.create(intentParams, routing.requestOptions)
+      : await stripe.paymentIntents.create(intentParams);
 
     await supabase.from('payments').insert({
       org_id: booking.org_id,
@@ -88,7 +107,8 @@ Deno.serve(async (req) => {
       stripe_payment_intent_id: intent.id,
     });
 
-    return new Response(JSON.stringify({ clientSecret: intent.client_secret }), { headers: corsHeaders });
+    // The client needs the connected account id to init Stripe.js for a direct charge.
+    return new Response(JSON.stringify({ clientSecret: intent.client_secret, stripeAccount: orgStripe.accountId }), { headers: corsHeaders });
   } catch (err) {
     return new Response(JSON.stringify({ error: (err as Error).message }), { status: 500, headers: corsHeaders });
   }

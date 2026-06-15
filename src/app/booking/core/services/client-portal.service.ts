@@ -86,14 +86,15 @@ export class ClientPortalService {
     return data as string;
   }
 
-  /** Card booking: 15-min hold + Stripe intent. Returns clientSecret or { error }. */
+  /** Card booking: 15-min hold + Stripe intent. Returns clientSecret + the org's
+   *  connected account (needed to init Stripe.js for a direct charge), or { error }. */
   async startCardBooking(staffId: string, serviceId: string, startIso: string, hours: number, paymentType: 'deposit' | 'full'):
-    Promise<{ clientSecret?: string; bookingRef?: string; error?: string }> {
+    Promise<{ clientSecret?: string; bookingRef?: string; stripeAccount?: string | null; error?: string }> {
     const { data, error } = await bookingsDb.functions.invoke('start-card-booking', {
       body: { staffId, serviceId, start: startIso, hours, paymentType },
     });
     if (error) throw error;
-    return data as { clientSecret?: string; bookingRef?: string; error?: string };
+    return data as { clientSecret?: string; bookingRef?: string; stripeAccount?: string | null; error?: string };
   }
 
   /** Cash request (status 'pending'; price server-set). */

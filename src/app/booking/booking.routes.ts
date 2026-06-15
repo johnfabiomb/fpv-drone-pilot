@@ -21,12 +21,39 @@ export const bookingRoutes: Routes = [
     loadComponent: () => import('@booking/public/my-bookings/my-bookings.component').then(m => m.MyBookingsComponent),
   },
   {
+    // Printable invoice for one booking — access enforced by the get_invoice RPC
+    // (org admin OR the booking's own client). 'invoice' precedes 'book/:token'.
+    path: 'book/invoice/:id',
+    loadComponent: () => import('@booking/public/invoice/invoice.component').then(m => m.InvoiceComponent),
+  },
+  {
     path: 'book/:token',
     loadComponent: () => import('@booking/public/book-page/book-page.component').then(m => m.BookPageComponent),
   },
   {
     path: 'pay/success',
     loadComponent: () => import('@booking/public/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent),
+  },
+
+  // ── Per-org public booking (slug-driven) ──────────────────────────
+  // `:org/book*` — the `book` second segment can't collide with the map app
+  // (no map route has `/book` as its 2nd segment). The default `/book` above
+  // stays for the primary org.
+  {
+    path: ':org/book',
+    loadComponent: () => import('@booking/public/service-picker/service-picker.component').then(m => m.ServicePickerComponent),
+  },
+  {
+    path: ':org/book/calendar',
+    loadComponent: () => import('@booking/public/booking-calendar/booking-calendar.component').then(m => m.BookingCalendarComponent),
+  },
+  {
+    path: ':org/book/checkout',
+    loadComponent: () => import('@booking/public/booking-checkout/booking-checkout.component').then(m => m.BookingCheckoutComponent),
+  },
+  {
+    path: ':org/book/mine',
+    loadComponent: () => import('@booking/public/my-bookings/my-bookings.component').then(m => m.MyBookingsComponent),
   },
 
   // ── Studio (logged-in platform) ───────────────────────────────────
@@ -59,6 +86,19 @@ export const bookingRoutes: Routes = [
           {
             path: ':id/edit',
             loadComponent: () => import('@booking/platform/bookings/booking-form/booking-form.component').then(m => m.BookingFormComponent),
+          },
+          {
+            path: 'organizations',
+            loadComponent: () => import('@booking/platform/organizations/organizations.component').then(m => m.OrganizationsComponent),
+          },
+          {
+            path: 'invoices',
+            loadComponent: () => import('@booking/platform/invoices/invoices-admin.component').then(m => m.InvoicesAdminComponent),
+          },
+          {
+            // literal segment, so it precedes the catch-all ':id' below
+            path: 'invoice-edit/:id',
+            loadComponent: () => import('@booking/platform/invoices/invoice-edit.component').then(m => m.InvoiceEditComponent),
           },
           {
             path: 'clients',

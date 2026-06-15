@@ -573,3 +573,228 @@ END $f$;
 DROP TRIGGER IF EXISTS bookings_production_after ON public.bookings;
 CREATE TRIGGER bookings_production_after AFTER INSERT OR UPDATE ON public.bookings
   FOR EACH ROW EXECUTE FUNCTION public.seed_production_tasks();
+
+
+-- ── 14. Stripe Connect (per-org payouts) ───────────────────────────────────
+-- Each org connects its OWN Standard Stripe account; charges are created
+-- directly on it (with an optional platform application fee). The platform
+-- secret key stays an Edge Function secret — it is NEVER stored here or sent to
+-- the client. We persist only the connected ACCOUNT ID + onboarding flags.
+--
+-- Fallback: stripe_account_id IS NULL  ⇒  charge on the platform account
+-- directly (the original single-account behaviour). This keeps the seed org
+-- working and makes Connect purely additive for future orgs.
+ALTER TABLE public.organizations
+  ADD COLUMN IF NOT EXISTS stripe_charges_enabled  BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS stripe_details_submitted BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS application_fee_bps      INT NOT NULL DEFAULT 0
+    CHECK (application_fee_bps BETWEEN 0 AND 10000);  -- platform fee, basis points
+
+-- ── 14a. SECURITY: org admins must NOT be able to write payout-critical fields.
+-- The org_update RLS policy lets an admin UPDATE their org row, and `authenticated`
+-- held a TABLE-level UPDATE grant — together that allowed an admin to set
+-- `stripe_account_id` (redirecting every payout to an account they control) or flip
+-- `stripe_charges_enabled` to bypass onboarding. Postgres RLS is row-level only, so
+-- we enforce column-level privileges instead: revoke the blanket UPDATE and grant it
+-- back ONLY on the safe, admin-editable columns. The stripe_* / fee columns are then
+-- writable solely by `service_role` (Edge Functions via the service key, which holds
+-- GRANT ALL above and bypasses RLS). Defence-in-depth: even a compromised admin JWT
+-- cannot touch where the money lands.
+REVOKE UPDATE ON public.organizations FROM authenticated;
+GRANT  UPDATE (name, timezone, currency, booking_params, features, invoice_details)
+  ON public.organizations TO authenticated;
+
+
+-- ── 15. Per-booking deposit override ───────────────────────────────────────
+-- Deposit policy has two layers:
+--   • Org default — `booking_params.deposit_percent` (how big) + `booking_params.deposit_allowed`
+--     (whether a deposit may be paid at all, or full payment is required). JSONB, no DDL.
+--   • Per-booking override — these columns. NULL ⇒ inherit the org default. The admin
+--     booking form prefills from the org default but may set a different value for a
+--     single booking (e.g. 50% this time). The chosen value is stored explicitly so
+--     changing the org default later never alters an existing payment link.
+-- `deposit_percent` is whole-percent (1–100); the deposit amount = price_total * pct/100.
+ALTER TABLE public.bookings
+  ADD COLUMN IF NOT EXISTS deposit_percent INT     CHECK (deposit_percent BETWEEN 1 AND 100),
+  ADD COLUMN IF NOT EXISTS deposit_allowed BOOLEAN;
+
+
+-- ── 16. Org company / invoicing identity ───────────────────────────────────
+-- Everything needed to print a Malta-valid invoice: the supplier's legal identity
+-- and VAT handling. Stored as JSONB on the org (per-org config, not a global
+-- singleton). Shape:
+--   { legal_name, address, phone, email, vat_number, vat_registered (bool),
+--     vat_rate (default 18), invoice_prefix (default 'INV'), invoice_footer }
+-- Invoice number = the booking_ref with its prefix swapped (BK-2026-007 → INV-2026-007).
+-- VAT: when vat_registered is false (Article 11 small undertaking) no VAT is charged and
+-- the invoice says so; when true, prices are treated as VAT-inclusive and the breakdown
+-- (net / VAT @ rate / gross) is shown with the supplier VAT number.
+-- NOTE: invoice_details is included in the §14a admin column-grant (admins edit it; the
+-- stripe_* columns remain service-role-only).
+ALTER TABLE public.organizations
+  ADD COLUMN IF NOT EXISTS invoice_details JSONB NOT NULL DEFAULT '{}'::jsonb;
+
+
+-- ── 17. Editable invoices ──────────────────────────────────────────────────
+-- An invoice is generated live from its booking by default; the moment the admin
+-- EDITS it (line items / notes / issue date), the edits are persisted here, keyed
+-- 1:1 to the booking. Editing an invoice NEVER touches the booking/calendar/work
+-- data — full decoupling. Absent row ⇒ the invoice is derived from the booking.
+-- `line_items` shape: [{ "description": text, "amount": number }, …].
+CREATE TABLE IF NOT EXISTS public.invoices (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  org_id      UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
+  booking_id  UUID NOT NULL REFERENCES public.bookings(id) ON DELETE CASCADE,
+  line_items  JSONB NOT NULL DEFAULT '[]'::jsonb,
+  notes       TEXT,
+  issue_date  DATE,
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  updated_at  TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (booking_id)
+);
+CREATE INDEX IF NOT EXISTS invoices_org_idx ON public.invoices(org_id);
+ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS inv_admin ON public.invoices;
+-- WITH CHECK also verifies the booking belongs to org_id, so an admin of org A
+-- can't attach an invoice override to org B's booking (cross-tenant integrity).
+CREATE POLICY inv_admin ON public.invoices FOR ALL
+  USING (public.is_org_admin(org_id))
+  WITH CHECK (public.is_org_admin(org_id)
+              AND EXISTS (SELECT 1 FROM public.bookings b WHERE b.id = booking_id AND b.org_id = org_id));
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.invoices TO authenticated;
+DROP TRIGGER IF EXISTS invoices_updated ON public.invoices;
+CREATE TRIGGER invoices_updated BEFORE UPDATE ON public.invoices
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- Assembles everything an invoice needs for ONE booking and returns it as JSON.
+-- SECURITY DEFINER (bypasses RLS) but authorizes explicitly: the caller must be an
+-- org admin of the booking's org OR the booking's own client. Returns ONLY invoice-safe
+-- fields (never price_revenue or other bookings) so a client can render their invoice —
+-- which needs the org's company details, normally behind org RLS — without leaking admin
+-- data. Line items come from the editable `invoices` row if present, else are derived
+-- from the booking. Paid/balance always reflect the booking's payments.
+CREATE OR REPLACE FUNCTION public.get_invoice(p_booking UUID)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  b   RECORD;
+  org RECORD;
+  cl  RECORD;
+  ov  RECORD;
+  items JSONB;
+  total NUMERIC;
+  paid  NUMERIC;
+  pays  JSONB;
+BEGIN
+  SELECT id, org_id, client_id, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
+    INTO b FROM bookings WHERE id = p_booking;
+  IF NOT FOUND THEN RETURN NULL; END IF;
+
+  -- Authorize: org admin OR the booking's own client. Nothing else.
+  IF NOT (public.is_org_admin(b.org_id)
+          OR (b.client_id IS NOT NULL AND b.client_id = public.current_client_id(b.org_id))) THEN
+    RAISE EXCEPTION 'forbidden' USING errcode = '42501';
+  END IF;
+
+  SELECT name, currency, invoice_details INTO org FROM organizations WHERE id = b.org_id;
+  SELECT name, company, vat_number, billing_address, email, phone
+    INTO cl FROM clients WHERE id = b.client_id;
+  SELECT line_items, notes, issue_date INTO ov FROM invoices WHERE booking_id = p_booking;
+
+  -- Line items: the saved override if customised, otherwise derived from the booking.
+  IF ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0 THEN
+    items := ov.line_items;
+  ELSE
+    -- The description field already includes the service + hours; fall back to title.
+    items := jsonb_build_array(jsonb_build_object(
+      'description', COALESCE(NULLIF(b.description, ''), b.title),
+      'amount', GREATEST(0, b.price_total - COALESCE(b.price_expenses, 0))));
+    IF COALESCE(b.price_expenses, 0) > 0 THEN
+      items := items || jsonb_build_object('description', 'Travel & expenses', 'amount', b.price_expenses);
+    END IF;
+  END IF;
+
+  SELECT COALESCE(SUM((e->>'amount')::numeric), 0) INTO total FROM jsonb_array_elements(items) e;
+  SELECT COALESCE(SUM(amount), 0) INTO paid FROM payments WHERE booking_id = p_booking AND status = 'completed';
+  SELECT COALESCE(jsonb_agg(
+            jsonb_build_object('amount', amount, 'method', method, 'paid_at', paid_at)
+            ORDER BY COALESCE(paid_at, created_at)), '[]'::jsonb)
+    INTO pays FROM payments WHERE booking_id = p_booking AND status = 'completed';
+
+  RETURN jsonb_build_object(
+    'org', jsonb_build_object('name', org.name, 'currency', org.currency, 'invoice_details', org.invoice_details),
+    'client', CASE WHEN cl IS NULL THEN NULL ELSE jsonb_build_object(
+        'name', cl.name, 'company', cl.company, 'vat_number', cl.vat_number,
+        'billing_address', cl.billing_address, 'email', cl.email, 'phone', cl.phone) END,
+    'booking', jsonb_build_object(
+        'booking_ref', b.booking_ref, 'location', b.location,
+        'start_at', b.start_at, 'end_at', b.end_at, 'status', b.status, 'price_total', b.price_total),
+    'invoice', jsonb_build_object(
+        'line_items', items, 'notes', ov.notes, 'issue_date', ov.issue_date,
+        'customized', (ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0), 'total', total),
+    'total_paid', paid,
+    'payments', pays
+  );
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_invoice(UUID) TO authenticated;
+
+
+-- ── 18. Org creation & membership (platform-admin gated) ───────────────────
+-- Orgs are NOT self-serve: only a platform admin can create one. The creator
+-- becomes its owner (so it appears in their switcher). Org admins (or platform
+-- admins) then add members by email — the invitee must have signed in once
+-- (exists in auth.users) since there's no email-invite infra yet. All gated &
+-- org-scoped; auth.users is only reachable here via SECURITY DEFINER.
+CREATE OR REPLACE FUNCTION public.create_org(p_name TEXT, p_slug TEXT, p_timezone TEXT DEFAULT 'Europe/Malta', p_currency TEXT DEFAULT 'EUR')
+RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE v_org UUID; v_uid UUID := auth.uid();
+BEGIN
+  IF v_uid IS NULL THEN RAISE EXCEPTION 'not signed in'; END IF;
+  IF NOT public.is_platform_admin() THEN RAISE EXCEPTION 'forbidden' USING errcode = '42501'; END IF;
+  INSERT INTO public.organizations (slug, name, timezone, currency)
+    VALUES (lower(trim(p_slug)), trim(p_name), p_timezone, upper(p_currency)) RETURNING id INTO v_org;
+  INSERT INTO public.org_members (org_id, user_id, role) VALUES (v_org, v_uid, 'owner');
+  RETURN v_org;
+END $$;
+GRANT EXECUTE ON FUNCTION public.create_org(TEXT, TEXT, TEXT, TEXT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.add_org_member(p_org UUID, p_email TEXT, p_role TEXT)
+RETURNS TEXT LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE v_uid UUID;
+BEGIN
+  IF NOT (public.is_org_admin(p_org) OR public.is_platform_admin()) THEN RAISE EXCEPTION 'forbidden' USING errcode = '42501'; END IF;
+  IF p_role NOT IN ('owner','admin','staff') THEN RAISE EXCEPTION 'bad_role'; END IF;
+  SELECT id INTO v_uid FROM auth.users WHERE lower(email) = lower(trim(p_email));
+  IF v_uid IS NULL THEN RETURN 'no_user'; END IF;   -- they must sign in once first
+  INSERT INTO public.org_members (org_id, user_id, role) VALUES (p_org, v_uid, p_role)
+    ON CONFLICT (org_id, user_id) DO UPDATE SET role = EXCLUDED.role;
+  RETURN 'ok';
+END $$;
+GRANT EXECUTE ON FUNCTION public.add_org_member(UUID, TEXT, TEXT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.remove_org_member(p_org UUID, p_user UUID)
+RETURNS VOID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF NOT (public.is_org_admin(p_org) OR public.is_platform_admin()) THEN RAISE EXCEPTION 'forbidden' USING errcode = '42501'; END IF;
+  IF (SELECT role FROM public.org_members WHERE org_id = p_org AND user_id = p_user) = 'owner'
+     AND (SELECT count(*) FROM public.org_members WHERE org_id = p_org AND role = 'owner') <= 1 THEN
+    RAISE EXCEPTION 'last_owner';
+  END IF;
+  DELETE FROM public.org_members WHERE org_id = p_org AND user_id = p_user;
+END $$;
+GRANT EXECUTE ON FUNCTION public.remove_org_member(UUID, UUID) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.list_org_members(p_org UUID)
+RETURNS TABLE(user_id UUID, email TEXT, role TEXT) LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF NOT (public.is_org_admin(p_org) OR public.is_platform_admin()) THEN RAISE EXCEPTION 'forbidden' USING errcode = '42501'; END IF;
+  RETURN QUERY
+    SELECT m.user_id, u.email::TEXT, m.role
+    FROM public.org_members m JOIN auth.users u ON u.id = m.user_id
+    WHERE m.org_id = p_org ORDER BY m.role, u.email;
+END $$;
+GRANT EXECUTE ON FUNCTION public.list_org_members(UUID) TO authenticated;

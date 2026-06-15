@@ -1,5 +1,6 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy, inject, signal } from '@angular/core';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
+import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { BookingSummary, Client, EditableBooking, Payment, PaymentMethod } from '@booking/core/interfaces/booking.interface';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
@@ -7,6 +8,7 @@ import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime
 // Lifetime matches the admin session; destroyed when user leaves /bookings.
 @Injectable()
 export class BookingDataService implements OnDestroy {
+  private readonly auth = inject(BookingsAuthService);
   readonly bookings = signal<BookingSummary[]>([]);
   readonly clients  = signal<Client[]>([]);
   readonly loading  = signal(false);
@@ -60,8 +62,9 @@ export class BookingDataService implements OnDestroy {
    */
   async createBooking(input: {
     orgId: string; staffId: string; serviceId: string | null; clientId: string;
-    title: string; startAt: string; hours: number; priceTotal: number;
+    title: string; description: string; startAt: string; hours: number; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
+    depositAllowed: boolean; depositPercent: number;
     location?: string | null; notes?: string | null;
   }): Promise<{ id?: string; ref?: string; error?: string }> {
     const start = new Date(input.startAt);
@@ -70,10 +73,11 @@ export class BookingDataService implements OnDestroy {
       .from('bookings')
       .insert({
         org_id: input.orgId, staff_id: input.staffId, service_id: input.serviceId,
-        client_id: input.clientId, title: input.title,
+        client_id: input.clientId, title: input.title, description: input.description,
         start_at: start.toISOString(), end_at: end.toISOString(),
         price_total: input.priceTotal, status: 'booked', created_by: 'admin',
         allow_card: input.allowCard, allow_inperson: input.allowInperson,
+        deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
         location: input.location ?? null, notes: input.notes ?? null,
       })
       .select('id, booking_ref')
@@ -91,7 +95,7 @@ export class BookingDataService implements OnDestroy {
   async getBooking(id: string): Promise<EditableBooking | null> {
     const { data } = await bookingsDb
       .from('bookings')
-      .select('id, org_id, booking_ref, staff_id, service_id, client_id, title, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson')
+      .select('id, org_id, booking_ref, staff_id, service_id, client_id, title, description, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson, deposit_percent, deposit_allowed')
       .eq('id', id)
       .maybeSingle();
     return (data as EditableBooking) ?? null;
@@ -100,8 +104,9 @@ export class BookingDataService implements OnDestroy {
   /** Update an existing booking. Moving it onto an occupied slot fails with 23P01. */
   async updateBooking(id: string, input: {
     staffId: string; serviceId: string | null; clientId: string;
-    title: string; startAt: string; hours: number; priceTotal: number;
+    title: string; description: string; startAt: string; hours: number; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
+    depositAllowed: boolean; depositPercent: number;
     location?: string | null; notes?: string | null;
   }): Promise<{ ok?: boolean; error?: string }> {
     const start = new Date(input.startAt);
@@ -110,8 +115,9 @@ export class BookingDataService implements OnDestroy {
       .from('bookings')
       .update({
         staff_id: input.staffId, service_id: input.serviceId, client_id: input.clientId,
-        title: input.title, start_at: start.toISOString(), end_at: end.toISOString(),
+        title: input.title, description: input.description, start_at: start.toISOString(), end_at: end.toISOString(),
         price_total: input.priceTotal, allow_card: input.allowCard, allow_inperson: input.allowInperson,
+        deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
         location: input.location ?? null, notes: input.notes ?? null,
       })
       .eq('id', id);
@@ -227,6 +233,24 @@ export class BookingDataService implements OnDestroy {
     await this.fetchBookings();
   }
 
+  // ── Invoice overrides (edit an invoice WITHOUT touching the booking) ─────
+  /** Persist a customised invoice for a booking (line items / notes / date). */
+  async saveInvoice(orgId: string, bookingId: string, input: {
+    lineItems: { description: string; amount: number }[]; notes: string | null; issueDate: string | null;
+  }): Promise<{ ok?: boolean; error?: string }> {
+    const { error } = await bookingsDb.from('invoices').upsert({
+      org_id: orgId, booking_id: bookingId,
+      line_items: input.lineItems, notes: input.notes, issue_date: input.issueDate,
+    }, { onConflict: 'booking_id' });
+    if (error) return { error: error.message };
+    return { ok: true };
+  }
+
+  /** Discard the customised invoice — revert to one derived live from the booking. */
+  async resetInvoice(bookingId: string): Promise<void> {
+    await bookingsDb.from('invoices').delete().eq('booking_id', bookingId);
+  }
+
   /** Fire-and-forget: refresh the booking's calendar event description (payment + progress). */
   private syncBookingEvent(bookingId: string): void {
     void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } })
@@ -250,16 +274,21 @@ export class BookingDataService implements OnDestroy {
   ngOnDestroy(): void { this.realtime?.destroy(); }
 
   private async fetchBookings(): Promise<void> {
+    const org = this.auth.orgId();
+    if (!org) { this.bookings.set([]); return; }
     const { data, error } = await bookingsDb
       .from('booking_summary')
       .select('*')
+      .eq('org_id', org)
       .order('start_at', { ascending: false });
     if (error) console.error('[BookingData] fetchBookings:', error);
     this.bookings.set((data ?? []) as BookingSummary[]);
   }
 
   private async fetchClients(): Promise<void> {
-    const { data, error } = await bookingsDb.from('clients').select('*').order('name');
+    const org = this.auth.orgId();
+    if (!org) { this.clients.set([]); return; }
+    const { data, error } = await bookingsDb.from('clients').select('*').eq('org_id', org).order('name');
     if (error) console.error('[BookingData] fetchClients:', error);
     this.clients.set((data ?? []) as Client[]);
   }

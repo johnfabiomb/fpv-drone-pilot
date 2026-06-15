@@ -6,6 +6,7 @@ export interface OrgInfo {
   currency: string;
   booking_params: {
     deposit_percent?: number;
+    deposit_allowed?: boolean;
     hold_minutes?: number;
     min_lead_minutes?: number;
     buffer_minutes?: number;

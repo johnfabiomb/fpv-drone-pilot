@@ -1,6 +1,6 @@
-import Stripe from 'https://esm.sh/stripe@17?target=deno';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { checkSlotAvailability } from '../_shared/google-calendar.ts';
+import { platformStripe, resolveOrgStripe, chargeRouting } from '../_shared/stripe.ts';
 
 // Signed-in client starts a card booking for a given worker + service:
 //   resolve org from staff → expire stale holds → live Google check →
@@ -50,9 +50,11 @@ Deno.serve(async (req) => {
     const total = Number(priceData);
     if (!isFinite(total)) return json({ error: 'no_price' });
     const { data: org } = await service.from('organizations').select('booking_params').eq('id', orgId).single();
-    const bp = (org?.booking_params ?? {}) as { deposit_percent?: number; hold_minutes?: number };
+    const bp = (org?.booking_params ?? {}) as { deposit_percent?: number; deposit_allowed?: boolean; hold_minutes?: number };
     const depositPct = bp.deposit_percent ?? 30;
+    const depositAllowed = bp.deposit_allowed ?? true;
     const holdMin = bp.hold_minutes ?? 15;
+    if (paymentType === 'deposit' && !depositAllowed) return json({ error: 'deposit_not_allowed' });
     const amount = paymentType === 'deposit' ? Math.round(total * depositPct) / 100 : total;
     const amountCents = Math.round(amount * 100);
 
@@ -60,39 +62,59 @@ Deno.serve(async (req) => {
     const endIso = new Date(new Date(start).getTime() + Number(hours) * 3_600_000).toISOString();
     if (new Date(startIso) <= new Date()) return json({ error: 'start_in_past' });
 
+    // Resolve payment routing BEFORE holding the slot: if the org connected a Stripe
+    // account but hasn't finished onboarding, bail now rather than leave a dangling hold.
+    const orgStripe = await resolveOrgStripe(service, orgId);
+    if (orgStripe.accountId && !orgStripe.chargesEnabled) return json({ error: 'payment_setup_incomplete' });
+
     // Free stale holds (constraint side) for this worker
     await service.from('bookings').update({ status: 'expired' })
       .eq('staff_id', staffId).eq('status', 'hold').lt('hold_expires_at', new Date().toISOString());
 
-    // Final live Google check (single owner calendar for now)
-    const free = await checkSlotAvailability(startIso, endIso);
-    if (!free) return json({ error: 'slot_taken' });
+    // Final live Google check — only for the org that owns the shared calendar;
+    // other orgs rely on the DB no-overlap constraint below (multi-tenant safe).
+    const calendarOrg = Deno.env.get('CALENDAR_ORG_ID');
+    if (!calendarOrg || orgId === calendarOrg) {
+      const free = await checkSlotAvailability(startIso, endIso);
+      if (!free) return json({ error: 'slot_taken' });
+    }
 
     // Create the hold (DB exclusion constraint by staff_id is the real guarantee)
     const { data: booking, error: insErr } = await service.from('bookings').insert({
       org_id: orgId, staff_id: staffId, service_id: serviceId, client_id: client.id,
       title: `${svc.name} (${hours}h)`, start_at: startIso, end_at: endIso, price_total: total,
       status: 'hold', hold_expires_at: new Date(Date.now() + holdMin * 60_000).toISOString(), created_by: 'client',
+      deposit_percent: depositPct, deposit_allowed: depositAllowed,
     }).select('id, booking_ref').single();
     if (insErr) {
       if ((insErr as { code?: string }).code === '23P01') return json({ error: 'slot_taken' });
       throw insErr;
     }
 
-    const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
-    const intent = await stripe.paymentIntents.create({
+    // Route the charge to the org's connected account (direct charge + platform fee),
+    // or fall back to the platform account when the org hasn't connected one.
+    const routing = chargeRouting(orgStripe, amountCents);
+    const stripe = platformStripe();
+    const intentParams = {
       amount: amountCents, currency: 'eur',
       description: `${booking.booking_ref} — ${svc.name} — ${paymentType}`,
       metadata: { booking_id: booking.id, booking_ref: booking.booking_ref, org_id: orgId,
                   staff_id: staffId, service_id: serviceId, payment_type: paymentType },
       automatic_payment_methods: { enabled: true },
-    });
+      ...routing.intentParams,
+    };
+    // Pass per-request options ONLY for a connected account — never an empty `{}`.
+    const intent = routing.requestOptions
+      ? await stripe.paymentIntents.create(intentParams, routing.requestOptions)
+      : await stripe.paymentIntents.create(intentParams);
     await service.from('payments').insert({
       org_id: orgId, booking_id: booking.id, amount, type: paymentType, status: 'pending',
       method: 'card', stripe_payment_intent_id: intent.id,
     });
 
-    return json({ clientSecret: intent.client_secret, bookingRef: booking.booking_ref });
+    // The client needs the connected account id to init Stripe.js for a direct charge.
+    return json({ clientSecret: intent.client_secret, bookingRef: booking.booking_ref,
+                  stripeAccount: orgStripe.accountId });
   } catch (err) {
     return json({ error: (err as Error).message }, 500);
   }

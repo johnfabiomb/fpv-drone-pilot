@@ -2,70 +2,234 @@
   <div class="page__head">
     <div>
       <h1 class="page__title">Settings</h1>
-      <p class="page__sub">Booking rules and integrations.</p>
+      <p class="page__sub">Your organization, booking rules, invoicing and integrations.</p>
     </div>
   </div>
 
   @if (loading()) {
     <p class="muted">Loading…</p>
   } @else {
-    <!-- Booking rules -->
-    <div class="card">
-      <h2 class="card__h">Booking rules</h2>
-      <div class="grid">
-        <label class="field"><span>Deposit %</span><input type="number" min="0" max="100" [(ngModel)]="depositPercent" /></label>
-        <label class="field"><span>Hold (minutes)</span><input type="number" min="1" [(ngModel)]="holdMinutes" /></label>
-        <label class="field"><span>Min lead time (minutes)</span><input type="number" min="0" [(ngModel)]="minLeadMinutes" /></label>
-        <label class="field"><span>Timezone</span>
-          <select [(ngModel)]="timezone">
-            @for (tz of timezones; track tz) { <option [value]="tz">{{ tz }}</option> }
-          </select>
-        </label>
-        <label class="field"><span>Currency</span>
-          <select [(ngModel)]="currency">
-            @for (c of currencies; track c) { <option [value]="c">{{ c }}</option> }
-          </select>
-        </label>
-      </div>
-      <label class="check"><input type="checkbox" [(ngModel)]="cashAllowed" /> Allow cash requests</label>
-      <label class="check"><input type="checkbox" [(ngModel)]="workBoard" /> Enable <strong>Work board</strong> — post-production to-do for confirmed jobs</label>
-      <div class="actions">
-        <button class="btn btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save settings' }}</button>
-        @if (saved()) { <span class="ok-tag">✓ Saved</span> }
-      </div>
-    </div>
+    <!-- Tabs -->
+    <nav class="tabs" role="tablist">
+      <button class="tab" [class.tab--active]="tab() === 'general'"      (click)="setTab('general')">General</button>
+      <button class="tab" [class.tab--active]="tab() === 'booking'"      (click)="setTab('booking')">Booking rules</button>
+      <button class="tab" [class.tab--active]="tab() === 'company'"      (click)="setTab('company')">Company &amp; Invoicing</button>
+      <button class="tab" [class.tab--active]="tab() === 'team'"         (click)="setTab('team')">Team</button>
+      <button class="tab" [class.tab--active]="tab() === 'payments'"     (click)="setTab('payments')">Payments</button>
+      <button class="tab" [class.tab--active]="tab() === 'integrations'" (click)="setTab('integrations')">Integrations</button>
+    </nav>
 
-    <!-- Integrations -->
-    <div class="card">
-      <div class="card__head">
-        <h2 class="card__h">Integration status</h2>
-        <button class="link-btn" [disabled]="checking()" (click)="checkIntegrations()">{{ checking() ? 'Checking…' : 'Re-check' }}</button>
-      </div>
+    @switch (tab()) {
 
-      @if (intError()) { <p class="err">{{ intError() }}</p> }
-
-      <div class="int">
-        <div class="int__row">
-          <span class="int__name">Stripe (card payments)</span>
-          @if (stripe(); as st) {
-            <span class="badge" [class.badge--ok]="st.ok" [class.badge--bad]="!st.ok">{{ st.ok ? 'Connected' : 'Not connected' }}</span>
-            <span class="int__detail">{{ st.detail }}</span>
-          } @else if (checking()) { <span class="int__detail">checking…</span> }
+      <!-- ── General ──────────────────────────────────────────────── -->
+      @case ('general') {
+        <div class="card">
+          <h2 class="card__h">General</h2>
+          <div class="grid">
+            <label class="field"><span>Timezone</span>
+              <select [(ngModel)]="timezone">
+                @for (tz of timezones; track tz) { <option [value]="tz">{{ tz }}</option> }
+              </select>
+            </label>
+            <label class="field"><span>Currency</span>
+              <select [(ngModel)]="currency">
+                @for (c of currencies; track c) { <option [value]="c">{{ c }}</option> }
+              </select>
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" [(ngModel)]="workBoard" /> Enable <strong>Work board</strong> — post-production to-do for confirmed jobs</label>
+          <div class="actions">
+            <button class="btn btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save settings' }}</button>
+            @if (saved()) { <span class="ok-tag">✓ Saved</span> }
+          </div>
         </div>
-        <div class="int__row">
-          <span class="int__name">Google Calendar</span>
-          @if (google(); as g) {
-            <span class="badge" [class.badge--ok]="g.ok" [class.badge--bad]="!g.ok">{{ g.ok ? 'Connected' : 'Not connected' }}</span>
-            <span class="int__detail">{{ g.detail }}</span>
-          } @else if (checking()) { <span class="int__detail">checking…</span> }
-        </div>
-      </div>
+      }
 
-      <p class="hint">
-        To connect or fix these, follow the step-by-step guide in
-        <strong>documentation/BOOKING_SETUP.md</strong> (Stripe keys + webhook, Google OAuth refresh
-        token, and the Supabase secrets each one needs).
-      </p>
-    </div>
+      <!-- ── Booking rules ────────────────────────────────────────── -->
+      @case ('booking') {
+        <div class="card">
+          <h2 class="card__h">Booking rules</h2>
+          <div class="grid">
+            <label class="field"><span>Deposit %</span><input type="number" min="0" max="100" [(ngModel)]="depositPercent" /></label>
+            <label class="field"><span>Hold (minutes)</span><input type="number" min="1" [(ngModel)]="holdMinutes" /></label>
+            <label class="field"><span>Min lead time (minutes)</span><input type="number" min="0" [(ngModel)]="minLeadMinutes" /></label>
+          </div>
+          <label class="check"><input type="checkbox" [(ngModel)]="depositAllowed" /> Allow deposits by default <span class="opt">(off = clients pay in full; can still be overridden per booking)</span></label>
+          <label class="check"><input type="checkbox" [(ngModel)]="cashAllowed" /> Allow cash requests</label>
+          <div class="actions">
+            <button class="btn btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save settings' }}</button>
+            @if (saved()) { <span class="ok-tag">✓ Saved</span> }
+          </div>
+        </div>
+      }
+
+      <!-- ── Company & Invoicing ──────────────────────────────────── -->
+      @case ('company') {
+        <div class="card">
+          <h2 class="card__h">Company &amp; Invoicing</h2>
+          <p class="hint">These details appear on every invoice you issue. Fill them in before sending invoices to clients.</p>
+
+          <label class="field"><span>Registered business name</span>
+            <input [(ngModel)]="legalName" placeholder="e.g. John F. Montaño / FPV Drone Malta Ltd" />
+          </label>
+          <label class="field"><span>Address</span>
+            <textarea rows="3" [(ngModel)]="companyAddress" placeholder="Street, town, postcode, Malta"></textarea>
+          </label>
+          <div class="grid">
+            <label class="field"><span>Phone</span><input [(ngModel)]="companyPhone" placeholder="+356 …" /></label>
+            <label class="field"><span>Invoicing email</span><input type="email" [(ngModel)]="companyEmail" placeholder="billing@…" /></label>
+          </div>
+
+          <label class="check"><input type="checkbox" [(ngModel)]="vatRegistered" /> I am <strong>VAT-registered</strong> <span class="opt">(off = Article 11 small undertaking — no VAT charged)</span></label>
+
+          @if (vatRegistered) {
+            <div class="grid">
+              <label class="field"><span>VAT number</span><input [(ngModel)]="vatNumber" placeholder="MT…" /></label>
+              <label class="field"><span>VAT rate %</span><input type="number" min="0" max="100" [(ngModel)]="vatRate" /></label>
+            </div>
+            <p class="hint">Invoices will show your VAT number and a net / VAT / gross breakdown (prices treated as VAT-inclusive).</p>
+          } @else {
+            <p class="hint">No VAT breakdown is shown on invoices. Turn this on once you register for VAT.</p>
+          }
+
+          <label class="field"><span>VAT / legal note <span class="opt">(printed on every invoice)</span></span>
+            <textarea rows="2" [(ngModel)]="vatNote" placeholder="e.g. Reverse charge — VAT to be accounted for by the recipient. (Ask your accountant for the exact wording.)"></textarea>
+          </label>
+
+          <div class="grid">
+            <label class="field"><span>Invoice number prefix</span>
+              <input [(ngModel)]="invoicePrefix" maxlength="8" placeholder="INV" />
+            </label>
+            <div class="field"><span>Example invoice number</span>
+              <div class="field__static">{{ (invoicePrefix || 'INV') }}-2026-007</div>
+            </div>
+          </div>
+          <label class="field"><span>Invoice footer <span class="opt">(optional)</span></span>
+            <textarea rows="2" [(ngModel)]="invoiceFooter" placeholder="Payment terms, bank details, thank-you note…"></textarea>
+          </label>
+
+          <div class="actions">
+            <button class="btn btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save settings' }}</button>
+            @if (saved()) { <span class="ok-tag">✓ Saved</span> }
+          </div>
+        </div>
+      }
+
+      <!-- ── Team & organizations ─────────────────────────────────── -->
+      @case ('team') {
+        <div class="card">
+          <h2 class="card__h">Team</h2>
+          <p class="hint">People who can manage this organization. They must have signed in to the booking app at least once before you can add them.</p>
+
+          @if (membersLoading()) { <p class="muted">Loading…</p> }
+          <div class="int">
+            @for (m of members(); track m.user_id) {
+              <div class="int__row">
+                <span class="int__name">{{ m.email }}</span>
+                <span class="badge">{{ m.role }}</span>
+                @if (m.role !== 'owner') {
+                  <button class="link-btn link-btn--danger" (click)="removeMember(m)">Remove</button>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="grid">
+            <label class="field"><span>Add member by email</span><input type="email" [(ngModel)]="newMemberEmail" placeholder="person@email.com" /></label>
+            <label class="field"><span>Role</span>
+              <select [(ngModel)]="newMemberRole">
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="owner">Owner</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn btn--primary" [disabled]="addingMember()" (click)="addMember()">{{ addingMember() ? 'Adding…' : 'Add member' }}</button>
+          </div>
+          <p class="hint">To create or switch organizations, use the org name at the top of the sidebar.</p>
+        </div>
+      }
+
+      <!-- ── Payments (Stripe Connect) ────────────────────────────── -->
+      @case ('payments') {
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__h">Payments (Stripe)</h2>
+            <button class="link-btn" [disabled]="connectLoading()" (click)="loadConnect()">{{ connectLoading() ? 'Checking…' : 'Refresh' }}</button>
+          </div>
+
+          @if (connect(); as c) {
+            @if (c.error) {
+              <p class="err">{{ c.error }}</p>
+            } @else if (c.connected && c.chargesEnabled) {
+              <div class="int__row">
+                <span class="int__name">Your Stripe account</span>
+                <span class="badge badge--ok">Connected — charges enabled</span>
+              </div>
+              <p class="hint">Card payments for your bookings are paid out to your own Stripe account.</p>
+              <div class="actions">
+                <button class="btn" [disabled]="connecting()" (click)="connectStripe()">{{ connecting() ? 'Opening…' : 'Manage on Stripe' }}</button>
+              </div>
+            } @else if (c.connected && !c.chargesEnabled) {
+              <div class="int__row">
+                <span class="int__name">Your Stripe account</span>
+                <span class="badge badge--bad">Setup incomplete</span>
+              </div>
+              <p class="hint">You started connecting Stripe but haven't finished. Card payments stay disabled until onboarding is complete.</p>
+              <div class="actions">
+                <button class="btn btn--primary" [disabled]="connecting()" (click)="connectStripe()">{{ connecting() ? 'Opening…' : 'Resume Stripe setup' }}</button>
+              </div>
+            } @else {
+              <div class="int__row">
+                <span class="int__name">Your Stripe account</span>
+                <span class="badge badge--bad">Not connected</span>
+              </div>
+              <p class="hint">Connect your own Stripe account to receive card payments directly. You'll be taken to Stripe to sign in or create an account — we never see your Stripe password or keys.</p>
+              <div class="actions">
+                <button class="btn btn--primary" [disabled]="connecting()" (click)="connectStripe()">{{ connecting() ? 'Opening…' : 'Connect Stripe' }}</button>
+              </div>
+            }
+          } @else if (connectLoading()) {
+            <p class="muted">Checking…</p>
+          }
+        </div>
+      }
+
+      <!-- ── Integrations ─────────────────────────────────────────── -->
+      @case ('integrations') {
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__h">Integration status</h2>
+            <button class="link-btn" [disabled]="checking()" (click)="checkIntegrations()">{{ checking() ? 'Checking…' : 'Re-check' }}</button>
+          </div>
+
+          @if (intError()) { <p class="err">{{ intError() }}</p> }
+
+          <div class="int">
+            <div class="int__row">
+              <span class="int__name">Stripe (card payments)</span>
+              @if (stripe(); as st) {
+                <span class="badge" [class.badge--ok]="st.ok" [class.badge--bad]="!st.ok">{{ st.ok ? 'Connected' : 'Not connected' }}</span>
+                <span class="int__detail">{{ st.detail }}</span>
+              } @else if (checking()) { <span class="int__detail">checking…</span> }
+            </div>
+            <div class="int__row">
+              <span class="int__name">Google Calendar</span>
+              @if (google(); as g) {
+                <span class="badge" [class.badge--ok]="g.ok" [class.badge--bad]="!g.ok">{{ g.ok ? 'Connected' : 'Not connected' }}</span>
+                <span class="int__detail">{{ g.detail }}</span>
+              } @else if (checking()) { <span class="int__detail">checking…</span> }
+            </div>
+          </div>
+
+          <p class="hint">
+            To connect or fix these, follow the step-by-step guide in
+            <strong>documentation/BOOKING_SETUP.md</strong> (Stripe keys + webhook, Google OAuth refresh
+            token, and the Supabase secrets each one needs).
+          </p>
+        </div>
+      }
+    }
   }
 </div>

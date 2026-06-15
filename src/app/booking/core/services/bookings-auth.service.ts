@@ -8,11 +8,16 @@ const ROLE_CACHE_KEY = 'jm-bookings-admin';
 @Injectable({ providedIn: 'root' })
 export class BookingsAuthService {
   readonly state = signal<AuthState>('loading');
-  /** The org this admin owns/administers (single-org for now). */
+  /** The currently-active org (the one the studio UI is showing). */
   readonly orgId = signal<string | null>(null);
+  /** Every org the signed-in user owns/administers (drives the switcher + Organizations page). */
+  readonly orgs = signal<{ id: string; name: string; slug: string; role: string }[]>([]);
+  /** Platform super-admin — may create organizations. */
+  readonly isPlatformAdmin = signal(false);
   /** The org's feature flags (e.g. work_board). */
   readonly features = signal<{ work_board?: boolean }>({});
   private _initPromise: Promise<void> | null = null;
+  private currentUserId: string | null = null;
 
   initialize(): Promise<void> {
     if (this._initPromise) return this._initPromise;
@@ -97,22 +102,45 @@ export class BookingsAuthService {
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
 
+  /** Re-resolve the user's orgs/role (e.g. after creating an org or adding a member). */
+  async refresh(): Promise<void> {
+    if (this.currentUserId) await this.resolveRole(this.currentUserId);
+  }
+
+  /** Switch the active org (used by the sidebar switcher). Must be one of `orgs()`. */
+  setActiveOrg(orgId: string): void {
+    if (!this.orgs().some(o => o.id === orgId)) return;
+    this.applyActiveOrg(orgId);
+  }
+
+  private applyActiveOrg(orgId: string): void {
+    this.orgId.set(orgId);
+    if (this.currentUserId) {
+      localStorage.setItem(ROLE_CACHE_KEY, JSON.stringify({ uid: this.currentUserId, org: orgId }));
+    }
+    this.features.set({});
+    bookingsDb.from('organizations').select('features').eq('id', orgId).maybeSingle()
+      .then(({ data: o }) => this.features.set(((o as { features?: { work_board?: boolean } } | null)?.features ?? {})));
+  }
+
   private async resolveRole(userId: string | null): Promise<void> {
     if (!userId) {
+      this.currentUserId = null;
+      this.orgs.set([]);
       localStorage.removeItem(ROLE_CACHE_KEY);
       this.state.set('signed-out');
       return;
     }
+    this.currentUserId = userId;
 
     try {
-      // Admin = owner/admin of at least one organization (single-org for now).
+      // Admin = owner/admin of one OR MORE organizations.
       const { data, error } = await bookingsDb
         .from('org_members')
-        .select('org_id, role')
+        .select('org_id, role, organizations(name, slug)')
         .eq('user_id', userId)
         .in('role', ['owner', 'admin'])
-        .limit(1)
-        .maybeSingle();
+        .order('role');
       console.log('[BookingsAuth] org_members →', data, error ?? '');
 
       if (error) {
@@ -121,18 +149,28 @@ export class BookingsAuthService {
         return;
       }
 
-      if (data?.org_id) {
-        this.orgId.set(data.org_id);
-        localStorage.setItem(ROLE_CACHE_KEY, JSON.stringify({ uid: userId, org: data.org_id }));
-        this.state.set('admin');
-        // Load org feature flags (non-blocking — nav updates when it resolves).
-        bookingsDb.from('organizations').select('features').eq('id', data.org_id).maybeSingle()
-          .then(({ data: o }) => this.features.set(((o as { features?: { work_board?: boolean } } | null)?.features ?? {})));
-      } else {
+      const orgs = (data ?? []).map((r) => {
+        const o = (Array.isArray(r.organizations) ? r.organizations[0] : r.organizations) as { name?: string; slug?: string } | null;
+        return { id: r.org_id as string, role: r.role as string, name: o?.name ?? 'Organization', slug: o?.slug ?? '' };
+      });
+      this.orgs.set(orgs);
+
+      // Platform super-admin? (non-blocking; gates the "Create organization" UI)
+      bookingsDb.from('platform_admins').select('user_id').eq('user_id', userId).maybeSingle()
+        .then(({ data }) => this.isPlatformAdmin.set(!!data));
+
+      if (orgs.length === 0) {
         this.orgId.set(null);
         localStorage.removeItem(ROLE_CACHE_KEY);
         this.state.set('no-access');
+        return;
       }
+
+      // Keep the previously-active org if the user is still a member, else the first.
+      const cachedOrg = this.readCache(userId)?.org;
+      const active = orgs.find(o => o.id === cachedOrg)?.id ?? orgs[0].id;
+      this.applyActiveOrg(active);
+      this.state.set('admin');
     } catch (err) {
       console.log('[BookingsAuth] org_members threw →', err);
       if (this.state() === 'loading') this.state.set('no-access');

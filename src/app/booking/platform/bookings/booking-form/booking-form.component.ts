@@ -46,23 +46,39 @@ export class BookingFormComponent implements OnInit {
   startLocal = '';           // datetime-local (admin's wall-clock)
   hours = 1;
   title = '';
+  description = '';                 // client-facing work description (shown on the pay page)
+  private lastAutoDescription = ''; // last auto-generated value, to detect manual edits
   priceTotal: number | null = null;
   location = '';
   notes = '';
   paymentMode: 'both' | 'card' | 'later' = 'both';   // which options the client sees on the link
+  depositMode: 'deposit' | 'full' = 'deposit';        // can the client pay a deposit, or full only
+  depositPercent = 30;                                // size of the deposit for this booking
+
+  // Org defaults — prefill new bookings + the basis to reset to.
+  private orgDefaults = { depositPercent: 30, depositAllowed: true };
 
   async ngOnInit(): Promise<void> {
     await this.auth.initialize();
     const org = this.auth.orgId();
     if (org) {
-      const [services, staff, ss] = await Promise.all([
+      const [services, staff, ss, settings] = await Promise.all([
         this.admin.listServices(org),
         this.admin.listStaff(org),
         this.admin.listStaffServices(),
+        this.admin.getOrgSettings(org),
       ]);
       this.services.set(services.filter(s => s.is_active));
       this.staff.set(staff);
       this.staffServices.set(ss);
+
+      this.orgDefaults = {
+        depositPercent: settings?.booking_params?.deposit_percent ?? 30,
+        depositAllowed: settings?.booking_params?.deposit_allowed ?? true,
+      };
+      // New bookings start from the org defaults (edit overrides these in loadForEdit).
+      this.depositPercent = this.orgDefaults.depositPercent;
+      this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
 
       const id = this.route.snapshot.paramMap.get('id');
       if (id) await this.loadForEdit(id);
@@ -82,10 +98,15 @@ export class BookingFormComponent implements OnInit {
     this.startLocal = this.toLocalInput(b.start_at);
     this.hours = Math.max(1, Math.round((new Date(b.end_at).getTime() - new Date(b.start_at).getTime()) / 3_600_000));
     this.title = b.title;
+    this.description = b.description ?? '';
+    this.lastAutoDescription = this.autoDescription; // so unedited descriptions keep auto-syncing
     this.priceTotal = b.price_total;
     this.location = b.location ?? '';
     this.notes = b.notes ?? '';
     this.paymentMode = b.allow_card && b.allow_inperson ? 'both' : b.allow_card ? 'card' : 'later';
+    // Per-booking deposit override; fall back to the org default for legacy rows (null).
+    this.depositMode = (b.deposit_allowed ?? this.orgDefaults.depositAllowed) ? 'deposit' : 'full';
+    this.depositPercent = b.deposit_percent ?? this.orgDefaults.depositPercent;
   }
 
   // ── Derived ─────────────────────────────────────────────────────────
@@ -123,17 +144,37 @@ export class BookingFormComponent implements OnInit {
     const ws = this.workers;
     this.staffId = ws.length === 1 ? ws[0].id : (ws.some(w => w.id === this.staffId) ? this.staffId : '');
     this.syncPrice();
+    this.maybeSyncDescription();
   }
-  onHoursChange(): void { this.syncPrice(); }
+  onHoursChange(): void { this.syncPrice(); this.maybeSyncDescription(); }
   /** Reset to the service's computed price (clears it for custom — admin sets their own). */
   syncPrice(): void { this.priceTotal = this.computedPrice; }
+
+  /** Suggested client-facing description from the service + hours (empty for custom). */
+  get autoDescription(): string {
+    const svc = this.selectedService;
+    if (!svc) return '';
+    return `${svc.name} — ${this.hours} ${this.hours === 1 ? 'hour' : 'hours'}`;
+  }
+  /** Refresh the description from service/hours, unless the admin has manually edited it. */
+  maybeSyncDescription(): void {
+    if (this.description.trim() === '' || this.description === this.lastAutoDescription) {
+      this.description = this.autoDescription;
+      this.lastAutoDescription = this.autoDescription;
+    }
+  }
+  /** Manually pull the suggested description (used by the "Reset to suggested" link). */
+  resetDescription(): void {
+    this.description = this.autoDescription;
+    this.lastAutoDescription = this.autoDescription;
+  }
 
   // ── Submit ──────────────────────────────────────────────────────────
   get canSubmit(): boolean {
     const clientOk = this.clientMode === 'existing' ? !!this.clientId : this.newClientName.trim().length > 0;
     return !this.saving() && clientOk && !!this.serviceId && !!this.staffId
       && !!this.startLocal && this.hours > 0 && this.priceTotal != null && this.priceTotal >= 0
-      && this.title.trim().length > 0;
+      && this.title.trim().length > 0 && this.description.trim().length > 0;
   }
 
   async submit(): Promise<void> {
@@ -159,10 +200,13 @@ export class BookingFormComponent implements OnInit {
       const serviceId = this.isCustom ? null : this.serviceId;
       const shared = {
         staffId: this.staffId, serviceId, clientId,
-        title: this.title.trim(), startAt: this.startLocal, hours: this.hours,
+        title: this.title.trim(), description: this.description.trim(),
+        startAt: this.startLocal, hours: this.hours,
         priceTotal: this.priceTotal!,
         allowCard: this.paymentMode !== 'later',
         allowInperson: this.paymentMode !== 'card',
+        depositAllowed: this.depositMode === 'deposit',
+        depositPercent: this.depositPercent,
         location: this.location.trim() || null, notes: this.notes.trim() || null,
       };
 
@@ -199,8 +243,11 @@ export class BookingFormComponent implements OnInit {
     this.clientMode = 'existing';
     this.clientId = ''; this.newClientName = ''; this.newClientEmail = '';
     this.serviceId = ''; this.staffId = ''; this.startLocal = ''; this.hours = 1;
-    this.title = ''; this.priceTotal = null; this.location = ''; this.notes = '';
+    this.title = ''; this.description = ''; this.lastAutoDescription = '';
+    this.priceTotal = null; this.location = ''; this.notes = '';
     this.paymentMode = 'both';
+    this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
+    this.depositPercent = this.orgDefaults.depositPercent;
     this.created.set(null); this.errorMsg.set('');
   }
 

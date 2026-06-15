@@ -17,6 +17,8 @@
       </div>
       <div class="head-actions">
         <button class="btn btn--ghost" (click)="copyLink()">{{ copied() ? '✓ Copied' : 'Copy link' }}</button>
+        <a class="btn btn--ghost" [href]="'/book/invoice/' + id" target="_blank" rel="noopener">Invoice</a>
+        <a class="btn btn--ghost" [routerLink]="['/bookings/invoice-edit', id]">Edit invoice</a>
         <button class="btn btn--ghost" (click)="goEdit()">Edit</button>
       </div>
     </div>
@@ -76,7 +78,10 @@
                 @if (p.status === 'pending') { <span class="pay__tag pay__tag--pending">pending</span> }
               </div>
               <div class="pay__date">{{ (p.paid_at ?? p.created_at) | date:'d MMM y' }}</div>
-              <button class="pay__del" title="Remove payment" (click)="deletePayment(p)">✕</button>
+              <!-- Only manual entries can be removed here; Stripe charges are reversed via Cancel + refund. -->
+              @if (!p.stripe_payment_intent_id) {
+                <button class="pay__del" title="Remove payment" (click)="deletePayment(p)">✕</button>
+              }
             </li>
           }
         </ul>

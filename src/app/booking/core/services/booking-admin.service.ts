@@ -49,17 +49,32 @@ export interface StaffServiceRow {
   working_hours: WorkingHoursConfig | null;
 }
 
+export interface InvoiceDetails {
+  legal_name?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  vat_number?: string;
+  vat_registered?: boolean;
+  vat_rate?: number;        // percent, default 18
+  vat_note?: string;        // legal VAT statement printed on every invoice (e.g. reverse-charge)
+  invoice_prefix?: string;  // default 'INV'
+  invoice_footer?: string;  // payment terms / thank-you / bank details
+}
+
 export interface OrgSettings {
   timezone: string;
   currency: string;
   booking_params: {
     deposit_percent?: number;
+    deposit_allowed?: boolean;
     hold_minutes?: number;
     min_lead_minutes?: number;
     buffer_minutes?: number;
     cash_allowed?: boolean;
   };
   features?: { work_board?: boolean };
+  invoice_details?: InvoiceDetails;
 }
 
 // Org-admin CRUD over services / staff / assignments / org settings.
@@ -113,7 +128,7 @@ export class BookingAdminService {
 
   // ── Org settings ──────────────────────────────────────────────────
   async getOrgSettings(orgId: string): Promise<OrgSettings | null> {
-    const { data } = await bookingsDb.from('organizations').select('timezone, currency, booking_params, features').eq('id', orgId).maybeSingle();
+    const { data } = await bookingsDb.from('organizations').select('timezone, currency, booking_params, features, invoice_details').eq('id', orgId).maybeSingle();
     return (data as OrgSettings) ?? null;
   }
 
@@ -160,4 +175,55 @@ export class BookingAdminService {
     if (error) return { error: error.message };
     return data as { stripe: { ok: boolean; detail: string }; google: { ok: boolean; detail: string } };
   }
+
+  // ── Stripe Connect (per-org payouts) ──────────────────────────────
+  /** Start (or resume) Stripe Connect onboarding; returns the hosted onboarding URL. */
+  async connectStripeStart(orgId: string): Promise<{ url?: string; error?: string }> {
+    const { data, error } = await bookingsDb.functions.invoke('connect-stripe-start', { body: { orgId } });
+    if (error) return { error: error.message };
+    return data as { url?: string; error?: string };
+  }
+
+  /** Read the org's Connect status (re-checks Stripe + caches the result). */
+  async connectStripeStatus(orgId: string): Promise<ConnectStatus> {
+    const { data, error } = await bookingsDb.functions.invoke('connect-stripe-status', { body: { orgId } });
+    if (error) return { connected: false, chargesEnabled: false, detailsSubmitted: false, error: error.message };
+    return data as ConnectStatus;
+  }
+
+  // ── Organizations & members (platform-admin gated where required) ──
+  /** Create a new organization (platform admin only). Returns the new org id. */
+  async createOrg(name: string, slug: string, timezone: string, currency: string): Promise<{ id?: string; error?: string }> {
+    const { data, error } = await bookingsDb.rpc('create_org', { p_name: name, p_slug: slug, p_timezone: timezone, p_currency: currency });
+    if (error) return { error: error.message };
+    return { id: data as string };
+  }
+
+  async listMembers(orgId: string): Promise<OrgMember[]> {
+    const { data } = await bookingsDb.rpc('list_org_members', { p_org: orgId });
+    return (data ?? []) as OrgMember[];
+  }
+
+  /** Add/update a member by email. 'no_user' = they must sign in once first. */
+  async addMember(orgId: string, email: string, role: string): Promise<'ok' | 'no_user' | 'error'> {
+    const { data, error } = await bookingsDb.rpc('add_org_member', { p_org: orgId, p_email: email, p_role: role });
+    if (error) return 'error';
+    return (data as 'ok' | 'no_user') ?? 'error';
+  }
+
+  async removeMember(orgId: string, userId: string): Promise<{ ok?: boolean; error?: string }> {
+    const { error } = await bookingsDb.rpc('remove_org_member', { p_org: orgId, p_user: userId });
+    if (error) return { error: error.message };
+    return { ok: true };
+  }
+}
+
+export interface OrgMember { user_id: string; email: string; role: string; }
+
+export interface ConnectStatus {
+  connected: boolean;
+  chargesEnabled: boolean;
+  detailsSubmitted: boolean;
+  accountId?: string;
+  error?: string;
 }

@@ -14,14 +14,16 @@ export class BookingOrgService {
   readonly services = computed(() => this._data()?.services ?? []);
 
   private inflight: Promise<OrgBooking | null> | null = null;
+  private loadedSlug: string | null = null;
 
-  /** Loads (and caches) the org + services + workers. Idempotent. */
+  /** Loads (and caches) the org + services + workers for a slug. Re-fetches if the slug changes. */
   async load(slug: string = ORG_SLUG): Promise<OrgBooking | null> {
-    if (this._data()) return this._data();
-    if (this.inflight) return this.inflight;
+    if (this._data() && this.loadedSlug === slug) return this._data();
+    if (this.inflight && this.loadedSlug === slug) return this.inflight;
+    this.loadedSlug = slug;
     this.inflight = (async () => {
       const { data, error } = await bookingsDb.functions.invoke<OrgBooking & { error?: string }>('get-org-booking', { body: { slug } });
-      if (error || !data || (data as { error?: string }).error) return null;
+      if (error || !data || (data as { error?: string }).error) { this._data.set(null); return null; }
       this._data.set(data);
       return data;
     })();
