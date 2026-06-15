@@ -1,0 +1,45 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Clients</h1>
+      <p class="page__sub">Everyone you've worked with</p>
+    </div>
+  </div>
+
+  @if (data.clients().length === 0) {
+    <div class="empty">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="18" cy="18" r="8"/>
+        <path d="M6 42c0-7 5-11 12-11s12 4 12 11"/>
+      </svg>
+      <p>No clients yet — they'll appear here after your first booking.</p>
+    </div>
+  }
+
+  @if (data.clients().length > 0) {
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Company</th>
+            <th>Since</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of data.clients(); track c.id) {
+            <tr>
+              <td class="cell--client">{{ c.name }}</td>
+              <td>{{ c.email ?? '—' }}</td>
+              <td>{{ c.phone ?? '—' }}</td>
+              <td>{{ c.company ?? '—' }}</td>
+              <td class="cell--date">{{ c.created_at | date:'d MMM yy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -27,6 +27,9 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Secrets — never commit
+.secrets
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

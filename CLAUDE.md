@@ -264,7 +264,7 @@ Location detail pages use clean `/malta/locations/:slug` URLs and **are prerende
 When adding a new public route, do **all four** of these:
 
 1. **`prerender-routes.txt`** — add the route path (e.g. `/malta/new-page`)
-2. **`src/app/core/services/seo.service.ts`** — add a new key to `setPage()` with `title`, `desc`, `url`. Add `noindex: true` for pages that must not be indexed (e.g. payment success, internal tools)
+2. **`src/app/map/core/services/seo.service.ts`** — add a new key to `setPage()` with `title`, `desc`, `url`. Add `noindex: true` for pages that must not be indexed (e.g. payment success, internal tools)
 3. **`src/sitemap.xml`** — add a `<url>` entry with appropriate `priority` and `changefreq` (see priorities below). Update `lastmod` to today's date
 4. **Component `ngOnInit`** — call `this.seo.setPage('your-page-key')`
 
@@ -297,7 +297,7 @@ SEO-specific requirements when adding to `src/assets/locations.json`:
 
 ### Analytics
 
-**`AnalyticsService`** (`src/app/core/services/analytics.service.ts`) wraps Google Analytics via `gtag`. Two methods:
+**`AnalyticsService`** (`src/app/map/core/services/analytics.service.ts`) wraps Google Analytics via `gtag`. Two methods:
 
 ```typescript
 analyticsService.pageView(url: string, title: string)   // fires a GA page_view event
@@ -319,7 +319,7 @@ analyticsService.event(name: string, params: Record<string, any>)  // fires a cu
 
 ## Feature Flags
 
-Feature flags live in `src/app/feature-flags.ts` and are swapped at build time via `fileReplacements` in `angular.json`. **The `feature-flags.ts` file is only used by `ng serve` — deployed builds always use the environment-specific file.**
+Feature flags live in `src/app/map/feature-flags.ts` and are swapped at build time via `fileReplacements` in `angular.json`. **The `feature-flags.ts` file is only used by `ng serve` — deployed builds always use the environment-specific file.**
 
 | Flag | dev (`ng serve`) | staging | production |
 |---|---|---|---|
@@ -365,53 +365,77 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 | File | Purpose |
 |---|---|
 | `src/styles.scss` | Global tokens + shared classes |
-| `src/app/feature-flags.ts` | Feature flags for `ng serve` (swapped at build time) |
+| `src/app/map/feature-flags.ts` | Map feature flags for `ng serve` (swapped at build time) |
 | `src/environments/feature-flags.production.ts` | Production flag values |
 | `src/environments/feature-flags.staging.ts` | Staging flag values |
 | `prerender-routes.txt` | Routes Angular prerenders at build time |
 | `src/sitemap.xml` | Manually maintained XML sitemap submitted to Google |
-| `src/app/app.routes.ts` | All application routes |
-| `src/app/core/models/enums.ts` | Shared typed enum constants — `Difficulty`, `Island`, `MapPointType`, `GroupStatus`, `GroupRole`, `UserRole` |
-| `src/app/core/models/` | All domain types — `Location`, `Provider`, `Group`, `GroupMessage`, `User`, etc. |
-| `src/app/core/services/seo.service.ts` | `setPage()` and `updateMetaData()` for all SEO tags |
-| `src/app/core/services/analytics.service.ts` | `pageView()` and `event()` wrappers around gtag |
-| `src/app/core/services/route-builder.service.ts` | Itinerary plan generation logic |
-| `src/app/core/services/map-bridge.service.ts` | Scoped bridge between persistent shell map and swappable panel children |
-| `src/app/core/services/groups.service.ts` | All Supabase group operations — realtime channels, mutations, presence |
-| `src/app/core/services/auth.service.ts` | Supabase auth — Google OAuth + magic link OTP; `userDisplayName()`, `userPhotoURL()`, `userEmail()` |
-| `src/app/core/services/user-data.service.ts` | User record, XP/level signals, `isAdmin()`, `groupsUnlocked()` |
-| `src/app/core/services/interaction-tracking.service.ts` | Per-entity interaction stats via `track_interaction` RPC |
-| `src/app/core/services/navigation.service.ts` | Back-button and panel navigation helpers |
-| `src/app/core/utils/panel-resize.util.ts` | Drag-to-resize + minimize/expand logic for map panels |
-| `src/app/core/utils/location-filter.util.ts` | `matchesFilter()`, `getIslandLabel()`, `difficultyColor()` |
-| `src/app/core/utils/geo.utils.ts` | `haversineKm()`, `haversineM()` distance helpers |
-| `src/app/core/utils/route-drawing.ts` | Builds OpenLayers features from `mapPoints[]` |
-| `src/app/core/utils/location-tracker.ts` | GPS dot + heading cone on the map |
-| `src/app/core/utils/level.utils.ts` | Level thresholds and XP computation |
-| `src/app/core/utils/provider.utils.ts` | `resolveProviderColor()`, `getProviderCategoryLabel()` |
-| `src/app/core/config/supabase.config.ts` | Supabase client singleton (staging); swapped at build time for production config |
-| `src/app/core/models/timestamp.ts` | Drop-in `Timestamp` wrapper used throughout groups feature |
-| `src/app/features/map/shell/` | Persistent shell that owns `<app-map>` across all `/malta/*` panel routes |
-| `src/app/features/map/explore/` | Main map page |
-| `src/app/features/map/deals/` | Exclusive Deals map page |
-| `src/app/features/map/list/` | Browse Locations map page |
-| `src/app/features/locations/location-page/` | Location detail route — SEO, back navigation |
-| `src/app/features/locations/location-detail/` | Location detail panel content |
-| `src/app/features/providers/provider-page/` | Provider detail route — SEO, Book Now, back navigation |
-| `src/app/features/providers/provider-detail/` | Provider detail panel content |
-| `src/app/features/groups/groups-list/` | Explore Together list + create form at `/malta/groups` |
-| `src/app/features/groups/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
-| `src/app/features/groups/group-card/` | Single group card for the groups list |
-| `src/app/features/groups/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
-| `src/app/features/saved-places/` | Saved locations panel |
-| `src/app/features/route-builder/` | Route builder (feature-flagged: ROUTE_BUILDER) |
-| `src/app/pages/admin/` | Admin panel — Groups migration + Users tab + Reports tab |
-| `src/app/pages/top-places/` | "30 Places to Visit in Malta" editorial |
-| `src/app/ui/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
-| `src/app/ui/share-button/` | Copy-to-clipboard share button with `(shared)` output |
-| `src/app/ui/sign-in-form/` | Shared sign-in form used by auth modal + welcome popup |
-| `src/app/ui/user-avatar/` | User avatar with level border animation |
-| `src/app/components/map/` | OpenLayers map component |
+| `src/app/app.routes.ts` | Root router — combines booking and map route files |
+| `src/app/map/map.routes.ts` | All map module routes |
+| `src/app/booking/booking.routes.ts` | All booking module routes |
+| `src/app/map/map-root.component.ts` | Map module root — all map overlays (auth modal, welcome popup, modals, PWA prompt) |
+| `src/app/booking/core/db/supabase.bookings.ts` | Bookings Supabase client (jm-bookings project; swapped at build time — see `angular.json` fileReplacements) |
+| `src/environments/supabase.bookings.production.ts` | Production bookings Supabase config |
+| `src/app/booking/core/services/bookings-auth.service.ts` | Bookings auth — Google OAuth + magic link; role-based access via `user_roles` table. **Never `await` a Supabase call inside `onAuthStateChange` — defer with `setTimeout(0)` or the client deadlocks** |
+| `src/app/booking/core/services/booking-data.service.ts` | Loads `booking_summary` + `clients`; scoped to `PlatformShellComponent` (not root) |
+| `src/app/booking/core/services/working-hours.service.ts` | Admin working hours config (read/write `admin_settings`) |
+| `src/app/booking/core/interfaces/` | Booking domain types — `booking.interface.ts` (`BookingSummary`, `Client`, `NewBookingForm`, `PaymentStatus`) and `working-hours.interface.ts` |
+| `src/app/booking/core/guards/booking-auth.guards.ts` | `adminGuard` + `loginGuard` for the `/bookings` routes |
+| `src/app/booking/core/db/schema.sql` | jm-bookings Supabase schema — tables, RLS, `is_admin()` function |
+| `src/app/booking/auth/login/` | Login page at `/bookings/login` — Google + magic link |
+| `src/app/booking/platform/platform-shell/` | Logged-in studio shell — sidebar nav + `<router-outlet>` for the children below |
+| `src/app/booking/platform/dashboard/` | Admin overview at `/bookings/dashboard` (default landing) — KPIs, 6-month revenue chart, upcoming list, attention panel; reuses `BookingDataService` + `BookingAdminService`, no new queries |
+| `src/app/booking/platform/bookings/booking-list/` | Bookings table at `/bookings/list` — Ref + kebab open the detail page; Payment column shows paid/total |
+| `src/app/booking/platform/bookings/booking-detail/` | Booking detail at `/bookings/:id` — Total/Paid/Balance, the payment ledger, and a "Record a payment" form (cash/Revolut/bank/card/other). A booking has many `payments`; `total_paid` (booking_summary) sums completed ones. Uses `BookingDataService.getPayments/addPayment/deletePayment` (recording syncs the calendar). **Route `:id` must stay LAST in `booking.routes.ts`** |
+| `src/app/booking/platform/bookings/booking-form/` | Create/edit a booking — `/bookings/new` (create) and `/bookings/:id/edit` (edit, prefilled). Admin picks/creates a client → service → assigned worker → time + hours (auto-priced from the service's tiers, editable), **or a "Custom" service** (no `service_id`, any bookable worker, manual price). Create makes a confirmed `booked` slot via RLS + returns a `/book/:token` payment link; edit updates in place. Uses `BookingDataService.createClient()`/`createBooking()`/`getBooking()`/`updateBooking()`; no Edge Function |
+| `src/app/booking/platform/clients/client-list/` | Clients table at `/bookings/clients` |
+| `src/app/booking/platform/my-calendar/` | Working-hours / calendar setup at `/bookings/hours` (contains `working-hours-editor/`) |
+| `src/app/booking/public/book-page/` | Public payment page at `/book/:token` — job details + deposit/full card payment **or** "Arrange payment in person" (cash/bank, via `accept-inperson`) |
+| `src/app/booking/public/payment-success/` | Payment success page at `/pay/success` |
+| `src/app/booking/ui/booking-invoice/` | Invoice display component |
+| `src/app/booking/ui/slot-picker/` | Date/time slot picker using working hours config |
+| `src/app/booking/ui/toast/` | App-wide toasts — `ToastService` (root: `success`/`error`/`info`) + `ToastHostComponent` mounted once in `platform-shell`. For any new admin action, call `toast.success(...)`/`toast.error(...)` rather than `alert()` or adding markup |
+| `src/app/map/core/models/enums.ts` | Shared typed enum constants — `Difficulty`, `Island`, `MapPointType`, `GroupStatus`, `GroupRole`, `UserRole` |
+| `src/app/map/core/models/` | All domain types — `Location`, `Provider`, `Group`, `GroupMessage`, `User`, etc. |
+| `src/app/map/core/services/seo.service.ts` | `setPage()` and `updateMetaData()` for all SEO tags |
+| `src/app/map/core/services/analytics.service.ts` | `pageView()` and `event()` wrappers around gtag |
+| `src/app/map/core/services/route-builder.service.ts` | Itinerary plan generation logic |
+| `src/app/map/core/services/map-bridge.service.ts` | Scoped bridge between persistent shell map and swappable panel children |
+| `src/app/map/core/services/groups.service.ts` | All Supabase group operations — realtime channels, mutations, presence |
+| `src/app/map/core/services/auth.service.ts` | Supabase auth — Google OAuth + magic link OTP; `userDisplayName()`, `userPhotoURL()`, `userEmail()` |
+| `src/app/map/core/services/user-data.service.ts` | User record, XP/level signals, `isAdmin()`, `groupsUnlocked()` |
+| `src/app/map/core/services/interaction-tracking.service.ts` | Per-entity interaction stats via `track_interaction` RPC |
+| `src/app/map/core/services/navigation.service.ts` | Back-button and panel navigation helpers |
+| `src/app/map/core/utils/panel-resize.util.ts` | Drag-to-resize + minimize/expand logic for map panels |
+| `src/app/map/core/utils/location-filter.util.ts` | `matchesFilter()`, `getIslandLabel()`, `difficultyColor()` |
+| `src/app/map/core/utils/geo.utils.ts` | `haversineKm()`, `haversineM()` distance helpers |
+| `src/app/map/core/utils/route-drawing.ts` | Builds OpenLayers features from `mapPoints[]` |
+| `src/app/map/core/utils/location-tracker.ts` | GPS dot + heading cone on the map |
+| `src/app/map/core/utils/level.utils.ts` | Level thresholds and XP computation |
+| `src/app/map/core/utils/provider.utils.ts` | `resolveProviderColor()`, `getProviderCategoryLabel()` |
+| `src/app/map/core/config/supabase.config.ts` | Supabase client singleton (staging); swapped at build time for production config |
+| `src/app/map/core/models/timestamp.ts` | Drop-in `Timestamp` wrapper used throughout groups feature |
+| `src/app/map/features/map/shell/` | Persistent shell that owns `<app-map>` across all `/malta/*` panel routes |
+| `src/app/map/features/map/explore/` | Main map page |
+| `src/app/map/features/map/deals/` | Exclusive Deals map page |
+| `src/app/map/features/map/list/` | Browse Locations map page |
+| `src/app/map/features/locations/location-page/` | Location detail route — SEO, back navigation |
+| `src/app/map/features/locations/location-detail/` | Location detail panel content |
+| `src/app/map/features/providers/provider-page/` | Provider detail route — SEO, Book Now, back navigation |
+| `src/app/map/features/providers/provider-detail/` | Provider detail panel content |
+| `src/app/map/features/groups/groups-list/` | Explore Together list + create form at `/malta/groups` |
+| `src/app/map/features/groups/group-detail/` | Group detail + member list + chat at `/malta/groups/:id` |
+| `src/app/map/features/groups/group-card/` | Single group card for the groups list |
+| `src/app/map/features/groups/member-avatars/` | Overlapping avatar bubbles with `+N` overflow |
+| `src/app/map/features/saved-places/` | Saved locations panel |
+| `src/app/map/features/route-builder/` | Route builder (feature-flagged: ROUTE_BUILDER) |
+| `src/app/map/pages/admin/` | Admin panel — Groups migration + Users tab + Reports tab |
+| `src/app/map/pages/top-places/` | "30 Places to Visit in Malta" editorial |
+| `src/app/map/ui/panel-shell/` | Reusable panel wrapper (header, drag handle, scrollable body) |
+| `src/app/map/ui/share-button/` | Copy-to-clipboard share button with `(shared)` output |
+| `src/app/map/ui/sign-in-form/` | Shared sign-in form used by auth modal + welcome popup |
+| `src/app/map/ui/user-avatar/` | User avatar with level border animation |
+| `src/app/map/features/map/map/` | OpenLayers map component |
 | `src/assets/locations.json` | All 74 location records |
 | `src/assets/providers.json` | All provider/deal records |
 | `supabase/schema.sql` | Full PostgreSQL schema — tables, RLS, triggers, RPCs. Re-run updated RPCs in Supabase SQL Editor after changes |
@@ -420,7 +444,23 @@ Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.stagin
 
 ## Navigation & Routing
 
-Routes are in `src/app/app.routes.ts`. All map-adjacent pages use `/malta/*`.
+Routes are split by module: `src/app/map/map.routes.ts` owns all map routes; `src/app/booking/booking.routes.ts` owns all booking routes. `src/app/app.routes.ts` combines them. All map-adjacent pages use `/malta/*`.
+
+**Booking module is organized by feature, not by file type** (aliases: `@booking/core/*`, `@booking/auth/*`, `@booking/platform/*`, `@booking/public/*`, `@booking/ui/*`):
+- `core/` — infra split into `db/` (Supabase client + `schema.sql`), `services/`, `interfaces/`, `guards/`. Never dump everything flat in `core/`.
+- `auth/` — the `/bookings/login` page (signed-out).
+- `platform/` — everything behind the auth gate: `platform-shell/` (sidebar + outlet) wrapping `bookings/`, `clients/`, `my-calendar/`.
+- `public/` — customer-facing pages not behind login (`book-page`, `payment-success`).
+- `ui/` — shared dumb components (`slot-picker`, `booking-invoice`).
+
+**Self-serve booking (Calendly-style, in progress).** Goal: public clients book themselves, sign in (as non-admin `client`, linked to a `clients` row via `clients.user_id`), pick a fixed-duration slot (1–4h, prices in `admin_settings.pricing`), then either pay online (deposit **or** full → auto-confirms + pushed to Google Calendar) or request cash (status `pending` → admin approves, then marks paid). Key invariants:
+- **Concurrency is enforced in the DB, never in app code.** The `bookings_no_overlap` exclusion constraint (`btree_gist`) makes overlapping held/confirmed bookings impossible; a losing concurrent insert fails with SQLSTATE `23P01` — catch it and tell the user "slot just taken." Booking statuses: `hold` (card checkout, `hold_expires_at` ~15 min) and confirmed (`booked`/`in_progress`/`done`) block the slot; `pending` (cash request), `draft`, `cancelled`, `expired` do not.
+- **Availability for the public calendar** comes from `get_busy_ranges(start,end)` (SECURITY DEFINER, returns time ranges only — no titles/clients) plus a final live Google FreeBusy check at commit. Never expose booking details to anon.
+- **Google Calendar** uses a single backend refresh token (`GOOGLE_OAUTH_REFRESH_TOKEN` in Edge Function secrets) — one credential for the owner's calendar, server-side; it does not scale per client. The Google OAuth consent screen must be **published to production** or refresh tokens expire after 7 days.
+- **Calendar event lifecycle is centralized** in `supabase/functions/_shared/booking-event.ts` → `ensureBookingEvent(service, bookingId)`: creates the event if missing or PATCHes its description from current DB state. The description is a live overview (Client/Service/Total/**Payment**/**Progress**). It's invoked server-side on card payment (`stripe-webhook`), cash approval (`approve-cash-booking`), in-person confirmation (`accept-inperson`), and via the admin-only `sync-booking-event` function which the frontend calls after recording cash, editing the amount (`BookingDataService`), or moving a production stage (`BookingAdminService.setStage`). **When anything changes a booking's payment or progress, route the calendar update through `ensureBookingEvent` — never build event descriptions ad hoc.** Cancellation deletes the event via `cancel-booking` → `deleteCalendarEvent` (only clears `google_event_id` once the delete confirms, so failures don't orphan events).
+- **Schema changes** go in `supabase/migrations/` (timestamped, idempotent), applied to the live jm-bookings DB. `ALTER TYPE ... ADD VALUE` must be committed before the new label is used (run enum step separately).
+
+**Future direction — multi-tenant.** The booking system is planned to become a multi-tenant SaaS platform (companies → services → workers, isolated per org). See **`documentation/MULTI_TENANT_ROADMAP.md`**. Until then, follow its **Forward-Compatibility Principles (F1–F10)** for ALL booking work so the migration stays additive — most importantly: carry `org_id` (+`staff_id`/`service_id`) on new booking-domain rows; never add new global `admin_settings` config singletons (key config per org/staff/service); keep availability DB-driven; keep double-booking prevention in the DB `EXCLUDE` constraint (partition by worker); scope new RPCs/Edge Functions by org even if defaulted; no hardcoded identities (owner email, keys, BASE_URL).
 
 Panel navigation must be route-based:
 - Opening a location → `/malta/locations/:slug` (use `location.slug` from JSON — never compute with `toLocationSlug`)

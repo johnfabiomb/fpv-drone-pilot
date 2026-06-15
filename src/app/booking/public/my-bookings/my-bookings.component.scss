@@ -1,0 +1,86 @@
+@use '../../booking.styles' as *;
+
+:host { display: block; min-height: 100dvh; background: $bg; font-family: $font; color: $text; }
+
+.mb {
+  max-width: 560px; margin: 0 auto; padding: 28px 20px 80px;
+
+  &__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  &__title { font-size: 24px; font-weight: 800; letter-spacing: -0.03em; margin: 0; }
+  &__signout { background: none; border: none; color: $text-2; font-size: 13px; font-weight: 600; cursor: pointer; }
+  &__signout:hover { color: $text; }
+  &__msg { color: $text-2; padding: 50px 0; text-align: center; }
+  &__p { font-size: 14.5px; color: $text-2; margin: 0 0 18px; }
+  &__sent { font-size: 14px; background: $accent-dim; padding: 14px; border-radius: $radius-md; }
+  &__empty { text-align: center; padding: 40px 0; color: $text-2; }
+  &__empty .btn { margin-top: 14px; display: inline-block; }
+}
+
+/* Booking cards */
+.cards { display: flex; flex-direction: column; gap: 12px; }
+.card {
+  background: $card; border: 1px solid $border; border-radius: $radius-lg; padding: 16px;
+
+  &__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  &__ref { font-size: 12px; font-weight: 700; color: $text-3; font-family: monospace; }
+  &__title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  &__when { font-size: 13px; color: $text-2; margin-bottom: 8px; }
+  &__pay { font-size: 14.5px; font-weight: 700; margin-bottom: 12px; }
+  &__bal { color: $red; font-weight: 600; font-size: 13px; }
+  &__paid { color: #16a34a; font-weight: 600; font-size: 13px; }
+  &__invoice {
+    background: $accent-dim; border: none; color: $dark; font-size: 13px; font-weight: 700;
+    padding: 9px 14px; border-radius: $radius-md; cursor: pointer; transition: $transition;
+    &:hover { background: rgba(244, 169, 34, 0.22); }
+  }
+}
+
+/* status pills */
+.pill {
+  font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+  background: #eef2f6; color: $text-2;
+}
+.pill--booked, .pill--done { background: #dcfce7; color: #15803d; }
+.pill--pending, .pill--hold { background: $accent-dim; color: #92600a; }
+.pill--cancelled, .pill--expired { background: #fee2e2; color: #b91c1c; }
+.pill--in_progress { background: #dbeafe; color: #1d4ed8; }
+
+/* Buttons + sign-in */
+.btn {
+  display: block; width: 100%; box-sizing: border-box;
+  padding: 13px 16px; border-radius: $radius-md; font-size: 14.5px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid transparent; transition: $transition; margin-bottom: 10px;
+  text-align: center; text-decoration: none;
+
+  &--primary { background: $accent; color: $dark; }
+  &--primary:hover:not(:disabled) { filter: brightness(1.05); }
+  &--google { background: $dark; color: #fff; }
+  &--google:hover { background: $dark-2; }
+  &:disabled { opacity: 0.45; cursor: default; }
+}
+
+.field {
+  display: block; margin-bottom: 14px;
+  span { display: block; font-size: 12px; font-weight: 600; color: $text-2; margin-bottom: 5px; }
+  input {
+    width: 100%; box-sizing: border-box; padding: 11px 12px;
+    border: 1.5px solid $border; border-radius: $radius-md; font-size: 14.5px; font-family: inherit; color: $text;
+    &:focus { outline: none; border-color: $accent; }
+  }
+}
+
+.divider {
+  display: flex; align-items: center; gap: 12px; margin: 16px 0; color: $text-3; font-size: 12px;
+  &::before, &::after { content: ''; flex: 1; height: 1px; background: $border; }
+}
+
+/* Invoice overlay */
+.invoice-view {
+  min-height: 100dvh; background: $bg;
+  &__back {
+    display: block; margin: 0 auto; max-width: 720px; width: 100%;
+    background: none; border: none; color: $text-2; font-size: 14px; font-weight: 600;
+    cursor: pointer; padding: 18px 20px 0; text-align: left;
+  }
+  &__back:hover { color: $text; }
+}

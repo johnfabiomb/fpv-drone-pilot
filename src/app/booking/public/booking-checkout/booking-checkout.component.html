@@ -1,0 +1,107 @@
+<div class="co">
+
+  <!-- Slot summary (always shown once known) -->
+  @if (step() !== 'loading' && step() !== 'error') {
+    <div class="slot">
+      <button class="slot__back" (click)="backToCalendar()" aria-label="Back">‹</button>
+      <div class="slot__info">
+        <div class="slot__day">{{ slotDay() }}</div>
+        <div class="slot__time">{{ slotTime() }} · {{ hours }}h</div>
+      </div>
+      @if (price() !== null) { <div class="slot__price">{{ currencySymbol() }}{{ price() }}</div> }
+    </div>
+  }
+
+  @switch (step()) {
+
+    @case ('loading') {
+      <p class="co__msg">Checking the slot…</p>
+    }
+
+    @case ('unavailable') {
+      <div class="co__center">
+        <h2 class="co__h">That slot was just taken</h2>
+        <p class="co__p">Someone grabbed this time while you were deciding. Pick another — there's plenty.</p>
+        <button class="btn btn--primary" (click)="backToCalendar()">Back to calendar</button>
+      </div>
+    }
+
+    @case ('signin') {
+      <h2 class="co__h">Sign in to book</h2>
+      <p class="co__p">Just so we know who the booking is for — and so we can send your confirmation and invoice.</p>
+
+      <button class="btn btn--google" (click)="signInGoogle()">Continue with Google</button>
+
+      <div class="divider"><span>or</span></div>
+
+      @if (magicSent()) {
+        <p class="co__sent">✓ Check your inbox — we sent a sign-in link to <strong>{{ email }}</strong>.</p>
+      } @else {
+        <label class="field">
+          <span>Email</span>
+          <input type="email" [(ngModel)]="email" placeholder="you@example.com" />
+        </label>
+        <button class="btn btn--primary" [disabled]="!email.trim()" (click)="sendMagicLink()">Email me a sign-in link</button>
+      }
+    }
+
+    @case ('details') {
+      <h2 class="co__h">Your details</h2>
+      <p class="co__p">For your invoice. You can reuse these next time.</p>
+
+      <label class="field"><span>Full name</span>
+        <input type="text" [(ngModel)]="form.name" placeholder="Jane Doe" /></label>
+      <label class="field"><span>Email (invoice)</span>
+        <input type="email" [(ngModel)]="form.email" placeholder="you@example.com" /></label>
+      <label class="field"><span>Company <em class="field__opt">optional</em></span>
+        <input type="text" [(ngModel)]="form.company" placeholder="Company name" /></label>
+      <label class="field"><span>VAT / tax number <em class="field__opt">optional</em></span>
+        <input type="text" [(ngModel)]="form.vat" placeholder="MT12345678" /></label>
+      <label class="field"><span>Billing address <em class="field__opt">optional</em></span>
+        <textarea rows="2" [(ngModel)]="form.address" placeholder="Street, city, postcode, country"></textarea></label>
+
+      <div class="actions">
+        <button class="btn btn--primary" [disabled]="!canSubmit() || submitting()" (click)="startCard('full')">
+          Pay in full · {{ currencySymbol() }}{{ price() }}
+        </button>
+        <button class="btn btn--outline" [disabled]="!canSubmit() || submitting()" (click)="startCard('deposit')">
+          Pay 30% deposit · {{ currencySymbol() }}{{ deposit() }}
+        </button>
+        <div class="divider"><span>or</span></div>
+        <button class="btn btn--ghost" [disabled]="!canSubmit() || submitting()" (click)="submitCashRequest()">
+          {{ submitting() ? 'Sending…' : 'Request & pay cash on the day' }}
+        </button>
+        <p class="actions__note">Card: deposit or full confirms your booking instantly. Cash: we confirm before the slot is reserved.</p>
+      </div>
+    }
+
+    @case ('paying') {
+      <h2 class="co__h">Payment</h2>
+      <p class="co__p">Paying {{ currencySymbol() }}{{ cardAmount.toFixed(2) }} — your slot is held for 15 minutes.</p>
+      <div id="payment-element" class="stripe-mount"></div>
+      @if (cardError()) { <p class="book__error co__cardErr">{{ cardError() }}</p> }
+      <button class="btn btn--primary" (click)="payNow()">Pay {{ currencySymbol() }}{{ cardAmount.toFixed(2) }}</button>
+    }
+
+    @case ('done') {
+      <div class="co__center">
+        <div class="co__tick">✓</div>
+        <h2 class="co__h">Request sent</h2>
+        <p class="co__p">
+          Your request <strong>{{ bookingRef() }}</strong> is in. We'll confirm it shortly and the slot is
+          held for you once approved. You'll get an email either way.
+        </p>
+        <a class="btn btn--primary" href="/book/mine">View my bookings</a>
+        <button class="btn btn--ghost" (click)="backToCalendar()">Book another</button>
+      </div>
+    }
+
+    @case ('error') {
+      <div class="co__center">
+        <h2 class="co__h">Something went wrong</h2>
+        <p class="co__p">{{ errorMsg() }}</p>
+        <button class="btn btn--primary" (click)="backToCalendar()">Back to calendar</button>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,182 @@
+<div class="book-wrap">
+
+  <!-- Loading -->
+  <div class="book-state" *ngIf="state() === 'loading'">
+    <div class="spinner"></div>
+    <p>Loading your booking…</p>
+  </div>
+
+  <!-- Invalid / expired link -->
+  <div class="book-state book-state--error" *ngIf="state() === 'invalid'">
+    <div class="state-icon">🔗</div>
+    <h2>Link not found</h2>
+    <p>This payment link is invalid or has expired. Please contact John for a new link.</p>
+  </div>
+
+  <!-- Slot taken -->
+  <div class="book-state book-state--error" *ngIf="state() === 'unavailable'">
+    <div class="state-icon">📅</div>
+    <h2>This slot is no longer available</h2>
+    <p>The date for this booking has been taken. Please contact John to reschedule.</p>
+    <a href="mailto:johnfabiomb@gmail.com" class="btn btn--primary">Contact John</a>
+  </div>
+
+  <!-- Error -->
+  <div class="book-state book-state--error" *ngIf="state() === 'error'">
+    <div class="state-icon">⚠️</div>
+    <h2>Something went wrong</h2>
+    <p>Please try refreshing the page or contact John directly.</p>
+  </div>
+
+  <!-- Booking confirmed (pay-later only — client accepted) -->
+  <div class="book-state" *ngIf="state() === 'confirmed'">
+    <div class="state-icon">✓</div>
+    <h2>Booking confirmed</h2>
+    <p>You're all set! John will arrange payment (cash, Revolut or bank transfer) with you. See you then.</p>
+  </div>
+
+  <!-- In-person request sent (awaiting John's acceptance) -->
+  <div class="book-state" *ngIf="state() === 'requested'">
+    <div class="state-icon">📩</div>
+    <h2>Request sent</h2>
+    <p>Thanks! John will confirm your booking shortly and arrange cash, Revolut or bank-transfer payment with you. You'll hear back soon.</p>
+  </div>
+
+  <!-- Already paid — full invoice -->
+  <div class="paid-page" *ngIf="state() === 'paid'">
+    <div class="paid-banner no-print">
+      <div class="paid-icon">✓</div>
+      <h2>Booking confirmed</h2>
+      <p>This booking has been paid in full. Here's your receipt.</p>
+    </div>
+    <app-booking-invoice [invoice]="paidInvoice()" />
+  </div>
+
+  <!-- Booking details + payment choice -->
+  <ng-container *ngIf="state() === 'ready' || state() === 'paying' || state() === 'partial'">
+    <div class="book-card" *ngIf="booking() as b">
+
+      <!-- Header -->
+      <div class="book-header">
+        <div class="book-logo">JM</div>
+        <div>
+          <h1 class="book-title">{{ b.title }}</h1>
+          <p class="book-ref">{{ b.booking_ref }}</p>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="book-details">
+        <div class="detail-row" *ngIf="b.location">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">{{ b.location }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date</span>
+          <span class="detail-value">{{ b.start_at | date:'d MMM yyyy, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Total</span>
+          <span class="detail-value detail-value--price">{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="detail-row" *ngIf="b.description">
+          <span class="detail-label">Notes</span>
+          <span class="detail-value">{{ b.description }}</span>
+        </div>
+      </div>
+
+      <!-- Payment choice (ready state) -->
+      <ng-container *ngIf="state() === 'ready'">
+        <div class="book-divider"></div>
+
+        <!-- Card payment -->
+        <ng-container *ngIf="showCard">
+          <h2 class="book-section-title">How would you like to pay?</h2>
+
+          <div class="payment-options">
+            <button class="pay-option" (click)="selectPayment('full')">
+              <div class="pay-option__label">Pay in full</div>
+              <div class="pay-option__amount">{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="pay-option__note">One payment, all done</div>
+            </button>
+
+            <button class="pay-option pay-option--deposit" *ngIf="!isPast" (click)="selectPayment('deposit')">
+              <div class="pay-option__label">Pay 30% deposit</div>
+              <div class="pay-option__amount">{{ depositAmount | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="pay-option__note">Remaining {{ b.price_total - depositAmount | currency:'EUR':'symbol':'1.2-2' }} due on the day</div>
+            </button>
+          </div>
+
+          <p class="book-secure">🔒 Secure payment via Stripe</p>
+        </ng-container>
+
+        <!-- Pay later (cash / Revolut / bank) -->
+        <ng-container *ngIf="showInperson">
+          <ng-container *ngIf="payLaterOnly; else askLater">
+            <!-- Only option → confirming = terms acceptance, books straight away -->
+            <h2 class="book-section-title">Confirm your booking</h2>
+            <button class="inperson-btn inperson-btn--primary" (click)="acceptInPerson()" [disabled]="confirming()">
+              {{ confirming() ? 'Confirming…' : 'Confirm booking' }}
+            </button>
+            <p class="inperson-note">
+              By confirming, you accept this booking and agree to pay {{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}
+              by cash, Revolut or bank transfer.
+            </p>
+          </ng-container>
+          <ng-template #askLater>
+            <div class="inperson-divider" *ngIf="showCard"><span>or</span></div>
+            <button class="inperson-btn" (click)="acceptInPerson()" [disabled]="confirming()">
+              {{ confirming() ? 'Sending…' : 'Pay later — cash, Revolut or bank transfer' }}
+            </button>
+            <p class="inperson-note">John will confirm your booking and arrange payment with you directly.</p>
+          </ng-template>
+        </ng-container>
+
+        <p class="book-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+      </ng-container>
+
+      <!-- Deposit already paid — pay remaining balance -->
+      <ng-container *ngIf="state() === 'partial'">
+        <div class="book-divider"></div>
+        <div class="deposit-paid-banner">
+          <span class="deposit-paid-banner__dot"></span>
+          Deposit of {{ totalPaid() | currency:'EUR':'symbol':'1.2-2' }} already paid
+        </div>
+
+        <div class="payment-options">
+          <button class="pay-option" (click)="selectPayment('remainder')">
+            <div class="pay-option__label">Pay remaining balance</div>
+            <div class="pay-option__amount">{{ remainingAmount | currency:'EUR':'symbol':'1.2-2' }}</div>
+            <div class="pay-option__note">Completes your booking — total {{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</div>
+          </button>
+        </div>
+
+        <p class="book-secure">🔒 Secure payment via Stripe</p>
+      </ng-container>
+
+      <!-- Stripe payment form (paying state) -->
+      <ng-container *ngIf="state() === 'paying'">
+        <div class="book-divider"></div>
+        <div class="pay-summary">
+          <span>{{ selectedType() === 'deposit' ? '30% Deposit' : selectedType() === 'remainder' ? 'Remaining balance' : 'Full payment' }}</span>
+          <span class="pay-summary__amount">
+            {{ (selectedType() === 'deposit' ? depositAmount : selectedType() === 'remainder' ? remainingAmount : b.price_total) | currency:'EUR':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div id="payment-element" class="payment-element-wrap"></div>
+
+        <p class="book-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+        <div class="pay-actions">
+          <button class="btn btn--ghost" (click)="goBack()">← Back</button>
+          <button class="btn btn--primary" (click)="submitPayment()">Pay now</button>
+        </div>
+
+        <p class="book-secure">🔒 Secure payment via Stripe</p>
+      </ng-container>
+
+    </div>
+  </ng-container>
+
+</div>

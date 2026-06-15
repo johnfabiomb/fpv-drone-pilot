@@ -1,0 +1,103 @@
+@use '../../booking.styles' as *;
+
+:host { display: block; min-height: 100dvh; background: $bg; font-family: $font; color: $text; }
+
+.book {
+  max-width: 560px; margin: 0 auto; padding: 32px 20px 120px;
+
+  &__head { margin-bottom: 28px; }
+  &__back { background: none; border: none; color: $text-2; font-size: 14px; font-weight: 600; cursor: pointer; padding: 0 0 10px; }
+  &__back:hover { color: $text; }
+  &__title { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 6px; }
+  &__sub { font-size: 14.5px; color: $text-2; margin: 0; }
+  &__error { color: $red; font-size: 13px; margin: 10px 2px 0; }
+  &__empty { color: $text-2; font-size: 14px; margin: 4px 2px; }
+}
+
+.step {
+  margin-bottom: 28px;
+  &__label {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: $muted-2; margin: 0 0 12px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  }
+  &__hint { font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: 0; color: $text-3; }
+}
+
+/* Calendar */
+.cal {
+  background: $card; border: 1px solid $border; border-radius: $radius-lg; padding: 16px;
+
+  &__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  &__month { font-size: 15px; font-weight: 700; }
+  &__arrow {
+    width: 34px; height: 34px; border-radius: $radius-md; border: 1px solid $border;
+    background: $card; font-size: 18px; line-height: 1; cursor: pointer; color: $text; transition: $transition;
+    &:hover:not(:disabled) { background: $bg; }
+    &:disabled { opacity: 0.3; cursor: default; }
+  }
+  &__dow {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 6px;
+    span { text-align: center; font-size: 11px; font-weight: 600; color: $text-3; }
+  }
+  &__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  &__loading { padding: 40px 0; text-align: center; color: $text-2; font-size: 14px; }
+}
+
+.cell {
+  position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border: none; background: transparent; border-radius: $radius-md; font-size: 14px; color: $text-3; cursor: default;
+
+  &--blank { visibility: hidden; }
+  &--available { color: $text; font-weight: 600; cursor: pointer; background: $accent-dim; }
+  &--available:hover { background: rgba(244, 169, 34, 0.22); }
+  &--selected { background: $accent !important; color: #fff; }
+  &:disabled { cursor: default; }
+
+  &__dot {
+    position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: $accent;
+  }
+  &--selected &__dot { background: #fff; }
+}
+
+/* Hour slots — bigger pill grid with a solid filled range */
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 7px; }
+.slot {
+  min-height: 50px; padding: 14px 10px;
+  background: $card; border: 1.5px solid $border; border-radius: $radius-lg;
+  font-size: 15.5px; font-weight: 700; color: $text; cursor: pointer; transition: $transition;
+
+  &:hover:not(:disabled):not(.slot--range) { border-color: $muted; background: $bg; }
+
+  /* Whole selection is solid accent; inner corners squared so a span reads as
+     one connected bar, with the first/last slot keeping rounded outer ends. */
+  &--range {
+    background: $accent; border-color: $accent; color: #fff; border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(244, 169, 34, 0.35);
+  }
+  &--start { border-top-left-radius: $radius-lg; border-bottom-left-radius: $radius-lg; }
+  &--end   { border-top-right-radius: $radius-lg; border-bottom-right-radius: $radius-lg; }
+
+  &--busy {
+    background: $bg; color: $text-3; border-color: transparent; cursor: default;
+    text-decoration: line-through; opacity: 0.65; min-height: 50px;
+  }
+}
+
+/* Sticky summary */
+.summary {
+  position: fixed; left: 0; right: 0; bottom: 0; max-width: 560px; margin: 0 auto;
+  display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+  background: $dark; color: #fff; border-radius: $radius-lg $radius-lg 0 0; box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.18);
+
+  &__info { flex: 1; min-width: 0; }
+  &__when { font-size: 15px; font-weight: 700; }
+  &__dur { font-size: 12.5px; color: $muted; }
+  &__price { font-size: 18px; font-weight: 800; }
+  &__noprice { font-size: 12.5px; color: $muted; }
+  &__cta {
+    padding: 11px 20px; background: $accent; color: $dark; font-weight: 700; font-size: 14px;
+    border: none; border-radius: $radius-md; cursor: pointer; transition: $transition;
+    &:hover { filter: brightness(1.05); }
+  }
+}

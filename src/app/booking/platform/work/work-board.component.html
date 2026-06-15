@@ -1,0 +1,65 @@
+<div class="work">
+  <div class="work__head">
+    <div>
+      <h1 class="work__title">Work</h1>
+      <p class="work__sub">Post-production for every confirmed job.</p>
+    </div>
+    @if (overdueCount() > 0) { <span class="overdue-tag">{{ overdueCount() }} overdue</span> }
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    <div class="board" cdkDropListGroup>
+      @for (col of stages; track col.key) {
+        <div class="col">
+          <div class="col__head">
+            <span class="col__label">{{ col.label }}</span>
+            <span class="col__count">{{ board()[col.key].length }}</span>
+          </div>
+
+          <div class="col__body" cdkDropList [cdkDropListData]="board()[col.key]"
+               (cdkDropListDropped)="drop($event, col.key)">
+            @for (j of board()[col.key]; track j.id) {
+              <div class="job" cdkDrag>
+                <div class="job__drag-placeholder" *cdkDragPlaceholder></div>
+                <div class="job__top">
+                  <div class="job__client" cdkDragHandle>⠿ {{ j.clientName ?? 'No client' }}</div>
+                  <div class="job__nav">
+                    <button class="job__arrow" [disabled]="!canPrev(j)" (click)="move(j, -1)" title="Move back">‹</button>
+                    <button class="job__arrow" [disabled]="!canNext(j)" (click)="move(j, 1)" title="Move forward">›</button>
+                  </div>
+                </div>
+                <div class="job__meta">{{ j.serviceName }} · {{ j.start_at | date:'d MMM, HH:mm' }}</div>
+
+                <div class="tasks">
+                  @for (t of tasksFor(j.id); track t.id) {
+                    <div class="task" [class.task--done]="t.is_done">
+                      <label class="task__check">
+                        <input type="checkbox" [checked]="t.is_done" (change)="toggle(t)" />
+                        <span>{{ t.title }}</span>
+                      </label>
+                      <button class="task__del" (click)="remove(t)" title="Remove">×</button>
+                    </div>
+                  }
+                  @if (tasksFor(j.id).length === 0) { <div class="task task--empty">No tasks</div> }
+                </div>
+
+                <div class="job__add">
+                  <input type="text" placeholder="+ add task" [(ngModel)]="newTask[j.id]" (keyup.enter)="add(j.id)" />
+                </div>
+
+                @if (remaining(j.id) > 0) {
+                  <div class="job__remaining">{{ remaining(j.id) }} left</div>
+                } @else {
+                  <div class="job__remaining job__remaining--done">✓ all done</div>
+                }
+              </div>
+            }
+            @if (board()[col.key].length === 0) { <div class="col__empty">Drop here</div> }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

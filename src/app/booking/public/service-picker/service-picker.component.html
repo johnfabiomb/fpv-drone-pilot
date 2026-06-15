@@ -1,0 +1,47 @@
+<div class="sp">
+  <header class="sp__head">
+    <h1 class="sp__title">{{ org()?.name ?? 'Book a session' }}</h1>
+    <p class="sp__sub">Choose a service to get started.</p>
+  </header>
+
+  @if (loading()) {
+    <p class="sp__msg">Loading services…</p>
+  } @else if (error()) {
+    <p class="sp__err">{{ error() }}</p>
+  } @else {
+    @if (pickingWorkersFor(); as svc) {
+      <!-- Worker choice (only when a service has more than one) -->
+      <button class="sp__back" (click)="back()">‹ Back to services</button>
+      <h2 class="sp__step">Who would you like for {{ svc.name }}?</h2>
+      <div class="cards">
+        @for (w of svc.workers; track w.id) {
+          <button class="card card--worker" (click)="pickWorker(svc.id, w.id)">
+            <span class="card__name">{{ w.name }}</span>
+            <span class="card__go">›</span>
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="cards">
+        @for (s of services(); track s.id) {
+          <button class="card" [disabled]="s.workers.length === 0" (click)="pickService(s)">
+            <div class="card__body">
+              <div class="card__name">{{ s.name }}</div>
+              @if (s.description) { <div class="card__desc">{{ s.description }}</div> }
+            </div>
+            <div class="card__right">
+              @if (fromPrice(s) !== null) {
+                <span class="card__price">from {{ currencySymbol() }}{{ fromPrice(s) }}</span>
+                <span class="card__per">/ {{ s.min_hours }}h</span>
+              }
+              <span class="card__go">›</span>
+            </div>
+          </button>
+        }
+        @if (services().length === 0) {
+          <p class="sp__msg">No services available right now.</p>
+        }
+      </div>
+    }
+  }
+</div>

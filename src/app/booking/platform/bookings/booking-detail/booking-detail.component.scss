@@ -1,0 +1,89 @@
+@use '../../admin.shared' as *;
+
+.page { max-width: 820px; }
+.field label { font-size: 12px; font-weight: 600; color: $text-2; }
+
+.back { font-size: 12.5px; font-weight: 600; color: $accent; text-decoration: none; display: inline-block; margin-bottom: 8px; &:hover { text-decoration: underline; } }
+.head-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.card + .card { margin-top: 18px; }
+.card__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card__title { font-size: 15px; font-weight: 700; color: $text; margin: 0; }
+.empty-line { font-size: 13.5px; color: $text-3; margin: 4px 0; }
+
+// ── Money summary ────────────────────────────────────────────────────────
+.money {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  @media (max-width: 560px) { grid-template-columns: repeat(3, 1fr); .money__badge { grid-column: 1 / -1; } }
+
+  &__stat { display: flex; flex-direction: column; gap: 4px; }
+  &__value { font-size: 22px; font-weight: 700; color: $text; letter-spacing: -0.02em; }
+  &__value--paid { color: #16a34a; }
+  &__value--due { color: #f97316; }
+  &__label { font-size: 11px; font-weight: 600; color: $text-3; text-transform: uppercase; letter-spacing: 0.05em; }
+  &__badge { justify-self: end; }
+}
+
+// ── Facts ────────────────────────────────────────────────────────────────
+.facts { display: flex; flex-direction: column; gap: 0; }
+.fact {
+  display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; font-size: 13.5px;
+  & + & { border-top: 1px solid $border; }
+  &__k { color: $text-3; font-weight: 600; }
+  &__v { color: $text; text-align: right; }
+}
+
+// ── Payments ledger ──────────────────────────────────────────────────────
+.pays { list-style: none; margin: 0; padding: 0; }
+.pay {
+  display: flex; align-items: center; gap: 14px; padding: 11px 0;
+  & + & { border-top: 1px solid $border; }
+  &--refunded { opacity: 0.55; }
+
+  &__amount { font-size: 15px; font-weight: 700; color: $text; min-width: 84px; }
+  &__main { flex: 1; min-width: 0; font-size: 13.5px; color: $text-2; }
+  &__method { font-weight: 600; color: $text; }
+  &__note { color: $text-2; }
+  &__tag { margin-left: 6px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: $red; }
+  &__tag--pending { color: #a16207; }
+  &__date { font-size: 12.5px; color: $text-3; white-space: nowrap; }
+  &__del {
+    background: none; border: none; color: $text-3; cursor: pointer; font-size: 14px;
+    width: 26px; height: 26px; border-radius: $radius-sm; flex-shrink: 0;
+    &:hover { background: rgba(239, 68, 68, 0.1); color: $red; }
+  }
+}
+
+// ── Record payment form ──────────────────────────────────────────────────
+.payform__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  @media (max-width: 620px) { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 420px) { grid-template-columns: 1fr; }
+}
+.field--note { grid-column: 1 / -1; }
+.opt { color: $text-3; font-weight: 400; }
+.payform__actions { margin-top: 14px; display: flex; justify-content: flex-end; }
+
+// ── Payment-status badge ─────────────────────────────────────────────────
+.badge {
+  display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  &--paid     { background: #dcfce7; color: #16a34a; }
+  &--partial  { background: #fef9c3; color: #a16207; }
+  &--unpaid   { background: #fee2e2; color: #dc2626; }
+  &--external { background: #f1f5f9; color: $muted-2; }
+}
+
+// ── States ───────────────────────────────────────────────────────────────
+.loading { display: flex; justify-content: center; padding: 60px; }
+.spinner { width: 28px; height: 28px; border: 2.5px solid $border; border-top-color: $accent; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 40px 0; color: $text-3; }

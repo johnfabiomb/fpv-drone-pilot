@@ -1,0 +1,259 @@
+@use '../../../booking.styles' as *;
+
+.page {
+  max-width: 1600px;
+  padding: 36px 48px;
+  @media (max-width: 900px) { padding: 24px 20px; }
+}
+
+.page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.page__title { font-size: 22px; font-weight: 700; color: $text; margin: 0 0 4px; letter-spacing: -0.02em; }
+.page__sub   { font-size: 13.5px; color: $text-2; margin: 0; }
+
+// ── Stats ──────────────────────────────────────────────────────────────
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 18px 22px;
+  min-width: 140px;
+  flex: 1;
+
+  &__value { display: block; font-size: 24px; font-weight: 700; color: $text; letter-spacing: -0.03em; line-height: 1.1; }
+  &__label { display: block; font-size: 11px; color: $text-3; margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  &--warn .stat__value { color: #f97316; }
+}
+
+// ── Table ──────────────────────────────────────────────────────────────
+.table-wrap {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $text-3;
+    background: $bg;
+    border-bottom: 1px solid $border;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 11px 14px;
+    font-size: 13.5px;
+    color: $text-2;
+    border-bottom: 1px solid $border;
+    white-space: nowrap;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+}
+
+.row--external td { color: $text-3; }
+.cell--mono   { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12.5px; color: $text; font-weight: 600; }
+.cell--client { font-weight: 600; color: $text; }
+.cell--title  { max-width: 200px; overflow: hidden; text-overflow: ellipsis; color: $text; }
+.cell--date   { color: $text-3; }
+
+// ── Badges ─────────────────────────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+
+  &--paid     { background: #dcfce7; color: #16a34a; }
+  &--partial  { background: #fef9c3; color: #a16207; }
+  &--unpaid   { background: #fee2e2; color: #dc2626; }
+  &--external { background: #f1f5f9; color: $muted-2; }
+  &--status   { background: #f1f5f9; color: $muted-2; }
+}
+
+// ── Buttons ────────────────────────────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: $radius-md;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+  border: 1.5px solid transparent;
+  font-family: $font;
+  text-decoration: none;
+
+  svg { width: 14px; height: 14px; }
+
+  &--primary {
+    background: $accent;
+    border-color: $accent;
+    color: #000;
+    &:hover { filter: brightness(0.92); }
+  }
+  &--ghost {
+    background: $card; border-color: $border; color: $text-2;
+    &:hover:not(:disabled) { border-color: $muted; }
+  }
+  &--sm { padding: 7px 14px; font-size: 12.5px; }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+// ── Cash requests awaiting approval ────────────────────────────────────
+.requests {
+  margin-bottom: 26px; background: $card; border: 1px solid $border;
+  border-left: 3px solid $accent; border-radius: $radius-lg; padding: 16px 18px;
+
+  &__title {
+    font-size: 14px; font-weight: 700; margin: 0 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  &__count {
+    background: $accent; color: #000; font-size: 12px; font-weight: 700;
+    min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+}
+.request {
+  display: flex; align-items: center; gap: 14px; padding: 10px 0;
+  & + & { border-top: 1px solid $border; }
+
+  &__main { flex: 1; min-width: 0; }
+  &__who { font-size: 14px; font-weight: 600; }
+  &__when { font-size: 12.5px; color: $text-2; }
+  &__price { font-size: 15px; font-weight: 700; white-space: nowrap; }
+  &__actions { display: flex; gap: 8px; }
+}
+
+.cell--actions { white-space: nowrap; }
+
+.ref-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12.5px; font-weight: 600; color: $text;
+  &:hover { color: $accent; text-decoration: underline; }
+}
+
+.pay-cell {
+  display: flex; flex-direction: column; gap: 3px; align-items: flex-start;
+  &__amt { font-size: 11.5px; color: $text-3; font-weight: 600; }
+}
+
+.row-actions { display: inline-flex; align-items: center; gap: 2px; }
+
+// Kebab (⋯) overflow trigger
+.kebab {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; padding: 0;
+  background: none; border: none; border-radius: $radius-sm;
+  color: $muted-2; cursor: pointer; transition: all $transition;
+  &:hover:not(:disabled) { background: $bg; color: $text; }
+  &:disabled { opacity: 0.4; cursor: default; }
+  &[aria-expanded='true'] { background: $bg; color: $text; }
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $accent;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: $radius-sm;
+  transition: background $transition;
+  font-family: inherit;
+  &:hover { background: $accent-dim; }
+  &:disabled { opacity: 0.5; cursor: default; }
+  &--danger { color: $red; }
+  &--danger:hover { background: rgba(239, 68, 68, 0.1); }
+}
+
+// ── Kebab dropdown (CDK Menu overlay) ──────────────────────────────────
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 168px;
+  padding: 6px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.14);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: $radius-sm;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: $text-2;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover, &:focus-visible { background: $bg; color: $text; outline: none; }
+    &--danger { color: $red; }
+    &--danger:hover, &--danger:focus-visible { background: rgba(239, 68, 68, 0.1); color: $red; }
+  }
+}
+
+// ── Loading / empty ────────────────────────────────────────────────────
+.loading { display: flex; justify-content: center; padding: 60px; }
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid $border;
+  border-top-color: $accent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 40px;
+  color: $text-3;
+  text-align: center;
+
+  svg { width: 48px; height: 48px; opacity: .35; }
+  p   { font-size: 14px; margin: 0; max-width: 300px; }
+}

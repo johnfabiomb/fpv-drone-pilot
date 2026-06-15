@@ -1,0 +1,125 @@
+<div class="page">
+  @if (data.loading() && !booking()) {
+    <div class="loading"><div class="spinner"></div></div>
+  } @else if (!booking()) {
+    <div class="empty">
+      <p>Booking not found.</p>
+      <a class="btn btn--ghost" routerLink="/bookings/list">Back to bookings</a>
+    </div>
+  } @else {
+    @if (booking(); as b) {
+
+    <div class="page__head">
+      <div>
+        <a class="back" routerLink="/bookings/list">← All bookings</a>
+        <h1 class="page__title">{{ b.title }}</h1>
+        <p class="page__sub">{{ b.booking_ref }} · {{ b.client_name ?? 'No client' }}</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn btn--ghost" (click)="copyLink()">{{ copied() ? '✓ Copied' : 'Copy link' }}</button>
+        <button class="btn btn--ghost" (click)="goEdit()">Edit</button>
+      </div>
+    </div>
+
+    <!-- Money summary -->
+    <div class="money">
+      <div class="money__stat">
+        <span class="money__value">{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</span>
+        <span class="money__label">Total</span>
+      </div>
+      <div class="money__stat">
+        <span class="money__value money__value--paid">{{ b.total_paid | currency:'EUR':'symbol':'1.2-2' }}</span>
+        <span class="money__label">Paid</span>
+      </div>
+      <div class="money__stat">
+        <span class="money__value" [class.money__value--due]="balance() > 0">{{ balance() | currency:'EUR':'symbol':'1.2-2' }}</span>
+        <span class="money__label">Balance due</span>
+      </div>
+      <div class="money__badge">
+        <span class="badge badge--{{ b.payment_status }}">
+          {{ b.payment_status === 'paid' ? 'Paid in full'
+           : b.payment_status === 'partial' ? 'Partially paid'
+           : b.payment_status === 'external' ? 'External' : 'Unpaid' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Booking facts -->
+    <div class="card facts">
+      <div class="fact"><span class="fact__k">Date</span><span class="fact__v">{{ b.start_at | date:'EEE d MMM y, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span></div>
+      <div class="fact"><span class="fact__k">Service</span><span class="fact__v">{{ b.service_name ?? '—' }}</span></div>
+      <div class="fact"><span class="fact__k">Worker</span><span class="fact__v">{{ b.staff_name ?? '—' }}</span></div>
+      <div class="fact"><span class="fact__k">Status</span><span class="fact__v">{{ b.status }}</span></div>
+      @if (b.client_email) {
+        <div class="fact"><span class="fact__k">Email</span><span class="fact__v">{{ b.client_email }}</span></div>
+      }
+    </div>
+
+    <!-- Payments ledger -->
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__title">Payments</h2>
+        <span class="muted">{{ payments().length }} record{{ payments().length === 1 ? '' : 's' }}</span>
+      </div>
+
+      @if (payments().length === 0) {
+        <p class="empty-line">No payments recorded yet.</p>
+      } @else {
+        <ul class="pays">
+          @for (p of payments(); track p.id) {
+            <li class="pay" [class.pay--refunded]="p.status === 'refunded'">
+              <div class="pay__amount">{{ p.amount | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="pay__main">
+                <span class="pay__method">{{ methodLabel(p.method) }}</span>
+                @if (p.note) { <span class="pay__note">· {{ p.note }}</span> }
+                @if (p.status === 'refunded') { <span class="pay__tag">refunded</span> }
+                @if (p.status === 'pending') { <span class="pay__tag pay__tag--pending">pending</span> }
+              </div>
+              <div class="pay__date">{{ (p.paid_at ?? p.created_at) | date:'d MMM y' }}</div>
+              <button class="pay__del" title="Remove payment" (click)="deletePayment(p)">✕</button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Record a payment -->
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__title">Record a payment</h2>
+        @if (balance() > 0) {
+          <button type="button" class="link-btn" (click)="prefillBalance()">Pay full balance ({{ balance() | currency:'EUR':'symbol':'1.0-2' }})</button>
+        }
+      </div>
+
+      <form class="payform" (ngSubmit)="addPayment()">
+        <div class="payform__grid">
+          <div class="field">
+            <label>Amount (€)</label>
+            <input type="number" [(ngModel)]="payAmount" name="payAmount" min="0" step="0.01" placeholder="0.00" required />
+          </div>
+          <div class="field">
+            <label>Method</label>
+            <select [(ngModel)]="payMethod" name="payMethod">
+              @for (m of methods; track m) { <option [value]="m">{{ methodLabel(m) }}</option> }
+            </select>
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="payDate" name="payDate" />
+          </div>
+          <div class="field field--note">
+            <label>Note <span class="opt">(optional)</span></label>
+            <input [(ngModel)]="payNote" name="payNote" placeholder="e.g. Deposit, Final payment" />
+          </div>
+        </div>
+        <div class="payform__actions">
+          <button type="submit" class="btn btn--primary" [disabled]="adding()">
+            {{ adding() ? 'Recording…' : 'Record payment' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+  }
+</div>

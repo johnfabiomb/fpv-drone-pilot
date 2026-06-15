@@ -1,0 +1,22 @@
+@use '../admin.shared' as *;
+
+:host { display: block; }
+
+.err { color: $red; font-size: 13px; }
+
+.card { padding: 22px; margin-bottom: 18px; }
+.card__h { font-size: 16px; font-weight: 700; color: $text; margin: 0 0 16px; }
+.card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+  .card__h { margin: 0; } }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.actions { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.ok-tag { color: #16a34a; font-size: 13px; font-weight: 600; }
+
+.int { display: flex; flex-direction: column; gap: 12px; }
+.int__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.int__name { font-size: 14px; font-weight: 600; color: $text; min-width: 170px; }
+.int__detail { font-size: 12px; color: $text-2; }
+.badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: #eef2f6; color: $text-2;
+  &--ok { background: #dcfce7; color: #15803d; } &--bad { background: #fee2e2; color: #b91c1c; } }
+.hint { margin-top: 16px; font-size: 12.5px; color: $text-3; line-height: 1.5; }

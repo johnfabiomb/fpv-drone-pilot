@@ -1,0 +1,177 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">{{ isEditing ? 'Edit booking' : 'New booking' }}</h1>
+      <p class="page__sub">
+        {{ isEditing ? 'Update the details of this booking.' : 'Create a confirmed job and send the client a payment link.' }}
+      </p>
+    </div>
+    <a class="btn btn--ghost" routerLink="/bookings/list">Back to list</a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading"><div class="spinner"></div></div>
+  } @else if (created()) {
+    @if (created(); as done) {
+    <!-- Success: show the payment link to send to the client -->
+    <div class="card done">
+      <div class="done__check">✓</div>
+      <h2 class="done__title">Booking {{ done.ref }} created</h2>
+      <p class="done__sub">The slot is reserved. Send this payment link to your client:</p>
+
+      @if (done.link) {
+        <div class="linkbox">
+          <input class="linkbox__input" [value]="done.link" readonly (focus)="$any($event.target).select()" />
+          <button class="btn btn--primary" (click)="copyLink()">Copy</button>
+        </div>
+      } @else {
+        <p class="muted">Booking saved, but the payment link couldn’t be generated. You can copy it from the bookings list.</p>
+      }
+
+      <div class="done__actions">
+        <button class="btn btn--ghost" (click)="reset()">Create another</button>
+        <button class="btn btn--primary" (click)="goToList()">Done</button>
+      </div>
+    </div>
+    }
+  } @else {
+    <form class="card form" (ngSubmit)="submit()">
+
+      <!-- Client -->
+      <div class="field">
+        <label>Client</label>
+        <div class="seg">
+          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'existing'"
+                  [disabled]="data.clients().length === 0" (click)="clientMode = 'existing'">Existing</button>
+          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'new'"
+                  (click)="clientMode = 'new'">New client</button>
+        </div>
+      </div>
+
+      @if (clientMode === 'existing') {
+        <div class="field">
+          <select [(ngModel)]="clientId" name="clientId" required>
+            <option value="" disabled>Select a client…</option>
+            @for (c of data.clients(); track c.id) {
+              <option [value]="c.id">{{ c.name }}{{ c.email ? ' · ' + c.email : '' }}</option>
+            }
+          </select>
+        </div>
+      } @else {
+        <div class="row2">
+          <div class="field">
+            <label>Name</label>
+            <input [(ngModel)]="newClientName" name="newClientName" placeholder="Client name" required />
+          </div>
+          <div class="field">
+            <label>Email <span class="opt">(for the payment link)</span></label>
+            <input type="email" [(ngModel)]="newClientEmail" name="newClientEmail" placeholder="name@email.com" />
+          </div>
+        </div>
+      }
+
+      <!-- Service + worker -->
+      <div class="row2">
+        <div class="field">
+          <label>Service</label>
+          <select [(ngModel)]="serviceId" name="serviceId" (ngModelChange)="onServiceChange()" required>
+            <option value="" disabled>Select a service…</option>
+            @for (s of services(); track s.id) {
+              <option [value]="s.id">{{ s.name }}</option>
+            }
+            <option value="custom">Custom — set your own price</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Worker</label>
+          <select [(ngModel)]="staffId" name="staffId" [disabled]="!serviceId" required>
+            <option value="" disabled>{{ serviceId ? 'Select a worker…' : 'Pick a service first' }}</option>
+            @for (w of workers; track w.id) {
+              <option [value]="w.id">{{ w.name }}</option>
+            }
+          </select>
+          @if (serviceId && !isCustom && workers.length === 0) {
+            <span class="hint hint--warn">No worker is assigned to this service yet (Staff tab).</span>
+          }
+        </div>
+      </div>
+
+      <!-- When + duration -->
+      <div class="row2">
+        <div class="field">
+          <label>Start</label>
+          <input type="datetime-local" [(ngModel)]="startLocal" name="startLocal" [min]="minDateTime" required />
+        </div>
+        <div class="field">
+          <label>Hours</label>
+          <input type="number" [(ngModel)]="hours" name="hours" (ngModelChange)="onHoursChange()"
+                 [min]="selectedService?.min_hours ?? 1" [max]="selectedService?.max_hours ?? 24" step="1" required />
+          @if (selectedService) {
+            <span class="hint">{{ selectedService.min_hours }}–{{ selectedService.max_hours }} h</span>
+          } @else if (isCustom) {
+            <span class="hint">Any duration</span>
+          }
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="field">
+        <label>Title</label>
+        <input [(ngModel)]="title" name="title" placeholder="e.g. Wedding shoot — Sliema" required />
+      </div>
+
+      <!-- Price -->
+      <div class="row2">
+        <div class="field">
+          <label>Price (€)</label>
+          <input type="number" [(ngModel)]="priceTotal" name="priceTotal" min="0" step="1" required />
+          @if (computedPrice != null && priceTotal !== computedPrice) {
+            <button type="button" class="hint hint--link" (click)="syncPrice()">
+              Reset to {{ computedPrice | currency:'EUR':'symbol':'1.0-0' }}
+            </button>
+          } @else if (computedPrice != null) {
+            <span class="hint">Standard rate for {{ hours }} h</span>
+          } @else if (isCustom) {
+            <span class="hint">Set the price for this custom job</span>
+          }
+        </div>
+        <div class="field">
+          <label>Location <span class="opt">(optional)</span></label>
+          <input [(ngModel)]="location" name="location" placeholder="Address or venue" />
+        </div>
+      </div>
+
+      <!-- Payment options on the link -->
+      <div class="field">
+        <label>Payment options on the link</label>
+        <select [(ngModel)]="paymentMode" name="paymentMode">
+          <option value="both">Card or pay later (cash / Revolut / bank)</option>
+          <option value="card">Card only</option>
+          <option value="later">Pay later only — client just confirms the booking</option>
+        </select>
+        <span class="hint">
+          @switch (paymentMode) {
+            @case ('both') { Client can pay by card now, or ask to pay later (you approve that request). }
+            @case ('card') { Client must pay by card to confirm. }
+            @case ('later') { No online payment — the client confirms the booking and agrees to pay by cash / Revolut / bank transfer. Books straight away. }
+          }
+        </span>
+      </div>
+
+      <!-- Notes -->
+      <div class="field">
+        <label>Notes <span class="opt">(optional, internal)</span></label>
+        <textarea [(ngModel)]="notes" name="notes" rows="2" placeholder="Anything to remember about this job"></textarea>
+      </div>
+
+      @if (errorMsg()) { <p class="error">{{ errorMsg() }}</p> }
+
+      <div class="form__actions">
+        <button type="button" class="btn btn--ghost" (click)="goToList()">Cancel</button>
+        <button type="submit" class="btn btn--primary" [disabled]="!canSubmit">
+          {{ saving() ? (isEditing ? 'Saving…' : 'Creating…') : (isEditing ? 'Save changes' : 'Create booking') }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

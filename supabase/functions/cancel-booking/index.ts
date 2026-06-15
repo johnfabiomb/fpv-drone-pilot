@@ -1,0 +1,77 @@
+import Stripe from 'https://esm.sh/stripe@17?target=deno';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { deleteCalendarEvent } from '../_shared/google-calendar.ts';
+
+// Admin cancels a booking: optionally refunds its completed card payments via
+// Stripe, removes the Google Calendar event, and sets status 'cancelled'.
+// Admin-only (owner/admin of the booking's organization).
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Content-Type': 'application/json',
+};
+const json = (o: unknown, s = 200) => new Response(JSON.stringify(o), { status: s, headers: corsHeaders });
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
+  try {
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) return json({ error: 'auth required' }, 401);
+    const { bookingId, refund } = await req.json() as { bookingId: string; refund?: boolean };
+    if (!bookingId) return json({ error: 'bookingId required' }, 400);
+
+    const url = Deno.env.get('SUPABASE_URL')!;
+    const service = createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+    const userClient = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: authHeader } } });
+    const { data: { user } } = await userClient.auth.getUser();
+    if (!user) return json({ error: 'not signed in' }, 401);
+
+    const { data: booking } = await service.from('bookings')
+      .select('id, org_id, google_event_id, status').eq('id', bookingId).maybeSingle();
+    if (!booking) return json({ error: 'not_found' });
+
+    const { data: member } = await service.from('org_members')
+      .select('role').eq('org_id', booking.org_id).eq('user_id', user.id).maybeSingle();
+    if (!member || !['owner', 'admin'].includes(member.role)) return json({ error: 'forbidden' }, 403);
+
+    // Optional refund of completed card payments
+    let refunded = 0;
+    if (refund) {
+      const { data: pays } = await service.from('payments')
+        .select('id, amount, stripe_payment_intent_id')
+        .eq('booking_id', bookingId).eq('status', 'completed').eq('method', 'card');
+      const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
+      for (const p of (pays ?? []) as Array<{ id: string; amount: number; stripe_payment_intent_id: string | null }>) {
+        if (!p.stripe_payment_intent_id) continue;
+        try {
+          await stripe.refunds.create({ payment_intent: p.stripe_payment_intent_id });
+          await service.from('payments').update({ status: 'refunded' }).eq('id', p.id);
+          refunded += Number(p.amount);
+        } catch (e) {
+          return json({ error: `refund_failed: ${(e as Error).message}` }, 500);
+        }
+      }
+    }
+
+    // Cancel + free the slot
+    await service.from('bookings').update({ status: 'cancelled', hold_expires_at: null }).eq('id', bookingId);
+
+    // Remove the calendar event — only forget the id once we know it's actually gone,
+    // so a transient failure doesn't orphan the event on the calendar with no way back.
+    let calendarCleared = true;
+    if (booking.google_event_id) {
+      try {
+        await deleteCalendarEvent(booking.google_event_id);
+        await service.from('bookings').update({ google_event_id: null }).eq('id', bookingId);
+      } catch (e) {
+        calendarCleared = false;
+        console.error('GCal delete failed:', (e as Error).message);
+      }
+    }
+
+    return json({ ok: true, refunded, calendar_cleared: calendarCleared });
+  } catch (err) {
+    return json({ error: (err as Error).message }, 500);
+  }
+});

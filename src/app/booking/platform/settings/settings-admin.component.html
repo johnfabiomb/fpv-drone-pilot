@@ -1,0 +1,71 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Settings</h1>
+      <p class="page__sub">Booking rules and integrations.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    <!-- Booking rules -->
+    <div class="card">
+      <h2 class="card__h">Booking rules</h2>
+      <div class="grid">
+        <label class="field"><span>Deposit %</span><input type="number" min="0" max="100" [(ngModel)]="depositPercent" /></label>
+        <label class="field"><span>Hold (minutes)</span><input type="number" min="1" [(ngModel)]="holdMinutes" /></label>
+        <label class="field"><span>Min lead time (minutes)</span><input type="number" min="0" [(ngModel)]="minLeadMinutes" /></label>
+        <label class="field"><span>Timezone</span>
+          <select [(ngModel)]="timezone">
+            @for (tz of timezones; track tz) { <option [value]="tz">{{ tz }}</option> }
+          </select>
+        </label>
+        <label class="field"><span>Currency</span>
+          <select [(ngModel)]="currency">
+            @for (c of currencies; track c) { <option [value]="c">{{ c }}</option> }
+          </select>
+        </label>
+      </div>
+      <label class="check"><input type="checkbox" [(ngModel)]="cashAllowed" /> Allow cash requests</label>
+      <label class="check"><input type="checkbox" [(ngModel)]="workBoard" /> Enable <strong>Work board</strong> — post-production to-do for confirmed jobs</label>
+      <div class="actions">
+        <button class="btn btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save settings' }}</button>
+        @if (saved()) { <span class="ok-tag">✓ Saved</span> }
+      </div>
+    </div>
+
+    <!-- Integrations -->
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__h">Integration status</h2>
+        <button class="link-btn" [disabled]="checking()" (click)="checkIntegrations()">{{ checking() ? 'Checking…' : 'Re-check' }}</button>
+      </div>
+
+      @if (intError()) { <p class="err">{{ intError() }}</p> }
+
+      <div class="int">
+        <div class="int__row">
+          <span class="int__name">Stripe (card payments)</span>
+          @if (stripe(); as st) {
+            <span class="badge" [class.badge--ok]="st.ok" [class.badge--bad]="!st.ok">{{ st.ok ? 'Connected' : 'Not connected' }}</span>
+            <span class="int__detail">{{ st.detail }}</span>
+          } @else if (checking()) { <span class="int__detail">checking…</span> }
+        </div>
+        <div class="int__row">
+          <span class="int__name">Google Calendar</span>
+          @if (google(); as g) {
+            <span class="badge" [class.badge--ok]="g.ok" [class.badge--bad]="!g.ok">{{ g.ok ? 'Connected' : 'Not connected' }}</span>
+            <span class="int__detail">{{ g.detail }}</span>
+          } @else if (checking()) { <span class="int__detail">checking…</span> }
+        </div>
+      </div>
+
+      <p class="hint">
+        To connect or fix these, follow the step-by-step guide in
+        <strong>documentation/BOOKING_SETUP.md</strong> (Stripe keys + webhook, Google OAuth refresh
+        token, and the Supabase secrets each one needs).
+      </p>
+    </div>
+  }
+</div>
