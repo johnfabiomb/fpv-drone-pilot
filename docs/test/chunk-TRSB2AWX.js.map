@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/environments/feature-flags.staging.ts"],
-  "sourcesContent": ["export const FEATURES = {\n  ROUTE_BUILDER: false,\n  PROMOTIONS: true,    // ← staging: always on for preview\n  GROUPS: true,\n};\n"],
-  "mappings": ";AAAO,IAAM,WAAW;EACtB,eAAe;EACf,YAAY;;EACZ,QAAQ;;",
-  "names": []
-}

@@ -18,10 +18,7 @@
 
     @if (activeOrg(); as org) {
       <a class="org-link" routerLink="/bookings/organizations" routerLinkActive="org-link--active" title="Switch or manage organizations">
-        <span class="org-link__text">
-          <span class="org-link__name">{{ org.name }}</span>
-          @if (org.slug) { <span class="org-link__slug">/{{ org.slug }}</span> }
-        </span>
+        <span class="org-link__name">{{ org.name }}</span>
         <svg class="org-link__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
           <path d="M7 8l3 3 3-3"/>
         </svg>
