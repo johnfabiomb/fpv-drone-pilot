@@ -24,26 +24,47 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@core/*": [
-        "src/app/core/*"
+      "@map/core/*": [
+        "src/app/map/core/*"
       ],
-      "@ui/*": [
-        "src/app/ui/*"
+      "@map/ui/*": [
+        "src/app/map/ui/*"
       ],
-      "@layout/*": [
-        "src/app/layout/*"
+      "@map/layout/*": [
+        "src/app/map/layout/*"
       ],
-      "@features/*": [
-        "src/app/features/*"
+      "@map/features/*": [
+        "src/app/map/features/*"
       ],
-      "@pages/*": [
-        "src/app/pages/*"
+      "@map/pages/*": [
+        "src/app/map/pages/*"
+      ],
+      "@booking/core/*": [
+        "src/app/booking/core/*"
+      ],
+      "@booking/auth/*": [
+        "src/app/booking/auth/*"
+      ],
+      "@booking/platform/*": [
+        "src/app/booking/platform/*"
+      ],
+      "@booking/public/*": [
+        "src/app/booking/public/*"
+      ],
+      "@booking/ui/*": [
+        "src/app/booking/ui/*"
       ],
       "@assets/*": [
         "src/assets/*"
+      ],
+      "@app-types/*": [
+        "src/types/*"
       ]
     }
   },
+  "exclude": [
+    "supabase/functions"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

@@ -1,0 +1,17 @@
+@use '../admin.shared' as *;
+
+:host { display: block; }
+
+.hint-em { font-style: normal; font-weight: 400; color: $text-3; font-size: 11px; }
+.editor { display: flex; flex-direction: column; gap: 14px; }
+.editor__actions { display: flex; gap: 10px; margin-top: 6px; }
+.row { display: flex; gap: 12px; .field { flex: 1; } }
+
+.tiers { display: flex; flex-direction: column; gap: 8px; }
+.tiers__label { font-size: 12px; font-weight: 600; color: $text-2; span { font-weight: 400; color: $text-3; } }
+.tier {
+  display: flex; align-items: center; gap: 6px;
+  input { width: 70px; padding: 8px 10px; border: 1.5px solid $border; border-radius: $radius-md; font-size: 14px; }
+  &__x, &__cur { font-size: 13px; color: $text-2; }
+  &__del { margin-left: auto; background: none; border: none; color: $text-3; font-size: 20px; cursor: pointer; line-height: 1; &:hover { color: $red; } }
+}

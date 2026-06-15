@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Staff</h1>
+      <p class="page__sub">Your workers, the services they do, and their hours.</p>
+    </div>
+    @if (!editingStaff() && !managing()) { <button class="btn btn--primary" (click)="addStaff()">+ Add worker</button> }
+  </div>
+
+  @if (editingStaff(); as f) {
+    <div class="card editor">
+      <label class="field"><span>Name</span><input type="text" [(ngModel)]="f.name" placeholder="Worker name" /></label>
+      <label class="field"><span>Email</span><input type="email" [(ngModel)]="f.email" placeholder="optional" /></label>
+      <label class="check"><input type="checkbox" [(ngModel)]="f.is_bookable" /> Bookable (shown to clients)</label>
+      <div class="editor__actions">
+        <button class="btn btn--primary" [disabled]="!f.name.trim()" (click)="saveStaff()">Save</button>
+        <button class="btn btn--ghost" (click)="cancelStaff()">Cancel</button>
+      </div>
+    </div>
+  } @else {
+  @if (managing(); as s) {
+    <!-- Manage a worker's services + schedules -->
+    <button class="back" (click)="closeManage()">‹ Back to staff</button>
+    <h2 class="sub-h">{{ s.name }} — services &amp; hours</h2>
+    <p class="muted">One shared calendar: a booking for any service blocks that time for all of them.</p>
+    <div class="list">
+      @for (r of rows(); track r.serviceId) {
+        <div class="svc">
+          <label class="svc__toggle"><input type="checkbox" [(ngModel)]="r.assigned" /> {{ r.name }}</label>
+          @if (r.assigned) {
+            <div class="svc__hours">
+              <span>from</span><input type="number" min="0" max="24" [(ngModel)]="r.start" />
+              <span>to</span><input type="number" min="0" max="24" [(ngModel)]="r.end" /><span>(0–24)</span>
+            </div>
+          }
+          <button class="btn btn--sm btn--primary" [disabled]="savingRow() === r.serviceId" (click)="saveRow(r)">
+            {{ savingRow() === r.serviceId ? '…' : 'Save' }}
+          </button>
+        </div>
+      }
+      @if (rows().length === 0) { <p class="muted">Create a service first (Services tab).</p> }
+    </div>
+  } @else if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    @if (staff().length === 0) { <p class="muted">No workers yet.</p> }
+    <div class="list">
+      @for (s of staff(); track s.id) {
+        <div class="item" [class.item--off]="!s.is_bookable">
+          <div class="item__main">
+            <div class="item__name">{{ s.name }} @if (!s.is_bookable) { <span class="tag">not bookable</span> }</div>
+            <div class="item__meta">{{ servicesFor(s.id).join(' · ') || 'No services assigned' }}</div>
+          </div>
+          <div class="item__actions">
+            <button class="link-btn" (click)="manageServices(s)">Services &amp; hours</button>
+            <button class="link-btn" (click)="editStaff(s)">Edit</button>
+            <button class="link-btn link-btn--danger" (click)="removeStaff(s)">Remove</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+  }
+</div>

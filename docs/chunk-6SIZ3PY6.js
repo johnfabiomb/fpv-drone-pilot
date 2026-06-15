@@ -1,0 +1,1 @@
+function i(e,t){let s=e.tiers.find(r=>r.hours===t);if(s)return s.price;let o=e.tiers.filter(r=>r.hours<=t).sort((r,u)=>u.hours-r.hours)[0];return o?o.price+(t-o.hours)*(e.extra_hour_price??0):null}export{i as a};

@@ -1,0 +1,81 @@
+<div class="mb">
+  <header class="mb__head">
+    <h1 class="mb__title">My bookings</h1>
+    @if (step() === 'list') {
+      <button class="mb__signout" (click)="signOut()">Sign out</button>
+    }
+  </header>
+
+  @switch (step()) {
+    @case ('loading') {
+      <p class="mb__msg">Loading…</p>
+    }
+
+    @case ('signin') {
+      <p class="mb__p">Sign in to see your bookings and invoices.</p>
+      <button class="btn btn--google" (click)="signInGoogle()">Continue with Google</button>
+      <div class="divider"><span>or</span></div>
+      @if (magicSent()) {
+        <p class="mb__sent">✓ Check your inbox — we sent a sign-in link to <strong>{{ email }}</strong>.</p>
+      } @else {
+        <label class="field"><span>Email</span>
+          <input type="email" [(ngModel)]="email" placeholder="you@example.com" /></label>
+        <button class="btn btn--primary" [disabled]="!email.trim()" (click)="sendMagicLink()">Email me a sign-in link</button>
+      }
+    }
+
+    @case ('list') {
+      <!-- Billing details (used on invoices) -->
+      <div class="billing">
+        <button class="billing__toggle" (click)="showBilling.set(!showBilling())">
+          {{ showBilling() ? '▾' : '▸' }} Billing details <span class="billing__hint">(shown on your invoices)</span>
+        </button>
+        @if (showBilling()) {
+          <div class="billing__form">
+            <label class="field"><span>Name</span><input [(ngModel)]="billing.name" /></label>
+            <label class="field"><span>Email</span><input type="email" [(ngModel)]="billing.email" /></label>
+            <label class="field"><span>Company <em>(optional)</em></span><input [(ngModel)]="billing.company" /></label>
+            <label class="field"><span>VAT number <em>(optional)</em></span><input [(ngModel)]="billing.vat" placeholder="MT…" /></label>
+            <label class="field field--wide"><span>Billing address <em>(optional)</em></span>
+              <textarea rows="2" [(ngModel)]="billing.address" placeholder="Street, town, postcode, country"></textarea></label>
+            <div class="billing__actions">
+              <button class="btn btn--primary" [disabled]="!canSaveBilling" (click)="saveBilling()">
+                {{ savingProfile() ? 'Saving…' : 'Save billing details' }}
+              </button>
+              @if (profileSaved()) { <span class="billing__ok">✓ Saved</span> }
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (bookings().length === 0) {
+        <div class="mb__empty">
+          <p>You don't have any bookings yet.</p>
+          <a class="btn btn--primary" href="/book">Book a session</a>
+        </div>
+      } @else {
+        <div class="cards">
+          @for (b of bookings(); track b.id) {
+            <div class="card">
+              <div class="card__top">
+                <span class="card__ref">{{ b.booking_ref }}</span>
+                <span class="pill" [class]="statusClass(b.status)">{{ statusLabel(b.status) }}</span>
+              </div>
+              <div class="card__title">{{ b.title }}</div>
+              <div class="card__when">{{ b.start_at | date:'EEE d MMM y, HH:mm' }}</div>
+              <div class="card__pay">
+                <span>€{{ b.price_total }}</span>
+                @if (b.balance_due > 0 && b.total_paid > 0) {
+                  <span class="card__bal">· €{{ b.balance_due }} due</span>
+                } @else if (b.balance_due === 0) {
+                  <span class="card__paid">· Paid</span>
+                }
+              </div>
+              <button class="card__invoice" (click)="openInvoice(b)">Invoice (PDF)</button>
+            </div>
+          }
+        </div>
+      }
+    }
+  }
+</div>

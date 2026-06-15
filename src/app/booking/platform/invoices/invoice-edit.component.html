@@ -1,0 +1,51 @@
+<div class="page">
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else if (notFound()) {
+    <p class="muted">Invoice not found.</p>
+    <a class="btn btn--ghost" routerLink="/bookings/invoices">← Invoices</a>
+  } @else {
+    <div class="page__head">
+      <div>
+        <a class="back" [routerLink]="['/bookings', id]">← Back to booking</a>
+        <h1 class="page__title">Edit invoice {{ invoiceNumber }}</h1>
+        <p class="page__sub">
+          {{ clientName }}
+          @if (customized()) { · <span class="tag">edited</span> } @else { · <span class="muted">from booking</span> }
+        </p>
+      </div>
+      <button class="btn btn--ghost" (click)="preview()">Preview</button>
+    </div>
+
+    <div class="card">
+      <h2 class="card__h">Line items</h2>
+      <p class="hint">These appear on the invoice the client sees. Editing them does not change the booking, calendar or work board.</p>
+
+      @for (item of items; track $index) {
+        <div class="item">
+          <textarea class="item__desc" rows="2" [(ngModel)]="item.description" placeholder="Description (e.g. Drone Pilot Filming — 2 hours)"></textarea>
+          <input class="item__amt" type="number" step="0.01" [(ngModel)]="item.amount" placeholder="0.00" />
+          <button class="item__del" title="Remove" (click)="removeItem($index)" [disabled]="items.length === 1">✕</button>
+        </div>
+      }
+      <button class="link-btn" (click)="addItem()">+ Add line item</button>
+
+      <div class="total-row"><span>Total</span><span>{{ total() | currency:currency:'symbol':'1.2-2' }}</span></div>
+    </div>
+
+    <div class="card">
+      <label class="field"><span>Issue date</span><input type="date" [(ngModel)]="issueDate" /></label>
+      <label class="field"><span>Invoice note <span class="opt">(optional, printed on this invoice)</span></span>
+        <textarea rows="2" [(ngModel)]="notes" placeholder="Anything specific the client asked for on this invoice"></textarea>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn--primary" [disabled]="!canSave" (click)="save()">{{ saving() ? 'Saving…' : 'Save invoice' }}</button>
+      @if (customized()) {
+        <button class="btn btn--ghost" [disabled]="saving()" (click)="resetToBooking()">Reset to booking</button>
+      }
+      <a class="btn btn--ghost" [routerLink]="['/bookings', id]">Cancel</a>
+    </div>
+  }
+</div>

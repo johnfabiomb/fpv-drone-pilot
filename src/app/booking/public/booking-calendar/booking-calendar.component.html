@@ -1,0 +1,83 @@
+<div class="book">
+  <header class="book__head">
+    <button class="book__back" (click)="backToServices()">‹ Services</button>
+    <h1 class="book__title">{{ serviceName() || 'Book a session' }}</h1>
+    <p class="book__sub">Pick a day, then select your start and end time.</p>
+  </header>
+
+  <!-- 1. Calendar -->
+  <section class="step">
+    <h2 class="step__label">1 · Choose a day</h2>
+    <div class="cal">
+      <div class="cal__nav">
+        <button class="cal__arrow" [disabled]="!canGoPrev()" (click)="changeMonth(-1)" aria-label="Previous month">‹</button>
+        <span class="cal__month">{{ monthLabel() }}</span>
+        <button class="cal__arrow" (click)="changeMonth(1)" aria-label="Next month">›</button>
+      </div>
+
+      <div class="cal__dow">
+        @for (d of ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']; track d) { <span>{{ d }}</span> }
+      </div>
+
+      @if (loading()) {
+        <div class="cal__loading">Loading availability…</div>
+      } @else {
+        <div class="cal__grid">
+          @for (cell of cells(); track $index) {
+            @if (cell.date === null) {
+              <span class="cell cell--blank"></span>
+            } @else {
+              <button class="cell"
+                [class.cell--available]="cell.available"
+                [class.cell--selected]="cell.date === selectedDate()"
+                [disabled]="!cell.available || cell.isPast"
+                (click)="selectDay(cell)">
+                {{ cell.day }}
+                @if (cell.available) { <span class="cell__dot"></span> }
+              </button>
+            }
+          }
+        </div>
+      }
+      @if (error()) { <p class="book__error">{{ error() }}</p> }
+    </div>
+  </section>
+
+  <!-- 2. Hour range -->
+  @if (selectedDate()) {
+    <section class="step">
+      <h2 class="step__label">2 · Select your time <span class="step__hint">tap start, then end · up to {{ maxHours() }}h</span></h2>
+      @if (slots().length === 0) {
+        <p class="book__empty">No times available on this day.</p>
+      } @else {
+        <div class="slots">
+          @for (s of slots(); track s.hour) {
+            <button class="slot"
+              [class.slot--busy]="!s.available"
+              [class.slot--range]="s.inRange"
+              [class.slot--start]="s.isStart"
+              [class.slot--end]="s.isEnd"
+              [disabled]="!s.available"
+              (click)="selectHour(s)">{{ s.label }}</button>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  <!-- 3. Sticky summary -->
+  @if (selection(); as sel) {
+    <section class="summary">
+      <div class="summary__info">
+        <div class="summary__when">{{ sel.from }} – {{ sel.to }}</div>
+        <div class="summary__dur">{{ sel.hours }}h session</div>
+      </div>
+      @if (sel.price !== null && sel.valid) {
+        <div class="summary__price">{{ currencySymbol() }}{{ sel.price }}</div>
+        <button class="summary__cta" (click)="continueToBook()">Continue</button>
+      } @else {
+        <div class="summary__noprice">Minimum {{ minHours() }}h</div>
+      }
+    </section>
+  }
+</div>

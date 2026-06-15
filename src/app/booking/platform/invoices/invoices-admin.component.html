@@ -1,0 +1,52 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Invoices</h1>
+      <p class="page__sub">Every confirmed booking is an invoice. Click one to view or print it.</p>
+    </div>
+    @if (invoices().length > 0) {
+      <div class="head-tools">
+        <select class="year-select" [value]="year()" (change)="year.set($any($event.target).value)">
+          <option value="all">All years</option>
+          @for (y of years(); track y) { <option [value]="y">{{ y }}</option> }
+        </select>
+        <button class="btn btn--ghost" (click)="exportCsv()">Export CSV</button>
+      </div>
+    }
+  </div>
+
+  @if (data.loading()) {
+    <p class="muted">Loading…</p>
+  } @else if (invoices().length === 0) {
+    <p class="muted">No invoices yet. Confirmed bookings will appear here.</p>
+  } @else if (filtered().length === 0) {
+    <p class="muted">No invoices for {{ year() }}.</p>
+  } @else {
+    <!-- Summary -->
+    <div class="summary">
+      <div class="summary__card"><span class="summary__label">Invoices</span><span class="summary__val">{{ filtered().length }}</span></div>
+      <div class="summary__card"><span class="summary__label">Billed</span><span class="summary__val">{{ totalBilled() | currency:currency():'symbol':'1.0-2' }}</span></div>
+      <div class="summary__card"><span class="summary__label">Collected</span><span class="summary__val summary__val--ok">{{ totalPaid() | currency:currency():'symbol':'1.0-2' }}</span></div>
+      <div class="summary__card"><span class="summary__label">Outstanding</span><span class="summary__val summary__val--due">{{ outstanding() | currency:currency():'symbol':'1.0-2' }}</span></div>
+    </div>
+
+    <!-- Table -->
+    <div class="table">
+      <div class="row row--head">
+        <span>Invoice</span><span>Date</span><span>Client</span>
+        <span class="num">Total</span><span class="num">Paid</span><span class="num">Balance</span><span></span>
+      </div>
+      @for (b of filtered(); track b.id) {
+        <div class="row" (click)="open(b)">
+          <span class="mono">{{ invoiceNo(b.booking_ref) }}</span>
+          <span>{{ b.start_at | date:'d MMM y' }}</span>
+          <span class="ellipsis">{{ b.client_name ?? '—' }}</span>
+          <span class="num">{{ b.price_total | currency:currency():'symbol':'1.0-2' }}</span>
+          <span class="num">{{ b.total_paid | currency:currency():'symbol':'1.0-2' }}</span>
+          <span class="num" [class.due]="balance(b) > 0">{{ balance(b) | currency:currency():'symbol':'1.0-2' }}</span>
+          <span class="num"><button class="link-btn" (click)="$event.stopPropagation(); open(b)">View</button></span>
+        </div>
+      }
+    </div>
+  }
+</div>

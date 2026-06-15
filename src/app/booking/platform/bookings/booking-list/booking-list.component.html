@@ -1,0 +1,147 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Bookings</h1>
+      <p class="page__sub">All jobs, shoots and appointments</p>
+    </div>
+    <a class="btn btn--primary" routerLink="/bookings/new">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M8 3v10M3 8h10"/>
+      </svg>
+      New booking
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat__value">{{ confirmedJobs().length }}</span>
+      <span class="stat__label">Confirmed bookings</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">{{ expectedRevenue() | currency:'EUR':'symbol':'1.0-0' }}</span>
+      <span class="stat__label">Expected revenue</span>
+    </div>
+    <div class="stat">
+      <span class="stat__value">{{ collected() | currency:'EUR':'symbol':'1.0-0' }}</span>
+      <span class="stat__label">Collected</span>
+    </div>
+    <div class="stat" [class.stat--warn]="unpaidCount() > 0">
+      <span class="stat__value">{{ unpaidCount() }}</span>
+      <span class="stat__label">Awaiting payment</span>
+    </div>
+  </div>
+
+  <!-- Cash requests awaiting approval -->
+  @if (requests().length > 0) {
+    <div class="requests">
+      <h2 class="requests__title">Requests to approve <span class="requests__count">{{ requests().length }}</span></h2>
+      @for (b of requests(); track b.id) {
+        <div class="request">
+          <div class="request__main">
+            <div class="request__who">{{ b.client_name ?? '—' }}</div>
+            <div class="request__when">{{ b.start_at | date:'EEE d MMM, HH:mm' }} · {{ b.title }}</div>
+          </div>
+          <div class="request__price">{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</div>
+          <div class="request__actions">
+            <button class="btn btn--sm btn--primary" [disabled]="busyId() === b.id" (click)="approve(b)">
+              {{ busyId() === b.id ? '…' : 'Approve' }}
+            </button>
+            <button class="btn btn--sm btn--ghost" [disabled]="busyId() === b.id" (click)="decline(b)">Decline</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Loading -->
+  @if (data.loading()) {
+    <div class="loading"><div class="spinner"></div></div>
+  }
+
+  <!-- Empty -->
+  @if (!data.loading() && data.bookings().length === 0) {
+    <div class="empty">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="8" y="10" width="32" height="30" rx="4"/>
+        <path d="M16 6v8M32 6v8M8 22h32"/>
+      </svg>
+      <p>No bookings yet</p>
+      <a class="btn btn--primary" routerLink="/bookings/new">Create your first booking</a>
+    </div>
+  }
+
+  <!-- Table -->
+  @if (!data.loading() && confirmed().length > 0) {
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>Client</th>
+            <th>Job</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Revenue</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (b of confirmed(); track b.id) {
+            <tr [class.row--external]="b.is_external">
+              <td class="cell--mono"><button class="ref-link" (click)="goDetail(b)">{{ b.booking_ref }}</button></td>
+              <td class="cell--client">{{ b.client_name ?? '—' }}</td>
+              <td class="cell--title">{{ b.title }}</td>
+              <td class="cell--date">{{ b.start_at | date:'d MMM yy' }}</td>
+              <td>{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</td>
+              <td>{{ b.price_revenue | currency:'EUR':'symbol':'1.0-0' }}</td>
+              <td>
+                <div class="pay-cell">
+                  <span class="badge" [ngClass]="paymentClass(b.payment_status)">
+                    {{ paymentLabel(b.payment_status) }}
+                  </span>
+                  @if (!b.is_external && b.payment_status !== 'paid') {
+                    <span class="pay-cell__amt">{{ b.total_paid | currency:'EUR':'symbol':'1.0-0' }} / {{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <span class="badge badge--status">{{ b.status }}</span>
+              </td>
+              <td class="cell--actions">
+                @if (!b.is_external) {
+                  <div class="row-actions">
+                    <button class="link-btn" (click)="copyLink(b.id)">
+                      {{ copiedId() === b.id ? '✓ Copied' : 'Copy link' }}
+                    </button>
+                    <button class="kebab" [cdkMenuTriggerFor]="rowMenu"
+                            [disabled]="busyId() === b.id" aria-label="More actions">
+                      <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                        <circle cx="10" cy="4" r="1.7"/><circle cx="10" cy="10" r="1.7"/><circle cx="10" cy="16" r="1.7"/>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <ng-template #rowMenu>
+                    <div class="menu" cdkMenu>
+                      <button class="menu__item" cdkMenuItem (click)="goDetail(b)">View details &amp; payments</button>
+                      @if (b.payment_status !== 'paid' && b.payment_status !== 'external') {
+                        <button class="menu__item" cdkMenuItem (click)="goDetail(b)">Record payment…</button>
+                      }
+                      <button class="menu__item" cdkMenuItem (click)="goEdit(b)">Edit booking</button>
+                      @if (b.status !== 'cancelled') {
+                        <button class="menu__item menu__item--danger" cdkMenuItem (click)="cancel(b)">Cancel booking</button>
+                      }
+                    </div>
+                  </ng-template>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

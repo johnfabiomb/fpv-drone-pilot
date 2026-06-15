@@ -88,12 +88,16 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/app/feature-flags.ts",
+                  "replace": "src/app/map/feature-flags.ts",
                   "with": "src/environments/feature-flags.production.ts"
                 },
                 {
-                  "replace": "src/app/shared/config/supabase.config.ts",
+                  "replace": "src/app/map/core/config/supabase.config.ts",
                   "with": "src/environments/supabase.config.production.ts"
+                },
+                {
+                  "replace": "src/app/booking/core/db/supabase.bookings.ts",
+                  "with": "src/environments/supabase.bookings.production.ts"
                 }
               ],
               "budgets": [
@@ -124,7 +128,7 @@
             "staging": {
               "fileReplacements": [
                 {
-                  "replace": "src/app/feature-flags.ts",
+                  "replace": "src/app/map/feature-flags.ts",
                   "with": "src/environments/feature-flags.staging.ts"
                 }
               ],

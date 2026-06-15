@@ -1,0 +1,158 @@
+import { Component, DestroyRef, HostListener, PLATFORM_ID, effect, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isPlatformBrowser } from '@angular/common';
+import { NgIf } from '@angular/common';
+import { Router, RouterLink, NavigationStart } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { FEATURES } from '../../feature-flags';
+import { version } from '../../../../../package.json';
+import { AuthService } from '@map/core/services/auth.service';
+import { UserDataService } from '@map/core/services/user-data.service';
+import { NotificationService } from '@map/core/services/notification.service';
+import { ProfileModalService } from '@map/core/services/profile-modal.service';
+import { LevelsModalService } from '@map/core/services/levels-modal.service';
+import { EditProfileModalService } from '@map/core/services/edit-profile-modal.service';
+import { UserAvatarComponent } from '@map/ui/user-avatar/user-avatar.component';
+import { UserProfileCardComponent } from '@map/layout/user-profile-card/user-profile-card.component';
+import { AppModalComponent } from '@map/ui/modal/app-modal.component';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  imports: [NgIf, RouterLink, UserAvatarComponent, UserProfileCardComponent, AppModalComponent],
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.scss'
+})
+export class FooterComponent {
+  readonly features       = FEATURES;
+  readonly version        = version;
+  readonly authService         = inject(AuthService);
+  readonly userDataService     = inject(UserDataService);
+  readonly notificationService = inject(NotificationService);
+  readonly levelsModal    = inject(LevelsModalService);
+  private readonly profileModal     = inject(ProfileModalService);
+  readonly editProfileModal         = inject(EditProfileModalService);
+  private readonly router           = inject(Router);
+  private readonly destroyRef    = inject(DestroyRef);
+  private readonly platformId    = inject(PLATFORM_ID);
+  showProfile      = false;
+  showNavMenu      = false;
+  signingOut       = false;
+  showSignOutModal = false;
+  signOutDone      = false;
+  copyLinkState: 'idle' | 'copied' = 'idle';
+  private _navInProgress = false;
+
+  // "New" nav badges auto-hide one week after each feature's launch date.
+  private readonly NEW_BADGE_UNTIL: Record<string, string> = {
+    rankings: '2026-06-11',
+    groups:   '2026-06-11',
+  };
+
+  isNewBadge(key: string): boolean {
+    const until = this.NEW_BADGE_UNTIL[key];
+    return !!until && Date.now() < new Date(until).getTime();
+  }
+
+  constructor() {
+    effect(() => {
+      if (this.profileModal.selfOpen()) {
+        this.showNavMenu = false;
+        this.showProfile = true;
+        this.profileModal.closeSelf();
+      }
+    });
+
+    this.router.events
+      .pipe(
+        filter(e => e instanceof NavigationStart),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this._navInProgress = true;
+        this.showProfile = false;
+        this.showNavMenu = false;
+        setTimeout(() => this._navInProgress = false, 200);
+      });
+  }
+
+  openExternal(url: string): void {
+    this.showNavMenu = false;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  get levelLabel(): string {
+    const info = this.userDataService.levelInfo();
+    if (info.id === 0) return '✨ New';
+    return `${info.name} · Level ${info.id}`;
+  }
+
+  openLevels(e?: Event): void {
+    e?.stopPropagation();
+    this.showProfile = false;
+    this.levelsModal.open();
+  }
+
+  toggleProfile(e: Event): void {
+    e.stopPropagation();
+    if (this._navInProgress) return;
+    this.showNavMenu = false;
+    this.showProfile = !this.showProfile;
+
+    if (this.showProfile && isPlatformBrowser(this.platformId)) {
+      const seen = localStorage.getItem('vm_levels_seen');
+      if (!seen) {
+        localStorage.setItem('vm_levels_seen', '1');
+        setTimeout(() => this.levelsModal.open(), 250);
+      }
+    }
+  }
+
+  toggleNavMenu(e: Event): void {
+    e.stopPropagation();
+    this.showProfile = false;
+    this.showNavMenu = !this.showNavMenu;
+  }
+
+  toggleUpdates(e: Event): void {
+    e.stopPropagation();
+    this.userDataService.setReceiveUpdates(!this.userDataService.receiveUpdates());
+  }
+
+  copyReferralLink(e: Event): void {
+    e.stopPropagation();
+    if (!isPlatformBrowser(this.platformId)) return;
+    const link = this.userDataService.referralLink();
+    if (!link) return;
+    navigator.clipboard.writeText(link).then(() => {
+      this.copyLinkState = 'copied';
+      setTimeout(() => { this.copyLinkState = 'idle'; }, 2000);
+    }).catch(() => {});
+  }
+
+  async signOut(): Promise<void> {
+    if (this.signingOut) return;
+    this.signingOut      = true;
+    this.signOutDone     = false;
+    this.showProfile     = false;
+    this.showSignOutModal = true;
+    try {
+      await this.authService.signOut();
+      this.signOutDone = true;
+      setTimeout(() => {
+        this.showSignOutModal = false;
+        this.signingOut      = false;
+        this.signOutDone     = false;
+      }, 1400);
+    } catch {
+      this.showSignOutModal = false;
+      this.signingOut      = false;
+    }
+  }
+
+  @HostListener('document:click')
+  closePopups(): void {
+    this.showProfile = false;
+    this.showNavMenu = false;
+  }
+}

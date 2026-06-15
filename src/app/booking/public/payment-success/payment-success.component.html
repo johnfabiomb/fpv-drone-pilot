@@ -1,0 +1,28 @@
+<div class="success-page">
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading invoice…</p>
+    </div>
+  } @else {
+
+    <!-- Screen-only success banner -->
+    <div class="success-banner no-print">
+      <div class="check-wrap">
+        <svg class="check-icon" viewBox="0 0 52 52" fill="none">
+          <circle class="check-circle" cx="26" cy="26" r="25" stroke="#F4A922" stroke-width="2"/>
+          <path class="check-mark" d="M14 26l9 9 15-17" stroke="#F4A922" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="success-title">Payment received!</h1>
+      <p class="success-sub">{{ depositMessage }}</p>
+    </div>
+
+    <!-- Invoice + download button -->
+    <app-booking-invoice [invoice]="invoice()" />
+
+  }
+
+</div>

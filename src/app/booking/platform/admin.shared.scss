@@ -1,0 +1,55 @@
+// Shared admin UI primitives — used by the Services / Staff / Settings pages.
+// @forward re-exports the design tokens so consumers can `@use` just this file.
+@forward '../booking.styles';
+@use '../booking.styles' as *;
+
+.page { padding: 32px 36px; max-width: 720px; }
+.page__head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page__title { font-size: 22px; font-weight: 800; color: $text; margin: 0 0 4px; letter-spacing: -0.02em; }
+.page__sub { font-size: 13.5px; color: $text-2; margin: 0; }
+.muted { color: $text-2; font-size: 14px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: $radius-md;
+  font-size: 13.5px; font-weight: 700; cursor: pointer; border: 1.5px solid transparent;
+  font-family: $font; transition: $transition; text-decoration: none;
+  &--primary { background: $accent; color: #000; } &--primary:hover:not(:disabled) { filter: brightness(0.94); }
+  &--ghost { background: $card; border-color: $border; color: $text-2; } &--ghost:hover:not(:disabled) { border-color: $muted; }
+  &--sm { padding: 6px 12px; font-size: 12px; }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+.link-btn {
+  background: none; border: none; font-size: 12.5px; font-weight: 600; color: $accent; cursor: pointer;
+  padding: 4px 8px; border-radius: $radius-sm; font-family: inherit;
+  &:hover { background: $accent-dim; } &:disabled { opacity: 0.5; }
+  &--danger { color: $red; } &--danger:hover { background: rgba(239, 68, 68, 0.1); }
+}
+.card { background: $card; border: 1px solid $border; border-radius: $radius-lg; padding: 20px; }
+
+.field {
+  display: flex; flex-direction: column; gap: 5px;
+  span { font-size: 12px; font-weight: 600; color: $text-2; }
+  input, select, textarea {
+    padding: 10px 12px; border: 1.5px solid $border; border-radius: $radius-md; font-size: 14px;
+    font-family: inherit; color: $text; background: $card; width: 100%; box-sizing: border-box;
+    &:focus { outline: none; border-color: $accent; }
+  }
+  textarea { resize: vertical; }
+  select {
+    appearance: none; cursor: pointer; padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%236b7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+  }
+}
+.check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: $text; }
+
+.list { display: flex; flex-direction: column; gap: 10px; }
+.item {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: $card; border: 1px solid $border; border-radius: $radius-lg; padding: 14px 16px;
+  &--off { opacity: 0.6; }
+  &__name { font-size: 15px; font-weight: 700; color: $text; }
+  &__meta { font-size: 12.5px; color: $text-2; margin-top: 2px; }
+  &__actions { display: flex; gap: 4px; white-space: nowrap; }
+}
+.tag { font-size: 10.5px; font-weight: 700; background: #eef2f6; color: $text-2; padding: 2px 7px; border-radius: 10px; vertical-align: middle; }

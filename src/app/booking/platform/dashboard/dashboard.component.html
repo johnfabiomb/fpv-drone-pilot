@@ -1,0 +1,138 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">{{ greeting }}</h1>
+      <p class="page__sub">{{ now | date:'EEEE, d MMMM y' }}</p>
+    </div>
+    <div class="head-actions">
+      <a class="btn btn--ghost" routerLink="/bookings/list">All bookings</a>
+      <a class="btn btn--primary" routerLink="/bookings/new">+ New booking</a>
+    </div>
+  </div>
+
+  @if (data.loading()) {
+    <div class="loading"><div class="spinner"></div></div>
+  } @else {
+
+    <!-- KPI cards -->
+    <div class="kpis">
+      <div class="kpi">
+        <span class="kpi__value">{{ upcoming30() }}</span>
+        <span class="kpi__label">Upcoming · 30 days</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi__value">{{ collected() | currency:'EUR':'symbol':'1.0-0' }}</span>
+        <span class="kpi__label">Collected</span>
+      </div>
+      <div class="kpi" [class.kpi--warn]="outstanding() > 0">
+        <span class="kpi__value">{{ outstanding() | currency:'EUR':'symbol':'1.0-0' }}</span>
+        <span class="kpi__label">Outstanding</span>
+      </div>
+      <div class="kpi" [class.kpi--accent]="requests().length > 0">
+        <span class="kpi__value">{{ requests().length }}</span>
+        <span class="kpi__label">Requests to approve</span>
+      </div>
+      @if (workEnabled()) {
+        <div class="kpi">
+          <span class="kpi__value">{{ inProduction() }}</span>
+          <span class="kpi__label">In production</span>
+        </div>
+      }
+    </div>
+
+    <!-- Revenue trend -->
+    <section class="card chart">
+      <div class="card__head">
+        <h2 class="card__title">Collected · last 6 months</h2>
+      </div>
+      <div class="chart__bars">
+        @for (m of revenueByMonth(); track m.label) {
+          <div class="chart__col">
+            <div class="chart__amount">{{ m.total > 0 ? (m.total | currency:'EUR':'symbol':'1.0-0') : '' }}</div>
+            <div class="chart__track">
+              <div class="chart__bar" [style.height]="barHeight(m.total)"></div>
+            </div>
+            <div class="chart__label">{{ m.label }}</div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Upcoming bookings -->
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">Upcoming bookings</h2>
+          <a class="card__link" routerLink="/bookings/list">All</a>
+        </div>
+        @if (upcoming().length === 0) {
+          <p class="empty-line">Nothing scheduled.</p>
+        } @else {
+          <ul class="list">
+            @for (b of upcoming().slice(0, 6); track b.id) {
+              <li class="row">
+                <div class="row__date">
+                  <span class="row__day">{{ b.start_at | date:'d' }}</span>
+                  <span class="row__mon">{{ b.start_at | date:'MMM' }}</span>
+                </div>
+                <div class="row__main">
+                  <div class="row__who">{{ b.client_name ?? '—' }}</div>
+                  <div class="row__meta">{{ b.start_at | date:'HH:mm' }} · {{ b.service_name ?? b.title }}</div>
+                </div>
+                <span class="pill" [class.pill--unpaid]="b.payment_status === 'unpaid'"
+                      [class.pill--partial]="b.payment_status === 'partial'">
+                  {{ b.payment_status === 'paid' ? 'Paid' : b.payment_status === 'partial' ? 'Deposit' : b.payment_status === 'external' ? 'Synced' : 'Unpaid' }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- Needs attention -->
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">Needs your attention</h2>
+        </div>
+
+        @if (requests().length === 0 && outstanding() === 0) {
+          <p class="empty-line">All clear — nothing waiting on you.</p>
+        }
+
+        @if (requests().length > 0) {
+          <div class="attn">
+            <div class="attn__head">Cash requests <span class="attn__count">{{ requests().length }}</span></div>
+            @for (b of requests(); track b.id) {
+              <div class="req">
+                <div class="req__main">
+                  <div class="req__who">{{ b.client_name ?? '—' }}</div>
+                  <div class="req__meta">{{ b.start_at | date:'EEE d MMM, HH:mm' }} · {{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</div>
+                </div>
+                <div class="req__actions">
+                  <button class="btn btn--sm btn--primary" [disabled]="busyId() === b.id" (click)="approve(b)">
+                    {{ busyId() === b.id ? '…' : 'Approve' }}
+                  </button>
+                  <button class="btn btn--sm btn--ghost" [disabled]="busyId() === b.id" (click)="decline(b)">Decline</button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (outstanding() > 0) {
+          <a class="attn-line" routerLink="/bookings/list">
+            <span>{{ outstanding() | currency:'EUR':'symbol':'1.0-0' }} outstanding across confirmed jobs</span>
+            <span class="attn-line__cta">Review →</span>
+          </a>
+        }
+
+        @if (workEnabled() && inProduction() > 0) {
+          <a class="attn-line" routerLink="/bookings/work">
+            <span>{{ stageCount().to_edit }} to edit · {{ stageCount().editing }} editing · {{ stageCount().to_deliver }} to deliver</span>
+            <span class="attn-line__cta">Work board →</span>
+          </a>
+        }
+      </section>
+    </div>
+  }
+</div>

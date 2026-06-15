@@ -1,0 +1,112 @@
+@switch (state()) {
+  @case ('loading') {
+    <div class="screen"><p class="muted">Loading invoice…</p></div>
+  }
+  @case ('error') {
+    <div class="screen">
+      <h2>Invoice not available</h2>
+      <p class="muted">This invoice couldn't be loaded. You may need to sign in as the customer, or it may not exist.</p>
+    </div>
+  }
+  @case ('ready') {
+    @if (data(); as d) {
+      <!-- Toolbar (not printed) -->
+      <div class="toolbar no-print">
+        <button class="btn btn--primary" (click)="print()">⬇ Download / Print PDF</button>
+      </div>
+
+      <!-- A4 sheet -->
+      <div class="sheet">
+        <header class="inv-head">
+          <div class="supplier">
+            <h1 class="supplier__name">{{ supplierName }}</h1>
+            @if (inv.address) { <p class="muted pre">{{ inv.address }}</p> }
+            <p class="muted">
+              @if (inv.phone) { <span>{{ inv.phone }}</span> }
+              @if (inv.email) { <span> · {{ inv.email }}</span> }
+            </p>
+            @if (inv.vat_number) { <p class="muted">VAT(CIF): {{ inv.vat_number }}</p> }
+          </div>
+          <div class="inv-meta">
+            <div class="inv-title">INVOICE</div>
+            <table class="meta">
+              <tr><td>Invoice no.</td><td>{{ invoiceNumber }}</td></tr>
+              <tr><td>Issue date</td><td>{{ issueDate | date:'d MMM yyyy' }}</td></tr>
+              <tr><td>Service date</td><td>{{ d.booking.start_at | date:'d MMM yyyy' }}</td></tr>
+              <tr><td>Booking</td><td>{{ d.booking.booking_ref }}</td></tr>
+            </table>
+          </div>
+        </header>
+
+        <!-- Bill to -->
+        <section class="bill-to">
+          <div class="block-label">Bill to</div>
+          @if (d.client; as c) {
+            <p class="bill-to__name">{{ c.company || c.name }}</p>
+            @if (c.company && c.name) { <p class="muted">{{ c.name }}</p> }
+            @if (c.billing_address) { <p class="muted pre">{{ c.billing_address }}</p> }
+            @if (c.vat_number) { <p class="muted">VAT No: {{ c.vat_number }}</p> }
+            @if (c.email) { <p class="muted">{{ c.email }}</p> }
+          } @else {
+            <p class="muted">—</p>
+          }
+        </section>
+
+        <!-- Line items -->
+        <table class="items">
+          <thead>
+            <tr><th class="no">No.</th><th>Description</th><th class="num">Total amount</th></tr>
+          </thead>
+          <tbody>
+            @for (item of lineItems; track $index) {
+              <tr>
+                <td class="no">{{ $index + 1 }}.</td>
+                <td><div class="item-desc pre">{{ item.description }}</div></td>
+                <td class="num">{{ item.amount | currency:currency:'symbol':'1.2-2' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- Totals -->
+        <div class="totals">
+          @if (vatRegistered) {
+            <div class="totals__row"><span>Subtotal (net)</span><span>{{ net | currency:currency:'symbol':'1.2-2' }}</span></div>
+            <div class="totals__row"><span>VAT ({{ vatRate }}%)</span><span>{{ vat | currency:currency:'symbol':'1.2-2' }}</span></div>
+          }
+          <div class="totals__row totals__row--grand"><span>Total</span><span>{{ total | currency:currency:'symbol':'1.2-2' }}</span></div>
+          @if (paid > 0) {
+            <div class="totals__row"><span>Paid</span><span>{{ paid | currency:currency:'symbol':'1.2-2' }}</span></div>
+          }
+          @if (balance > 0) {
+            <div class="totals__row totals__row--bal"><span>Balance due</span><span>{{ balance | currency:currency:'symbol':'1.2-2' }}</span></div>
+          }
+        </div>
+
+        <!-- Fully paid → this is a receipt: PAID stamp, no payment instructions. -->
+        @if (fullyPaid) {
+          <div class="paid-banner">
+            <span class="paid-badge">PAID</span>
+            <span class="paid-when">
+              Paid in full@if (paidMethods) { by {{ paidMethods }}}@if (lastPaidAt) { · {{ lastPaidAt | date:'d MMM yyyy' }}}
+            </span>
+          </div>
+        }
+
+        @if (notes) {
+          <p class="inv-notes pre">{{ notes }}</p>
+        }
+
+        <!-- Legal VAT statement (e.g. reverse charge) — printed regardless of payment status. -->
+        @if (inv.vat_note) {
+          <p class="vat-note pre">{{ inv.vat_note }}</p>
+        }
+
+        <!-- Payment terms + bank details only while a balance is still owed. -->
+        @if (inv.invoice_footer && !fullyPaid) {
+          <footer class="inv-footer pre">{{ inv.invoice_footer }}</footer>
+        }
+      </div>
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@use '../admin.shared' as *;
+
+:host { display: block; }
+
+.page__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.card { padding: 20px; margin-bottom: 18px; }
+.card__h { font-size: 15px; font-weight: 700; color: $text; margin: 0 0 6px; }
+.hint { font-size: 12.5px; color: $text-3; margin: 8px 0 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 8px; }
+.actions { margin-top: 16px; }
+
+.table {
+  background: $card; border: 1px solid $border; border-radius: $radius-lg; overflow: hidden;
+}
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.6fr 0.8fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid $border;
+  font-size: 13.5px;
+  &:last-child { border-bottom: none; }
+  &--head { font-size: 11.5px; font-weight: 700; color: $text-2; text-transform: uppercase; letter-spacing: 0.04em; }
+  &--active { background: $accent-dim; }
+}
+.org { display: flex; align-items: center; gap: 8px; }
+.org__name { font-weight: 700; color: $text; }
+.role { text-transform: capitalize; color: $text-2; }
+.link a { color: $accent; text-decoration: none; font-variant-numeric: tabular-nums; &:hover { text-decoration: underline; } }
+.action { text-align: right; }
+.badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+  &--active { background: #dcfce7; color: #15803d; } }
+
+@media (max-width: 600px) {
+  .row { grid-template-columns: 1fr 1fr; }
+  .row--head, .link { display: none; }
+}

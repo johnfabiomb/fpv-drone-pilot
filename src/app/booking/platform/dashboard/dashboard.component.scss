@@ -1,0 +1,168 @@
+@use '../../booking.styles' as *;
+
+.page {
+  max-width: 1600px;
+  padding: 36px 48px;
+  @media (max-width: 900px) { padding: 24px 20px; }
+}
+
+.page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.head-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.page__title { font-size: 22px; font-weight: 700; color: $text; margin: 0 0 4px; letter-spacing: -0.02em; }
+.page__sub   { font-size: 13.5px; color: $text-2; margin: 0; }
+
+// ── KPI cards ───────────────────────────────────────────────────────────
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 18px 22px;
+
+  &__value { display: block; font-size: 24px; font-weight: 700; color: $text; letter-spacing: -0.03em; line-height: 1.1; }
+  &__label { display: block; font-size: 11px; color: $text-3; margin-top: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  &--warn   { .kpi__value { color: #f97316; } }
+  &--accent { border-color: $accent; .kpi__value { color: $accent; } }
+}
+
+// ── Cards ───────────────────────────────────────────────────────────────
+.card {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+.card__head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card__title { font-size: 14px; font-weight: 700; color: $text; margin: 0; }
+.card__link  { font-size: 12.5px; font-weight: 600; color: $accent; text-decoration: none; &:hover { text-decoration: underline; } }
+
+// ── Revenue chart ───────────────────────────────────────────────────────
+.chart__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 160px;
+}
+.chart__col {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  height: 100%;
+}
+.chart__amount { font-size: 11px; font-weight: 600; color: $text-2; height: 16px; }
+.chart__track {
+  flex: 1;
+  width: 100%;
+  max-width: 46px;
+  display: flex; align-items: flex-end;
+  margin: 4px 0 8px;
+}
+.chart__bar {
+  width: 100%;
+  min-height: 2px;
+  background: linear-gradient(to top, $accent, #f7bb4d);
+  border-radius: $radius-sm $radius-sm 0 0;
+  transition: height $transition;
+}
+.chart__label { font-size: 11.5px; color: $text-3; font-weight: 600; }
+
+// ── Grid (two columns) ──────────────────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  @media (max-width: 860px) { grid-template-columns: 1fr; }
+  .card { margin-bottom: 0; }
+}
+
+.empty-line { font-size: 13px; color: $text-3; margin: 4px 0; }
+
+// ── Upcoming list ───────────────────────────────────────────────────────
+.list { list-style: none; margin: 0; padding: 0; }
+.row {
+  display: flex; align-items: center; gap: 14px; padding: 11px 0;
+  & + & { border-top: 1px solid $border; }
+
+  &__date {
+    width: 42px; flex-shrink: 0; text-align: center;
+    display: flex; flex-direction: column; line-height: 1;
+  }
+  &__day { font-size: 18px; font-weight: 700; color: $text; }
+  &__mon { font-size: 10.5px; font-weight: 600; color: $text-3; text-transform: uppercase; margin-top: 2px; }
+  &__main { flex: 1; min-width: 0; }
+  &__who  { font-size: 14px; font-weight: 600; color: $text; }
+  &__meta { font-size: 12.5px; color: $text-2; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+.pill {
+  flex-shrink: 0;
+  padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  background: #dcfce7; color: #16a34a;
+  &--partial { background: #fef9c3; color: #a16207; }
+  &--unpaid  { background: #fee2e2; color: #dc2626; }
+}
+
+// ── Needs attention ─────────────────────────────────────────────────────
+.attn { margin-bottom: 14px; }
+.attn__head {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: $text-3; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.attn__count {
+  background: $accent; color: #000; font-size: 11px; font-weight: 700;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.req {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  & + & { border-top: 1px solid $border; }
+  &__main { flex: 1; min-width: 0; }
+  &__who  { font-size: 13.5px; font-weight: 600; color: $text; }
+  &__meta { font-size: 12px; color: $text-2; }
+  &__actions { display: flex; gap: 8px; }
+}
+.attn-line {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; margin-top: 10px;
+  background: $bg; border: 1px solid $border; border-radius: $radius-md;
+  font-size: 13px; color: $text-2; text-decoration: none;
+  &:hover { border-color: $muted; }
+  &__cta { font-weight: 600; color: $accent; white-space: nowrap; }
+}
+
+// ── Buttons ─────────────────────────────────────────────────────────────
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: $radius-md; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; transition: all $transition; border: 1.5px solid transparent;
+  font-family: $font; text-decoration: none;
+
+  &--primary { background: $accent; border-color: $accent; color: #000; &:hover { filter: brightness(0.92); } }
+  &--ghost   { background: $card; border-color: $border; color: $text-2; &:hover:not(:disabled) { border-color: $muted; } }
+  &--sm      { padding: 7px 13px; font-size: 12.5px; }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+// ── Loading ─────────────────────────────────────────────────────────────
+.loading { display: flex; justify-content: center; padding: 60px; }
+.spinner {
+  width: 28px; height: 28px;
+  border: 2.5px solid $border; border-top-color: $accent; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,66 @@
+<div class="page">
+  <div class="page__head">
+    <div>
+      <h1 class="page__title">Services</h1>
+      <p class="page__sub">What you offer, and how it's priced.</p>
+    </div>
+    @if (!editing()) { <button class="btn btn--primary" (click)="add()">+ New service</button> }
+  </div>
+
+  @if (editing(); as f) {
+    <!-- Editor -->
+    <div class="card editor">
+      <label class="field"><span>Name</span><input type="text" [(ngModel)]="f.name" placeholder="e.g. Drone Pilot Filming" /></label>
+      <label class="field"><span>Description</span><input type="text" [(ngModel)]="f.description" placeholder="Short description" /></label>
+
+      <div class="row">
+        <label class="field"><span>Min hours</span><input type="number" min="1" [(ngModel)]="f.min_hours" /></label>
+        <label class="field"><span>Max hours</span><input type="number" min="1" [(ngModel)]="f.max_hours" /></label>
+        <label class="field"><span>Extra hour (€)</span><input type="number" min="0" [(ngModel)]="f.extra_hour_price" /></label>
+      </div>
+
+      <div class="tiers">
+        <div class="tiers__label">Price tiers <span>(exact prices for set durations; longer uses the extra-hour rate)</span></div>
+        @for (t of f.tiers; track $index) {
+          <div class="tier">
+            <input type="number" min="1" [(ngModel)]="t.hours" /> <span class="tier__x">h →</span>
+            <span class="tier__cur">€</span><input type="number" min="0" [(ngModel)]="t.price" />
+            <button class="tier__del" (click)="removeTier($index)" title="Remove">×</button>
+          </div>
+        }
+        <button class="link-btn" (click)="addTier()">+ Add tier</button>
+      </div>
+
+      <label class="field"><span>Default tasks <em class="hint-em">one per line — auto-added to each booking of this service</em></span>
+        <textarea rows="4" [(ngModel)]="f.taskText" placeholder="Back up footage
+Edit footage
+Send delivery link"></textarea></label>
+
+      <label class="check"><input type="checkbox" [(ngModel)]="f.is_active" /> Active (bookable)</label>
+
+      <div class="editor__actions">
+        <button class="btn btn--primary" [disabled]="!f.name.trim() || saving()" (click)="save()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+        <button class="btn btn--ghost" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  } @else if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    <!-- List -->
+    @if (services().length === 0) { <p class="muted">No services yet — add your first one.</p> }
+    <div class="list">
+      @for (s of services(); track s.id) {
+        <div class="item" [class.item--off]="!s.is_active">
+          <div class="item__main">
+            <div class="item__name">{{ s.name }} @if (!s.is_active) { <span class="tag">hidden</span> }</div>
+            <div class="item__meta">{{ priceLabel(s) }} · {{ s.min_hours }}–{{ s.max_hours }}h</div>
+          </div>
+          <div class="item__actions">
+            <button class="link-btn" (click)="edit(s)">Edit</button>
+            <button class="link-btn link-btn--danger" (click)="remove(s)">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

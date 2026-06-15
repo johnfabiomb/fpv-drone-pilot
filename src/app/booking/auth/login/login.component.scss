@@ -1,0 +1,108 @@
+@use '../../booking.styles' as *;
+
+.gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  background: $bg;
+  font-family: $font;
+}
+
+.card {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+
+.mark {
+  width: 44px;
+  height: 44px;
+  background: $accent;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #000;
+  margin: 0 auto;
+}
+
+h2 { font-size: 20px; font-weight: 700; color: $text;   margin: 0; }
+p  { font-size: 13.5px; color: $text-2; margin: 0; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: $radius-md;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+  border: 1.5px solid transparent;
+  font-family: inherit;
+
+  &--ghost  { background: $card; border-color: $border; color: $text-2; &:hover { border-color: $dark-3; color: $text; } }
+  &--google { background: $card; border-color: $border; color: $text;   &:hover { background: $bg; } }
+  &--full   { width: 100%; }
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1.5px solid $border;
+  border-radius: $radius-md;
+  font-size: 13.5px;
+  color: $text;
+  background: $card;
+  outline: none;
+  transition: border-color $transition, box-shadow $transition;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  text-align: left;
+
+  &:focus { border-color: $accent; box-shadow: 0 0 0 3px rgba(244,169,34,0.12); }
+  &::placeholder { color: $text-3; }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: $text-3;
+  font-size: 12px;
+
+  &::before, &::after { content: ''; flex: 1; height: 1px; background: $border; }
+}
+
+.sent-msg {
+  padding: 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: $radius-md;
+  font-size: 13.5px;
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 2.5px solid $border;
+  border-top-color: $accent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
