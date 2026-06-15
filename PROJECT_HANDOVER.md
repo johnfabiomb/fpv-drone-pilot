@@ -71,6 +71,38 @@ Nothing secret is committed. To operate the booking backend you need access to:
 The one-time external setup (Stripe keys/webhook, Google OAuth, Supabase auth redirect URLs) is
 documented step-by-step in **`documentation/BOOKING_SETUP.md`**.
 
+### Secrets inventory — *where each secret lives, not the values*
+
+> **No secret values are stored here.** Keep the actual values in a password manager / secure note,
+> never in the repo. This table is just a checklist for restoring access from the dashboards.
+
+**Non-secret identifiers (safe to keep here):**
+
+| Thing | Value |
+|---|---|
+| Supabase (jm-bookings) project ref | `odmwjhysvvbhxytyefhv` |
+| Supabase dashboard | `https://supabase.com/dashboard/project/odmwjhysvvbhxytyefhv` |
+| Org `johnfabiomb` id | `14f2d5fd-e526-4d83-93f4-a450a5c372ff` |
+| Owner auth uid (John) | `4594a5c1-ad28-40e3-a166-0d641544b3cc` |
+| Staff "John Montaño" id | `e5db32e3-ce28-4a14-8d5c-ef061e0133cb` |
+| Service "Drone Pilot Filming" id | `4325a296-cb8e-40ae-aaf8-1d4928b0a7bc` |
+| Service "Camera Filming" id | `2646535d-860f-4b66-83e7-39b9e3102481` |
+| Live site / repo output | `https://johnfabiomb.com` (GitHub Pages, from `docs/`) |
+
+**Secret values (DO NOT store here — fetch from the source each time):**
+
+| Secret | Where to get / set it |
+|---|---|
+| Supabase personal access token (`sbp_…`) — CLI / Management API | Supabase → Account → **Access Tokens** (create fresh; **rotate the old one that was in AI chat**) |
+| Supabase service-role key | Supabase → Project Settings → **API** (server-only, never client) |
+| Supabase DB password | Supabase → Project Settings → **Database** |
+| `STRIPE_SECRET_KEY` (**LIVE**) | Stripe Dashboard → Developers → **API keys**; set in Supabase → Edge Functions → **Secrets** |
+| `STRIPE_WEBHOOK_SECRET` | Stripe Dashboard → Developers → **Webhooks** (signing secret); Supabase Edge Function Secrets |
+| `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` | Google Cloud Console → APIs & Services → **Credentials**; Supabase Edge Function Secrets |
+| `GOOGLE_OAUTH_REFRESH_TOKEN` | Minted via OAuth Playground (see `BOOKING_SETUP.md`); Supabase Edge Function Secrets. Keep the OAuth app **published** or it expires in 7 days |
+| `GOOGLE_CALENDAR_ID` | Google Calendar → calendar settings; Supabase Edge Function Secrets |
+| Stripe **publishable** key (`pk_live_…`) | *Not secret* — already in the app source (`book-page.component.ts`). Safe to expose by design |
+
 ---
 
 ## 3. Repo layout (the parts that matter)
