@@ -8,15 +8,26 @@ Deno.serve(async (req) => {
 
   const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!);
 
-  let event: Stripe.Event;
-  try {
-    event = await stripe.webhooks.constructEventAsync(
-      body,
-      signature!,
-      Deno.env.get('STRIPE_WEBHOOK_SECRET')!,
-    );
-  } catch (err) {
-    return new Response(`Webhook signature failed: ${(err as Error).message}`, { status: 400 });
+  // Two webhook destinations point here: one for the platform account and one for
+  // connected-account events (Stripe Connect). Each has its own signing secret, so
+  // verify against both and accept whichever matches.
+  const secrets = [
+    Deno.env.get('STRIPE_WEBHOOK_SECRET'),
+    Deno.env.get('STRIPE_WEBHOOK_SECRET_CONNECT'),
+  ].filter((s): s is string => !!s);
+
+  let event: Stripe.Event | null = null;
+  let lastErr = '';
+  for (const secret of secrets) {
+    try {
+      event = await stripe.webhooks.constructEventAsync(body, signature!, secret);
+      break;
+    } catch (err) {
+      lastErr = (err as Error).message;
+    }
+  }
+  if (!event) {
+    return new Response(`Webhook signature failed: ${lastErr}`, { status: 400 });
   }
 
   if (event.type === 'payment_intent.succeeded') {
