@@ -148,20 +148,20 @@ export class MapRootComponent implements OnInit {
   private handleLegacyLocationParams(): void {
     const params = new URLSearchParams(window.location.search);
     const locId = params.get('locationId');
-    const title = params.get('title');
-    if (!locId && !title) return;
+    const rawTitle = params.get('title');
+    if (!locId && !rawTitle) return;
 
     const all = locations as Location[];
     let loc: Location | undefined;
     if (locId) {
       loc = all.find(l => l.id === parseInt(locId, 10));
     }
-    if (!loc && title) {
-      // Normalise both sides (lowercase, any spaces/hyphens → single hyphen) so
-      // "Blue Lagoon", "Blue-Lagoon", "blue%20lagoon" and "Blue+Lagoon" all match.
-      const norm = (s: string) => s.toLowerCase().trim().replace(/[\s-]+/g, '-');
-      const target = norm(title);
-      loc = all.find(l => norm(l.title) === target);
+    if (!loc && rawTitle) {
+      // Match by a slug-style normalisation. Titles in old links can be DOUBLE-encoded
+      // (Instagram/Facebook re-encode the %), and contain Maltese letters (ħ, ġ, ż, ċ),
+      // e.g. "Wied-il-Miela%25C4%25A7%2520Window" → "Wied il-Mielaħ Window" → "wied-il-mielah-window".
+      const target = this.slugNorm(this.fullyDecode(rawTitle));
+      loc = all.find(l => l.slug === target || this.slugNorm(l.title) === target);
     }
     if (!loc) return;
 
@@ -170,6 +170,22 @@ export class MapRootComponent implements OnInit {
       replaceUrl: true,
       queryParams: backTo ? { backTo } : {},
     });
+  }
+
+  /** Decode a value that may have been percent-encoded more than once (in-app browsers). */
+  private fullyDecode(s: string): string {
+    let v = s;
+    for (let i = 0; i < 3; i++) {
+      try { const d = decodeURIComponent(v); if (d === v) break; v = d; } catch { break; }
+    }
+    return v;
+  }
+
+  /** Slug-style key: transliterate Maltese letters, lowercase, hyphenate — matches `slug`. */
+  private slugNorm(s: string): string {
+    return s
+      .replace(/ħ/gi, 'h').replace(/ġ/gi, 'g').replace(/ż/gi, 'z').replace(/ċ/gi, 'c')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
 
   private captureReferralCode(): void {
