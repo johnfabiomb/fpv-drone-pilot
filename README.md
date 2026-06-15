@@ -1,6 +1,8 @@
 # Explore Malta — Interactive Map
 
-An Angular 19 web app for discovering hidden gems, sea caves, hiking trails, and scenic spots across Malta, Gozo, and Comino — with group hikes, exclusive deals, and user-curated lists.
+> **New here / picking this up on another machine?** Start with **[`PROJECT_HANDOVER.md`](PROJECT_HANDOVER.md)** — it's the full catch-up doc (both apps, setup, the JM Booking system, secrets inventory, and where everything lives).
+
+An Angular 19 web app for discovering hidden gems, sea caves, hiking trails, and scenic spots across Malta, Gozo, and Comino — with group hikes, exclusive deals, and user-curated lists. The same repo also hosts the **JM Booking** platform (`src/app/booking/`).
 
 **Live site:** https://johnfabiomb.com
 
