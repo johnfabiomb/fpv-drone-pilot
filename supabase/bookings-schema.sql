@@ -666,49 +666,28 @@ DROP TRIGGER IF EXISTS invoices_updated ON public.invoices;
 CREATE TRIGGER invoices_updated BEFORE UPDATE ON public.invoices
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
--- Assembles everything an invoice needs for ONE booking and returns it as JSON.
--- SECURITY DEFINER (bypasses RLS) but authorizes explicitly: the caller must be an
--- org admin of the booking's org OR the booking's own client. Returns ONLY invoice-safe
--- fields (never price_revenue or other bookings) so a client can render their invoice —
--- which needs the org's company details, normally behind org RLS — without leaking admin
--- data. Line items come from the editable `invoices` row if present, else are derived
--- from the booking. Paid/balance always reflect the booking's payments.
-CREATE OR REPLACE FUNCTION public.get_invoice(p_booking UUID)
+-- `_invoice_bundle(booking)` assembles the full invoice JSON (org company details,
+-- client, line items [override or derived], totals, payments) with NO authorization —
+-- it's internal and only reachable through the two SECURITY DEFINER wrappers below, so
+-- it's NOT granted to anon/authenticated. Returns only invoice-safe fields (never
+-- price_revenue or other bookings).
+CREATE OR REPLACE FUNCTION public._invoice_bundle(p_booking UUID)
 RETURNS JSONB
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
 AS $$
-DECLARE
-  b   RECORD;
-  org RECORD;
-  cl  RECORD;
-  ov  RECORD;
-  items JSONB;
-  total NUMERIC;
-  paid  NUMERIC;
-  pays  JSONB;
+DECLARE b RECORD; org RECORD; cl RECORD; ov RECORD; items JSONB; total NUMERIC; paid NUMERIC; pays JSONB;
 BEGIN
   SELECT id, org_id, client_id, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
     INTO b FROM bookings WHERE id = p_booking;
   IF NOT FOUND THEN RETURN NULL; END IF;
 
-  -- Authorize: org admin OR the booking's own client. Nothing else.
-  IF NOT (public.is_org_admin(b.org_id)
-          OR (b.client_id IS NOT NULL AND b.client_id = public.current_client_id(b.org_id))) THEN
-    RAISE EXCEPTION 'forbidden' USING errcode = '42501';
-  END IF;
-
   SELECT name, currency, invoice_details INTO org FROM organizations WHERE id = b.org_id;
-  SELECT name, company, vat_number, billing_address, email, phone
-    INTO cl FROM clients WHERE id = b.client_id;
+  SELECT name, company, vat_number, billing_address, email, phone INTO cl FROM clients WHERE id = b.client_id;
   SELECT line_items, notes, issue_date INTO ov FROM invoices WHERE booking_id = p_booking;
 
-  -- Line items: the saved override if customised, otherwise derived from the booking.
   IF ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0 THEN
     items := ov.line_items;
   ELSE
-    -- The description field already includes the service + hours; fall back to title.
     items := jsonb_build_array(jsonb_build_object(
       'description', COALESCE(NULLIF(b.description, ''), b.title),
       'amount', GREATEST(0, b.price_total - COALESCE(b.price_expenses, 0))));
@@ -719,8 +698,7 @@ BEGIN
 
   SELECT COALESCE(SUM((e->>'amount')::numeric), 0) INTO total FROM jsonb_array_elements(items) e;
   SELECT COALESCE(SUM(amount), 0) INTO paid FROM payments WHERE booking_id = p_booking AND status = 'completed';
-  SELECT COALESCE(jsonb_agg(
-            jsonb_build_object('amount', amount, 'method', method, 'paid_at', paid_at)
+  SELECT COALESCE(jsonb_agg(jsonb_build_object('amount', amount, 'method', method, 'paid_at', paid_at)
             ORDER BY COALESCE(paid_at, created_at)), '[]'::jsonb)
     INTO pays FROM payments WHERE booking_id = p_booking AND status = 'completed';
 
@@ -729,18 +707,46 @@ BEGIN
     'client', CASE WHEN cl IS NULL THEN NULL ELSE jsonb_build_object(
         'name', cl.name, 'company', cl.company, 'vat_number', cl.vat_number,
         'billing_address', cl.billing_address, 'email', cl.email, 'phone', cl.phone) END,
-    'booking', jsonb_build_object(
-        'booking_ref', b.booking_ref, 'location', b.location,
+    'booking', jsonb_build_object('id', b.id, 'booking_ref', b.booking_ref, 'location', b.location,
         'start_at', b.start_at, 'end_at', b.end_at, 'status', b.status, 'price_total', b.price_total),
-    'invoice', jsonb_build_object(
-        'line_items', items, 'notes', ov.notes, 'issue_date', ov.issue_date,
+    'invoice', jsonb_build_object('line_items', items, 'notes', ov.notes, 'issue_date', ov.issue_date,
         'customized', (ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0), 'total', total),
-    'total_paid', paid,
-    'payments', pays
-  );
+    'total_paid', paid, 'payments', pays);
+END;
+$$;
+REVOKE ALL ON FUNCTION public._invoice_bundle(UUID) FROM PUBLIC;
+
+-- Authed accessor: org admin of the booking's org OR the booking's own client.
+CREATE OR REPLACE FUNCTION public.get_invoice(p_booking UUID)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+AS $$
+DECLARE v_org UUID; v_client UUID;
+BEGIN
+  SELECT org_id, client_id INTO v_org, v_client FROM bookings WHERE id = p_booking;
+  IF v_org IS NULL THEN RETURN NULL; END IF;
+  IF NOT (public.is_org_admin(v_org) OR (v_client IS NOT NULL AND v_client = public.current_client_id(v_org))) THEN
+    RAISE EXCEPTION 'forbidden' USING errcode = '42501';
+  END IF;
+  RETURN public._invoice_bundle(p_booking);
 END;
 $$;
 GRANT EXECUTE ON FUNCTION public.get_invoice(UUID) TO authenticated;
+
+-- Token accessor: anon-safe. A valid active pay link already grants access to that
+-- booking's pay page, so it can also fetch the invoice (for the success page + the
+-- printable invoice opened by a customer who isn't signed in).
+CREATE OR REPLACE FUNCTION public.get_invoice_by_token(p_token TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+AS $$
+DECLARE v_booking UUID;
+BEGIN
+  SELECT booking_id INTO v_booking FROM booking_links
+   WHERE token = p_token AND is_active AND (expires_at IS NULL OR expires_at > now());
+  IF v_booking IS NULL THEN RETURN NULL; END IF;
+  RETURN public._invoice_bundle(v_booking);
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_invoice_by_token(TEXT) TO anon, authenticated;
 
 
 -- ── 18. Org creation & membership (platform-admin gated) ───────────────────

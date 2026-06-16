@@ -1,46 +1,24 @@
 import { Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
-import { BookingInvoiceComponent, type InvoiceData } from '@booking/ui/booking-invoice/booking-invoice.component';
+import { InvoiceDetails } from '@booking/core/services/booking-admin.service';
 
-interface BookingSnippet {
-  booking_ref: string;
-  title: string;
-  description: string | null;
-  location: string | null;
-  start_at: string;
-  end_at: string;
-  price_total: number;
-  price_expenses: number;
+interface InvoiceBundle {
+  org: { name: string; currency: string; invoice_details: InvoiceDetails };
+  client: { name: string; company: string | null } | null;
+  booking: { id: string; booking_ref: string; start_at: string; end_at: string; status: string; price_total: number };
+  invoice: { line_items: { description: string; amount: number }[]; total: number };
+  total_paid: number;
 }
 
-function toSingle<T>(val: T | T[] | null | undefined): T | null {
-  if (!val) return null;
-  return Array.isArray(val) ? (val[0] ?? null) : val;
-}
-
-function toInvoice(b: BookingSnippet, amountPaid: number, paymentType: 'deposit' | 'full'): InvoiceData {
-  return {
-    ref: b.booking_ref,
-    title: b.title,
-    description: b.description,
-    location: b.location,
-    startAt: b.start_at,
-    endAt: b.end_at,
-    priceTotal: b.price_total,
-    priceExpenses: b.price_expenses,
-    amountPaid,
-    balanceDue: Math.max(0, b.price_total - amountPaid),
-    paymentType,
-    paidAt: new Date(),
-  };
-}
-
+// Post-payment confirmation + receipt. Pulls the SAME invoice bundle the formal
+// invoice uses (company details, line items, JFMB number) — by token for anon
+// pay-link customers, or via the payment intent for signed-in self-serve clients.
 @Component({
   selector: 'app-payment-success',
   standalone: true,
-  imports: [CommonModule, BookingInvoiceComponent],
+  imports: [CurrencyPipe, DatePipe],
   templateUrl: './payment-success.component.html',
   styleUrl: './payment-success.component.scss',
 })
@@ -48,60 +26,65 @@ export class PaymentSuccessComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly platformId = inject(PLATFORM_ID);
 
-  invoice = signal<InvoiceData | null>(null);
-  loading = signal(true);
+  readonly loading = signal(true);
+  readonly bundle = signal<InvoiceBundle | null>(null);
+  readonly issueDate = new Date();
+  private tok = '';
+  private bookingId = '';
 
   async ngOnInit(): Promise<void> {
-    if (isPlatformBrowser(this.platformId)) {
-      document.title = 'Payment Confirmed | JM Bookings';
-    }
     if (!isPlatformBrowser(this.platformId)) return;
+    document.title = 'Payment Confirmed | JM Bookings';
 
-    const params      = this.route.snapshot.queryParamMap;
-    const tok         = params.get('tok');
-    const amountPaid  = parseFloat(params.get('amount') ?? '0');
-    const paymentType = (params.get('type') ?? 'full') as 'deposit' | 'full';
+    const p = this.route.snapshot.queryParamMap;
+    this.tok = p.get('tok') ?? '';
+    const intent = p.get('payment_intent') ?? '';
 
-    if (tok) {
-      await this.loadFromToken(tok, amountPaid, paymentType);
-    } else {
-      const intentId = params.get('payment_intent');
-      if (intentId) await this.loadFromPaymentIntent(intentId);
-      else this.loading.set(false);
+    let data: unknown = null;
+    if (this.tok) {
+      ({ data } = await bookingsDb.rpc('get_invoice_by_token', { p_token: this.tok }));
+    } else if (intent) {
+      // Self-serve: the signed-in client can read their own payment → booking → invoice.
+      const { data: pay } = await bookingsDb.from('payments')
+        .select('booking_id').eq('stripe_payment_intent_id', intent).maybeSingle();
+      const bid = (pay as { booking_id: string } | null)?.booking_id;
+      if (bid) ({ data } = await bookingsDb.rpc('get_invoice', { p_booking: bid }));
     }
-  }
 
-  private async loadFromToken(tok: string, amountPaid: number, paymentType: 'deposit' | 'full'): Promise<void> {
-    const { data } = await bookingsDb
-      .from('booking_links')
-      .select('bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses)')
-      .eq('token', tok)
-      .single();
-
-    const b = toSingle(data?.bookings as BookingSnippet | BookingSnippet[] | null);
-    if (b) this.invoice.set(toInvoice(b, amountPaid, paymentType));
-    this.loading.set(false);
-  }
-
-  private async loadFromPaymentIntent(intentId: string): Promise<void> {
-    const { data } = await bookingsDb
-      .from('payments')
-      .select('amount, type, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses)')
-      .eq('stripe_payment_intent_id', intentId)
-      .single();
-
-    const b = toSingle(data?.bookings as BookingSnippet | BookingSnippet[] | null);
-    if (b && data) {
-      this.invoice.set(toInvoice(b, data.amount as number, data.type as 'deposit' | 'full'));
+    if (data) {
+      this.bundle.set(data as InvoiceBundle);
+      this.bookingId = (data as InvoiceBundle).booking.id;
     }
     this.loading.set(false);
   }
 
-  get depositMessage(): string {
-    const inv = this.invoice();
-    if (!inv) return '';
-    return inv.paymentType === 'deposit'
-      ? `Your 30% deposit has been received. The remaining balance of €${inv.balanceDue.toFixed(2)} is due on the day.`
-      : `Full payment confirmed. You're all set — see you soon!`;
+  // ── Derived ─────────────────────────────────────────────────────────
+  get inv(): InvoiceDetails { return this.bundle()?.org.invoice_details ?? {}; }
+  get currency(): string { return this.bundle()?.org.currency ?? 'EUR'; }
+  get supplierName(): string { return this.inv.legal_name?.trim() || this.bundle()?.org.name || ''; }
+  get lineItems() { return this.bundle()?.invoice.line_items ?? []; }
+  get total(): number { return this.bundle()?.invoice.total ?? 0; }
+  get paid(): number { return this.bundle()?.total_paid ?? 0; }
+  get balance(): number { return Math.max(0, this.total - this.paid); }
+  get fullyPaid(): boolean { return this.total > 0 && this.paid >= this.total - 0.005; }
+
+  /** Invoice number = booking ref with the org's prefix swapped (BK-2026-007 → JFMB-2026-007). */
+  get invoiceNumber(): string {
+    const ref = this.bundle()?.booking.booking_ref ?? '';
+    const prefix = (this.inv.invoice_prefix || 'INV').toUpperCase();
+    const dash = ref.indexOf('-');
+    return dash >= 0 ? `${prefix}-${ref.slice(dash + 1)}` : `${prefix}-${ref}`;
   }
+
+  /** Full printable invoice — by token for anon customers, by id for signed-in. */
+  get invoiceLink(): string {
+    return this.tok ? `/book/invoice?token=${this.tok}` : `/book/invoice/${this.bookingId}`;
+  }
+
+  get headline(): string {
+    return this.fullyPaid
+      ? "Full payment confirmed. You're all set — see you soon!"
+      : `Deposit received. The remaining balance of ${this.fmt(this.balance)} is due on the day.`;
+  }
+  private fmt(n: number): string { return `${this.currency === 'EUR' ? '€' : ''}${n.toFixed(2)}`; }
 }

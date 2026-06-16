@@ -84,7 +84,7 @@
         </div>
         <div class="field">
           <label>Worker</label>
-          <select [(ngModel)]="staffId" name="staffId" [disabled]="!serviceId" required>
+          <select [(ngModel)]="staffId" name="staffId" [disabled]="!serviceId" required (ngModelChange)="onWorkerChange()">
             <option value="" disabled>{{ serviceId ? 'Select a worker…' : 'Pick a service first' }}</option>
             @for (w of workers; track w.id) {
               <option [value]="w.id">{{ w.name }}</option>
@@ -96,22 +96,44 @@
         </div>
       </div>
 
-      <!-- When + duration -->
-      <div class="row2">
-        <div class="field">
-          <label>Start</label>
+      <!-- Duration first — it drives which start slots fit -->
+      <div class="field">
+        <label>Hours</label>
+        <input type="number" [(ngModel)]="hours" name="hours" (ngModelChange)="onHoursChange()"
+               [min]="selectedService?.min_hours ?? 1" [max]="selectedService?.max_hours ?? 24" step="1" required />
+        @if (selectedService) {
+          <span class="hint">{{ selectedService.min_hours }}–{{ selectedService.max_hours }} h</span>
+        } @else if (isCustom) {
+          <span class="hint">Any duration</span>
+        }
+      </div>
+
+      <!-- When -->
+      <div class="field">
+        <label>Start</label>
+        @if (isCustom) {
           <input type="datetime-local" [(ngModel)]="startLocal" name="startLocal" [min]="minDateTime" required />
-        </div>
-        <div class="field">
-          <label>Hours</label>
-          <input type="number" [(ngModel)]="hours" name="hours" (ngModelChange)="onHoursChange()"
-                 [min]="selectedService?.min_hours ?? 1" [max]="selectedService?.max_hours ?? 24" step="1" required />
-          @if (selectedService) {
-            <span class="hint">{{ selectedService.min_hours }}–{{ selectedService.max_hours }} h</span>
-          } @else if (isCustom) {
-            <span class="hint">Any duration</span>
+          <span class="hint">Custom job — set any time. Double-booking is still blocked on save.</span>
+        } @else if (!serviceId || !staffId) {
+          <span class="hint">Pick a service and worker first to see available times.</span>
+        } @else {
+          <input type="date" [(ngModel)]="pickDate" name="pickDate" [min]="todayDate" (ngModelChange)="onDateChange()" />
+          @if (slotsLoading()) {
+            <span class="hint">Loading available times…</span>
+          } @else if (slotsError()) {
+            <span class="hint err">{{ slotsError() }}</span>
+          } @else if (slots().length === 0) {
+            <span class="hint">No free {{ hours }}h slot on this date for this worker — try another day.</span>
+          } @else {
+            <div class="slots">
+              @for (s of slots(); track s.start) {
+                <button type="button" class="slot" [class.slot--active]="s.start === selectedStartIso" (click)="selectSlot(s)">{{ s.label }}</button>
+              }
+            </div>
+            <span class="hint">Times in {{ slotsTz() }}. Only free slots for this worker are shown.</span>
           }
-        </div>
+          @if (selectedStartIso) { <span class="hint hint--ok">✓ Selected: {{ selectedSlotLabel }}</span> }
+        }
       </div>
 
       <!-- Title -->

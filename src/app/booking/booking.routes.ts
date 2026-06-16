@@ -21,8 +21,13 @@ export const bookingRoutes: Routes = [
     loadComponent: () => import('@booking/public/my-bookings/my-bookings.component').then(m => m.MyBookingsComponent),
   },
   {
-    // Printable invoice for one booking — access enforced by the get_invoice RPC
-    // (org admin OR the booking's own client). 'invoice' precedes 'book/:token'.
+    // Printable invoice. ?token=… serves anon pay-link customers (get_invoice_by_token);
+    // the /:id form below serves admins + the booking's own client (get_invoice).
+    // Both precede 'book/:token' so 'invoice' isn't captured as a token.
+    path: 'book/invoice',
+    loadComponent: () => import('@booking/public/invoice/invoice.component').then(m => m.InvoiceComponent),
+  },
+  {
     path: 'book/invoice/:id',
     loadComponent: () => import('@booking/public/invoice/invoice.component').then(m => m.InvoiceComponent),
   },

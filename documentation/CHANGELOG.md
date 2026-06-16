@@ -6,6 +6,13 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Changed
+- **Bookings — payment-success page rebuilt to the invoice standard.** The post-payment page now shows a proper receipt matching the formal invoice (supplier/company name, the **JFMB** invoice number, line items, Total / Paid / Balance, PAID stamp) and a **Download Invoice (PDF)** that opens the full printable invoice — instead of the old hardcoded receipt that showed the raw `BK-` ref and no company details.
+- **Bookings — invoices viewable without sign-in via the pay link.** New `get_invoice_by_token(token)` SECURITY DEFINER RPC (anon-safe; validated by the active booking link) + the printable invoice now accepts `/book/invoice?token=…`. This lets a customer who paid through a token link (and isn't signed in) see and download their invoice — previously `get_invoice` was auth-only. The invoice assembly was refactored into an internal `_invoice_bundle()` shared by `get_invoice` (admin/own-client) and `get_invoice_by_token` (token).
+
+### Fixed
+- **Bookings — admin "New booking" now picks only AVAILABLE worker slots.** The admin form used a plain date-time input that accepted any time (only the DB caught clashes on save). For a real service + worker it now shows a date picker + the worker's **free start times** for that day, using the same `get-availability` engine as the public page (working hours minus existing bookings, sized to the chosen hours). Custom services keep the manual date-time input (the no-overlap constraint still blocks clashes on save). Edit prefills the booking's current date/slot.
+
 ### Removed
 - **Bookings — dead code cleanup** — deleted the unused legacy `create-booking` Edge Function (undeployed too; had a hardcoded owner email) and the orphaned, unrouted `my-calendar/` (incl. `working-hours-editor/`), `slot-picker/` components and the now-unused `WorkingHoursService` (legacy `admin_settings` global config; per-worker hours live on `staff_services.working_hours`). CLAUDE.md Key Files updated.
 
