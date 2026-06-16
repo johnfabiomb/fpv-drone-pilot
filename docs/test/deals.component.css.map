@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/map/features/map/deals/deals.component.scss"],
-  "sourcesContent": ["// ── Deals list ─────────────────────────────────────────────\n.deals-list {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  padding: 16px 16px 40px;\n}\n\n.deals-intro {\n  padding: 4px 0 6px;\n}\n\n.deals-intro__text {\n  margin: 0;\n  font-size: 13px;\n  color: var(--color-text-muted);\n  line-height: 1.55;\n}\n"],
-  "mappings": ";AACA,CAAA;AACE,WAAA;AACA,kBAAA;AACA,OAAA;AACA,WAAA,KAAA,KAAA;;AAGF,CAAA;AACE,WAAA,IAAA,EAAA;;AAGF,CAAA;AACE,UAAA;AACA,aAAA;AACA,SAAA,IAAA;AACA,eAAA;;",
-  "names": []
-}

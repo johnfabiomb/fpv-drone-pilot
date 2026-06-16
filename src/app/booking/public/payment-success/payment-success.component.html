@@ -3,12 +3,12 @@
   @if (loading()) {
     <div class="loading-state">
       <div class="spinner"></div>
-      <p>Loading invoice…</p>
+      <p>Loading your receipt…</p>
     </div>
-  } @else {
+  } @else if (bundle()) {
 
-    <!-- Screen-only success banner -->
-    <div class="success-banner no-print">
+    <!-- Success banner -->
+    <div class="success-banner">
       <div class="check-wrap">
         <svg class="check-icon" viewBox="0 0 52 52" fill="none">
           <circle class="check-circle" cx="26" cy="26" r="25" stroke="#F4A922" stroke-width="2"/>
@@ -17,12 +17,52 @@
         </svg>
       </div>
       <h1 class="success-title">Payment received!</h1>
-      <p class="success-sub">{{ depositMessage }}</p>
+      <p class="success-sub">{{ headline }}</p>
     </div>
 
-    <!-- Invoice + download button -->
-    <app-booking-invoice [invoice]="invoice()" />
+    <!-- Receipt (matches the invoice standard) -->
+    <div class="receipt">
+      <div class="receipt__head">
+        <div class="receipt__supplier">
+          <div class="receipt__name">{{ supplierName }}</div>
+          <div class="receipt__label">Payment receipt</div>
+        </div>
+        <div class="receipt__meta">
+          <div class="receipt__inv">{{ invoiceNumber }}</div>
+          <div class="receipt__date">{{ issueDate | date:'d MMM yyyy' }}</div>
+        </div>
+      </div>
 
+      <table class="receipt__items">
+        <thead><tr><th>Description</th><th class="num">Amount</th></tr></thead>
+        <tbody>
+          @for (item of lineItems; track $index) {
+            <tr>
+              <td><div class="receipt__desc pre">{{ item.description }}</div></td>
+              <td class="num">{{ item.amount | currency:currency:'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="receipt__totals">
+        <div class="receipt__row"><span>Total</span><span>{{ total | currency:currency:'symbol':'1.2-2' }}</span></div>
+        <div class="receipt__row receipt__row--ok"><span>Paid</span><span>−{{ paid | currency:currency:'symbol':'1.2-2' }}</span></div>
+        <div class="receipt__row receipt__row--grand"><span>Balance due</span><span>{{ balance | currency:currency:'symbol':'1.2-2' }}</span></div>
+      </div>
+
+      @if (fullyPaid) { <div class="receipt__paid">PAID</div> }
+    </div>
+
+    <a class="dl-btn" [href]="invoiceLink" target="_blank" rel="noopener">⬇ Download Invoice (PDF)</a>
+    <a class="back-link" href="/malta">← Back to explore</a>
+
+  } @else {
+    <div class="loading-state">
+      <h2>Payment received</h2>
+      <p>We couldn't load the receipt details here, but your payment went through.</p>
+      <a class="back-link" href="/malta">← Back to explore</a>
+    </div>
   }
 
 </div>

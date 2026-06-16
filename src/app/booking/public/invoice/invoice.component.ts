@@ -9,15 +9,16 @@ export interface InvoiceLineItem { description: string; amount: number; }
 interface InvoiceBundle {
   org: { name: string; currency: string; invoice_details: InvoiceDetails };
   client: { name: string; company: string | null; vat_number: string | null; billing_address: string | null; email: string | null; phone: string | null } | null;
-  booking: { booking_ref: string; location: string | null; start_at: string; end_at: string; status: string; price_total: number };
+  booking: { id: string; booking_ref: string; location: string | null; start_at: string; end_at: string; status: string; price_total: number };
   invoice: { line_items: InvoiceLineItem[]; notes: string | null; issue_date: string | null; customized: boolean; total: number };
   total_paid: number;
   payments: { amount: number; method: string; paid_at: string | null }[];
 }
 
-// Standalone, printable A4 invoice for ONE booking. Data comes from the leak-proof
-// get_invoice RPC, which authorizes the caller as the org admin OR the booking's own
-// client — so the same URL/component serves both. Anon (not signed in) is rejected.
+// Standalone, printable A4 invoice for ONE booking. Two ways in:
+//   /book/invoice/:id        → get_invoice (org admin OR the booking's own client)
+//   /book/invoice?token=…    → get_invoice_by_token (anon-safe: a valid pay link)
+// so admins, signed-in clients AND token-link payers can all view/print it.
 @Component({
   selector: 'app-invoice',
   standalone: true,
@@ -35,8 +36,11 @@ export class InvoiceComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.state.set('error'); return; }
-    const { data, error } = await bookingsDb.rpc('get_invoice', { p_booking: id });
+    const token = this.route.snapshot.queryParamMap.get('token');
+    if (!id && !token) { this.state.set('error'); return; }
+    const { data, error } = token
+      ? await bookingsDb.rpc('get_invoice_by_token', { p_token: token })
+      : await bookingsDb.rpc('get_invoice', { p_booking: id });
     if (error || !data) { this.state.set('error'); return; }
     this.data.set(data as InvoiceBundle);
     this.state.set('ready');

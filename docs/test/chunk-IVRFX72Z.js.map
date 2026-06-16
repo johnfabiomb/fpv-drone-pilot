@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/booking/core/services/availability.service.ts"],
-  "sourcesContent": ["import { Injectable } from '@angular/core';\nimport { bookingsDb } from '@booking/core/db/supabase.bookings';\nimport { AvailabilityResponse } from '@booking/core/interfaces/availability.interface';\n\n// Availability for a specific worker + service (the worker's shared calendar,\n// the service's pricing). Backed by the public `get-availability` Edge Function.\n@Injectable({ providedIn: 'root' })\nexport class AvailabilityService {\n  async getAvailability(staffId: string, serviceId: string, from: string, to: string): Promise<AvailabilityResponse> {\n    const { data, error } = await bookingsDb.functions.invoke<AvailabilityResponse>('get-availability', {\n      body: { staffId, serviceId, from, to },\n    });\n    if (error) throw error;\n    if (!data) throw new Error('No availability returned');\n    return data;\n  }\n}\n"],
-  "mappings": ";;;;;;;;;;;AAOM,IAAO,sBAAP,MAAO,qBAAmB;EACxB,gBAAgB,SAAiB,WAAmB,MAAc,IAAU;;AAChF,YAAM,EAAE,MAAM,MAAK,IAAK,MAAM,WAAW,UAAU,OAA6B,oBAAoB;QAClG,MAAM,EAAE,SAAS,WAAW,MAAM,GAAE;OACrC;AACD,UAAI;AAAO,cAAM;AACjB,UAAI,CAAC;AAAM,cAAM,IAAI,MAAM,0BAA0B;AACrD,aAAO;IACT;;;;uCARW,sBAAmB;IAAA;EAAA;;4EAAnB,sBAAmB,SAAnB,qBAAmB,WAAA,YADN,OAAM,CAAA;EAAA;;",
-  "names": []
-}
