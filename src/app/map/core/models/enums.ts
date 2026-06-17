@@ -28,3 +28,20 @@ export type GroupRole = typeof GroupRole[keyof typeof GroupRole];
 // ── UserRole ──────────────────────────────────────────────────────────────────
 export const UserRole = { Explorer: 'explorer', Admin: 'admin', Guide: 'guide' } as const;
 export type UserRole = typeof UserRole[keyof typeof UserRole];
+
+// ── ExperienceType ────────────────────────────────────────────────────────────
+// What a provider actually lets you *do* — drives the experience pin icon.
+export const ExperienceType = {
+  Wakeboard: 'wakeboard',
+  Wakesurf:  'wakesurf',
+  Wakefoil:  'wakefoil',
+  Tube:      'tube',
+  Buggy:     'buggy',
+  Quad:      'quad',
+  TukTuk:    'tuktuk',
+  Jeep:      'jeep',
+  Boat:      'boat',
+  Dive:      'dive',
+  Stay:      'stay',
+} as const;
+export type ExperienceType = typeof ExperienceType[keyof typeof ExperienceType];

@@ -1,21 +1,22 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Provider } from '@map/core/models';
 import { ImageGalleryComponent } from '@map/ui/image-gallery/image-gallery.component';
 import { ShareButtonComponent } from '@map/ui/share-button/share-button.component';
 import { ProviderAvatarComponent } from '@map/features/providers/provider-avatar/provider-avatar.component';
-import { resolveProviderColor, getProviderCategoryLabel, isDiscountValid } from '@map/core/utils/provider.utils';
+import { DealBoxComponent } from '@map/ui/deal-box/deal-box.component';
+import { resolveProviderColor, getProviderCategoryLabel } from '@map/core/utils/provider.utils';
 import { AuthService } from '@map/core/services/auth.service';
 
 @Component({
   selector: 'app-provider-detail',
   standalone: true,
-  imports: [CommonModule, ImageGalleryComponent, ShareButtonComponent, ProviderAvatarComponent],
+  imports: [CommonModule, ImageGalleryComponent, ShareButtonComponent, ProviderAvatarComponent, DealBoxComponent],
   templateUrl: './provider-detail.component.html',
   styleUrl: './provider-detail.component.scss',
 })
-export class ProviderDetailComponent implements OnDestroy {
+export class ProviderDetailComponent {
   @Input() provider!: Provider;
 
   @Output() bookRequested  = new EventEmitter<Provider>();
@@ -26,8 +27,6 @@ export class ProviderDetailComponent implements OnDestroy {
   private document = inject(DOCUMENT);
   private router = inject(Router);
   readonly authService = inject(AuthService);
-  isCouponCopied = false;
-  private copyTimer?: ReturnType<typeof setTimeout>;
 
   get shareUrl(): string {
     if (!this.provider?.id) return '';
@@ -37,24 +36,6 @@ export class ProviderDetailComponent implements OnDestroy {
 
   get accentColor(): string { return resolveProviderColor(this.provider); }
   get categoryLabel(): string { return getProviderCategoryLabel(this.provider?.category); }
-  get hasValidDiscount(): boolean {
-    return !!this.provider.discount && isDiscountValid(this.provider.discount);
-  }
-  get discountExpiry(): string | null {
-    const v = this.provider.discount?.validUntil;
-    if (!v) return null;
-    return new Date(v).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-  }
-
-  copyCoupon(): void {
-    const code = this.provider?.discount?.coupon;
-    if (!code || !isPlatformBrowser(this.platformId)) return;
-    navigator.clipboard?.writeText(code).catch(() => {});
-    clearTimeout(this.copyTimer);
-    this.isCouponCopied = true;
-    this.copyTimer = setTimeout(() => { this.isCouponCopied = false; }, 2500);
-    this.couponCopied.emit();
-  }
 
   openWebsite(): void {
     if (!this.authService.isLoggedIn()) { this.authService.openLoginModal(); return; }
@@ -63,9 +44,5 @@ export class ProviderDetailComponent implements OnDestroy {
 
   browseDeals(): void {
     this.router.navigate(['/malta/deals']);
-  }
-
-  ngOnDestroy(): void {
-    clearTimeout(this.copyTimer);
   }
 }

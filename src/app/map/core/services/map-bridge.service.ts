@@ -1,7 +1,8 @@
 import { ElementRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Location, MapPoint, Provider } from '@map/core/models';
+import { Experience, Location, MapPoint, Provider } from '@map/core/models';
 import { PanelResize } from '@map/core/utils/panel-resize.util';
+import { ExperiencePin, getExperiencePins } from '@map/core/utils/experience.utils';
 
 export interface BackButton { label: string; accent?: boolean; }
 
@@ -37,6 +38,8 @@ export class MapBridgeService {
   // ── Map inputs (children write, shell binds to <app-map>) ──
   readonly filters          = signal<string[]>([]);
   readonly providerPins     = signal<Provider[]>([]);
+  /** Promo pins on the explore map, one per experience spot (replaces provider self-pins). */
+  readonly experiencePins   = signal<ExperiencePin[]>([]);
   readonly selectedLocation = signal<Location | null>(null);
   /** When set, map fits view to the route (or location pin) AND this coordinate. Cleared by mode presets. */
   readonly fitPoint         = signal<{ lat: number; lon: number } | null>(null);
@@ -77,6 +80,8 @@ export class MapBridgeService {
   // ── Events: map → panels ───────────────────────────────────
   readonly locationSelected$    = new Subject<Location | null>();
   readonly providerPinSelected$ = new Subject<Provider>();
+  /** Emitted when an experience pin is tapped on the map. */
+  readonly experienceSelected$  = new Subject<Experience>();
   readonly gpsCoord$            = new Subject<{ lat: number; lon: number }>();
   /** Emitted when user taps the map while pickMode is true. */
   readonly coordPicked$           = new Subject<{ lat: number; lon: number }>();
@@ -125,14 +130,15 @@ export class MapBridgeService {
   // Each child component calls one of these instead of setting
   // a dozen bridge signals individually.
 
-  /** /malta — map + filter bar, panel closed */
-  enterExploreMode(providerPins: Provider[], backBtn: BackButton | null = null): void {
+  /** /malta — map + filter bar, panel closed. Promo is shown as experience pins. */
+  enterExploreMode(providers: Provider[], backBtn: BackButton | null = null): void {
     this.filters.set([]);
     this.selectedLocation.set(null);
     this.fitPoint.set(null);
     this.activeRouteIndex.set(-1);
     this.showFilterBar.set(true);
-    this.providerPins.set(providerPins);
+    this.providerPins.set([]);
+    this.experiencePins.set(getExperiencePins(providers));
     this.panelOpen.set(false);
     this.mapOnly.set(false);
     this.floatingBackBtn.set(backBtn);
@@ -149,6 +155,7 @@ export class MapBridgeService {
     this.panelOpen.set(true);
     this.mapOnly.set(false);
     this.floatingBackBtn.set(backBtn);
+    this.experiencePins.set([]);
     this.clearNavState();
     this.panel.expand();
     this.panel.blockInteractionBriefly();
@@ -168,6 +175,7 @@ export class MapBridgeService {
     this.fitPoint.set(fitPoint);
     this.showFilterBar.set(false);
     this.providerPins.set(providerPins);
+    this.experiencePins.set([]);
     this.panelOpen.set(true);
     this.mapOnly.set(false);
     this.floatingBackBtn.set(backBtn);

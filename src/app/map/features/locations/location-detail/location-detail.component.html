@@ -37,14 +37,15 @@
 <div class="px-2"> 
 <div [innerHTML]="location?.description" class="description"></div>
 
-<!-- Nearby experience providers (replaces ad when present) -->
-<div class="nearby-experiences" *ngIf="nearbyProviders.length">
-  <div class="nearby-experiences__label">Deals near this spot</div>
-  <app-provider-card
-    *ngFor="let p of nearbyProviders"
-    [provider]="p"
-    (selected)="providerSelected.emit($event)">
-  </app-provider-card>
+<!-- Nearby experiences (replaces ad when present) -->
+<div class="nearby-experiences" *ngIf="nearbyExperiences.length">
+  <div class="nearby-experiences__label">Experiences near this spot</div>
+  <app-experience-card
+    *ngFor="let e of nearbyExperiences"
+    [experience]="e.experience"
+    [provider]="e.provider"
+    (selected)="experienceSelected.emit($event)">
+  </app-experience-card>
   <a class="nearby-experiences__all" routerLink="/malta/deals">See all deals →</a>
 </div>
 

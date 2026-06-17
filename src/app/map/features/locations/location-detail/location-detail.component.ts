@@ -2,16 +2,16 @@ import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, PLATFORM_
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ImageGalleryComponent } from '@map/ui/image-gallery/image-gallery.component';
-import { ProviderCardComponent } from '@map/features/providers/provider-card/provider-card.component';
+import { ExperienceCardComponent } from '@map/features/experiences/experience-card/experience-card.component';
 import { ShareButtonComponent } from '@map/ui/share-button/share-button.component';
 import { ConfirmPopupComponent } from '@map/ui/confirm-popup/confirm-popup.component';
 import { AnalyticsService } from '@map/core/services/analytics.service';
 import { UserDataService } from '@map/core/services/user-data.service';
 import { AuthService } from '@map/core/services/auth.service';
 import { GroupsSectionComponent } from '@map/features/groups/groups-section/groups-section.component';
-import { Location, Provider, MapPoint, MapPointType, Route } from '@map/core/models';
-import { haversineM } from '@map/core/utils/geo.utils';
-import { getProvidersNearLocation, getClosestProviders } from '@map/core/utils/provider.utils';
+import { Experience, Location, Provider, MapPoint, MapPointType, Route } from '@map/core/models';
+import { haversineKm, haversineM } from '@map/core/utils/geo.utils';
+import { getAllExperiences, getExperiencesNearLocation } from '@map/core/utils/experience.utils';
 import { getIsland } from '@map/core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
@@ -20,7 +20,7 @@ import { FEATURES } from '../../../feature-flags';
 @Component({
   selector: 'app-location-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImageGalleryComponent, ProviderCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
+  imports: [CommonModule, RouterLink, ImageGalleryComponent, ExperienceCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
   templateUrl: './location-detail.component.html',
   styleUrl: './location-detail.component.scss',
 })
@@ -34,7 +34,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Output() explore = new EventEmitter<void>();
   @Output() navRequested = new EventEmitter<string>();
-  @Output() providerSelected = new EventEmitter<Provider>();
+  @Output() experienceSelected = new EventEmitter<Experience>();
 
   readonly userDataService  = inject(UserDataService);
   readonly authService      = inject(AuthService);
@@ -85,7 +85,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   nearbyMode = false;
   showNearbyPrompt = false;
   closestLocations: { location: Location; distanceKm: string }[] = [];
-  nearbyProviders: Provider[] = [];
+  nearbyExperiences: { experience: Experience; provider: Provider }[] = [];
 
   private prevLocationId: number | null = null;
   private dismissedNearby = false;
@@ -112,12 +112,11 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       this.dismissedNearby = false;
       this.closestLocations = this.getClosestLocations();
       if (FEATURES.PROMOTIONS) {
-        const near = getProvidersNearLocation(location, providers as Provider[]);
-        this.nearbyProviders = near.length > 0
-          ? near
-          : getClosestProviders(location, providers as Provider[], 2);
+        const all = providers as Provider[];
+        const near = getExperiencesNearLocation(location, all);
+        this.nearbyExperiences = (near.length > 0 ? near : this.getClosestExperiences(location, all)).slice(0, 3);
       } else {
-        this.nearbyProviders = [];
+        this.nearbyExperiences = [];
       }
 
       if (isPlatformBrowser(this.platformId)) {
@@ -277,5 +276,22 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       }))
       .sort((a, b) => parseFloat(a.distanceKm) - parseFloat(b.distanceKm))
       .slice(0, 4);
+  }
+
+  // Fallback when no experience is within range — the globally closest by nearest spot.
+  private getClosestExperiences(
+    location: Location,
+    all: Provider[],
+  ): { experience: Experience; provider: Provider }[] {
+    return getAllExperiences(all)
+      .map(entry => ({
+        ...entry,
+        dist: entry.experience.spots.reduce(
+          (min, s) => Math.min(min, haversineKm(location.lat, location.lon, s.lat, s.lon)),
+          Infinity,
+        ),
+      }))
+      .sort((a, b) => a.dist - b.dist)
+      .map(({ experience, provider }) => ({ experience, provider }));
   }
 }

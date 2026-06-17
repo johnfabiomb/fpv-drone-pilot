@@ -44,12 +44,17 @@ const providerUrls = providerArray.map(p =>
   url(`/malta/providers/${p.id}`, '0.5', 'weekly'),
 );
 
+const experienceUrls = providerArray.flatMap(p =>
+  (p.experiences ?? []).map(e => url(`/malta/experiences/${e.id}`, '0.7', 'weekly')),
+);
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-${[...staticUrls, ...locationUrls, ...providerUrls].join('\n')}
+${[...staticUrls, ...locationUrls, ...providerUrls, ...experienceUrls].join('\n')}
 </urlset>
 `;
 
 fs.writeFileSync(path.join(__dirname, '../src/sitemap.xml'), sitemap);
-console.log(`Sitemap generated — ${staticUrls.length + locationUrls.length + providerUrls.length} URLs (${today})`);
+const total = staticUrls.length + locationUrls.length + providerUrls.length + experienceUrls.length;
+console.log(`Sitemap generated — ${total} URLs (${today})`);

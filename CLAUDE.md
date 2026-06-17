@@ -517,6 +517,11 @@ Old `?locationId=X` and `?title=X` query-param URLs are still handled by `MapExp
 | `showOnMap` | `boolean?` | Whether a pin appears on the deals map |
 | `mapLabel` | `string?` | Text on the map pin pill (defaults to `'🏷️ Deal'`) |
 | `nearLocationIds` | `number[]?` | Location IDs this provider is shown alongside in the location panel |
+| `experiences` | `Experience[]?` | What the provider lets you *do* — promoted as map pins (see below) |
+
+### Experiences (provider promo on the map)
+
+The map promotes **experiences** (wakeboarding, a buggy safari, a dive), not provider self-pins. Model: `Provider → experiences[] → spots[]`. One provider has many experiences; one experience can appear at several map spots; deals resolve per experience and fall back to the provider's. Experience pins live **in the cluster layer** alongside location pins (same source) and use the same latitude-based per-feature `zIndex`, so they interleave with location/cluster pins by position rather than always sitting on top. (The provider/group pin layer is separate and still used by Groups.) Detail at `/malta/experiences/:id` ("Offered by" links back to the provider page). All gated by `FEATURES.PROMOTIONS`. **Full schema + how to add one (incl. flipping a pin from icon → photo): `documentation/EXPERIENCES.md`.** Key code: `core/utils/experience.utils.ts`, `core/models/provider.model.ts` (`Experience`/`ExperienceSpot`), `features/experiences/*`, `ui/deal-box/` (shared coupon box).
 
 ---
 

@@ -15,9 +15,15 @@ import { buildRouteFeatures, makePinCanvas, makePinStyle, ROUTE_COLORS } from '@
 import { LocationTracker } from '@map/core/utils/location-tracker';
 import { locations } from '@assets/locations.json';
 import { Router } from '@angular/router';
-import { Location, MapPoint, MapPointType, Provider } from '@map/core/models';
+import { Experience, Location, MapPoint, MapPointType, Provider } from '@map/core/models';
 import { matchesFilter, FilterId } from '@map/core/utils/location-filter.util';
 import { resolveProviderColor, isDiscountValid } from '@map/core/utils/provider.utils';
+import {
+  ExperiencePin,
+  experienceColor,
+  experienceIcon,
+  resolveExperienceDiscount,
+} from '@map/core/utils/experience.utils';
 import { FEATURES } from '../../../feature-flags';
 
 const ICON_CANVAS_SIZE = 80;
@@ -50,6 +56,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private providerLayer!: VectorLayer<VectorSource>;
   private providerCanvasCache = new Map<string, HTMLCanvasElement>();
   private providerImageCache = new Map<string, HTMLImageElement>();
+
+  // Experience promo pins live in the cluster layer/source so they interleave with
+  // location pins by latitude (separate layers can't z-order against each other in OL).
+  private experienceFeatures: Feature[] = [];
+  private experienceCanvasCache = new Map<string, HTMLCanvasElement>();
+  private experienceImageCache = new Map<string, HTMLImageElement>();
 
   private routeSource = new VectorSource();
   private routeLabelSource = new VectorSource();
@@ -88,6 +100,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
   private _providerPins: Provider[] = [];
 
+  @Input() set experiencePins(pins: ExperiencePin[]) {
+    this._experiencePins = pins ?? [];
+    if (this.map && FEATURES.PROMOTIONS) this.rebuildExperienceFeatures();
+  }
+  private _experiencePins: ExperiencePin[] = [];
+
   @Input() set activeFilters(filters: string[]) {
     if (filters.length === 1 && filters[0] === 'deals') {
       this.filteredFeatures = [];
@@ -125,6 +143,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() mapTapped = new EventEmitter<void>();
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
   @Output() providerPinSelected = new EventEmitter<Provider>();
+  @Output() experienceSelected = new EventEmitter<Experience>();
   @Output() controlTapped = new EventEmitter<void>();
   @Output() coordPicked        = new EventEmitter<{ lat: number; lon: number }>();
   @Output() meetingPointTapped = new EventEmitter<{ lat: number; lon: number }>();
@@ -144,6 +163,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     this.setupClusterLayer();
     this.setupProviderLayer();
+    this.setupExperienceLayer();
     this.setupLocationLayer();
     this.setupRouteLayer();
     this.setupMeetingLayer();
@@ -177,6 +197,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       if (feature.get('type') === 'provider-pin') {
         this.providerPinSelected.emit(feature.get('provider'));
+        return;
+      }
+
+      if (feature.get('type') === 'experience-pin') {
+        this.experienceSelected.emit(feature.get('experience'));
         return;
       }
 
@@ -283,6 +308,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     } else {
       this.clusterSource.addFeatures(this.filteredFeatures);
     }
+    // Promo pins share this layer so they mix in with the location pins by latitude.
+    if (FEATURES.PROMOTIONS && this.experienceFeatures.length) {
+      this.clusterSource.addFeatures(this.experienceFeatures);
+    }
   }
 
   // One feature per locality, positioned at centroid, with highest-id location as representative
@@ -319,9 +348,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   // ── Style dispatch ────────────────────────────────────────
 
   private featureStyle(feature: FeatureLike): Style {
-    return feature.get('type') === 'locality-cluster'
-      ? this.localityClusterStyle(feature)
-      : this.individualPinStyle(feature);
+    const type = feature.get('type');
+    if (type === 'locality-cluster') return this.localityClusterStyle(feature);
+    if (type === 'experience-pin') return this.experiencePinStyle(feature);
+    return this.individualPinStyle(feature);
   }
 
   private individualPinStyle(feature: FeatureLike): Style {
@@ -592,6 +622,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // Emoji fallback — teardrop shape with amber fill, no photo
   private buildProviderEmojiPin(provider: Provider): HTMLCanvasElement {
+    return this.buildEmojiTeardropPin(resolveProviderColor(provider), provider.emoji ?? '🏷️');
+  }
+
+  // Coloured teardrop pin with a centred emoji — shared by provider and experience pins.
+  // fontScale controls the emoji size relative to the pin width.
+  private buildEmojiTeardropPin(color: string, emoji: string, fontScale = 0.38): HTMLCanvasElement {
     const W = PROVIDER_PIN_SIZE;
     const tailH = Math.round(W * ICON_TAIL_H / ICON_CANVAS_SIZE);
     const H = W + tailH;
@@ -612,7 +648,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     pc.arc(cx, cy, r, Math.PI / 2 + tailAngle, Math.PI / 2 - tailAngle, false);
     pc.lineTo(cx, H - 1);
     pc.closePath();
-    pc.fillStyle = resolveProviderColor(provider);
+    pc.fillStyle = color;
     pc.fill();
     pc.restore();
 
@@ -622,12 +658,116 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     pc.lineWidth = 3;
     pc.stroke();
 
-    pc.font = `${Math.round(W * 0.38)}px serif`;
+    pc.font = `${Math.round(W * fontScale)}px serif`;
     pc.textAlign = 'center';
     pc.textBaseline = 'middle';
-    pc.fillText(provider.emoji ?? '🏷️', cx, cy + 1);
+    pc.fillText(emoji, cx, cy + 1);
 
     return canvas;
+  }
+
+  // Blends a hex colour toward white (amount 0–1) for the softer experience pins.
+  private lightenColor(hex: string, amount: number): string {
+    const m = /^#?([0-9a-f]{6})$/i.exec(hex);
+    if (!m) return hex;
+    const n = parseInt(m[1], 16);
+    const mix = (c: number) => Math.round(c + (255 - c) * amount);
+    return `rgb(${mix((n >> 16) & 255)}, ${mix((n >> 8) & 255)}, ${mix(n & 255)})`;
+  }
+
+  // ── Experience pin layer ──────────────────────────────────
+  // Mirrors the provider layer but draws one pin per experience spot. Icon-only
+  // (coloured emoji teardrop) until an experience gets a coverImage, then a photo
+  // circle with the activity-type icon badged in the corner.
+
+  private setupExperienceLayer(): void {
+    // No separate layer — features go into the cluster layer (see rebuildExperienceFeatures).
+    if (this._experiencePins.length && FEATURES.PROMOTIONS) this.rebuildExperienceFeatures();
+  }
+
+  private buildExperienceCanvas(experience: Experience, provider: Provider, img?: HTMLImageElement): HTMLCanvasElement {
+    const discount = resolveExperienceDiscount(experience, provider);
+    const savings = discount && isDiscountValid(discount) ? discount.shortLabel : undefined;
+    const label = savings ?? '🏷️ Deal';
+    const pillColor = savings ? '#D4A017' : undefined;
+
+    let canvas: HTMLCanvasElement;
+    if (img) {
+      canvas = this.buildCirclePin(img, PROVIDER_PIN_SIZE, '#fff');
+      this.addEmojiBadge(canvas, experienceIcon(experience));
+    } else {
+      // Softer (lightened) brand colour + a larger icon for the icon-only pins.
+      const fill = this.lightenColor(experienceColor(provider), 0.55);
+      canvas = this.buildEmojiTeardropPin(fill, experienceIcon(experience), 0.52);
+    }
+    return this.buildPillPin(canvas, label, true, pillColor);
+  }
+
+  private rebuildExperienceFeatures(): void {
+    this.experienceFeatures = [];
+    for (const pin of this._experiencePins) {
+      const { experience, spot } = pin;
+      this.experienceFeatures.push(new Feature({
+        geometry: new Point(getCoordinatesfromLonLat(spot.lon, spot.lat)),
+        type: 'experience-pin',
+        experience,
+        provider: pin.provider,
+      }));
+      if (this.experienceCanvasCache.has(experience.id)) continue;
+
+      if (experience.coverImage) {
+        // Defer canvas build until the cover is decoded (Safari paints nothing otherwise).
+        const img = new Image();
+        const onReady = () => {
+          if (!img.naturalWidth) return;
+          this.experienceImageCache.set(experience.id, img);
+          this.experienceCanvasCache.delete(experience.id);
+          this.clusterLayer.changed();
+        };
+        img.onload = onReady;
+        img.src = experience.coverImage;
+        img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
+      } else {
+        // Icon-only → no decode race; build synchronously.
+        this.experienceCanvasCache.set(experience.id, this.buildExperienceCanvas(experience, pin.provider));
+      }
+    }
+    this.refreshLayer(true);
+  }
+
+  private experiencePinStyle(feature: FeatureLike): Style {
+    const experience: Experience = feature.get('experience');
+    const provider: Provider = feature.get('provider');
+    let canvas = this.experienceCanvasCache.get(experience.id);
+    if (!canvas && experience.coverImage) {
+      const img = this.experienceImageCache.get(experience.id);
+      if (img?.complete && img.naturalWidth) {
+        canvas = this.buildExperienceCanvas(experience, provider, img);
+        this.experienceCanvasCache.set(experience.id, canvas);
+      }
+    }
+    const zoom = this.map.getView().getZoom() ?? 10;
+    const scale = zoom < CLUSTER_ZOOM
+      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
+      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
+    // Same latitude-based ordering as location pins so the two interleave by position.
+    const coords = (feature.getGeometry() as Point).getCoordinates();
+    const zIndex = -Math.round(coords[1] / 1000);
+    if (!canvas) {
+      const r = Math.round(36 * scale);
+      return new Style({ image: new CircleStyle({ radius: r, fill: new Fill({ color: this.lightenColor(experienceColor(provider), 0.55) }), stroke: new Stroke({ color: '#fff', width: 2 }) }), zIndex });
+    }
+    return new Style({
+      image: new Icon({
+        img: canvas,
+        size: [canvas.width, canvas.height],
+        scale,
+        anchor: [0.5, 1.0],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+      }),
+      zIndex,
+    });
   }
 
   // Wraps any pin canvas with a label pill above it (shared by location + provider pins).

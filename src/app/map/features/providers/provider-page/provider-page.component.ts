@@ -13,6 +13,7 @@ import { Location as AppLocation, Provider } from '@map/core/models';
 import { providers } from '@assets/providers.json';
 import { locations } from '@assets/locations.json';
 import { buildBookingUrl } from '@map/core/utils/provider.utils';
+import { getExperiencePins } from '@map/core/utils/experience.utils';
 
 @Component({
   selector: 'app-provider-page',
@@ -72,13 +73,13 @@ export class ProviderPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
       const fromLocationSlug = this.route.snapshot.queryParamMap.get('fromLocation');
       const fromLoc = fromLocationSlug
         ? (locations as AppLocation[]).find(l => l.slug === fromLocationSlug) ?? null
         : null;
 
-      this.bridge.enterPanelMode(mapProviders, { label: 'Back' }, fromLoc, null);
+      this.bridge.enterPanelMode([], { label: 'Back' }, fromLoc, null);
+      this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
 
       this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.goBack());

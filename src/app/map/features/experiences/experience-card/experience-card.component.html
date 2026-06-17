@@ -1,0 +1,40 @@
+<div class="exp-card" (click)="selected.emit(experience)">
+  <div class="exp-card__stripe" [style.background]="accentColor"></div>
+
+  <div class="exp-card__body">
+
+    <!-- Experience identity -->
+    <div class="exp-card__header">
+      <span class="exp-card__icon" [style.background]="accentColor">{{ icon }}</span>
+
+      <div class="exp-card__info">
+        <span class="exp-card__title">{{ experience.title }}</span>
+        <span class="exp-card__by">with {{ provider.name }}</span>
+      </div>
+    </div>
+
+    <p class="exp-card__tagline">{{ experience.tagline }}</p>
+
+    <!-- Deal strip -->
+    <div class="exp-card__deal" *ngIf="discountPct" [style.background]="accentColor">
+      <div class="exp-card__pct">
+        <span class="pct-num">{{ discountPct }}</span>
+        <span class="pct-off">OFF</span>
+      </div>
+
+      <div class="exp-card__deal-text">
+        <span class="deal-what">{{ discountWhat }}</span>
+        <span class="deal-exclusive">Only when booked via this guide</span>
+      </div>
+
+      <span class="exp-card__cta">
+        Claim
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </span>
+    </div>
+
+  </div>
+</div>

@@ -13,10 +13,11 @@ import { NavigationService } from '@map/core/services/navigation.service';
 import { AuthService } from '@map/core/services/auth.service';
 import { UserDataService } from '@map/core/services/user-data.service';
 import { InteractionTrackingService } from '@map/core/services/interaction-tracking.service';
-import { Location as AppLocation, Provider } from '@map/core/models';
+import { Experience, Location as AppLocation, Provider } from '@map/core/models';
 import { FEATURES } from '../../../feature-flags';
 import { haversineKm } from '@map/core/utils/geo.utils';
 import { getProvidersNearLocation } from '@map/core/utils/provider.utils';
+import { getExperiencePins } from '@map/core/utils/experience.utils';
 import { LocationPublicStats, locationPublicStats, fmtStatCount } from '@map/core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
@@ -107,7 +108,7 @@ import { providers } from '@assets/providers.json';
         (close)="onClose()"
         (explore)="onClose()"
         (navRequested)="onNavRequested($event)"
-        (providerSelected)="openProvider($event)">
+        (experienceSelected)="openExperience($event)">
       </app-location-detail>
 
     </app-panel-shell>
@@ -301,8 +302,8 @@ export class LocationPageComponent implements OnInit {
     this.bridge.pendingNavUrl.set(url);
   }
 
-  openProvider(provider: Provider): void {
-    this.router.navigate(['/malta/providers', provider.id], {
+  openExperience(experience: Experience): void {
+    this.router.navigate(['/malta/experiences', experience.id], {
       queryParams: this.buildProviderParams(),
     });
   }
@@ -329,12 +330,13 @@ export class LocationPageComponent implements OnInit {
   }
 
   private syncInterstitialProviders(): void {
+    // Map shows experience pins (not provider pins); the interstitial ad below stays provider-based.
+    this.bridge.providerPins.set([]);
+    this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
+
     if (!FEATURES.PROMOTIONS || !this.location) {
       this.bridge.interstitialProviders.set([]);
       this.bridge.interstitialLabel.set(null);
-      this.bridge.providerPins.set(
-        (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon),
-      );
       return;
     }
 
@@ -360,7 +362,5 @@ export class LocationPageComponent implements OnInit {
     }
 
     this.bridge.navDuration.set(3);
-
-    this.bridge.providerPins.set(all.filter(p => p.showOnMap && p.lat && p.lon));
   }
 }

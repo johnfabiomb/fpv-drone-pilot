@@ -70,6 +70,10 @@ export class MapExploreComponent implements OnInit {
     this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(p => this.router.navigate(['/malta/providers', p.id]));
 
+    // Experience pin tapped on map → navigate to the experience page
+    this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(e => this.router.navigate(['/malta/experiences', e.id]));
+
     // Interstitial: user picks a provider from the nav overlay
     this.bridge.interstitialProviderSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(p => this.router.navigate(['/malta/providers', p.id]));

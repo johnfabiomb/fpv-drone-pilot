@@ -7,30 +7,31 @@ import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
 import { SeoService } from '@map/core/services/seo.service';
 import { PanelShellComponent } from '@map/ui/panel-shell/panel-shell.component';
-import { ProviderCardComponent } from '@map/features/providers/provider-card/provider-card.component';
+import { ExperienceCardComponent } from '@map/features/experiences/experience-card/experience-card.component';
 import { MapBridgeService } from '@map/core/services/map-bridge.service';
-import { Difficulty, Location, Provider } from '@map/core/models';
+import { Difficulty, Experience, Location, Provider } from '@map/core/models';
 import { haversineKm } from '@map/core/utils/geo.utils';
 import { matchesFilter, normalizeForSearch, FilterId, FilterOption, FILTER_OPTIONS, getIslandLabel, difficultyColor as getDifficultyColor } from '@map/core/utils/location-filter.util';
 import { isDiscountValid } from '@map/core/utils/provider.utils';
+import { getAllExperiences, getExperiencePins, resolveExperienceDiscount } from '@map/core/utils/experience.utils';
 import { FEATURES } from '../../../feature-flags';
 
 type SortMode = 'distance' | 'rating' | 'alpha';
+type ExperienceEntry = { experience: Experience; provider: Provider };
 type LocationItem = { type: 'location'; data: Location; distance: string | null };
-type ListItem = LocationItem | { type: 'provider'; data: Provider };
+type ListItem = LocationItem | { type: 'experience'; data: ExperienceEntry };
 
 @Component({
   selector: 'app-location-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, PanelShellComponent, ProviderCardComponent],
+  imports: [CommonModule, FormsModule, PanelShellComponent, ExperienceCardComponent],
   templateUrl: './location-list.component.html',
   styleUrl: './location-list.component.scss',
 })
 export class LocationListComponent implements OnInit {
   readonly allLocations = locations as Location[];
   readonly allProviders = providers as Provider[];
-  readonly mapProviders = (providers as Provider[]).filter(p => p.showOnMap && p.lat && p.lon);
   readonly FEATURES = FEATURES;
 
   readonly filters: FilterOption[] = FEATURES.PROMOTIONS
@@ -45,12 +46,20 @@ export class LocationListComponent implements OnInit {
   private readonly userLon = signal<number | null>(null);
   readonly hasGps = computed(() => this.userLat() !== null);
 
-  private readonly activeProviders = computed(() =>
-    this.allProviders.filter(p => !p.discount || isDiscountValid(p.discount))
+  // Experiences whose (resolved) deal is still valid — drives the deal interleave + filter.
+  private readonly activeExperiences = computed<ExperienceEntry[]>(() =>
+    getAllExperiences(this.allProviders).filter(({ experience, provider }) => {
+      const d = resolveExperienceDiscount(experience, provider);
+      return !d || isDiscountValid(d);
+    })
   );
 
   private readonly dealLocationIds = computed(() =>
-    new Set<number>(this.activeProviders().flatMap(p => p.nearLocationIds ?? []))
+    new Set<number>(
+      this.activeExperiences().flatMap(({ experience }) =>
+        experience.spots.flatMap(s => s.nearLocationIds ?? [])
+      )
+    )
   );
 
   readonly filteredLocations = computed(() => {
@@ -84,8 +93,10 @@ export class LocationListComponent implements OnInit {
     const lat = this.userLat();
     const lon = this.userLon();
 
+    const experiences = this.activeExperiences();
+
     if (this.activeFilter() === 'deals') {
-      return this.activeProviders().map(p => ({ type: 'provider' as const, data: p }));
+      return experiences.map(e => ({ type: 'experience' as const, data: e }));
     }
 
     const toItem = (loc: Location): LocationItem => {
@@ -97,17 +108,17 @@ export class LocationListComponent implements OnInit {
       return { type: 'location', data: loc, distance };
     };
 
-    if (!FEATURES.PROMOTIONS || this.allProviders.length === 0) {
+    if (!FEATURES.PROMOTIONS || experiences.length === 0) {
       return locs.map(toItem);
     }
 
     const result: ListItem[] = [];
-    let pi = 0;
+    let ei = 0;
     for (let i = 0; i < locs.length; i++) {
       result.push(toItem(locs[i]));
       if ((i + 1) % 4 === 0) {
-        result.push({ type: 'provider', data: this.allProviders[pi % this.allProviders.length] });
-        pi++;
+        result.push({ type: 'experience', data: experiences[ei % experiences.length] });
+        ei++;
       }
     }
     return result;
@@ -124,7 +135,8 @@ export class LocationListComponent implements OnInit {
 
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.bridge.enterPanelMode(this.mapProviders);
+    this.bridge.enterPanelMode([]);
+    this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
 
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(loc => {
@@ -157,8 +169,8 @@ export class LocationListComponent implements OnInit {
     this.router.navigate(['/malta/locations', loc.slug], { queryParams: { backTo: 'list' } });
   }
 
-  openProvider(provider: Provider): void {
-    this.router.navigate(['/malta/providers', provider.id]);
+  openExperience(entry: ExperienceEntry): void {
+    this.router.navigate(['/malta/experiences', entry.experience.id]);
   }
 
   browseDeals(): void { this.router.navigate(['/malta/deals'], { queryParams: { backTo: 'list' } }); }

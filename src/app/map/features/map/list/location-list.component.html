@@ -90,11 +90,12 @@
         </div>
       </div>
 
-      <app-provider-card
-        *ngIf="item.type === 'provider'"
-        [provider]="item.data"
-        (selected)="openProvider($event)">
-      </app-provider-card>
+      <app-experience-card
+        *ngIf="item.type === 'experience'"
+        [experience]="item.data.experience"
+        [provider]="item.data.provider"
+        (selected)="openExperience(item.data)">
+      </app-experience-card>
     </ng-container>
 
     <div class="empty" *ngIf="displayList().length === 0">

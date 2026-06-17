@@ -58,6 +58,10 @@ export const mapRoutes: Routes = [
                                 loadComponent: () => import('@map/features/providers/provider-page/provider-page.component').then(m => m.ProviderPageComponent)
                             },
                             {
+                                path: 'experiences/:id',
+                                loadComponent: () => import('@map/features/experiences/experience-page/experience-page.component').then(m => m.ExperiencePageComponent)
+                            },
+                            {
                                 path: 'locations/:slug',
                                 loadComponent: () => import('@map/features/locations/location-page/location-page.component').then(m => m.LocationPageComponent)
                             },

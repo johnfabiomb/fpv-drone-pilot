@@ -1,0 +1,64 @@
+<!-- Hero -->
+<div class="exp-hero" [style.background]="'linear-gradient(135deg, ' + accentColor + '1a 0%, ' + accentColor + '08 100%)'">
+  <div class="exp-hero__badge" [style.background]="accentColor + '1a'" [style.color]="accentColor">
+    {{ categoryLabel }}
+  </div>
+  <div class="exp-hero__main">
+    <!-- Photo + icon badge (matches the map pin) when the experience has a cover; else icon disc. -->
+    <span class="exp-hero__icon" [style.background]="accentColor">
+      <ng-container *ngIf="experience.coverImage; else iconOnly">
+        <img class="exp-hero__icon-img" [src]="experience.coverImage" [alt]="experience.title">
+        <span class="exp-hero__icon-badge" [style.background]="accentColor">{{ icon }}</span>
+      </ng-container>
+      <ng-template #iconOnly>{{ icon }}</ng-template>
+    </span>
+    <div>
+      <h2 class="exp-hero__name">{{ experience.title }}</h2>
+      <p class="exp-hero__tagline">{{ experience.tagline }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Image gallery (only when the experience has its own photos) -->
+<app-image-gallery
+  *ngIf="experience.images?.length"
+  [src]="experience.images!">
+</app-image-gallery>
+
+<!-- Description -->
+<div class="exp-desc" [innerHTML]="experience.description"></div>
+
+<!-- Deal (resolved: experience override → provider fallback) -->
+<app-deal-box
+  *ngIf="discount"
+  [discount]="discount"
+  (couponCopied)="couponCopied.emit()">
+</app-deal-box>
+
+<!-- Offered by -->
+<button class="offered-by" (click)="openProvider()">
+  <app-provider-avatar [provider]="provider" [size]="44"></app-provider-avatar>
+  <span class="offered-by__text">
+    <span class="offered-by__label">Offered by</span>
+    <span class="offered-by__name">{{ provider.name }}</span>
+  </span>
+  <svg class="offered-by__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>
+</button>
+
+<!-- Actions -->
+<div class="exp-actions">
+  <app-share-btn [url]="shareUrl" [shareTitle]="experience.title" label="Share"
+    (shared)="experienceShared.emit()"></app-share-btn>
+</div>
+
+<!-- Book now -->
+<button *ngIf="provider.website || experience.bookUrl" class="book-btn" (click)="book()">
+  Book this experience
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+  </svg>
+</button>

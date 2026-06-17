@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { Location, Provider } from '@map/core/models';
+import { Experience, Location, Provider } from '@map/core/models';
 import {
   SeoConfig, SeoPage, BASE_URL, DEFAULT_IMAGE,
   DEFAULT_SEO, TREND_SEO, PAGE_SEO,
@@ -61,6 +61,23 @@ export class SeoService {
       image,
       imageAlt: `${provider.name} - Malta`,
       keywords: `${provider.name}, Malta ${provider.category}, Malta deals, Explore Malta`,
+    });
+  }
+
+  setExperiencePage(experience: Experience, provider: Provider): void {
+    const rawDesc = experience.description?.replace(/<[^>]+>/g, '').trim() || experience.tagline;
+    const cover = experience.coverImage ?? provider.coverImage ?? null;
+    const image = cover
+      ? (cover.startsWith('http') ? cover : `${BASE_URL}${cover}`)
+      : DEFAULT_IMAGE;
+
+    this.apply({
+      title: `${experience.title} in Malta · with ${provider.name} | Explore Malta`,
+      desc: this.truncate(rawDesc || `${experience.title} in Malta with ${provider.name}.`, 155),
+      url: `${BASE_URL}/malta/experiences/${experience.id}/`,
+      image,
+      imageAlt: `${experience.title} - Malta`,
+      keywords: `${experience.title}, Malta, ${provider.name}, things to do in Malta, Explore Malta`,
     });
   }
 
