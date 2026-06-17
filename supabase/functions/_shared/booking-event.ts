@@ -58,6 +58,8 @@ function composeDescription(b: BookingRow): string {
   }
 
   const lines: string[] = [];
+  // The admin's free-text work description leads; the auto summary follows.
+  if (b.description?.trim()) lines.push(b.description.trim(), '');
   const client = pickName(b.client);
   const service = pickName(b.service);
   if (client) lines.push(`Client: ${client}`);
@@ -95,7 +97,15 @@ export async function ensureBookingEvent(service: SupabaseClient, bookingId: str
   const description = composeDescription(b);
 
   if (b.google_event_id) {
-    await updateCalendarEvent(b.google_event_id, { description });
+    // Mirror the full booking onto the existing event — title, time, location and
+    // description — so admin edits (incl. enriched imported events) sync to Google.
+    await updateCalendarEvent(b.google_event_id, {
+      summary: `${b.title} [${b.booking_ref}]`,
+      description,
+      location: b.location,
+      startAt: b.start_at,
+      endAt: b.end_at,
+    });
     return b.google_event_id;
   }
 

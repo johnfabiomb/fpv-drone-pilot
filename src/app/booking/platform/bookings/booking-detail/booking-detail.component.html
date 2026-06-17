@@ -46,6 +46,25 @@
       </div>
     </div>
 
+    <!-- What's billed — invoice line items (source of truth for the total) -->
+    @if (lineItems().length) {
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">What's billed</h2>
+          <a class="link-btn" [routerLink]="['/bookings/invoice-edit', id]">Edit invoice</a>
+        </div>
+        <ul class="items">
+          @for (it of lineItems(); track $index) {
+            <li class="items__row">
+              <span class="items__desc">{{ it.description }}</span>
+              <span class="items__amt">{{ it.amount | currency:'EUR':'symbol':'1.2-2' }}</span>
+            </li>
+          }
+        </ul>
+        <div class="items__total"><span>Total</span><span>{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+      </div>
+    }
+
     <!-- Booking facts -->
     <div class="card facts">
       <div class="fact"><span class="fact__k">Date</span><span class="fact__v">{{ b.start_at | date:'EEE d MMM y, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span></div>

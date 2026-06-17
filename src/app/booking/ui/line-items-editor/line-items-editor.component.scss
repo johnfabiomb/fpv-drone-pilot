@@ -1,0 +1,65 @@
+@use '../../booking.styles' as *;
+
+:host { display: block; }
+
+.items { display: flex; flex-direction: column; gap: 8px; }
+.item {
+  display: grid;
+  grid-template-columns: 1fr 120px 30px;
+  gap: 8px;
+  align-items: start;
+}
+.item__desc,
+.item__amount {
+  font-family: $font; font-size: 14px; color: $text;
+  border: 1.5px solid $border; border-radius: $radius-md; padding: 9px 12px; background: $card;
+  &:focus { outline: none; border-color: $accent; }
+}
+.item__desc { resize: vertical; min-height: 40px; }
+.item__amount { text-align: right; }
+.item__remove {
+  width: 30px; height: 40px; padding: 0; background: none; border: none; cursor: pointer;
+  color: $text-3; font-size: 20px; line-height: 1; border-radius: $radius-sm;
+  &:hover:not(:disabled) { color: $red; background: rgba(239, 68, 68, 0.08); }
+  &:disabled { opacity: 0.3; cursor: default; }
+}
+
+.add {
+  margin-top: 10px; background: none; border: none; padding: 4px 0; cursor: pointer;
+  font-family: $font; font-size: 13px; font-weight: 700; color: $accent;
+  &:hover { text-decoration: underline; }
+}
+
+// Guided add row
+.add-row {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-top: 10px; padding: 10px; border: 1.5px dashed $border; border-radius: $radius-md;
+
+  &__what { flex: 1; min-width: 160px; }
+  &__what, &__hours input {
+    font-family: $font; font-size: 14px; color: $text;
+    border: 1.5px solid $border; border-radius: $radius-md; padding: 8px 10px; background: $card;
+    &:focus { outline: none; border-color: $accent; }
+  }
+  &__hours { display: inline-flex; align-items: center; gap: 4px; }
+  &__hours input { width: 64px; text-align: right; }
+  &__unit { font-size: 13px; color: $text-3; }
+  &__price { font-size: 14px; font-weight: 700; color: $text; min-width: 48px; text-align: right; }
+  &__add {
+    padding: 8px 14px; background: $accent; border: none; border-radius: $radius-md;
+    font-family: $font; font-size: 13px; font-weight: 700; color: #000; cursor: pointer;
+    &:disabled { opacity: 0.4; cursor: default; }
+  }
+  &__cancel {
+    padding: 8px 10px; background: none; border: none; cursor: pointer;
+    font-family: $font; font-size: 13px; font-weight: 600; color: $text-3;
+    &:hover { color: $text; }
+  }
+}
+
+.total {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 12px; padding-top: 12px; border-top: 1.5px solid $border;
+  font-size: 15px; font-weight: 800; color: $text;
+  &__value { font-variant-numeric: tabular-nums; }
+}

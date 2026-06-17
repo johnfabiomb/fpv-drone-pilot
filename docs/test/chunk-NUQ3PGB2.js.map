@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/booking/core/utils/currency.util.ts"],
+  "sourcesContent": ["const SYMBOLS: Record<string, string> = { EUR: '€', USD: '$', GBP: '£' };\n\n/** Symbol for an ISO currency code (falls back to the code itself, then €). */\nexport function currencySymbol(code: string | null | undefined): string {\n  if (!code) return '€';\n  return SYMBOLS[code] ?? code;\n}\n"],
+  "mappings": ";AAAA,IAAM,UAAkC,EAAE,KAAK,UAAK,KAAK,KAAK,KAAK,OAAG;AAGhE,SAAU,eAAe,MAA+B;AAC5D,MAAI,CAAC;AAAM,WAAO;AAClB,SAAO,QAAQ,IAAI,KAAK;AAC1B;",
+  "names": []
+}

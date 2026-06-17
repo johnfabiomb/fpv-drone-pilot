@@ -4,6 +4,10 @@
       <h1 class="page__title">Clients</h1>
       <p class="page__sub">Everyone you've worked with</p>
     </div>
+    <button class="btn btn--primary" (click)="openNew()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>
+      New client
+    </button>
   </div>
 
   @if (data.clients().length === 0) {
@@ -12,30 +16,26 @@
         <circle cx="18" cy="18" r="8"/>
         <path d="M6 42c0-7 5-11 12-11s12 4 12 11"/>
       </svg>
-      <p>No clients yet — they'll appear here after your first booking.</p>
+      <p>No clients yet. Add one, or they'll appear here after your first booking.</p>
     </div>
-  }
-
-  @if (data.clients().length > 0) {
+  } @else {
     <div class="table-wrap">
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Company</th>
-            <th>Since</th>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>VAT</th><th>Since</th><th></th>
           </tr>
         </thead>
         <tbody>
           @for (c of data.clients(); track c.id) {
-            <tr>
+            <tr class="row" (click)="openEdit(c)">
               <td class="cell--client">{{ c.name }}</td>
               <td>{{ c.email ?? '—' }}</td>
               <td>{{ c.phone ?? '—' }}</td>
               <td>{{ c.company ?? '—' }}</td>
+              <td>{{ c.vat_number ?? '—' }}</td>
               <td class="cell--date">{{ c.created_at | date:'d MMM yy' }}</td>
+              <td class="cell--edit"><span class="link">Edit</span></td>
             </tr>
           }
         </tbody>
@@ -43,3 +43,6 @@
     </div>
   }
 </div>
+
+<!-- Add / edit client (shared modal) -->
+<app-client-editor [(open)]="editorOpen" [client]="editClient()" />

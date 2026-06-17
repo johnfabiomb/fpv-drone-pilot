@@ -5,67 +5,28 @@
     <p class="book__sub">Pick a day, then select your start and end time.</p>
   </header>
 
-  <!-- 1. Calendar -->
-  <section class="step">
-    <h2 class="step__label">1 · Choose a day</h2>
-    <div class="cal">
-      <div class="cal__nav">
-        <button class="cal__arrow" [disabled]="!canGoPrev()" (click)="changeMonth(-1)" aria-label="Previous month">‹</button>
-        <span class="cal__month">{{ monthLabel() }}</span>
-        <button class="cal__arrow" (click)="changeMonth(1)" aria-label="Next month">›</button>
-      </div>
+  <!-- Calendar + hour slots (shared presentational component) -->
+  <app-availability-calendar
+    dayLabel="1 · Choose a day"
+    timeLabel="2 · Select your time"
+    [timeHint]="'tap start, then end · up to ' + maxHours() + 'h'"
+    emptyText="No times available on this day."
+    [monthLabel]="monthLabel()"
+    [canGoPrev]="canGoPrev()"
+    [cells]="cells()"
+    [selectedDate]="selectedDate()"
+    [loading]="loading()"
+    [error]="error()"
+    [slots]="slots()"
+    [hasSelection]="rangeStart() !== null"
+    (prevMonth)="changeMonth(-1)"
+    (nextMonth)="changeMonth(1)"
+    (daySelected)="selectDay($event)"
+    (slotSelected)="selectHour($event)"
+    (clearSelection)="clearRange()">
+  </app-availability-calendar>
 
-      <div class="cal__dow">
-        @for (d of ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']; track d) { <span>{{ d }}</span> }
-      </div>
-
-      @if (loading()) {
-        <div class="cal__loading">Loading availability…</div>
-      } @else {
-        <div class="cal__grid">
-          @for (cell of cells(); track $index) {
-            @if (cell.date === null) {
-              <span class="cell cell--blank"></span>
-            } @else {
-              <button class="cell"
-                [class.cell--available]="cell.available"
-                [class.cell--selected]="cell.date === selectedDate()"
-                [disabled]="!cell.available || cell.isPast"
-                (click)="selectDay(cell)">
-                {{ cell.day }}
-                @if (cell.available) { <span class="cell__dot"></span> }
-              </button>
-            }
-          }
-        </div>
-      }
-      @if (error()) { <p class="book__error">{{ error() }}</p> }
-    </div>
-  </section>
-
-  <!-- 2. Hour range -->
-  @if (selectedDate()) {
-    <section class="step">
-      <h2 class="step__label">2 · Select your time <span class="step__hint">tap start, then end · up to {{ maxHours() }}h</span></h2>
-      @if (slots().length === 0) {
-        <p class="book__empty">No times available on this day.</p>
-      } @else {
-        <div class="slots">
-          @for (s of slots(); track s.hour) {
-            <button class="slot"
-              [class.slot--busy]="!s.available"
-              [class.slot--range]="s.inRange"
-              [class.slot--start]="s.isStart"
-              [class.slot--end]="s.isEnd"
-              [disabled]="!s.available"
-              (click)="selectHour(s)">{{ s.label }}</button>
-          }
-        </div>
-      }
-    </section>
-  }
-
-  <!-- 3. Sticky summary -->
+  <!-- Sticky summary -->
   @if (selection(); as sel) {
     <section class="summary">
       <div class="summary__info">

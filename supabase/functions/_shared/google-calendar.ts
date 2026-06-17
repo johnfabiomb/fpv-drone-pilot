@@ -66,14 +66,21 @@ export async function createCalendarEvent(params: {
 
 export async function updateCalendarEvent(
   eventId: string,
-  fields: { summary?: string; description?: string; location?: string | null },
+  fields: { summary?: string; description?: string; location?: string | null; startAt?: string; endAt?: string },
 ): Promise<void> {
   const token = await getAccessToken();
   const calId = encodeURIComponent(Deno.env.get('GOOGLE_CALENDAR_ID')!);
+  // PATCH only the keys provided; nest start/end as Google expects.
+  const body: Record<string, unknown> = {};
+  if (fields.summary !== undefined) body.summary = fields.summary;
+  if (fields.description !== undefined) body.description = fields.description;
+  if (fields.location !== undefined) body.location = fields.location ?? undefined;
+  if (fields.startAt) body.start = { dateTime: fields.startAt };
+  if (fields.endAt) body.end = { dateTime: fields.endAt };
   const res = await fetch(`${CALENDAR_BASE}/calendars/${calId}/events/${eventId}`, {
     method: 'PATCH',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(fields),
+    body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`GCal update failed (${res.status}): ${await res.text()}`);
 }

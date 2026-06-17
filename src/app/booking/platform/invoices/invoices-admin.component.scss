@@ -15,6 +15,35 @@
   gap: 12px;
   margin-bottom: 20px;
 }
+
+// ── Status tabs ──────────────────────────────────────────────────────────
+.tabs {
+  display: inline-flex; gap: 2px; flex-wrap: wrap; margin-bottom: 16px;
+  background: $bg; border: 1px solid $border; border-radius: $radius-lg; padding: 4px;
+}
+.tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px; border: none; background: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: $text-2;
+  border-radius: $radius-md; transition: all $transition; white-space: nowrap;
+  &:hover { color: $text; }
+  &--active { background: $card; color: $text; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08); }
+}
+.tab__count {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; background: $border; color: $text-2;
+  .tab--active & { background: $accent-dim; color: $text; }
+}
+
+// Per-invoice payment badge
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  &--paid    { background: #dcfce7; color: #16a34a; }
+  &--partial { background: #fef9c3; color: #a16207; }
+  &--unpaid  { background: #fee2e2; color: #dc2626; }
+}
 .summary__card {
   background: $card; border: 1px solid $border; border-radius: $radius-md;
   padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
@@ -29,7 +58,7 @@
 }
 .row {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1.6fr 1fr 1fr 1fr 0.7fr;
+  grid-template-columns: 1.2fr 0.9fr 1.3fr 0.8fr 0.8fr 0.8fr 0.8fr 1fr;
   align-items: center;
   gap: 12px;
   padding: 13px 18px;
@@ -45,6 +74,29 @@
   }
 }
 .num { text-align: right; white-space: nowrap; }
+.actions { display: flex; justify-content: flex-end; }
+
+// Kebab (⋯) trigger + dropdown — mirrors the bookings list.
+.kebab {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; padding: 0;
+  background: none; border: none; border-radius: $radius-sm;
+  color: $muted-2; cursor: pointer; transition: all $transition;
+  &:hover { background: $bg; color: $text; }
+  &[aria-expanded='true'] { background: $bg; color: $text; }
+}
+.menu {
+  display: flex; flex-direction: column; min-width: 168px; padding: 6px;
+  background: $card; border: 1px solid $border; border-radius: $radius-md;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.14);
+  &__item {
+    display: flex; align-items: center; gap: 8px; padding: 9px 12px; text-align: left;
+    background: none; border: none; border-radius: $radius-sm; text-decoration: none;
+    font-family: inherit; font-size: 13.5px; font-weight: 600; color: $text-2; cursor: pointer;
+    transition: background $transition;
+    &:hover, &:focus-visible { background: $bg; color: $text; outline: none; }
+  }
+}
 .mono { font-variant-numeric: tabular-nums; font-weight: 600; color: $text; }
 .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .due { color: #b45309; font-weight: 600; }

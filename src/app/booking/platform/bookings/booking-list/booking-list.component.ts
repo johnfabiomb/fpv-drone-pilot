@@ -13,6 +13,19 @@ const PAYMENT_CLASSES: Record<PaymentStatus, string> = {
   unpaid: 'badge--unpaid', partial: 'badge--partial', paid: 'badge--paid', external: 'badge--external',
 };
 
+type BookingTab = 'upcoming' | 'pending' | 'unpaid' | 'paid' | 'past' | 'external' | 'cancelled' | 'all';
+
+const EMPTY_TEXT: Record<BookingTab, string> = {
+  upcoming: 'No upcoming bookings. Your schedule is clear.',
+  pending: 'No requests waiting for approval.',
+  unpaid: 'Nothing outstanding — every job is paid. 🎉',
+  paid: 'No fully-paid bookings yet.',
+  past: 'No past bookings.',
+  external: 'No imported calendar events. Use “Sync Calendar” to pull them in.',
+  cancelled: 'No cancelled bookings.',
+  all: 'No bookings match your search.',
+};
+
 @Component({
   selector: 'app-booking-list',
   standalone: true,
@@ -30,9 +43,93 @@ export class BookingListComponent {
   goEdit(b: BookingSummary): void { this.router.navigate(['/bookings', b.id, 'edit']); }
   goDetail(b: BookingSummary): void { this.router.navigate(['/bookings', b.id]); }
 
-  // Pending cash requests (client-created, awaiting approval) vs everything else
-  readonly requests = computed(() => this.data.bookings().filter(b => b.status === 'pending'));
-  readonly confirmed = computed(() => this.data.bookings().filter(b => b.status !== 'pending'));
+  // ── Tabs / filtering ─────────────────────────────────────────────────
+  readonly tabs: ReadonlyArray<{ key: BookingTab; label: string }> = [
+    { key: 'upcoming',  label: 'Upcoming' },
+    { key: 'pending',   label: 'Pending' },
+    { key: 'unpaid',    label: 'Unpaid' },
+    { key: 'paid',      label: 'Paid' },
+    { key: 'past',      label: 'Past' },
+    { key: 'external',  label: 'External' },
+    { key: 'cancelled', label: 'Cancelled' },
+    { key: 'all',       label: 'All' },
+  ];
+  readonly tab = signal<BookingTab>('upcoming');
+  readonly search = signal('');
+
+  private static readonly ACTIVE = ['booked', 'in_progress', 'done'];
+  private startMs(b: BookingSummary): number { return new Date(b.start_at).getTime(); }
+  private endMs(b: BookingSummary): number { return new Date(b.end_at).getTime(); }
+  /** Local midnight today — "upcoming" includes everything from today onward. */
+  private todayStartMs(): number { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); }
+
+  /** Whether a booking belongs in a given tab. */
+  private inTab(b: BookingSummary, tab: BookingTab, now: number): boolean {
+    const active = BookingListComponent.ACTIVE.includes(b.status);
+    switch (tab) {
+      // Upcoming = anything happening today or later — real OR imported (external) events.
+      case 'upcoming':  return (b.status === 'booked' || b.status === 'in_progress') && this.endMs(b) >= this.todayStartMs();
+      case 'past':      return !b.is_external && active && this.endMs(b) < this.todayStartMs();
+      case 'pending':   return b.status === 'pending';
+      case 'unpaid':    return active && !b.is_external && (b.payment_status === 'unpaid' || b.payment_status === 'partial');
+      case 'paid':      return active && !b.is_external && b.payment_status === 'paid';
+      case 'external':  return b.is_external;
+      case 'cancelled': return b.status === 'cancelled' || b.status === 'expired';
+      case 'all':       return true;
+    }
+  }
+
+  /** Every tab is strictly chronological. Forward-looking tabs run soonest→latest; history runs most-recent→oldest. */
+  private comparatorFor(tab: BookingTab): (a: BookingSummary, b: BookingSummary) => number {
+    const asc = (a: BookingSummary, b: BookingSummary) => this.startMs(a) - this.startMs(b);
+    const desc = (a: BookingSummary, b: BookingSummary) => this.startMs(b) - this.startMs(a);
+    switch (tab) {
+      case 'upcoming': case 'pending': case 'unpaid': case 'external': return asc;
+      default:         return desc; // past, paid, cancelled, all → most recent first
+    }
+  }
+
+  readonly counts = computed<Record<BookingTab, number>>(() => {
+    const now = Date.now();
+    const c: Record<BookingTab, number> = { upcoming: 0, pending: 0, unpaid: 0, paid: 0, past: 0, external: 0, cancelled: 0, all: 0 };
+    for (const b of this.data.bookings())
+      for (const t of this.tabs) if (this.inTab(b, t.key, now)) c[t.key]++;
+    return c;
+  });
+
+  /** The rows for the active tab, filtered by the search box and sorted. */
+  readonly rows = computed<BookingSummary[]>(() => {
+    const tab = this.tab(), now = Date.now();
+    const q = this.search().trim().toLowerCase();
+    let list = this.data.bookings().filter(b => this.inTab(b, tab, now));
+    if (q) list = list.filter(b =>
+      !!b.booking_ref?.toLowerCase().includes(q) ||
+      !!b.client_name?.toLowerCase().includes(q) ||
+      !!b.title?.toLowerCase().includes(q));
+    return list.sort(this.comparatorFor(tab));
+  });
+
+  /** The soonest still-to-come booking (real or external) — highlighted as "NEXT". */
+  readonly nextId = computed<string | null>(() => {
+    const now = Date.now();
+    const up = this.data.bookings()
+      .filter(b => (b.status === 'booked' || b.status === 'in_progress') && this.endMs(b) >= now)
+      .sort((a, b) => this.startMs(a) - this.startMs(b));
+    return up.length ? up[0].id : null;
+  });
+
+  emptyText(): string { return EMPTY_TEXT[this.tab()]; }
+
+  /** Friendly relative day for the schedule ("Today", "Tomorrow", "in 3 days"). */
+  relative(b: BookingSummary): string {
+    const days = Math.round((this.startMs(b) - Date.now()) / 86_400_000);
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Tomorrow';
+    if (days === -1) return 'Yesterday';
+    if (days > 1 && days <= 14) return `in ${days} days`;
+    if (days < -1 && days >= -14) return `${-days} days ago`;
+    return '';
+  }
 
   // Revenue/collected reflect only genuinely confirmed jobs — never pending,
   // hold, cancelled, expired or external blocks.

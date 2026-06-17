@@ -54,6 +54,17 @@ export interface EditableBooking {
   allow_inperson: boolean;
   deposit_percent: number | null;   // per-booking override; null = inherit org default
   deposit_allowed: boolean | null;  // per-booking override; null = inherit org default
+  needs_production: boolean;         // on the Work board (post-production) when true
+}
+
+/** A worker's occupied time range — feeds the admin availability picker's busy slots. */
+export interface WorkerBusy {
+  id: string;
+  start_at: string;
+  end_at: string;
+  title: string;
+  status: BookingStatus;
+  clientName: string | null;
 }
 
 export interface Client {
@@ -62,5 +73,8 @@ export interface Client {
   email: string | null;
   phone: string | null;
   company: string | null;
+  vat_number: string | null;
+  billing_address: string | null;
+  notes: string | null;
   created_at: string;
 }

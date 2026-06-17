@@ -1,0 +1,45 @@
+<div class="items">
+  @for (item of items(); track $index) {
+    <div class="item">
+      <textarea class="item__desc" rows="1" placeholder="Description"
+                [ngModel]="item.description" (ngModelChange)="setDescription($index, $event)"></textarea>
+      <input class="item__amount" type="number" min="0" step="1" inputmode="decimal"
+             [ngModel]="item.amount" (ngModelChange)="setAmount($index, $event)" />
+      <button type="button" class="item__remove" (click)="remove($index)"
+              [disabled]="items().length === 1" aria-label="Remove line">×</button>
+    </div>
+  }
+</div>
+
+@if (picking()) {
+  <!-- Guided add: a service (with hours) or a custom charge -->
+  <div class="add-row">
+    <select class="add-row__what" [(ngModel)]="pickId" name="pickId">
+      <option value="">What are you charging?</option>
+      <option value="custom">Custom charge</option>
+      @if (services().length) {
+        <optgroup label="Services">
+          @for (s of services(); track s.id) { <option [value]="s.id">{{ s.name }}</option> }
+        </optgroup>
+      }
+    </select>
+
+    @if (pickedService) {
+      <div class="add-row__hours">
+        <input type="number" min="1" step="1" [(ngModel)]="pickHours" name="pickHours" aria-label="Hours" />
+        <span class="add-row__unit">h</span>
+      </div>
+      <span class="add-row__price">{{ pickPrice === null ? '—' : (pickPrice | currency:currency():'symbol':'1.0-0') }}</span>
+    }
+
+    <button type="button" class="add-row__add" (click)="confirmAdd()" [disabled]="!pickId">Add</button>
+    <button type="button" class="add-row__cancel" (click)="cancelAdd()">Cancel</button>
+  </div>
+} @else {
+  <button type="button" class="add" (click)="startAdd()">+ Add charge</button>
+}
+
+<div class="total">
+  <span>Total</span>
+  <span class="total__value">{{ total() | currency:currency():'symbol':'1.2-2' }}</span>
+</div>

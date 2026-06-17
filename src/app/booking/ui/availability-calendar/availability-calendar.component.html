@@ -1,0 +1,71 @@
+<!-- 1 · Day grid -->
+<section class="step">
+  <h2 class="step__label">{{ dayLabel() }}</h2>
+  <div class="cal">
+    <div class="cal__nav">
+      <button type="button" class="cal__arrow" [disabled]="!canGoPrev()" (click)="prevMonth.emit()" aria-label="Previous month">‹</button>
+      <span class="cal__month">{{ monthLabel() }}</span>
+      <button type="button" class="cal__arrow" (click)="nextMonth.emit()" aria-label="Next month">›</button>
+    </div>
+
+    <div class="cal__dow">
+      @for (d of dow; track d) { <span>{{ d }}</span> }
+    </div>
+
+    @if (loading()) {
+      <div class="cal__loading">Loading availability…</div>
+    } @else {
+      <div class="cal__grid">
+        @for (cell of cells(); track $index) {
+          @if (cell.date === null) {
+            <span class="cell cell--blank"></span>
+          } @else {
+            <button type="button" class="cell"
+              [class.cell--available]="cell.available"
+              [class.cell--selected]="cell.date === selectedDate()"
+              [disabled]="!cell.available || cell.isPast"
+              (click)="daySelected.emit(cell)">
+              {{ cell.day }}
+              @if (cell.available) { <span class="cell__dot"></span> }
+            </button>
+          }
+        }
+      </div>
+    }
+    @if (error()) { <p class="cal__error">{{ error() }}</p> }
+  </div>
+</section>
+
+<!-- 2 · Hour slots -->
+@if (selectedDate()) {
+  <section class="step">
+    <h2 class="step__label">
+      {{ timeLabel() }}
+      @if (timeHint()) { <span class="step__hint">{{ timeHint() }}</span> }
+      @if (hasSelection()) {
+        <button type="button" class="step__clear" (click)="clearSelection.emit()">Clear</button>
+      }
+    </h2>
+    @if (slots().length === 0) {
+      <p class="cal__empty">{{ emptyText() }}</p>
+    } @else {
+      <div class="slots">
+        @for (s of slots(); track s.hour) {
+          <button type="button" class="slot"
+            [class.slot--busy]="!s.available"
+            [class.slot--unstartable]="s.unstartable"
+            [class.slot--range]="s.inRange"
+            [class.slot--start]="s.isStart"
+            [class.slot--end]="s.isEnd"
+            [disabled]="!s.available || s.unstartable"
+            (click)="slotSelected.emit(s)">
+            <span class="slot__time">{{ s.label }}</span>
+            @if (showBusyReason() && !s.available && s.busyReason) {
+              <span class="slot__reason">{{ s.busyReason }}</span>
+            }
+          </button>
+        }
+      </div>
+    }
+  </section>
+}

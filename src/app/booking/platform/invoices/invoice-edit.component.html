@@ -19,18 +19,9 @@
 
     <div class="card">
       <h2 class="card__h">Line items</h2>
-      <p class="hint">These appear on the invoice the client sees. Editing them does not change the booking, calendar or work board.</p>
+      <p class="hint">These are the source of truth for what the client is charged. Saving updates the booking's total (and its calendar event) to match.</p>
 
-      @for (item of items; track $index) {
-        <div class="item">
-          <textarea class="item__desc" rows="2" [(ngModel)]="item.description" placeholder="Description (e.g. Drone Pilot Filming — 2 hours)"></textarea>
-          <input class="item__amt" type="number" step="0.01" [(ngModel)]="item.amount" placeholder="0.00" />
-          <button class="item__del" title="Remove" (click)="removeItem($index)" [disabled]="items.length === 1">✕</button>
-        </div>
-      }
-      <button class="link-btn" (click)="addItem()">+ Add line item</button>
-
-      <div class="total-row"><span>Total</span><span>{{ total() | currency:currency:'symbol':'1.2-2' }}</span></div>
+      <app-line-items-editor [(items)]="items" [currency]="currency" [services]="services()" />
     </div>
 
     <div class="card">

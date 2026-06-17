@@ -38,6 +38,47 @@
   &--warn .stat__value { color: #f97316; }
 }
 
+// ── Toolbar: tabs + search ──────────────────────────────────────────────
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin-bottom: 18px; flex-wrap: wrap;
+}
+.tabs {
+  display: flex; gap: 2px; flex-wrap: wrap;
+  background: $bg; border: 1px solid $border; border-radius: $radius-lg; padding: 4px;
+}
+.tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px; border: none; background: none; cursor: pointer;
+  font-family: $font; font-size: 13px; font-weight: 600; color: $text-2;
+  border-radius: $radius-md; transition: all $transition; white-space: nowrap;
+  &:hover { color: $text; }
+  &--active { background: $card; color: $text; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08); }
+}
+.tab__count {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; background: $border; color: $text-2;
+  .tab--active & { background: $accent-dim; color: $text; }
+  &--alert { background: #fee2e2; color: #dc2626; }
+}
+.search {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: $card; border: 1px solid $border; border-radius: $radius-md;
+  padding: 0 12px; min-width: 220px; transition: border-color $transition;
+  &:focus-within { border-color: $accent; }
+  svg { width: 15px; height: 15px; color: $text-3; flex-shrink: 0; }
+  input {
+    border: none; outline: none; background: none; font-family: $font;
+    font-size: 13.5px; color: $text; padding: 9px 0; width: 100%;
+    &::placeholder { color: $text-3; }
+  }
+}
+.empty-tab {
+  background: $card; border: 1px solid $border; border-radius: $radius-lg;
+  padding: 48px 24px; text-align: center; color: $text-3; font-size: 14px;
+}
+
 // ── Table ──────────────────────────────────────────────────────────────
 .table-wrap {
   background: $card;
@@ -77,10 +118,22 @@
 }
 
 .row--external td { color: $text-3; }
-.cell--mono   { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12.5px; color: $text; font-weight: 600; }
+.cell--mono   { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 12.5px; color: $text; font-weight: 600; white-space: nowrap; }
 .cell--client { font-weight: 600; color: $text; }
 .cell--title  { max-width: 200px; overflow: hidden; text-overflow: ellipsis; color: $text; }
-.cell--date   { color: $text-3; }
+.cell--date {
+  .when__abs { display: block; color: $text; }
+  .when__rel { display: block; font-size: 11.5px; color: $text-3; margin-top: 1px; }
+}
+
+// Next upcoming booking — surfaced at the top + accented.
+.row--next td { background: $accent-dim; }
+.row--next:hover td { background: $accent-dim; }
+.next-badge {
+  margin-left: 8px; padding: 1px 7px; border-radius: 20px;
+  background: $accent; color: #000; font-size: 9.5px; font-weight: 800;
+  letter-spacing: 0.06em; vertical-align: middle;
+}
 
 // ── Badges ─────────────────────────────────────────────────────────────
 .badge {

@@ -3,19 +3,19 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
-import { BookingAdminService, AdminService, AdminStaff, StaffServiceRow } from '@booking/core/services/booking-admin.service';
+import { BookingAdminService, AdminService, AdminStaff } from '@booking/core/services/booking-admin.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
-import { AvailabilityService } from '@booking/core/services/availability.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
-import { servicePrice } from '@booking/core/interfaces/org.interface';
-import { HourSlot, AvailabilityDay } from '@booking/core/interfaces/availability.interface';
-
-const CUSTOM = 'custom';
+import { LineItem } from '@booking/core/interfaces/invoice.interface';
+import { Client } from '@booking/core/interfaces/booking.interface';
+import { AvailabilityPickerComponent, PickedSlot } from './availability-picker.component';
+import { LineItemsEditorComponent } from '@booking/ui/line-items-editor/line-items-editor.component';
+import { ClientEditorComponent } from '@booking/ui/client-editor/client-editor.component';
 
 @Component({
   selector: 'app-booking-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, CurrencyPipe],
+  imports: [FormsModule, RouterLink, CurrencyPipe, AvailabilityPickerComponent, LineItemsEditorComponent, ClientEditorComponent],
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.scss',
 })
@@ -24,7 +24,6 @@ export class BookingFormComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly admin = inject(BookingAdminService);
   private readonly auth = inject(BookingsAuthService);
-  private readonly availability = inject(AvailabilityService);
   private readonly toast = inject(ToastService);
   readonly data = inject(BookingDataService);
 
@@ -32,7 +31,6 @@ export class BookingFormComponent implements OnInit {
 
   readonly services = signal<AdminService[]>([]);
   readonly staff = signal<AdminStaff[]>([]);
-  readonly staffServices = signal<StaffServiceRow[]>([]);
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly errorMsg = signal('');
@@ -40,58 +38,53 @@ export class BookingFormComponent implements OnInit {
   readonly created = signal<{ ref: string; link: string | null } | null>(null);
 
   // ── Form state ──────────────────────────────────────────────────────
-  clientMode: 'existing' | 'new' = 'existing';
   clientId = '';
-  newClientName = '';
-  newClientEmail = '';
-  serviceId = '';            // '' | service id | CUSTOM
+  readonly clientEditorOpen = signal(false);
   staffId = '';
-  startLocal = '';           // datetime-local — used ONLY for custom services (manual time)
-  hours = 1;
 
-  // Availability picker (non-custom services): pick a date → choose from FREE slots only.
-  pickDate = '';                                   // yyyy-MM-dd
-  selectedStartIso = '';                           // chosen slot's UTC ISO (= startAt)
-  selectedSlotLabel = '';                          // human label for the chosen slot
-  readonly slots = signal<HourSlot[]>([]);         // start times where an `hours` block is free
-  readonly slotsTz = signal('Europe/Malta');
-  readonly slotsLoading = signal(false);
-  readonly slotsError = signal('');
+  // Availability picker: pick a start + end span on the worker's calendar.
+  selectedStartIso = '';
+  selectedHours = 0;        // duration chosen on the calendar (the booking's length)
+  selectedSlotLabel = '';
+  prefillStartIso = '';     // edit prefill for the picker (set once, never echoed)
+  prefillHours = 0;
+  readonly orgTimezone = signal('Europe/Malta');
+  readonly currency = signal('EUR');
+
+  // Invoice line items — the source of truth for what's charged + the total.
+  // Per-line hours feed the description/price only; the calendar span sets the duration.
+  lineItems: LineItem[] = [{ description: '', amount: 0 }];
+
   title = '';
-  description = '';                 // client-facing work description (shown on the pay page)
-  private lastAutoDescription = ''; // last auto-generated value, to detect manual edits
-  priceTotal: number | null = null;
   location = '';
   notes = '';
-  paymentMode: 'both' | 'card' | 'later' = 'both';   // which options the client sees on the link
-  depositMode: 'deposit' | 'full' = 'deposit';        // can the client pay a deposit, or full only
-  depositPercent = 30;                                // size of the deposit for this booking
+  paymentMode: 'both' | 'card' | 'later' = 'both';
+  depositMode: 'deposit' | 'full' = 'deposit';
+  depositPercent = 30;
+  needsProduction = false;   // add to the Work board (editing → delivery)?
 
-  // Org defaults — prefill new bookings + the basis to reset to.
   private orgDefaults = { depositPercent: 30, depositAllowed: true };
 
   async ngOnInit(): Promise<void> {
     await this.auth.initialize();
     const org = this.auth.orgId();
     if (org) {
-      const [services, staff, ss, settings] = await Promise.all([
+      const [services, staff, settings] = await Promise.all([
         this.admin.listServices(org),
         this.admin.listStaff(org),
-        this.admin.listStaffServices(),
         this.admin.getOrgSettings(org),
       ]);
       this.services.set(services.filter(s => s.is_active));
-      this.staff.set(staff);
-      this.staffServices.set(ss);
+      this.staff.set(staff.filter(s => s.is_bookable));
 
       this.orgDefaults = {
         depositPercent: settings?.booking_params?.deposit_percent ?? 30,
         depositAllowed: settings?.booking_params?.deposit_allowed ?? true,
       };
-      // New bookings start from the org defaults (edit overrides these in loadForEdit).
+      if (settings?.timezone) this.orgTimezone.set(settings.timezone);
+      if (settings?.currency) this.currency.set(settings.currency);
       this.depositPercent = this.orgDefaults.depositPercent;
       this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
-      this.pickDate = this.todayDate;
 
       const id = this.route.snapshot.paramMap.get('id');
       if (id) await this.loadForEdit(id);
@@ -104,193 +97,117 @@ export class BookingFormComponent implements OnInit {
     if (!b) { this.errorMsg.set('Booking not found.'); return; }
     this.editingId.set(id);
     this.editingRef = b.booking_ref;
-    this.clientMode = 'existing';
     this.clientId = b.client_id ?? '';
-    this.serviceId = b.service_id ?? CUSTOM;
     this.staffId = b.staff_id;
-    this.startLocal = this.toLocalInput(b.start_at);
-    this.hours = Math.max(1, Math.round((new Date(b.end_at).getTime() - new Date(b.start_at).getTime()) / 3_600_000));
     this.title = b.title;
-    this.description = b.description ?? '';
-    this.lastAutoDescription = this.autoDescription; // so unedited descriptions keep auto-syncing
-    this.priceTotal = b.price_total;
     this.location = b.location ?? '';
     this.notes = b.notes ?? '';
     this.paymentMode = b.allow_card && b.allow_inperson ? 'both' : b.allow_card ? 'card' : 'later';
-    // Per-booking deposit override; fall back to the org default for legacy rows (null).
     this.depositMode = (b.deposit_allowed ?? this.orgDefaults.depositAllowed) ? 'deposit' : 'full';
     this.depositPercent = b.deposit_percent ?? this.orgDefaults.depositPercent;
+    this.needsProduction = b.needs_production ?? false;
 
-    // Preselect the date + slot for the availability picker (non-custom services).
-    const d = new Date(b.start_at);
-    this.pickDate = d.toLocaleDateString('en-CA');
-    if (!this.isCustom) {
-      this.selectedStartIso = b.start_at;
-      this.selectedSlotLabel = d.toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-      this.loadSlots();
-    }
+    const dur = Math.max(1, Math.round((new Date(b.end_at).getTime() - new Date(b.start_at).getTime()) / 3_600_000));
+    this.selectedStartIso = b.start_at;
+    this.selectedHours = dur;
+    this.prefillStartIso = b.start_at;   // positions + pre-selects the span in the picker
+    this.prefillHours = dur;
+    this.selectedSlotLabel = this.rangeLabel(b.start_at, dur);
+
+    // Load the invoice line items (saved breakdown, or a single line derived from the booking).
+    const items = await this.data.getInvoiceItems(id);
+    this.lineItems = items.length ? items : [{ description: b.description ?? b.title, amount: b.price_total }];
   }
 
   // ── Derived ─────────────────────────────────────────────────────────
-  get isCustom(): boolean { return this.serviceId === CUSTOM; }
   get isEditing(): boolean { return this.editingId() !== null; }
-  get selectedService(): AdminService | undefined {
-    return this.services().find(s => s.id === this.serviceId);
-  }
-  /** Workers for the chosen service (or every bookable worker when custom). */
-  get workers(): AdminStaff[] {
-    if (this.isCustom) return this.staff().filter(s => s.is_bookable);
-    const ids = new Set(this.staffServices().filter(ss => ss.service_id === this.serviceId).map(ss => ss.staff_id));
-    return this.staff().filter(s => ids.has(s.id) && s.is_bookable);
-  }
-  get computedPrice(): number | null {
-    const svc = this.selectedService;
-    return svc ? servicePrice(svc.pricing, this.hours) : null;
-  }
-  get minDateTime(): string {
-    return this.toLocalInput(new Date().toISOString());
-  }
+  /** Any bookable worker — availability is worker-based. */
+  get workers(): AdminStaff[] { return this.staff(); }
+  /** Booking total = sum of the line items (source of truth). */
+  get priceTotal(): number { return this.lineItems.reduce((s, i) => s + (Number(i.amount) || 0), 0); }
+  get selectedClient(): Client | undefined { return this.data.clients().find(c => c.id === this.clientId); }
+  get startAtValue(): string { return this.selectedStartIso; }
 
-  private toLocalInput(iso: string): string {
-    const d = new Date(iso);
-    return new Date(d.getTime() - d.getTimezoneOffset() * 60_000).toISOString().slice(0, 16);
+  /** "20 Jun · 08:00–13:00" in the org's timezone. */
+  private rangeLabel(startIso: string, hours: number): string {
+    const tz = this.orgTimezone();
+    const start = new Date(startIso);
+    const end = new Date(start.getTime() + hours * 3_600_000);
+    const day = start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: tz });
+    const t = (d: Date) => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz });
+    return `${day} · ${t(start)}–${t(end)}`;
   }
 
   // ── Change handlers ─────────────────────────────────────────────────
-  onServiceChange(): void {
-    const svc = this.selectedService;
-    if (svc) {
-      this.hours = Math.min(Math.max(this.hours, svc.min_hours), svc.max_hours);
-      this.title = svc.name;
-    }
-    const ws = this.workers;
-    this.staffId = ws.length === 1 ? ws[0].id : (ws.some(w => w.id === this.staffId) ? this.staffId : '');
-    this.syncPrice();
-    this.maybeSyncDescription();
-    this.resetSlotSelection();
-    this.loadSlots();
-  }
-  onWorkerChange(): void { this.resetSlotSelection(); this.loadSlots(); }
-  onHoursChange(): void { this.syncPrice(); this.maybeSyncDescription(); this.resetSlotSelection(); this.loadSlots(); }
-  onDateChange(): void { this.resetSlotSelection(); this.loadSlots(); }
-  /** Reset to the service's computed price (clears it for custom — admin sets their own). */
-  syncPrice(): void { this.priceTotal = this.computedPrice; }
+  // Charges (pricing) are decoupled from the calendar span — editing items never touches the time.
+  onItemsChange(items: LineItem[]): void { this.lineItems = items; }
+  onWorkerChange(): void { this.resetSlotSelection(); }
+  private resetSlotSelection(): void { this.selectedStartIso = ''; this.selectedHours = 0; this.selectedSlotLabel = ''; }
 
-  /** Suggested client-facing description from the service + hours (empty for custom). */
-  get autoDescription(): string {
-    const svc = this.selectedService;
-    if (!svc) return '';
-    return `${svc.name} — ${this.hours} ${this.hours === 1 ? 'hour' : 'hours'}`;
-  }
-  /** Refresh the description from service/hours, unless the admin has manually edited it. */
-  maybeSyncDescription(): void {
-    if (this.description.trim() === '' || this.description === this.lastAutoDescription) {
-      this.description = this.autoDescription;
-      this.lastAutoDescription = this.autoDescription;
-    }
-  }
-  /** Manually pull the suggested description (used by the "Reset to suggested" link). */
-  resetDescription(): void {
-    this.description = this.autoDescription;
-    this.lastAutoDescription = this.autoDescription;
+  onSlotPicked(slot: PickedSlot): void {
+    this.selectedStartIso = slot.iso;
+    this.selectedHours = slot.hours;
+    this.selectedSlotLabel = slot.label;
   }
 
-  // ── Availability picker (only available worker slots) ───────────────
-  /** A real service + worker means we can offer real availability (custom = manual time). */
-  get usesAvailability(): boolean { return !this.isCustom && !!this.serviceId && !!this.staffId; }
-  get todayDate(): string { return new Date().toLocaleDateString('en-CA'); } // yyyy-MM-dd, local
-
-  private resetSlotSelection(): void { this.selectedStartIso = ''; this.selectedSlotLabel = ''; }
-
-  /** Load the worker's free start times for `pickDate` (working hours minus existing bookings). */
-  async loadSlots(): Promise<void> {
-    if (!this.usesAvailability || !this.pickDate) { this.slots.set([]); return; }
-    this.slotsLoading.set(true);
-    this.slotsError.set('');
-    try {
-      const res = await this.availability.getAvailability(this.staffId, this.serviceId, this.pickDate, this.pickDate);
-      this.slotsTz.set(res.timezone);
-      const day = res.days.find(d => d.date === this.pickDate);
-      this.slots.set(this.startsThatFit(day, this.hours));
-    } catch {
-      this.slotsError.set('Could not load availability. Try again.');
-      this.slots.set([]);
-    } finally {
-      this.slotsLoading.set(false);
-    }
-  }
-
-  /** Start cells from which a contiguous `hours`-long block is entirely free. */
-  private startsThatFit(day: AvailabilityDay | undefined, hours: number): HourSlot[] {
-    if (!day) return [];
-    return day.slots.filter(s => {
-      for (let i = 0; i < hours; i++) {
-        const cell = day.slots.find(x => x.hour === s.hour + i);
-        if (!cell || !cell.available) return false;
-      }
-      return true;
-    });
-  }
-
-  selectSlot(s: HourSlot): void {
-    this.selectedStartIso = s.start;
-    this.selectedSlotLabel = `${this.pickDate} · ${s.label}`;
-  }
-
-  /** The instant to save: the picked slot for a real service, else the manual datetime-local. */
-  get startAtValue(): string { return this.isCustom ? this.startLocal : this.selectedStartIso; }
+  // ── Client (reuses the full client editor — never a stub) ────────────
+  openClientEditor(): void { this.clientEditorOpen.set(true); }
+  onClientCreated(c: Client): void { this.clientId = c.id; }
 
   // ── Submit ──────────────────────────────────────────────────────────
   get canSubmit(): boolean {
-    const clientOk = this.clientMode === 'existing' ? !!this.clientId : this.newClientName.trim().length > 0;
-    return !this.saving() && clientOk && !!this.serviceId && !!this.staffId
-      && !!this.startAtValue && this.hours > 0 && this.priceTotal != null && this.priceTotal >= 0
-      && this.title.trim().length > 0 && this.description.trim().length > 0;
+    const itemsOk = this.lineItems.length > 0
+      && this.lineItems.every(i => i.description.trim().length > 0) && this.priceTotal > 0;
+    return !this.saving() && !!this.clientId && !!this.staffId && !!this.startAtValue && this.selectedHours > 0
+      && itemsOk && this.title.trim().length > 0;
   }
 
   async submit(): Promise<void> {
     if (!this.canSubmit) return;
     const org = this.auth.orgId();
     if (!org) { this.errorMsg.set('No organization context.'); return; }
-    const svc = this.selectedService;
-    if (svc && (this.hours < svc.min_hours || this.hours > svc.max_hours)) {
-      this.errorMsg.set(`This service is ${svc.min_hours}–${svc.max_hours} hours.`); return;
-    }
 
     this.saving.set(true);
     this.errorMsg.set('');
     try {
-      // Resolve / create the client.
-      let clientId = this.clientId;
-      if (this.clientMode === 'new') {
-        const c = await this.data.createClient(org, this.newClientName.trim(), this.newClientEmail.trim() || null);
-        if (!c) { this.errorMsg.set('Could not create the client.'); return; }
-        clientId = c.id;
-      }
-
-      const serviceId = this.isCustom ? null : this.serviceId;
+      // Keep the service metadata (serviceId/hours) so the breakdown round-trips on edit.
+      const items: LineItem[] = this.lineItems.map(i => ({
+        description: i.description.trim(), amount: Number(i.amount) || 0,
+        ...(i.serviceId ? { serviceId: i.serviceId } : {}),
+        ...(i.hours ? { hours: i.hours } : {}),
+      }));
       const shared = {
-        staffId: this.staffId, serviceId, clientId,
-        title: this.title.trim(), description: this.description.trim(),
-        startAt: this.startAtValue, hours: this.hours,
-        priceTotal: this.priceTotal!,
+        staffId: this.staffId, serviceId: null, clientId: this.clientId,
+        title: this.title.trim(),
+        description: items.map(i => i.description).join('\n'),  // client-facing summary on the pay page
+        startAt: this.startAtValue, hours: this.selectedHours,
+        priceTotal: this.priceTotal,
         allowCard: this.paymentMode !== 'later',
         allowInperson: this.paymentMode !== 'card',
         depositAllowed: this.depositMode === 'deposit',
         depositPercent: this.depositPercent,
+        needsProduction: this.needsProduction,
         location: this.location.trim() || null, notes: this.notes.trim() || null,
       };
 
       if (this.isEditing) {
         const res = await this.data.updateBooking(this.editingId()!, shared);
         if (res.error) { this.errorMsg.set(this.errorText(res.error)); return; }
+        await this.data.saveInvoice(org, this.editingId()!, { lineItems: items, notes: null, issueDate: null });
         this.toast.success(`${this.editingRef || 'Booking'} updated`);
-        this.goToList();
+        if (this.paymentMode !== 'later') {
+          const link = await this.data.generateLink(this.editingId()!);
+          this.created.set({ ref: this.editingRef, link });
+        } else {
+          this.goToList();
+        }
         return;
       }
 
       const res = await this.data.createBooking({ orgId: org, ...shared });
       if (res.error || !res.id) { this.errorMsg.set(this.errorText(res.error)); return; }
+      // Persist the line-item breakdown as the invoice (source of truth).
+      await this.data.saveInvoice(org, res.id, { lineItems: items, notes: null, issueDate: null });
       const link = await this.data.generateLink(res.id);
       this.created.set({ ref: res.ref ?? '', link });
       this.toast.success(`Booking ${res.ref ?? ''} created`);
@@ -311,15 +228,16 @@ export class BookingFormComponent implements OnInit {
 
   reset(): void {
     this.editingId.set(null);
-    this.clientMode = 'existing';
-    this.clientId = ''; this.newClientName = ''; this.newClientEmail = '';
-    this.serviceId = ''; this.staffId = ''; this.startLocal = ''; this.hours = 1;
-    this.pickDate = this.todayDate; this.resetSlotSelection(); this.slots.set([]);
-    this.title = ''; this.description = ''; this.lastAutoDescription = '';
-    this.priceTotal = null; this.location = ''; this.notes = '';
+    this.clientId = '';
+    this.staffId = '';
+    this.resetSlotSelection();
+    this.prefillStartIso = ''; this.prefillHours = 0;
+    this.lineItems = [{ description: '', amount: 0 }];
+    this.title = ''; this.location = ''; this.notes = '';
     this.paymentMode = 'both';
     this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
     this.depositPercent = this.orgDefaults.depositPercent;
+    this.needsProduction = false;
     this.created.set(null); this.errorMsg.set('');
   }
 

@@ -49,6 +49,23 @@
 
 .cell--client { font-weight: 600; color: $text; }
 .cell--date   { color: $text-3; }
+.cell--edit   { text-align: right; }
+
+.row { cursor: pointer; }
+.link { font-size: 12.5px; font-weight: 600; color: $accent; }
+
+// ── Buttons ──────────────────────────────────────────────────────────────
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px; border-radius: $radius-md; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; transition: all $transition; border: 1.5px solid transparent;
+  font-family: $font; text-decoration: none;
+  svg { width: 14px; height: 14px; }
+  &--primary { background: $accent; border-color: $accent; color: #000; &:hover:not(:disabled) { filter: brightness(0.92); } }
+  &--ghost   { background: $card; border-color: $border; color: $text-2; &:hover:not(:disabled) { border-color: $muted; } }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
 
 .empty {
   display: flex;

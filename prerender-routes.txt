@@ -77,5 +77,6 @@
 /malta/locations/qarraba-cliffs
 /malta/locations/xlendi-tower-coastal-path
 /malta/locations/ghar-hanex
+/malta/locations/il-kalanka
 /malta/providers/yippee-malta
 /malta/leaderboard

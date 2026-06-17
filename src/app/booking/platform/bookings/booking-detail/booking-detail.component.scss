@@ -87,3 +87,17 @@
 .spinner { width: 28px; height: 28px; border: 2.5px solid $border; border-top-color: $accent; border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .empty { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 40px 0; color: $text-3; }
+
+// What's billed — invoice line items
+.items { list-style: none; margin: 0; padding: 0; }
+.items__row {
+  display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid $border;
+  &:last-child { border-bottom: none; }
+}
+.items__desc { color: $text; white-space: pre-line; }
+.items__amt { font-variant-numeric: tabular-nums; color: $text-2; white-space: nowrap; }
+.items__total {
+  display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px;
+  border-top: 1.5px solid $border; font-weight: 800; color: $text;
+}

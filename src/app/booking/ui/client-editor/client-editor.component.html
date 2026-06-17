@@ -1,0 +1,36 @@
+@if (open()) {
+  <div class="modal-overlay" (click)="close()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h2 class="modal__title">{{ draft.id ? 'Edit client' : 'New client' }}</h2>
+      <p class="modal__sub">Billing details are optional — fill them in for VAT-ready invoices.</p>
+
+      <div class="field">
+        <label>Name <span class="req">*</span></label>
+        <input [(ngModel)]="draft.name" name="name" placeholder="Client or company name" required />
+      </div>
+      <div class="row2">
+        <div class="field"><label>Email</label><input type="email" [(ngModel)]="draft.email" name="email" placeholder="name@email.com" /></div>
+        <div class="field"><label>Phone</label><input [(ngModel)]="draft.phone" name="phone" placeholder="+356 …" /></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Company</label><input [(ngModel)]="draft.company" name="company" placeholder="Registered business name" /></div>
+        <div class="field"><label>VAT number</label><input [(ngModel)]="draft.vat_number" name="vat" placeholder="MT…" /></div>
+      </div>
+      <div class="field">
+        <label>Billing address</label>
+        <textarea [(ngModel)]="draft.billing_address" name="addr" rows="2" placeholder="Street, city, country"></textarea>
+      </div>
+      <div class="field">
+        <label>Notes <span class="opt">(internal)</span></label>
+        <textarea [(ngModel)]="draft.notes" name="notes" rows="2" placeholder="Anything worth remembering"></textarea>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn--primary" [disabled]="!canSave" (click)="save()">
+          {{ saving() ? 'Saving…' : (draft.id ? 'Save changes' : 'Add client') }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

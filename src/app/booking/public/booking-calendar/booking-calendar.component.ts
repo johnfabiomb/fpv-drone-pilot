@@ -2,16 +2,16 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AvailabilityService } from '@booking/core/services/availability.service';
 import { BookingOrgService } from '@booking/core/services/booking-org.service';
-import { AvailabilityResponse, HourSlot } from '@booking/core/interfaces/availability.interface';
+import { AvailabilityResponse, HourSlot, CalendarDayCell, CalendarSlotView } from '@booking/core/interfaces/availability.interface';
+import { AvailabilityCalendarComponent } from '@booking/ui/availability-calendar/availability-calendar.component';
 import { servicePrice } from '@booking/core/interfaces/org.interface';
 import { currencySymbol as toSymbol } from '@booking/core/utils/currency.util';
-
-interface DayCell { date: string | null; day: number; available: boolean; isPast: boolean; }
-interface SlotView extends HourSlot { inRange: boolean; isStart: boolean; isEnd: boolean; }
+import { nextRange } from '@booking/core/utils/range-select.util';
 
 @Component({
   selector: 'app-booking-calendar',
   standalone: true,
+  imports: [AvailabilityCalendarComponent],
   templateUrl: './booking-calendar.component.html',
   styleUrl: './booking-calendar.component.scss',
 })
@@ -45,13 +45,13 @@ export class BookingCalendarComponent implements OnInit {
     new Date(this.viewYear(), this.viewMonth(), 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }));
   readonly canGoPrev = computed(() => new Date(this.viewYear(), this.viewMonth(), 1) > new Date(this.today.getFullYear(), this.today.getMonth(), 1));
 
-  readonly cells = computed<DayCell[]>(() => {
+  readonly cells = computed<CalendarDayCell[]>(() => {
     const y = this.viewYear(), m = this.viewMonth();
     const avail = new Set((this.response()?.days ?? []).filter(d => d.slots.some(s => s.available)).map(d => d.date));
     const firstDow = new Date(y, m, 1).getDay();
     const dim = new Date(y, m + 1, 0).getDate();
     const todayStr = toDateStr(this.today);
-    const cells: DayCell[] = [];
+    const cells: CalendarDayCell[] = [];
     for (let i = 0; i < firstDow; i++) cells.push({ date: null, day: 0, available: false, isPast: false });
     for (let d = 1; d <= dim; d++) {
       const date = toDateStr(new Date(y, m, d));
@@ -60,11 +60,15 @@ export class BookingCalendarComponent implements OnInit {
     return cells;
   });
 
-  readonly slots = computed<SlotView[]>(() => {
+  readonly slots = computed<CalendarSlotView[]>(() => {
     const day = this.response()?.days.find(d => d.date === this.selectedDate());
     if (!day) return [];
     const a = this.rangeStart(), b = this.rangeEnd();
-    return day.slots.map(s => ({ ...s, inRange: a !== null && b !== null && s.hour >= a && s.hour <= b, isStart: s.hour === a, isEnd: s.hour === b }));
+    return day.slots.map(s => ({
+      ...s,
+      inRange: a !== null && (b !== null ? s.hour >= a && s.hour <= b : s.hour === a),
+      isStart: s.hour === a, isEnd: s.hour === (b ?? a),
+    }));
   });
 
   readonly selection = computed(() => {
@@ -123,23 +127,20 @@ export class BookingCalendarComponent implements OnInit {
     this.load();
   }
 
-  selectDay(cell: DayCell): void {
+  selectDay(cell: CalendarDayCell): void {
     if (!cell.date || !cell.available) return;
     this.selectedDate.set(cell.date); this.rangeStart.set(null); this.rangeEnd.set(null);
   }
 
   selectHour(slot: HourSlot): void {
     if (!slot.available) return;
-    const a = this.rangeStart(), b = this.rangeEnd(), h = slot.hour;
-    if (a === null) { this.rangeStart.set(h); this.rangeEnd.set(h); return; }
-    if (h === a && h === b) { this.rangeStart.set(null); this.rangeEnd.set(null); return; }
-    const newStart = Math.min(a, h), newEnd = Math.max(b ?? a, h);
-    const span = newEnd - newStart + 1;
     const daySlots = this.response()?.days.find(d => d.date === this.selectedDate())?.slots ?? [];
-    const allFree = Array.from({ length: span }, (_, i) => newStart + i).every(hr => daySlots.some(s => s.hour === hr && s.available));
-    if (span <= this.maxHours() && allFree) { this.rangeStart.set(newStart); this.rangeEnd.set(newEnd); }
-    else { this.rangeStart.set(h); this.rangeEnd.set(h); }
+    const free = (h: number) => daySlots.some(s => s.hour === h && s.available);
+    const r = nextRange({ start: this.rangeStart(), end: this.rangeEnd() }, slot.hour, free, this.maxHours());
+    this.rangeStart.set(r.start); this.rangeEnd.set(r.end);
   }
+
+  clearRange(): void { this.rangeStart.set(null); this.rangeEnd.set(null); }
 
   continueToBook(): void {
     const sel = this.selection();

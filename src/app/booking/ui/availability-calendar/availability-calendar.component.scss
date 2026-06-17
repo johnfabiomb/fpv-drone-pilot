@@ -1,0 +1,101 @@
+@use '../../booking.styles' as *;
+
+:host { display: block; }
+
+.step {
+  margin-bottom: 24px;
+  &:last-child { margin-bottom: 0; }
+  &__label {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: $muted-2; margin: 0 0 12px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  }
+  &__hint { font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: 0; color: $text-3; }
+  &__clear {
+    margin-left: auto; background: none; border: none; cursor: pointer; padding: 0;
+    font-family: inherit; font-size: 11px; font-weight: 700; text-transform: none; letter-spacing: 0; color: $accent;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* Calendar */
+.cal {
+  background: $card; border: 1px solid $border; border-radius: $radius-lg; padding: 16px;
+
+  &__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  &__month { font-size: 15px; font-weight: 700; }
+  &__arrow {
+    width: 34px; height: 34px; border-radius: $radius-md; border: 1px solid $border;
+    background: $card; font-size: 18px; line-height: 1; cursor: pointer; color: $text; transition: $transition;
+    &:hover:not(:disabled) { background: $bg; }
+    &:disabled { opacity: 0.3; cursor: default; }
+  }
+  &__dow {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 6px;
+    span { text-align: center; font-size: 11px; font-weight: 600; color: $text-3; }
+  }
+  &__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  &__loading { padding: 40px 0; text-align: center; color: $text-2; font-size: 14px; }
+  &__error { color: $red; font-size: 13px; margin: 10px 2px 0; }
+  &__empty { color: $text-2; font-size: 14px; margin: 4px 2px; }
+}
+
+.cell {
+  position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border: none; background: transparent; border-radius: $radius-md; font-size: 14px; color: $text-3; cursor: default;
+
+  &--blank { visibility: hidden; }
+  &--available { color: $text; font-weight: 600; cursor: pointer; background: $accent-dim; }
+  &--available:hover { background: rgba(244, 169, 34, 0.22); }
+  &--selected { background: $accent !important; color: #fff; }
+  &:disabled { cursor: default; }
+
+  &__dot {
+    position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: $accent;
+  }
+  &--selected &__dot { background: #fff; }
+}
+
+/* Hour slots — pill grid with a solid filled selection range */
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 7px; }
+.slot {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px;
+  min-height: 50px; padding: 11px 12px; text-align: left;
+  background: $card; border: 1.5px solid $border; border-radius: $radius-lg;
+  font-size: 15.5px; font-weight: 700; color: $text; cursor: pointer; transition: $transition;
+
+  &__time { line-height: 1.1; }
+  &__reason {
+    font-size: 11px; font-weight: 600; color: $text-3; line-height: 1.25;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
+
+  &:hover:not(:disabled):not(.slot--range) { border-color: $muted; background: $bg; }
+
+  /* Selection: solid accent bar; inner corners squared so a span reads as one
+     connected block, first/last keep rounded outer ends. */
+  &--range {
+    background: $accent; border-color: $accent; color: #fff; border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(244, 169, 34, 0.35);
+  }
+  &--start { border-top-left-radius: $radius-lg; border-bottom-left-radius: $radius-lg; }
+  &--end   { border-top-right-radius: $radius-lg; border-bottom-right-radius: $radius-lg; }
+
+  /* Free, but a block of the requested length can't start here. */
+  &--unstartable {
+    background: $bg; border-style: dashed; border-color: $border; color: $text-3; cursor: default;
+    .slot__time { opacity: 0.6; }
+  }
+
+  /* Busy. Without a reason (public) it's a faded struck-through pill; with a
+     reason (admin) it shows who/what occupies the slot, like a calendar block. */
+  &--busy {
+    background: $bg; color: $text-3; border-color: transparent; cursor: default;
+    min-height: 50px;
+    &:not(:has(.slot__reason)) .slot__time { text-decoration: line-through; opacity: 0.65; }
+  }
+  &--busy:has(.slot__reason) {
+    background: rgba(220, 38, 38, 0.07); border: 1.5px solid rgba(220, 38, 38, 0.2);
+    .slot__time { color: $red; }
+  }
+}

@@ -1,0 +1,1 @@
+import{U as o,mc as s,za as i}from"./chunk-EZ7YT7QG.js";var a=(()=>{class t{constructor(){this.mode=i(null),this.isOpen=s(()=>this.mode()!==null)}open(e="edit"){this.mode.set(e)}close(){this.mode.set(null)}static{this.\u0275fac=function(n){return new(n||t)}}static{this.\u0275prov=o({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{a};

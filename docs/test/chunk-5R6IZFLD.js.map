@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/booking/core/db/supabase.bookings.ts"],
+  "sourcesContent": ["import { createClient } from '@supabase/supabase-js';\n\nconst URL = 'https://odmwjhysvvbhxytyefhv.supabase.co';\nconst KEY = 'sb_publishable_QgeLuNP9xUF1sqyo3N9AlQ_2qmV7E-3';\n\n// No-op lock: bypasses Navigator.locks to avoid NavigatorLockAcquireTimeoutError\n// on hot-reload (dev) and prevents recursive deadlocks where getSession() holds\n// the lock while a DB query also tries to auto-refresh the token via the same lock.\n// Race safety: onAuthStateChange only handles SIGNED_IN/SIGNED_OUT, so\n// TOKEN_REFRESHED never triggers a concurrent resolveRole call alongside getSession().\nexport const bookingsDb = createClient(URL, KEY, {\n  auth: {\n    lock: (_name, _acquireTimeout, fn) => fn(),\n  },\n});\n"],
+  "mappings": ";;;;;AAEA,IAAM,MAAM;AACZ,IAAM,MAAM;AAOL,IAAM,aAAa,aAAa,KAAK,KAAK;EAC/C,MAAM;IACJ,MAAM,CAAC,OAAO,iBAAiB,OAAO,GAAE;;CAE3C;",
+  "names": []
+}

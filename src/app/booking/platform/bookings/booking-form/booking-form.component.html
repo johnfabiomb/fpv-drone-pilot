@@ -16,7 +16,7 @@
     <!-- Success: show the payment link to send to the client -->
     <div class="card done">
       <div class="done__check">✓</div>
-      <h2 class="done__title">Booking {{ done.ref }} created</h2>
+      <h2 class="done__title">Booking {{ done.ref }} {{ isEditing ? 'updated' : 'created' }}</h2>
       <p class="done__sub">The slot is reserved. Send this payment link to your client:</p>
 
       @if (done.link) {
@@ -35,104 +35,50 @@
     </div>
     }
   } @else {
+    <div class="form-layout">
     <form class="card form" (ngSubmit)="submit()">
 
       <!-- Client -->
       <div class="field">
         <label>Client</label>
-        <div class="seg">
-          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'existing'"
-                  [disabled]="data.clients().length === 0" (click)="clientMode = 'existing'">Existing</button>
-          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'new'"
-                  (click)="clientMode = 'new'">New client</button>
-        </div>
-      </div>
-
-      @if (clientMode === 'existing') {
-        <div class="field">
+        <div class="client-row">
           <select [(ngModel)]="clientId" name="clientId" required>
             <option value="" disabled>Select a client…</option>
             @for (c of data.clients(); track c.id) {
-              <option [value]="c.id">{{ c.name }}{{ c.email ? ' · ' + c.email : '' }}</option>
+              <option [value]="c.id">{{ c.name }}{{ c.company ? ' · ' + c.company : '' }}</option>
             }
           </select>
+          <button type="button" class="btn btn--ghost btn--sm" (click)="openClientEditor()">+ New</button>
         </div>
-      } @else {
-        <div class="row2">
-          <div class="field">
-            <label>Name</label>
-            <input [(ngModel)]="newClientName" name="newClientName" placeholder="Client name" required />
-          </div>
-          <div class="field">
-            <label>Email <span class="opt">(for the payment link)</span></label>
-            <input type="email" [(ngModel)]="newClientEmail" name="newClientEmail" placeholder="name@email.com" />
-          </div>
-        </div>
-      }
-
-      <!-- Service + worker -->
-      <div class="row2">
-        <div class="field">
-          <label>Service</label>
-          <select [(ngModel)]="serviceId" name="serviceId" (ngModelChange)="onServiceChange()" required>
-            <option value="" disabled>Select a service…</option>
-            @for (s of services(); track s.id) {
-              <option [value]="s.id">{{ s.name }}</option>
-            }
-            <option value="custom">Custom — set your own price</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Worker</label>
-          <select [(ngModel)]="staffId" name="staffId" [disabled]="!serviceId" required (ngModelChange)="onWorkerChange()">
-            <option value="" disabled>{{ serviceId ? 'Select a worker…' : 'Pick a service first' }}</option>
-            @for (w of workers; track w.id) {
-              <option [value]="w.id">{{ w.name }}</option>
-            }
-          </select>
-          @if (serviceId && !isCustom && workers.length === 0) {
-            <span class="hint hint--warn">No worker is assigned to this service yet (Staff tab).</span>
-          }
-        </div>
-      </div>
-
-      <!-- Duration first — it drives which start slots fit -->
-      <div class="field">
-        <label>Hours</label>
-        <input type="number" [(ngModel)]="hours" name="hours" (ngModelChange)="onHoursChange()"
-               [min]="selectedService?.min_hours ?? 1" [max]="selectedService?.max_hours ?? 24" step="1" required />
-        @if (selectedService) {
-          <span class="hint">{{ selectedService.min_hours }}–{{ selectedService.max_hours }} h</span>
-        } @else if (isCustom) {
-          <span class="hint">Any duration</span>
+        @if (selectedClient && !selectedClient.vat_number && !selectedClient.billing_address) {
+          <span class="hint">Tip: add this client's VAT &amp; billing address in Clients for VAT-ready invoices.</span>
         }
       </div>
 
-      <!-- When -->
+      <!-- Worker -->
+      <div class="field">
+        <label>Worker</label>
+        <select [(ngModel)]="staffId" name="staffId" required (ngModelChange)="onWorkerChange()">
+          <option value="" disabled>Select a worker…</option>
+          @for (w of workers; track w.id) {
+            <option [value]="w.id">{{ w.name }}</option>
+          }
+        </select>
+        @if (workers.length === 0) {
+          <span class="hint hint--warn">No bookable workers yet (Staff tab).</span>
+        }
+      </div>
+
+      <!-- When — chosen from the worker's calendar on the right -->
       <div class="field">
         <label>Start</label>
-        @if (isCustom) {
-          <input type="datetime-local" [(ngModel)]="startLocal" name="startLocal" [min]="minDateTime" required />
-          <span class="hint">Custom job — set any time. Double-booking is still blocked on save.</span>
-        } @else if (!serviceId || !staffId) {
-          <span class="hint">Pick a service and worker first to see available times.</span>
+        @if (!staffId) {
+          <span class="hint">Pick a worker first — their calendar appears on the right.</span>
+        } @else if (selectedStartIso) {
+          <div class="picked">✓ {{ selectedSlotLabel }} <span class="picked__tz">{{ orgTimezone() }}</span></div>
+          <span class="hint">Change it from the calendar →</span>
         } @else {
-          <input type="date" [(ngModel)]="pickDate" name="pickDate" [min]="todayDate" (ngModelChange)="onDateChange()" />
-          @if (slotsLoading()) {
-            <span class="hint">Loading available times…</span>
-          } @else if (slotsError()) {
-            <span class="hint err">{{ slotsError() }}</span>
-          } @else if (slots().length === 0) {
-            <span class="hint">No free {{ hours }}h slot on this date for this worker — try another day.</span>
-          } @else {
-            <div class="slots">
-              @for (s of slots(); track s.start) {
-                <button type="button" class="slot" [class.slot--active]="s.start === selectedStartIso" (click)="selectSlot(s)">{{ s.label }}</button>
-              }
-            </div>
-            <span class="hint">Times in {{ slotsTz() }}. Only free slots for this worker are shown.</span>
-          }
-          @if (selectedStartIso) { <span class="hint hint--ok">✓ Selected: {{ selectedSlotLabel }}</span> }
+          <span class="hint hint--warn">Choose a free time from the worker's calendar →</span>
         }
       </div>
 
@@ -142,39 +88,18 @@
         <input [(ngModel)]="title" name="title" placeholder="e.g. Wedding shoot — Sliema" required />
       </div>
 
-      <!-- Work description — shown to the client on the payment page + invoice -->
+      <!-- Charges — invoice line items are the source of truth for the total -->
       <div class="field">
-        <label>Description <span class="req">*</span></label>
-        <textarea [(ngModel)]="description" name="description" rows="2" required
-          [placeholder]="isCustom ? 'Describe the work (required for a custom job)' : 'What the client is paying for'"></textarea>
-        @if (isCustom) {
-          <span class="hint">Required — describe the work; the client sees this when they pay.</span>
-        } @else if (autoDescription && description !== autoDescription) {
-          <button type="button" class="hint hint--link" (click)="resetDescription()">Reset to “{{ autoDescription }}”</button>
-        } @else {
-          <span class="hint">Auto-filled from the service — edit it if needed. The client sees this when they pay.</span>
-        }
+        <label>Charges <span class="req">*</span></label>
+        <app-line-items-editor [items]="lineItems" (itemsChange)="onItemsChange($event)"
+                               [currency]="currency()" [services]="services()" />
+        <span class="hint">Add a charge: pick one of your services (and how many hours) to pre-fill it, or a custom charge. The total is what the client pays — and it becomes the invoice.</span>
       </div>
 
-      <!-- Price -->
-      <div class="row2">
-        <div class="field">
-          <label>Price (€)</label>
-          <input type="number" [(ngModel)]="priceTotal" name="priceTotal" min="0" step="1" required />
-          @if (computedPrice != null && priceTotal !== computedPrice) {
-            <button type="button" class="hint hint--link" (click)="syncPrice()">
-              Reset to {{ computedPrice | currency:'EUR':'symbol':'1.0-0' }}
-            </button>
-          } @else if (computedPrice != null) {
-            <span class="hint">Standard rate for {{ hours }} h</span>
-          } @else if (isCustom) {
-            <span class="hint">Set the price for this custom job</span>
-          }
-        </div>
-        <div class="field">
-          <label>Location <span class="opt">(optional)</span></label>
-          <input [(ngModel)]="location" name="location" placeholder="Address or venue" />
-        </div>
+      <!-- Location -->
+      <div class="field">
+        <label>Location <span class="opt">(optional)</span></label>
+        <input [(ngModel)]="location" name="location" placeholder="Address or venue" />
       </div>
 
       <!-- Payment options on the link -->
@@ -223,6 +148,15 @@
         <textarea [(ngModel)]="notes" name="notes" rows="2" placeholder="Anything to remember about this job"></textarea>
       </div>
 
+      <!-- Work board -->
+      <label class="check">
+        <input type="checkbox" [(ngModel)]="needsProduction" name="needsProduction" />
+        <span>
+          <strong>Needs post-production</strong>
+          <span class="check__hint">Adds this to the Work board (editing → delivery). Leave off for meetings or no-edit jobs.</span>
+        </span>
+      </label>
+
       @if (errorMsg()) { <p class="error">{{ errorMsg() }}</p> }
 
       <div class="form__actions">
@@ -232,5 +166,31 @@
         </button>
       </div>
     </form>
+
+    <!-- Worker's calendar — free/busy, any service. Busy slots show who booked them. -->
+    <aside class="form-aside">
+      <div class="card aside-card">
+        <h2 class="aside-card__title">Worker availability</h2>
+        @if (staffId) {
+          <app-availability-picker
+            [staffId]="staffId"
+            [timezone]="orgTimezone()"
+            [value]="prefillStartIso"
+            [durationValue]="prefillHours"
+            [excludeBookingId]="editingId() ?? ''"
+            (picked)="onSlotPicked($event)">
+          </app-availability-picker>
+        } @else {
+          <div class="aside-empty">
+            <div class="aside-empty__icon">📅</div>
+            <p>Pick a worker to see their calendar and choose a free time.</p>
+          </div>
+        }
+      </div>
+    </aside>
+    </div>
+
+    <!-- Reusable client editor — create a full client (VAT, billing) then auto-select it -->
+    <app-client-editor [(open)]="clientEditorOpen" [client]="null" (saved)="onClientCreated($event)" />
   }
 </div>

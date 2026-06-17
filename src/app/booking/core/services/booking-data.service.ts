@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy, inject, signal } from '@angular/core';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
-import { BookingSummary, Client, EditableBooking, Payment, PaymentMethod } from '@booking/core/interfaces/booking.interface';
+import { BookingSummary, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
+import { LineItem } from '@booking/core/interfaces/invoice.interface';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
 // Scoped to PlatformShellComponent — provided there, not root.
@@ -42,6 +43,24 @@ export class BookingDataService implements OnDestroy {
     this.loading.set(false);
   }
 
+  /** Create or update a client with full billing details (everything but the name is optional). Returns the saved row. */
+  async saveClient(orgId: string, c: {
+    id?: string; name: string; email: string | null; phone: string | null;
+    company: string | null; vat_number: string | null; billing_address: string | null; notes: string | null;
+  }): Promise<{ client?: Client; error?: string }> {
+    const row = {
+      name: c.name.trim(), email: c.email?.trim() || null, phone: c.phone?.trim() || null,
+      company: c.company?.trim() || null, vat_number: c.vat_number?.trim() || null,
+      billing_address: c.billing_address?.trim() || null, notes: c.notes?.trim() || null,
+    };
+    const { data, error } = c.id
+      ? await bookingsDb.from('clients').update(row).eq('id', c.id).select('*').single()
+      : await bookingsDb.from('clients').insert({ org_id: orgId, ...row }).select('*').single();
+    if (error) return { error: error.message };
+    await this.fetchClients();
+    return { client: data as Client };
+  }
+
   /** Create a client on behalf of the admin (no auth user yet — claimed by email on first sign-in). */
   async createClient(orgId: string, name: string, email: string | null): Promise<Client | null> {
     const { data, error } = await bookingsDb
@@ -64,7 +83,7 @@ export class BookingDataService implements OnDestroy {
     orgId: string; staffId: string; serviceId: string | null; clientId: string;
     title: string; description: string; startAt: string; hours: number; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
-    depositAllowed: boolean; depositPercent: number;
+    depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ id?: string; ref?: string; error?: string }> {
     const start = new Date(input.startAt);
@@ -78,6 +97,7 @@ export class BookingDataService implements OnDestroy {
         price_total: input.priceTotal, status: 'booked', created_by: 'admin',
         allow_card: input.allowCard, allow_inperson: input.allowInperson,
         deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
+        needs_production: input.needsProduction,
         location: input.location ?? null, notes: input.notes ?? null,
       })
       .select('id, booking_ref')
@@ -95,7 +115,7 @@ export class BookingDataService implements OnDestroy {
   async getBooking(id: string): Promise<EditableBooking | null> {
     const { data } = await bookingsDb
       .from('bookings')
-      .select('id, org_id, booking_ref, staff_id, service_id, client_id, title, description, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson, deposit_percent, deposit_allowed')
+      .select('id, org_id, booking_ref, staff_id, service_id, client_id, title, description, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson, deposit_percent, deposit_allowed, needs_production')
       .eq('id', id)
       .maybeSingle();
     return (data as EditableBooking) ?? null;
@@ -106,7 +126,7 @@ export class BookingDataService implements OnDestroy {
     staffId: string; serviceId: string | null; clientId: string;
     title: string; description: string; startAt: string; hours: number; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
-    depositAllowed: boolean; depositPercent: number;
+    depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ ok?: boolean; error?: string }> {
     const start = new Date(input.startAt);
@@ -118,12 +138,40 @@ export class BookingDataService implements OnDestroy {
         title: input.title, description: input.description, start_at: start.toISOString(), end_at: end.toISOString(),
         price_total: input.priceTotal, allow_card: input.allowCard, allow_inperson: input.allowInperson,
         deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
+        needs_production: input.needsProduction,
         location: input.location ?? null, notes: input.notes ?? null,
+        // An edited import becomes a real booking (counts in revenue, invoiceable).
+        is_external: false,
       })
       .eq('id', id);
     if (error) return { error: error.code === '23P01' ? 'slot_taken' : error.message };
+    // Push the edit to Google Calendar (title, time, location, description).
+    this.syncBookingEvent(id);
     await this.fetchBookings();
     return { ok: true };
+  }
+
+  /**
+   * A worker's blocking bookings overlapping [fromIso, toIso) — for the admin
+   * availability picker, which shows WHY each slot is busy (client · title).
+   * Admin-only by RLS (org-scoped). Statuses that don't reserve the slot
+   * (pending/draft/cancelled/expired) are excluded, mirroring the DB constraint.
+   */
+  async getWorkerBusy(staffId: string, fromIso: string, toIso: string): Promise<WorkerBusy[]> {
+    const { data, error } = await bookingsDb
+      .from('bookings')
+      .select('id, start_at, end_at, title, status, clients(name)')
+      .eq('staff_id', staffId)
+      .in('status', ['hold', 'booked', 'in_progress', 'done'])
+      .lt('start_at', toIso)
+      .gt('end_at', fromIso)
+      .order('start_at');
+    if (error) { console.error('[BookingData] getWorkerBusy:', error); return []; }
+    return (data ?? []).map(r => {
+      const row = r as { id: string; start_at: string; end_at: string; title: string; status: string; clients: { name: string } | { name: string }[] | null };
+      const client = Array.isArray(row.clients) ? row.clients[0] : row.clients;
+      return { id: row.id, start_at: row.start_at, end_at: row.end_at, title: row.title, status: row.status as WorkerBusy['status'], clientName: client?.name ?? null };
+    });
   }
 
   async generateLink(bookingId: string): Promise<string | null> {
@@ -155,12 +203,13 @@ export class BookingDataService implements OnDestroy {
     if (error) {
       this.syncResult.set(`Error: ${error.message}`);
     } else {
-      const { pushed = 0, pulled = 0, push_errors = [] } = (data ?? {}) as Record<string, unknown> & { pushed?: number; pulled?: number; push_errors?: string[] };
+      const { pushed = 0, pulled = 0, push_errors = [], pull_errors = [] } = (data ?? {}) as Record<string, unknown> & { pushed?: number; pulled?: number; push_errors?: string[]; pull_errors?: string[] };
       const parts: string[] = [];
       if (pushed)  parts.push(`${pushed} pushed to Calendar`);
       if (pulled)  parts.push(`${pulled} external events imported`);
       if (!pushed && !pulled) parts.push('Everything in sync');
-      if (push_errors.length) parts.push(`${push_errors.length} error(s)`);
+      const errCount = push_errors.length + pull_errors.length;
+      if (errCount) parts.push(`${errCount} error(s)`);
       this.syncResult.set(parts.join(' · '));
       await this.fetchBookings();
     }
@@ -236,7 +285,7 @@ export class BookingDataService implements OnDestroy {
   // ── Invoice overrides (edit an invoice WITHOUT touching the booking) ─────
   /** Persist a customised invoice for a booking (line items / notes / date). */
   async saveInvoice(orgId: string, bookingId: string, input: {
-    lineItems: { description: string; amount: number }[]; notes: string | null; issueDate: string | null;
+    lineItems: LineItem[]; notes: string | null; issueDate: string | null;
   }): Promise<{ ok?: boolean; error?: string }> {
     const { error } = await bookingsDb.from('invoices').upsert({
       org_id: orgId, booking_id: bookingId,
@@ -244,6 +293,17 @@ export class BookingDataService implements OnDestroy {
     }, { onConflict: 'booking_id' });
     if (error) return { error: error.message };
     return { ok: true };
+  }
+
+  /** The invoice's line items (saved override, else a single line derived from the booking). Keeps service metadata. */
+  async getInvoiceItems(bookingId: string): Promise<LineItem[]> {
+    const { data } = await bookingsDb.rpc('get_invoice', { p_booking: bookingId });
+    const items = (data as { invoice?: { line_items?: LineItem[] } } | null)?.invoice?.line_items ?? [];
+    return items.map(i => ({
+      description: i.description, amount: Number(i.amount),
+      ...(i.serviceId ? { serviceId: i.serviceId } : {}),
+      ...(i.hours ? { hours: Number(i.hours) } : {}),
+    }));
   }
 
   /** Discard the customised invoice — revert to one derived live from the booking. */

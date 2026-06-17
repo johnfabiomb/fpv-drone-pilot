@@ -19,34 +19,64 @@
     <p class="muted">Loading…</p>
   } @else if (invoices().length === 0) {
     <p class="muted">No invoices yet. Confirmed bookings will appear here.</p>
-  } @else if (filtered().length === 0) {
-    <p class="muted">No invoices for {{ year() }}.</p>
   } @else {
-    <!-- Summary -->
+    <!-- Summary (whole period) -->
     <div class="summary">
-      <div class="summary__card"><span class="summary__label">Invoices</span><span class="summary__val">{{ filtered().length }}</span></div>
+      <div class="summary__card"><span class="summary__label">Invoices</span><span class="summary__val">{{ counts().all }}</span></div>
       <div class="summary__card"><span class="summary__label">Billed</span><span class="summary__val">{{ totalBilled() | currency:currency():'symbol':'1.0-2' }}</span></div>
       <div class="summary__card"><span class="summary__label">Collected</span><span class="summary__val summary__val--ok">{{ totalPaid() | currency:currency():'symbol':'1.0-2' }}</span></div>
       <div class="summary__card"><span class="summary__label">Outstanding</span><span class="summary__val summary__val--due">{{ outstanding() | currency:currency():'symbol':'1.0-2' }}</span></div>
     </div>
 
-    <!-- Table -->
-    <div class="table">
-      <div class="row row--head">
-        <span>Invoice</span><span>Date</span><span>Client</span>
-        <span class="num">Total</span><span class="num">Paid</span><span class="num">Balance</span><span></span>
-      </div>
-      @for (b of filtered(); track b.id) {
-        <div class="row" (click)="open(b)">
-          <span class="mono">{{ invoiceNo(b.booking_ref) }}</span>
-          <span>{{ b.start_at | date:'d MMM y' }}</span>
-          <span class="ellipsis">{{ b.client_name ?? '—' }}</span>
-          <span class="num">{{ b.price_total | currency:currency():'symbol':'1.0-2' }}</span>
-          <span class="num">{{ b.total_paid | currency:currency():'symbol':'1.0-2' }}</span>
-          <span class="num" [class.due]="balance(b) > 0">{{ balance(b) | currency:currency():'symbol':'1.0-2' }}</span>
-          <span class="num"><button class="link-btn" (click)="$event.stopPropagation(); open(b)">View</button></span>
-        </div>
+    <!-- Status tabs -->
+    <div class="tabs" role="tablist">
+      @for (t of tabs; track t.key) {
+        <button class="tab" [class.tab--active]="tab() === t.key" (click)="tab.set(t.key)" role="tab">
+          <span>{{ t.label }}</span>
+          @if (counts()[t.key]) { <span class="tab__count">{{ counts()[t.key] }}</span> }
+        </button>
       }
     </div>
+
+    @if (filtered().length === 0) {
+      <p class="muted">No invoices match this filter.</p>
+    } @else {
+      <!-- Table -->
+      <div class="table">
+        <div class="row row--head">
+          <span>Invoice</span><span>Date</span><span>Client</span>
+          <span class="num">Total</span><span class="num">Paid</span><span class="num">Balance</span><span>Status</span><span></span>
+        </div>
+        @for (b of filtered(); track b.id) {
+          <div class="row" (click)="open(b)">
+            <span class="mono">{{ invoiceNo(b.booking_ref) }}</span>
+            <span>{{ b.start_at | date:'d MMM y' }}</span>
+            <span class="ellipsis">{{ b.client_name ?? '—' }}</span>
+            <span class="num">{{ b.price_total | currency:currency():'symbol':'1.0-2' }}</span>
+            <span class="num">{{ b.total_paid | currency:currency():'symbol':'1.0-2' }}</span>
+            <span class="num" [class.due]="balance(b) > 0">{{ balance(b) | currency:currency():'symbol':'1.0-2' }}</span>
+            <span>
+              <span class="badge"
+                    [class.badge--paid]="invStatus(b) === 'paid'"
+                    [class.badge--partial]="invStatus(b) === 'partial'"
+                    [class.badge--unpaid]="invStatus(b) === 'unpaid'">{{ statusLabel(b) }}</span>
+            </span>
+            <span class="actions">
+              <button class="kebab" [cdkMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()" aria-label="Actions">
+                <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                  <circle cx="10" cy="4" r="1.7"/><circle cx="10" cy="10" r="1.7"/><circle cx="10" cy="16" r="1.7"/>
+                </svg>
+              </button>
+              <ng-template #rowMenu>
+                <div class="menu" cdkMenu>
+                  <a class="menu__item" cdkMenuItem [routerLink]="['/bookings/invoice-edit', b.id]">Edit invoice</a>
+                  <button class="menu__item" cdkMenuItem (click)="open(b)">View / print</button>
+                </div>
+              </ng-template>
+            </span>
+          </div>
+        }
+      </div>
+    }
   }
 </div>

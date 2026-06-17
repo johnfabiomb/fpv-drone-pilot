@@ -4048,6 +4048,81 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": 75,
+            "title": "Il-Kalanka",
+            "slug": "il-kalanka",
+            "description": "Tucked away on the rugged Delimara peninsula in Malta's south-east, just beyond the better-known <b>St Peter's Pool</b>, Il-Kalanka is a small, untouched bay reached by a short stepped path of around 50 metres. At the bottom you'll find a natural swimming spot framed by low limestone cliffs and crystal-clear, deep turquoise water. It's one of the quietest corners of the south — even at weekends there's usually room for a peaceful swim, a snorkel along the rocky edges, or a cliff jump (the drops here are higher than at St Peter's Pool, so take care). There are no facilities and parking is limited but free, so bring water, food, and a pair of water shoes — the rocks can be sharp.",
+            "img": "/assets/images/places/il-kalanka/il-kalanka.webp",
+            "thumb": "/assets/images/places/il-kalanka/il-kalanka-thumb.webp",
+            "images": [
+                "/assets/images/places/il-kalanka/il-kalanka.webp",
+                "/assets/images/places/il-kalanka/il-kalanka-2.webp",
+                "/assets/images/places/il-kalanka/il-kalanka-3.webp"
+            ],
+            "lon": 14.56000054368117,
+            "lat": 35.82427093452978,
+            "keywords": "Il-Kalanka, Kalanka Bay, Delimara, Marsaxlokk, Malta, hidden beach, swimming, snorkeling, cliff jumping, turquoise water, St Peter's Pool",
+            "rating": 4.7,
+            "mapPoints": [
+                {
+                    "label": "Park here off Triq Delimara",
+                    "description": "Park here, then follow the path down to the bay.",
+                    "lon": 14.558888589241777,
+                    "lat": 35.82473003762925,
+                    "type": "parking"
+                },
+                {
+                    "lon": 14.559083455946702,
+                    "lat": 35.824741012439446,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.559345978017397,
+                    "lat": 35.82473027184777,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.559501392843387,
+                    "lat": 35.82462785136636,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.559573036025428,
+                    "lat": 35.824525910344335,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.559675440397145,
+                    "lat": 35.824450224069736,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.559803380544112,
+                    "lat": 35.82436516893942,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Il-Kalanka",
+                    "description": "Open this exact spot in Google Maps.",
+                    "lon": 14.56000054368117,
+                    "lat": 35.82427093452978,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "bay",
+                "swimming",
+                "snorkeling",
+                "cliff-jumping",
+                "moderate"
+            ],
+            "locality": "Marsaxlokk",
+            "showLabel": false
         }
     ]
 }

@@ -523,6 +523,9 @@ END $$;
 -- tasks from their service's template. Org feature-flagged (features.work_board).
 ALTER TABLE public.bookings      ADD COLUMN IF NOT EXISTS production_status TEXT
   CHECK (production_status IN ('to_edit','editing','to_deliver','delivered'));
+-- Opt-in flag: a booking only joins the Work board when the admin marks it as
+-- needing post-production. Off by default; imported calendar events never qualify.
+ALTER TABLE public.bookings      ADD COLUMN IF NOT EXISTS needs_production BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE public.services      ADD COLUMN IF NOT EXISTS task_template JSONB NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.organizations ADD COLUMN IF NOT EXISTS features      JSONB NOT NULL DEFAULT '{}'::jsonb;
 
@@ -545,11 +548,17 @@ CREATE POLICY tasks_admin ON public.tasks FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.tasks TO authenticated;
 
--- A booking becomes a production job when it's confirmed.
+-- A booking joins the Work board only when explicitly marked `needs_production`
+-- (and never if it's an imported/external calendar event). Clearing the flag
+-- (or it being external) removes it from the board.
 CREATE OR REPLACE FUNCTION public.set_production_status() RETURNS TRIGGER
 LANGUAGE plpgsql AS $f$
 BEGIN
-  IF NEW.status = 'booked' AND NEW.production_status IS NULL THEN NEW.production_status := 'to_edit'; END IF;
+  IF NEW.is_external OR NOT COALESCE(NEW.needs_production, false) THEN
+    NEW.production_status := NULL;
+  ELSIF NEW.status IN ('booked','in_progress','done') AND NEW.production_status IS NULL THEN
+    NEW.production_status := 'to_edit';
+  END IF;
   RETURN NEW;
 END $f$;
 DROP TRIGGER IF EXISTS bookings_production_before ON public.bookings;

@@ -23,14 +23,44 @@ Deno.serve(async (req) => {
     if (authError || !user) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
     }
-    if (user.email !== 'johnfabiomb@gmail.com') {
+    // The single shared Google Calendar belongs to one org (CALENDAR_ORG_ID).
+    // Sync only that org's bookings, and attribute imported events to a worker
+    // in it (bookings.org_id/staff_id are NOT NULL), preferring the org owner's.
+    const calendarOrg = Deno.env.get('CALENDAR_ORG_ID');
+    if (!calendarOrg) {
+      return new Response(JSON.stringify({ error: 'CALENDAR_ORG_ID not configured' }), { status: 400, headers: corsHeaders });
+    }
+
+    // Authorize against org membership (owner/admin of the calendar's org),
+    // not a hardcoded email.
+    const { data: member } = await supabase
+      .from('org_members').select('role').eq('org_id', calendarOrg).eq('user_id', user.id).maybeSingle();
+    if (!member || !['owner', 'admin'].includes(member.role)) {
       return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: corsHeaders });
+    }
+
+    let calendarStaffId: string | null = null;
+    const { data: owner } = await supabase
+      .from('org_members').select('user_id').eq('org_id', calendarOrg).eq('role', 'owner').limit(1).maybeSingle();
+    if (owner?.user_id) {
+      const { data: ownerStaff } = await supabase
+        .from('staff').select('id').eq('org_id', calendarOrg).eq('user_id', owner.user_id).limit(1).maybeSingle();
+      calendarStaffId = ownerStaff?.id ?? null;
+    }
+    if (!calendarStaffId) {
+      const { data: anyStaff } = await supabase
+        .from('staff').select('id').eq('org_id', calendarOrg).eq('is_bookable', true).order('created_at').limit(1).maybeSingle();
+      calendarStaffId = anyStaff?.id ?? null;
+    }
+    if (!calendarStaffId) {
+      return new Response(JSON.stringify({ error: 'No worker in the calendar org to attribute events to' }), { status: 400, headers: corsHeaders });
     }
 
     // ── 1. Push: create calendar events for paid bookings that are missing them ──
     const { data: unpushed } = await supabase
       .from('bookings')
       .select('id, booking_ref, title, description, location, start_at, end_at, payments(status)')
+      .eq('org_id', calendarOrg)
       .is('google_event_id', null)
       .eq('is_external', false);
 
@@ -59,7 +89,8 @@ Deno.serve(async (req) => {
     }
 
     // ── 2. Pull: import GCal events not yet in Supabase ──
-    const timeMin = new Date().toISOString();
+    // Look back ~4 months as well as forward, so past jobs are imported too.
+    const timeMin = new Date(Date.now() - 120 * 864e5).toISOString();
     const timeMax = new Date(Date.now() + 90 * 864e5).toISOString();
     const events = await listEvents(timeMin, timeMax) as Array<{
       id: string; status: string; summary?: string;
@@ -76,12 +107,17 @@ Deno.serve(async (req) => {
     const toImport = events.filter(e => e.status !== 'cancelled' && !knownIds.has(e.id));
 
     let pulled = 0;
+    const pullErrors: string[] = [];
     for (const e of toImport) {
       const startAt = e.start?.dateTime ?? e.start?.date;
       const endAt   = e.end?.dateTime   ?? e.end?.date;
       if (!startAt || !endAt) continue;
 
-      await supabase.from('bookings').insert({
+      // Per-event so one bad row (e.g. overlaps an existing booking, 23P01)
+      // doesn't abort the whole sync.
+      const { error } = await supabase.from('bookings').insert({
+        org_id:         calendarOrg,
+        staff_id:       calendarStaffId,
         title:          e.summary ?? 'External event',
         start_at:       startAt,
         end_at:         endAt,
@@ -91,11 +127,12 @@ Deno.serve(async (req) => {
         price_total:    0,
         price_expenses: 0,
       });
+      if (error) { pullErrors.push(`${e.summary ?? e.id}: ${error.message}`); continue; }
       pulled++;
     }
 
     return new Response(
-      JSON.stringify({ pushed, pulled, push_errors: pushErrors, total_from_gcal: events.length }),
+      JSON.stringify({ pushed, pulled, push_errors: pushErrors, pull_errors: pullErrors, total_from_gcal: events.length }),
       { headers: corsHeaders },
     );
   } catch (err) {

@@ -1,0 +1,441 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Malta Explorers Rankings | Explore Malta</title>
+  <base href="/test/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Block all indexing and crawling -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  <meta name="theme-color" content="#F4A922">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
+
+a[_ngcontent-ng-c3984273398] {
+  text-decoration: none;
+}
+/*# sourceMappingURL=/test/app.component.css.map */</style><style ng-app-id="ng">
+
+.level-up-toast[_ngcontent-ng-c1626619715] {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(244, 169, 34, 0.45);
+  white-space: nowrap;
+  z-index: 9000;
+  pointer-events: none;
+  animation: _ngcontent-ng-c1626619715_toastPop 0.2s ease;
+}
+@keyframes _ngcontent-ng-c1626619715_toastPop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+.app-version[_ngcontent-ng-c1626619715] {
+  position: fixed;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6px;
+  color: var(--color-text-base);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 9999;
+  letter-spacing: 0.3px;
+  font-family: monospace;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+/*# sourceMappingURL=/test/map-root.component.css.map */</style><style ng-app-id="ng">
+
+.pwa-card[_ngcontent-ng-c2979277173] {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+  right: 16px;
+  background: var(--color-bg);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 14px 25px 14px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 9999;
+  animation: _ngcontent-ng-c2979277173_slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+@keyframes _ngcontent-ng-c2979277173_slideUp {
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.pwa-card__icon[_ngcontent-ng-c2979277173] {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pwa-card__body[_ngcontent-ng-c2979277173] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+.pwa-card__body[_ngcontent-ng-c2979277173]   strong[_ngcontent-ng-c2979277173] {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-base);
+}
+.pwa-card__body[_ngcontent-ng-c2979277173]   .ios-share[_ngcontent-ng-c2979277173] {
+  font-size: 15px;
+  font-weight: 700;
+}
+.pwa-card__actions[_ngcontent-ng-c2979277173] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.pwa-card__actions[_ngcontent-ng-c2979277173]   button[_ngcontent-ng-c2979277173] {
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-later[_ngcontent-ng-c2979277173] {
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
+}
+.btn-install[_ngcontent-ng-c2979277173] {
+  background: var(--color-primary);
+  color: #fff;
+}
+.pwa-card__close[_ngcontent-ng-c2979277173] {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-text-light);
+  cursor: pointer;
+  padding: 0;
+}
+/*# sourceMappingURL=/test/pwa-prompt.component.css.map */</style><style ng-app-id="ng">
+
+.wp-backdrop[_ngcontent-ng-c1943083413] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  animation: _ngcontent-ng-c1943083413_wpFadeIn 0.3s ease;
+}
+.wp-card[_ngcontent-ng-c1943083413] {
+  background: var(--color-bg);
+  border-radius: 22px;
+  padding: 36px 24px 26px;
+  width: 100%;
+  max-width: 340px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: _ngcontent-ng-c1943083413_wpSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.wp-header[_ngcontent-ng-c1943083413] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.wp-emoji[_ngcontent-ng-c1943083413] {
+  font-size: 56px;
+  line-height: 1;
+  width: 52px;
+  text-align: center;
+}
+.wp-photo[_ngcontent-ng-c1943083413] {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(244, 169, 34, 0.15);
+}
+.wp-hey[_ngcontent-ng-c1943083413] {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.01em;
+}
+.wp-title[_ngcontent-ng-c1943083413] {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-base);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+.wp-sub[_ngcontent-ng-c1943083413] {
+  margin: 0 0 20px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+.wp-ghost[_ngcontent-ng-c1943083413] {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 6px 0;
+  transition: color var(--transition);
+}
+.wp-ghost[_ngcontent-ng-c1943083413]:hover {
+  color: var(--color-text-secondary);
+}
+@keyframes _ngcontent-ng-c1943083413_wpFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes _ngcontent-ng-c1943083413_wpSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/*# sourceMappingURL=/test/welcome-popup.component.css.map */</style><style ng-app-id="ng">
+
+[_nghost-ng-c1065547695] {
+  display: block;
+  min-height: 100dvh;
+  background: var(--color-bg);
+}
+.lb-page[_ngcontent-ng-c1065547695] {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+.lb-back[_ngcontent-ng-c1065547695] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+.lb-back[_ngcontent-ng-c1065547695]:hover {
+  color: var(--color-primary);
+}
+.lb-title[_ngcontent-ng-c1065547695] {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-text-base);
+  margin: 0 0 6px;
+}
+.lb-subtitle[_ngcontent-ng-c1065547695] {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin: 0 0 28px;
+}
+.lb-skeleton[_ngcontent-ng-c1065547695] {
+  height: 62px;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-bg-muted) 25%,
+      var(--color-bg-hover) 50%,
+      var(--color-bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: _ngcontent-ng-c1065547695_shimmer 1.4s infinite;
+  margin-bottom: 10px;
+}
+@keyframes _ngcontent-ng-c1065547695_shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.lb-state[_ngcontent-ng-c1065547695] {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+.lb-cta[_ngcontent-ng-c1065547695] {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.lb-list[_ngcontent-ng-c1065547695] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lb-entry[_ngcontent-ng-c1065547695] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+}
+.lb-entry--gold[_ngcontent-ng-c1065547695] {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+.lb-entry--silver[_ngcontent-ng-c1065547695] {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+.lb-entry--bronze[_ngcontent-ng-c1065547695] {
+  border-color: #d97706;
+  background: #fffdf5;
+}
+.lb-rank[_ngcontent-ng-c1065547695] {
+  flex-shrink: 0;
+  width: 32px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.lb-rank--medal[_ngcontent-ng-c1065547695] {
+  font-size: 1.2rem;
+}
+.lb-info[_ngcontent-ng-c1065547695] {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lb-name[_ngcontent-ng-c1065547695] {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lb-level[_ngcontent-ng-c1065547695] {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+.lb-xp[_ngcontent-ng-c1065547695] {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.lb-xp__val[_ngcontent-ng-c1065547695] {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-base);
+}
+.lb-xp__unit[_ngcontent-ng-c1065547695] {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+/*# sourceMappingURL=/test/leaderboard.component.css.map */</style><meta name="description" content="See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard."><meta property="og:title" content="Malta Explorers Rankings | Explore Malta"><meta property="og:description" content="See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard."><meta property="og:url" content="https://johnfabiomb.com/malta/leaderboard/"><meta property="og:image" content="https://johnfabiomb.com/assets/og-malta.jpg"><meta property="og:image:alt" content=""><meta property="og:locale" content="en_US"><meta name="twitter:title" content="Malta Explorers Rankings | Explore Malta"><meta name="twitter:description" content="See the top Malta explorers ranked by level and XP. Explore hidden gems, earn points and climb the leaderboard."><meta name="twitter:image" content="https://johnfabiomb.com/assets/og-malta.jpg"><meta name="twitter:image:alt" content=""><link rel="canonical" href="https://johnfabiomb.com/malta/leaderboard/"></head>
+
+<body>
+  <app-root ng-version="19.2.1" _nghost-ng-c3984273398="" ng-server-context="ssg"><router-outlet _ngcontent-ng-c3984273398=""></router-outlet><app-map-root _nghost-ng-c1626619715=""><router-outlet _ngcontent-ng-c1626619715=""></router-outlet><app-leaderboard _nghost-ng-c1065547695=""><div _ngcontent-ng-c1065547695="" class="lb-page"><div _ngcontent-ng-c1065547695="" class="lb-header"><a _ngcontent-ng-c1065547695="" routerlink="/malta" class="lb-back" ng-reflect-router-link="/malta" href="/test/malta"><svg _ngcontent-ng-c1065547695="" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline _ngcontent-ng-c1065547695="" points="15 18 9 12 15 6"></polyline></svg> Back to map </a><h1 _ngcontent-ng-c1065547695="" class="lb-title">🏆 Malta Explorers</h1><p _ngcontent-ng-c1065547695="" class="lb-subtitle">Top explorers ranked by level &amp; XP</p></div><div _ngcontent-ng-c1065547695="" class="lb-loading"><div _ngcontent-ng-c1065547695="" class="lb-skeleton"></div><div _ngcontent-ng-c1065547695="" class="lb-skeleton"></div><div _ngcontent-ng-c1065547695="" class="lb-skeleton"></div><div _ngcontent-ng-c1065547695="" class="lb-skeleton"></div><div _ngcontent-ng-c1065547695="" class="lb-skeleton"></div><!--bindings={
+  "ng-reflect-ng-for-of": "1,2,3,4,5"
+}--></div><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></div></app-leaderboard><!--container--><app-pwa-prompt _ngcontent-ng-c1626619715="" _nghost-ng-c2979277173=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-pwa-prompt><span _ngcontent-ng-c1626619715="" class="app-version">v2.0.20</span><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><app-welcome-popup _ngcontent-ng-c1626619715="" _nghost-ng-c1943083413=""><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-welcome-popup><!--bindings={
+  "ng-reflect-ng-if": null
+}--><!--container--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--><!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-map-root><!--container--></app-root>
+  <script async="" src="https://js.stripe.com/v3/buy-button.js"></script>
+<link rel="modulepreload" href="chunk-MQ25DMRF.js"><link rel="modulepreload" href="chunk-5R6IZFLD.js"><link rel="modulepreload" href="chunk-23WFKX7T.js"><link rel="modulepreload" href="chunk-2VIPXXQC.js"><link rel="modulepreload" href="chunk-WKMKAAWK.js"><link rel="modulepreload" href="chunk-YX7TN7IZ.js"><link rel="modulepreload" href="chunk-TWWAJFRB.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>
+
+
+</body></html>

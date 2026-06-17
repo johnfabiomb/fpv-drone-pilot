@@ -5,6 +5,7 @@ import { DatePipe, CurrencyPipe } from '@angular/common';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
 import { Payment, PaymentMethod } from '@booking/core/interfaces/booking.interface';
+import { LineItem } from '@booking/core/interfaces/invoice.interface';
 
 const METHOD_LABEL: Record<PaymentMethod, string> = {
   card: 'Card', cash: 'Cash', revolut: 'Revolut', bank: 'Bank transfer', other: 'Other',
@@ -25,6 +26,7 @@ export class BookingDetailComponent implements OnInit {
 
   id = '';  // booking id (used by the template for the Invoice link)
   readonly payments = signal<Payment[]>([]);
+  readonly lineItems = signal<LineItem[]>([]);   // invoice breakdown (source of truth for the total)
   readonly copied = signal(false);
   readonly adding = signal(false);
 
@@ -43,7 +45,10 @@ export class BookingDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
-    if (this.id) this.payments.set(await this.data.getPayments(this.id));
+    if (this.id) {
+      this.payments.set(await this.data.getPayments(this.id));
+      this.lineItems.set(await this.data.getInvoiceItems(this.id));
+    }
   }
 
   methodLabel(m: string): string { return METHOD_LABEL[m as PaymentMethod] ?? m; }

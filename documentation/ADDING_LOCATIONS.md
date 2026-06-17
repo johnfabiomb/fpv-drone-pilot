@@ -37,7 +37,7 @@ src/assets/images/places/my-spot/
 
 ## Step 2 — Add the JSON Entry
 
-Open `src/assets/locations.json` and add a new object. Current max `id` is **74** — use **75** for the next one.
+Open `src/assets/locations.json` and add a new object. Current max `id` is **75** — use **76** for the next one.
 
 ```json
 {
@@ -97,7 +97,7 @@ Open `src/assets/locations.json` and add a new object. Current max `id` is **74*
 
 | Field | Required | Description |
 |---|---|---|
-| `id` | Yes | Next number in sequence. Current max is **74**. |
+| `id` | Yes | Next number in sequence. Current max is **75**. |
 | `title` | Yes | Display name — changing this does NOT change the URL. |
 | `slug` | Yes | URL segment for `/malta/locations/:slug`. Freeze it immediately — never change after publishing. |
 | `description` | Yes | Full description. HTML `<b>` tags are supported. |
