@@ -19,6 +19,12 @@ All notable changes to Venture Map are recorded here.
 - **Bookings — "Sync Calendar" now imports past events too.** The pull window was hard-coded to "now → +90 days"; it now also looks **back ~120 days**, so previous-month jobs import instead of only upcoming ones. `sync-calendar` redeployed.
 
 ### Fixed
+- **Auth — production login left OAuth/magic-link tokens stuck in the URL (couldn't sign in).** On GitHub Pages, `/bookings` has no prerendered file, so it's served by the `404.html` SPA fallback — which only preserved `pathname + search` and **dropped the URL `#fragment`** where Supabase returns the session (`#access_token=…`). The booking app never received the tokens. `404.html` now carries the hash too (URL-encoded into `?redirect=`, so it's also hidden from the map app's Supabase client on `/`, which would otherwise consume a bookings-project token); `map-root` then navigates to the decoded target with the fragment intact, where the correct client reads it. Requires redeploying `docs/`.
+
+### Fixed
+- **Auth — login was impossible (OAuth/magic-link dumped tokens on a dead URL).** Root cause: the jm-bookings Supabase project still had the **dev default Site URL (`http://localhost:3000`) and an empty redirect allow-list**, so Supabase ignored the app's `redirectTo` (`…/bookings`) and bounced every login to `http://localhost:3000/#access_token=…` — even from production. Fixed the project's auth config: Site URL → `https://johnfabiomb.com`, allow-list → `https://johnfabiomb.com/**`, `http://localhost:4200/**`, `http://localhost:3000/**`. **Hardening:** `404.html` (the GitHub Pages SPA fallback for non-prerendered deep links like `/bookings`) now also preserves the URL **`#fragment`** — URL-encoded into `?redirect=` so it isn't dropped and isn't visible as a real `#access_token` on `/` (where the map app's Supabase client would otherwise consume a bookings-project token); `map-root` then routes to the decoded target with the fragment intact. Requires redeploying `docs/`.
+
+### Fixed
 - **Bookings — calendar time picker now behaves like a normal range selector** (both the public booking calendar and the admin form). Tap a start, tap an end; once a range is complete the **next tap starts a fresh selection** (instead of extending the old one), tapping the start again gives a 1-hour slot, and a **Clear** link removes the selection. Shared logic in `core/utils/range-select.util.ts`; a half-made selection (start chosen, awaiting end) now shows the start cell highlighted.
 
 ### Fixed

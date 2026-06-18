@@ -2,7 +2,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-6PS2FZ64.js";
+} from "./chunk-6TTTSZ7P.js";
 import {
   EditProfileModalService
 } from "./chunk-6VRUSLL4.js";
@@ -1758,4 +1758,4 @@ var MapRootComponent = class _MapRootComponent {
 export {
   MapRootComponent
 };
-//# sourceMappingURL=chunk-VO6EKYWS.js.map
+//# sourceMappingURL=chunk-VPFCRWW5.js.map
