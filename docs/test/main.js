@@ -198,7 +198,7 @@ var routes = [
   // AuthService / UserDataService chain) is never initialised on booking pages.
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-F4HLCJKJ.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-CZPDQBO3.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 
