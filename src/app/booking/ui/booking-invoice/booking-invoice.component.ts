@@ -1,5 +1,5 @@
-import { Component, Input, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, DatePipe } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 export interface InvoiceData {
   ref: string;
@@ -28,13 +28,7 @@ export class BookingInvoiceComponent {
   @Input() backLink: string | null = '/malta';
   @Input() backLabel = '← Back to explore';
 
-  private platformId = inject(PLATFORM_ID);
-
   get typeLabel(): string {
     return this.invoice?.paymentType === 'deposit' ? 'Deposit (30%)' : 'Full payment';
-  }
-
-  downloadPdf(): void {
-    if (isPlatformBrowser(this.platformId)) window.print();
   }
 }

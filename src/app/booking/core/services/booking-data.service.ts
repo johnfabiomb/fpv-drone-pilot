@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, inject, signal } from '@angular/core';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
-import { BookingSummary, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
+import { BookingSummary, BookingSlot, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
 import { LineItem } from '@booking/core/interfaces/invoice.interface';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
@@ -80,34 +80,28 @@ export class BookingDataService implements OnDestroy {
    * are set by DB triggers.
    */
   async createBooking(input: {
-    orgId: string; staffId: string; serviceId: string | null; clientId: string;
-    title: string; description: string; startAt: string; hours: number; priceTotal: number;
+    orgId: string; staffId: string; serviceId: string | null; clientId: string | null; contactName?: string | null;
+    title: string; description: string; slots: BookingSlot[]; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
     depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ id?: string; ref?: string; error?: string }> {
-    const start = new Date(input.startAt);
-    const end = new Date(start.getTime() + input.hours * 3_600_000);
-    const { data, error } = await bookingsDb
-      .from('bookings')
-      .insert({
+    const { data, error } = await bookingsDb.rpc('create_booking', {
+      p_booking: {
         org_id: input.orgId, staff_id: input.staffId, service_id: input.serviceId,
-        client_id: input.clientId, title: input.title, description: input.description,
-        start_at: start.toISOString(), end_at: end.toISOString(),
-        price_total: input.priceTotal, status: 'booked', created_by: 'admin',
+        client_id: input.clientId, contact_name: input.contactName ?? null,
+        title: input.title, description: input.description, price_total: input.priceTotal,
+        status: 'booked', created_by: 'admin',
         allow_card: input.allowCard, allow_inperson: input.allowInperson,
         deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
-        needs_production: input.needsProduction,
+        needs_production: input.needsProduction, is_external: false,
         location: input.location ?? null, notes: input.notes ?? null,
-      })
-      .select('id, booking_ref')
-      .single();
-    if (error) {
-      if (error.code === '23P01') return { error: 'slot_taken' };
-      return { error: error.message };
-    }
+      },
+      p_slots: input.slots,
+    });
+    if (error) return { error: this.overlapOr(error) };
     await this.fetchBookings();
-    const row = data as { id: string; booking_ref: string };
+    const row = (Array.isArray(data) ? data[0] : data) as { id: string; booking_ref: string };
     return { id: row.id, ref: row.booking_ref };
   }
 
@@ -115,40 +109,49 @@ export class BookingDataService implements OnDestroy {
   async getBooking(id: string): Promise<EditableBooking | null> {
     const { data } = await bookingsDb
       .from('bookings')
-      .select('id, org_id, booking_ref, staff_id, service_id, client_id, title, description, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson, deposit_percent, deposit_allowed, needs_production')
+      .select('id, org_id, booking_ref, staff_id, service_id, client_id, contact_name, title, description, start_at, end_at, price_total, location, notes, status, allow_card, allow_inperson, deposit_percent, deposit_allowed, needs_production')
       .eq('id', id)
       .maybeSingle();
     return (data as EditableBooking) ?? null;
   }
 
-  /** Update an existing booking. Moving it onto an occupied slot fails with 23P01. */
+  /** A booking's time blocks (one or more), earliest first. */
+  async getBookingSlots(bookingId: string): Promise<BookingSlot[]> {
+    const { data } = await bookingsDb
+      .from('booking_slots').select('start_at, end_at').eq('booking_id', bookingId).order('start_at');
+    return (data ?? []).map(s => ({ start: (s as { start_at: string }).start_at, end: (s as { end_at: string }).end_at }));
+  }
+
+  /** Update a booking + replace its slots (atomic). Overlap fails with 23P01 → `slot_taken`. */
   async updateBooking(id: string, input: {
-    staffId: string; serviceId: string | null; clientId: string;
-    title: string; description: string; startAt: string; hours: number; priceTotal: number;
+    staffId: string; serviceId: string | null; clientId: string | null; contactName?: string | null;
+    title: string; description: string; slots: BookingSlot[]; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
     depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ ok?: boolean; error?: string }> {
-    const start = new Date(input.startAt);
-    const end = new Date(start.getTime() + input.hours * 3_600_000);
-    const { error } = await bookingsDb
-      .from('bookings')
-      .update({
-        staff_id: input.staffId, service_id: input.serviceId, client_id: input.clientId,
-        title: input.title, description: input.description, start_at: start.toISOString(), end_at: end.toISOString(),
-        price_total: input.priceTotal, allow_card: input.allowCard, allow_inperson: input.allowInperson,
+    const { error } = await bookingsDb.rpc('update_booking', {
+      p_booking_id: id,
+      p_booking: {
+        staff_id: input.staffId, service_id: input.serviceId,
+        client_id: input.clientId, contact_name: input.contactName ?? null,
+        title: input.title, description: input.description, price_total: input.priceTotal,
+        allow_card: input.allowCard, allow_inperson: input.allowInperson,
         deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
         needs_production: input.needsProduction,
         location: input.location ?? null, notes: input.notes ?? null,
-        // An edited import becomes a real booking (counts in revenue, invoiceable).
-        is_external: false,
-      })
-      .eq('id', id);
-    if (error) return { error: error.code === '23P01' ? 'slot_taken' : error.message };
-    // Push the edit to Google Calendar (title, time, location, description).
+      },
+      p_slots: input.slots,
+    });
+    if (error) return { error: this.overlapOr(error) };
     this.syncBookingEvent(id);
     await this.fetchBookings();
     return { ok: true };
+  }
+
+  /** Map a Postgres exclusion-violation to `slot_taken`, else pass the message. */
+  private overlapOr(error: { code?: string; message: string }): string {
+    return error.code === '23P01' || /no_overlap|exclusion/.test(error.message) ? 'slot_taken' : error.message;
   }
 
   /**
@@ -159,22 +162,26 @@ export class BookingDataService implements OnDestroy {
    */
   async getWorkerBusy(staffId: string, fromIso: string, toIso: string): Promise<WorkerBusy[]> {
     const { data, error } = await bookingsDb
-      .from('bookings')
-      .select('id, start_at, end_at, title, status, clients(name)')
+      .from('booking_slots')
+      .select('booking_id, start_at, end_at, bookings!inner(title, status, clients(name))')
       .eq('staff_id', staffId)
-      .in('status', ['hold', 'booked', 'in_progress', 'done'])
+      .eq('blocking', true)
       .lt('start_at', toIso)
       .gt('end_at', fromIso)
       .order('start_at');
     if (error) { console.error('[BookingData] getWorkerBusy:', error); return []; }
     return (data ?? []).map(r => {
-      const row = r as { id: string; start_at: string; end_at: string; title: string; status: string; clients: { name: string } | { name: string }[] | null };
-      const client = Array.isArray(row.clients) ? row.clients[0] : row.clients;
-      return { id: row.id, start_at: row.start_at, end_at: row.end_at, title: row.title, status: row.status as WorkerBusy['status'], clientName: client?.name ?? null };
+      const row = r as unknown as { booking_id: string; start_at: string; end_at: string;
+        bookings: { title: string; status: string; clients: { name: string } | { name: string }[] | null }
+                | { title: string; status: string; clients: { name: string } | { name: string }[] | null }[] };
+      const bk = Array.isArray(row.bookings) ? row.bookings[0] : row.bookings;
+      const client = Array.isArray(bk.clients) ? bk.clients[0] : bk.clients;
+      return { id: row.booking_id, start_at: row.start_at, end_at: row.end_at, title: bk.title, status: bk.status as WorkerBusy['status'], clientName: client?.name ?? null };
     });
   }
 
-  async generateLink(bookingId: string): Promise<string | null> {
+  /** Mint a booking-link token (anon-accessible) for this booking. */
+  private async createBookingToken(bookingId: string): Promise<string | null> {
     const { data: bk } = await bookingsDb.from('bookings').select('org_id').eq('id', bookingId).single();
     if (!bk) return null;
     const { data } = await bookingsDb
@@ -182,7 +189,19 @@ export class BookingDataService implements OnDestroy {
       .insert({ org_id: (bk as { org_id: string }).org_id, booking_id: bookingId, expires_at: null })
       .select('token')
       .single();
-    return data?.token ? `${window.location.origin}/book/${data.token}` : null;
+    return data?.token ?? null;
+  }
+
+  /** Shareable payment link (`/book/:token`). */
+  async generateLink(bookingId: string): Promise<string | null> {
+    const token = await this.createBookingToken(bookingId);
+    return token ? `${window.location.origin}/book/${token}` : null;
+  }
+
+  /** Shareable invoice link (`/book/invoice?token=…`) — viewable by the client without logging in. */
+  async invoiceShareLink(bookingId: string): Promise<string | null> {
+    const token = await this.createBookingToken(bookingId);
+    return token ? `${window.location.origin}/book/invoice?token=${token}` : null;
   }
 
   async syncCalendar(): Promise<void> {
@@ -311,10 +330,33 @@ export class BookingDataService implements OnDestroy {
     await bookingsDb.from('invoices').delete().eq('booking_id', bookingId);
   }
 
+  /** Admin "confirm now": create/refresh this booking's Google Calendar event immediately
+   *  (instead of waiting for the client to pay/confirm). Awaited so the caller knows it ran. */
+  async confirmToCalendar(bookingId: string): Promise<void> {
+    const { error } = await bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } });
+    if (error) console.warn('[BookingData] confirmToCalendar:', error.message);
+  }
+
   /** Fire-and-forget: refresh the booking's calendar event description (payment + progress). */
   private syncBookingEvent(bookingId: string): void {
     void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } })
       .then(({ error }) => { if (error) console.warn('[BookingData] calendar sync failed:', error.message); });
+  }
+
+  /**
+   * Permanently delete a booking row (mainly for imported/external events). When
+   * `removeCalendarEvent` is true, its Google Calendar event is deleted first
+   * (via cancel-booking, no refund); otherwise the calendar event is left in place.
+   */
+  async deleteBooking(bookingId: string, removeCalendarEvent: boolean): Promise<{ ok?: boolean; error?: string }> {
+    if (removeCalendarEvent) {
+      const { error } = await bookingsDb.functions.invoke('cancel-booking', { body: { bookingId, refund: false } });
+      if (error) return { error: error.message };
+    }
+    const { error } = await bookingsDb.from('bookings').delete().eq('id', bookingId);
+    if (error) return { error: error.message };
+    await this.fetchBookings();
+    return { ok: true };
   }
 
   /** Cancel a booking (frees the slot + removes the calendar event); optional Stripe refund. */

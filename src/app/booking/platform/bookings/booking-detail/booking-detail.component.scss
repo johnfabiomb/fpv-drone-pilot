@@ -38,7 +38,9 @@
   & + & { border-top: 1px solid $border; }
   &__k { color: $text-3; font-weight: 600; }
   &__v { color: $text; text-align: right; }
+  &--blocks { align-items: flex-start; }
 }
+.block-line { display: block; line-height: 1.5; & + & { margin-top: 2px; } }
 
 // ── Payments ledger ──────────────────────────────────────────────────────
 .pays { list-style: none; margin: 0; padding: 0; }

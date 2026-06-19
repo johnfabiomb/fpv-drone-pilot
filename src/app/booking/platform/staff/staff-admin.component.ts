@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BookingAdminService, AdminService, AdminStaff, StaffServiceRow } from '@booking/core/services/booking-admin.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 
 interface StaffForm { id?: string; name: string; email: string; is_bookable: boolean; }
@@ -18,6 +19,7 @@ export class StaffAdminComponent implements OnInit {
   private readonly admin = inject(BookingAdminService);
   private readonly auth = inject(BookingsAuthService);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
 
   readonly staff = signal<AdminStaff[]>([]);
   readonly services = signal<AdminService[]>([]);
@@ -63,7 +65,7 @@ export class StaffAdminComponent implements OnInit {
     }
   }
   async removeStaff(s: AdminStaff): Promise<void> {
-    if (!confirm(`Remove worker "${s.name}"?`)) return;
+    if (!(await this.confirm.ask({ title: 'Remove worker', message: `Remove worker "${s.name}"?`, confirmLabel: 'Remove', danger: true }))) return;
     try {
       await this.admin.deleteStaff(s.id);
       await this.reload();

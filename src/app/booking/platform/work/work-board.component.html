@@ -2,10 +2,28 @@
   <div class="work__head">
     <div>
       <h1 class="work__title">Work</h1>
-      <p class="work__sub">Post-production for every confirmed job.</p>
+      <p class="work__sub">Post-production jobs and your own to-dos.</p>
     </div>
-    @if (overdueCount() > 0) { <span class="overdue-tag">{{ overdueCount() }} overdue</span> }
+    <div class="work__head-actions">
+      @if (overdueCount() > 0) { <span class="overdue-tag">{{ overdueCount() }} overdue</span> }
+      <button class="btn btn--primary btn--sm" (click)="toggleComposer()">+ New card</button>
+    </div>
   </div>
+
+  @if (composerOpen()) {
+    <div class="composer">
+      <input class="composer__title" type="text" placeholder="Card title (e.g. Edit reel for IG)"
+             [(ngModel)]="newCardTitle" (keyup.enter)="addCard()" />
+      <select class="composer__job" [(ngModel)]="newCardBookingId">
+        <option value="">No job — personal card</option>
+        @for (o of jobOptions(); track o.id) {
+          <option [value]="o.id">{{ o.title }}{{ o.clientName ? ' · ' + o.clientName : '' }} ({{ o.start_at | date:'d MMM' }})</option>
+        }
+      </select>
+      <button class="btn btn--primary btn--sm" [disabled]="adding() || (!newCardBookingId && !newCardTitle.trim())" (click)="addCard()">Add</button>
+      <button class="btn btn--ghost btn--sm" (click)="toggleComposer()">Cancel</button>
+    </div>
+  }
 
   @if (loading()) {
     <p class="muted">Loading…</p>
@@ -24,13 +42,20 @@
               <div class="job" cdkDrag>
                 <div class="job__drag-placeholder" *cdkDragPlaceholder></div>
                 <div class="job__top">
-                  <div class="job__client" cdkDragHandle>⠿ {{ j.clientName ?? 'No client' }}</div>
+                  <div class="job__client" cdkDragHandle>⠿ {{ j.clientName || j.title }}</div>
                   <div class="job__nav">
                     <button class="job__arrow" [disabled]="!canPrev(j)" (click)="move(j, -1)" title="Move back">‹</button>
                     <button class="job__arrow" [disabled]="!canNext(j)" (click)="move(j, 1)" title="Move forward">›</button>
+                    <button class="job__del" (click)="deleteCard(j)" [title]="j.bookingId ? 'Remove from board' : 'Delete card'">×</button>
                   </div>
                 </div>
-                <div class="job__meta">{{ j.serviceName }} · {{ j.start_at | date:'d MMM, HH:mm' }}</div>
+                <div class="job__meta">
+                  @if (j.start_at) {
+                    {{ j.serviceName ? j.serviceName + ' · ' : '' }}{{ j.start_at | date:'d MMM, HH:mm' }}
+                  } @else {
+                    <span class="job__tag">Personal</span>
+                  }
+                </div>
 
                 <div class="tasks">
                   @for (t of tasksFor(j.id); track t.id) {

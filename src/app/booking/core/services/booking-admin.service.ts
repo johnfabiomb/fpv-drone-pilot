@@ -18,9 +18,10 @@ export interface AdminService {
 export type ProductionStage = 'to_edit' | 'editing' | 'to_deliver' | 'delivered';
 
 export interface WorkJob {
-  id: string;
+  id: string;                  // work_item id (the board's unit)
+  bookingId: string | null;    // linked booking, or null for a standalone card
   title: string;
-  start_at: string;
+  start_at: string | null;     // from the booking (null for standalone)
   production_status: ProductionStage;
   clientName: string | null;
   serviceName: string | null;
@@ -28,10 +29,18 @@ export interface WorkJob {
 
 export interface TaskRow {
   id: string;
-  booking_id: string | null;
+  work_item_id: string | null;
   title: string;
   is_done: boolean;
   due_at: string | null;
+}
+
+/** A booking option for linking a new work card to a job. */
+export interface JobOption {
+  id: string;
+  title: string;
+  start_at: string;
+  clientName: string | null;
 }
 
 export interface AdminStaff {
@@ -134,36 +143,64 @@ export class BookingAdminService {
 
   // ── Work board (production) ───────────────────────────────────────
   async loadJobs(orgId: string): Promise<WorkJob[]> {
-    const { data } = await bookingsDb.from('bookings')
-      .select('id, title, start_at, production_status, client:client_id(name), service:service_id(name)')
-      .eq('org_id', orgId).not('production_status', 'is', null).order('start_at');
+    const { data } = await bookingsDb.from('work_items')
+      .select('id, title, production_status, booking_id, booking:booking_id(start_at, client:client_id(name), service:service_id(name))')
+      .eq('org_id', orgId).order('sort').order('created_at');
     const pickName = (v: unknown): string | null => {
       const o = Array.isArray(v) ? v[0] : v;
       return (o as { name?: string } | null)?.name ?? null;
     };
+    return ((data ?? []) as Array<Record<string, unknown>>).map(w => {
+      const bk = (Array.isArray(w['booking']) ? w['booking'][0] : w['booking']) as Record<string, unknown> | null;
+      return {
+        id: w['id'] as string, bookingId: (w['booking_id'] as string | null) ?? null,
+        title: w['title'] as string,
+        start_at: (bk?.['start_at'] as string | undefined) ?? null,
+        production_status: w['production_status'] as ProductionStage,
+        clientName: bk ? pickName(bk['client']) : null,
+        serviceName: bk ? pickName(bk['service']) : null,
+      };
+    });
+  }
+  /** Bookings the admin can attach a new work card to (most recent first). */
+  async loadJobOptions(orgId: string): Promise<JobOption[]> {
+    const { data } = await bookingsDb.from('booking_summary')
+      .select('id, title, start_at, client_name').eq('org_id', orgId)
+      .order('start_at', { ascending: false }).limit(100);
     return ((data ?? []) as Array<Record<string, unknown>>).map(b => ({
-      id: b['id'] as string, title: b['title'] as string, start_at: b['start_at'] as string,
-      production_status: b['production_status'] as ProductionStage,
-      clientName: pickName(b['client']), serviceName: pickName(b['service']),
+      id: b['id'] as string, title: b['title'] as string,
+      start_at: b['start_at'] as string, clientName: (b['client_name'] as string | null) ?? null,
     }));
   }
+  /** Create a work card — standalone (bookingId null) or linked to a booking (seeds its service tasks). */
+  async addWorkItem(orgId: string, bookingId: string | null, title: string): Promise<void> {
+    await bookingsDb.rpc('create_work_item', { p_org: orgId, p_booking: bookingId, p_title: title });
+  }
+  /** Remove a card from the board. Never deletes the booking — only unflags it. */
+  async deleteWorkItem(id: string, bookingId: string | null): Promise<void> {
+    await bookingsDb.from('work_items').delete().eq('id', id);
+    if (bookingId) await bookingsDb.from('bookings').update({ needs_production: false }).eq('id', bookingId);
+  }
   async loadTasks(orgId: string): Promise<TaskRow[]> {
-    const { data } = await bookingsDb.from('tasks').select('id, booking_id, title, is_done, due_at')
+    const { data } = await bookingsDb.from('tasks').select('id, work_item_id, title, is_done, due_at')
       .eq('org_id', orgId).order('sort').order('created_at');
     return (data ?? []) as TaskRow[];
   }
   async toggleTask(id: string, done: boolean): Promise<void> {
     await bookingsDb.from('tasks').update({ is_done: done, done_at: done ? new Date().toISOString() : null }).eq('id', id);
   }
-  async addTask(orgId: string, bookingId: string | null, title: string): Promise<void> {
-    await bookingsDb.from('tasks').insert({ org_id: orgId, booking_id: bookingId, title });
+  async addTask(orgId: string, workItemId: string, title: string): Promise<void> {
+    await bookingsDb.from('tasks').insert({ org_id: orgId, work_item_id: workItemId, title });
   }
   async removeTask(id: string): Promise<void> { await bookingsDb.from('tasks').delete().eq('id', id); }
-  async setStage(bookingId: string, stage: ProductionStage): Promise<void> {
-    await bookingsDb.from('bookings').update({ production_status: stage }).eq('id', bookingId);
-    // Mirror the new progress onto the Google Calendar event description (fire-and-forget).
-    void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } })
-      .then(({ error }) => { if (error) console.warn('[BookingAdmin] calendar sync failed:', error.message); });
+  async setStage(workItemId: string, stage: ProductionStage, bookingId: string | null = null): Promise<void> {
+    await bookingsDb.from('work_items').update({ production_status: stage }).eq('id', workItemId);
+    // For a booking-linked card, mirror progress to the booking + its Google Calendar event.
+    if (bookingId) {
+      await bookingsDb.from('bookings').update({ production_status: stage }).eq('id', bookingId);
+      void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } })
+        .then(({ error }) => { if (error) console.warn('[BookingAdmin] calendar sync failed:', error.message); });
+    }
   }
   async updateOrgSettings(orgId: string, patch: Partial<OrgSettings>): Promise<void> {
     await bookingsDb.from('organizations').update(patch).eq('id', orgId);

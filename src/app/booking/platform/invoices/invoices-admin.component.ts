@@ -5,6 +5,7 @@ import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { BookingAdminService } from '@booking/core/services/booking-admin.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
+import { ToastService } from '@booking/ui/toast/toast.service';
 import { BookingSummary } from '@booking/core/interfaces/booking.interface';
 
 type InvoiceTab = 'all' | 'unpaid' | 'partial' | 'paid';
@@ -27,6 +28,7 @@ export class InvoicesAdminComponent implements OnInit {
   readonly data = inject(BookingDataService);
   private readonly admin = inject(BookingAdminService);
   private readonly auth = inject(BookingsAuthService);
+  private readonly toast = inject(ToastService);
 
   readonly prefix = signal('INV');
   readonly currency = signal('EUR');
@@ -105,6 +107,14 @@ export class InvoicesAdminComponent implements OnInit {
   statusLabel(b: BookingSummary): string { return STATUS_LABEL[this.invStatus(b)]; }
 
   open(b: BookingSummary): void { window.open(`/book/invoice/${b.id}`, '_blank', 'noopener'); }
+
+  /** Copy the client-shareable (no-login) invoice link. */
+  async copyShareLink(b: BookingSummary): Promise<void> {
+    const url = await this.data.invoiceShareLink(b.id);
+    if (!url) { this.toast.error('Could not create the invoice link.'); return; }
+    await navigator.clipboard.writeText(url);
+    this.toast.success('Invoice link copied — share it with your client');
+  }
 
   /** Download the visible list as CSV for the accountant. */
   exportCsv(): void {

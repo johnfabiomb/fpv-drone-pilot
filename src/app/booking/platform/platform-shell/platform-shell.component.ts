@@ -3,11 +3,12 @@ import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/rou
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastHostComponent } from '@booking/ui/toast/toast-host.component';
+import { ConfirmHostComponent } from '@booking/ui/confirm/confirm-host.component';
 
 @Component({
   selector: 'app-platform-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ToastHostComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ToastHostComponent, ConfirmHostComponent],
   providers: [BookingDataService],
   templateUrl: './platform-shell.component.html',
   styleUrl: './platform-shell.component.scss',

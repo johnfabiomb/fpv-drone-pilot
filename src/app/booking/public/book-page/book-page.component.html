@@ -27,11 +27,12 @@
     <p>Please try refreshing the page or contact John directly.</p>
   </div>
 
-  <!-- Booking confirmed (pay-later only — client accepted) -->
+  <!-- Booking confirmed (admin pre-confirmed, or client accepted pay-later) -->
   <div class="book-state" *ngIf="state() === 'confirmed'">
     <div class="state-icon">✓</div>
     <h2>Booking confirmed</h2>
     <p>You're all set! John will arrange payment (cash, Revolut or bank transfer) with you. See you then.</p>
+    <a class="btn btn--primary invoice-dl" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
   </div>
 
   <!-- In-person request sent (awaiting John's acceptance) -->
@@ -47,6 +48,7 @@
       <div class="paid-icon">✓</div>
       <h2>Booking confirmed</h2>
       <p>This booking has been paid in full. Here's your receipt.</p>
+      <a class="btn btn--primary invoice-dl" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
     </div>
     <app-booking-invoice [invoice]="paidInvoice()" />
   </div>
@@ -141,6 +143,7 @@
           <span class="deposit-paid-banner__dot"></span>
           Deposit of {{ totalPaid() | currency:'EUR':'symbol':'1.2-2' }} already paid
         </div>
+        <a class="invoice-dl invoice-dl--inline" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
 
         <div class="payment-options">
           <button class="pay-option" (click)="selectPayment('remainder')">

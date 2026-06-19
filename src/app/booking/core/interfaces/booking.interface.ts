@@ -25,6 +25,7 @@ export interface BookingSummary {
   price_revenue: number;
   status: BookingStatus;
   payment_status: PaymentStatus;
+  slot_count: number;        // number of time blocks (>1 = split across times/days)
   total_paid: number;
   client_name: string | null;
   client_email: string | null;
@@ -42,6 +43,7 @@ export interface EditableBooking {
   staff_id: string;
   service_id: string | null;
   client_id: string | null;
+  contact_name: string | null;   // one-off "quick" customer name when there's no client row
   title: string;
   description: string | null;   // client-facing work description (shown on the pay page + invoice)
   start_at: string;
@@ -55,6 +57,12 @@ export interface EditableBooking {
   deposit_percent: number | null;   // per-booking override; null = inherit org default
   deposit_allowed: boolean | null;  // per-booking override; null = inherit org default
   needs_production: boolean;         // on the Work board (post-production) when true
+}
+
+/** One time block of a booking (a booking can have several, across days). */
+export interface BookingSlot {
+  start: string;   // UTC ISO
+  end: string;     // UTC ISO
 }
 
 /** A worker's occupied time range — feeds the admin availability picker's busy slots. */

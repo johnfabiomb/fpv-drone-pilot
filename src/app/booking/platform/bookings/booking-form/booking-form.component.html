@@ -38,27 +38,39 @@
     <div class="form-layout">
     <form class="card form" (ngSubmit)="submit()">
 
-      <!-- Client -->
+      <!-- Customer — an existing client (reusable, invoiceable) or a one-off quick name -->
       <div class="field">
-        <label>Client</label>
-        <div class="client-row">
-          <select [(ngModel)]="clientId" name="clientId" required>
-            <option value="" disabled>Select a client…</option>
-            @for (c of data.clients(); track c.id) {
-              <option [value]="c.id">{{ c.name }}{{ c.company ? ' · ' + c.company : '' }}</option>
-            }
-          </select>
-          <button type="button" class="btn btn--ghost btn--sm" (click)="openClientEditor()">+ New</button>
+        <label>Customer</label>
+        <div class="seg">
+          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'existing'"
+                  (click)="clientMode = 'existing'">Existing client</button>
+          <button type="button" class="seg__btn" [class.seg__btn--on]="clientMode === 'quick'"
+                  (click)="clientMode = 'quick'">Just a name</button>
         </div>
-        @if (selectedClient && !selectedClient.vat_number && !selectedClient.billing_address) {
-          <span class="hint">Tip: add this client's VAT &amp; billing address in Clients for VAT-ready invoices.</span>
+
+        @if (clientMode === 'existing') {
+          <div class="client-row">
+            <select [(ngModel)]="clientId" name="clientId">
+              <option value="" disabled>Select a client…</option>
+              @for (c of data.clients(); track c.id) {
+                <option [value]="c.id">{{ c.name }}{{ c.company ? ' · ' + c.company : '' }}</option>
+              }
+            </select>
+            <button type="button" class="btn btn--ghost btn--sm" (click)="openClientEditor()">+ New</button>
+          </div>
+          @if (selectedClient && !selectedClient.vat_number && !selectedClient.billing_address) {
+            <span class="hint">Tip: add this client's VAT &amp; billing address in Clients for VAT-ready invoices.</span>
+          }
+        } @else {
+          <input [(ngModel)]="contactName" name="contactName" placeholder="e.g. John from Sliema" />
+          <span class="hint">A one-off name — not saved to Clients. The invoice bills to this name only (no company / VAT). Use an existing client if you need a VAT-ready invoice.</span>
         }
       </div>
 
       <!-- Worker -->
       <div class="field">
         <label>Worker</label>
-        <select [(ngModel)]="staffId" name="staffId" required (ngModelChange)="onWorkerChange()">
+        <select [(ngModel)]="staffId" name="staffId" required>
           <option value="" disabled>Select a worker…</option>
           @for (w of workers; track w.id) {
             <option [value]="w.id">{{ w.name }}</option>
@@ -69,16 +81,18 @@
         }
       </div>
 
-      <!-- When — chosen from the worker's calendar on the right -->
+      <!-- When — one or more time blocks, chosen from the worker's calendar on the right -->
       <div class="field">
-        <label>Start</label>
+        <label>Time blocks</label>
         @if (!staffId) {
           <span class="hint">Pick a worker first — their calendar appears on the right.</span>
-        } @else if (selectedStartIso) {
-          <div class="picked">✓ {{ selectedSlotLabel }} <span class="picked__tz">{{ orgTimezone() }}</span></div>
-          <span class="hint">Change it from the calendar →</span>
+        } @else if (selectedSlots.length) {
+          @for (s of selectedSlots; track s.iso) {
+            <div class="picked">✓ {{ s.label }}</div>
+          }
+          <span class="hint">Add more blocks (even on other days) or remove them on the calendar →</span>
         } @else {
-          <span class="hint hint--warn">Choose a free time from the worker's calendar →</span>
+          <span class="hint hint--warn">Tap a start &amp; end time on the worker's calendar → — add as many blocks as you need.</span>
         }
       </div>
 
@@ -148,6 +162,17 @@
         <textarea [(ngModel)]="notes" name="notes" rows="2" placeholder="Anything to remember about this job"></textarea>
       </div>
 
+      <!-- Confirm → calendar (new bookings only; edits always re-sync) -->
+      @if (!isEditing) {
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="addToCalendar" name="addToCalendar" />
+          <span>
+            <strong>Confirmed — add to my calendar now</strong>
+            <span class="check__hint">Pushes it to your Google Calendar straight away. Uncheck to wait until the client pays / confirms.</span>
+          </span>
+        </label>
+      }
+
       <!-- Work board -->
       <label class="check">
         <input type="checkbox" [(ngModel)]="needsProduction" name="needsProduction" />
@@ -175,10 +200,9 @@
           <app-availability-picker
             [staffId]="staffId"
             [timezone]="orgTimezone()"
-            [value]="prefillStartIso"
-            [durationValue]="prefillHours"
+            [initialSlots]="prefillSlots"
             [excludeBookingId]="editingId() ?? ''"
-            (picked)="onSlotPicked($event)">
+            (slotsChange)="onSlotsChanged($event)">
           </app-availability-picker>
         } @else {
           <div class="aside-empty">

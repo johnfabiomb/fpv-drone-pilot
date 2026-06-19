@@ -71,6 +71,7 @@
                 <div class="menu" cdkMenu>
                   <a class="menu__item" cdkMenuItem [routerLink]="['/bookings/invoice-edit', b.id]">Edit invoice</a>
                   <button class="menu__item" cdkMenuItem (click)="open(b)">View / print</button>
+                  <button class="menu__item" cdkMenuItem (click)="copyShareLink(b)">Copy share link</button>
                 </div>
               </ng-template>
             </span>

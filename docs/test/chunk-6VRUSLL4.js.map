@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/map/core/services/edit-profile-modal.service.ts"],
-  "sourcesContent": ["import { Injectable, computed, signal } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class EditProfileModalService {\n  readonly mode   = signal<'edit' | 'first-login' | null>(null);\n  readonly isOpen = computed(() => this.mode() !== null);\n\n  open(mode: 'edit' | 'first-login' = 'edit'): void { this.mode.set(mode); }\n  close(): void { this.mode.set(null); }\n}\n"],
-  "mappings": ";;;;;;;AAGM,IAAO,0BAAP,MAAO,yBAAuB;EADpC,cAAA;AAEW,SAAA,OAAS,OAAsC,IAAI;AACnD,SAAA,SAAS,SAAS,MAAM,KAAK,KAAI,MAAO,IAAI;;EAErD,KAAK,OAA+B,QAAM;AAAU,SAAK,KAAK,IAAI,IAAI;EAAG;EACzE,QAAK;AAAW,SAAK,KAAK,IAAI,IAAI;EAAG;;;uCAL1B,0BAAuB;IAAA;EAAA;;4EAAvB,0BAAuB,SAAvB,yBAAuB,WAAA,YADV,OAAM,CAAA;EAAA;;",
-  "names": []
-}

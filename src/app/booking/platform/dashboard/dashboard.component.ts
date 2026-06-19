@@ -5,6 +5,7 @@ import { BookingDataService } from '@booking/core/services/booking-data.service'
 import { BookingAdminService, WorkJob, TaskRow } from '@booking/core/services/booking-admin.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 import { BookingSummary } from '@booking/core/interfaces/booking.interface';
 
 @Component({
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit {
   private readonly admin = inject(BookingAdminService);
   private readonly auth = inject(BookingsAuthService);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
 
   readonly jobs = signal<WorkJob[]>([]);
   readonly tasks = signal<TaskRow[]>([]);
@@ -99,7 +101,7 @@ export class DashboardComponent implements OnInit {
     } finally { this.busyId.set(null); }
   }
   async decline(b: BookingSummary): Promise<void> {
-    if (!confirm(`Decline ${b.booking_ref}?`)) return;
+    if (!(await this.confirm.ask({ title: 'Decline request', message: `Decline ${b.booking_ref}?`, confirmLabel: 'Decline', danger: true }))) return;
     this.busyId.set(b.id);
     try {
       await this.data.declineRequest(b.id);

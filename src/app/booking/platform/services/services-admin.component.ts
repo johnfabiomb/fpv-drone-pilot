@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BookingAdminService, AdminService } from '@booking/core/services/booking-admin.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 
 interface ServiceForm {
@@ -32,6 +33,7 @@ export class ServicesAdminComponent implements OnInit {
   private readonly admin = inject(BookingAdminService);
   private readonly auth = inject(BookingsAuthService);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
 
   readonly services = signal<AdminService[]>([]);
   readonly loading = signal(true);
@@ -90,7 +92,7 @@ export class ServicesAdminComponent implements OnInit {
   }
 
   async remove(s: AdminService): Promise<void> {
-    if (!confirm(`Delete service "${s.name}"? This can't be undone.`)) return;
+    if (!(await this.confirm.ask({ title: 'Delete service', message: `Delete service "${s.name}"? This can't be undone.`, confirmLabel: 'Delete', danger: true }))) return;
     try {
       await this.admin.deleteService(s.id);
       await this.reload();

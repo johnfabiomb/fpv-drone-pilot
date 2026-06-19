@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
-import { Payment, PaymentMethod } from '@booking/core/interfaces/booking.interface';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
+import { Payment, PaymentMethod, BookingSlot } from '@booking/core/interfaces/booking.interface';
 import { LineItem } from '@booking/core/interfaces/invoice.interface';
 
 const METHOD_LABEL: Record<PaymentMethod, string> = {
@@ -22,10 +23,12 @@ export class BookingDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
   readonly data = inject(BookingDataService);
 
   id = '';  // booking id (used by the template for the Invoice link)
   readonly payments = signal<Payment[]>([]);
+  readonly slots = signal<BookingSlot[]>([]);    // the booking's time blocks (one or more)
   readonly lineItems = signal<LineItem[]>([]);   // invoice breakdown (source of truth for the total)
   readonly copied = signal(false);
   readonly adding = signal(false);
@@ -46,8 +49,14 @@ export class BookingDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
     if (this.id) {
-      this.payments.set(await this.data.getPayments(this.id));
-      this.lineItems.set(await this.data.getInvoiceItems(this.id));
+      const [payments, slots, items] = await Promise.all([
+        this.data.getPayments(this.id),
+        this.data.getBookingSlots(this.id),
+        this.data.getInvoiceItems(this.id),
+      ]);
+      this.payments.set(payments);
+      this.slots.set(slots);
+      this.lineItems.set(items);
     }
   }
 
@@ -79,7 +88,12 @@ export class BookingDetailComponent implements OnInit {
       this.toast.error('Card payments are managed in Stripe and can’t be removed here.');
       return;
     }
-    if (!confirm(`Remove this €${p.amount} payment? This only fixes the record — it does not refund anyone.`)) return;
+    const ok = await this.confirm.ask({
+      title: 'Remove payment',
+      message: `Remove this €${p.amount} payment? This only fixes the record — it does not refund anyone.`,
+      confirmLabel: 'Remove', danger: true,
+    });
+    if (!ok) return;
     await this.data.deletePayment(p.id, this.id);
     this.payments.set(await this.data.getPayments(this.id));
     this.toast.info('Payment removed');
@@ -92,6 +106,14 @@ export class BookingDetailComponent implements OnInit {
     this.copied.set(true);
     setTimeout(() => this.copied.set(false), 2000);
     this.toast.success('Payment link copied to clipboard');
+  }
+
+  /** Copy the client-shareable (no-login) invoice link. */
+  async copyInvoiceLink(): Promise<void> {
+    const url = await this.data.invoiceShareLink(this.id);
+    if (!url) { this.toast.error('Could not create the invoice link.'); return; }
+    await navigator.clipboard.writeText(url);
+    this.toast.success('Invoice link copied — share it with your client');
   }
 
   goEdit(): void { this.router.navigate(['/bookings', this.id, 'edit']); }

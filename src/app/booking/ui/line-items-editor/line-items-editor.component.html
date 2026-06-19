@@ -5,11 +5,14 @@
                 [ngModel]="item.description" (ngModelChange)="setDescription($index, $event)"></textarea>
       <input class="item__amount" type="number" min="0" step="1" inputmode="decimal"
              [ngModel]="item.amount" (ngModelChange)="setAmount($index, $event)" />
-      <button type="button" class="item__remove" (click)="remove($index)"
-              [disabled]="items().length === 1" aria-label="Remove line">×</button>
+      <button type="button" class="item__remove" (click)="remove($index)" aria-label="Remove line">×</button>
     </div>
   }
 </div>
+
+@if (!items().length && !picking()) {
+  <p class="items-empty">No charges yet — add at least one to continue.</p>
+}
 
 @if (picking()) {
   <!-- Guided add: a service (with hours) or a custom charge -->

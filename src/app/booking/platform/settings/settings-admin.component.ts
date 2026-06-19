@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BookingAdminService, ConnectStatus, OrgMember } from '@booking/core/services/booking-admin.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 
 interface IntStatus { ok: boolean; detail: string; }
 
@@ -28,6 +29,7 @@ export class SettingsAdminComponent implements OnInit {
   private readonly admin = inject(BookingAdminService);
   readonly auth = inject(BookingsAuthService);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -210,7 +212,8 @@ export class SettingsAdminComponent implements OnInit {
 
   async removeMember(m: OrgMember): Promise<void> {
     const org = this.auth.orgId();
-    if (!org || !confirm(`Remove ${m.email} from this organization?`)) return;
+    if (!org) return;
+    if (!(await this.confirm.ask({ title: 'Remove member', message: `Remove ${m.email} from this organization?`, confirmLabel: 'Remove', danger: true }))) return;
     const res = await this.admin.removeMember(org, m.user_id);
     if (res.error) {
       this.toast.error(res.error.includes('last_owner') ? "You can't remove the only owner." : 'Could not remove member.');

@@ -24,6 +24,11 @@
   &:disabled { opacity: 0.3; cursor: default; }
 }
 
+.items-empty {
+  margin: 0 0 4px; padding: 12px; border: 1.5px dashed $border; border-radius: $radius-md;
+  text-align: center; font-size: 13px; color: $text-3;
+}
+
 .add {
   margin-top: 10px; background: none; border: none; padding: 4px 0; cursor: pointer;
   font-family: $font; font-size: 13px; font-weight: 700; color: $accent;

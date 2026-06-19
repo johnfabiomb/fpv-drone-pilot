@@ -2,8 +2,11 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, DatePipe, CurrencyPipe } from '@angular/common';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { FormsModule } from '@angular/forms';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ConfirmService } from '@booking/ui/confirm/confirm.service';
+import { ModalComponent } from '@booking/ui/modal/modal.component';
 import { BookingSummary, PaymentStatus } from '@booking/core/interfaces/booking.interface';
 
 const PAYMENT_LABELS: Record<PaymentStatus, string> = {
@@ -29,7 +32,7 @@ const EMPTY_TEXT: Record<BookingTab, string> = {
 @Component({
   selector: 'app-booking-list',
   standalone: true,
-  imports: [RouterLink, NgClass, DatePipe, CurrencyPipe, CdkMenuTrigger, CdkMenu, CdkMenuItem],
+  imports: [RouterLink, NgClass, DatePipe, CurrencyPipe, CdkMenuTrigger, CdkMenu, CdkMenuItem, FormsModule, ModalComponent],
   templateUrl: './booking-list.component.html',
   styleUrl: './booking-list.component.scss',
 })
@@ -37,6 +40,7 @@ export class BookingListComponent {
   readonly data = inject(BookingDataService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
   readonly copiedId = signal<string | null>(null);
   readonly busyId = signal<string | null>(null);
 
@@ -60,16 +64,14 @@ export class BookingListComponent {
   private static readonly ACTIVE = ['booked', 'in_progress', 'done'];
   private startMs(b: BookingSummary): number { return new Date(b.start_at).getTime(); }
   private endMs(b: BookingSummary): number { return new Date(b.end_at).getTime(); }
-  /** Local midnight today — "upcoming" includes everything from today onward. */
-  private todayStartMs(): number { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); }
 
   /** Whether a booking belongs in a given tab. */
   private inTab(b: BookingSummary, tab: BookingTab, now: number): boolean {
     const active = BookingListComponent.ACTIVE.includes(b.status);
     switch (tab) {
-      // Upcoming = anything happening today or later — real OR imported (external) events.
-      case 'upcoming':  return (b.status === 'booked' || b.status === 'in_progress') && this.endMs(b) >= this.todayStartMs();
-      case 'past':      return !b.is_external && active && this.endMs(b) < this.todayStartMs();
+      // Upcoming = happening now or still to come (hasn't ended yet) — real OR external.
+      case 'upcoming':  return (b.status === 'booked' || b.status === 'in_progress') && this.endMs(b) >= now;
+      case 'past':      return !b.is_external && active && this.endMs(b) < now;
       case 'pending':   return b.status === 'pending';
       case 'unpaid':    return active && !b.is_external && (b.payment_status === 'unpaid' || b.payment_status === 'partial');
       case 'paid':      return active && !b.is_external && b.payment_status === 'paid';
@@ -166,7 +168,7 @@ export class BookingListComponent {
   }
 
   async decline(b: BookingSummary): Promise<void> {
-    if (!confirm(`Decline ${b.booking_ref}?`)) return;
+    if (!(await this.confirm.ask({ title: 'Decline request', message: `Decline ${b.booking_ref}?`, confirmLabel: 'Decline', danger: true }))) return;
     this.busyId.set(b.id);
     try {
       await this.data.declineRequest(b.id);
@@ -177,18 +179,18 @@ export class BookingListComponent {
   }
 
   async cancel(b: BookingSummary): Promise<void> {
-    if (!confirm(
-      `Cancel ${b.booking_ref} (${b.client_name ?? 'no client'})?\n\n` +
-      `This frees the slot and removes it from your calendar.\nThis cannot be undone.`,
-    )) return;
+    if (!(await this.confirm.ask({
+      title: 'Cancel booking',
+      message: `Cancel ${b.booking_ref} (${b.client_name ?? 'no client'})? This frees the slot and removes it from your calendar. This cannot be undone.`,
+      confirmLabel: 'Cancel booking', cancelLabel: 'Keep it', danger: true,
+    }))) return;
     let refund = false;
     if (b.total_paid > 0) {
-      refund = confirm(
-        `€${b.total_paid} has been paid on this booking.\n\n` +
-        `OK = refund any CARD payments via Stripe now.\n` +
-        `Cancel = cancel without refunding.\n\n` +
-        `(Cash / Revolut / bank payments are settled by you directly.)`,
-      );
+      refund = await this.confirm.ask({
+        title: 'Refund card payments?',
+        message: `€${b.total_paid} has been paid on this booking. Refund any CARD payments via Stripe now? (Cash / Revolut / bank payments are settled by you directly.)`,
+        confirmLabel: 'Refund now', cancelLabel: 'Don’t refund',
+      });
     }
     this.busyId.set(b.id);
     try {
@@ -204,6 +206,36 @@ export class BookingListComponent {
     } catch {
       this.toast.error(`Could not cancel ${b.booking_ref}. Please try again.`);
     } finally { this.busyId.set(null); }
+  }
+
+  // ── Delete an imported/external booking (single modal, with calendar choice) ──
+  readonly deleteOpen = signal(false);
+  readonly deleteTarget = signal<BookingSummary | null>(null);
+  readonly removeEvent = signal(true);
+  readonly deleting = signal(false);
+
+  askDelete(b: BookingSummary): void {
+    this.deleteTarget.set(b);
+    this.removeEvent.set(!!b.google_event_id);   // default: also remove the calendar event when there is one
+    this.deleteOpen.set(true);
+  }
+  closeDelete(): void { this.deleteOpen.set(false); this.deleteTarget.set(null); }
+
+  async confirmDelete(): Promise<void> {
+    const b = this.deleteTarget();
+    if (!b) return;
+    this.deleting.set(true);
+    try {
+      const remove = this.removeEvent() && !!b.google_event_id;
+      const res = await this.data.deleteBooking(b.id, remove);
+      if (res.error) { this.toast.error(`Could not delete ${b.booking_ref}.`); return; }
+      this.toast.success(`${b.booking_ref} deleted${remove ? ' · removed from Google Calendar' : ''}`);
+      this.closeDelete();
+    } catch {
+      this.toast.error(`Could not delete ${b.booking_ref}. Please try again.`);
+    } finally {
+      this.deleting.set(false);
+    }
   }
 
   paymentLabel(status: PaymentStatus): string { return PAYMENT_LABELS[status] ?? status; }

@@ -7,7 +7,7 @@ import { BookingAdminService, AdminService, AdminStaff } from '@booking/core/ser
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
 import { LineItem } from '@booking/core/interfaces/invoice.interface';
-import { Client } from '@booking/core/interfaces/booking.interface';
+import { Client, BookingSlot } from '@booking/core/interfaces/booking.interface';
 import { AvailabilityPickerComponent, PickedSlot } from './availability-picker.component';
 import { LineItemsEditorComponent } from '@booking/ui/line-items-editor/line-items-editor.component';
 import { ClientEditorComponent } from '@booking/ui/client-editor/client-editor.component';
@@ -38,22 +38,24 @@ export class BookingFormComponent implements OnInit {
   readonly created = signal<{ ref: string; link: string | null } | null>(null);
 
   // ── Form state ──────────────────────────────────────────────────────
+  // A booking's customer is EITHER an existing client (reusable CRM record with
+  // company/VAT) OR a one-off typed name (a "quick" booking, never saved to Clients).
+  clientMode: 'existing' | 'quick' = 'existing';
   clientId = '';
+  contactName = '';
   readonly clientEditorOpen = signal(false);
   staffId = '';
 
-  // Availability picker: pick a start + end span on the worker's calendar.
-  selectedStartIso = '';
-  selectedHours = 0;        // duration chosen on the calendar (the booking's length)
-  selectedSlotLabel = '';
-  prefillStartIso = '';     // edit prefill for the picker (set once, never echoed)
-  prefillHours = 0;
+  // Availability picker: one or more time blocks on the worker's calendar (across days).
+  selectedSlots: PickedSlot[] = [];
+  prefillSlots: BookingSlot[] = [];   // edit prefill for the picker (set once, never echoed)
   readonly orgTimezone = signal('Europe/Malta');
   readonly currency = signal('EUR');
 
   // Invoice line items — the source of truth for what's charged + the total.
   // Per-line hours feed the description/price only; the calendar span sets the duration.
-  lineItems: LineItem[] = [{ description: '', amount: 0 }];
+  // Starts empty: the admin must add at least one charge (enforced by canSubmit).
+  lineItems: LineItem[] = [];
 
   title = '';
   location = '';
@@ -62,6 +64,7 @@ export class BookingFormComponent implements OnInit {
   depositMode: 'deposit' | 'full' = 'deposit';
   depositPercent = 30;
   needsProduction = false;   // add to the Work board (editing → delivery)?
+  addToCalendar = true;      // confirm now → push to Google Calendar immediately
 
   private orgDefaults = { depositPercent: 30, depositAllowed: true };
 
@@ -97,7 +100,11 @@ export class BookingFormComponent implements OnInit {
     if (!b) { this.errorMsg.set('Booking not found.'); return; }
     this.editingId.set(id);
     this.editingRef = b.booking_ref;
-    this.clientId = b.client_id ?? '';
+    if (b.client_id) {
+      this.clientMode = 'existing'; this.clientId = b.client_id; this.contactName = '';
+    } else if (b.contact_name) {
+      this.clientMode = 'quick'; this.contactName = b.contact_name; this.clientId = '';
+    }
     this.staffId = b.staff_id;
     this.title = b.title;
     this.location = b.location ?? '';
@@ -107,12 +114,8 @@ export class BookingFormComponent implements OnInit {
     this.depositPercent = b.deposit_percent ?? this.orgDefaults.depositPercent;
     this.needsProduction = b.needs_production ?? false;
 
-    const dur = Math.max(1, Math.round((new Date(b.end_at).getTime() - new Date(b.start_at).getTime()) / 3_600_000));
-    this.selectedStartIso = b.start_at;
-    this.selectedHours = dur;
-    this.prefillStartIso = b.start_at;   // positions + pre-selects the span in the picker
-    this.prefillHours = dur;
-    this.selectedSlotLabel = this.rangeLabel(b.start_at, dur);
+    // Seed the picker from the booking's real time blocks (one or more).
+    this.prefillSlots = await this.data.getBookingSlots(id);
 
     // Load the invoice line items (saved breakdown, or a single line derived from the booking).
     const items = await this.data.getInvoiceItems(id);
@@ -126,39 +129,28 @@ export class BookingFormComponent implements OnInit {
   /** Booking total = sum of the line items (source of truth). */
   get priceTotal(): number { return this.lineItems.reduce((s, i) => s + (Number(i.amount) || 0), 0); }
   get selectedClient(): Client | undefined { return this.data.clients().find(c => c.id === this.clientId); }
-  get startAtValue(): string { return this.selectedStartIso; }
-
-  /** "20 Jun · 08:00–13:00" in the org's timezone. */
-  private rangeLabel(startIso: string, hours: number): string {
-    const tz = this.orgTimezone();
-    const start = new Date(startIso);
-    const end = new Date(start.getTime() + hours * 3_600_000);
-    const day = start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: tz });
-    const t = (d: Date) => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz });
-    return `${day} · ${t(start)}–${t(end)}`;
+  /** A customer is set when an existing client is picked, or a quick name is typed. */
+  get hasCustomer(): boolean {
+    return this.clientMode === 'existing' ? !!this.clientId : this.contactName.trim().length > 0;
   }
+  /** The DB slots to persist (one row per chosen block). */
+  get slotsValue(): BookingSlot[] { return this.selectedSlots.map(s => ({ start: s.iso, end: s.endIso })); }
 
   // ── Change handlers ─────────────────────────────────────────────────
-  // Charges (pricing) are decoupled from the calendar span — editing items never touches the time.
+  // Charges (pricing) are decoupled from the calendar — editing items never touches the time blocks.
   onItemsChange(items: LineItem[]): void { this.lineItems = items; }
-  onWorkerChange(): void { this.resetSlotSelection(); }
-  private resetSlotSelection(): void { this.selectedStartIso = ''; this.selectedHours = 0; this.selectedSlotLabel = ''; }
-
-  onSlotPicked(slot: PickedSlot): void {
-    this.selectedStartIso = slot.iso;
-    this.selectedHours = slot.hours;
-    this.selectedSlotLabel = slot.label;
-  }
+  // The picker clears its blocks (and emits []) when the worker changes, so no manual reset needed.
+  onSlotsChanged(slots: PickedSlot[]): void { this.selectedSlots = slots; }
 
   // ── Client (reuses the full client editor — never a stub) ────────────
   openClientEditor(): void { this.clientEditorOpen.set(true); }
-  onClientCreated(c: Client): void { this.clientId = c.id; }
+  onClientCreated(c: Client): void { this.clientMode = 'existing'; this.clientId = c.id; }
 
   // ── Submit ──────────────────────────────────────────────────────────
   get canSubmit(): boolean {
     const itemsOk = this.lineItems.length > 0
       && this.lineItems.every(i => i.description.trim().length > 0) && this.priceTotal > 0;
-    return !this.saving() && !!this.clientId && !!this.staffId && !!this.startAtValue && this.selectedHours > 0
+    return !this.saving() && this.hasCustomer && !!this.staffId && this.selectedSlots.length > 0
       && itemsOk && this.title.trim().length > 0;
   }
 
@@ -177,10 +169,12 @@ export class BookingFormComponent implements OnInit {
         ...(i.hours ? { hours: i.hours } : {}),
       }));
       const shared = {
-        staffId: this.staffId, serviceId: null, clientId: this.clientId,
+        staffId: this.staffId, serviceId: null,
+        clientId: this.clientMode === 'existing' ? this.clientId : null,
+        contactName: this.clientMode === 'quick' ? this.contactName.trim() : null,
         title: this.title.trim(),
         description: items.map(i => i.description).join('\n'),  // client-facing summary on the pay page
-        startAt: this.startAtValue, hours: this.selectedHours,
+        slots: this.slotsValue,
         priceTotal: this.priceTotal,
         allowCard: this.paymentMode !== 'later',
         allowInperson: this.paymentMode !== 'card',
@@ -208,6 +202,11 @@ export class BookingFormComponent implements OnInit {
       if (res.error || !res.id) { this.errorMsg.set(this.errorText(res.error)); return; }
       // Persist the line-item breakdown as the invoice (source of truth).
       await this.data.saveInvoice(org, res.id, { lineItems: items, notes: null, issueDate: null });
+      // Confirmed → push to Google Calendar now (don't wait for the client to pay/confirm).
+      if (this.addToCalendar) await this.data.confirmToCalendar(res.id);
+      // Opted into post-production → drop a linked card on the Work board (seeds the
+      // service's task checklist). The board is otherwise managed manually.
+      if (this.needsProduction) await this.admin.addWorkItem(org, res.id, '');
       const link = await this.data.generateLink(res.id);
       this.created.set({ ref: res.ref ?? '', link });
       this.toast.success(`Booking ${res.ref ?? ''} created`);
@@ -228,16 +227,19 @@ export class BookingFormComponent implements OnInit {
 
   reset(): void {
     this.editingId.set(null);
+    this.clientMode = 'existing';
     this.clientId = '';
+    this.contactName = '';
     this.staffId = '';
-    this.resetSlotSelection();
-    this.prefillStartIso = ''; this.prefillHours = 0;
-    this.lineItems = [{ description: '', amount: 0 }];
+    this.selectedSlots = [];
+    this.prefillSlots = [];
+    this.lineItems = [];
     this.title = ''; this.location = ''; this.notes = '';
     this.paymentMode = 'both';
     this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
     this.depositPercent = this.orgDefaults.depositPercent;
     this.needsProduction = false;
+    this.addToCalendar = true;
     this.created.set(null); this.errorMsg.set('');
   }
 

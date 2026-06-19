@@ -18,7 +18,8 @@
       <div class="head-actions">
         <button class="btn btn--ghost" (click)="copyLink()">{{ copied() ? '✓ Copied' : 'Copy link' }}</button>
         <a class="btn btn--ghost" [href]="'/book/invoice/' + id" target="_blank" rel="noopener">Invoice</a>
-        <a class="btn btn--ghost" [routerLink]="['/bookings/invoice-edit', id]">Edit invoice</a>
+        <button class="btn btn--ghost" (click)="copyInvoiceLink()">Copy invoice link</button>
+        <a class="btn btn--ghost" [routerLink]="['/bookings/invoice-edit', id]" [queryParams]="{ from: 'booking' }">Edit invoice</a>
         <button class="btn btn--ghost" (click)="goEdit()">Edit</button>
       </div>
     </div>
@@ -51,7 +52,7 @@
       <div class="card">
         <div class="card__head">
           <h2 class="card__title">What's billed</h2>
-          <a class="link-btn" [routerLink]="['/bookings/invoice-edit', id]">Edit invoice</a>
+          <a class="link-btn" [routerLink]="['/bookings/invoice-edit', id]" [queryParams]="{ from: 'booking' }">Edit invoice</a>
         </div>
         <ul class="items">
           @for (it of lineItems(); track $index) {
@@ -67,7 +68,18 @@
 
     <!-- Booking facts -->
     <div class="card facts">
-      <div class="fact"><span class="fact__k">Date</span><span class="fact__v">{{ b.start_at | date:'EEE d MMM y, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span></div>
+      @if (slots().length > 1) {
+        <div class="fact fact--blocks">
+          <span class="fact__k">Time blocks</span>
+          <span class="fact__v">
+            @for (s of slots(); track s.start) {
+              <span class="block-line">{{ s.start | date:'EEE d MMM, HH:mm' }} – {{ s.end | date:'HH:mm' }}</span>
+            }
+          </span>
+        </div>
+      } @else {
+        <div class="fact"><span class="fact__k">Date</span><span class="fact__v">{{ b.start_at | date:'EEE d MMM y, HH:mm' }} – {{ b.end_at | date:'HH:mm' }}</span></div>
+      }
       <div class="fact"><span class="fact__k">Service</span><span class="fact__v">{{ b.service_name ?? '—' }}</span></div>
       <div class="fact"><span class="fact__k">Worker</span><span class="fact__v">{{ b.staff_name ?? '—' }}</span></div>
       <div class="fact"><span class="fact__k">Status</span><span class="fact__v">{{ b.status }}</span></div>

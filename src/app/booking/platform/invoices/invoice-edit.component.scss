@@ -3,7 +3,11 @@
 :host { display: block; }
 
 .page__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-.back { font-size: 12.5px; color: $accent; text-decoration: none; font-weight: 600; }
+.back {
+  display: inline-block; padding: 0; border: none; background: none; cursor: pointer; font-family: inherit;
+  font-size: 12.5px; color: $accent; text-decoration: none; font-weight: 600;
+  &:hover { text-decoration: underline; }
+}
 .tag { font-size: 11px; font-weight: 700; color: #b45309; background: #fef3c7; padding: 2px 8px; border-radius: 10px; }
 
 .card { padding: 20px; margin-bottom: 16px; }

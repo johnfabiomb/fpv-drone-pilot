@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/map/features/experiences/experience-page/experience-page.component.ts"],
-  "sourcesContent": [":host { display: contents; }"],
-  "mappings": ";AAAA;AAAQ,WAAA;;",
-  "names": []
-}

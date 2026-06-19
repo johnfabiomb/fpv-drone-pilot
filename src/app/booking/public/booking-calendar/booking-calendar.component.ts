@@ -48,7 +48,7 @@ export class BookingCalendarComponent implements OnInit {
   readonly cells = computed<CalendarDayCell[]>(() => {
     const y = this.viewYear(), m = this.viewMonth();
     const avail = new Set((this.response()?.days ?? []).filter(d => d.slots.some(s => s.available)).map(d => d.date));
-    const firstDow = new Date(y, m, 1).getDay();
+    const firstDow = (new Date(y, m, 1).getDay() + 6) % 7;   // Monday-first (grid header is Mon…Sun)
     const dim = new Date(y, m + 1, 0).getDate();
     const todayStr = toDateStr(this.today);
     const cells: CalendarDayCell[] = [];

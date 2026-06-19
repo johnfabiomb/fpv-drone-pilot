@@ -1,0 +1,13 @@
+@if (open()) {
+  <div class="modal-overlay" (click)="onBackdrop()">
+    <div class="modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="modal__head">
+        @if (title()) { <h2 class="modal__title">{{ title() }}</h2> }
+        <button type="button" class="modal__x" (click)="close()" aria-label="Close">×</button>
+      </div>
+      <div class="modal__body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}

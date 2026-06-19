@@ -20,6 +20,19 @@
 }
 .btn--sm { padding: 8px 14px; font-size: 12.5px; white-space: nowrap; }
 
+// Segmented toggle: existing client vs one-off name
+.seg {
+  display: inline-flex; gap: 0; margin-bottom: 8px;
+  border: 1px solid $border; border-radius: $radius-md; overflow: hidden;
+  &__btn {
+    padding: 7px 14px; font-size: 12.5px; font-weight: 600; font-family: inherit;
+    background: $card; color: $text-2; border: none; cursor: pointer; transition: $transition;
+    & + & { border-left: 1px solid $border; }
+    &:hover:not(&--on) { background: $bg; }
+    &--on { background: $accent; color: #fff; }
+  }
+}
+
 .check {
   display: flex; align-items: flex-start; gap: 10px; cursor: pointer;
   input { width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0; cursor: pointer; accent-color: $accent; }

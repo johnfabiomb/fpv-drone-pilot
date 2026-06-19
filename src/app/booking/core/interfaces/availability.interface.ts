@@ -36,5 +36,6 @@ export interface CalendarSlotView extends HourSlot {
   isStart?: boolean;          // first cell of the selection (rounded left)
   isEnd?: boolean;            // last cell of the selection (rounded right)
   unstartable?: boolean;      // free, but a block can't start here (too close to a busy slot / day end)
+  mine?: boolean;             // already part of THIS booking's selected blocks (on the shown day)
   busyReason?: string | null; // ADMIN ONLY — who/what occupies this slot; never set for public
 }

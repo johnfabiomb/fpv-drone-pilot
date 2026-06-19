@@ -114,11 +114,13 @@ Deno.serve(async (req) => {
       if (!startAt || !endAt) continue;
 
       // Per-event so one bad row (e.g. overlaps an existing booking, 23P01)
-      // doesn't abort the whole sync.
-      const { error } = await supabase.from('bookings').insert({
+      // doesn't abort the whole sync. The imported event's title becomes the
+      // booking's contact_name so it shows a customer (no client row is created).
+      const { data: created, error } = await supabase.from('bookings').insert({
         org_id:         calendarOrg,
         staff_id:       calendarStaffId,
         title:          e.summary ?? 'External event',
+        contact_name:   e.summary ?? null,
         start_at:       startAt,
         end_at:         endAt,
         google_event_id: e.id,
@@ -126,8 +128,14 @@ Deno.serve(async (req) => {
         status:         'booked',
         price_total:    0,
         price_expenses: 0,
+      }).select('id').single();
+      if (error || !created) { pullErrors.push(`${e.summary ?? e.id}: ${error?.message ?? 'insert failed'}`); continue; }
+      // A booking blocks availability through its slots, so the import needs one too
+      // (carries the same Google event id). Without it the event wouldn't show as busy.
+      await supabase.from('booking_slots').insert({
+        org_id: calendarOrg, booking_id: created.id, staff_id: calendarStaffId,
+        start_at: startAt, end_at: endAt, google_event_id: e.id,
       });
-      if (error) { pullErrors.push(`${e.summary ?? e.id}: ${error.message}`); continue; }
       pulled++;
     }
 

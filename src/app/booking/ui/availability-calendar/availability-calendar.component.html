@@ -23,7 +23,7 @@
             <button type="button" class="cell"
               [class.cell--available]="cell.available"
               [class.cell--selected]="cell.date === selectedDate()"
-              [disabled]="!cell.available || cell.isPast"
+              [disabled]="!cell.available || (cell.isPast && !allowPast())"
               (click)="daySelected.emit(cell)">
               {{ cell.day }}
               @if (cell.available) { <span class="cell__dot"></span> }
@@ -52,7 +52,8 @@
       <div class="slots">
         @for (s of slots(); track s.hour) {
           <button type="button" class="slot"
-            [class.slot--busy]="!s.available"
+            [class.slot--busy]="!s.available && !s.mine"
+            [class.slot--mine]="s.mine"
             [class.slot--unstartable]="s.unstartable"
             [class.slot--range]="s.inRange"
             [class.slot--start]="s.isStart"

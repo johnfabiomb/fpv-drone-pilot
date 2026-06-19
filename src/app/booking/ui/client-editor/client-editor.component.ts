@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
+import { ModalComponent } from '@booking/ui/modal/modal.component';
 import { Client } from '@booking/core/interfaces/booking.interface';
 
 interface ClientDraft {
@@ -20,7 +21,7 @@ const EMPTY: ClientDraft = { name: '', email: '', phone: '', company: '', vat_nu
   selector: 'app-client-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, ModalComponent],
   templateUrl: './client-editor.component.html',
   styleUrl: './client-editor.component.scss',
 })

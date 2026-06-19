@@ -25,6 +25,13 @@ function pickName(v: unknown): string | null {
 
 const euro = (n: number) => `€${(Math.round(n * 100) / 100).toFixed(2)}`;
 
+interface SlotRow {
+  id: string;
+  start_at: string;
+  end_at: string;
+  google_event_id: string | null;
+}
+
 interface BookingRow {
   id: string;
   booking_ref: string;
@@ -41,6 +48,7 @@ interface BookingRow {
   client: unknown;
   service: unknown;
   payments: Array<{ amount: number; status: string; method: string }> | null;
+  slots: SlotRow[] | null;
 }
 
 function composeDescription(b: BookingRow): string {
@@ -79,7 +87,7 @@ function composeDescription(b: BookingRow): string {
  */
 export async function ensureBookingEvent(service: SupabaseClient, bookingId: string): Promise<string | null> {
   const { data } = await service.from('bookings')
-    .select('id, org_id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method)')
+    .select('id, org_id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method), slots:booking_slots(id, start_at, end_at, google_event_id)')
     .eq('id', bookingId)
     .single();
   if (!data) return null;
@@ -96,27 +104,43 @@ export async function ensureBookingEvent(service: SupabaseClient, bookingId: str
 
   const description = composeDescription(b);
 
-  if (b.google_event_id) {
-    // Mirror the full booking onto the existing event — title, time, location and
-    // description — so admin edits (incl. enriched imported events) sync to Google.
-    await updateCalendarEvent(b.google_event_id, {
-      summary: `${b.title} [${b.booking_ref}]`,
-      description,
-      location: b.location,
-      startAt: b.start_at,
-      endAt: b.end_at,
-    });
-    return b.google_event_id;
+  // A booking is one or more time blocks (booking_slots) → one calendar event per block,
+  // so a split day (e.g. 13:00–14:00 + 16:00–18:00) shows two events, not one long one.
+  // Legacy bookings without slot rows fall back to the booking's own start/end envelope.
+  const slots: SlotRow[] = (b.slots ?? []).slice().sort((x, y) => x.start_at.localeCompare(y.start_at));
+  if (slots.length === 0) {
+    slots.push({ id: 'envelope', start_at: b.start_at, end_at: b.end_at, google_event_id: b.google_event_id });
   }
 
-  const eventId = await createCalendarEvent({
-    title: b.title,
-    description,
-    location: b.location,
-    startAt: b.start_at,
-    endAt: b.end_at,
-    bookingRef: b.booking_ref,
-  });
-  await service.from('bookings').update({ google_event_id: eventId }).eq('id', bookingId);
-  return eventId;
+  const eventIds: string[] = [];
+  for (let i = 0; i < slots.length; i++) {
+    const slot = slots[i];
+    const summary = slots.length > 1
+      ? `${b.title} [${b.booking_ref}] (${i + 1}/${slots.length})`
+      : `${b.title} [${b.booking_ref}]`;
+
+    if (slot.google_event_id) {
+      await updateCalendarEvent(slot.google_event_id, {
+        summary, description, location: b.location, startAt: slot.start_at, endAt: slot.end_at,
+      });
+      eventIds.push(slot.google_event_id);
+    } else {
+      const eventId = await createCalendarEvent({
+        title: slots.length > 1 ? `${b.title} (${i + 1}/${slots.length})` : b.title,
+        description, location: b.location, startAt: slot.start_at, endAt: slot.end_at, bookingRef: b.booking_ref,
+      });
+      eventIds.push(eventId);
+      if (slot.id !== 'envelope') {
+        await service.from('booking_slots').update({ google_event_id: eventId }).eq('id', slot.id);
+      }
+    }
+  }
+
+  // Keep booking.google_event_id pointing at the first block's event (cancel-booking and
+  // legacy single-event callers rely on it).
+  const primary = eventIds[0] ?? null;
+  if (primary && primary !== b.google_event_id) {
+    await service.from('bookings').update({ google_event_id: primary }).eq('id', bookingId);
+  }
+  return primary;
 }

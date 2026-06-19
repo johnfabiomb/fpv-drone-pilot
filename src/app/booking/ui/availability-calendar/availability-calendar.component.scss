@@ -81,6 +81,12 @@
   &--start { border-top-left-radius: $radius-lg; border-bottom-left-radius: $radius-lg; }
   &--end   { border-top-right-radius: $radius-lg; border-bottom-right-radius: $radius-lg; }
 
+  /* Already part of this booking's selected blocks (a different day's blocks live in the list). */
+  &--mine {
+    background: $accent; border-color: $accent; color: #fff; border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(244, 169, 34, 0.35); cursor: default;
+  }
+
   /* Free, but a block of the requested length can't start here. */
   &--unstartable {
     background: $bg; border-style: dashed; border-color: $border; color: $text-3; cursor: default;

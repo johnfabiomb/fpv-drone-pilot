@@ -94,7 +94,7 @@
           <thead>
             <tr>
               <th>Ref</th><th>Client</th><th>Job</th><th>When</th>
-              <th>Total</th><th>Revenue</th><th>Payment</th><th>Status</th><th></th>
+              <th>Total</th><th>Payment</th><th>Status</th><th></th>
             </tr>
           </thead>
           <tbody>
@@ -108,10 +108,10 @@
                 <td class="cell--title">{{ b.title }}</td>
                 <td class="cell--date">
                   <span class="when__abs">{{ b.start_at | date:'EEE d MMM, HH:mm' }}</span>
+                  @if (b.slot_count > 1) { <span class="when__blocks" title="Split into multiple time blocks">+{{ b.slot_count - 1 }} block{{ b.slot_count > 2 ? 's' : '' }}</span> }
                   @if (relative(b)) { <span class="when__rel">{{ relative(b) }}</span> }
                 </td>
                 <td>{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</td>
-                <td>{{ b.price_revenue | currency:'EUR':'symbol':'1.0-0' }}</td>
                 <td>
                   <div class="pay-cell">
                     <span class="badge" [ngClass]="paymentClass(b.payment_status)">{{ paymentLabel(b.payment_status) }}</span>
@@ -144,7 +144,17 @@
                       </div>
                     </ng-template>
                   } @else {
-                    <button class="link-btn" (click)="goEdit(b)">Edit / enrich</button>
+                    <button class="kebab" [cdkMenuTriggerFor]="extMenu" [disabled]="busyId() === b.id" aria-label="More actions">
+                      <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                        <circle cx="10" cy="4" r="1.7"/><circle cx="10" cy="10" r="1.7"/><circle cx="10" cy="16" r="1.7"/>
+                      </svg>
+                    </button>
+                    <ng-template #extMenu>
+                      <div class="menu" cdkMenu>
+                        <button class="menu__item" cdkMenuItem (click)="goEdit(b)">Edit / enrich</button>
+                        <button class="menu__item menu__item--danger" cdkMenuItem (click)="askDelete(b)">Delete</button>
+                      </div>
+                    </ng-template>
                   }
                 </td>
               </tr>
@@ -154,4 +164,23 @@
       </div>
     }
   }
+
+  <!-- Delete confirmation (external bookings) -->
+  <app-modal [open]="deleteOpen()" (openChange)="$event || closeDelete()" title="Delete booking">
+    @if (deleteTarget(); as t) {
+      <p class="del-text">Delete <strong>{{ t.title }}</strong>?<br>This removes it from your bookings and can't be undone.</p>
+      @if (t.google_event_id) {
+        <label class="del-check">
+          <input type="checkbox" [ngModel]="removeEvent()" (ngModelChange)="removeEvent.set($event)" name="removeEvent" />
+          <span>Also remove the event from Google Calendar</span>
+        </label>
+      }
+      <div class="del-actions">
+        <button type="button" class="btn btn--ghost" (click)="closeDelete()">Cancel</button>
+        <button type="button" class="btn btn--danger" [disabled]="deleting()" (click)="confirmDelete()">
+          {{ deleting() ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    }
+  </app-modal>
 </div>

@@ -42,8 +42,9 @@
         <section class="bill-to">
           <div class="block-label">Bill to</div>
           @if (d.client; as c) {
+            <!-- Bill to the company (the legal billing entity); the person's name is only
+                 used as a fallback when there is no company. -->
             <p class="bill-to__name">{{ c.company || c.name }}</p>
-            @if (c.company && c.name) { <p class="muted">{{ c.name }}</p> }
             @if (c.billing_address) { <p class="muted pre">{{ c.billing_address }}</p> }
             @if (c.vat_number) { <p class="muted">VAT No: {{ c.vat_number }}</p> }
             @if (c.email) { <p class="muted">{{ c.email }}</p> }

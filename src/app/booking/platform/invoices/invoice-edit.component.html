@@ -7,7 +7,7 @@
   } @else {
     <div class="page__head">
       <div>
-        <a class="back" [routerLink]="['/bookings', id]">← Back to booking</a>
+        <button type="button" class="back" (click)="leave()">{{ backLabel }}</button>
         <h1 class="page__title">Edit invoice {{ invoiceNumber }}</h1>
         <p class="page__sub">
           {{ clientName }}
@@ -36,7 +36,7 @@
       @if (customized()) {
         <button class="btn btn--ghost" [disabled]="saving()" (click)="resetToBooking()">Reset to booking</button>
       }
-      <a class="btn btn--ghost" [routerLink]="['/bookings', id]">Cancel</a>
+      <button type="button" class="btn btn--ghost" (click)="leave()">Cancel</button>
     </div>
   }
 </div>

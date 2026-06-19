@@ -34,6 +34,7 @@ export class AvailabilityCalendarComponent {
   readonly emptyText = input<string>('No times available on this day.');
   readonly showBusyReason = input<boolean>(false);
   readonly hasSelection = input<boolean>(false);
+  readonly allowPast = input<boolean>(false);   // admin can book past days; public can't
 
   readonly prevMonth = output<void>();
   readonly nextMonth = output<void>();

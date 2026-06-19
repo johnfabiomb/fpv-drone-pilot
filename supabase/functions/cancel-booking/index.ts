@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     if (!user) return json({ error: 'not signed in' }, 401);
 
     const { data: booking } = await service.from('bookings')
-      .select('id, org_id, google_event_id, status').eq('id', bookingId).maybeSingle();
+      .select('id, org_id, google_event_id, status, slots:booking_slots(id, google_event_id)').eq('id', bookingId).maybeSingle();
     if (!booking) return json({ error: 'not_found' });
 
     const { data: member } = await service.from('org_members')
@@ -65,9 +65,22 @@ Deno.serve(async (req) => {
     // Cancel + free the slot
     await service.from('bookings').update({ status: 'cancelled', hold_expires_at: null }).eq('id', bookingId);
 
-    // Remove the calendar event — only forget the id once we know it's actually gone,
-    // so a transient failure doesn't orphan the event on the calendar with no way back.
+    // Remove every block's calendar event (a booking can be several time blocks) — only
+    // forget an id once we know it's actually gone, so a transient failure doesn't orphan
+    // the event on the calendar with no way back.
     let calendarCleared = true;
+    const slots = (booking.slots ?? []) as Array<{ id: string; google_event_id: string | null }>;
+    for (const slot of slots) {
+      if (!slot.google_event_id) continue;
+      try {
+        await deleteCalendarEvent(slot.google_event_id);
+        await service.from('booking_slots').update({ google_event_id: null }).eq('id', slot.id);
+      } catch (e) {
+        calendarCleared = false;
+        console.error('GCal slot delete failed:', (e as Error).message);
+      }
+    }
+    // Legacy bookings store the event id on the booking row itself.
     if (booking.google_event_id) {
       try {
         await deleteCalendarEvent(booking.google_event_id);

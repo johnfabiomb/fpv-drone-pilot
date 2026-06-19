@@ -18,27 +18,32 @@ function tzOffsetMs(instant: Date, tz: string): number {
 }
 
 /**
- * The UTC instant for a wall-clock hour on `dateStr` (YYYY-MM-DD) in `tz`.
- * Iterates to settle the offset across DST boundaries.
+ * The UTC instant for a wall-clock time (hour:minute) on `dateStr` (YYYY-MM-DD)
+ * in `tz`. Iterates to settle the offset across DST boundaries.
  */
-export function zonedHourToUtc(dateStr: string, hour: number, tz: string): Date {
+export function zonedClockToUtc(dateStr: string, hour: number, minute: number, tz: string): Date {
   const [y, m, d] = dateStr.split('-').map(Number);
-  let ms = Date.UTC(y, m - 1, d, hour, 0, 0);
+  let ms = Date.UTC(y, m - 1, d, hour, minute, 0);
   for (let i = 0; i < 2; i++) {
-    const corrected = Date.UTC(y, m - 1, d, hour, 0, 0) - tzOffsetMs(new Date(ms), tz);
+    const corrected = Date.UTC(y, m - 1, d, hour, minute, 0) - tzOffsetMs(new Date(ms), tz);
     if (corrected === ms) break;
     ms = corrected;
   }
   return new Date(ms);
 }
 
-/** Express a UTC instant as its wall-clock date (YYYY-MM-DD) + hour in `tz`. */
-export function utcToZoned(instant: Date, tz: string): { dateStr: string; hour: number } {
+/** Convenience: top-of-the-hour variant of {@link zonedClockToUtc}. */
+export function zonedHourToUtc(dateStr: string, hour: number, tz: string): Date {
+  return zonedClockToUtc(dateStr, hour, 0, tz);
+}
+
+/** Express a UTC instant as its wall-clock date (YYYY-MM-DD) + hour + minute in `tz`. */
+export function utcToZoned(instant: Date, tz: string): { dateStr: string; hour: number; minute: number } {
   const dtf = new Intl.DateTimeFormat('en-CA', {
     timeZone: tz, hourCycle: 'h23',
-    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit',
+    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',
   });
   const p: Record<string, string> = {};
   for (const part of dtf.formatToParts(instant)) p[part.type] = part.value;
-  return { dateStr: `${p['year']}-${p['month']}-${p['day']}`, hour: +p['hour'] };
+  return { dateStr: `${p['year']}-${p['month']}-${p['day']}`, hour: +p['hour'], minute: +p['minute'] };
 }

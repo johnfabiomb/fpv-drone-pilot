@@ -22,6 +22,7 @@ interface BookingDetails {
   allow_inperson: boolean;
   deposit_percent: number | null;
   deposit_allowed: boolean | null;
+  google_event_id: string | null;   // present ⇒ already confirmed / on the calendar
 }
 
 @Component({
@@ -54,6 +55,9 @@ export class BookPageComponent implements OnInit {
     const b = this.booking();
     return b ? new Date(b.start_at) <= new Date() : false;
   }
+
+  /** Printable invoice, accessible without login via the booking-link token. */
+  get invoiceUrl(): string { return `/book/invoice?token=${this.token}`; }
 
   get showCard(): boolean { return this.booking()?.allow_card ?? false; }
   get showInperson(): boolean { return this.booking()?.allow_inperson ?? false; }
@@ -113,7 +117,7 @@ export class BookPageComponent implements OnInit {
     try {
       const { data: link, error } = await supabase
         .from('booking_links')
-        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed)')
+        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed, google_event_id)')
         .eq('token', this.token)
         .single();
 
@@ -131,6 +135,9 @@ export class BookPageComponent implements OnInit {
 
       if (paymentStatus === 'paid')    { this.totalPaid.set(totalPaid); this.state.set('paid');    return; }
       if (paymentStatus === 'partial') { this.totalPaid.set(totalPaid); this.state.set('partial'); return; }
+      // Already confirmed / on the calendar (admin pre-confirmed, or the client already
+      // accepted) — show the confirmed state + invoice rather than the action buttons.
+      if (b.google_event_id) { this.state.set('confirmed'); return; }
       if (!available) { this.state.set('unavailable'); return; }
 
       await this.loadStripeJs();

@@ -18,6 +18,8 @@ export class BookingsAuthService {
   readonly features = signal<{ work_board?: boolean }>({});
   private _initPromise: Promise<void> | null = null;
   private currentUserId: string | null = null;
+  /** Last user we resolved — dedupes the getSession + onAuthStateChange double-run on load. */
+  private lastResolvedUser: string | null = null;
 
   initialize(): Promise<void> {
     if (this._initPromise) return this._initPromise;
@@ -48,9 +50,7 @@ export class BookingsAuthService {
 
       bookingsDb.auth.getSession().then(async ({ data: { session } }) => {
         clearTimeout(timeout);
-        console.log('[BookingsAuth] getSession →', session ? `uid=${session.user.id}` : 'null');
         await this.resolveRole(session?.user?.id ?? null);
-        console.log('[BookingsAuth] state →', this.state());
         settle();
       }).catch(() => {
         clearTimeout(timeout);
@@ -70,7 +70,6 @@ export class BookingsAuthService {
       // out. Defer with setTimeout(0) so _initialize() can resolve first, then run
       // the role lookup against a working session. (Documented Supabase footgun.)
       bookingsDb.auth.onAuthStateChange((event, session) => {
-        console.log('[BookingsAuth] auth event:', event, session?.user?.id ?? 'null');
         if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
           setTimeout(() => { void this.resolveRole(session?.user?.id ?? null); }, 0);
         }
@@ -97,6 +96,7 @@ export class BookingsAuthService {
   async signOut(): Promise<void> {
     await bookingsDb.auth.signOut();
     localStorage.removeItem(ROLE_CACHE_KEY);
+    this.lastResolvedUser = null;
     this.state.set('signed-out');
   }
 
@@ -104,7 +104,7 @@ export class BookingsAuthService {
 
   /** Re-resolve the user's orgs/role (e.g. after creating an org or adding a member). */
   async refresh(): Promise<void> {
-    if (this.currentUserId) await this.resolveRole(this.currentUserId);
+    if (this.currentUserId) await this.resolveRole(this.currentUserId, true);
   }
 
   /** Switch the active org (used by the sidebar switcher). Must be one of `orgs()`. */
@@ -114,16 +114,24 @@ export class BookingsAuthService {
   }
 
   private applyActiveOrg(orgId: string): void {
+    const orgChanged = this.orgId() !== orgId;
     this.orgId.set(orgId);
     if (this.currentUserId) {
       localStorage.setItem(ROLE_CACHE_KEY, JSON.stringify({ uid: this.currentUserId, org: orgId }));
     }
-    this.features.set({});
+    // Only blank the flags when actually switching org — re-resolving the same org
+    // shouldn't flash dependent UI (e.g. the Work tab) off and back on.
+    if (orgChanged) this.features.set({});
     bookingsDb.from('organizations').select('features').eq('id', orgId).maybeSingle()
       .then(({ data: o }) => this.features.set(((o as { features?: { work_board?: boolean } } | null)?.features ?? {})));
   }
 
-  private async resolveRole(userId: string | null): Promise<void> {
+  private async resolveRole(userId: string | null, force = false): Promise<void> {
+    // Dedupe: getSession() and onAuthStateChange('SIGNED_IN') both fire on load for the
+    // same user — resolve once (unless forced via refresh()) to avoid hammering the DB.
+    if (!force && userId && userId === this.lastResolvedUser) return;
+    this.lastResolvedUser = userId;
+
     if (!userId) {
       this.currentUserId = null;
       this.orgs.set([]);
@@ -141,7 +149,6 @@ export class BookingsAuthService {
         .eq('user_id', userId)
         .in('role', ['owner', 'admin'])
         .order('role');
-      console.log('[BookingsAuth] org_members →', data, error ?? '');
 
       if (error) {
         console.warn('[BookingsAuth] org_members error (keeping current state):', error.message);
@@ -172,7 +179,6 @@ export class BookingsAuthService {
       this.applyActiveOrg(active);
       this.state.set('admin');
     } catch (err) {
-      console.log('[BookingsAuth] org_members threw →', err);
       if (this.state() === 'loading') this.state.set('no-access');
     }
   }

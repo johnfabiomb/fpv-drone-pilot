@@ -132,7 +132,13 @@ CREATE TABLE public.bookings (
   org_id          UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   staff_id        UUID NOT NULL REFERENCES public.staff(id) ON DELETE RESTRICT,
   service_id      UUID REFERENCES public.services(id) ON DELETE SET NULL,
+  -- A booking identifies its customer EITHER by a real client row (client_id — the
+  -- reusable, invoiceable CRM relationship with company/VAT) OR by a one-off typed
+  -- name (contact_name — a "walk-in"/quick booking never persisted to the clients
+  -- table). The booking_has_name CHECK enforces exactly that for new/edited rows;
+  -- external (imported calendar) blocks are exempt — they're nameless time holds.
   client_id       UUID REFERENCES public.clients(id) ON DELETE SET NULL,
+  contact_name    TEXT,
   booking_ref     TEXT NOT NULL,
   title           TEXT NOT NULL,
   description     TEXT,
@@ -154,14 +160,131 @@ CREATE TABLE public.bookings (
   notes           TEXT,
   created_at      TIMESTAMPTZ DEFAULT now(),
   updated_at      TIMESTAMPTZ DEFAULT now(),
-  UNIQUE (org_id, booking_ref)
+  UNIQUE (org_id, booking_ref),
+  CONSTRAINT booking_has_name CHECK (client_id IS NOT NULL OR contact_name IS NOT NULL OR is_external)
 );
 
--- Concurrency guarantee: a worker can't be double-booked (services share the
--- worker's calendar). Different workers may overlap. SQLSTATE 23P01 on conflict.
-ALTER TABLE public.bookings ADD CONSTRAINT bookings_no_overlap
+-- Concurrency guarantee lives on booking_slots (below): a booking can occupy
+-- several time blocks, so the no-overlap EXCLUDE is per-slot, per-worker. The old
+-- bookings_no_overlap constraint was dropped in favour of booking_slots_no_overlap.
+-- bookings.start_at/end_at is the ENVELOPE (earliest start → latest end of its slots).
+
+-- ── Multi-slot: a booking occupies one or more time blocks (any days) ──────────
+CREATE TABLE IF NOT EXISTS public.booking_slots (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  org_id     UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
+  booking_id UUID NOT NULL REFERENCES public.bookings(id) ON DELETE CASCADE,
+  staff_id   UUID NOT NULL REFERENCES public.staff(id) ON DELETE RESTRICT,
+  start_at   TIMESTAMPTZ NOT NULL,
+  end_at     TIMESTAMPTZ NOT NULL,
+  blocking   BOOLEAN NOT NULL DEFAULT true,   -- mirrors booking status (reserves the worker)
+  google_event_id TEXT,                       -- per-slot Google Calendar event
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS booking_slots_booking_idx ON public.booking_slots(booking_id);
+CREATE INDEX IF NOT EXISTS booking_slots_staff_idx   ON public.booking_slots(staff_id);
+
+-- A slot reserves the worker only while its booking is in a blocking status.
+CREATE OR REPLACE FUNCTION public.slot_set_blocking() RETURNS TRIGGER
+LANGUAGE plpgsql AS $f$
+BEGIN
+  SELECT (status IN ('hold','booked','in_progress','done')) INTO NEW.blocking
+    FROM public.bookings WHERE id = NEW.booking_id;
+  RETURN NEW;
+END $f$;
+DROP TRIGGER IF EXISTS booking_slots_blocking ON public.booking_slots;
+CREATE TRIGGER booking_slots_blocking BEFORE INSERT ON public.booking_slots
+  FOR EACH ROW EXECUTE FUNCTION public.slot_set_blocking();
+
+-- Status change on a booking frees/reserves all its slots.
+CREATE OR REPLACE FUNCTION public.bookings_sync_slot_blocking() RETURNS TRIGGER
+LANGUAGE plpgsql AS $f$
+BEGIN
+  UPDATE public.booking_slots
+     SET blocking = (NEW.status IN ('hold','booked','in_progress','done'))
+   WHERE booking_id = NEW.id;
+  RETURN NEW;
+END $f$;
+DROP TRIGGER IF EXISTS bookings_blocking_after ON public.bookings;
+CREATE TRIGGER bookings_blocking_after AFTER UPDATE OF status ON public.bookings
+  FOR EACH ROW EXECUTE FUNCTION public.bookings_sync_slot_blocking();
+
+-- A worker can't be double-booked across any slot. SQLSTATE 23P01 on conflict.
+ALTER TABLE public.booking_slots ADD CONSTRAINT booking_slots_no_overlap
   EXCLUDE USING gist (staff_id WITH =, tstzrange(start_at, end_at, '[)') WITH &&)
-  WHERE (status IN ('hold','booked','in_progress','done'));
+  WHERE (blocking);
+
+ALTER TABLE public.booking_slots ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS bs_admin ON public.booking_slots;
+CREATE POLICY bs_admin ON public.booking_slots FOR ALL
+  USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.booking_slots TO authenticated;
+
+-- Atomic create/update of a booking + its slots (envelope = min/max of slots).
+-- p_slots = [{ "start": iso, "end": iso }, …]. SQLSTATE 23P01 propagates on overlap.
+CREATE OR REPLACE FUNCTION public.create_booking(p_booking jsonb, p_slots jsonb)
+RETURNS TABLE (id uuid, booking_ref text)
+LANGUAGE plpgsql SECURITY INVOKER SET search_path=public AS $$
+DECLARE v_id uuid; v_org uuid; v_staff uuid; v_start timestamptz; v_end timestamptz; v_slot jsonb;
+BEGIN
+  v_org := (p_booking->>'org_id')::uuid; v_staff := (p_booking->>'staff_id')::uuid;
+  SELECT min((e->>'start')::timestamptz), max((e->>'end')::timestamptz) INTO v_start, v_end
+    FROM jsonb_array_elements(p_slots) e;
+  IF v_start IS NULL THEN RAISE EXCEPTION 'no_slots'; END IF;
+  INSERT INTO bookings (org_id, staff_id, service_id, client_id, contact_name, title, description,
+    start_at, end_at, price_total, price_expenses, status, created_by,
+    allow_card, allow_inperson, deposit_allowed, deposit_percent, needs_production, is_external, location, notes)
+  VALUES (v_org, v_staff, (p_booking->>'service_id')::uuid, (p_booking->>'client_id')::uuid,
+    NULLIF(p_booking->>'contact_name',''),
+    p_booking->>'title', p_booking->>'description', v_start, v_end,
+    (p_booking->>'price_total')::numeric, COALESCE((p_booking->>'price_expenses')::numeric, 0),
+    COALESCE(p_booking->>'status','booked')::booking_status, COALESCE(p_booking->>'created_by','admin'),
+    COALESCE((p_booking->>'allow_card')::boolean, true), COALESCE((p_booking->>'allow_inperson')::boolean, true),
+    COALESCE((p_booking->>'deposit_allowed')::boolean, true), COALESCE((p_booking->>'deposit_percent')::int, 30),
+    COALESCE((p_booking->>'needs_production')::boolean, false), COALESCE((p_booking->>'is_external')::boolean, false),
+    p_booking->>'location', p_booking->>'notes')
+  RETURNING bookings.id INTO v_id;
+  FOR v_slot IN SELECT e FROM jsonb_array_elements(p_slots) e LOOP
+    INSERT INTO booking_slots (org_id, booking_id, staff_id, start_at, end_at)
+    VALUES (v_org, v_id, v_staff, (v_slot->>'start')::timestamptz, (v_slot->>'end')::timestamptz);
+  END LOOP;
+  RETURN QUERY SELECT v_id, b.booking_ref FROM bookings b WHERE b.id = v_id;
+END $$;
+GRANT EXECUTE ON FUNCTION public.create_booking(jsonb,jsonb) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.update_booking(p_booking_id uuid, p_booking jsonb, p_slots jsonb)
+RETURNS void LANGUAGE plpgsql SECURITY INVOKER SET search_path=public AS $$
+DECLARE v_org uuid; v_staff uuid; v_start timestamptz; v_end timestamptz; v_slot jsonb; v_old jsonb;
+BEGIN
+  SELECT org_id INTO v_org FROM bookings WHERE id = p_booking_id;
+  v_staff := (p_booking->>'staff_id')::uuid;
+  SELECT min((e->>'start')::timestamptz), max((e->>'end')::timestamptz) INTO v_start, v_end
+    FROM jsonb_array_elements(p_slots) e;
+  IF v_start IS NULL THEN RAISE EXCEPTION 'no_slots'; END IF;
+  -- Snapshot the slot→event mapping so unchanged blocks keep their Google Calendar event
+  -- (matched by exact start/end) instead of being recreated/orphaned on every edit.
+  SELECT COALESCE(jsonb_agg(jsonb_build_object('s', start_at, 'e', end_at, 'g', google_event_id)), '[]'::jsonb)
+    INTO v_old FROM booking_slots WHERE booking_id = p_booking_id;
+  DELETE FROM booking_slots WHERE booking_id = p_booking_id;
+  UPDATE bookings SET staff_id=v_staff, service_id=(p_booking->>'service_id')::uuid,
+    client_id=(p_booking->>'client_id')::uuid, contact_name=NULLIF(p_booking->>'contact_name',''),
+    title=p_booking->>'title', description=p_booking->>'description',
+    start_at=v_start, end_at=v_end, price_total=(p_booking->>'price_total')::numeric,
+    allow_card=COALESCE((p_booking->>'allow_card')::boolean,true), allow_inperson=COALESCE((p_booking->>'allow_inperson')::boolean,true),
+    deposit_allowed=COALESCE((p_booking->>'deposit_allowed')::boolean,true), deposit_percent=COALESCE((p_booking->>'deposit_percent')::int,30),
+    needs_production=COALESCE((p_booking->>'needs_production')::boolean,false), is_external=false,
+    location=p_booking->>'location', notes=p_booking->>'notes'
+  WHERE id=p_booking_id;
+  FOR v_slot IN SELECT e FROM jsonb_array_elements(p_slots) e LOOP
+    INSERT INTO booking_slots (org_id, booking_id, staff_id, start_at, end_at, google_event_id)
+    VALUES (v_org, p_booking_id, v_staff, (v_slot->>'start')::timestamptz, (v_slot->>'end')::timestamptz,
+      (SELECT o->>'g' FROM jsonb_array_elements(v_old) o
+        WHERE (o->>'s')::timestamptz = (v_slot->>'start')::timestamptz
+          AND (o->>'e')::timestamptz = (v_slot->>'end')::timestamptz
+          AND o->>'g' IS NOT NULL LIMIT 1));
+  END LOOP;
+END $$;
+GRANT EXECUTE ON FUNCTION public.update_booking(uuid,jsonb,jsonb) TO authenticated;
 
 CREATE TABLE public.payments (
   id                       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -269,11 +392,11 @@ CREATE OR REPLACE FUNCTION public.get_busy_ranges(
   p_staff_id UUID, range_start TIMESTAMPTZ, range_end TIMESTAMPTZ
 ) RETURNS TABLE (start_at TIMESTAMPTZ, end_at TIMESTAMPTZ)
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$
-  SELECT b.start_at, b.end_at FROM bookings b
-  WHERE b.staff_id = p_staff_id
+  SELECT s.start_at, s.end_at FROM booking_slots s JOIN bookings b ON b.id = s.booking_id
+  WHERE s.staff_id = p_staff_id
     AND ( b.status IN ('booked','in_progress','done')
           OR (b.status = 'hold' AND b.hold_expires_at > now()) )
-    AND b.start_at < range_end AND b.end_at > range_start;
+    AND s.start_at < range_end AND s.end_at > range_start;
 $$;
 
 
@@ -359,7 +482,8 @@ SELECT
   b.price_total - b.price_expenses AS price_revenue,
   b.status, b.google_event_id, b.is_external, b.created_by,
   st.name AS staff_name, s.name AS service_name,
-  c.name  AS client_name, c.email AS client_email,
+  COALESCE(c.name, b.contact_name) AS client_name, c.email AS client_email,
+  (SELECT COUNT(*) FROM public.booking_slots bs WHERE bs.booking_id = b.id) AS slot_count,
   COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed'),0) AS total_paid,
   CASE
     WHEN b.is_external THEN 'external'
@@ -579,9 +703,61 @@ BEGIN
   END IF;
   RETURN NEW;
 END $f$;
+-- (Superseded by work_items below — task seeding now happens in create_work_item.)
 DROP TRIGGER IF EXISTS bookings_production_after ON public.bookings;
-CREATE TRIGGER bookings_production_after AFTER INSERT OR UPDATE ON public.bookings
-  FOR EACH ROW EXECUTE FUNCTION public.seed_production_tasks();
+
+
+-- ── 13a. Work items (the Work board's unit) ────────────────────────────────
+-- The Work board is its own list of cards (Trello-style). A card MAY link to a
+-- booking (carrying its client/service/date) or stand alone (a personal reminder
+-- with no booking). This replaces the old "one card per needs_production booking"
+-- coupling: cards are now created/deleted explicitly, so deleting a card never
+-- touches the booking, and you can make your own cards with no job attached.
+CREATE TABLE IF NOT EXISTS public.work_items (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  org_id            UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
+  booking_id        UUID REFERENCES public.bookings(id) ON DELETE CASCADE,   -- null = standalone
+  title             TEXT NOT NULL,
+  production_status TEXT NOT NULL DEFAULT 'to_edit'
+                    CHECK (production_status IN ('to_edit','editing','to_deliver','delivered')),
+  sort              INT NOT NULL DEFAULT 0,
+  created_at        TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS work_items_org_idx     ON public.work_items(org_id);
+CREATE INDEX IF NOT EXISTS work_items_booking_idx ON public.work_items(booking_id);
+ALTER TABLE public.work_items ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS work_items_admin ON public.work_items;
+CREATE POLICY work_items_admin ON public.work_items FOR ALL
+  USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.work_items TO authenticated;
+
+-- Tasks now hang off a work item (so standalone cards can have checklists too).
+-- booking_id is kept for back-compat but the board reads by work_item_id.
+ALTER TABLE public.tasks ADD COLUMN IF NOT EXISTS work_item_id UUID
+  REFERENCES public.work_items(id) ON DELETE CASCADE;
+CREATE INDEX IF NOT EXISTS tasks_work_item_idx ON public.tasks(work_item_id);
+
+-- Create a card (optionally linked to a booking, whose service task-template is
+-- seeded once). SECURITY INVOKER so RLS still scopes writes to the caller's org.
+CREATE OR REPLACE FUNCTION public.create_work_item(p_org uuid, p_booking uuid, p_title text)
+RETURNS public.work_items LANGUAGE plpgsql SECURITY INVOKER SET search_path=public AS $$
+DECLARE v_item public.work_items; v_btitle text; v_svc uuid; tmpl jsonb; t text;
+BEGIN
+  IF p_booking IS NOT NULL THEN
+    SELECT title, service_id INTO v_btitle, v_svc FROM bookings WHERE id = p_booking AND org_id = p_org;
+  END IF;
+  INSERT INTO work_items (org_id, booking_id, title)
+  VALUES (p_org, p_booking, COALESCE(NULLIF(btrim(p_title),''), v_btitle, 'Untitled'))
+  RETURNING * INTO v_item;
+  IF v_svc IS NOT NULL THEN
+    SELECT task_template INTO tmpl FROM services WHERE id = v_svc;
+    FOR t IN SELECT jsonb_array_elements_text(COALESCE(tmpl,'[]'::jsonb)) LOOP
+      INSERT INTO tasks (org_id, work_item_id, booking_id, title) VALUES (p_org, v_item.id, p_booking, t);
+    END LOOP;
+  END IF;
+  RETURN v_item;
+END $$;
+GRANT EXECUTE ON FUNCTION public.create_work_item(uuid,uuid,text) TO authenticated;
 
 
 -- ── 14. Stripe Connect (per-org payouts) ───────────────────────────────────
@@ -686,7 +862,7 @@ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
 AS $$
 DECLARE b RECORD; org RECORD; cl RECORD; ov RECORD; items JSONB; total NUMERIC; paid NUMERIC; pays JSONB;
 BEGIN
-  SELECT id, org_id, client_id, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
+  SELECT id, org_id, client_id, contact_name, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
     INTO b FROM bookings WHERE id = p_booking;
   IF NOT FOUND THEN RETURN NULL; END IF;
 
@@ -713,9 +889,16 @@ BEGIN
 
   RETURN jsonb_build_object(
     'org', jsonb_build_object('name', org.name, 'currency', org.currency, 'invoice_details', org.invoice_details),
-    'client', CASE WHEN cl IS NULL THEN NULL ELSE jsonb_build_object(
-        'name', cl.name, 'company', cl.company, 'vat_number', cl.vat_number,
-        'billing_address', cl.billing_address, 'email', cl.email, 'phone', cl.phone) END,
+    -- A real client bills with full details; a quick (contact_name-only) booking bills
+    -- to the bare name with no company/VAT/address.
+    'client', CASE
+        WHEN cl.name IS NOT NULL THEN jsonb_build_object(
+          'name', cl.name, 'company', cl.company, 'vat_number', cl.vat_number,
+          'billing_address', cl.billing_address, 'email', cl.email, 'phone', cl.phone)
+        WHEN b.contact_name IS NOT NULL THEN jsonb_build_object(
+          'name', b.contact_name, 'company', NULL, 'vat_number', NULL,
+          'billing_address', NULL, 'email', NULL, 'phone', NULL)
+        ELSE NULL END,
     'booking', jsonb_build_object('id', b.id, 'booking_ref', b.booking_ref, 'location', b.location,
         'start_at', b.start_at, 'end_at', b.end_at, 'status', b.status, 'price_total', b.price_total),
     'invoice', jsonb_build_object('line_items', items, 'notes', ov.notes, 'issue_date', ov.issue_date,
