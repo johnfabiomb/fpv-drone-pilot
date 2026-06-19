@@ -71,11 +71,6 @@
                 "glob": "googlead59dfa09fcacaec.html",
                 "input": "src",
                 "output": "/"
-              },
-              {
-                "glob": "404.html",
-                "input": "src",
-                "output": "/"
               }
             ],
             "styles": [

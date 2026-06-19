@@ -3,11 +3,11 @@
 -- ============================================================================
 -- This one file builds the entire booking database, multi-tenant from day one,
 -- and seeds the first organization (johnfabiomb) with John Montaño as the only
--- worker and two services. It REPLACES the old scattered migrations and the
--- duplicate src/app/booking/core/db/schema.sql.
+-- worker and two services. It is the single source of truth — all columns are
+-- defined inline on their tables (no incremental ALTERs).
 --
--- ⚠️  Running the RESET section drops the existing booking tables (currently
---     only test data). Review before applying to the live project.
+-- ⚠️  Running the RESET section DROPS every booking table (all data). Review
+--     before applying to a live project.
 --
 -- Tenancy model:
 --   organizations → org_members (owner|admin|staff) + platform_admins
@@ -20,8 +20,12 @@
 
 -- ── 0. RESET (comment out to keep data) ────────────────────────────────────
 DROP VIEW  IF EXISTS public.booking_summary CASCADE;
+DROP TABLE IF EXISTS public.invoices        CASCADE;
+DROP TABLE IF EXISTS public.work_items      CASCADE;
+DROP TABLE IF EXISTS public.tasks           CASCADE;
 DROP TABLE IF EXISTS public.payments        CASCADE;
 DROP TABLE IF EXISTS public.booking_links   CASCADE;
+DROP TABLE IF EXISTS public.booking_slots   CASCADE;
 DROP TABLE IF EXISTS public.bookings        CASCADE;
 DROP TABLE IF EXISTS public.clients         CASCADE;
 DROP TABLE IF EXISTS public.staff_services  CASCADE;
@@ -30,8 +34,6 @@ DROP TABLE IF EXISTS public.staff           CASCADE;
 DROP TABLE IF EXISTS public.org_members     CASCADE;
 DROP TABLE IF EXISTS public.platform_admins CASCADE;
 DROP TABLE IF EXISTS public.organizations   CASCADE;
-DROP TABLE IF EXISTS public.user_roles      CASCADE;  -- legacy single-tenant role table
-DROP TABLE IF EXISTS public.admin_settings  CASCADE;  -- legacy global config
 
 
 -- ── 1. Extensions & enums ──────────────────────────────────────────────────
@@ -58,7 +60,17 @@ CREATE TABLE public.organizations (
   currency       TEXT NOT NULL DEFAULT 'EUR',
   booking_params JSONB NOT NULL DEFAULT
     '{"hold_minutes":15,"min_lead_minutes":120,"buffer_minutes":0,"deposit_percent":30,"cash_allowed":true}',
-  stripe_account_id TEXT,
+  -- Feature flags (e.g. work_board) and the printable-invoice identity (legal_name,
+  -- address, vat_number, vat_rate, invoice_prefix, invoice_footer …) — both per-org JSONB.
+  features       JSONB NOT NULL DEFAULT '{}',
+  invoice_details JSONB NOT NULL DEFAULT '{}',
+  -- Stripe Connect: the org's connected account + onboarding flags + optional platform
+  -- fee (basis points). These are payout-critical → service-role-write-only (see §14).
+  -- NULL stripe_account_id ⇒ charge on the platform account (single-account fallback).
+  stripe_account_id        TEXT,
+  stripe_charges_enabled   BOOLEAN NOT NULL DEFAULT false,
+  stripe_details_submitted BOOLEAN NOT NULL DEFAULT false,
+  application_fee_bps      INT NOT NULL DEFAULT 0 CHECK (application_fee_bps BETWEEN 0 AND 10000),
   status         TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','suspended')),
   created_at     TIMESTAMPTZ DEFAULT now()
 );
@@ -98,6 +110,7 @@ CREATE TABLE public.services (
   min_hours   INT NOT NULL DEFAULT 1 CHECK (min_hours > 0),
   max_hours   INT NOT NULL DEFAULT 8 CHECK (max_hours >= min_hours),
   is_active   BOOLEAN NOT NULL DEFAULT true,
+  task_template JSONB NOT NULL DEFAULT '[]',  -- default Work-board checklist seeded onto a card
   created_at  TIMESTAMPTZ DEFAULT now()
 );
 
@@ -158,19 +171,24 @@ CREATE TABLE public.bookings (
   google_event_id TEXT,
   is_external     BOOLEAN NOT NULL DEFAULT false,
   notes           TEXT,
+  -- Per-booking deposit override; NULL ⇒ inherit the org default (booking_params).
+  -- deposit_percent is whole-percent; deposit amount = price_total * pct/100.
+  deposit_percent INT     CHECK (deposit_percent BETWEEN 1 AND 100),
+  deposit_allowed BOOLEAN,
+  -- Work board: needs_production opts the booking in; production_status is the stage
+  -- (mirrored onto the linked work_items card for the calendar "Progress" line).
+  needs_production  BOOLEAN NOT NULL DEFAULT false,
+  production_status TEXT CHECK (production_status IN ('to_edit','editing','to_deliver','delivered')),
   created_at      TIMESTAMPTZ DEFAULT now(),
   updated_at      TIMESTAMPTZ DEFAULT now(),
   UNIQUE (org_id, booking_ref),
   CONSTRAINT booking_has_name CHECK (client_id IS NOT NULL OR contact_name IS NOT NULL OR is_external)
 );
 
--- Concurrency guarantee lives on booking_slots (below): a booking can occupy
--- several time blocks, so the no-overlap EXCLUDE is per-slot, per-worker. The old
--- bookings_no_overlap constraint was dropped in favour of booking_slots_no_overlap.
--- bookings.start_at/end_at is the ENVELOPE (earliest start → latest end of its slots).
-
--- ── Multi-slot: a booking occupies one or more time blocks (any days) ──────────
-CREATE TABLE IF NOT EXISTS public.booking_slots (
+-- Concurrency is enforced PER WORKER on booking_slots: a booking occupies one or more
+-- time blocks, and booking_slots_no_overlap (below) forbids overlapping blocking slots
+-- for a worker. bookings.start_at/end_at is the ENVELOPE (earliest start → latest end).
+CREATE TABLE public.booking_slots (
   id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   org_id     UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   booking_id UUID NOT NULL REFERENCES public.bookings(id) ON DELETE CASCADE,
@@ -181,8 +199,8 @@ CREATE TABLE IF NOT EXISTS public.booking_slots (
   google_event_id TEXT,                       -- per-slot Google Calendar event
   created_at TIMESTAMPTZ DEFAULT now()
 );
-CREATE INDEX IF NOT EXISTS booking_slots_booking_idx ON public.booking_slots(booking_id);
-CREATE INDEX IF NOT EXISTS booking_slots_staff_idx   ON public.booking_slots(staff_id);
+CREATE INDEX booking_slots_booking_idx ON public.booking_slots(booking_id);
+CREATE INDEX booking_slots_staff_idx   ON public.booking_slots(staff_id);
 
 -- A slot reserves the worker only while its booking is in a blocking status.
 CREATE OR REPLACE FUNCTION public.slot_set_blocking() RETURNS TRIGGER
@@ -215,7 +233,6 @@ ALTER TABLE public.booking_slots ADD CONSTRAINT booking_slots_no_overlap
   WHERE (blocking);
 
 ALTER TABLE public.booking_slots ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS bs_admin ON public.booking_slots;
 CREATE POLICY bs_admin ON public.booking_slots FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.booking_slots TO authenticated;
@@ -321,11 +338,16 @@ CREATE INDEX bookings_org_idx        ON public.bookings(org_id);
 CREATE INDEX bookings_staff_idx      ON public.bookings(staff_id);
 CREATE INDEX bookings_start_idx      ON public.bookings(start_at);
 CREATE INDEX bookings_status_idx     ON public.bookings(status);
+-- Cover the client/service FKs (booking_summary joins + ON DELETE SET NULL scans).
+CREATE INDEX bookings_client_idx     ON public.bookings(client_id);
+CREATE INDEX bookings_service_idx    ON public.bookings(service_id);
 CREATE INDEX clients_org_idx         ON public.clients(org_id);
 CREATE INDEX payments_booking_idx    ON public.payments(booking_id);
 CREATE INDEX booking_links_token_idx ON public.booking_links(token);
+CREATE INDEX booking_links_booking_idx ON public.booking_links(booking_id);  -- lookup link by booking
 CREATE INDEX services_org_idx        ON public.services(org_id);
 CREATE INDEX staff_org_idx           ON public.staff(org_id);
+CREATE INDEX staff_services_service_idx ON public.staff_services(service_id);  -- reverse of the (staff_id,service_id) PK
 
 
 -- ── 5. Triggers ────────────────────────────────────────────────────────────
@@ -642,18 +664,11 @@ END $$;
 
 
 -- ── 13. Work board (production to-do) ──────────────────────────────────────
--- Confirmed bookings (status 'booked') enter a production pipeline
--- (to_edit → editing → to_deliver → delivered) and auto-get a checklist of
--- tasks from their service's template. Org feature-flagged (features.work_board).
-ALTER TABLE public.bookings      ADD COLUMN IF NOT EXISTS production_status TEXT
-  CHECK (production_status IN ('to_edit','editing','to_deliver','delivered'));
--- Opt-in flag: a booking only joins the Work board when the admin marks it as
--- needing post-production. Off by default; imported calendar events never qualify.
-ALTER TABLE public.bookings      ADD COLUMN IF NOT EXISTS needs_production BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE public.services      ADD COLUMN IF NOT EXISTS task_template JSONB NOT NULL DEFAULT '[]'::jsonb;
-ALTER TABLE public.organizations ADD COLUMN IF NOT EXISTS features      JSONB NOT NULL DEFAULT '{}'::jsonb;
-
-CREATE TABLE IF NOT EXISTS public.tasks (
+-- The Work board (to_edit → editing → to_deliver → delivered) is a list of
+-- work_items (§13a); a card may link to a booking or stand alone. Tasks are a
+-- checklist on a card. (Columns bookings.needs_production/production_status,
+-- services.task_template and organizations.features are defined on their tables.)
+CREATE TABLE public.tasks (
   id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   org_id     UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   booking_id UUID REFERENCES public.bookings(id) ON DELETE CASCADE,
@@ -664,10 +679,9 @@ CREATE TABLE IF NOT EXISTS public.tasks (
   created_at TIMESTAMPTZ DEFAULT now(),
   done_at    TIMESTAMPTZ
 );
-CREATE INDEX IF NOT EXISTS tasks_org_idx     ON public.tasks(org_id);
-CREATE INDEX IF NOT EXISTS tasks_booking_idx ON public.tasks(booking_id);
+CREATE INDEX tasks_org_idx     ON public.tasks(org_id);
+CREATE INDEX tasks_booking_idx ON public.tasks(booking_id);
 ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS tasks_admin ON public.tasks;
 CREATE POLICY tasks_admin ON public.tasks FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.tasks TO authenticated;
@@ -689,23 +703,6 @@ DROP TRIGGER IF EXISTS bookings_production_before ON public.bookings;
 CREATE TRIGGER bookings_production_before BEFORE INSERT OR UPDATE ON public.bookings
   FOR EACH ROW EXECUTE FUNCTION public.set_production_status();
 
--- … and auto-gets its service's task checklist (once).
-CREATE OR REPLACE FUNCTION public.seed_production_tasks() RETURNS TRIGGER
-LANGUAGE plpgsql AS $f$
-DECLARE t TEXT; tmpl JSONB;
-BEGIN
-  IF NEW.production_status = 'to_edit' AND NEW.service_id IS NOT NULL
-     AND NOT EXISTS (SELECT 1 FROM public.tasks WHERE booking_id = NEW.id) THEN
-    SELECT task_template INTO tmpl FROM public.services WHERE id = NEW.service_id;
-    FOR t IN SELECT jsonb_array_elements_text(COALESCE(tmpl, '[]'::jsonb)) LOOP
-      INSERT INTO public.tasks (org_id, booking_id, title) VALUES (NEW.org_id, NEW.id, t);
-    END LOOP;
-  END IF;
-  RETURN NEW;
-END $f$;
--- (Superseded by work_items below — task seeding now happens in create_work_item.)
-DROP TRIGGER IF EXISTS bookings_production_after ON public.bookings;
-
 
 -- ── 13a. Work items (the Work board's unit) ────────────────────────────────
 -- The Work board is its own list of cards (Trello-style). A card MAY link to a
@@ -713,7 +710,7 @@ DROP TRIGGER IF EXISTS bookings_production_after ON public.bookings;
 -- with no booking). This replaces the old "one card per needs_production booking"
 -- coupling: cards are now created/deleted explicitly, so deleting a card never
 -- touches the booking, and you can make your own cards with no job attached.
-CREATE TABLE IF NOT EXISTS public.work_items (
+CREATE TABLE public.work_items (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   org_id            UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   booking_id        UUID REFERENCES public.bookings(id) ON DELETE CASCADE,   -- null = standalone
@@ -723,19 +720,17 @@ CREATE TABLE IF NOT EXISTS public.work_items (
   sort              INT NOT NULL DEFAULT 0,
   created_at        TIMESTAMPTZ DEFAULT now()
 );
-CREATE INDEX IF NOT EXISTS work_items_org_idx     ON public.work_items(org_id);
-CREATE INDEX IF NOT EXISTS work_items_booking_idx ON public.work_items(booking_id);
+CREATE INDEX work_items_org_idx     ON public.work_items(org_id);
+CREATE INDEX work_items_booking_idx ON public.work_items(booking_id);
 ALTER TABLE public.work_items ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS work_items_admin ON public.work_items;
 CREATE POLICY work_items_admin ON public.work_items FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.work_items TO authenticated;
 
--- Tasks now hang off a work item (so standalone cards can have checklists too).
--- booking_id is kept for back-compat but the board reads by work_item_id.
-ALTER TABLE public.tasks ADD COLUMN IF NOT EXISTS work_item_id UUID
-  REFERENCES public.work_items(id) ON DELETE CASCADE;
-CREATE INDEX IF NOT EXISTS tasks_work_item_idx ON public.tasks(work_item_id);
+-- The board reads tasks by work_item_id; booking_id stays for back-compat. (Added
+-- after work_items so the FK target exists.)
+ALTER TABLE public.tasks ADD COLUMN work_item_id UUID REFERENCES public.work_items(id) ON DELETE CASCADE;
+CREATE INDEX tasks_work_item_idx ON public.tasks(work_item_id);
 
 -- Create a card (optionally linked to a booking, whose service task-template is
 -- seeded once). SECURITY INVOKER so RLS still scopes writes to the caller's org.
@@ -760,22 +755,13 @@ END $$;
 GRANT EXECUTE ON FUNCTION public.create_work_item(uuid,uuid,text) TO authenticated;
 
 
--- ── 14. Stripe Connect (per-org payouts) ───────────────────────────────────
--- Each org connects its OWN Standard Stripe account; charges are created
--- directly on it (with an optional platform application fee). The platform
--- secret key stays an Edge Function secret — it is NEVER stored here or sent to
--- the client. We persist only the connected ACCOUNT ID + onboarding flags.
+-- ── 14. Stripe Connect — payout-critical column security ───────────────────
+-- The connected-account columns are defined on `organizations` (§2). Each org
+-- connects its OWN Standard account; charges go directly on it with an optional
+-- platform fee. The platform secret key stays an Edge Function secret — never
+-- stored here. stripe_account_id IS NULL ⇒ charge on the platform account.
 --
--- Fallback: stripe_account_id IS NULL  ⇒  charge on the platform account
--- directly (the original single-account behaviour). This keeps the seed org
--- working and makes Connect purely additive for future orgs.
-ALTER TABLE public.organizations
-  ADD COLUMN IF NOT EXISTS stripe_charges_enabled  BOOLEAN NOT NULL DEFAULT false,
-  ADD COLUMN IF NOT EXISTS stripe_details_submitted BOOLEAN NOT NULL DEFAULT false,
-  ADD COLUMN IF NOT EXISTS application_fee_bps      INT NOT NULL DEFAULT 0
-    CHECK (application_fee_bps BETWEEN 0 AND 10000);  -- platform fee, basis points
-
--- ── 14a. SECURITY: org admins must NOT be able to write payout-critical fields.
+-- SECURITY: org admins must NOT be able to write payout-critical fields.
 -- The org_update RLS policy lets an admin UPDATE their org row, and `authenticated`
 -- held a TABLE-level UPDATE grant — together that allowed an admin to set
 -- `stripe_account_id` (redirecting every payout to an account they control) or flip
@@ -790,43 +776,26 @@ GRANT  UPDATE (name, timezone, currency, booking_params, features, invoice_detai
   ON public.organizations TO authenticated;
 
 
--- ── 15. Per-booking deposit override ───────────────────────────────────────
--- Deposit policy has two layers:
---   • Org default — `booking_params.deposit_percent` (how big) + `booking_params.deposit_allowed`
---     (whether a deposit may be paid at all, or full payment is required). JSONB, no DDL.
---   • Per-booking override — these columns. NULL ⇒ inherit the org default. The admin
---     booking form prefills from the org default but may set a different value for a
---     single booking (e.g. 50% this time). The chosen value is stored explicitly so
---     changing the org default later never alters an existing payment link.
--- `deposit_percent` is whole-percent (1–100); the deposit amount = price_total * pct/100.
-ALTER TABLE public.bookings
-  ADD COLUMN IF NOT EXISTS deposit_percent INT     CHECK (deposit_percent BETWEEN 1 AND 100),
-  ADD COLUMN IF NOT EXISTS deposit_allowed BOOLEAN;
+-- ── Notes on deposit & invoicing config (columns defined on their tables) ──
+-- Deposit policy has two layers: the ORG DEFAULT (booking_params.deposit_percent +
+-- deposit_allowed, JSONB) and a PER-BOOKING override (bookings.deposit_percent /
+-- deposit_allowed; NULL ⇒ inherit). The override is stored explicitly so changing the
+-- org default later never alters an existing payment link.
+-- organizations.invoice_details (JSONB) holds the printable-invoice identity:
+--   { legal_name, address, phone, email, vat_number, vat_registered, vat_rate (def 18),
+--     invoice_prefix (def 'INV'), invoice_footer }. Invoice no. = booking_ref with the
+--   prefix swapped (BK-2026-007 → INV-2026-007). When vat_registered is false (Article 11)
+--   no VAT is charged; when true, prices are VAT-inclusive and the net/VAT/gross breakdown
+--   shows. Admins may edit invoice_details (§14 grant); stripe_* stays service-role-only.
 
 
--- ── 16. Org company / invoicing identity ───────────────────────────────────
--- Everything needed to print a Malta-valid invoice: the supplier's legal identity
--- and VAT handling. Stored as JSONB on the org (per-org config, not a global
--- singleton). Shape:
---   { legal_name, address, phone, email, vat_number, vat_registered (bool),
---     vat_rate (default 18), invoice_prefix (default 'INV'), invoice_footer }
--- Invoice number = the booking_ref with its prefix swapped (BK-2026-007 → INV-2026-007).
--- VAT: when vat_registered is false (Article 11 small undertaking) no VAT is charged and
--- the invoice says so; when true, prices are treated as VAT-inclusive and the breakdown
--- (net / VAT @ rate / gross) is shown with the supplier VAT number.
--- NOTE: invoice_details is included in the §14a admin column-grant (admins edit it; the
--- stripe_* columns remain service-role-only).
-ALTER TABLE public.organizations
-  ADD COLUMN IF NOT EXISTS invoice_details JSONB NOT NULL DEFAULT '{}'::jsonb;
-
-
--- ── 17. Editable invoices ──────────────────────────────────────────────────
+-- ── 15. Editable invoices ──────────────────────────────────────────────────
 -- An invoice is generated live from its booking by default; the moment the admin
 -- EDITS it (line items / notes / issue date), the edits are persisted here, keyed
 -- 1:1 to the booking. Editing an invoice NEVER touches the booking/calendar/work
 -- data — full decoupling. Absent row ⇒ the invoice is derived from the booking.
 -- `line_items` shape: [{ "description": text, "amount": number }, …].
-CREATE TABLE IF NOT EXISTS public.invoices (
+CREATE TABLE public.invoices (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   org_id      UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   booking_id  UUID NOT NULL REFERENCES public.bookings(id) ON DELETE CASCADE,
@@ -837,9 +806,8 @@ CREATE TABLE IF NOT EXISTS public.invoices (
   updated_at  TIMESTAMPTZ DEFAULT now(),
   UNIQUE (booking_id)
 );
-CREATE INDEX IF NOT EXISTS invoices_org_idx ON public.invoices(org_id);
+CREATE INDEX invoices_org_idx ON public.invoices(org_id);
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS inv_admin ON public.invoices;
 -- WITH CHECK also verifies the booking belongs to org_id, so an admin of org A
 -- can't attach an invoice override to org B's booking (cross-tenant integrity).
 CREATE POLICY inv_admin ON public.invoices FOR ALL
@@ -847,7 +815,6 @@ CREATE POLICY inv_admin ON public.invoices FOR ALL
   WITH CHECK (public.is_org_admin(org_id)
               AND EXISTS (SELECT 1 FROM public.bookings b WHERE b.id = booking_id AND b.org_id = org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.invoices TO authenticated;
-DROP TRIGGER IF EXISTS invoices_updated ON public.invoices;
 CREATE TRIGGER invoices_updated BEFORE UPDATE ON public.invoices
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
@@ -941,7 +908,7 @@ $$;
 GRANT EXECUTE ON FUNCTION public.get_invoice_by_token(TEXT) TO anon, authenticated;
 
 
--- ── 18. Org creation & membership (platform-admin gated) ───────────────────
+-- ── 16. Org creation & membership (platform-admin gated) ───────────────────
 -- Orgs are NOT self-serve: only a platform admin can create one. The creator
 -- becomes its owner (so it appears in their switcher). Org admins (or platform
 -- admins) then add members by email — the invitee must have signed in once

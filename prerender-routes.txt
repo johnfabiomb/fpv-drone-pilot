@@ -23,7 +23,6 @@
 /cookies
 /about
 /contact
-/pay/success
 /malta/locations/blue-grotto
 /malta/locations/il-mara
 /malta/locations/ghar-ir-rih

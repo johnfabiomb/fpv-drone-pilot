@@ -246,8 +246,9 @@ Routes are prerendered via **`prerender-routes.txt`** (project root). Every rout
 /malta/30-places-2026             (top places editorial)
 /malta/providers/santa-maria-watersports
 /malta/locations/:slug            (all 74 location detail pages — see prerender-routes.txt)
-/pay, /privacy, /cookies, /about, /contact, /pay/success
+/pay, /privacy, /cookies, /about, /contact
 ```
+> The booking app (`/book*`, `/bookings*`, `/pay/success`) is intentionally **NOT prerendered and `noindex`** — no SEO is wanted for it yet. Its routes are served by `docs/404.html` (which `make-404.js` marks `noindex` + a booking OG card). Don't add booking routes to `prerender-routes.txt` or the sitemap.
 
 **Rule: every new public route must be added to `prerender-routes.txt`.**
 
@@ -357,6 +358,11 @@ The site is hosted on **GitHub Pages** at `johnfabiomb.com` (CNAME in `docs/`). 
 3. Push to `main` — GitHub Pages serves directly from `docs/`
 
 Staging (`/test/`) has `<meta name="robots" content="noindex">` in `index.staging.html` and a `[STAGING]` title prefix — it is never indexed by Google.
+
+**Social link previews for dynamic/token pages** (pay link `/book/:token`, invoice `/book/invoice?token=…`, booking `/book`): social crawlers don't run JS, so the client-side `seo.service.ts` can't set their card — that only works on **prerendered** routes. Instead the OG meta is baked into static HTML at build (shared rewriter `scripts/og-meta.js`; branded 1200×630 images from `scripts/gen-og-images.js`):
+- **`scripts/make-404.js`** stamps `docs/404.html` (the booking-app fallback for every non-prerendered route, incl. the path-token pay link) with a "Booking" card.
+- **`scripts/make-share-pages.js`** emits `docs/<path>/index.html` for literal-path routes (`/book`, `/book/invoice`) with their own cards.
+GitHub Pages serves each file for its path (query ignored), so crawlers get a real card while the human boots the SPA in place. Both run in `deploy` after the prod build. Cards are branded (per type), not per-record — per-record needs an edge/SSR endpoint. Token-in-path routes can only use the 404 card (no per-file page). Add a literal-path route to `PAGES` to extend.
 
 ---
 
