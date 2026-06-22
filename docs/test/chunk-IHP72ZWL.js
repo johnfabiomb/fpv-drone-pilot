@@ -1,0 +1,314 @@
+// src/assets/providers.json
+var providers = [
+  {
+    id: "santa-maria-watersports",
+    name: "Santa Maria Water Sports",
+    category: "water-sports",
+    color: "#0d3d72",
+    emoji: "\u{1F3C4}",
+    tagline: "Private wakeboard & wakesurf boat charter in Malta",
+    description: "Santa Maria Water Sports runs private boat charters from the Valletta Waterfront aboard a Nautique G25 \u2014 one of the world's finest performance wake boats. Whether you want to learn wakeboard, ride wakesurf, fly on a wakefoil, or simply cruise Malta's dramatic coastline, their certified instructors tailor every session to your level. Charters run from 1 hour to a full day and can reach any point along Malta's coast from the Grand Harbour.",
+    coverImage: "/assets/images/providers/santamariawatersports/santa-maria-watersports.webp",
+    website: "https://santamariawatersports.com/bookings/",
+    instagram: "@santamariawatersports",
+    phone: "+356 7907 5911",
+    lat: 35.8890523,
+    lon: 14.5077708,
+    showOnMap: true,
+    mapLabel: "\u{1F3F7}\uFE0F Deal",
+    nearLocationIds: [
+      61,
+      49,
+      10,
+      1,
+      52,
+      36,
+      44,
+      42
+    ],
+    discount: {
+      label: "10% off any charter booking",
+      shortLabel: "10% off",
+      coupon: "JOHNXSM26",
+      instructions: "Online: enter the code in the 'Add Coupon or Promotional Code' field before paying. By phone: mention the code when booking. Valid throughout 2026.",
+      validUntil: "2026-12-31"
+    },
+    highlights: [
+      "Nautique G25 Centennial Edition (2025)",
+      "Wakeboard, wakesurf, wakefoil & tube",
+      "Certified instructors on every charter",
+      "1 hour to full-day charters",
+      "Beginner-friendly \u2014 from age 6 and up"
+    ],
+    images: [
+      "/assets/images/providers/santamariawatersports/006722-021-VK.webp",
+      "/assets/images/providers/santamariawatersports/0L2A8666.webp",
+      "/assets/images/providers/santamariawatersports/0L2A8875.webp",
+      "/assets/images/providers/santamariawatersports/0L2A9213.webp",
+      "/assets/images/providers/santamariawatersports/0L2A9872.webp",
+      "/assets/images/providers/santamariawatersports/DSC01193.webp"
+    ],
+    experiences: [
+      {
+        id: "santa-maria-wakeboard",
+        providerId: "santa-maria-watersports",
+        title: "Wakeboarding in Malta",
+        type: "wakeboard",
+        emoji: "\u{1F3C4}",
+        tagline: "Carve the wake behind a Nautique G25 \u2014 from your very first try",
+        description: "Strap in and learn to ride behind one of the world's finest wake boats. A certified instructor is in the boat for the whole session, so complete beginners (from age 6) get up on the board fast while experienced riders work on tricks. Private charter from the Valletta waterfront \u2014 you pick the calm-water spot.",
+        coverImage: null,
+        spots: [
+          { lat: 35.9128, lon: 14.518, label: "Off Sliema" }
+        ]
+      },
+      {
+        id: "santa-maria-wakesurf",
+        providerId: "santa-maria-watersports",
+        title: "Wakesurfing in Malta",
+        type: "wakesurf",
+        emoji: "\u{1F30A}",
+        tagline: "Surf the boat's endless wave \u2014 no rope, just the wake",
+        description: "Once you're up, drop the rope and surf the clean wave the Nautique G25 throws \u2014 the most addictive, low-impact ride in wake sports. Beginner-friendly with instruction included, and gentle enough to keep going wave after wave along Malta's sheltered coast.",
+        coverImage: null,
+        spots: [
+          { lat: 35.96, lon: 14.41, label: "Off St Paul's Bay" }
+        ]
+      },
+      {
+        id: "santa-maria-wakefoil",
+        providerId: "santa-maria-watersports",
+        title: "Wakefoiling in Malta",
+        type: "wakefoil",
+        emoji: "\u{1FABD}",
+        tagline: "Fly silently above the water on a hydrofoil",
+        description: "The next step for confident riders \u2014 a hydrofoil board that lifts clear of the surface so you glide in near silence on the longest, smoothest ride of all. Coached one-to-one on a private charter from Valletta's Grand Harbour.",
+        coverImage: null,
+        spots: [
+          { lat: 35.8975, lon: 14.536, label: "Off Valletta \u2014 Grand Harbour" }
+        ]
+      },
+      {
+        id: "santa-maria-tube",
+        providerId: "santa-maria-watersports",
+        title: "Adrenaline Tube Ride",
+        type: "tube",
+        emoji: "\u{1F6DF}",
+        tagline: "Hold on tight \u2014 the high-energy ride for all ages",
+        description: "The pure-fun option: hang on to the towable tube as the boat carves and bounces across the bay. No skill needed, great for families and groups, and easily added to any charter alongside the wake sessions.",
+        coverImage: null,
+        spots: [
+          { lat: 35.8425, lon: 14.582, label: "Off St Thomas Bay", nearLocationIds: [49, 10] }
+        ]
+      }
+    ]
+  },
+  {
+    id: "block-hotel-gozo",
+    name: "Block Hotel",
+    category: "hotel",
+    color: "#1B4F72",
+    emoji: "\u{1F3E8}",
+    tagline: "3-star hotel in the heart of Xlendi Bay, Gozo",
+    description: "Block Hotel is a 3-star hotel in the heart of Xlendi Bay, Gozo \u2014 rooms, apartments and one Penthouse, right where the action is. This is a lively hotel. Guests come for the diving, stay for the rooftop, and end up at the bar. Xlendi Bay is on your doorstep \u2014 the Inland Sea, Fungus Rock and Dwejra are minutes away, and some of Europe's best dive sites are right below the building.",
+    coverImage: "/assets/images/providers/block-hotel-gozo/block-hotel-cover.webp",
+    website: "https://www.blockgozo.com",
+    phone: "+356 79343081",
+    lat: 36.03116279176611,
+    lon: 14.217932769075253,
+    showOnMap: true,
+    mapLabel: "\u{1F3F7}\uFE0F Deal",
+    nearLocationIds: [50, 73, 8, 9, 25, 23, 46, 38, 41, 63, 64, 65, 66, 68],
+    discount: {
+      label: "15% off Superior Rooms (Front & Rear) \u2014 Jun\u2013Oct 2026",
+      shortLabel: "15% off",
+      coupon: "JohnBlock26",
+      instructions: "Book directly via blockgozo.com using code JohnBlock26 at checkout, by phone or WhatsApp on +356 79343081, or by email at hello@blockgozo.com. Valid for Superior Rooms (Front & Rear) only, for stays between June and October 2026. Applies to the Flex BB rate \u2014 the rate becomes non-refundable once the discount is applied. Adults Only rooms. Cannot be combined with other offers.",
+      validUntil: "2026-10-31"
+    },
+    bookingConfig: {
+      baseUrl: "https://direct-book.com/properties/BlockHoteldirect",
+      checkInOffsetDays: 7,
+      nights: 2
+    },
+    highlights: [
+      "3-star hotel on Xlendi Bay, Gozo",
+      "Ritual Dive \u2014 one of Gozo's largest dive centers, in the building",
+      "ABOVE rooftop pool & bar on Level 5",
+      "FRONT Bar with live music, DJs, karaoke & sport screenings",
+      "Superior Rooms: adults only, private terrace & breakfast included"
+    ],
+    images: [],
+    experiences: [
+      {
+        id: "block-stay-xlendi",
+        providerId: "block-hotel-gozo",
+        title: "Stay on Xlendi Bay",
+        type: "stay",
+        emoji: "\u{1F3E8}",
+        tagline: "Sleep where the action is \u2014 bay, rooftop pool & dive centre in one building",
+        description: "Base yourself right on Xlendi Bay in a lively 3-star hotel with rooms, apartments and a penthouse. Days start at the ABOVE rooftop pool, end at the FRONT bar, and the Inland Sea, Fungus Rock and Dwejra are minutes away. <b>15% off Superior Rooms (Front &amp; Rear)</b> for stays Jun\u2013Oct 2026.",
+        coverImage: null,
+        spots: [
+          { lat: 36.03116279176611, lon: 14.217932769075253, label: "Block Hotel, Xlendi", nearLocationIds: [73] }
+        ]
+      },
+      {
+        id: "block-dive-gozo",
+        providerId: "block-hotel-gozo",
+        title: "Dive Gozo with Ritual Dive",
+        type: "dive",
+        emoji: "\u{1F93F}",
+        tagline: "Some of Europe's best dive sites, straight from the building",
+        description: "Ritual Dive \u2014 one of Gozo's largest dive centres \u2014 operates inside the hotel, putting world-class sites like the Blue Hole and Xlendi reef on your doorstep. Try-dives for beginners through to technical and cave diving for the experienced, with gear and guiding sorted on site.",
+        coverImage: null,
+        spots: [
+          { lat: 36.0497, lon: 14.1894, label: "Dwejra / Blue Hole", nearLocationIds: [64] },
+          { lat: 36.029, lon: 14.2155, label: "Xlendi Bay reef" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "yippee-malta",
+    name: "Yippee Malta",
+    category: "tours",
+    color: "#1092c4",
+    emoji: "\u{1F6FA}",
+    tagline: "Multi-award-winning Gozo & Comino day tours by Tuk-Tuk, Jeep, Quad, Buggy & boat",
+    description: "<p>Gozo's #1 rated, multi-award-winning tour operator for day trips across <strong>Gozo and Comino</strong>.</p><p><strong>Choose your tour:</strong></p><ul><li>\u{1F6FA} <strong>Tuk-Tuk</strong> \u2014 chauffeured island sightseeing</li><li>\u{1F699} <strong>Jeep</strong> \u2014 chauffeured off-road adventure</li><li>\u{1F3CD} <strong>Quad Bike</strong> \u2014 self-drive, explore at your pace</li><li>\u{1F697} <strong>Buggy</strong> \u2014 self-drive, automatic</li><li>\u26F5 <strong>Comino boat</strong> \u2014 Blue Lagoon, Crystal Lagoon &amp; sea caves</li></ul><p><strong>Every full-day trip includes (~7 hrs):</strong></p><ul><li>\u2713 Hotel pickup &amp; drop-off from Malta or Gozo</li><li>\u2713 Ferry crossing both ways</li><li>\u2713 Multilingual guide (8+ languages)</li><li>\u2713 Traditional Gozitan lunch or picnic</li><li>\u2713 Comino swim stop (summer)</li></ul><p><em>Sunset tours &amp; Blue Lagoon cruises available mid-April to mid-October.</em></p>",
+    coverImage: "/assets/images/providers/yippee-malta/yippee-malta-cover.webp",
+    website: "https://yippeemalta.com/johnfabiomb+map",
+    instagram: "@yippeemalta",
+    phone: "+356 9967 0100",
+    lat: 36.0246,
+    lon: 14.2986,
+    showOnMap: true,
+    mapLabel: "\u{1F3F7}\uFE0F Deal",
+    nearLocationIds: [7, 14, 16, 17, 23, 25, 38, 41, 46, 50, 58, 62, 63, 64, 65, 66, 68, 73],
+    discount: {
+      label: "10% off any Gozo & Comino tour",
+      shortLabel: "10% off",
+      coupon: "JOHNYIP26",
+      instructions: "Online: enter code JOHNYIP26 in the coupon / promotional code field at checkout on yippeemalta.com before paying. By phone or WhatsApp (+356 9967 0100): mention the code when booking.",
+      validUntil: "2026-12-31"
+    },
+    highlights: [
+      "Gozo's #1 multi-award-winning tour operator since 2018",
+      "Tuk-Tuk, Jeep, Quad Bike, Buggy & boat tours of Gozo and Comino",
+      "All-inclusive: hotel pickup, boat crossing, lunch & Comino swim stop",
+      "Multilingual chauffeured guides (8+ languages)",
+      "\u20AC25 deposit to book; free cancellation up to 24h before pickup"
+    ],
+    images: [],
+    experiences: [
+      {
+        id: "yippee-buggy",
+        providerId: "yippee-malta",
+        title: "Self-drive Buggy Tour \u2014 Gozo & Comino",
+        type: "buggy",
+        emoji: "\u{1F699}",
+        tagline: "Take the wheel of your own off-road buggy across two islands",
+        description: "<p>Buckle up and steer your own all-terrain buggy through Gozo's epic scenery on a multi-award-winning adventure. You'll power off-road to the island's secret, off-beat and adored places, following an expert driver who leads a small, fun convoy \u2014 ideal for couples, families and friends chasing free-spirited fun.</p><p>Your day actually starts <b>on the water</b>: a boat trip along Comino's azure coastline takes in the famous <b>Blue Lagoon</b>, <b>Crystal Lagoon</b> and dramatic caves, with a refreshing swim stop (June\u2013October) before the full-throttle buggy fun begins in Gozo.</p><p><b>~7 hours</b> (excl. transfers) \xB7 all-inclusive \xB7 all year round.</p><ul><li><b>\u20AC115</b> driver only \xB7 <b>\u20AC195</b> driver + passenger</li><li>Drivers must be <b>21+</b>, fully licensed \u2014 provisional licences not accepted</li><li>Includes: hotel pickup &amp; drop-off, boat crossing to Gozo, light picnic lunch, English/French-speaking tour leader, helmets, raincoats, fuel &amp; insurance</li></ul><p><b>Stops include:</b> Ta' \u010Aen\u010B Cliffs, Xlendi, Dwejra (Fungus Rock, Inland Sea &amp; Watch Tower), Ta' Pinu, Wied il-G\u0127asri, Xwejni Salt Pans, Marsalforn, Blue Lagoon &amp; Comino's caves. <em>Also available as a seasonal Sunset Tour (mid-April\u2013mid-October, boat sails 2 PM, packed dinner by the sea at golden hour).</em></p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-buggy-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-quad-buggy.webp",
+          "/assets/images/providers/yippee-malta/yippee-quad-buggy-sunset.webp"
+        ],
+        spots: [
+          { lat: 36.047, lon: 14.235, label: "Gozo countryside", nearLocationIds: [65, 41] }
+        ]
+      },
+      {
+        id: "yippee-quad",
+        providerId: "yippee-malta",
+        title: "Self-drive Quad Bike Tour \u2014 Gozo & Comino",
+        type: "quad",
+        emoji: "\u{1F3CD}\uFE0F",
+        tagline: "Ride your own 570cc quad through Gozo's wild backroads",
+        description: "<p>Driving in convoy behind a skilled tour leader, power through rugged valleys and backroads on a punchy <b>570cc quad bike</b>. You'll visit Gozo's sleepy villages, wild countryside and epic coast \u2014 Yippee's multi-award-winning tours unlock secluded spots and neighbourhoods only the locals know.</p><p>The day opens with a <b>boat trip to Comino</b>: swim and snorkel the <b>Blue Lagoon</b> and <b>Crystal Lagoon</b> and slip into hidden caves (swim stop June\u2013October) before the quad adventure across Gozo.</p><p><b>~7 hours</b> (excl. transfers) \xB7 all-inclusive \xB7 all year round.</p><ul><li><b>\u20AC115</b> driver only \xB7 <b>\u20AC195</b> driver + passenger</li><li>Drivers must be <b>21+</b>, fully licensed \u2014 provisional licences not accepted</li><li>Includes: hotel pickup &amp; drop-off, boat crossing to Gozo, light picnic lunch, English/French-speaking tour leader, helmets, raincoats, fuel &amp; insurance</li></ul><p><b>Stops include:</b> Ta' \u010Aen\u010B Cliffs, Xlendi, Dwejra, Ta' Pinu, Wied il-G\u0127asri, Xwejni Salt Pans, Marsalforn, Blue Lagoon &amp; Comino's caves. <em>Also available as a seasonal Sunset Tour (mid-April\u2013mid-October).</em></p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-quad-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-quad-buggy.webp",
+          "/assets/images/providers/yippee-malta/yippee-quad-buggy-sunset.webp"
+        ],
+        spots: [
+          { lat: 36.0339, lon: 14.24, label: "Gozo backroads" }
+        ]
+      },
+      {
+        id: "yippee-tuktuk",
+        providerId: "yippee-malta",
+        title: "Chauffeured Tuk-Tuk Tour \u2014 Gozo & Comino",
+        type: "tuktuk",
+        emoji: "\u{1F6FA}",
+        tagline: "Sit back in an open tuk-tuk and fall in love with Gozo",
+        description: "<p>Come on a tuk-tuk journey of discovery and fall for Gozo's charms. Your <b>multilingual chauffeur</b> takes you to sights not easily reached by public transport, with unique access to lesser-known places cherished by locals. Open-air, breezy and relaxed \u2014 perfect for couples and families. Each tuk-tuk carries up to <b>6 people</b>.</p><p>The day includes a <b>mini Comino boat cruise &amp; cave tour</b>, taking in the <b>Blue Lagoon</b> and <b>Crystal Lagoon</b> with a swim stop in summer (June\u2013October), plus a light traditional Gozitan lunch.</p><p><b>~7 hours</b> (excl. transfers) \xB7 all-inclusive \xB7 all year round.</p><ul><li><b>\u20AC85</b> adult \xB7 <b>\u20AC60</b> child (3\u201312) \xB7 <b>infants free</b> (0\u20132)</li><li>Includes: hotel pickup &amp; drop-off, boat crossing to Gozo, traditional Gozitan lunch, multilingual chauffeur (English, French, German, Italian, Polish, Dutch, Arabic, Spanish)</li></ul><p><b>Stops include:</b> Sanap Cliffs, Xlendi, Knight's Washhouses (Fontana), the Citadel (Victoria), Dwejra, Xwejni Salt Pans, Marsalforn, Blue Lagoon &amp; Comino's caves. <em>\u0120gantija Temples or Calypso viewpoint optional (skip-the-line \u20AC10). Also runs as a seasonal Sunset Tour. Private tours from \u20AC240/vehicle.</em></p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-tuktuk-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-tuktuk-jeep.webp",
+          "/assets/images/providers/yippee-malta/yippee-tuktuk-jeep-sunset.webp",
+          "/assets/images/providers/yippee-malta/yippee-private-charter.webp"
+        ],
+        spots: [
+          { lat: 36.0444, lon: 14.2392, label: "Victoria / Cittadella" }
+        ]
+      },
+      {
+        id: "yippee-jeep",
+        providerId: "yippee-malta",
+        title: "Chauffeured Jeep Safari \u2014 Gozo & Comino",
+        type: "jeep",
+        emoji: "\u{1F6FB}",
+        tagline: "Big-wheel epic adventure across Gozo's kaleidoscope of colour",
+        description: "<p>Big wheels steer epic encounters. The all-action Jeep is built for fun-lovers who like it big and bold \u2014 power through lush green valleys along the sparkling coast and see Gozo's kaleidoscope of colours. Comfy, cool and capable, the chauffeured Jeeps seat <b>5 forward-facing</b> guests and suit any terrain. Grab your friends, family or work crew and let's explore!</p><p>The day includes a <b>mini Comino boat cruise &amp; cave tour</b> \u2014 Blue Lagoon, Crystal Lagoon and a summer swim stop (June\u2013October) \u2014 plus a light traditional Gozitan lunch.</p><p><b>~7 hours</b> (excl. transfers) \xB7 all-inclusive \xB7 all year round.</p><ul><li><b>\u20AC85</b> adult \xB7 <b>\u20AC60</b> child (3\u201312) \xB7 <b>infants free</b> (0\u20132)</li><li>Includes: hotel pickup &amp; drop-off, boat crossing to Gozo, traditional Gozitan lunch, multilingual chauffeur (8+ languages)</li></ul><p><b>Stops include:</b> Sanap Cliffs, Xlendi, Knight's Washhouses, the Citadel, Dwejra, Ta' Pinu, Xwejni Salt Pans, Marsalforn, Blue Lagoon &amp; Comino's caves. <em>Also runs as a seasonal Sunset Tour. Private Jeep tours from \u20AC240/vehicle.</em></p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-jeep-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-tuktuk-jeep.webp",
+          "/assets/images/providers/yippee-malta/yippee-tuktuk-jeep-sunset.webp",
+          "/assets/images/providers/yippee-malta/yippee-private-charter.webp"
+        ],
+        spots: [
+          { lat: 36.059, lon: 14.286, label: "Ramla & the north-east", nearLocationIds: [66] }
+        ]
+      },
+      {
+        id: "yippee-comino-boat",
+        providerId: "yippee-malta",
+        title: "Blue Lagoon & Comino Boat Cruise",
+        type: "boat",
+        emoji: "\u26F5",
+        tagline: "Half-day swim, snorkel & sightsee around the Blue Lagoon",
+        description: "<p>Pure coastal bliss: swim, snorkel and sightsee as you immerse yourself in the beauty of Comino and its world-famous <b>Blue Lagoon</b>. Let the scenery soothe you as the skilled captain sails past lesser-known secret bays and you get up close \u2014 even floating inside the island's dramatic caves and epic coastal sites.</p><p>A <b>3.5-hour half-day</b> tour running twice daily \u2014 a morning departure and a <b>sunset cruise</b> for golden-hour magic. Every adult gets a complimentary glass of wine and unlimited cold water; snacks, drinks and snorkelling gear are available on board.</p><ul><li><b>\u20AC25</b> per person \xB7 start times <b>10:30 AM</b> &amp; <b>5:30 PM</b> \xB7 seasonal mid-April\u2013mid-October</li><li>Includes: free use of snorkelling equipment, free-flowing water, welcome glass of wine, audio guidance at each stop</li><li>Optional 2-way transfers \u20AC10 p.p. \xB7 cave tour subject to availability (charged separately)</li></ul><p><b>Stops include:</b> Elephant's Head cave, Santa Maria Bay &amp; Cave, Blue Lagoon &amp; Crystal Lagoon. Departs Marfa or \u010Airkewwa Caf\xE9 (Malta).</p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-comino-boat-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-blue-lagoon-cruise.webp"
+        ],
+        spots: [
+          { lat: 36.0146, lon: 14.3286, label: "Blue Lagoon, Comino", nearLocationIds: [52] }
+        ]
+      },
+      {
+        id: "yippee-round-gozo-cruise",
+        providerId: "yippee-malta",
+        title: "Round Gozo & Comino Cruise",
+        type: "boat",
+        emoji: "\u{1F6E5}\uFE0F",
+        tagline: "Full-day boat trip right around two islands",
+        description: "<p>An unforgettable <b>6-hour</b> boat trip all the way around the islands of Gozo and Comino \u2014 breathtaking coastlines, crystal-clear waters and some of the most stunning bays in the Maltese islands. You'll visit hard-to-reach bays with several hidden gems along the way, and of course the famous azure <b>Blue Lagoon</b>.</p><p>On board you'll enjoy a traditional Maltese <b>ftira</b> lunch with a refreshing drink and dessert, served as you relax and take in the views. Small group sizes give you maximum comfort. <em>This is a highly popular tour that sells out quickly.</em></p><ul><li><b>\u20AC65</b> adult \xB7 <b>\u20AC35</b> child (3\u201312) \xB7 <b>infants free</b> (0\u20132)</li><li>Start time <b>9:30 AM</b> \xB7 seasonal mid-April\u2013mid-October</li><li>Includes: transfers to/from designated Malta &amp; Gozo locations, packed Maltese ftira lunch (drink, water &amp; dessert), use of snorkelling equipment</li><li>Optional cave tour on a smaller boat \u20AC10 p.p. (subject to availability, charged separately)</li></ul><p><b>Swim stops &amp; sights:</b> Crystal Lagoon, Xlendi, Dwejra, Marsalforn, Ramla, San Blas, Da\u0127let Qorrot, \u0126alfa Rock, Elephant's Head, Santa Maria Bay &amp; Cave and the Blue Lagoon.</p>",
+        coverImage: "/assets/images/providers/yippee-malta/yippee-round-gozo-pin.webp",
+        images: [
+          "/assets/images/providers/yippee-malta/yippee-round-gozo-cruise.webp"
+        ],
+        spots: [
+          { lat: 36.048, lon: 14.188, label: "Round Gozo & Comino" }
+        ]
+      }
+    ]
+  }
+];
+
+export {
+  providers
+};
+//# sourceMappingURL=chunk-IHP72ZWL.js.map
