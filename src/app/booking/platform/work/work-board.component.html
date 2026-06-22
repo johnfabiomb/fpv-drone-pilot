@@ -29,8 +29,8 @@
     <p class="muted">Loading…</p>
   } @else {
     <div class="board" cdkDropListGroup>
-      @for (col of stages; track col.key) {
-        <div class="col">
+      @for (col of columns; track col.key) {
+        <div class="col" [class.col--backlog]="col.key === 'backlog'">
           <div class="col__head">
             <span class="col__label">{{ col.label }}</span>
             <span class="col__count">{{ board()[col.key].length }}</span>
@@ -55,6 +55,19 @@
                   } @else {
                     <span class="job__tag">Personal</span>
                   }
+                </div>
+
+                <!-- Assignee + deliver-by date -->
+                <div class="job__manage">
+                  <label class="job__assignee" [class.job__assignee--set]="j.assigneeId">
+                    @if (j.assigneeId) { <span class="job__avatar">{{ initials(j.assigneeName) }}</span> }
+                    <select [ngModel]="j.assigneeId ?? ''" (ngModelChange)="assign(j, $event)" title="Assign to staff">
+                      <option value="">Unassigned</option>
+                      @for (s of staff(); track s.id) { <option [value]="s.id">{{ s.name }}</option> }
+                    </select>
+                  </label>
+                  <input class="job__due" type="date" [class.job__due--overdue]="isOverdue(j)"
+                         [value]="dueValue(j)" (change)="setDue(j, $any($event.target).value)" title="Deliver-by date" />
                 </div>
 
                 <div class="tasks">

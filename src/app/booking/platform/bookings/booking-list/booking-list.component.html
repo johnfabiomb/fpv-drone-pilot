@@ -50,7 +50,7 @@
     <div class="toolbar">
       <div class="tabs" role="tablist">
         @for (t of tabs; track t.key) {
-          <button class="tab" [class.tab--active]="tab() === t.key" (click)="tab.set(t.key)" role="tab">
+          <button class="tab" [class.tab--active]="tab() === t.key" (click)="setTab(t.key)" role="tab">
             <span>{{ t.label }}</span>
             @if (counts()[t.key]) {
               <span class="tab__count" [class.tab__count--alert]="t.key === 'pending'">{{ counts()[t.key] }}</span>
@@ -67,7 +67,9 @@
       </label>
     </div>
 
-    @if (rows().length === 0) {
+    @if (rowsLoading()) {
+      <div class="loading"><div class="spinner"></div></div>
+    } @else if (rows().length === 0) {
       <div class="empty-tab">{{ emptyText() }}</div>
     } @else if (tab() === 'pending') {
       <!-- Cash requests awaiting approval -->
@@ -93,7 +95,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Ref</th><th>Client</th><th>Job</th><th>When</th>
+              <th>Ref</th><th>Job</th><th>Client</th><th>When</th>
               <th>Total</th><th>Payment</th><th>Status</th><th></th>
             </tr>
           </thead>
@@ -104,8 +106,8 @@
                   <button class="ref-link" (click)="goDetail(b)">{{ b.booking_ref }}</button>
                   @if (b.id === nextId()) { <span class="next-badge">NEXT</span> }
                 </td>
-                <td class="cell--client">{{ b.client_name ?? '—' }}</td>
                 <td class="cell--title">{{ b.title }}</td>
+                <td class="cell--client">{{ b.client_name ?? '—' }}</td>
                 <td class="cell--date">
                   <span class="when__abs">{{ b.start_at | date:'EEE d MMM, HH:mm' }}</span>
                   @if (b.slot_count > 1) { <span class="when__blocks" title="Split into multiple time blocks">+{{ b.slot_count - 1 }} block{{ b.slot_count > 2 ? 's' : '' }}</span> }
@@ -141,6 +143,7 @@
                         @if (b.status !== 'cancelled') {
                           <button class="menu__item menu__item--danger" cdkMenuItem (click)="cancel(b)">Cancel booking</button>
                         }
+                        <button class="menu__item menu__item--danger" cdkMenuItem (click)="askDelete(b)">Delete booking</button>
                       </div>
                     </ng-template>
                   } @else {
@@ -165,16 +168,14 @@
     }
   }
 
-  <!-- Delete confirmation (external bookings) -->
+  <!-- Delete confirmation (any booking) — offers to also remove its Google Calendar event -->
   <app-modal [open]="deleteOpen()" (openChange)="$event || closeDelete()" title="Delete booking">
     @if (deleteTarget(); as t) {
       <p class="del-text">Delete <strong>{{ t.title }}</strong>?<br>This removes it from your bookings and can't be undone.</p>
-      @if (t.google_event_id) {
-        <label class="del-check">
-          <input type="checkbox" [ngModel]="removeEvent()" (ngModelChange)="removeEvent.set($event)" name="removeEvent" />
-          <span>Also remove the event from Google Calendar</span>
-        </label>
-      }
+      <label class="del-check">
+        <input type="checkbox" [ngModel]="removeEvent()" (ngModelChange)="removeEvent.set($event)" name="removeEvent" />
+        <span>Also remove the event from Google Calendar</span>
+      </label>
       <div class="del-actions">
         <button type="button" class="btn btn--ghost" (click)="closeDelete()">Cancel</button>
         <button type="button" class="btn btn--danger" [disabled]="deleting()" (click)="confirmDelete()">

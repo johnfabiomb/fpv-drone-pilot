@@ -94,7 +94,8 @@ CREATE TABLE public.staff (
   name        TEXT NOT NULL,
   email       TEXT,
   is_bookable BOOLEAN NOT NULL DEFAULT true,
-  created_at  TIMESTAMPTZ DEFAULT now()
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  deleted_at  TIMESTAMPTZ             -- soft delete (see §18); NULL = live
 );
 CREATE UNIQUE INDEX staff_org_user_key ON public.staff(org_id, user_id) WHERE user_id IS NOT NULL;
 
@@ -111,7 +112,8 @@ CREATE TABLE public.services (
   max_hours   INT NOT NULL DEFAULT 8 CHECK (max_hours >= min_hours),
   is_active   BOOLEAN NOT NULL DEFAULT true,
   task_template JSONB NOT NULL DEFAULT '[]',  -- default Work-board checklist seeded onto a card
-  created_at  TIMESTAMPTZ DEFAULT now()
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  deleted_at  TIMESTAMPTZ
 );
 
 -- Which worker offers which service, with that pairing's bookable window.
@@ -120,6 +122,7 @@ CREATE TABLE public.staff_services (
   staff_id      UUID NOT NULL REFERENCES public.staff(id) ON DELETE CASCADE,
   service_id    UUID NOT NULL REFERENCES public.services(id) ON DELETE CASCADE,
   working_hours JSONB,
+  deleted_at    TIMESTAMPTZ,
   PRIMARY KEY (staff_id, service_id)
 );
 
@@ -136,7 +139,8 @@ CREATE TABLE public.clients (
   vat_number      TEXT,
   billing_address TEXT,
   notes           TEXT,
-  created_at      TIMESTAMPTZ DEFAULT now()
+  created_at      TIMESTAMPTZ DEFAULT now(),
+  deleted_at      TIMESTAMPTZ
 );
 CREATE UNIQUE INDEX clients_org_user_key ON public.clients(org_id, user_id) WHERE user_id IS NOT NULL;
 
@@ -181,6 +185,7 @@ CREATE TABLE public.bookings (
   production_status TEXT CHECK (production_status IN ('to_edit','editing','to_deliver','delivered')),
   created_at      TIMESTAMPTZ DEFAULT now(),
   updated_at      TIMESTAMPTZ DEFAULT now(),
+  deleted_at      TIMESTAMPTZ,            -- soft delete (see §18); cascades to children
   UNIQUE (org_id, booking_ref),
   CONSTRAINT booking_has_name CHECK (client_id IS NOT NULL OR contact_name IS NOT NULL OR is_external)
 );
@@ -197,7 +202,8 @@ CREATE TABLE public.booking_slots (
   end_at     TIMESTAMPTZ NOT NULL,
   blocking   BOOLEAN NOT NULL DEFAULT true,   -- mirrors booking status (reserves the worker)
   google_event_id TEXT,                       -- per-slot Google Calendar event
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  deleted_at TIMESTAMPTZ                       -- soft delete; a deleted slot frees the time
 );
 CREATE INDEX booking_slots_booking_idx ON public.booking_slots(booking_id);
 CREATE INDEX booking_slots_staff_idx   ON public.booking_slots(staff_id);
@@ -230,7 +236,7 @@ CREATE TRIGGER bookings_blocking_after AFTER UPDATE OF status ON public.bookings
 -- A worker can't be double-booked across any slot. SQLSTATE 23P01 on conflict.
 ALTER TABLE public.booking_slots ADD CONSTRAINT booking_slots_no_overlap
   EXCLUDE USING gist (staff_id WITH =, tstzrange(start_at, end_at, '[)') WITH &&)
-  WHERE (blocking);
+  WHERE (blocking AND deleted_at IS NULL);   -- a soft-deleted booking frees its slot
 
 ALTER TABLE public.booking_slots ENABLE ROW LEVEL SECURITY;
 CREATE POLICY bs_admin ON public.booking_slots FOR ALL
@@ -315,7 +321,8 @@ CREATE TABLE public.payments (
   stripe_payment_intent_id TEXT UNIQUE,
   stripe_account_id        TEXT,
   paid_at                  TIMESTAMPTZ,
-  created_at               TIMESTAMPTZ DEFAULT now()
+  created_at               TIMESTAMPTZ DEFAULT now(),
+  deleted_at               TIMESTAMPTZ
 );
 
 -- A booking can have many payments (deposit + partials + final). total_paid in
@@ -329,7 +336,8 @@ CREATE TABLE public.booking_links (
   expires_at TIMESTAMPTZ,
   is_active  BOOLEAN NOT NULL DEFAULT true,
   opened_at  TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  deleted_at TIMESTAMPTZ
 );
 
 
@@ -415,7 +423,7 @@ CREATE OR REPLACE FUNCTION public.get_busy_ranges(
 ) RETURNS TABLE (start_at TIMESTAMPTZ, end_at TIMESTAMPTZ)
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$
   SELECT s.start_at, s.end_at FROM booking_slots s JOIN bookings b ON b.id = s.booking_id
-  WHERE s.staff_id = p_staff_id
+  WHERE s.staff_id = p_staff_id AND s.deleted_at IS NULL AND b.deleted_at IS NULL
     AND ( b.status IN ('booked','in_progress','done')
           OR (b.status = 'hold' AND b.hold_expires_at > now()) )
     AND s.start_at < range_end AND s.end_at > range_start;
@@ -505,13 +513,13 @@ SELECT
   b.status, b.google_event_id, b.is_external, b.created_by,
   st.name AS staff_name, s.name AS service_name,
   COALESCE(c.name, b.contact_name) AS client_name, c.email AS client_email,
-  (SELECT COUNT(*) FROM public.booking_slots bs WHERE bs.booking_id = b.id) AS slot_count,
-  COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed'),0) AS total_paid,
+  (SELECT COUNT(*) FROM public.booking_slots bs WHERE bs.booking_id = b.id AND bs.deleted_at IS NULL) AS slot_count,
+  COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed' AND p.deleted_at IS NULL),0) AS total_paid,
   CASE
     WHEN b.is_external THEN 'external'
-    WHEN COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed'),0) >= b.price_total
+    WHEN COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed' AND p.deleted_at IS NULL),0) >= b.price_total
          AND b.price_total > 0 THEN 'paid'
-    WHEN COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed'),0) > 0 THEN 'partial'
+    WHEN COALESCE(SUM(p.amount) FILTER (WHERE p.status='completed' AND p.deleted_at IS NULL),0) > 0 THEN 'partial'
     ELSE 'unpaid'
   END AS payment_status
 FROM public.bookings b
@@ -519,7 +527,7 @@ LEFT JOIN public.staff    st ON st.id = b.staff_id
 LEFT JOIN public.services s  ON s.id  = b.service_id
 LEFT JOIN public.clients  c  ON c.id  = b.client_id
 LEFT JOIN public.payments p  ON p.booking_id = b.id
-WHERE public.is_org_admin(b.org_id) OR public.is_platform_admin()
+WHERE (public.is_org_admin(b.org_id) OR public.is_platform_admin()) AND b.deleted_at IS NULL
 GROUP BY b.id, st.id, s.id, c.id;
 
 
@@ -677,7 +685,8 @@ CREATE TABLE public.tasks (
   due_at     TIMESTAMPTZ,
   sort       INT NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT now(),
-  done_at    TIMESTAMPTZ
+  done_at    TIMESTAMPTZ,
+  deleted_at TIMESTAMPTZ
 );
 CREATE INDEX tasks_org_idx     ON public.tasks(org_id);
 CREATE INDEX tasks_booking_idx ON public.tasks(booking_id);
@@ -717,11 +726,19 @@ CREATE TABLE public.work_items (
   title             TEXT NOT NULL,
   production_status TEXT NOT NULL DEFAULT 'to_edit'
                     CHECK (production_status IN ('to_edit','editing','to_deliver','delivered')),
+  -- Backlog vs board: NULL = in the Backlog (waiting); set = pulled onto the active
+  -- board. A card is also "active" once its booking has ended (computed in work_board),
+  -- so future shoots sit in the Backlog and surface automatically when they're over.
+  activated_at      TIMESTAMPTZ,
+  assignee_id       UUID REFERENCES public.staff(id) ON DELETE SET NULL,  -- Trello-style owner
+  due_at            TIMESTAMPTZ,                                          -- deliver-by date
   sort              INT NOT NULL DEFAULT 0,
-  created_at        TIMESTAMPTZ DEFAULT now()
+  created_at        TIMESTAMPTZ DEFAULT now(),
+  deleted_at        TIMESTAMPTZ
 );
-CREATE INDEX work_items_org_idx     ON public.work_items(org_id);
-CREATE INDEX work_items_booking_idx ON public.work_items(booking_id);
+CREATE INDEX work_items_org_idx      ON public.work_items(org_id);
+CREATE INDEX work_items_booking_idx  ON public.work_items(booking_id);
+CREATE INDEX work_items_assignee_idx ON public.work_items(assignee_id);
 ALTER TABLE public.work_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY work_items_admin ON public.work_items FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
@@ -741,8 +758,11 @@ BEGIN
   IF p_booking IS NOT NULL THEN
     SELECT title, service_id INTO v_btitle, v_svc FROM bookings WHERE id = p_booking AND org_id = p_org;
   END IF;
-  INSERT INTO work_items (org_id, booking_id, title)
-  VALUES (p_org, p_booking, COALESCE(NULLIF(btrim(p_title),''), v_btitle, 'Untitled'))
+  -- Standalone to-do → straight onto the board; booking-linked → Backlog until the
+  -- shoot passes (work_board auto-activates it then) or it's pulled in manually.
+  INSERT INTO work_items (org_id, booking_id, title, activated_at)
+  VALUES (p_org, p_booking, COALESCE(NULLIF(btrim(p_title),''), v_btitle, 'Untitled'),
+          CASE WHEN p_booking IS NULL THEN now() ELSE NULL END)
   RETURNING * INTO v_item;
   IF v_svc IS NOT NULL THEN
     SELECT task_template INTO tmpl FROM services WHERE id = v_svc;
@@ -753,6 +773,26 @@ BEGIN
   RETURN v_item;
 END $$;
 GRANT EXECUTE ON FUNCTION public.create_work_item(uuid,uuid,text) TO authenticated;
+
+-- Board read model: each card with its booking date, whether it's active (on the board
+-- vs Backlog), and resolved client/service/assignee names. is_active is dynamic — a
+-- future shoot's card flips to active the moment its booking ends, with no cron.
+CREATE OR REPLACE VIEW public.work_board AS
+SELECT
+  w.id, w.org_id, w.booking_id, w.title, w.production_status, w.sort,
+  w.activated_at, w.assignee_id, w.due_at, w.created_at,
+  b.start_at AS booking_start_at, b.end_at AS booking_end_at,
+  (w.activated_at IS NOT NULL OR (b.end_at IS NOT NULL AND b.end_at < now())) AS is_active,
+  COALESCE(c.name, b.contact_name) AS client_name,
+  s.name  AS service_name,
+  st.name AS assignee_name
+FROM public.work_items w
+LEFT JOIN public.bookings b  ON b.id  = w.booking_id
+LEFT JOIN public.clients  c  ON c.id  = b.client_id
+LEFT JOIN public.services s  ON s.id  = b.service_id
+LEFT JOIN public.staff    st ON st.id = w.assignee_id
+WHERE (public.is_org_admin(w.org_id) OR public.is_platform_admin()) AND w.deleted_at IS NULL;
+GRANT SELECT ON public.work_board TO authenticated;
 
 
 -- ── 14. Stripe Connect — payout-critical column security ───────────────────
@@ -804,6 +844,7 @@ CREATE TABLE public.invoices (
   issue_date  DATE,
   created_at  TIMESTAMPTZ DEFAULT now(),
   updated_at  TIMESTAMPTZ DEFAULT now(),
+  deleted_at  TIMESTAMPTZ,
   UNIQUE (booking_id)
 );
 CREATE INDEX invoices_org_idx ON public.invoices(org_id);
@@ -830,12 +871,12 @@ AS $$
 DECLARE b RECORD; org RECORD; cl RECORD; ov RECORD; items JSONB; total NUMERIC; paid NUMERIC; pays JSONB;
 BEGIN
   SELECT id, org_id, client_id, contact_name, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
-    INTO b FROM bookings WHERE id = p_booking;
+    INTO b FROM bookings WHERE id = p_booking AND deleted_at IS NULL;
   IF NOT FOUND THEN RETURN NULL; END IF;
 
   SELECT name, currency, invoice_details INTO org FROM organizations WHERE id = b.org_id;
-  SELECT name, company, vat_number, billing_address, email, phone INTO cl FROM clients WHERE id = b.client_id;
-  SELECT line_items, notes, issue_date INTO ov FROM invoices WHERE booking_id = p_booking;
+  SELECT name, company, vat_number, billing_address, email, phone INTO cl FROM clients WHERE id = b.client_id AND deleted_at IS NULL;
+  SELECT line_items, notes, issue_date INTO ov FROM invoices WHERE booking_id = p_booking AND deleted_at IS NULL;
 
   IF ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0 THEN
     items := ov.line_items;
@@ -849,10 +890,10 @@ BEGIN
   END IF;
 
   SELECT COALESCE(SUM((e->>'amount')::numeric), 0) INTO total FROM jsonb_array_elements(items) e;
-  SELECT COALESCE(SUM(amount), 0) INTO paid FROM payments WHERE booking_id = p_booking AND status = 'completed';
+  SELECT COALESCE(SUM(amount), 0) INTO paid FROM payments WHERE booking_id = p_booking AND status = 'completed' AND deleted_at IS NULL;
   SELECT COALESCE(jsonb_agg(jsonb_build_object('amount', amount, 'method', method, 'paid_at', paid_at)
             ORDER BY COALESCE(paid_at, created_at)), '[]'::jsonb)
-    INTO pays FROM payments WHERE booking_id = p_booking AND status = 'completed';
+    INTO pays FROM payments WHERE booking_id = p_booking AND status = 'completed' AND deleted_at IS NULL;
 
   RETURN jsonb_build_object(
     'org', jsonb_build_object('name', org.name, 'currency', org.currency, 'invoice_details', org.invoice_details),
@@ -963,3 +1004,118 @@ BEGIN
     WHERE m.org_id = p_org ORDER BY m.role, u.email;
 END $$;
 GRANT EXECUTE ON FUNCTION public.list_org_members(UUID) TO authenticated;
+
+
+-- ── 18. Soft delete (DB-enforced) ──────────────────────────────────────────
+-- Items are never hard-deleted: every item table has `deleted_at` (defined inline
+-- above), and deleting sets it. Reads exclude deleted rows at the DB level via a
+-- RESTRICTIVE SELECT policy per table — a restrictive policy is AND-ed with every
+-- permissive read policy, so ALL paths (admin/staff/client/token/anon) hide deleted
+-- rows automatically; service_role (Edge Functions) has BYPASSRLS and still sees them
+-- (for restore/cascade). The booking_summary/work_board views and the SECURITY DEFINER
+-- functions (get_busy_ranges, _invoice_bundle) bypass RLS, so they filter `deleted_at`
+-- explicitly (above). The no-overlap EXCLUDE is `WHERE (blocking AND deleted_at IS NULL)`
+-- so a deleted booking frees its slot.
+-- RULE: a new item table MUST get `deleted_at` + a hide_deleted policy here; a new
+-- SECURITY DEFINER reader MUST filter `deleted_at IS NULL` itself.
+DO $$
+DECLARE t text;
+BEGIN
+  FOREACH t IN ARRAY ARRAY['bookings','booking_slots','booking_links','payments','invoices',
+                           'clients','services','staff','staff_services','tasks','work_items'] LOOP
+    EXECUTE format('DROP POLICY IF EXISTS hide_deleted ON public.%I', t);
+    EXECUTE format('CREATE POLICY hide_deleted ON public.%I AS RESTRICTIVE FOR SELECT USING (deleted_at IS NULL)', t);
+  END LOOP;
+END $$;
+
+-- Soft-deleting a booking cascade-soft-deletes its children (mirrors the old ON DELETE
+-- CASCADE, but reversible and audit-preserving).
+CREATE OR REPLACE FUNCTION public.cascade_soft_delete_booking() RETURNS TRIGGER
+LANGUAGE plpgsql AS $f$
+BEGIN
+  IF NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL THEN
+    UPDATE public.booking_slots SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.booking_links SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.payments      SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.invoices      SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.tasks         SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.work_items    SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+  END IF;
+  RETURN NEW;
+END $f$;
+DROP TRIGGER IF EXISTS bookings_cascade_soft_delete ON public.bookings;
+CREATE TRIGGER bookings_cascade_soft_delete AFTER UPDATE OF deleted_at ON public.bookings
+  FOR EACH ROW EXECUTE FUNCTION public.cascade_soft_delete_booking();
+
+-- Soft-deleting a work_item (board card) hides its checklist tasks too.
+CREATE OR REPLACE FUNCTION public.cascade_soft_delete_work_item() RETURNS TRIGGER
+LANGUAGE plpgsql AS $f$
+BEGIN
+  IF NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL THEN
+    UPDATE public.tasks SET deleted_at = NEW.deleted_at WHERE work_item_id = NEW.id AND deleted_at IS NULL;
+  END IF;
+  RETURN NEW;
+END $f$;
+DROP TRIGGER IF EXISTS work_items_cascade_soft_delete ON public.work_items;
+CREATE TRIGGER work_items_cascade_soft_delete AFTER UPDATE OF deleted_at ON public.work_items
+  FOR EACH ROW EXECUTE FUNCTION public.cascade_soft_delete_work_item();
+
+-- Soft-delete WRITE path. A direct `UPDATE ... SET deleted_at = now()` from the app is
+-- rejected by the restrictive hide_deleted SELECT policy (the new row becomes invisible,
+-- which Postgres re-checks during the update → 42501). So all app soft-deletes go through
+-- this SECURITY DEFINER RPC: it bypasses RLS for the write while still authorizing the
+-- caller against the row's own org. Reads stay protected by the restrictive policies above.
+-- Cascade triggers (booking → children, work_item → tasks) still fire on the UPDATE.
+CREATE OR REPLACE FUNCTION public.soft_delete(p_table text, p_id uuid)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $f$
+DECLARE v_org uuid;
+BEGIN
+  IF p_table NOT IN ('bookings','payments','services','staff','work_items','tasks') THEN
+    RAISE EXCEPTION 'soft_delete: table % not allowed', p_table USING errcode = '42501';
+  END IF;
+  EXECUTE format('SELECT org_id FROM public.%I WHERE id = $1 AND deleted_at IS NULL', p_table)
+    INTO v_org USING p_id;
+  IF v_org IS NULL THEN RETURN; END IF;                 -- already gone / not found → no-op
+  IF NOT (public.is_org_admin(v_org) OR public.is_platform_admin()) THEN
+    RAISE EXCEPTION 'forbidden' USING errcode = '42501';
+  END IF;
+  EXECUTE format('UPDATE public.%I SET deleted_at = now() WHERE id = $1 AND deleted_at IS NULL', p_table)
+    USING p_id;
+END $f$;
+GRANT EXECUTE ON FUNCTION public.soft_delete(text, uuid) TO authenticated;
+
+
+-- ── 19. Automatic Google Calendar purge on delete/cancel ───────────────────
+-- A booking's Google Calendar event must be removed when the booking is soft-deleted
+-- or cancelled, regardless of which client did it (a stale frontend, a bulk action, a
+-- direct DB change). Postgres can't call Google, so this trigger fires an async HTTP
+-- POST (pg_net) to the `purge-booking-events` Edge Function, which deletes the event(s)
+-- (booking row + every slot) and clears the ids. Idempotent: if the frontend already
+-- removed them via cancel-booking, the function finds nothing to do.
+-- One-time setup (NOT re-runnable from this file — secret value is not stored here):
+--   CREATE EXTENSION IF NOT EXISTS pg_net;
+--   CREATE EXTENSION IF NOT EXISTS supabase_vault;
+--   SELECT vault.create_secret('<random>', 'purge_secret', 'shared secret for purge-booking-events');
+--   -- set the SAME value as the PURGE_SECRET env secret on the Edge Function.
+CREATE OR REPLACE FUNCTION public.purge_booking_calendar() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $f$
+DECLARE v_secret text;
+BEGIN
+  IF (NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL)
+     OR (NEW.status = 'cancelled' AND OLD.status IS DISTINCT FROM 'cancelled') THEN
+    SELECT decrypted_secret INTO v_secret FROM vault.decrypted_secrets WHERE name = 'purge_secret';
+    PERFORM net.http_post(
+      url     := 'https://odmwjhysvvbhxytyefhv.supabase.co/functions/v1/purge-booking-events',
+      headers := jsonb_build_object('Content-Type','application/json','x-purge-secret', v_secret),
+      body    := jsonb_build_object('bookingId', NEW.id)
+    );
+  END IF;
+  RETURN NEW;
+END $f$;
+DROP TRIGGER IF EXISTS bookings_purge_calendar ON public.bookings;
+CREATE TRIGGER bookings_purge_calendar AFTER UPDATE OF deleted_at, status ON public.bookings
+  FOR EACH ROW EXECUTE FUNCTION public.purge_booking_calendar();

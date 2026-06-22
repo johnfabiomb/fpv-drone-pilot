@@ -1,1 +1,0 @@
-import{a as n}from"./chunk-L76C2YDD.js";function a(t,r,s,c=400){let e=null,i=()=>{e&&clearTimeout(e),e=setTimeout(s,c)},o=n.channel(t);for(let l of r)o=o.on("postgres_changes",{event:"*",schema:"public",table:l},i);return o.subscribe(),{destroy:()=>{e&&clearTimeout(e),n.removeChannel(o)}}}export{a};

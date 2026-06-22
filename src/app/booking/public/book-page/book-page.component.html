@@ -32,7 +32,10 @@
     <div class="state-icon">✓</div>
     <h2>Booking confirmed</h2>
     <p>You're all set! John will arrange payment (cash, Revolut or bank transfer) with you. See you then.</p>
-    <a class="btn btn--primary invoice-dl" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+    <div class="invoice-actions">
+      <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+      <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
+    </div>
   </div>
 
   <!-- In-person request sent (awaiting John's acceptance) -->
@@ -48,7 +51,10 @@
       <div class="paid-icon">✓</div>
       <h2>Booking confirmed</h2>
       <p>This booking has been paid in full. Here's your receipt.</p>
-      <a class="btn btn--primary invoice-dl" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+      <div class="invoice-actions">
+        <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+        <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
+      </div>
     </div>
     <app-booking-invoice [invoice]="paidInvoice()" />
   </div>
@@ -74,7 +80,7 @@
         </div>
         <div class="detail-row" *ngIf="b.description">
           <span class="detail-label">Details</span>
-          <span class="detail-value">{{ b.description }}</span>
+          <span class="detail-value text-multiline">{{ b.description }}</span>
         </div>
         <div class="detail-row">
           <span class="detail-label">Date</span>
@@ -143,7 +149,6 @@
           <span class="deposit-paid-banner__dot"></span>
           Deposit of {{ totalPaid() | currency:'EUR':'symbol':'1.2-2' }} already paid
         </div>
-        <a class="invoice-dl invoice-dl--inline" [href]="invoiceUrl" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
 
         <div class="payment-options">
           <button class="pay-option" (click)="selectPayment('remainder')">
@@ -154,6 +159,11 @@
         </div>
 
         <p class="book-secure">🔒 Secure payment via Stripe</p>
+
+        <div class="invoice-actions">
+          <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+          <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
+        </div>
       </ng-container>
 
       <!-- Stripe payment form (paying state) -->

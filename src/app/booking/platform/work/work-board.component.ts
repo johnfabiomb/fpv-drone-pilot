@@ -2,20 +2,27 @@ import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { BookingAdminService, WorkJob, TaskRow, ProductionStage, JobOption } from '@booking/core/services/booking-admin.service';
+import { BookingAdminService, WorkJob, TaskRow, ProductionStage, JobOption, AdminStaff } from '@booking/core/services/booking-admin.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
 import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
+// The board has a Backlog (waiting cards) followed by the four production stages.
+// A card sits in Backlog until its shoot is over (auto) or it's pulled in; the stages
+// are where active work moves.
+type ColumnKey = 'backlog' | ProductionStage;
 const STAGES: { key: ProductionStage; label: string }[] = [
   { key: 'to_edit', label: 'To edit' },
   { key: 'editing', label: 'Editing' },
   { key: 'to_deliver', label: 'To deliver' },
   { key: 'delivered', label: 'Delivered' },
 ];
-type Board = Record<ProductionStage, WorkJob[]>;
-const emptyBoard = (): Board => ({ to_edit: [], editing: [], to_deliver: [], delivered: [] });
+const COLUMNS: { key: ColumnKey; label: string }[] = [{ key: 'backlog', label: 'Backlog' }, ...STAGES];
+const COLUMN_KEYS = COLUMNS.map(c => c.key);
+
+type Board = Record<ColumnKey, WorkJob[]>;
+const emptyBoard = (): Board => ({ backlog: [], to_edit: [], editing: [], to_deliver: [], delivered: [] });
 
 @Component({
   selector: 'app-work-board',
@@ -30,10 +37,10 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
 
-  readonly stages = STAGES;
-  private stageLabel(key: ProductionStage): string { return STAGES.find(s => s.key === key)?.label ?? key; }
+  readonly columns = COLUMNS;
   readonly board = signal<Board>(emptyBoard());
   readonly tasks = signal<TaskRow[]>([]);
+  readonly staff = signal<AdminStaff[]>([]);
   readonly loading = signal(true);
   newTask: Record<string, string> = {};
 
@@ -46,9 +53,12 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
 
   private realtime: RealtimeHandle | null = null;
 
+  /** Active cards past their deliver-by date (and not yet delivered). */
   readonly overdueCount = computed(() => {
     const now = Date.now();
-    return this.tasks().filter(t => !t.is_done && t.due_at && new Date(t.due_at).getTime() < now).length;
+    return Object.values(this.board()).flat()
+      .filter(j => j.isActive && j.production_status !== 'delivered'
+                && j.dueAt && new Date(j.dueAt).getTime() < now).length;
   });
 
   async ngOnInit(): Promise<void> {
@@ -61,17 +71,22 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
   private async reload(): Promise<void> {
     const org = this.auth.orgId();
     if (org) {
-      const [jobs, tasks, jobOptions] = await Promise.all([
-        this.admin.loadJobs(org), this.admin.loadTasks(org), this.admin.loadJobOptions(org),
+      const [jobs, tasks, jobOptions, staff] = await Promise.all([
+        this.admin.loadJobs(org), this.admin.loadTasks(org), this.admin.loadJobOptions(org), this.admin.listStaff(org),
       ]);
       this.tasks.set(tasks);
       this.jobOptions.set(jobOptions);
+      this.staff.set(staff);
       const grouped = emptyBoard();
-      for (const j of jobs) grouped[j.production_status].push(j);
+      for (const j of jobs) grouped[this.columnOf(j)].push(j);
       this.board.set(grouped);
     }
     this.loading.set(false);
   }
+
+  /** Which board column a card belongs to right now. */
+  private columnOf(j: WorkJob): ColumnKey { return j.isActive ? j.production_status : 'backlog'; }
+  private columnLabel(key: ColumnKey): string { return COLUMNS.find(c => c.key === key)?.label ?? key; }
 
   tasksFor(workItemId: string): TaskRow[] { return this.tasks().filter(t => t.work_item_id === workItemId); }
   remaining(workItemId: string): number { return this.tasksFor(workItemId).filter(t => !t.is_done).length; }
@@ -84,7 +99,6 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
   async addCard(): Promise<void> {
     const org = this.auth.orgId();
     const bookingId = this.newCardBookingId || null;
-    // A standalone card needs a title; a job-linked one can inherit the booking's title.
     if (!org || this.adding() || (!bookingId && !this.newCardTitle.trim())) return;
     this.adding.set(true);
     try {
@@ -104,8 +118,19 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
     this.toast.info(j.bookingId ? 'Removed from board' : 'Card deleted');
   }
 
-  // ── Drag & drop between stage columns ─────────────────────────────
-  async drop(event: CdkDragDrop<WorkJob[]>, target: ProductionStage): Promise<void> {
+  // ── Moving cards (Backlog ↔ stages) — drag or arrows ───────────────
+  /** Persist a move to a target column: Backlog = send back; a stage = activate + set stage. */
+  private async moveTo(j: WorkJob, target: ColumnKey): Promise<void> {
+    if (target === 'backlog') {
+      await this.admin.backlogCard(j.id);
+    } else {
+      if (!j.isActive) await this.admin.activateCard(j.id);
+      await this.admin.setStage(j.id, target, j.bookingId);
+    }
+    await this.reload();
+  }
+
+  async drop(event: CdkDragDrop<WorkJob[]>, target: ColumnKey): Promise<void> {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.board.set({ ...this.board() });
@@ -113,25 +138,41 @@ export class WorkBoardComponent implements OnInit, OnDestroy {
     }
     transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     const job = event.container.data[event.currentIndex];
-    job.production_status = target;
-    this.board.set({ ...this.board() });
-    await this.admin.setStage(job.id, target, job.bookingId); // realtime reload reconciles
-    this.toast.success(`Moved to ${this.stageLabel(target)}`);
+    this.board.set({ ...this.board() });   // optimistic; reload reconciles
+    await this.moveTo(job, target);
+    this.toast.success(target === 'backlog' ? 'Moved to Backlog' : `Moved to ${this.columnLabel(target)}`);
   }
 
-  // Arrow buttons — touch-friendly alternative to dragging.
-  canPrev(j: WorkJob): boolean { return STAGES.findIndex(s => s.key === j.production_status) > 0; }
-  canNext(j: WorkJob): boolean { return STAGES.findIndex(s => s.key === j.production_status) < STAGES.length - 1; }
+  // Arrow buttons — touch-friendly alternative to dragging (Backlog ‹—› stages).
+  canPrev(j: WorkJob): boolean { return COLUMN_KEYS.indexOf(this.columnOf(j)) > 0; }
+  canNext(j: WorkJob): boolean { return COLUMN_KEYS.indexOf(this.columnOf(j)) < COLUMN_KEYS.length - 1; }
   async move(j: WorkJob, delta: number): Promise<void> {
-    const i = STAGES.findIndex(s => s.key === j.production_status) + delta;
-    if (i < 0 || i >= STAGES.length) return;
-    await this.admin.setStage(j.id, STAGES[i].key, j.bookingId);
+    const i = COLUMN_KEYS.indexOf(this.columnOf(j)) + delta;
+    if (i < 0 || i >= COLUMN_KEYS.length) return;
+    await this.moveTo(j, COLUMN_KEYS[i]);
+    this.toast.success(COLUMN_KEYS[i] === 'backlog' ? 'Moved to Backlog' : `Moved to ${this.columnLabel(COLUMN_KEYS[i])}`);
+  }
+
+  // ── Assignee + due date (Trello-style) ─────────────────────────────
+  async assign(j: WorkJob, staffId: string): Promise<void> {
+    await this.admin.assignCard(j.id, staffId || null);
     await this.reload();
-    this.toast.success(`Moved to ${this.stageLabel(STAGES[i].key)}`);
+  }
+  /** Initials for the assignee avatar chip. */
+  initials(name: string | null): string {
+    if (!name) return '?';
+    return name.trim().split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase();
+  }
+  isOverdue(j: WorkJob): boolean {
+    return !!j.dueAt && j.production_status !== 'delivered' && new Date(j.dueAt).getTime() < Date.now();
+  }
+  dueValue(j: WorkJob): string { return j.dueAt ? j.dueAt.slice(0, 10) : ''; }
+  async setDue(j: WorkJob, value: string): Promise<void> {
+    await this.admin.setDue(j.id, value ? new Date(`${value}T12:00:00`).toISOString() : null);
+    await this.reload();
   }
 
   // ── Tasks ─────────────────────────────────────────────────────────
-  // Toggling a task checkbox is high-frequency + has its own visual state — no toast.
   async toggle(t: TaskRow): Promise<void> { await this.admin.toggleTask(t.id, !t.is_done); await this.reload(); }
   async add(workItemId: string): Promise<void> {
     const title = (this.newTask[workItemId] ?? '').trim();

@@ -35,7 +35,7 @@ export class BookingFormComponent implements OnInit {
   readonly saving = signal(false);
   readonly errorMsg = signal('');
   readonly editingId = signal<string | null>(null);
-  readonly created = signal<{ ref: string; link: string | null } | null>(null);
+  readonly created = signal<{ id: string; ref: string; link: string | null } | null>(null);
 
   // ── Form state ──────────────────────────────────────────────────────
   // A booking's customer is EITHER an existing client (reusable CRM record with
@@ -191,7 +191,7 @@ export class BookingFormComponent implements OnInit {
         this.toast.success(`${this.editingRef || 'Booking'} updated`);
         if (this.paymentMode !== 'later') {
           const link = await this.data.generateLink(this.editingId()!);
-          this.created.set({ ref: this.editingRef, link });
+          this.created.set({ id: this.editingId()!, ref: this.editingRef, link });
         } else {
           this.goToList();
         }
@@ -208,7 +208,7 @@ export class BookingFormComponent implements OnInit {
       // service's task checklist). The board is otherwise managed manually.
       if (this.needsProduction) await this.admin.addWorkItem(org, res.id, '');
       const link = await this.data.generateLink(res.id);
-      this.created.set({ ref: res.ref ?? '', link });
+      this.created.set({ id: res.id, ref: res.ref ?? '', link });
       this.toast.success(`Booking ${res.ref ?? ''} created`);
     } finally {
       this.saving.set(false);

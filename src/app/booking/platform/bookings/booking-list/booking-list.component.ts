@@ -1,13 +1,15 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, signal, computed, effect } from '@angular/core';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgClass, DatePipe, CurrencyPipe } from '@angular/common';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { FormsModule } from '@angular/forms';
+import { map, debounceTime } from 'rxjs';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { ToastService } from '@booking/ui/toast/toast.service';
 import { ConfirmService } from '@booking/ui/confirm/confirm.service';
 import { ModalComponent } from '@booking/ui/modal/modal.component';
-import { BookingSummary, PaymentStatus } from '@booking/core/interfaces/booking.interface';
+import { BookingSummary, BookingTab, PaymentStatus } from '@booking/core/interfaces/booking.interface';
 
 const PAYMENT_LABELS: Record<PaymentStatus, string> = {
   unpaid: 'Unpaid', partial: 'Deposit paid', paid: 'Paid', external: 'External',
@@ -16,7 +18,9 @@ const PAYMENT_CLASSES: Record<PaymentStatus, string> = {
   unpaid: 'badge--unpaid', partial: 'badge--partial', paid: 'badge--paid', external: 'badge--external',
 };
 
-type BookingTab = 'upcoming' | 'pending' | 'unpaid' | 'paid' | 'past' | 'external' | 'cancelled' | 'all';
+const TAB_KEYS: BookingTab[] = ['upcoming', 'pending', 'unpaid', 'paid', 'past', 'external', 'cancelled', 'all'];
+const EMPTY_COUNTS: Record<BookingTab, number> =
+  { upcoming: 0, pending: 0, unpaid: 0, paid: 0, past: 0, external: 0, cancelled: 0, all: 0 };
 
 const EMPTY_TEXT: Record<BookingTab, string> = {
   upcoming: 'No upcoming bookings. Your schedule is clear.',
@@ -38,6 +42,7 @@ const EMPTY_TEXT: Record<BookingTab, string> = {
 })
 export class BookingListComponent {
   readonly data = inject(BookingDataService);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
@@ -47,7 +52,7 @@ export class BookingListComponent {
   goEdit(b: BookingSummary): void { this.router.navigate(['/bookings', b.id, 'edit']); }
   goDetail(b: BookingSummary): void { this.router.navigate(['/bookings', b.id]); }
 
-  // ── Tabs / filtering ─────────────────────────────────────────────────
+  // ── Tabs (URL-driven) + per-tab server queries ───────────────────────
   readonly tabs: ReadonlyArray<{ key: BookingTab; label: string }> = [
     { key: 'upcoming',  label: 'Upcoming' },
     { key: 'pending',   label: 'Pending' },
@@ -58,58 +63,52 @@ export class BookingListComponent {
     { key: 'cancelled', label: 'Cancelled' },
     { key: 'all',       label: 'All' },
   ];
-  readonly tab = signal<BookingTab>('upcoming');
-  readonly search = signal('');
 
-  private static readonly ACTIVE = ['booked', 'in_progress', 'done'];
+  /** The active tab lives in the URL (?tab=…) so it's shareable + survives reload/back. */
+  readonly tab = toSignal(
+    this.route.queryParamMap.pipe(map(p => {
+      const t = p.get('tab') as BookingTab | null;
+      return t && TAB_KEYS.includes(t) ? t : 'upcoming';
+    })),
+    { initialValue: 'upcoming' as BookingTab });
+
+  readonly search = signal('');
+  private readonly debouncedSearch = toSignal(
+    toObservable(this.search).pipe(debounceTime(250)), { initialValue: '' });
+
+  // Rows + counts come fresh from the server — never filtered locally.
+  readonly rows = signal<BookingSummary[]>([]);
+  readonly rowsLoading = signal(true);
+  readonly counts = signal<Record<BookingTab, number>>(EMPTY_COUNTS);
+
+  constructor() {
+    // Re-query whenever the tab (URL) or the debounced search changes.
+    effect(() => {
+      const tab = this.tab();
+      const q = this.debouncedSearch();
+      void this.loadRows(tab, q);
+    });
+    void this.refreshCounts();
+  }
+
+  /** Navigate to a tab — pushes ?tab=… so it's a real, linkable URL. */
+  setTab(tab: BookingTab): void {
+    this.router.navigate([], { queryParams: { tab }, queryParamsHandling: 'merge' });
+  }
+
+  private async loadRows(tab: BookingTab, search: string): Promise<void> {
+    this.rowsLoading.set(true);
+    this.rows.set(await this.data.queryBookings(tab, search));
+    this.rowsLoading.set(false);
+  }
+  private async refreshCounts(): Promise<void> { this.counts.set(await this.data.bookingTabCounts()); }
+  /** After a mutation, re-pull the current tab's rows + the counts (stay fresh, no local edits). */
+  private async refresh(): Promise<void> {
+    await Promise.all([this.loadRows(this.tab(), this.debouncedSearch()), this.refreshCounts()]);
+  }
+
   private startMs(b: BookingSummary): number { return new Date(b.start_at).getTime(); }
   private endMs(b: BookingSummary): number { return new Date(b.end_at).getTime(); }
-
-  /** Whether a booking belongs in a given tab. */
-  private inTab(b: BookingSummary, tab: BookingTab, now: number): boolean {
-    const active = BookingListComponent.ACTIVE.includes(b.status);
-    switch (tab) {
-      // Upcoming = happening now or still to come (hasn't ended yet) — real OR external.
-      case 'upcoming':  return (b.status === 'booked' || b.status === 'in_progress') && this.endMs(b) >= now;
-      case 'past':      return !b.is_external && active && this.endMs(b) < now;
-      case 'pending':   return b.status === 'pending';
-      case 'unpaid':    return active && !b.is_external && (b.payment_status === 'unpaid' || b.payment_status === 'partial');
-      case 'paid':      return active && !b.is_external && b.payment_status === 'paid';
-      case 'external':  return b.is_external;
-      case 'cancelled': return b.status === 'cancelled' || b.status === 'expired';
-      case 'all':       return true;
-    }
-  }
-
-  /** Every tab is strictly chronological. Forward-looking tabs run soonest→latest; history runs most-recent→oldest. */
-  private comparatorFor(tab: BookingTab): (a: BookingSummary, b: BookingSummary) => number {
-    const asc = (a: BookingSummary, b: BookingSummary) => this.startMs(a) - this.startMs(b);
-    const desc = (a: BookingSummary, b: BookingSummary) => this.startMs(b) - this.startMs(a);
-    switch (tab) {
-      case 'upcoming': case 'pending': case 'unpaid': case 'external': return asc;
-      default:         return desc; // past, paid, cancelled, all → most recent first
-    }
-  }
-
-  readonly counts = computed<Record<BookingTab, number>>(() => {
-    const now = Date.now();
-    const c: Record<BookingTab, number> = { upcoming: 0, pending: 0, unpaid: 0, paid: 0, past: 0, external: 0, cancelled: 0, all: 0 };
-    for (const b of this.data.bookings())
-      for (const t of this.tabs) if (this.inTab(b, t.key, now)) c[t.key]++;
-    return c;
-  });
-
-  /** The rows for the active tab, filtered by the search box and sorted. */
-  readonly rows = computed<BookingSummary[]>(() => {
-    const tab = this.tab(), now = Date.now();
-    const q = this.search().trim().toLowerCase();
-    let list = this.data.bookings().filter(b => this.inTab(b, tab, now));
-    if (q) list = list.filter(b =>
-      !!b.booking_ref?.toLowerCase().includes(q) ||
-      !!b.client_name?.toLowerCase().includes(q) ||
-      !!b.title?.toLowerCase().includes(q));
-    return list.sort(this.comparatorFor(tab));
-  });
 
   /** The soonest still-to-come booking (real or external) — highlighted as "NEXT". */
   readonly nextId = computed<string | null>(() => {
@@ -161,7 +160,7 @@ export class BookingListComponent {
       if (res.error === 'slot_taken') this.toast.error(`${b.booking_ref}: that slot was just taken — decline this one.`);
       else if (res.error === 'not_pending') this.toast.error(`${b.booking_ref} is no longer pending.`);
       else if (res.error) this.toast.error(`Could not approve ${b.booking_ref}.`);
-      else this.toast.success(`${b.booking_ref} approved — added to your calendar`);
+      else { this.toast.success(`${b.booking_ref} approved — added to your calendar`); await this.refresh(); }
     } catch {
       this.toast.error(`Could not approve ${b.booking_ref}. Please try again.`);
     } finally { this.busyId.set(null); }
@@ -173,6 +172,7 @@ export class BookingListComponent {
     try {
       await this.data.declineRequest(b.id);
       this.toast.info(`${b.booking_ref} declined`);
+      await this.refresh();
     } catch {
       this.toast.error(`Could not decline ${b.booking_ref}.`);
     } finally { this.busyId.set(null); }
@@ -196,6 +196,7 @@ export class BookingListComponent {
     try {
       const res = await this.data.cancelBooking(b.id, refund);
       if (res.error) { this.toast.error(`Could not cancel ${b.booking_ref}.`); return; }
+      await this.refresh();
       if (res.calendar_cleared === false) {
         this.toast.error(`${b.booking_ref} cancelled, but its calendar event couldn't be removed — delete it manually.`);
       } else if (res.refunded) {
@@ -216,7 +217,7 @@ export class BookingListComponent {
 
   askDelete(b: BookingSummary): void {
     this.deleteTarget.set(b);
-    this.removeEvent.set(!!b.google_event_id);   // default: also remove the calendar event when there is one
+    this.removeEvent.set(true);   // default ON — deleting a booking should clear its calendar event
     this.deleteOpen.set(true);
   }
   closeDelete(): void { this.deleteOpen.set(false); this.deleteTarget.set(null); }
@@ -226,10 +227,19 @@ export class BookingListComponent {
     if (!b) return;
     this.deleting.set(true);
     try {
-      const remove = this.removeEvent() && !!b.google_event_id;
+      // Gate only on the checkbox — cancel-booking finds the events (booking row + every
+      // slot) server-side, so we must NOT also require the list row to carry google_event_id.
+      const remove = this.removeEvent();
       const res = await this.data.deleteBooking(b.id, remove);
       if (res.error) { this.toast.error(`Could not delete ${b.booking_ref}.`); return; }
-      this.toast.success(`${b.booking_ref} deleted${remove ? ' · removed from Google Calendar' : ''}`);
+      // Only claim "removed from Google Calendar" when Google actually accepted it — a
+      // failed removal (e.g. expired calendar connection) must not read as success.
+      if (remove && res.calendarCleared === false) {
+        this.toast.error(`${b.booking_ref} deleted, but its Google Calendar event could NOT be removed — check the calendar connection.`);
+      } else {
+        this.toast.success(`${b.booking_ref} deleted${remove ? ' · removed from Google Calendar' : ''}`);
+      }
+      await this.refresh();
       this.closeDelete();
     } catch {
       this.toast.error(`Could not delete ${b.booking_ref}. Please try again.`);

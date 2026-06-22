@@ -554,6 +554,16 @@ button, button span {
 }
 
 // ═══════════════════════════════════════════════════════════
+// TEXT UTILITIES
+// ═══════════════════════════════════════════════════════════
+
+// Preserve the line breaks a user typed in a textarea (description, notes, charges…)
+// when displaying that text. HTML collapses whitespace by default, turning multi-line
+// input into one run-on line; `pre-line` keeps the newlines, still wraps long lines,
+// and collapses accidental double-spaces. Apply to ANY element rendering user free-text.
+.text-multiline { white-space: pre-line; }
+
+// ═══════════════════════════════════════════════════════════
 // BADGE SYSTEM
 // ═══════════════════════════════════════════════════════════
 

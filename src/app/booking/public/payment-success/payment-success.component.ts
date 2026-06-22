@@ -40,6 +40,14 @@ export class PaymentSuccessComponent implements OnInit {
     this.tok = p.get('tok') ?? '';
     const intent = p.get('payment_intent') ?? '';
 
+    // Record the payment deterministically on return (idempotent) BEFORE reading the
+    // receipt, so the totals are correct even if Stripe's async webhook hasn't fired.
+    if (this.tok && intent) {
+      try {
+        await bookingsDb.functions.invoke('confirm-payment', { body: { token: this.tok, paymentIntentId: intent } });
+      } catch { /* receipt still renders from whatever is already recorded */ }
+    }
+
     let data: unknown = null;
     if (this.tok) {
       ({ data } = await bookingsDb.rpc('get_invoice_by_token', { p_token: this.tok }));

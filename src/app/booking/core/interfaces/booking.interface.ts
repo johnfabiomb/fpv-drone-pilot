@@ -2,6 +2,9 @@ export type BookingStatus = 'draft' | 'pending' | 'hold' | 'booked' | 'in_progre
 export type PaymentStatus = 'unpaid' | 'partial' | 'paid' | 'external';
 export type PaymentMethod = 'card' | 'cash' | 'revolut' | 'bank' | 'other';
 
+/** The bookings-list tabs — each maps to a server-side filtered query (booking_summary). */
+export type BookingTab = 'upcoming' | 'pending' | 'unpaid' | 'paid' | 'past' | 'external' | 'cancelled' | 'all';
+
 /** One payment against a booking. A booking can have many (deposit + partials + final). */
 export interface Payment {
   id: string;

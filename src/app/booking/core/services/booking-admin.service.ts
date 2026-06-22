@@ -21,8 +21,13 @@ export interface WorkJob {
   id: string;                  // work_item id (the board's unit)
   bookingId: string | null;    // linked booking, or null for a standalone card
   title: string;
-  start_at: string | null;     // from the booking (null for standalone)
+  start_at: string | null;     // booking start (null for standalone)
+  bookingEndAt: string | null; // booking end — drives auto-activation
   production_status: ProductionStage;
+  isActive: boolean;           // on the board (true) vs in the Backlog (false)
+  assigneeId: string | null;
+  assigneeName: string | null;
+  dueAt: string | null;        // deliver-by date
   clientName: string | null;
   serviceName: string | null;
 }
@@ -105,7 +110,8 @@ export class BookingAdminService {
     else await bookingsDb.from('services').insert(row);
   }
   async deleteService(id: string): Promise<void> {
-    await bookingsDb.from('services').delete().eq('id', id);
+    // Soft delete via RPC — RLS hides it from every read; the row (and its history) is kept.
+    await bookingsDb.rpc('soft_delete', { p_table: 'services', p_id: id });
   }
 
   // ── Staff ─────────────────────────────────────────────────────────
@@ -119,7 +125,7 @@ export class BookingAdminService {
     else await bookingsDb.from('staff').insert(row);
   }
   async deleteStaff(id: string): Promise<void> {
-    await bookingsDb.from('staff').delete().eq('id', id);
+    await bookingsDb.rpc('soft_delete', { p_table: 'staff', p_id: id });
   }
 
   // ── Staff ↔ Service assignment + schedule ─────────────────────────
@@ -142,25 +148,39 @@ export class BookingAdminService {
   }
 
   // ── Work board (production) ───────────────────────────────────────
+  /** All cards (active + backlog) from the work_board view — names/is_active resolved server-side. */
   async loadJobs(orgId: string): Promise<WorkJob[]> {
-    const { data } = await bookingsDb.from('work_items')
-      .select('id, title, production_status, booking_id, booking:booking_id(start_at, client:client_id(name), service:service_id(name))')
+    const { data } = await bookingsDb.from('work_board')
+      .select('id, title, production_status, booking_id, booking_start_at, booking_end_at, is_active, assignee_id, assignee_name, due_at, client_name, service_name')
       .eq('org_id', orgId).order('sort').order('created_at');
-    const pickName = (v: unknown): string | null => {
-      const o = Array.isArray(v) ? v[0] : v;
-      return (o as { name?: string } | null)?.name ?? null;
-    };
-    return ((data ?? []) as Array<Record<string, unknown>>).map(w => {
-      const bk = (Array.isArray(w['booking']) ? w['booking'][0] : w['booking']) as Record<string, unknown> | null;
-      return {
-        id: w['id'] as string, bookingId: (w['booking_id'] as string | null) ?? null,
-        title: w['title'] as string,
-        start_at: (bk?.['start_at'] as string | undefined) ?? null,
-        production_status: w['production_status'] as ProductionStage,
-        clientName: bk ? pickName(bk['client']) : null,
-        serviceName: bk ? pickName(bk['service']) : null,
-      };
-    });
+    return ((data ?? []) as Array<Record<string, unknown>>).map(w => ({
+      id: w['id'] as string, bookingId: (w['booking_id'] as string | null) ?? null,
+      title: w['title'] as string,
+      start_at: (w['booking_start_at'] as string | null) ?? null,
+      bookingEndAt: (w['booking_end_at'] as string | null) ?? null,
+      production_status: w['production_status'] as ProductionStage,
+      isActive: !!w['is_active'],
+      assigneeId: (w['assignee_id'] as string | null) ?? null,
+      assigneeName: (w['assignee_name'] as string | null) ?? null,
+      dueAt: (w['due_at'] as string | null) ?? null,
+      clientName: (w['client_name'] as string | null) ?? null,
+      serviceName: (w['service_name'] as string | null) ?? null,
+    }));
+  }
+  /** Pull a backlog card onto the board (or push one back). */
+  async activateCard(id: string): Promise<void> {
+    await bookingsDb.from('work_items').update({ activated_at: new Date().toISOString() }).eq('id', id);
+  }
+  async backlogCard(id: string): Promise<void> {
+    await bookingsDb.from('work_items').update({ activated_at: null }).eq('id', id);
+  }
+  /** Assign a card to a staff member (or clear it). */
+  async assignCard(id: string, staffId: string | null): Promise<void> {
+    await bookingsDb.from('work_items').update({ assignee_id: staffId }).eq('id', id);
+  }
+  /** Set / clear a card's deliver-by date (yyyy-MM-dd or null). */
+  async setDue(id: string, dueAt: string | null): Promise<void> {
+    await bookingsDb.from('work_items').update({ due_at: dueAt }).eq('id', id);
   }
   /** Bookings the admin can attach a new work card to (most recent first). */
   async loadJobOptions(orgId: string): Promise<JobOption[]> {
@@ -176,9 +196,10 @@ export class BookingAdminService {
   async addWorkItem(orgId: string, bookingId: string | null, title: string): Promise<void> {
     await bookingsDb.rpc('create_work_item', { p_org: orgId, p_booking: bookingId, p_title: title });
   }
-  /** Remove a card from the board. Never deletes the booking — only unflags it. */
+  /** Remove a card from the board (soft delete via RPC). Never touches the booking — only
+   *  unflags it. The work_items → tasks cascade trigger hides its checklist automatically. */
   async deleteWorkItem(id: string, bookingId: string | null): Promise<void> {
-    await bookingsDb.from('work_items').delete().eq('id', id);
+    await bookingsDb.rpc('soft_delete', { p_table: 'work_items', p_id: id });
     if (bookingId) await bookingsDb.from('bookings').update({ needs_production: false }).eq('id', bookingId);
   }
   async loadTasks(orgId: string): Promise<TaskRow[]> {
@@ -192,7 +213,7 @@ export class BookingAdminService {
   async addTask(orgId: string, workItemId: string, title: string): Promise<void> {
     await bookingsDb.from('tasks').insert({ org_id: orgId, work_item_id: workItemId, title });
   }
-  async removeTask(id: string): Promise<void> { await bookingsDb.from('tasks').delete().eq('id', id); }
+  async removeTask(id: string): Promise<void> { await bookingsDb.rpc('soft_delete', { p_table: 'tasks', p_id: id }); }
   async setStage(workItemId: string, stage: ProductionStage, bookingId: string | null = null): Promise<void> {
     await bookingsDb.from('work_items').update({ production_status: stage }).eq('id', workItemId);
     // For a booking-linked card, mirror progress to the booking + its Google Calendar event.

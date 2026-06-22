@@ -57,7 +57,7 @@
         <ul class="items">
           @for (it of lineItems(); track $index) {
             <li class="items__row">
-              <span class="items__desc">{{ it.description }}</span>
+              <span class="items__desc text-multiline">{{ it.description }}</span>
               <span class="items__amt">{{ it.amount | currency:'EUR':'symbol':'1.2-2' }}</span>
             </li>
           }

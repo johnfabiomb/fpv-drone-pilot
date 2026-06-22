@@ -50,12 +50,21 @@
 
 // ── Print ─────────────────────────────────────────────────
 @media print {
-  .no-print { display: none !important; }
-  .book-wrap { background: #fff; padding: 0; }
+  .no-print {
+    display: none !important;
+  }
+
+  .book-wrap {
+    background: #fff;
+    padding: 0;
+  }
 }
 
 .book-state--success {
-  h2 { color: #16a34a; }
+  h2 {
+    color: #16a34a;
+  }
+
   .state-ref {
     font-size: 13px;
     font-family: monospace;
@@ -103,7 +112,11 @@
   margin-bottom: 16px;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .book-card {
   background: var(--color-bg);
@@ -324,7 +337,9 @@
   font-size: 14px;
 }
 
-.payment-element-wrap.is-hidden { display: none; }
+.payment-element-wrap.is-hidden {
+  display: none;
+}
 
 .pay-spinner {
   width: 18px;
@@ -357,9 +372,14 @@
   border: none;
   transition: opacity var(--transition);
 
-  &:hover { opacity: 0.88; }
+  &:hover {
+    opacity: 0.88;
+  }
 
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
   &--primary {
     background: var(--color-primary);
@@ -386,7 +406,8 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     content: '';
     flex: 1;
     height: 1px;
@@ -408,14 +429,25 @@
   cursor: pointer;
   transition: border-color var(--transition), background var(--transition);
 
-  &:hover:not(:disabled) { border-color: var(--color-primary); background: var(--color-bg-light); }
-  &:disabled { opacity: 0.6; cursor: default; }
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background: var(--color-bg-light);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 
   &--primary {
     background: var(--color-primary);
     border-color: var(--color-primary);
     color: var(--color-text-base);
-    &:hover:not(:disabled) { filter: brightness(0.94); background: var(--color-primary); }
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.94);
+      background: var(--color-primary);
+    }
   }
 }
 
@@ -427,13 +459,29 @@
   margin: 0;
 }
 
-// Download-invoice link (confirmed / paid / partial states) — anon, via token
-.invoice-dl {
-  flex: 0 0 auto; width: auto;
-  display: inline-flex; align-items: center; gap: 8px;
-  margin-top: 18px; text-decoration: none;
+// Download / print invoice actions (confirmed / paid states) — anon, via token
+.invoice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 18px;
 }
-.invoice-dl--inline {
-  margin: 12px 0 0; padding: 0; background: none;
-  color: var(--color-primary); font-weight: 700; font-size: 13.5px;
+
+// Invoice Download / Print buttons (confirmed / paid / partial states). Higher
+// specificity than .btn / .btn--ghost so padding + sizing are unambiguous; colours
+// come from .btn--primary (orange) / .btn--ghost (grey).
+.invoice-actions .invoice-dl {
+  flex: 0 0 auto;
+  width: auto;
+  margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
 }

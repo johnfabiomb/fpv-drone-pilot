@@ -97,15 +97,11 @@ Deno.serve(async (req) => {
       ? await stripe.paymentIntents.create(intentParams, routing.requestOptions)
       : await stripe.paymentIntents.create(intentParams);
 
-    await supabase.from('payments').insert({
-      org_id: booking.org_id,
-      booking_id: booking.id,
-      amount,
-      type: paymentType === 'remainder' ? 'full' : paymentType,
-      status: 'pending',
-      method: 'card',
-      stripe_payment_intent_id: intent.id,
-    });
+    // NOTE: we do NOT write a `payments` row here. An intent is not a payment — the
+    // customer may pick several amounts before paying (or abandon). A `payments` row is
+    // created only when money actually moves, recorded idempotently by `confirm-payment`
+    // (on the success-page return) and `stripe-webhook` (async), both keyed on the
+    // PaymentIntent id. This keeps the ledger free of pending/abandoned clutter.
 
     // The client needs the connected account id to init Stripe.js for a direct charge.
     return new Response(JSON.stringify({ clientSecret: intent.client_secret, stripeAccount: orgStripe.accountId }), { headers: corsHeaders });

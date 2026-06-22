@@ -12,11 +12,14 @@
     @if (data(); as d) {
       <!-- Toolbar (not printed) -->
       <div class="toolbar no-print">
-        <button class="btn btn--primary" (click)="print()">⬇ Download / Print PDF</button>
+        <button class="btn btn--primary" [disabled]="downloading()" (click)="download()">
+          {{ downloading() ? 'Preparing…' : '⬇ Download PDF' }}
+        </button>
+        <button class="btn btn--ghost" (click)="print()">🖨 Print</button>
       </div>
 
       <!-- A4 sheet -->
-      <div class="sheet">
+      <div class="sheet" #sheet>
         <header class="inv-head">
           <div class="supplier">
             <h1 class="supplier__name">{{ supplierName }}</h1>

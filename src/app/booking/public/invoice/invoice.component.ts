@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, signal, viewChild, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { InvoiceDetails } from '@booking/core/services/booking-admin.service';
+import { downloadElementAsPdf } from '@booking/core/utils/pdf.util';
 
 export interface InvoiceLineItem { description: string; amount: number; }
 
@@ -32,6 +33,9 @@ export class InvoiceComponent implements OnInit {
 
   readonly state = signal<'loading' | 'ready' | 'error'>('loading');
   readonly data = signal<InvoiceBundle | null>(null);
+  readonly downloading = signal(false);
+  // The A4 sheet element — captured as-is into the PDF.
+  private readonly sheet = viewChild<ElementRef<HTMLElement>>('sheet');
 
   async ngOnInit(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -44,6 +48,11 @@ export class InvoiceComponent implements OnInit {
     if (error || !data) { this.state.set('error'); return; }
     this.data.set(data as InvoiceBundle);
     this.state.set('ready');
+
+    // Allow other pages to deep-link an action: …?auto=download | ?auto=print
+    const auto = this.route.snapshot.queryParamMap.get('auto');
+    if (auto === 'print') setTimeout(() => this.print(), 300);
+    else if (auto === 'download') setTimeout(() => this.download(), 300);
   }
 
   // ── Derived invoice values ──────────────────────────────────────────
@@ -84,5 +93,18 @@ export class InvoiceComponent implements OnInit {
     return pays.length ? pays[pays.length - 1].paid_at : null;
   }
 
+  /** Send the invoice to the printer (browser print dialog) — unchanged behaviour. */
   print(): void { if (isPlatformBrowser(this.platformId)) window.print(); }
+
+  /** Download the invoice as a PDF file, exactly as shown (no margins / browser chrome). */
+  async download(): Promise<void> {
+    const el = this.sheet()?.nativeElement;
+    if (!el || this.downloading()) return;
+    this.downloading.set(true);
+    try {
+      await downloadElementAsPdf(el, `${this.invoiceNumber}.pdf`);
+    } finally {
+      this.downloading.set(false);
+    }
+  }
 }

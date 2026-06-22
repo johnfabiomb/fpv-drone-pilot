@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, inject, signal } from '@angular/core';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
-import { BookingSummary, BookingSlot, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
+import { BookingSummary, BookingSlot, BookingTab, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
 import { LineItem } from '@booking/core/interfaces/invoice.interface';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
@@ -282,9 +282,9 @@ export class BookingDataService implements OnDestroy {
     return { ok: true };
   }
 
-  /** Remove a payment (e.g. recorded by mistake). Card/Stripe payments aren't deletable here. */
+  /** Remove a payment (e.g. recorded by mistake). Soft delete via RPC — the row is kept for audit. */
   async deletePayment(paymentId: string, bookingId: string): Promise<void> {
-    await bookingsDb.from('payments').delete().eq('id', paymentId);
+    await bookingsDb.rpc('soft_delete', { p_table: 'payments', p_id: paymentId });
     this.syncBookingEvent(bookingId);
     await this.fetchBookings();
   }
@@ -325,9 +325,11 @@ export class BookingDataService implements OnDestroy {
     }));
   }
 
-  /** Discard the customised invoice — revert to one derived live from the booking. */
+  /** Discard the customised invoice — revert to one derived live from the booking. Clears the
+   *  override in place (keeps the 1:1 row, so re-editing just updates it; a soft delete would
+   *  collide with UNIQUE(booking_id)). */
   async resetInvoice(bookingId: string): Promise<void> {
-    await bookingsDb.from('invoices').delete().eq('booking_id', bookingId);
+    await bookingsDb.from('invoices').update({ line_items: [], notes: null, issue_date: null }).eq('booking_id', bookingId);
   }
 
   /** Admin "confirm now": create/refresh this booking's Google Calendar event immediately
@@ -344,19 +346,28 @@ export class BookingDataService implements OnDestroy {
   }
 
   /**
-   * Permanently delete a booking row (mainly for imported/external events). When
-   * `removeCalendarEvent` is true, its Google Calendar event is deleted first
-   * (via cancel-booking, no refund); otherwise the calendar event is left in place.
+   * Soft-delete a booking (mainly for imported/external events). The row is kept and the
+   * DB cascade-soft-deletes its slots/payments/invoices/links/tasks/cards — all hidden by
+   * RLS, nothing destroyed, the slot is freed. When `removeCalendarEvent` is true its Google
+   * Calendar event is removed first (via cancel-booking, no refund). `calendarCleared`
+   * reports whether Google actually accepted the removal — `false` means the booking is
+   * gone from the platform but its event still sits on the calendar (e.g. expired Google
+   * token), so the caller can warn instead of falsely claiming success.
    */
-  async deleteBooking(bookingId: string, removeCalendarEvent: boolean): Promise<{ ok?: boolean; error?: string }> {
+  async deleteBooking(bookingId: string, removeCalendarEvent: boolean): Promise<{ ok?: boolean; error?: string; calendarCleared?: boolean }> {
+    let calendarCleared = true;
     if (removeCalendarEvent) {
-      const { error } = await bookingsDb.functions.invoke('cancel-booking', { body: { bookingId, refund: false } });
+      const { data, error } = await bookingsDb.functions.invoke('cancel-booking', { body: { bookingId, refund: false } });
       if (error) return { error: error.message };
+      calendarCleared = (data as { calendar_cleared?: boolean } | null)?.calendar_cleared !== false;
     }
-    const { error } = await bookingsDb.from('bookings').delete().eq('id', bookingId);
+    // Soft delete via SECURITY DEFINER RPC — a direct UPDATE would be rejected by the
+    // restrictive hide_deleted SELECT policy (the new row becomes invisible). The DB
+    // cascade-soft-deletes its slots/payments/invoices/links/tasks/cards.
+    const { error } = await bookingsDb.rpc('soft_delete', { p_table: 'bookings', p_id: bookingId });
     if (error) return { error: error.message };
     await this.fetchBookings();
-    return { ok: true };
+    return { ok: true, calendarCleared };
   }
 
   /** Cancel a booking (frees the slot + removes the calendar event); optional Stripe refund. */
@@ -385,6 +396,57 @@ export class BookingDataService implements OnDestroy {
       .order('start_at', { ascending: false });
     if (error) console.error('[BookingData] fetchBookings:', error);
     this.bookings.set((data ?? []) as BookingSummary[]);
+  }
+
+  // ── Tabbed list: each tab is a fresh server-side query (no local filtering) ──
+  private static readonly ACTIVE = ['booked', 'in_progress', 'done'];
+
+  /** Apply a tab's filter + sort to a booking_summary query (server-side). */
+  private applyTabFilter(q: any, tab: BookingTab, nowIso: string): any {
+    const A = BookingDataService.ACTIVE;
+    switch (tab) {
+      // Upcoming = happening now or still to come (real OR external), soonest first.
+      case 'upcoming':  return q.in('status', ['booked', 'in_progress']).gte('end_at', nowIso).order('start_at', { ascending: true });
+      case 'past':      return q.eq('is_external', false).in('status', A).lt('end_at', nowIso).order('start_at', { ascending: false });
+      case 'pending':   return q.eq('status', 'pending').order('start_at', { ascending: true });
+      case 'unpaid':    return q.eq('is_external', false).in('status', A).in('payment_status', ['unpaid', 'partial']).order('start_at', { ascending: true });
+      case 'paid':      return q.eq('is_external', false).in('status', A).eq('payment_status', 'paid').order('start_at', { ascending: false });
+      case 'external':  return q.eq('is_external', true).order('start_at', { ascending: true });
+      case 'cancelled': return q.in('status', ['cancelled', 'expired']).order('start_at', { ascending: false });
+      case 'all':       return q.order('start_at', { ascending: false });
+    }
+  }
+
+  /** Fresh rows for one tab, optionally matching a search term — fetched on demand. */
+  async queryBookings(tab: BookingTab, search = ''): Promise<BookingSummary[]> {
+    const org = this.auth.orgId();
+    if (!org) return [];
+    const nowIso = new Date().toISOString();
+    let q = this.applyTabFilter(
+      bookingsDb.from('booking_summary').select('*').eq('org_id', org), tab, nowIso);
+    // PostgREST `or` uses commas/parens as syntax — strip them from the user term.
+    const s = search.trim().replace(/[,()]/g, ' ').trim();
+    if (s) q = q.or(`booking_ref.ilike.%${s}%,client_name.ilike.%${s}%,title.ilike.%${s}%`);
+    const { data, error } = await q;
+    if (error) { console.error('[BookingData] queryBookings:', error); return []; }
+    return (data ?? []) as BookingSummary[];
+  }
+
+  /** Per-tab counts (for the tab badges) — one HEAD count query per tab, in parallel. */
+  async bookingTabCounts(): Promise<Record<BookingTab, number>> {
+    const empty: Record<BookingTab, number> =
+      { upcoming: 0, pending: 0, unpaid: 0, paid: 0, past: 0, external: 0, cancelled: 0, all: 0 };
+    const org = this.auth.orgId();
+    if (!org) return empty;
+    const nowIso = new Date().toISOString();
+    const tabs: BookingTab[] = ['upcoming', 'pending', 'unpaid', 'paid', 'past', 'external', 'cancelled', 'all'];
+    const results = await Promise.all(tabs.map(tab =>
+      this.applyTabFilter(
+        bookingsDb.from('booking_summary').select('*', { count: 'exact', head: true }).eq('org_id', org),
+        tab, nowIso)));
+    const counts = { ...empty };
+    tabs.forEach((tab, i) => { counts[tab] = results[i].count ?? 0; });
+    return counts;
   }
 
   private async fetchClients(): Promise<void> {

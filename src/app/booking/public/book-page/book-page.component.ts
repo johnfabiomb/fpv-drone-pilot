@@ -22,8 +22,12 @@ interface BookingDetails {
   allow_inperson: boolean;
   deposit_percent: number | null;
   deposit_allowed: boolean | null;
+  status: string;                    // 'booked'/'in_progress'/'done' ⇒ already confirmed
   google_event_id: string | null;   // present ⇒ already confirmed / on the calendar
 }
+
+// Statuses that mean the booking is already confirmed (nothing left to accept).
+const CONFIRMED_STATUSES = ['booked', 'in_progress', 'done'];
 
 @Component({
   selector: 'app-book-page',
@@ -117,7 +121,7 @@ export class BookPageComponent implements OnInit {
     try {
       const { data: link, error } = await supabase
         .from('booking_links')
-        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed, google_event_id)')
+        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed, status, google_event_id)')
         .eq('token', this.token)
         .single();
 
@@ -135,9 +139,13 @@ export class BookPageComponent implements OnInit {
 
       if (paymentStatus === 'paid')    { this.totalPaid.set(totalPaid); this.state.set('paid');    return; }
       if (paymentStatus === 'partial') { this.totalPaid.set(totalPaid); this.state.set('partial'); return; }
-      // Already confirmed / on the calendar (admin pre-confirmed, or the client already
-      // accepted) — show the confirmed state + invoice rather than the action buttons.
-      if (b.google_event_id) { this.state.set('confirmed'); return; }
+      // A confirmed booking with NOTHING left to pay online (pay-later only, no card) →
+      // show the confirmed state + invoice, not the "Confirm booking" action. A booking
+      // that accepts CARD stays payable even once confirmed (deposit/balance), so it must
+      // fall through to the pay options. (Status is the source of truth; google_event_id
+      // is a secondary signal — the calendar push can be off/fail.)
+      const confirmed = CONFIRMED_STATUSES.includes(b.status) || !!b.google_event_id;
+      if (confirmed && !b.allow_card) { this.state.set('confirmed'); return; }
       if (!available) { this.state.set('unavailable'); return; }
 
       await this.loadStripeJs();

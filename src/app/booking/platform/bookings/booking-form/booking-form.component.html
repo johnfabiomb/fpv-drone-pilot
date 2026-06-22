@@ -28,6 +28,12 @@
         <p class="muted">Booking saved, but the payment link couldn’t be generated. You can copy it from the bookings list.</p>
       }
 
+      <!-- Invoice: real PDF download or print, opened from the printable invoice page -->
+      <div class="done__invoice">
+        <a class="btn btn--ghost btn--sm" [href]="'/book/invoice/' + done.id + '?auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+        <a class="btn btn--ghost btn--sm" [href]="'/book/invoice/' + done.id + '?auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
+      </div>
+
       <div class="done__actions">
         <button class="btn btn--ghost" (click)="reset()">Create another</button>
         <button class="btn btn--primary" (click)="goToList()">Done</button>

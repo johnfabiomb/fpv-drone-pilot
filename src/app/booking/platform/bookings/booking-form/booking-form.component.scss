@@ -97,6 +97,7 @@
 }
 .done__title { font-size: 18px; font-weight: 800; color: $text; margin: 0 0 4px; }
 .done__sub { font-size: 13.5px; color: $text-2; margin: 0 0 18px; }
+.done__invoice { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
 .done__actions { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
 
 .linkbox {
