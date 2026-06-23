@@ -38,16 +38,15 @@
   <div class="map-layout__main">
 
     <div class="map-layout__map">
-      <app-filter-bar
-        *ngIf="bridge.showFilterBar()"
-        (filterChange)="bridge.filters.set($event)">
-      </app-filter-bar>
+      <app-filter-bar *ngIf="bridge.showFilterBar()"></app-filter-bar>
 
       <app-map
         #mapComp
         [activeFilters]="bridge.filters()"
+        [showGems]="bridge.mapLayers().gems"
         [providerPins]="bridge.providerPins()"
         [experiencePins]="bridge.experiencePins()"
+        [eventPins]="bridge.eventVenuePins()"
         [selectedLocation]="bridge.selectedLocation()"
         [fitPoint]="bridge.fitPoint()"
         [pickModeActive]="bridge.pickMode()"
@@ -55,6 +54,7 @@
         (locationSelected)="bridge.locationSelected$.next($event)"
         (providerPinSelected)="bridge.providerPinSelected$.next($event)"
         (experienceSelected)="bridge.experienceSelected$.next($event)"
+        (eventVenueSelected)="bridge.eventVenueSelected$.next($event)"
         (mapTapped)="onMapTapped()"
         (controlTapped)="onControlTapped()"
         (gpsCoord)="bridge.gpsCoord$.next($event)"

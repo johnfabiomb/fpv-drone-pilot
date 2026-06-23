@@ -1,0 +1,47 @@
+<app-panel-shell
+  title="What's On in Malta"
+  (closeRequested)="onPanelCloseRequested()"
+  (dragStart)="bridge.panel.onDragStart($event)"
+  (dragMove)="bridge.panel.onDragMove($event)"
+  (dragEnd)="bridge.panel.onDragEnd($event)"
+  (bodyDragStart)="bridge.panel.startDrag($event)"
+  (bodyDragMove)="bridge.panel.onDragMove($event)"
+  (bodyDragEnd)="bridge.panel.onDragEnd($event)">
+
+  <div class="events">
+    <p class="events__intro">Parties, pool days &amp; live nights across Malta — tap a card for tickets, or a map pin to see what's on at that venue.</p>
+
+    <!-- Period chips -->
+    <div class="events__chips">
+      <div class="chip" *ngFor="let p of periodFilters"
+        [class.active]="activePeriod() === p.id" (click)="setPeriod(p.id)">{{ p.label }}</div>
+    </div>
+    <!-- Category chips -->
+    <div class="events__chips events__chips--cat">
+      <div class="chip" *ngFor="let c of categoryFilters"
+        [class.active]="activeCategory() === c.id" (click)="setCategory(c.id)">{{ c.label }}</div>
+    </div>
+
+    <!-- Venue filter active -->
+    <div class="events__venue-filter" *ngIf="selectedVenue() as v">
+      <span><i class="fa-solid fa-location-dot"></i> {{ v }}</span>
+      <button (click)="clearVenue()">Clear ✕</button>
+    </div>
+
+    <div class="events__count">{{ filtered().length }} event{{ filtered().length === 1 ? '' : 's' }}</div>
+
+    <div class="events__list">
+      <app-event-card
+        *ngFor="let e of filtered()"
+        [event]="e"
+        [now]="now"
+        (selected)="openEvent($event)">
+      </app-event-card>
+
+      <div class="events__empty" *ngIf="filtered().length === 0">
+        No events match these filters — try “All dates”.
+      </div>
+    </div>
+  </div>
+
+</app-panel-shell>

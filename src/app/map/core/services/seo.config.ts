@@ -12,7 +12,7 @@ export interface SeoConfig {
 }
 
 export type SeoPage =
-  | 'map' | 'list' | 'deals' | 'pay' | 'pay-success' | 'plan'
+  | 'map' | 'list' | 'deals' | 'events' | 'pay' | 'pay-success' | 'plan'
   | 'privacy' | 'cookies' | 'about' | 'contact' | 'groups' | 'leaderboard' | 'notifications';
 
 export const DEFAULT_SEO: SeoConfig = {
@@ -48,6 +48,11 @@ export const PAGE_SEO: Record<SeoPage, SeoConfig> = {
     title: 'Malta Local Deals | Tours, Stays & Water Sports | Explore Malta',
     desc: 'Real discounts from local Malta businesses — water sports, kayaking, boat trips, hotels and restaurants. Partner deals personally recommended by John Montaño.',
     url: `${BASE_URL}/malta/deals/`,
+  },
+  events: {
+    title: "What's On in Malta | Parties, Pool Days & Events | Explore Malta",
+    desc: 'The best events in Malta — pool parties, beach parties, club nights and live shows. Browse what\'s on by date and grab your tickets.',
+    url: `${BASE_URL}/malta/events/`,
   },
   plan: {
     title: 'Route Builder · Explore Malta',

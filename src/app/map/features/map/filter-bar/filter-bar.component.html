@@ -1,18 +1,11 @@
 <div class="filter-bar">
-  <div class="chip" [class.active]="isAll" [class.clear]="!isAll" (click)="selectAll()">
-    <span *ngIf="isAll" class="emoji">🗺️</span>
-    <span class="label">{{ isAll ? 'All' : 'Clear' }}</span>
-    <span *ngIf="!isAll" class="chip-x">✕</span>
-  </div>
   <div
-    *ngFor="let f of filters"
+    *ngFor="let c of chips"
     class="chip"
-    [class.chip--deals]="f.id === 'deals'"
-    [class.active]="isActive(f.id)"
-    (click)="toggle(f.id)"
+    [class.active]="isActive(c.id)"
+    (click)="select(c.id)"
   >
-    <span *ngIf="!isActive(f.id)" class="emoji">{{ f.emoji }}</span>
-    <span class="label">{{ f.label }}</span>
-    <span *ngIf="isActive(f.id)" class="chip-x">✕</span>
+    <span class="emoji">{{ c.emoji }}</span>
+    <span class="label">{{ c.label }}</span>
   </div>
 </div>

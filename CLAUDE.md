@@ -135,6 +135,8 @@ Mobile behaviour is automatic: panel stacks below map at 62vh with `margin-top: 
 ```
 The `.chip` base is global. `filter-bar.component.scss` overrides sizing for the floating filter bar — that's the only valid override.
 
+**Map filter bar is one single-select row** (`filter-bar.component.ts`): `All · Gems · Experiences · Events · Caves · Beaches · Historical · Gozo · Comino` — content types first, then gem themes. Picking a type shows only that type's pins; picking a theme shows gems filtered to it. The bar injects the bridge directly (no `@Output`) and **derives its active chip from bridge state** (`mapLayers` + `filters`) so it never drifts. `bridge.mapLayers` (`MapLayers` signal, all types on by default) controls visibility; `MapExploreComponent`'s `effect()` maps active types → `experiencePins`/`eventVenuePins`; the map's `showGems` input hides location pins when Gems isn't shown. Keep it simple — don't reintroduce a "Deals" chip (it's the Experiences type) or stacked sub-filter rows.
+
 ---
 
 ## Page Layout Patterns
@@ -533,6 +535,10 @@ Old `?locationId=X` and `?title=X` query-param URLs are still handled by `MapExp
 ### Experiences (provider promo on the map)
 
 The map promotes **experiences** (wakeboarding, a buggy safari, a dive), not provider self-pins. Model: `Provider → experiences[] → spots[]`. One provider has many experiences; one experience can appear at several map spots; deals resolve per experience and fall back to the provider's. Experience pins live **in the cluster layer** alongside location pins (same source) and use the same latitude-based per-feature `zIndex`, so they interleave with location/cluster pins by position rather than always sitting on top. (The provider/group pin layer is separate and still used by Groups.) Detail at `/malta/experiences/:id` ("Offered by" links back to the provider page). All gated by `FEATURES.PROMOTIONS`. **Full schema + how to add one (incl. flipping a pin from icon → photo): `documentation/EXPERIENCES.md`.** Key code: `core/utils/experience.utils.ts`, `core/models/provider.model.ts` (`Experience`/`ExperienceSpot`), `features/experiences/*`, `ui/deal-box/` (shared coupon box).
+
+### Events ("What's On") — `/malta/events`
+
+Malta events (parties, pool days, concerts) from the GetYourTickets **affiliate** listing. Shell panel page like Deals: period + category filters, `EventCardComponent` cards with **Get Tickets** linking to the **affiliate URL** (every link carries the code — always use `eventBookUrl()`). Data in `src/assets/events.json` (`{ events: MaltaEvent[] }`); one entry per event with a `dates[]` array (recurring events keep every occurrence). Map shows **one pin per venue** (ticket disc) in the shared cluster layer; tapping it filters the list to that venue (`bridge.eventVenuePins` / `eventVenueSelected$`). Key code: `core/models/event.model.ts`, `core/utils/event.utils.ts`, `features/events/*`. **Never scrape GetYourTickets directly** (their robots.txt disallows it) — `scripts/parse-gyt-events.js` parses page HTML the user supplies into `events.json` (grouping dates, reading coords from the page's map markers). Gated by `FEATURES.PROMOTIONS`.
 
 ---
 

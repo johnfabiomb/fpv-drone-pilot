@@ -81,11 +81,11 @@ var bookingRoutes = [
     // the /:id form below serves admins + the booking's own client (get_invoice).
     // Both precede 'book/:token' so 'invoice' isn't captured as a token.
     path: "book/invoice",
-    loadComponent: () => import("./chunk-J5AXUIID.js").then((m) => m.InvoiceComponent)
+    loadComponent: () => import("./chunk-ITQJ4P2E.js").then((m) => m.InvoiceComponent)
   }, false ? { \u0275entryName: "src/app/booking/public/invoice/invoice.component.ts" } : {}),
   __spreadValues({
     path: "book/invoice/:id",
-    loadComponent: () => import("./chunk-J5AXUIID.js").then((m) => m.InvoiceComponent)
+    loadComponent: () => import("./chunk-ITQJ4P2E.js").then((m) => m.InvoiceComponent)
   }, false ? { \u0275entryName: "src/app/booking/public/invoice/invoice.component.ts" } : {}),
   __spreadValues({
     path: "book/:token",
@@ -198,7 +198,7 @@ var routes = [
   // AuthService / UserDataService chain) is never initialised on booking pages.
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-GREH2DGV.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-GEZI2JH4.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 

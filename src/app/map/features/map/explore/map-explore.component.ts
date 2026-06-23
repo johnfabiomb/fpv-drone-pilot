@@ -1,13 +1,16 @@
-import { Component, DestroyRef, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, PLATFORM_ID, effect, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '@map/core/services/seo.service';
 import { BackButton, MapBridgeService } from '@map/core/services/map-bridge.service';
 import { NavigationService } from '@map/core/services/navigation.service';
-import { Location, Provider } from '@map/core/models';
+import { Location, MaltaEvent, Provider } from '@map/core/models';
+import { getExperiencePins } from '@map/core/utils/experience.utils';
+import { getEventVenuePins } from '@map/core/utils/event.utils';
 import { providers } from '@assets/providers.json';
 import { locations } from '@assets/locations.json';
+import { events } from '@assets/events.json';
 
 @Component({
   selector: 'app-map-explore',
@@ -26,6 +29,17 @@ export class MapExploreComponent implements OnInit {
   private readonly route       = inject(ActivatedRoute);
   private readonly router      = inject(Router);
   private readonly nav         = inject(NavigationService);
+
+  constructor() {
+    // Single source of truth for explore promo pins: reflect which content types are shown.
+    const allProviders = providers as Provider[];
+    const allEvents = events as MaltaEvent[];
+    effect(() => {
+      const layers = this.bridge.mapLayers();
+      this.bridge.experiencePins.set(layers.experiences ? getExperiencePins(allProviders) : []);
+      this.bridge.eventVenuePins.set(layers.events ? getEventVenuePins(allEvents) : []);
+    });
+  }
 
   ngOnInit(): void {
     this.seo.setPage('map');
@@ -73,6 +87,10 @@ export class MapExploreComponent implements OnInit {
     // Experience pin tapped on map → navigate to the experience page
     this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(e => this.router.navigate(['/malta/experiences', e.id]));
+
+    // Event venue pin tapped on map → open the events page pre-filtered to that venue
+    this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(pin => this.router.navigate(['/malta/events'], { queryParams: { venue: pin.venue } }));
 
     // Interstitial: user picks a provider from the nav overlay
     this.bridge.interstitialProviderSelected$.pipe(takeUntilDestroyed(this.destroyRef))

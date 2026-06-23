@@ -45,3 +45,14 @@ export const ExperienceType = {
   Stay:      'stay',
 } as const;
 export type ExperienceType = typeof ExperienceType[keyof typeof ExperienceType];
+
+// ── EventCategory ─────────────────────────────────────────────────────────────
+// Bucket for Malta events (parties, concerts…) — drives the event pin/card styling.
+export const EventCategory = {
+  Party:           'party',
+  PoolBeach:       'pool-beach',
+  Nightlife:       'nightlife',
+  ConcertFestival: 'concert-festival',
+  Boat:            'boat',
+} as const;
+export type EventCategory = typeof EventCategory[keyof typeof EventCategory];

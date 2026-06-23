@@ -15,7 +15,7 @@ import { buildRouteFeatures, makePinCanvas, makePinStyle, ROUTE_COLORS } from '@
 import { LocationTracker } from '@map/core/utils/location-tracker';
 import { locations } from '@assets/locations.json';
 import { Router } from '@angular/router';
-import { Experience, Location, MapPoint, MapPointType, Provider } from '@map/core/models';
+import { Experience, EventVenuePin, Location, MapPoint, MapPointType, Provider } from '@map/core/models';
 import { matchesFilter, FilterId } from '@map/core/utils/location-filter.util';
 import { resolveProviderColor, isDiscountValid } from '@map/core/utils/provider.utils';
 import {
@@ -24,6 +24,7 @@ import {
   experienceIcon,
   resolveExperienceDiscount,
 } from '@map/core/utils/experience.utils';
+import { EVENTS_ACCENT } from '@map/core/utils/event.utils';
 import { FEATURES } from '../../../feature-flags';
 
 const ICON_CANVAS_SIZE = 80;
@@ -62,6 +63,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private experienceFeatures: Feature[] = [];
   private experienceCanvasCache = new Map<string, HTMLCanvasElement>();
   private experienceImageCache = new Map<string, HTMLImageElement>();
+
+  // Event pins (one per venue) — also live in the cluster layer/source.
+  private eventFeatures: Feature[] = [];
+  private eventCanvas: HTMLCanvasElement | null = null;
 
   private routeSource = new VectorSource();
   private routeLabelSource = new VectorSource();
@@ -106,6 +111,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
   private _experiencePins: ExperiencePin[] = [];
 
+  @Input() set eventPins(pins: EventVenuePin[]) {
+    this._eventPins = pins ?? [];
+    if (this.map && FEATURES.PROMOTIONS) this.rebuildEventFeatures();
+  }
+  private _eventPins: EventVenuePin[] = [];
+
+  /** Gems layer toggle — when false the location/cluster pins are hidden (promo pins stay). */
+  @Input() set showGems(v: boolean) {
+    this._showGems = v;
+    if (this.map) this.refreshLayer(true);
+  }
+  private _showGems = true;
+
   @Input() set activeFilters(filters: string[]) {
     if (filters.length === 1 && filters[0] === 'deals') {
       this.filteredFeatures = [];
@@ -144,6 +162,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() gpsCoord = new EventEmitter<{ lat: number; lon: number }>();
   @Output() providerPinSelected = new EventEmitter<Provider>();
   @Output() experienceSelected = new EventEmitter<Experience>();
+  @Output() eventVenueSelected = new EventEmitter<EventVenuePin>();
   @Output() controlTapped = new EventEmitter<void>();
   @Output() coordPicked        = new EventEmitter<{ lat: number; lon: number }>();
   @Output() meetingPointTapped = new EventEmitter<{ lat: number; lon: number }>();
@@ -202,6 +221,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       if (feature.get('type') === 'experience-pin') {
         this.experienceSelected.emit(feature.get('experience'));
+        return;
+      }
+
+      if (feature.get('type') === 'event-pin') {
+        this.eventVenueSelected.emit(feature.get('venuePin'));
         return;
       }
 
@@ -302,15 +326,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (!force && shouldCluster === this.showingClusters) return;
     this.showingClusters = shouldCluster;
     this.clusterSource.clear();
-    if (shouldCluster) {
-      this.buildLocalityFeatures();
-      this.clusterSource.addFeatures(this.localityFeatures);
-    } else {
-      this.clusterSource.addFeatures(this.filteredFeatures);
+    if (this._showGems) {
+      if (shouldCluster) {
+        this.buildLocalityFeatures();
+        this.clusterSource.addFeatures(this.localityFeatures);
+      } else {
+        this.clusterSource.addFeatures(this.filteredFeatures);
+      }
     }
     // Promo pins share this layer so they mix in with the location pins by latitude.
     if (FEATURES.PROMOTIONS && this.experienceFeatures.length) {
       this.clusterSource.addFeatures(this.experienceFeatures);
+    }
+    if (FEATURES.PROMOTIONS && this.eventFeatures.length) {
+      this.clusterSource.addFeatures(this.eventFeatures);
     }
   }
 
@@ -351,6 +380,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const type = feature.get('type');
     if (type === 'locality-cluster') return this.localityClusterStyle(feature);
     if (type === 'experience-pin') return this.experiencePinStyle(feature);
+    if (type === 'event-pin') return this.eventPinStyle(feature);
     return this.individualPinStyle(feature);
   }
 
@@ -683,6 +713,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setupExperienceLayer(): void {
     // No separate layer — features go into the cluster layer (see rebuildExperienceFeatures).
     if (this._experiencePins.length && FEATURES.PROMOTIONS) this.rebuildExperienceFeatures();
+    if (this._eventPins.length && FEATURES.PROMOTIONS) this.rebuildEventFeatures();
   }
 
   private buildExperienceCanvas(experience: Experience, provider: Provider, img?: HTMLImageElement): HTMLCanvasElement {
@@ -767,6 +798,43 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         anchorYUnits: 'fraction',
       }),
       zIndex,
+    });
+  }
+
+  // ── Event venue pins ──────────────────────────────────────
+  // One pin per venue (a ticket disc), built into the cluster layer like experiences.
+
+  private rebuildEventFeatures(): void {
+    this.eventFeatures = this._eventPins.map(pin => new Feature({
+      geometry: new Point(getCoordinatesfromLonLat(pin.lon, pin.lat)),
+      type: 'event-pin',
+      venuePin: pin,
+    }));
+    if (!this.eventCanvas) {
+      this.eventCanvas = this.buildPillPin(
+        this.buildEmojiTeardropPin(EVENTS_ACCENT, '🎟️', 0.5), '🎟️ Events', true, EVENTS_ACCENT,
+      );
+    }
+    this.refreshLayer(true);
+  }
+
+  private eventPinStyle(feature: FeatureLike): Style {
+    const zoom = this.map.getView().getZoom() ?? 10;
+    const scale = zoom < CLUSTER_ZOOM
+      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
+      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
+    const coords = (feature.getGeometry() as Point).getCoordinates();
+    const canvas = this.eventCanvas!;
+    return new Style({
+      image: new Icon({
+        img: canvas,
+        size: [canvas.width, canvas.height],
+        scale,
+        anchor: [0.5, 1.0],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+      }),
+      zIndex: -Math.round(coords[1] / 1000),
     });
   }
 

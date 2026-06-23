@@ -54,6 +54,10 @@ export const mapRoutes: Routes = [
                                 loadComponent: () => import('@map/features/map/deals/deals.component').then(m => m.DealsComponent)
                             },
                             {
+                                path: 'events',
+                                loadComponent: () => import('@map/features/events/events-page/events.component').then(m => m.EventsComponent)
+                            },
+                            {
                                 path: 'providers/:id',
                                 loadComponent: () => import('@map/features/providers/provider-page/provider-page.component').then(m => m.ProviderPageComponent)
                             },
