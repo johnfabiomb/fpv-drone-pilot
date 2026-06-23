@@ -9,7 +9,7 @@ import { MapBridgeService } from '@map/core/services/map-bridge.service';
 import { NavigationService } from '@map/core/services/navigation.service';
 import { EventVenuePin, Location, MaltaEvent } from '@map/core/models';
 import {
-  EVENT_FILTERS, PERIOD_FILTERS, eventBookUrl, getEventVenuePins, matchesPeriod, nextDate,
+  EVENT_FILTERS, PERIOD_FILTERS, eventBookUrl, getEventVenuePins, matchesPeriod, nextDate, upcomingEvents,
 } from '@map/core/utils/event.utils';
 import { events as rawEvents } from '@assets/events.json';
 
@@ -21,8 +21,9 @@ import { events as rawEvents } from '@assets/events.json';
   styleUrl: './events.component.scss',
 })
 export class EventsComponent implements OnInit {
-  private readonly allEvents = rawEvents as MaltaEvent[];
   readonly now = new Date();
+  // Past events drop out automatically.
+  private readonly allEvents = upcomingEvents(rawEvents as MaltaEvent[], this.now);
 
   readonly categoryFilters = EVENT_FILTERS;
   readonly periodFilters = PERIOD_FILTERS;

@@ -7,7 +7,7 @@ import { BackButton, MapBridgeService } from '@map/core/services/map-bridge.serv
 import { NavigationService } from '@map/core/services/navigation.service';
 import { Location, MaltaEvent, Provider } from '@map/core/models';
 import { getExperiencePins } from '@map/core/utils/experience.utils';
-import { getEventVenuePins } from '@map/core/utils/event.utils';
+import { getEventVenuePins, upcomingEvents } from '@map/core/utils/event.utils';
 import { providers } from '@assets/providers.json';
 import { locations } from '@assets/locations.json';
 import { events } from '@assets/events.json';
@@ -33,7 +33,7 @@ export class MapExploreComponent implements OnInit {
   constructor() {
     // Single source of truth for explore promo pins: reflect which content types are shown.
     const allProviders = providers as Provider[];
-    const allEvents = events as MaltaEvent[];
+    const allEvents = upcomingEvents(events as MaltaEvent[], new Date()); // past events drop out
     effect(() => {
       const layers = this.bridge.mapLayers();
       this.bridge.experiencePins.set(layers.experiences ? getExperiencePins(allProviders) : []);

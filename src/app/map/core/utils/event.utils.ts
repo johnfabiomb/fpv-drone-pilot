@@ -36,6 +36,23 @@ export const PERIOD_FILTERS: { id: string; label: string }[] = [
   { id: '30d', label: 'Next 30 days' },
 ];
 
+/** Local day-start cutoff ("YYYY-MM-DDT00:00") — events stay visible all of their day. */
+function dayCutoff(now: Date): string {
+  const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}T00:00`;
+}
+
+/** True while the event still has a date today or later. */
+export function hasUpcomingDate(event: MaltaEvent, now: Date): boolean {
+  const cutoff = dayCutoff(now);
+  return event.dates.some(d => d.start != null && d.start >= cutoff);
+}
+
+/** Drops events whose every date is in the past — so old events disappear automatically. */
+export function upcomingEvents(events: MaltaEvent[], now: Date): MaltaEvent[] {
+  return events.filter(e => hasUpcomingDate(e, now));
+}
+
 /** Earliest upcoming occurrence (ISO) on/after `now`, else the earliest date. */
 export function nextDate(event: MaltaEvent, now: Date): string | null {
   const iso = now.toISOString().slice(0, 16);
