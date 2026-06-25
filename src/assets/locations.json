@@ -2371,8 +2371,13 @@
             "id": 55,
             "title": "Paradise Bay",
             "slug": "paradise-bay",
-            "description": "Paradise Bay is one of Malta’s most loved sandy beaches, tucked into a deep cove at the island’s northern tip. Surrounded by cliffs and offering clear, turquoise waters, it’s perfect for swimming, sunbathing, or grabbing a cocktail at the beach bar. Popular but still relaxing, this beach is ideal for a full day of seaside escape with views of Comino in the distance. It’s also a great snorkeling spot, especially around the edges of the bay.",
-            "img": "/assets/images/places/paradise-bay.webp",
+            "description": "Paradise Bay is one of Malta’s most loved sandy beaches, tucked into a deep cove at the island’s northern tip. Surrounded by cliffs and offering clear, turquoise waters, it’s perfect for swimming, sunbathing, or grabbing a cocktail at the beach bar. Popular but still relaxing, this beach is ideal for a full day of seaside escape with views of Comino in the distance. It’s also a great snorkeling spot, especially around the edges of the bay. Access is down a flight of steps from the cliff-top, where a small beach lido rents sunbeds and umbrellas right by the water.",
+            "img": "/assets/images/places/paradise-bay/paradise-bay-beach.webp",
+            "images": [
+                "/assets/images/places/paradise-bay/paradise-bay-beach.webp",
+                "/assets/images/places/paradise-bay/paradise-bay-lido.webp",
+                "/assets/images/places/paradise-bay/paradise-bay-stairs.webp"
+            ],
             "lon": 14.332826579817256,
             "lat": 35.98227580320132,
             "url": "https://www.instagram.com/johnfabiomb/embed",
@@ -2398,7 +2403,7 @@
             ],
             "locality": "Mellieħa",
             "showLabel": false,
-            "thumb": "/assets/images/places/paradise-bay-thumb.webp"
+            "thumb": "/assets/images/places/paradise-bay/paradise-bay-beach-thumb.webp"
         },
         {
             "id": 57,

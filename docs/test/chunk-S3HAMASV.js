@@ -1,0 +1,1196 @@
+// src/assets/events.json
+var events = [
+  {
+    id: "malta-pub-crawl",
+    name: "Malta Pub Crawl",
+    category: "nightlife",
+    venue: "Paceville",
+    lat: 35.9231053,
+    lon: 14.491256,
+    image: "/assets/images/events/malta-pub-crawl.webp",
+    url: "https://www.getyourtickets.com/event/travel-mate/malta-pub-crawl",
+    affiliateUrl: "https://www.getyourtickets.com/event/travel-mate/malta-pub-crawl/NMAHOOF1",
+    organizer: "travel-mate",
+    dates: [
+      {
+        start: "2026-06-23T21:00",
+        dateRaw: "Tuesday 23 June 21:00"
+      }
+    ]
+  },
+  {
+    id: "pool-party-gianpula-rooftop26",
+    name: "Pool&Party // GIANPULA ROOFTOP",
+    category: "pool-beach",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/pool-party-gianpula-rooftop26.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/pool-party-gianpula-rooftop26",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/pool-party-gianpula-rooftop26/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-23T23:00",
+        dateRaw: "Tuesday 23 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "love-night-tuesdays",
+    name: "Love Night Tuesdays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/love-night-tuesdays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/love-night-tuesdays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/love-night-tuesdays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-23T23:00",
+        dateRaw: "Tuesday 23 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "pool-party-french-edition26",
+    name: "Pool&Party // FRENCH EDITION",
+    category: "pool-beach",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/pool-party-french-edition26.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/pool-party-french-edition26",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/pool-party-french-edition26/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-24T21:00",
+        dateRaw: "Wednesday 24 June 21:00"
+      }
+    ]
+  },
+  {
+    id: "bad-bunnies-gianpula",
+    name: "Bad Bunnies // Gianpula",
+    category: "party",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/bad-bunnies-gianpula.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/bad-bunnies-gianpula",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/bad-bunnies-gianpula/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-24T23:00",
+        dateRaw: "Wednesday 24 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "glow-wednesdays",
+    name: "Glow Wednesdays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/glow-wednesdays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/glow-wednesdays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/glow-wednesdays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-24T23:00",
+        dateRaw: "Wednesday 24 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "twentytwo-white-party26",
+    name: "TwentyTwo White Party",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/twentytwo-white-party26.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-white-party26",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-white-party26/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-24T23:00",
+        dateRaw: "Wednesday 24 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "kaboom-thursday",
+    name: "Kaboom Thursday",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/kaboom-thursday.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/kaboom-thursday",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/kaboom-thursday/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-25T23:00",
+        dateRaw: "Thursday 25 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "french-night-fever-twentytwo",
+    name: "French Night Fever // TwentyTwo",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/french-night-fever-twentytwo.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/french-night-fever-twentytwo",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/french-night-fever-twentytwo/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-25T23:00",
+        dateRaw: "Thursday 25 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "pool-party",
+    name: "Pool Party",
+    category: "pool-beach",
+    venue: "Toy Room Beach Club",
+    lat: 35.9098982,
+    lon: 14.5106238,
+    image: "/assets/images/events/pool-party.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/pool-party",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/pool-party/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-26T11:00",
+        dateRaw: "Friday 26 June 11:00"
+      }
+    ]
+  },
+  {
+    id: "moonlight-swim",
+    name: "Moonlight Swim",
+    category: "pool-beach",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/moonlight-swim.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/moonlight-swim",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/moonlight-swim/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-26T21:00",
+        dateRaw: "Friday 26 June 21:00"
+      }
+    ]
+  },
+  {
+    id: "twentytwo-friday",
+    name: "TwentyTwo Friday",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/twentytwo-friday.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-friday",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-friday/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-26T23:00",
+        dateRaw: "Friday 26 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "white-party-marrakech",
+    name: "White Party Marrakech",
+    category: "party",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/white-party-marrakech.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/white-party-marrakech",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/white-party-marrakech/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-26T23:00",
+        dateRaw: "Friday 26 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "circus-fridays",
+    name: "Circus Fridays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/circus-fridays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/circus-fridays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/circus-fridays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-26T23:00",
+        dateRaw: "Friday 26 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "pool-party-flo-skypool26",
+    name: "Pool&Party // FLO SKYPOOL",
+    category: "pool-beach",
+    venue: "Flo Skypool",
+    lat: 35.922315,
+    lon: 14.4901576,
+    image: "/assets/images/events/pool-party-flo-skypool26.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/pool-party-flo-skypool26",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/pool-party-flo-skypool26/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-27T19:00",
+        dateRaw: "Saturday 27 June 19:00"
+      }
+    ]
+  },
+  {
+    id: "the-cafe-del-mar-white-edition-2026",
+    name: "The Caf\xE9 del Mar White Edition 2026",
+    category: "party",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/the-cafe-del-mar-white-edition-2026.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/the-cafe-del-mar-white-edition-2026",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/the-cafe-del-mar-white-edition-2026/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-06-27T20:00",
+        dateRaw: "Saturday 27 June 20:00"
+      }
+    ]
+  },
+  {
+    id: "flirt-foam-party-edition26",
+    name: "FLIRT Foam Party Edition",
+    category: "pool-beach",
+    venue: "Aria Complex",
+    lat: 35.9118557,
+    lon: 14.4624137,
+    image: "/assets/images/events/flirt-foam-party-edition26.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/flirt-foam-party-edition26",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/flirt-foam-party-edition26/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-27T22:00",
+        dateRaw: "Saturday 27 June 22:00"
+      }
+    ]
+  },
+  {
+    id: "toy-room-saturdays",
+    name: "Toy Room Saturdays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/toy-room-saturdays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/toy-room-saturdays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/toy-room-saturdays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-27T23:00",
+        dateRaw: "Saturday 27 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "twentytwo-saturday",
+    name: "TwentyTwo Saturday",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/twentytwo-saturday.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-saturday",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-saturday/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-27T23:00",
+        dateRaw: "Saturday 27 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "french-touc",
+    name: "French Touch",
+    category: "party",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/french-touc.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/french-touc",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/french-touc/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-27T23:00",
+        dateRaw: "Saturday 27 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "bongo-porn-armier-beach-party-28-june-2026",
+    name: "BONGO PORN \u2022 ARMIER BEACH PARTY \u2022 28 JUNE 2026",
+    category: "pool-beach",
+    venue: "Palm Beach",
+    lat: 35.9888395,
+    lon: 14.3569782,
+    image: "/assets/images/events/bongo-porn-armier-beach-party-28-june-2026.webp",
+    url: "https://www.getyourtickets.com/event/b-fast2night-entertainment/bongo-porn-armier-beach-party-28-june-2026",
+    affiliateUrl: "https://www.getyourtickets.com/event/b-fast2night-entertainment/bongo-porn-armier-beach-party-28-june-2026/NMAHOOF1",
+    organizer: "b-fast2night-entertainment",
+    dates: [
+      {
+        start: "2026-06-28T14:00",
+        dateRaw: "Sunday 28 June 14:00"
+      }
+    ]
+  },
+  {
+    id: "bora-bora-pool-party26",
+    name: "Bora Bora Pool Party - Sundays",
+    category: "pool-beach",
+    venue: "Bora Bora Ibiza Malta",
+    lat: 35.947878,
+    lon: 14.4102005,
+    image: "/assets/images/events/bora-bora-pool-party26.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/bora-bora-pool-party26",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/bora-bora-pool-party26/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-28T16:00",
+        dateRaw: "Sunday 28 June 16:00"
+      }
+    ]
+  },
+  {
+    id: "move-it",
+    name: "Move It",
+    category: "party",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/move-it.webp",
+    url: "https://www.getyourtickets.com/event/puerto-malta/move-it",
+    affiliateUrl: "https://www.getyourtickets.com/event/puerto-malta/move-it/NMAHOOF1",
+    organizer: "puerto-malta",
+    dates: [
+      {
+        start: "2026-06-28T22:00",
+        dateRaw: "Sunday 28 June 22:00"
+      }
+    ]
+  },
+  {
+    id: "twentytwo-french-night26",
+    name: "TwentyTwo French Night",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/twentytwo-french-night26.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-french-night26",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/twentytwo-french-night26/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-28T23:00",
+        dateRaw: "Sunday 28 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "love-night-sundays",
+    name: "Love Night Sundays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/love-night-sundays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/love-night-sundays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/love-night-sundays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-28T23:00",
+        dateRaw: "Sunday 28 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "bora-bora-pool-party-mondays",
+    name: "Bora Bora Pool Party - Mondays",
+    category: "pool-beach",
+    venue: "Bora Bora Ibiza Malta",
+    lat: 35.947878,
+    lon: 14.4102005,
+    image: "/assets/images/events/bora-bora-pool-party-mondays.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/bora-bora-pool-party-mondays",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/bora-bora-pool-party-mondays/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-29T16:00",
+        dateRaw: "Monday 29 June 16:00"
+      }
+    ]
+  },
+  {
+    id: "the-white-party2026",
+    name: "The White Party",
+    category: "party",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/the-white-party2026.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/the-white-party2026",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/the-white-party2026/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-06-29T21:00",
+        dateRaw: "Monday 29 June 21:00"
+      }
+    ]
+  },
+  {
+    id: "dolce-vita-mondays",
+    name: "Dolce Vita Mondays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/dolce-vita-mondays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/dolce-vita-mondays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/dolce-vita-mondays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-06-29T23:00",
+        dateRaw: "Monday 29 June 23:00"
+      }
+    ]
+  },
+  {
+    id: "pool-party-at-vita-hotel",
+    name: "POOL PARTY at VITA HOTEL",
+    category: "pool-beach",
+    venue: "VITA Hotel & Rooftop",
+    lat: 35.9233878,
+    lon: 14.4897429,
+    image: "/assets/images/events/pool-party-at-vita-hotel.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/pool-party-at-vita-hotel",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/pool-party-at-vita-hotel/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-30T17:00",
+        dateRaw: "Tuesday 30 June 17:00"
+      }
+    ]
+  },
+  {
+    id: "mega-boat-party26",
+    name: "Mega Boat Party",
+    category: "boat",
+    venue: "Sliema Ferries Terminal",
+    lat: 35.9084045,
+    lon: 14.5051336,
+    image: "/assets/images/events/mega-boat-party26.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/mega-boat-party26",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/mega-boat-party26/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-06-30T19:00",
+        dateRaw: "Tuesday 30 June 19:00"
+      }
+    ]
+  },
+  {
+    id: "cafe-del-mar-thursday-pool-parties",
+    name: "Caf\xE9 Del Mar - Thursday Pool Parties",
+    category: "pool-beach",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/cafe-del-mar-thursday-pool-parties.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/cafe-del-mar-thursday-pool-parties",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/cafe-del-mar-thursday-pool-parties/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-02T20:00",
+        dateRaw: "Thursday 2 July 20:00"
+      }
+    ]
+  },
+  {
+    id: "senorita-toy-room",
+    name: "Se\xF1orita - Toy Room",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/senorita-toy-room.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/senorita-toy-room",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/senorita-toy-room/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-02T23:00",
+        dateRaw: "Thursday 2 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "mega-boat-party-white-edition",
+    name: "Mega Boat Party White Edition",
+    category: "boat",
+    venue: "Sliema Ferries Terminal",
+    lat: 35.9083125,
+    lon: 14.5056875,
+    image: "/assets/images/events/mega-boat-party-white-edition.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/mega-boat-party-white-edition",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/mega-boat-party-white-edition/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-04T19:00",
+        dateRaw: "Saturday 4 July 19:00"
+      }
+    ]
+  },
+  {
+    id: "deborah-de-luca-at-cafe-del-mar",
+    name: "Deborah de Luca at Caf\xE9 del Mar",
+    category: "party",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/deborah-de-luca-at-cafe-del-mar.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/deborah-de-luca-at-cafe-del-mar",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/deborah-de-luca-at-cafe-del-mar/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-04T20:00",
+        dateRaw: "Saturday 4 July 20:00"
+      }
+    ]
+  },
+  {
+    id: "wild-west-saturdays",
+    name: "Wild West Saturdays",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/wild-west-saturdays.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/wild-west-saturdays",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/wild-west-saturdays/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-07-04T23:00",
+        dateRaw: "Saturday 4 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "kaaris-showcase",
+    name: "KAARIS - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/kaaris-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/kaaris-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/kaaris-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-07-05T22:00",
+        dateRaw: "Sunday 5 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "the-white-party-summer-edition-26",
+    name: "The White Party - Summer Edition '26",
+    category: "party",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/the-white-party-summer-edition-26.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/the-white-party-summer-edition-26",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/the-white-party-summer-edition-26/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-07-06T21:00",
+        dateRaw: "Monday 6 July 21:00"
+      }
+    ]
+  },
+  {
+    id: "le-classico-skyclub",
+    name: "Le Classico",
+    category: "party",
+    venue: "Sky Club Malta",
+    lat: 35.9248154,
+    lon: 14.4913969,
+    image: "/assets/images/events/le-classico-skyclub.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/le-classico-skyclub",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/le-classico-skyclub/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-06T23:00",
+        dateRaw: "Monday 6 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "le-desir-toy-room",
+    name: "Le D\xE9sir - Toy Room",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/le-desir-toy-room.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/le-desir-toy-room",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/le-desir-toy-room/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-07T23:00",
+        dateRaw: "Tuesday 7 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "la-mano-showcase",
+    name: "LA MANO - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/la-mano-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/la-mano-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/la-mano-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-07-12T22:00",
+        dateRaw: "Sunday 12 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "white-party",
+    name: "White Party",
+    category: "party",
+    venue: "Toy Room Beach Club",
+    lat: 35.9098982,
+    lon: 14.5106238,
+    image: "/assets/images/events/white-party.webp",
+    url: "https://www.getyourtickets.com/event/toy-room-club-malta/white-party",
+    affiliateUrl: "https://www.getyourtickets.com/event/toy-room-club-malta/white-party/NMAHOOF1",
+    organizer: "toy-room-club-malta",
+    dates: [
+      {
+        start: "2026-07-15T11:00",
+        dateRaw: "Wednesday 15 July 11:00"
+      }
+    ]
+  },
+  {
+    id: "french-night-fever-gianpula",
+    name: "French Night Fever // GIANPULA",
+    category: "party",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/french-night-fever-gianpula.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/french-night-fever-gianpula",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/french-night-fever-gianpula/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-16T23:00",
+        dateRaw: "Thursday 16 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "glam-night-summer-26-twentytwo",
+    name: "Glam Night Summer \u201826 TwentyTwo",
+    category: "party",
+    venue: "TwentyTwo",
+    lat: 35.921978,
+    lon: 14.4924483,
+    image: "/assets/images/events/glam-night-summer-26-twentytwo.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/glam-night-summer-26-twentytwo",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/glam-night-summer-26-twentytwo/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-07-16T23:00",
+        dateRaw: "Thursday 16 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "french-border",
+    name: "French Border",
+    category: "party",
+    venue: "Aria Complex",
+    lat: 35.9118557,
+    lon: 14.4624137,
+    image: "/assets/images/events/french-border.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/french-border",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/french-border/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-17T22:00",
+        dateRaw: "Friday 17 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "g7-presents-mestiza-at-cafe-del-mar",
+    name: "G7 presents M\xCBSTIZA at Caf\xE9 del Mar",
+    category: "party",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/g7-presents-mestiza-at-cafe-del-mar.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/g7-presents-mestiza-at-cafe-del-mar",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/g7-presents-mestiza-at-cafe-del-mar/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-18T20:00",
+        dateRaw: "Saturday 18 July 20:00"
+      }
+    ]
+  },
+  {
+    id: "temptation-pool-party",
+    name: "Temptation Pool Party",
+    category: "pool-beach",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/temptation-pool-party.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/temptation-pool-party",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/temptation-pool-party/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-18T21:00",
+        dateRaw: "Saturday 18 July 21:00"
+      }
+    ]
+  },
+  {
+    id: "sunday-swim",
+    name: "Sunday Swim",
+    category: "pool-beach",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/sunday-swim.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/sunday-swim",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/sunday-swim/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-07-19T21:00",
+        dateRaw: "Sunday 19 July 21:00"
+      }
+    ]
+  },
+  {
+    id: "triangule-des-bermudes",
+    name: "TRIANGLE DES BERMUDES",
+    category: "party",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/triangule-des-bermudes.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/triangule-des-bermudes",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/triangule-des-bermudes/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-07-19T22:00",
+        dateRaw: "Sunday 19 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "gue-live-in-malta-at-gianpula-main-room",
+    name: "GU\xC8 Live in Malta at Gianpula Main Room",
+    category: "concert-festival",
+    venue: "Gianpula Main Room",
+    lat: 35.8756637,
+    lon: 14.418182,
+    image: "/assets/images/events/gue-live-in-malta-at-gianpula-main-room.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/gue-live-in-malta-at-gianpula-main-room",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/gue-live-in-malta-at-gianpula-main-room/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-20T22:00",
+        dateRaw: "Monday 20 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "beach-party-malta",
+    name: "Beach Party MALTA",
+    category: "pool-beach",
+    venue: "Palm Beach",
+    lat: 35.9888395,
+    lon: 14.3569782,
+    image: "/assets/images/events/beach-party-malta.webp",
+    url: "https://www.getyourtickets.com/event/events-lab/beach-party-malta",
+    affiliateUrl: "https://www.getyourtickets.com/event/events-lab/beach-party-malta/NMAHOOF1",
+    organizer: "events-lab",
+    dates: [
+      {
+        start: "2026-07-21T17:30",
+        dateRaw: "Tuesday 21 July 17:30"
+      }
+    ]
+  },
+  {
+    id: "neon-pool-party26",
+    name: "Neon Pool Party",
+    category: "pool-beach",
+    venue: "Infinity by Hugo\u2019s",
+    lat: 35.9245262,
+    lon: 14.4885349,
+    image: "/assets/images/events/neon-pool-party26.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/neon-pool-party26",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/neon-pool-party26/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-07-21T21:00",
+        dateRaw: "Tuesday 21 July 21:00"
+      }
+    ]
+  },
+  {
+    id: "mamacita-hiphop-reggaeton-live-at-gianpula-main",
+    name: "MAMACITA HIPHOP & REGGAETON Live at GIANPULA MAIN",
+    category: "concert-festival",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/mamacita-hiphop-reggaeton-live-at-gianpula-main.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/mamacita-hiphop-reggaeton-live-at-gianpula-main",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/mamacita-hiphop-reggaeton-live-at-gianpula-main/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-21T23:00",
+        dateRaw: "Tuesday 21 July 23:00"
+      }
+    ]
+  },
+  {
+    id: "nono-la-grinta-showcase",
+    name: "NONO LA GRINTA - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/nono-la-grinta-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/nono-la-grinta-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/nono-la-grinta-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-07-26T22:00",
+        dateRaw: "Sunday 26 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "morad-live-at-gianpula-village-malta",
+    name: "MORAD Live at Gianpula Village Malta",
+    category: "concert-festival",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/morad-live-at-gianpula-village-malta.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/morad-live-at-gianpula-village-malta",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/morad-live-at-gianpula-village-malta/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-07-27T22:00",
+        dateRaw: "Monday 27 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "exit-spiral-festival-day1-gianpula-village",
+    name: "EXIT: Spiral Festival Day1 - Gianpula Village",
+    category: "concert-festival",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/exit-spiral-festival-day1-gianpula-village.webp",
+    url: "https://www.getyourtickets.com/event/gmed-projects/exit-spiral-festival-day1-gianpula-village",
+    affiliateUrl: "https://www.getyourtickets.com/event/gmed-projects/exit-spiral-festival-day1-gianpula-village/NMAHOOF1",
+    organizer: "gmed-projects",
+    dates: [
+      {
+        start: "2026-07-31T22:00",
+        dateRaw: "Friday 31 July 22:00"
+      }
+    ]
+  },
+  {
+    id: "exit-spiral-festival-day-2-cafe-del-mar",
+    name: "EXIT: Spiral Festival Day 2 - Caf\xE9 Del Mar",
+    category: "concert-festival",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/exit-spiral-festival-day-2-cafe-del-mar.webp",
+    url: "https://www.getyourtickets.com/event/gmed-projects/exit-spiral-festival-day-2-cafe-del-mar",
+    affiliateUrl: "https://www.getyourtickets.com/event/gmed-projects/exit-spiral-festival-day-2-cafe-del-mar/NMAHOOF1",
+    organizer: "gmed-projects",
+    dates: [
+      {
+        start: "2026-08-01T22:00",
+        dateRaw: "Saturday 1 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "guy2bezbar-showcase",
+    name: "GUY2BEZBAR - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/guy2bezbar-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/guy2bezbar-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/guy2bezbar-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-08-02T22:00",
+        dateRaw: "Sunday 2 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "world-wide-wonders",
+    name: "World Wide Wonders Festival",
+    category: "concert-festival",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/world-wide-wonders.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/world-wide-wonders",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/world-wide-wonders/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-08-03T21:00",
+        dateRaw: "Monday 3 August 21:00"
+      }
+    ]
+  },
+  {
+    id: "panorama-malta-g7-events-present-artbat-at-cafe",
+    name: "Panorama Malta & G7 Events Present: ARTBAT at Caf\xE9",
+    category: "party",
+    venue: "Caf\xE9 del Mar Malta",
+    lat: 35.9588322,
+    lon: 14.4235702,
+    image: "/assets/images/events/panorama-malta-g7-events-present-artbat-at-cafe.webp",
+    url: "https://www.getyourtickets.com/event/gmed-projects/panorama-malta-g7-events-present-artbat-at-cafe",
+    affiliateUrl: "https://www.getyourtickets.com/event/gmed-projects/panorama-malta-g7-events-present-artbat-at-cafe/NMAHOOF1",
+    organizer: "gmed-projects",
+    dates: [
+      {
+        start: "2026-08-08T20:00",
+        dateRaw: "Saturday 8 August 20:00"
+      }
+    ]
+  },
+  {
+    id: "r2-showcase",
+    name: "R2 - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/r2-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/r2-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/r2-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-08-09T22:00",
+        dateRaw: "Sunday 9 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "sfera-ebbasta-live-in-malta-at-gianpula-village",
+    name: "SFERA EBBASTA LIVE in Malta at Gianpula Village",
+    category: "concert-festival",
+    venue: "Gianpula Village",
+    lat: 35.8760449,
+    lon: 14.418319,
+    image: "/assets/images/events/sfera-ebbasta-live-in-malta-at-gianpula-village.webp",
+    url: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/sfera-ebbasta-live-in-malta-at-gianpula-village",
+    affiliateUrl: "https://www.getyourtickets.com/event/g7-services-ltd1771941319/sfera-ebbasta-live-in-malta-at-gianpula-village/NMAHOOF1",
+    organizer: "g7-services-ltd1771941319",
+    dates: [
+      {
+        start: "2026-08-10T22:00",
+        dateRaw: "Monday 10 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "timar-showcase",
+    name: "TIMAR - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/timar-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/timar-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/timar-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-08-16T22:00",
+        dateRaw: "Sunday 16 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "gradur-showcase",
+    name: "GRADUR - ShowCase",
+    category: "concert-festival",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/gradur-showcase.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/gradur-showcase",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/gradur-showcase/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-08-23T22:00",
+        dateRaw: "Sunday 23 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "tk-show-case",
+    name: "TK - Show Case",
+    category: "party",
+    venue: "Tigullio",
+    lat: 35.9178844,
+    lon: 14.4891185,
+    image: "/assets/images/events/tk-show-case.webp",
+    url: "https://www.getyourtickets.com/event/jlm-marketing-ltd/tk-show-case",
+    affiliateUrl: "https://www.getyourtickets.com/event/jlm-marketing-ltd/tk-show-case/NMAHOOF1",
+    organizer: "jlm-marketing-ltd",
+    dates: [
+      {
+        start: "2026-08-30T22:00",
+        dateRaw: "Sunday 30 August 22:00"
+      }
+    ]
+  },
+  {
+    id: "love-night-winter-edition-2026",
+    name: "Love Night // Winter Edition 2026",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/love-night-winter-edition-2026.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/love-night-winter-edition-2026",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/love-night-winter-edition-2026/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-10-03T23:00",
+        dateRaw: "Saturday 3 October 23:00"
+      }
+    ]
+  },
+  {
+    id: "bad-bunnies-winter-edition-2026",
+    name: "Bad Bunnies // Winter Edition 2026",
+    category: "party",
+    venue: "Toy Room Malta",
+    lat: 35.9242198,
+    lon: 14.4890574,
+    image: "/assets/images/events/bad-bunnies-winter-edition-2026.webp",
+    url: "https://www.getyourtickets.com/event/life-events-ltd/bad-bunnies-winter-edition-2026",
+    affiliateUrl: "https://www.getyourtickets.com/event/life-events-ltd/bad-bunnies-winter-edition-2026/NMAHOOF1",
+    organizer: "life-events-ltd",
+    dates: [
+      {
+        start: "2026-10-10T23:00",
+        dateRaw: "Saturday 10 October 23:00"
+      }
+    ]
+  }
+];
+
+export {
+  events
+};
+//# sourceMappingURL=chunk-S3HAMASV.js.map

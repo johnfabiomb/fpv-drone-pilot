@@ -24,13 +24,14 @@
     </app-provider-card>
   </div>
 
-  <!-- slot-bottom: second provider card for logged-in users -->
-  <app-provider-card
-    *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[1]"
+  <!-- slot-bottom: a nearby event (party) -->
+  <app-event-card
+    *ngIf="!bridge.interstitialProvider() && bridge.interstitialEvent() as ev"
     slot-bottom
-    [provider]="bridge.interstitialProviders()[1]"
-    (selected)="onInterstitialProviderSelected($event)">
-  </app-provider-card>
+    [event]="ev"
+    [now]="now"
+    (selected)="onInterstitialEventSelected($event)">
+  </app-event-card>
 
 </app-nav-interstitial>
 
@@ -43,7 +44,7 @@
       <app-map
         #mapComp
         [activeFilters]="bridge.filters()"
-        [showGems]="bridge.mapLayers().gems"
+        [showGems]="bridge.showGems()"
         [providerPins]="bridge.providerPins()"
         [experiencePins]="bridge.experiencePins()"
         [eventPins]="bridge.eventVenuePins()"

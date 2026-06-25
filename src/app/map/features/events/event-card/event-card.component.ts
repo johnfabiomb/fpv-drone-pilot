@@ -23,7 +23,7 @@ export class EventCardComponent {
   get whenLabel(): string {
     const next = nextDate(this.event, this.now);
     const raw = this.event.dates.find(d => d.start === next)?.dateRaw ?? this.event.dates[0]?.dateRaw ?? '';
-    return formatEventDate(next, raw);
+    return formatEventDate(next, raw, this.now);
   }
 
   /** "+3 more dates" hint for recurring events. */

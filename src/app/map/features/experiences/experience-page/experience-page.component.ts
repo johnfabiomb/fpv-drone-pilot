@@ -9,9 +9,11 @@ import { SeoService } from '@map/core/services/seo.service';
 import { InteractionTrackingService } from '@map/core/services/interaction-tracking.service';
 import { MapBridgeService } from '@map/core/services/map-bridge.service';
 import { NavigationService } from '@map/core/services/navigation.service';
-import { Experience, Location as AppLocation, Provider } from '@map/core/models';
+import { Experience, Location as AppLocation, MaltaEvent, Provider } from '@map/core/models';
 import { providers } from '@assets/providers.json';
+import { events } from '@assets/events.json';
 import { findExperience, getExperiencePins, resolveExperienceBookUrl } from '@map/core/utils/experience.utils';
+import { getEventVenuePins, upcomingEvents } from '@map/core/utils/event.utils';
 
 @Component({
   selector: 'app-experience-page',
@@ -77,7 +79,10 @@ export class ExperiencePageComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       // Keep the experience pins on the map (no provider pins).
       this.bridge.enterPanelMode([], { label: 'Back' });
+      // Show experiences + events here (no gems).
+      this.bridge.showGems.set(false);
       this.bridge.experiencePins.set(getExperiencePins(all));
+      this.bridge.eventVenuePins.set(getEventVenuePins(upcomingEvents(events as MaltaEvent[], new Date())));
 
       this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.goBack());

@@ -1,0 +1,4137 @@
+// src/assets/locations.json
+var locations = [
+  {
+    id: 1,
+    title: "Blue Grotto",
+    slug: "blue-grotto",
+    description: "The <b>Blue Grotto</b> is renowned for its stunning azure waters and impressive natural arches, located on the southern coast of Malta near the village of \u017Burrieq. Accessible by boat, this network of sea caverns mirrors the phosphorescent colors of the underwater flora. The grotto and surrounding area are popular for snorkeling, diving, and boat trips, offering visitors a breathtaking view of the clear, blue sea against a backdrop of high cliffs.",
+    img: "/assets/images/places/blue-grotto.webp",
+    lon: 14.4562387,
+    lat: 35.8207177,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Blue Grotto, Malta, sea caves, snorkeling, diving, adventure, clear waters",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.4562387,
+        lat: 35.8207177,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "cave",
+      "sea-cave",
+      "swimming",
+      "snorkeling",
+      "boat-trip",
+      "nature",
+      "easy"
+    ],
+    locality: "\u017Burrieq",
+    showLabel: false,
+    thumb: "/assets/images/places/blue-grotto-thumb.webp"
+  },
+  {
+    id: 2,
+    title: "Il-Mara",
+    slug: "il-mara",
+    description: "Il Mara, located between Fort Benghajsa and Ghar Hasan beneath the impressive cliffs, is a beautiful but less-traveled spot ideal for hiking. The area's remote location means fewer visitors and a peaceful hiking experience. The cliffs offer dramatic views of the surrounding landscape, and the terrain provides a moderate challenge suitable for most hikers looking for an adventure off the beaten path.",
+    img: "/assets/images/places/2.webp",
+    lon: 14.5305347,
+    lat: 35.8065369,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Il-Mara, Malta, hiking, adventure, cliffs, remote trails, exploration",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.5305347,
+        lat: 35.8065369,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "hiking",
+      "trail",
+      "nature",
+      "cliffs",
+      "hard"
+    ],
+    locality: "Bir\u017Cebbu\u0121a",
+    showLabel: false,
+    thumb: "/assets/images/places/2-thumb.webp"
+  },
+  {
+    id: 3,
+    title: "G\u0127ar ir-Ri\u0127",
+    slug: "ghar-ir-rih",
+    description: "<b>G\u0127ar ir-Ri\u0127</b> is in front of one of the cliff passages whose mouth is hidden behind a large rock. As you enter it you will find various rock formations that have formed over the years. At the end of it comes to another mouth that overlooks the sea with wonderful views.",
+    img: "/assets/images/places/0.webp",
+    lon: 14.525437010570169,
+    lat: 35.80702570126614,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-ghar-ir-rih.webp",
+    keywords: "G\u0127ar ir-Ri\u0127, Malta, caves, rock formations, sea views, adventure",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.525437010570169,
+        lat: 35.80702570126614,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "rock-formation",
+      "viewpoint",
+      "hiking",
+      "moderate"
+    ],
+    locality: "Bir\u017Cebbu\u0121a",
+    showLabel: false,
+    thumb: "/assets/images/places/0-thumb.webp"
+  },
+  {
+    id: 4,
+    title: "Ras Il-Hamrija Window",
+    slug: "ras-il-mignuna-window",
+    description: "This is a Natural Arch at <b>Ras Il-Hamrija</b> located on the coast of Qrendi, between Wied i\u017C-\u017Burrieq and G\u0127ar Lapsi",
+    img: "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window.webp",
+    thumb: "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-thumb.webp",
+    images: [
+      "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-2.webp",
+      "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window.webp",
+      "/assets/images/places/ras-il-hamrija-window/ras-il-hamrija-window-3.webp"
+    ],
+    lon: 14.438552453233333,
+    lat: 35.822497835426105,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Ras Il-Hamrija Window, Malta, natural arch, coastal views, rock formations",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.438552453233333,
+        lat: 35.822497835426105,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "natural-arch",
+      "viewpoint",
+      "hiking",
+      "hard"
+    ],
+    locality: "Qrendi",
+    showLabel: false
+  },
+  {
+    id: 5,
+    title: "Ras id-Dawwara",
+    slug: "ras-id-dawwara",
+    description: "Located on the western coast of Malta, <b>Ras id-Dawwara</b> is celebrated for its panoramic views and serene landscapes. This coastal promontory is a prime spot for hiking and photography, offering sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, making it a perfect location for evening walks and nature appreciation.",
+    img: "/assets/images/places/4.webp",
+    lon: 14.3536699,
+    lat: 35.8681994,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Ras id-Dawwara, Malta, coastal views, hiking, photography, sunset",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.3536699,
+        lat: 35.8681994,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: false,
+    tags: [
+      "nature",
+      "landmark",
+      "viewpoint",
+      "hiking",
+      "cliffs",
+      "moderate"
+    ],
+    locality: "Rabat",
+    showLabel: false,
+    thumb: "/assets/images/places/4-thumb.webp"
+  },
+  {
+    id: 6,
+    title: "Popeye Village",
+    slug: "popeye-village",
+    description: "Originally constructed as a film set for the 1980 movie 'Popeye', <b>Popeye Village</b> has since transformed into a colorful and vibrant amusement park. Located at Anchor Bay in the north-west of Malta, this unique attraction offers a glimpse into the quirky world of Popeye the Sailor. Visitors can explore the rustic wooden buildings, take part in various themed activities, and enjoy shows and boat rides. The bay also offers stunning views, making it a fun and picturesque destination for families and tourists alike.",
+    img: "/assets/images/places/5.webp",
+    lon: 14.341693,
+    lat: 35.960651,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Popeye Village, Malta, film set, amusement park, family attraction, colorful",
+    rating: 4.5,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.341693,
+        lat: 35.960651,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "cultural",
+      "entertainment",
+      "family",
+      "film-set",
+      "easy"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/5-thumb.webp"
+  },
+  {
+    id: 7,
+    title: "Elephant Rock",
+    slug: "elephant-rock",
+    description: "Elephant Rock is a stunning natural rock formation that resembles the shape of an elephant. Located along Malta's picturesque coastline, this geological wonder is a favorite spot for photographers and nature lovers. The area around Elephant Rock offers scenic walks and the opportunity to explore secluded coves and crystal-clear waters.",
+    img: "/assets/images/places/elephant-rock.webp",
+    lon: 14.346907885575565,
+    lat: 36.01422213881614,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Elephant Rock, Malta, natural rock formation, coastal, photography, scenic",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.346907885575565,
+        lat: 36.01422213881614,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "landmark",
+      "viewpoint",
+      "boat-trip",
+      "comino",
+      "moderate"
+    ],
+    locality: "Comino",
+    showLabel: false,
+    thumb: "/assets/images/places/elephant-rock-thumb.webp"
+  },
+  {
+    id: 8,
+    title: "Munxar Path",
+    slug: "munxar-path",
+    description: "Munxar Path is a scenic coastal walk in Marsaskala, offering breathtaking views of the Mediterranean Sea and the rugged Maltese coastline. This trail is perfect for nature enthusiasts and walkers who enjoy peaceful, picturesque landscapes. Along the path, hikers can observe local flora and fauna, explore small, hidden coves, and enjoy tranquil moments by the sea.",
+    img: "/assets/images/places/8.webp",
+    lon: 14.570848,
+    lat: 35.849367,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Munxar Path, Malta, coastal walk, hiking, nature, scenic, Mediterranean",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.570848,
+        lat: 35.849367,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: false,
+    tags: [
+      "hiking",
+      "trail",
+      "nature",
+      "coastal-walk",
+      "viewpoint",
+      "moderate"
+    ],
+    locality: "Marsaskala",
+    showLabel: false,
+    thumb: "/assets/images/places/8-thumb.webp"
+  },
+  {
+    id: 9,
+    title: "Munxar Window",
+    slug: "munxar-window",
+    description: "The Munxar Window is a striking natural arch located along the rugged coastline of Malta, near Marsaskala. This impressive geological formation offers a unique sight, especially popular among photographers and nature enthusiasts. The area around the Munxar Window is ideal for scenic hikes and provides panoramic views of the surrounding sea and landscape, making it a must-visit for those seeking the beauty of Malta's natural wonders.",
+    img: "/assets/images/places/9.webp",
+    lon: 14.5698237,
+    lat: 35.8499062,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Munxar Window, Malta, natural arch, coastal views, hiking, photography",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.5698237,
+        lat: 35.8499062,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "natural-arch",
+      "viewpoint",
+      "hiking",
+      "moderate"
+    ],
+    locality: "Marsaskala",
+    showLabel: false,
+    thumb: "/assets/images/places/9-thumb.webp"
+  },
+  {
+    id: 10,
+    title: "Hofriet Window",
+    slug: "hofriet-window",
+    description: "Hofriet Window, also known as the 'Blue Cave', is one of Malta's lesser-known yet captivating natural arches, located near the southern coast. This secluded spot is accessible primarily by boat and offers a unique blend of azure waters and dramatic rock formations. The tranquility and natural beauty of the area make it an ideal destination for those looking to escape the more crowded tourist spots and enjoy some of Malta's pristine marine environment.",
+    img: "/assets/images/places/10.webp",
+    lon: 14.563689974293295,
+    lat: 35.83819204033,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Hofriet Window, Malta, Blue Cave, natural arch, boat access, serene",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.563689974293295,
+        lat: 35.83819204033,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "rock-formation",
+      "natural-arch",
+      "boat-trip",
+      "hard"
+    ],
+    locality: "Marsaskala",
+    showLabel: false,
+    thumb: "/assets/images/places/10-thumb.webp"
+  },
+  {
+    id: 11,
+    title: "Bighi Cot-Lift",
+    slug: "bighi-cot-lift",
+    description: "The Bighi Cot-Lift, part of the historical Bighi Royal Naval Hospital in Kalkara, is a remarkable example of early 20th-century engineering. Initially used to transport patients and goods between the hospital and the waterfront, the cot-lift is now a unique cultural heritage site that attracts visitors interested in the technological innovations of the past. The surrounding area offers stunning views of the Grand Harbour, making it a worthwhile visit for history buffs and those enjoying scenic landscapes.",
+    img: "/assets/images/places/11.webp",
+    lon: 14.5244437,
+    lat: 35.8919094,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Bighi Cot-Lift, Malta, historical, engineering, cultural heritage, Grand Harbour",
+    rating: 4.5,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.5244437,
+        lat: 35.8919094,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "historical",
+      "cultural",
+      "engineering",
+      "viewpoint",
+      "easy"
+    ],
+    locality: "Kalkara",
+    showLabel: false,
+    thumb: "/assets/images/places/11-thumb.webp"
+  },
+  {
+    id: 12,
+    title: "Wied il-G\u0127asel",
+    slug: "wied-il-ghasel",
+    description: "Wied il-G\u0127asel, which translates to 'Valley of Honey' in Maltese, is one of the longest valleys located in the northern region of Malta, near Mosta. This picturesque valley is renowned for its lush vegetation, seasonal streams, and historical significance, including several ancient cart ruts and a mysterious network of tunnels. It is a favorite among hikers and nature lovers for its serene environment and the diverse flora and fauna that can be explored throughout the year.",
+    img: "/assets/images/places/12.webp",
+    lon: 14.4250258,
+    lat: 35.9155058,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Wied il-G\u0127asel, Malta, valley, lush vegetation, historical, hiking, scenic",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.4250258,
+        lat: 35.9155058,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "hiking",
+      "trail",
+      "nature",
+      "valley",
+      "historical",
+      "moderate"
+    ],
+    locality: "Naxxar",
+    showLabel: false,
+    thumb: "/assets/images/places/12-thumb.webp"
+  },
+  {
+    id: 13,
+    title: "Coral Lagoon",
+    slug: "coral-lagoon",
+    description: "Coral Lagoon, located near Mellie\u0127a on the northern coast of Malta, is a stunning natural wonder renowned for its crystal-clear waters and unique circular shape. This secluded lagoon is accessible via a hole in its rocky roof or by sea kayak, making it an adventurous spot for explorers and water sports enthusiasts. The Coral Lagoon is a perfect location for snorkeling, where one can observe a variety of marine life in a tranquil, almost untouched environment.",
+    img: "/assets/images/places/13.webp",
+    lon: 14.367659,
+    lat: 35.997909,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Coral Lagoon, Malta, natural lagoon, snorkeling, marine life, adventure",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.367659,
+        lat: 35.997909,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "swimming",
+      "snorkeling",
+      "kayak",
+      "moderate"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/13-thumb.webp"
+  },
+  {
+    id: 14,
+    title: "Il-\u0120ebla l-Imtaqqba",
+    slug: "il-gebla-l-imtaqqba",
+    description: "Il-\u0120ebla l-Imtaqqba, also known as the 'Punctured Rock', is a striking natural landmark located along the picturesque coast of Malta. This unique rock formation is noted for its distinctive hole that goes right through it, creating a natural window to the sea beyond. The site is a popular spot for photographers and nature enthusiasts, offering breathtaking views especially at sunset. The area around Il-\u0120ebla l-Imtaqqba also provides excellent opportunities for hiking and enjoying the tranquil Mediterranean landscape.",
+    img: "/assets/images/places/16.webp",
+    lon: 14.325799,
+    lat: 36.010848,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Il-\u0120ebla l-Imtaqqba, Malta, punctured rock, natural landmark, sunset, photography",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.325799,
+        lat: 36.010848,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "landmark",
+      "viewpoint",
+      "photography",
+      "comino",
+      "moderate"
+    ],
+    locality: "Comino",
+    showLabel: false,
+    thumb: "/assets/images/places/16-thumb.webp"
+  },
+  {
+    id: 17,
+    title: "Natural Window",
+    slug: "natural-window",
+    description: "This natural window is located in Comino near a historic coastal fortification on the northern coast of Malta, called 'Il-Batterija ta' Santa Marija'",
+    img: "/assets/images/places/18.webp",
+    lon: 14.347281410906533,
+    lat: 36.00631138767528,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Natural Window, Malta, coastal, natural arch, historic fortification, scenic",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.347281410906533,
+        lat: 36.00631138767528,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "natural-arch",
+      "viewpoint",
+      "historical",
+      "comino",
+      "moderate"
+    ],
+    locality: "Comino",
+    showLabel: false,
+    thumb: "/assets/images/places/18-thumb.webp"
+  },
+  {
+    id: 18,
+    title: "Mistra Bay",
+    slug: "mistra-bay",
+    description: "Mistra Bay, located in the northern part of Malta, is a tranquil and picturesque bay known for its clear, shallow waters and pebble beach. This serene spot is ideal for swimming, snorkeling, and relaxing by the sea. Surrounded by natural beauty and historical sites, such as the Mistra Battery, the bay offers a perfect blend of leisure and exploration. The calm waters and peaceful atmosphere make Mistra Bay a hidden gem, providing a great escape from the more crowded tourist spots.",
+    img: "/assets/images/places/minstra.webp",
+    lon: 14.391039725356249,
+    lat: 35.957417736969006,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Mistra Bay, Malta, tranquil bay, pebble beach, snorkeling, relaxation",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.391039725356249,
+        lat: 35.957417736969006,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "beach",
+      "swimming",
+      "snorkeling",
+      "bay",
+      "easy"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/minstra-thumb.webp"
+  },
+  {
+    id: 19,
+    title: "Dingli Cliffs",
+    slug: "dingli-cliffs",
+    description: "Dingli Cliffs, located on the western coast of Malta, are one of the island's most breathtaking natural landmarks. Rising over 250 meters above sea level, these dramatic cliffs offer stunning panoramic views of the Mediterranean Sea and the surrounding countryside. The area is perfect for hiking and enjoying spectacular sunsets. Visitors can also explore nearby attractions, such as the small chapel of St. Mary Magdalene, perched right on the edge of the cliffs. Dingli Cliffs provide a serene and awe-inspiring experience for nature lovers and photographers alike.",
+    img: "/assets/images/places/21.webp",
+    lon: 14.39847475818653,
+    lat: 35.84141667763579,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Dingli Cliffs, Malta, dramatic cliffs, panoramic views, hiking, sunset, nature",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Park here near Dingli viewpoint",
+        description: "Start here and follow the trail down to the cliff edge.",
+        lon: 14.399677210296517,
+        lat: 35.84446169470104,
+        type: "parking"
+      },
+      {
+        lon: 14.398900530076371,
+        lat: 35.843552514425014,
+        type: "waypoint"
+      },
+      {
+        lon: 14.39910265418089,
+        lat: 35.84237360725395,
+        type: "waypoint"
+      },
+      {
+        lon: 14.399029718352589,
+        lat: 35.84194552321014,
+        type: "waypoint"
+      },
+      {
+        label: "Final location",
+        description: "The cliff edge viewpoint.",
+        lon: 14.39847475818653,
+        lat: 35.84141667763579,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "nature",
+      "landmark",
+      "viewpoint",
+      "cliffs",
+      "sunset",
+      "easy"
+    ],
+    locality: "Dingli",
+    showLabel: false,
+    thumb: "/assets/images/places/21-thumb.webp"
+  },
+  {
+    id: 21,
+    title: "St. Mark's Tower",
+    slug: "st-marks-tower",
+    description: "St. Mark's Tower, also known as Qalet Marku Tower, is a historic watchtower located on the northeastern coast of Malta. Built in the 17th century by the Order of Saint John, this coastal fortification was part of a network of towers used to defend the island against invaders. Today, St. Mark's Tower stands as a testament to Malta's rich history, offering visitors a glimpse into the past. The tower is situated in a scenic area with beautiful views of the Mediterranean Sea, making it a popular spot for history enthusiasts and photographers.",
+    img: "/assets/images/places/23.webp",
+    lon: 14.453294928876327,
+    lat: 35.94647468280512,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "St. Mark's Tower, Malta, historic watchtower, coastal fortification, panoramic views",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.453294928876327,
+        lat: 35.94647468280512,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "historical",
+      "cultural",
+      "tower",
+      "viewpoint",
+      "easy"
+    ],
+    locality: "St. Paul's Bay",
+    showLabel: false,
+    thumb: "/assets/images/places/23-thumb.webp"
+  },
+  {
+    id: 22,
+    title: "G\u0127ar i\u010B-\u010Aomb",
+    slug: "ghar-ic-comb",
+    description: "G\u0127ar i\u010B-\u010Aomb, also known as the 'Lead Cave', is a fascinating natural cave located in the scenic countryside of Malta. This cave is renowned for its intriguing rock formations and historical significance, having been used in ancient times for various purposes. Visitors to G\u0127ar i\u010B-\u010Aomb can explore its depths and admire the natural beauty and geological features that make it a unique spot. The surrounding area also offers picturesque views and opportunities for hiking and nature walks.",
+    img: "/assets/images/places/19.webp",
+    lon: 14.372112708186386,
+    lat: 35.99309133941263,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "G\u0127ar i\u010B-\u010Aomb, Malta, lead cave, natural formation, historical, exploration",
+    rating: 4.5,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.372112708186386,
+        lat: 35.99309133941263,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "historical",
+      "nature",
+      "hiking",
+      "moderate"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/19-thumb.webp"
+  },
+  {
+    id: 25,
+    title: "Fungus Rock",
+    slug: "fungus-rock",
+    description: "Fungus Rock is one of Gozo\u2019s most iconic natural landmarks, rising dramatically from the sea at the entrance of Dwejra Bay. Known locally as 'Il-\u0120ebla tal-\u0120eneral,' this massive limestone islet has a rich history and was once guarded for its rare medicinal fungus. Today, it remains a symbol of raw coastal beauty, surrounded by deep blue waters and towering cliffs. It\u2019s a breathtaking viewpoint for hikers, photographers, and anyone seeking a front-row seat to Gozo\u2019s wild side.",
+    img: "/assets/images/places/fungusrock.webp",
+    lon: 14.189024797827258,
+    lat: 36.04631591357665,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Fungus Rock, Gozo, Malta, Dwejra Bay, Il-\u0120ebla tal-\u0120eneral, cliffs, sea views, coastal landmark, natural wonders",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.189024797827258,
+        lat: 36.04631591357665,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "rock-formation",
+      "landmark",
+      "viewpoint",
+      "nature",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Dwejra",
+    showLabel: false,
+    thumb: "/assets/images/places/fungusrock-thumb.webp"
+  },
+  {
+    id: 26,
+    title: "Birgu (Vittoriosa)",
+    slug: "birgu-vittoriosa",
+    description: "<b>Birgu</b>, also known as Vittoriosa, is one of Malta's historic Three Cities, famed for its rich history and vibrant maritime heritage. This charming city is a tapestry of narrow cobbled streets, ancient dwellings, and baroque buildings, inviting visitors to step back in time. Explore the picturesque waterfront, enjoy the bustling market squares, and soak in the local culture and cuisine at quaint cafes and eateries. Birgu is a living museum, offering an immersive experience into the heart of Maltese history and tradition.",
+    img: "/assets/images/places/26.webp",
+    lon: 14.521621366602675,
+    lat: 35.88986318933959,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Birgu, Vittoriosa, Malta, historical, maritime heritage, narrow streets, culture",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.521621366602675,
+        lat: 35.88986318933959,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "urban-walk",
+      "waterfront",
+      "easy"
+    ],
+    locality: "Three Cities",
+    showLabel: false,
+    thumb: "/assets/images/places/26-thumb.webp"
+  },
+  {
+    id: 23,
+    title: "Wied il-Miela\u0127 Window",
+    slug: "wied-il-mielah-window",
+    description: "Wied il-Miela\u0127 Window is a natural limestone arch located on the north-western coast of the island of Gozo, Malta. It is a lesser-known but equally stunning counterpart to the famous Azure Window. The arch offers breathtaking views of the Mediterranean Sea and is a favorite spot for photographers and nature enthusiasts. The area around Wied il-Miela\u0127 is perfect for hiking and exploring the rugged coastal landscape. Visitors can enjoy the serene beauty of this natural wonder while taking in the fresh sea breeze.",
+    img: "/assets/images/places/rock.webp",
+    lon: 14.21306462050238,
+    lat: 36.0798010892607,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Wied il-Miela\u0127 Window, Malta, natural arch, limestone, coastal, photography",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.21306462050238,
+        lat: 36.0798010892607,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "natural-arch",
+      "viewpoint",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Gharb",
+    showLabel: false,
+    thumb: "/assets/images/places/rock-thumb.webp"
+  },
+  {
+    id: 27,
+    title: "Fort of St. Angelo",
+    slug: "fort-of-st-angelo",
+    description: "<b>Fort of St. Angelo</b> stands majestically at the tip of the Birgu Peninsula, guarding the entrance to the Grand Harbour with its formidable walls and storied past. This iconic fortress is a cornerstone of Malta\u2019s military history, offering panoramic views of the surrounding harbor and cities. Visitors can explore its ancient ramparts, dungeons, and chapels, each layer telling a story of knights, sieges, and battles. The fort's strategic importance and architectural grandeur make it a must-visit for anyone interested in Malta's defensive heritage.",
+    img: "/assets/images/places/27.webp",
+    lon: 14.518716107448817,
+    lat: 35.891786702482676,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Fort of St. Angelo, Malta, historic fortress, coastal, military history, panoramic views",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.518716107448817,
+        lat: 35.891786702482676,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "fortification",
+      "viewpoint",
+      "easy"
+    ],
+    locality: "Three Cities",
+    showLabel: false,
+    thumb: "/assets/images/places/27-thumb.webp"
+  },
+  {
+    id: 33,
+    title: "Shrine of Our Lady of Mount Carmel",
+    slug: "shrine-of-our-lady-of-mount-carmel",
+    description: "The Shrine of Our Lady of Mount Carmel, located in the heart of Valletta, Malta, is one of the most significant and revered religious sites on the island. The shrine is dedicated to the Blessed Virgin Mary under the title of Our Lady of Mount Carmel, the patroness of the Carmelite Order. The church, with its stunning Baroque architecture, is a place of peace and reflection for both locals and visitors. Its iconic dome and beautiful interior, which includes intricate altarpieces and statues, attract both pilgrims and tourists alike. The Shrine of Our Lady of Mount Carmel is also famous for its annual feast, which includes processions and celebrations, drawing large crowds. With its historical significance and spiritual importance, the shrine remains a key landmark in Valletta.",
+    img: "/assets/images/places/our_lady_of_mount_carmel.webp",
+    lon: 14.512278,
+    lat: 35.900194,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Shrine of Our Lady of Mount Carmel, Malta, religious site, Baroque, pilgrimage, history",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.512278,
+        lat: 35.900194,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "religious",
+      "historical",
+      "cultural",
+      "church",
+      "easy"
+    ],
+    locality: "Valletta",
+    showLabel: false,
+    thumb: "/assets/images/places/our_lady_of_mount_carmel-thumb.webp"
+  },
+  {
+    id: 28,
+    title: "La Guardiola",
+    slug: "la-guardiola",
+    description: "La Guardiola, located at the tip of Senglea in Malta, is a historical watchtower offering breathtaking views of the Grand Harbour. Built as part of the city's fortifications, this iconic lookout point once played a crucial role in protecting Malta from potential invaders. Today, La Guardiola is a serene spot where visitors can enjoy the panoramic views of Valletta, the Three Cities, and the surrounding seascape, making it a must-see for history lovers and those seeking scenic vistas.",
+    img: "/assets/images/places/guardiola.webp",
+    lon: 14.513937913495793,
+    lat: 35.89074420324843,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "La Guardiola, Malta, historical watchtower, panoramic views, Grand Harbour, fortifications",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.513937913495793,
+        lat: 35.89074420324843,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "viewpoint",
+      "garden",
+      "easy"
+    ],
+    locality: "Three Cities",
+    showLabel: false,
+    thumb: "/assets/images/places/guardiola-thumb.webp"
+  },
+  {
+    id: 31,
+    title: "Mdina - The Silent City",
+    slug: "mdina-the-silent-city",
+    description: "Mdina, also known as the 'Silent City', is a fortified medieval town located at the heart of Malta. Known for its narrow winding streets, stunning architecture, and rich history, Mdina served as the island's capital for centuries before Valletta took over. The city offers visitors a step back in time, with its well-preserved medieval walls, palaces, and churches. Mdina is also famous for its tranquil atmosphere, earning it the nickname 'Silent City.' From the city\u2019s bastions, visitors can enjoy panoramic views of the surrounding countryside and the distant Mediterranean Sea. It\u2019s a must-visit destination for anyone interested in history, architecture, and the charm of Malta's ancient past.",
+    img: "/assets/images/places/mdina.webp",
+    lon: 14.403191,
+    lat: 35.886778,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Mdina, Silent City, Malta, medieval, history, architecture, panoramic views",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.403191,
+        lat: 35.886778,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "city",
+      "viewpoint",
+      "easy"
+    ],
+    locality: "Mdina",
+    showLabel: false,
+    thumb: "/assets/images/places/mdina-thumb.webp"
+  },
+  {
+    id: 32,
+    title: "Victoria Lines - Top of the World",
+    slug: "victoria-lines-top-of-the-world",
+    description: "The Victoria Lines, known as the 'Great Wall of Malta', stretch across the island, but one of the most breathtaking parts lies near the 'Top of the World' in G\u0127arg\u0127ur. This location offers some of the most panoramic views on the island, where visitors can gaze across valleys, hills, and the distant Mediterranean Sea. The area near the 'Top of the World' is particularly significant, with a series of fortifications and military structures built by the British in the 19th century. Hiking along this stretch of the Victoria Lines takes you through stunning landscapes and provides insight into Malta's military history, making it a perfect spot for history enthusiasts and nature lovers alike.",
+    img: "/assets/images/places/victoria_lines.webp",
+    lon: 14.450382750314956,
+    lat: 35.930597034999735,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Victoria Lines, Malta, Great Wall of Malta, panoramic views, military history, hiking",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.450382750314956,
+        lat: 35.930597034999735,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: false,
+    tags: [
+      "historical",
+      "nature",
+      "hiking",
+      "viewpoint",
+      "fortification",
+      "hard"
+    ],
+    locality: "Naxxar",
+    showLabel: false,
+    thumb: "/assets/images/places/victoria_lines-thumb.webp"
+  },
+  {
+    id: 34,
+    title: "Mi\u0121ra l-Fer\u0127a",
+    slug: "migra-l-ferha",
+    description: "Perched beneath the dramatic Dingli Cliffs on Malta's southwestern coast, This place is a hidden gem offering breathtaking panoramic views of the Mediterranean Sea. This secluded spot is a haven for nature enthusiasts, hikers, and adventure seekers. The area features a unique ravine leading down to the sea, providing a serene environment for exploration and relaxation. For thrill-seekers, Mi\u0121ra l-Fer\u0127a offers exhilarating ziplining experiences over its rugged cliffs. The location is also renowned for its stunning sunsets, making it an ideal spot for photography and tranquil evening retreats.",
+    img: "/assets/images/places/migra-l-ferha.webp",
+    lon: 14.341744699003474,
+    lat: 35.87498389580119,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Mi\u0121ra l-Fer\u0127a, Malta, coastal, hidden gem, ziplining, scenic, sunsets",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.341744699003474,
+        lat: 35.87498389580119,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "adventure",
+      "hiking",
+      "viewpoint",
+      "cliffs",
+      "sunset",
+      "hard"
+    ],
+    locality: "Rabat",
+    showLabel: false,
+    thumb: "/assets/images/places/migra-l-ferha-thumb.webp"
+  },
+  {
+    id: 35,
+    title: "Ras id-Dawwara Cave",
+    slug: "ras-id-dawwara-cave",
+    description: "A hidden cave awaits discovery at Ras id-Dawwara. This coastal promontory is celebrated for its panoramic views and serene landscapes, making it a prime spot for hiking and photography. Visitors can enjoy sweeping vistas of the Mediterranean Sea and dramatic cliff formations. The area is also known for its spectacular sunsets, offering the perfect setting for evening walks and nature appreciation.",
+    img: "/assets/images/places/id-ras-cave.webp",
+    lon: 14.35627521847218,
+    lat: 35.86739484580184,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-ras-id.webp",
+    keywords: "Ras id-Dawwara Cave, Malta, hidden cave, coastal, hiking, panoramic, nature",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.35627521847218,
+        lat: 35.86739484580184,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "nature",
+      "hiking",
+      "viewpoint",
+      "cliffs",
+      "hard"
+    ],
+    locality: "Rabat",
+    showLabel: false,
+    thumb: "/assets/images/places/id-ras-cave-thumb.webp"
+  },
+  {
+    id: 36,
+    title: "Fomm ir-Rih",
+    slug: "fomm-ir-rih",
+    description: "Fomm ir-Rih is one of Malta\u2019s most secluded and breathtaking coastal spots. Known for its crystal-clear waters, rugged cliffs, and peaceful surroundings, it offers a perfect escape for nature lovers and adventure seekers. The area is ideal for hiking, swimming, and photography, with stunning panoramic views of the Mediterranean Sea. Its untouched beauty and tranquil atmosphere make it a hidden gem worth exploring.",
+    img: "/assets/images/places/fomm.webp",
+    lon: 14.342532638405096,
+    lat: 35.90818780766874,
+    keywords: "Fomm ir-Rih, Malta, secluded coastal spot, clear waters, rugged cliffs, hiking",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.342532638405096,
+        lat: 35.90818780766874,
+        type: "destination"
+      }
+    ],
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "beach",
+      "swimming",
+      "hiking",
+      "cliffs",
+      "nature",
+      "hard"
+    ],
+    locality: "Rabat",
+    showLabel: false,
+    thumb: "/assets/images/places/fomm-thumb.webp"
+  },
+  {
+    id: 37,
+    title: "G\u0127ajn Tuffie\u0127a Cave",
+    slug: "ghajn-tuffieha-cave",
+    description: "Perched on the cliffs overlooking G\u0127ajn Tuffie\u0127a, a hidden cave offers stunning views. This bay is known for its golden sands, dramatic cliffs, and breathtaking sunsets. Perfect for swimming, hiking, and capturing postcard-worthy views, it\u2019s a must-visit for nature lovers and adventurers alike.",
+    img: "/assets/images/places/riviera.webp",
+    lon: 14.344843932841767,
+    lat: 35.93064940552566,
+    recommendedRoute: "/assets/images/recommendedRoute-riviera-route.webp",
+    keywords: "G\u0127ajn Tuffie\u0127a Cave, Malta, coastal cave, golden sands, dramatic cliffs, sunsets",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.344843932841767,
+        lat: 35.93064940552566,
+        type: "destination"
+      }
+    ],
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "viewpoint",
+      "hiking",
+      "cliffs",
+      "moderate"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/riviera-thumb.webp"
+  },
+  {
+    id: 38,
+    title: "Inland Sea",
+    slug: "inland-sea",
+    description: "The Inland Sea, known as 'Il-Qawra' in Maltese, is a stunning natural lagoon in Dwejra, Gozo. Connected to the Mediterranean by a narrow tunnel through the cliffs, this unique formation offers calm, shallow waters perfect for swimming and boating. The surrounding landscape, with its rugged rock formations and clear blue waters, makes it an excellent spot for photography and relaxation. Boat trips through the tunnel reveal breathtaking coastal views and hidden sea caves, making it a must-visit attraction in Gozo.",
+    img: "/assets/images/places/inland.webp",
+    lon: 14.19111912006006,
+    lat: 36.053948723531946,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Inland Sea, Il-Qawra, Gozo, Malta, lagoon, boat trips, sea caves, natural wonders",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.19111912006006,
+        lat: 36.053948723531946,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "beach",
+      "swimming",
+      "lagoon",
+      "boat-trip",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Dwejra",
+    showLabel: false,
+    thumb: "/assets/images/places/inland-thumb.webp"
+  },
+  {
+    id: 40,
+    title: "Blata tal-Mel\u0127",
+    slug: "blata-tal-melh",
+    description: "Nestled within the rugged landscape of Blata tal-Mel\u0127, this striking rock formation captivates visitors with its dramatic setting. Positioned under a natural overhang, the rock appears as if delicately placed by nature itself. This hidden gem, overlooking the vast Mediterranean Sea, offers a perfect spot for photography, exploration, and moments of solitude. The surrounding area, known for its salt pans and scenic cliffs, enhances the experience of visiting this untouched part of Malta's coastline. A must-visit for adventurers and nature enthusiasts seeking a unique landscape away from the crowds.",
+    img: "/assets/images/places/blata.webp",
+    lon: 14.3312708,
+    lat: 35.9014008,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Blata tal-Mel\u0127, Malta, balanced rock, coastal cliffs, nature photography, scenic views, hidden gem",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Park here near the M\u0121arr cliffs road",
+        description: "Park here. Google Maps may try to send you through private or rough paths.",
+        lon: 14.334066172771909,
+        lat: 35.90319495943615,
+        type: "parking"
+      },
+      {
+        lat: 35.902668319900044,
+        lon: 14.33263303896851,
+        type: "waypoint"
+      },
+      {
+        lat: 35.902237929919295,
+        lon: 14.33199495526371,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90214213175207,
+        lon: 14.331712056467602,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90186216444546,
+        lon: 14.33166579042134,
+        type: "waypoint"
+      },
+      {
+        lat: 35.901386014013724,
+        lon: 14.331209627115877,
+        type: "waypoint"
+      },
+      {
+        label: "Blata tal-Mel\u0127",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.3312708,
+        lat: 35.9014008,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "viewpoint",
+      "hiking",
+      "cliffs",
+      "hard"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/blata-thumb.webp"
+  },
+  {
+    id: 41,
+    title: "Tal-Mixta Cave",
+    slug: "tal-mixta-cave",
+    description: "Tal-Mixta Cave offers one of the most iconic views in all of Gozo. Perched high above Ramla Bay, this natural cave frames the vivid red sands and turquoise waters below like a painting. Accessible via a short hike or drive, the cave provides a cool, shaded spot to relax while enjoying panoramic views of Gozo's coastline. It's a favorite among photographers and adventurers alike, especially during sunrise or sunset when the light floods the cave's opening with a warm glow.",
+    img: "/assets/images/places/tal-mixta.webp",
+    lon: 14.289447484500228,
+    lat: 36.06329636848929,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Tal-Mixta Cave, Gozo, Ramla Bay, Malta, coastal cave, panoramic views, nature photography, hidden gem",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.289447484500228,
+        lat: 36.06329636848929,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "cave",
+      "viewpoint",
+      "landmark",
+      "photography",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Xag\u0127ra",
+    showLabel: false,
+    thumb: "/assets/images/places/tal-mixta-thumb.webp"
+  },
+  {
+    id: 42,
+    title: "Secret Spot: Cliffside Cave above Pullicino\u2019s Cove",
+    slug: "secret-spot-cliffside-cave-above-pullicino-s-cove",
+    description: "Tucked away on Malta\u2019s northern coast, this hidden cave sits quietly above Pullicino\u2019s Cove, accessible only by a rugged coastal trail. It\u2019s the kind of place where time slows down \u2014 raw, untouched, and far from the usual tourist paths. The cave, carved naturally into the cliffs, offers sweeping sea views and complete solitude. Ideal for hikers, nature lovers, and explorers seeking a moment of calm surrounded by wild beauty. Bring good shoes, water, and a spirit for adventure \u2014 there are no signs here, just pure, unfiltered Malta.",
+    img: "/assets/images/places/pullicinos-cove-cave.webp",
+    lon: 14.3343,
+    lat: 35.9211,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendation-42.webp",
+    keywords: "Pullicino\u2019s Cove, hidden cave, Malta, secret trail, wild coast, off the path, nature, hiking, solitude, secret spot",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.3343,
+        lat: 35.9211,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "hiking",
+      "viewpoint",
+      "cliffs",
+      "hard"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/pullicinos-cove-cave-thumb.webp"
+  },
+  {
+    id: 43,
+    title: "Lower Kalkara Gardens",
+    slug: "lower-kalkara-gardens",
+    description: "Lower Kalkara Gardens is a peaceful green space tucked along the waterfront of Kalkara, offering stunning views across the Grand Harbour. This hidden oasis blends natural beauty with history, featuring quiet paths, palm trees, and stone benches perfect for relaxing or enjoying a moment of solitude. With the majestic Fort Ricasoli in the distance and boats gently gliding by, it's a favorite spot for locals who want to escape the crowds and connect with Malta\u2019s coastal charm.",
+    img: "/assets/images/places/lower-kalkara.webp",
+    lon: 14.517744082259632,
+    lat: 35.897522917358,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Lower Kalkara Gardens, Kalkara, Malta, hidden gem, gardens, Grand Harbour views, relaxing, nature spot, historical setting",
+    rating: 4.5,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.517744082259632,
+        lat: 35.897522917358,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "park",
+      "garden",
+      "viewpoint",
+      "waterfront",
+      "easy"
+    ],
+    locality: "Kalkara",
+    showLabel: false,
+    thumb: "/assets/images/places/lower-kalkara-thumb.webp"
+  },
+  {
+    id: 44,
+    title: "Ta\u2019 Marija Cave",
+    slug: "ta-marija-cave",
+    description: "Ta\u2019 Marija Cave is a secluded sea-level cave located along the northwest coast of Malta, near \u0120nejna Bay. Tucked between rugged cliffs and crystal-clear waters, this natural gem is only accessible by a coastal hike or kayak, making it a true hidden treasure. The cave offers a serene escape surrounded by raw limestone formations, perfect for adventurous swimmers, snorkelers, or those seeking solitude in nature. Its peaceful vibe and remote feel make it ideal for exploring, meditating, or just taking in the sounds of the sea.",
+    img: "/assets/images/places/ta-maria-cave/TaMarijaCave.webp",
+    lon: 14.332866509633169,
+    lat: 35.918123816986494,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendation-44.webp",
+    keywords: "Ta\u2019 Marija Cave, Malta, \u0120nejna Bay, M\u0121arr, northwest Malta, hidden sea cave, swimming cave Malta, snorkeling, coastal hike, nature escape",
+    rating: 4.7,
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "swimming",
+      "snorkeling",
+      "kayak",
+      "hard"
+    ],
+    images: [
+      "/assets/images/places/ta-maria-cave/TaMarijaCave.webp",
+      "/assets/images/places/ta-maria-cave/ta-maria-cave-2.webp",
+      "/assets/images/places/ta-maria-cave/ta-maria-cave-3.webp"
+    ],
+    locality: "M\u0121arr",
+    clusterPriority: true,
+    showLabel: false,
+    thumb: "/assets/images/places/ta-maria-cave/TaMarijaCave-thumb.webp",
+    routes: [
+      {
+        label: "On foot",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "\u0120nejna Bay car park",
+            description: "Park here before starting the coastal hike to the cave.",
+            lon: 14.344498626957746,
+            lat: 35.92051841887867,
+            type: "parking"
+          },
+          {
+            lat: 35.9201820632405,
+            lon: 14.342592253561783,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92016385851133,
+            lon: 14.341710054897167,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92032137808043,
+            lon: 14.34127390702734,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92069323674545,
+            lon: 14.340689320075917,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92090023434103,
+            lon: 14.340343556045045,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92120780172358,
+            lon: 14.340002193314156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92136383400161,
+            lon: 14.339851343996855,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921412251896385,
+            lon: 14.3399396843751,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92145044302826,
+            lon: 14.339844637254021,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921372108753474,
+            lon: 14.339767300125732,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921414840407024,
+            lon: 14.33961032042631,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921574012430696,
+            lon: 14.339369506441479,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92170505010262,
+            lon: 14.339119942253113,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92176802279259,
+            lon: 14.338950230221592,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921745914461724,
+            lon: 14.338902077903912,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92193950005874,
+            lon: 14.338661892676221,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921965469857284,
+            lon: 14.338397971866478,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92210028352733,
+            lon: 14.338111206213961,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92236426644422,
+            lon: 14.337811760625774,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92229187385287,
+            lon: 14.337411871084386,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92222576145191,
+            lon: 14.337009833289434,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92217025754499,
+            lon: 14.33662529590156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922083394701176,
+            lon: 14.33629011594922,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92211123155842,
+            lon: 14.336149641124736,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92219643943865,
+            lon: 14.335786167101073,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92227176007306,
+            lon: 14.335568879112584,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92241650279223,
+            lon: 14.335556146780487,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922442939208665,
+            lon: 14.335573175619713,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92257142940217,
+            lon: 14.335442865702333,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9226513325447,
+            lon: 14.33549274710215,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9227462572034,
+            lon: 14.33532403060277,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922640808927795,
+            lon: 14.335280646360072,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92262078010464,
+            lon: 14.335093119542904,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922631812931556,
+            lon: 14.3350388368431,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922477862422596,
+            lon: 14.334828569976017,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922278507101055,
+            lon: 14.334569155259114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.922091669377764,
+            lon: 14.33430392453866,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92194616224643,
+            lon: 14.334082706818043,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92178024390179,
+            lon: 14.333909431829394,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92170530470928,
+            lon: 14.333883495597348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92165985740675,
+            lon: 14.333752976094255,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92148753084308,
+            lon: 14.333696335555176,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92138615461235,
+            lon: 14.333688580883779,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921318131894935,
+            lon: 14.333688580883779,
+            type: "waypoint"
+          },
+          {
+            lat: 35.921193204181705,
+            lon: 14.333807415983339,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92090485974238,
+            lon: 14.333790753919114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.920774839183295,
+            lon: 14.333864423297415,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92062487395188,
+            lon: 14.333870606075964,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92047223502453,
+            lon: 14.333882814443777,
+            type: "waypoint"
+          },
+          {
+            lat: 35.92029566235324,
+            lon: 14.333862222647424,
+            type: "waypoint"
+          },
+          {
+            lat: 35.920126303287574,
+            lon: 14.333764660497783,
+            type: "waypoint"
+          },
+          {
+            lat: 35.9199005472165,
+            lon: 14.333670661305272,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919739292485446,
+            lon: 14.333560471616392,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919630997018416,
+            lon: 14.333438492731124,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91950245961213,
+            lon: 14.33332033878513,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91932554529008,
+            lon: 14.333212821314095,
+            type: "waypoint"
+          },
+          {
+            lat: 35.919301399361274,
+            lon: 14.333163044707135,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91917905704632,
+            lon: 14.333090475653831,
+            type: "waypoint"
+          },
+          {
+            lat: 35.918917821834,
+            lon: 14.332916938683038,
+            type: "waypoint"
+          },
+          {
+            lat: 35.91877718900541,
+            lon: 14.332851495543995,
+            type: "waypoint"
+          },
+          {
+            lat: 35.918763397299344,
+            lon: 14.3328018237299,
+            type: "waypoint"
+          },
+          {
+            label: "Ta' Marija Cave",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.332866509633169,
+            lat: 35.918123816986494,
+            type: "destination"
+          }
+        ]
+      },
+      {
+        label: "By kayak",
+        emoji: "\u{1F6A3}",
+        mapPoints: [
+          {
+            label: "Kayak rental",
+            description: "Rent a kayak here and paddle along the coast to the cave.",
+            lon: 14.343804495943932,
+            lat: 35.9204391606721,
+            type: "parking"
+          },
+          {
+            lat: 35.92065745248571,
+            lon: 14.343676763103488,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.922843114322646,
+            lon: 14.340040669342443,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.923576399026146,
+            lon: 14.334994243853775,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.92247752482058,
+            lon: 14.332959263083845,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.921354923707014,
+            lon: 14.332207488409354,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91931632940562,
+            lon: 14.33164806861458,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91860495858856,
+            lon: 14.331748461694593,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91836811501557,
+            lon: 14.332426180174993,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lat: 35.91818636558958,
+            lon: 14.332843832771932,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            label: "Ta' Marija Cave",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.332866509633169,
+            lat: 35.918123816986494,
+            type: "destination"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 46,
+    title: "Cave Facing Fungus Rock",
+    slug: "cave-facing-fungus-rock",
+    description: "Hidden along the coastal trail between Dwejra Tower and Fungus Rock, this small cave offers one of Gozo\u2019s most dramatic lookout points. Carved into the cliffside, it\u2019s easy to miss\u2014but step inside and you'll be rewarded with a direct, cinematic view of Fungus Rock rising from the sea. This cave is closer to Dwejra Tower, making it an ideal pitstop for hikers exploring the area. With shade, solitude, and an unbeatable vantage point, it's the perfect place to take a break and soak in the coastal magic of Gozo.",
+    img: "/assets/images/places/fungus-rock-cave.webp",
+    lon: 14.19115394037567,
+    lat: 36.04861690374233,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Fungus Rock, hidden cave, Dwejra, Gozo, viewpoint, Malta, coastal trail, cliffside cave, natural lookout",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.19115394037567,
+        lat: 36.04861690374233,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "viewpoint",
+      "hiking",
+      "gozo",
+      "hard"
+    ],
+    locality: "Gozo-Dwejra",
+    showLabel: false,
+    thumb: "/assets/images/places/fungus-rock-cave-thumb.webp"
+  },
+  {
+    id: 47,
+    title: "Chinese Garden of Serenity",
+    slug: "chinese-garden-of-serenity",
+    description: "Tucked away in the town of Santa Lucija, the Chinese Garden of Serenity is a peaceful oasis inspired by classical Chinese design. Filled with stone bridges, koi ponds, bamboo groves, and decorative pavilions, it offers a tranquil escape from Malta\u2019s urban buzz. Each area of the garden represents a different element of harmony\u2014connecting visitors with nature, balance, and reflection. Whether you're meditating, strolling, or just relaxing under the trees, this garden is a serene cultural gem worth exploring.",
+    img: "/assets/images/places/chinese-garden.webp",
+    lon: 14.503171203810455,
+    lat: 35.863760535112775,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Chinese Garden of Serenity, Santa Lucija, Malta, garden, peaceful, koi pond, bamboo, Chinese culture, hidden gem",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.503171203810455,
+        lat: 35.863760535112775,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "park",
+      "garden",
+      "cultural",
+      "easy"
+    ],
+    locality: "Paola",
+    showLabel: false,
+    thumb: "/assets/images/places/chinese-garden-thumb.webp"
+  },
+  {
+    id: 49,
+    title: "Ta' Kalanka Sea Cave",
+    slug: "ta-kalanka-sea-cave",
+    description: "Hidden along the coastline of Delimara, Ta' Kalanka Sea Cave is a natural wonder known mostly to locals and adventurous swimmers. The cave opens out into bright turquoise waters, surrounded by dramatic cliffs and raw limestone formations. It's a perfect spot for cliff jumping, snorkeling, or simply floating in crystal-clear waters under the shelter of the rock. Remote, rugged, and stunning, Ta' Kalanka captures the wild beauty of Malta\u2019s untouched coast.",
+    img: "/assets/images/places/ta-kalanka-sea-cave.webp",
+    lon: 14.569030649361185,
+    lat: 35.84060494147958,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Ta' Kalanka Sea Cave, Delimara, Malta, sea cave, cliff jumping, hidden swimming spot, snorkeling, rugged coast, turquoise waters",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.569030649361185,
+        lat: 35.84060494147958,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "swimming",
+      "snorkeling",
+      "cliff-jumping",
+      "hard"
+    ],
+    locality: "Marsaskala",
+    showLabel: false,
+    thumb: "/assets/images/places/ta-kalanka-sea-cave-thumb.webp"
+  },
+  {
+    id: 50,
+    title: "Xlendi Bay",
+    slug: "xlendi-bay",
+    description: "Xlendi Bay is a picturesque coastal village in Gozo, famous for its turquoise water, seaside cliffs, and relaxing atmosphere. The small bay is surrounded by towering limestone walls and is perfect for swimming, sunset walks, and cliffside dining. It\u2019s a local favorite for both day trips and peaceful evenings, with easy water access, snorkel spots, and a charming promenade. Whether you're diving into the sea or just sipping coffee by the shore, Xlendi is all about slowing down and soaking in the beauty of Gozo.",
+    img: "/assets/images/places/Xlendi.webp",
+    lon: 14.217098921852433,
+    lat: 36.02974630449464,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Xlendi, Gozo, Xlendi Bay, Malta, coastal village, swimming, cliffs, snorkeling, sunset spot, local favorite",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.217098921852433,
+        lat: 36.02974630449464,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "beach",
+      "swimming",
+      "bay",
+      "snorkeling",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Munxar",
+    showLabel: false,
+    thumb: "/assets/images/places/Xlendi-thumb.webp"
+  },
+  {
+    id: 16,
+    title: "L-G\u0127ar ta\u2019 Bla Saqaf",
+    slug: "l-ghar-ta-bla-saqaf",
+    description: "L-G\u0127ar ta\u2019 Bla Saqaf, translating to 'The Cave Without a Ceiling' in English, is a remarkable open-air cave located in the limits of Mellie\u0127a. This unique geological formation is known for its impressive natural arch and panoramic views of the surrounding countryside and coastline. The cave is a popular destination for hikers and nature lovers who come to explore its rugged beauty and enjoy the serene atmosphere that the area offers.",
+    img: "/assets/images/places/15.webp",
+    lon: 14.329411,
+    lat: 36.009697,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "L-G\u0127ar ta\u2019 Bla Saqaf, Malta, cave, natural arch, panoramic views, hiking",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.329411,
+        lat: 36.009697,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "rock-formation",
+      "viewpoint",
+      "comino",
+      "moderate"
+    ],
+    locality: "Comino",
+    showLabel: false,
+    thumb: "/assets/images/places/15-thumb.webp"
+  },
+  {
+    id: 52,
+    title: "Mini Inland Sea",
+    slug: "mini-inland-sea",
+    description: "Just below the ancient Mnajdra Temples lies one of Malta\u2019s hidden coastal secrets\u2014the Mini Inland Sea. This secluded lagoon is partially enclosed by rugged rock and connected to the open sea through an underwater cave. With its clear, still water and surrounding cliffs, it feels like a natural amphitheater sculpted by the sea. Ideal for explorers, swimmers, or quiet wanderers, it offers a surreal contrast between land, sea, and history\u2014just steps away from one of Malta\u2019s most iconic heritage sites.",
+    img: "/assets/images/places/mini-inlandsea/mini-inlandsea-2.webp",
+    lon: 14.433511144031606,
+    lat: 35.82613626289459,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-mini-inland-sea.webp",
+    images: [
+      "/assets/images/places/mini-inlandsea/mini-inlandsea-3.webp",
+      "/assets/images/places/mini-inlandsea/mini-inlandsea-2.webp",
+      "/assets/images/places/mini-inlandsea/mini-inlandsea.webp"
+    ],
+    keywords: "Mini Inland Sea, Malta, Qrendi, Mnajdra, hidden spot, natural inlet, underwater cave, secret swim, Malta lagoon",
+    rating: 4.8,
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "swimming",
+      "lagoon",
+      "hiking",
+      "hard"
+    ],
+    locality: "Qrendi",
+    showLabel: false,
+    thumb: "/assets/images/places/mini-inlandsea/mini-inlandsea-2-thumb.webp",
+    routes: [
+      {
+        label: "Route 1",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "Park here near Qrendi cliffs road",
+            description: "Park here before starting the hike to the Mini Inland Sea.",
+            lon: 14.424184127065407,
+            lat: 35.82767683225009,
+            type: "parking"
+          },
+          {
+            lat: 35.82758094219595,
+            lon: 14.42440507403301,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827649410832564,
+            lon: 14.424799945491419,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8276107082209,
+            lon: 14.42506146087037,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82745616942192,
+            lon: 14.425385882432627,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82741321927129,
+            lon: 14.425480095024279,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82731586777582,
+            lon: 14.426109953138099,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827298572157346,
+            lon: 14.42680087341653,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82735453655165,
+            lon: 14.427025382692982,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82743391281987,
+            lon: 14.427108279715348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827589097272394,
+            lon: 14.427343936923013,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82769059392447,
+            lon: 14.427592627990114,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827730723632925,
+            lon: 14.427950535255539,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82778332376199,
+            lon: 14.428295785847174,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82782437086688,
+            lon: 14.428642670909928,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82778210050357,
+            lon: 14.428768357547987,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82770598660932,
+            lon: 14.428873005609082,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827613120763544,
+            lon: 14.428936624254156,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82753479803931,
+            lon: 14.42903523734497,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8275218858257,
+            lon: 14.42904026648687,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82725235752817,
+            lon: 14.429626313127379,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827134979268976,
+            lon: 14.429873802276514,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82700825709644,
+            lon: 14.430101547958122,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82691587742188,
+            lon: 14.43027471643323,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82674592674739,
+            lon: 14.430441622663135,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82668351738346,
+            lon: 14.430598439720203,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82660443019239,
+            lon: 14.430877979388212,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826438574287224,
+            lon: 14.431281555673403,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82633407017288,
+            lon: 14.431586704037494,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82627188462045,
+            lon: 14.43184225440629,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826230895304505,
+            lon: 14.4322040146236,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82626900429085,
+            lon: 14.432327622483324,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82629016363292,
+            lon: 14.432513626351826,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82641242980792,
+            lon: 14.432589230274871,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826480117404,
+            lon: 14.432698172795305,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82643731876159,
+            lon: 14.432945479603816,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82634891493532,
+            lon: 14.43307541815348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82621834001432,
+            lon: 14.43332595862376,
+            type: "waypoint"
+          },
+          {
+            label: "Mini Inland Sea",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.43338093087383,
+            lat: 35.826193672556016,
+            type: "destination"
+          }
+        ]
+      },
+      {
+        label: "Route 2",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "\u0126a\u0121ar Qim car park",
+            description: "Park here before starting this alternative route to the Mini Inland Sea.",
+            lon: 14.444267085996483,
+            lat: 35.82733470952982,
+            type: "parking"
+          },
+          {
+            lat: 35.82746291126993,
+            lon: 14.442778213270046,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827430282721295,
+            lon: 14.442724448178728,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82721026482085,
+            lon: 14.442692638856192,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82701125357593,
+            lon: 14.442368130254811,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82694106240875,
+            lon: 14.441818762942367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82699015304679,
+            lon: 14.441762231009163,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82733313575018,
+            lon: 14.441391209087053,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826808420514325,
+            lon: 14.437065070976338,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826204343651725,
+            lon: 14.437372440424214,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8256493849136,
+            lon: 14.437828984997731,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82557025425973,
+            lon: 14.437814119753265,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82551914434812,
+            lon: 14.43791013277314,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543976961698,
+            lon: 14.437863908258102,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543501341543,
+            lon: 14.437796176716807,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82520644703607,
+            lon: 14.437640621492204,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82483145104226,
+            lon: 14.437436258129434,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82500052713675,
+            lon: 14.437042773303446,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82515892108387,
+            lon: 14.436549751569347,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82546197246556,
+            lon: 14.436395122214286,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82556036314257,
+            lon: 14.436120379967457,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8257491605892,
+            lon: 14.435472677011818,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82580573772057,
+            lon: 14.435188781951382,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826124913538564,
+            lon: 14.434398284663278,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826408816852464,
+            lon: 14.433664951954805,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82656743601548,
+            lon: 14.433334641968546,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82663863076063,
+            lon: 14.43296066817481,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82643524934623,
+            lon: 14.432714328233367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82634891493532,
+            lon: 14.43307541815348,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82621834001432,
+            lon: 14.43332595862376,
+            type: "waypoint"
+          },
+          {
+            label: "Mini Inland Sea",
+            description: "Open this exact spot in Google Maps.",
+            lon: 14.43338093087383,
+            lat: 35.826193672556016,
+            type: "destination"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 53,
+    title: "St. Michael Bastion",
+    slug: "st-michael-bastion",
+    description: "St. Michael Bastion is one of Senglea\u2019s most historic and peaceful spots\u2014built in the 1500s to guard the Grand Harbour. Today, it offers panoramic views across Valletta, Birgu, and the sea, with wide stone terraces perfect for sitting, walking, or just watching the city glow at sunset. Unlike more crowded viewpoints, this bastion remains calm and local, blending raw stone, history, and sky. It's a powerful reminder of Malta\u2019s past and a perfect escape in the heart of the Three Cities.",
+    img: "/assets/images/places/st-bastion.webp",
+    lon: 14.51876658864401,
+    lat: 35.884555521002994,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "St. Michael Bastion, Senglea, Malta, Grand Harbour, Three Cities, history, bastion, viewpoint, local spot, hidden gem",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.51876658864401,
+        lat: 35.884555521002994,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: true,
+    tags: [
+      "hidden",
+      "historical",
+      "cultural",
+      "viewpoint",
+      "bastion",
+      "easy"
+    ],
+    locality: "Three Cities",
+    showLabel: false,
+    thumb: "/assets/images/places/st-bastion-thumb.webp"
+  },
+  {
+    id: 54,
+    title: "L-G\u0127awse\u0121",
+    slug: "l-ghawseg",
+    description: "Tucked below the cliffs near Popeye Village, L-G\u0127awse\u0121 is a quiet coastal inlet that offers wild views and raw nature. It\u2019s a perfect detour for hikers exploring the Anchor Bay cliffs, with jagged limestone, dramatic rock formations, and a direct descent to the sea. While not an official beach, the rocky shore is swimmable in calm conditions\u2014making it a peaceful, off-grid swim and sunset spot. Bring good shoes, water, and curiosity\u2014you won\u2019t find crowds here.",
+    img: "/assets/images/places/L-Ghawseg.webp",
+    lon: 14.341577929256182,
+    lat: 35.95369720364465,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-l-ghawseg.webp",
+    keywords: "L-G\u0127awse\u0121, Anchor Bay, Popeye Village, Malta, hike, hidden spot, cliff walk, wild swim, off path Malta, nature",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.341577929256182,
+        lat: 35.95369720364465,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "beach",
+      "swimming",
+      "hiking",
+      "cliffs",
+      "hard"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/L-Ghawseg-thumb.webp"
+  },
+  {
+    id: 55,
+    title: "Paradise Bay",
+    slug: "paradise-bay",
+    description: "Paradise Bay is one of Malta\u2019s most loved sandy beaches, tucked into a deep cove at the island\u2019s northern tip. Surrounded by cliffs and offering clear, turquoise waters, it\u2019s perfect for swimming, sunbathing, or grabbing a cocktail at the beach bar. Popular but still relaxing, this beach is ideal for a full day of seaside escape with views of Comino in the distance. It\u2019s also a great snorkeling spot, especially around the edges of the bay. Access is down a flight of steps from the cliff-top, where a small beach lido rents sunbeds and umbrellas right by the water.",
+    img: "/assets/images/places/paradise-bay/paradise-bay-beach.webp",
+    images: [
+      "/assets/images/places/paradise-bay/paradise-bay-beach.webp",
+      "/assets/images/places/paradise-bay/paradise-bay-lido.webp",
+      "/assets/images/places/paradise-bay/paradise-bay-stairs.webp"
+    ],
+    lon: 14.332826579817256,
+    lat: 35.98227580320132,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Paradise Bay, Malta, sandy beach, swimming, snorkeling, beach bar, northern Malta, Comino view, popular beach",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.332826579817256,
+        lat: 35.98227580320132,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "beach",
+      "swimming",
+      "snorkeling",
+      "bay",
+      "easy"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/paradise-bay/paradise-bay-beach-thumb.webp"
+  },
+  {
+    id: 57,
+    title: "Anchor Bay & Popeye Cliffs",
+    slug: "anchor-bay-popeye-cliffs",
+    description: "Anchor Bay and the surrounding cliffs offer one of Malta\u2019s most cinematic coastal scenes. Perched above the famous Popeye Village, these dramatic cliffs provide sweeping views over turquoise waters and the quirky film set below. The best part? Walk just beyond the village and you\u2019ll find yourself in a quiet, open stretch of cliffside trail where the sea glows golden at sunset. Whether you're here for photography, a peaceful walk, or just that movie-set feeling, this spot delivers pure visual magic.",
+    img: "/assets/images/places/anchor-bay-popeye-cliffs.webp",
+    lon: 14.340354095476421,
+    lat: 35.959680889449785,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Anchor Bay, Popeye Cliffs, Popeye Village, Malta, sunset view, cliff walk, cinematic view, hidden Malta, coastal trail, golden hour",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.340354095476421,
+        lat: 35.959680889449785,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "nature",
+      "landmark",
+      "viewpoint",
+      "hiking",
+      "cliffs",
+      "moderate"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/anchor-bay-popeye-cliffs-thumb.webp"
+  },
+  {
+    id: 58,
+    title: "Carolina Grotto",
+    slug: "carolina-grotto",
+    description: "Carolina Grotto \u2014 also known as Caroline's Cave or G\u0127ar ta' Karolina \u2014 is a hidden sea grotto tucked into the cliffs of Xlendi Bay, Gozo. You can reach it on foot down a flight of carved cliffside stone stairs from the bay, or by swimming or kayaking around the coast to the grotto, where clear, calm water meets the rock. Beyond its beauty it carries a story: the grotto is linked to Karolina Cauchi and the Augustinian sisters of Gozo, said to have used it as a private bathing place hidden from public view. Visit in the morning or around midday when the water is clearest and the steps easiest to see \u2014 and take care, as the stairs and rocks can be uneven and slippery near the water.",
+    images: [
+      "/assets/images/places/carolina-grotto.webp",
+      "/assets/images/places/carolina-grotto-2.webp",
+      "/assets/images/places/carolina-grotto-3.webp",
+      "/assets/images/places/carolina-grotto-4.webp"
+    ],
+    lon: 14.215643060941806,
+    lat: 36.03011185439489,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-carolina-grotto.webp",
+    keywords: "Carolina Grotto, Caroline's Cave, G\u0127ar ta' Karolina, Karolina Cauchi, Xlendi, Xlendi Bay, Gozo, Augustinian sisters, hidden grotto, sea cave, swimming, kayak, historic bathing place, Malta",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Park here near Xlendi Bay",
+        description: "Park here and continue on foot down toward the grotto.",
+        lon: 14.217960544255511,
+        lat: 36.030283334445514,
+        type: "parking"
+      },
+      { lat: 36.03071254587401, lon: 14.217722988255284, type: "waypoint" },
+      { lat: 36.03060163869628, lon: 14.217148078106433, type: "waypoint" },
+      { lat: 36.030695508220916, lon: 14.217100320623404, type: "waypoint" },
+      { lat: 36.03066138960588, lon: 14.21683583411425, type: "waypoint" },
+      { lat: 36.030733458668095, lon: 14.216615678542256, type: "waypoint" },
+      { lat: 36.030770261708355, lon: 14.21646038641274, type: "waypoint" },
+      { lat: 36.030770261708355, lon: 14.216392417663068, type: "waypoint" },
+      { lat: 36.030692780464165, lon: 14.216392417663068, type: "waypoint" },
+      { lat: 36.0306106229845, lon: 14.216399404604253, type: "waypoint" },
+      { lat: 36.030526603613, lon: 14.216376543118542, type: "waypoint" },
+      { lat: 36.030592979140394, lon: 14.216345677435845, type: "waypoint" },
+      { lat: 36.03047880280714, lon: 14.216300944950337, type: "waypoint" },
+      { lat: 36.030415544630884, lon: 14.21617384151456, type: "waypoint" },
+      { lat: 36.030194855030985, lon: 14.21590046740206, type: "waypoint" },
+      {
+        label: "Carolina Grotto",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.21566615055847,
+        lat: 36.030106288920976,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "swimming",
+      "kayak",
+      "historical",
+      "gozo",
+      "moderate"
+    ],
+    locality: "Gozo-Munxar",
+    showLabel: false,
+    thumb: "/assets/images/places/carolina-grotto-thumb.webp"
+  },
+  {
+    id: 59,
+    title: "Babu Valley",
+    slug: "babu-valley",
+    description: "Babu Valley, also known as Wied Babu, is a canyon-like valley in \u017Burrieq, close to the Blue Grotto area. Known for its steep limestone sides, wild greenery, and peaceful walking paths, it offers a different side of Malta away from the beaches and busy viewpoints. The route is best enjoyed early in the morning, with proper shoes, as some sections can be uneven, narrow, and slippery after rain.",
+    img: "/assets/images/places/babu/babu-1.webp",
+    images: [
+      "/assets/images/places/babu/babu-3.webp",
+      "/assets/images/places/babu/babu-1.webp",
+      "/assets/images/places/babu/babu-2.webp"
+    ],
+    lon: 14.458520482908382,
+    lat: 35.8220381153492,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Babu Valley, \u017Burrieq, Malta, Blue Grotto, hidden trail, hiking Malta, nature walk, secret valley, scenic view, coastal path",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Park here near Wied Babu",
+        description: "Park here and continue on foot.",
+        lon: 14.457569691494976,
+        lat: 35.82255508785779,
+        type: "parking"
+      },
+      {
+        lon: 14.458213828578499,
+        lat: 35.8235858447874,
+        type: "waypoint"
+      },
+      {
+        lon: 14.45920855093738,
+        lat: 35.824394865011286,
+        type: "waypoint"
+      },
+      {
+        lon: 14.46023794464109,
+        lat: 35.82565486638816,
+        type: "waypoint"
+      },
+      {
+        lon: 14.46040688189951,
+        lat: 35.82552105180842,
+        type: "waypoint"
+      },
+      {
+        lon: 14.460516014278806,
+        lat: 35.82526059185379,
+        type: "waypoint"
+      },
+      {
+        lon: 14.460436553836738,
+        lat: 35.82474721309609,
+        type: "waypoint"
+      },
+      {
+        lon: 14.460230275199686,
+        lat: 35.82441090539413,
+        type: "waypoint"
+      },
+      {
+        lon: 14.459919641868149,
+        lat: 35.82360137561588,
+        type: "waypoint"
+      },
+      {
+        lon: 14.459116362177705,
+        lat: 35.823270737941556,
+        type: "waypoint"
+      },
+      {
+        lon: 14.458656111874548,
+        lat: 35.82278062367307,
+        type: "waypoint"
+      },
+      {
+        label: "Babu Valley",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.458535580106942,
+        lat: 35.82201032633934,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "hiking",
+      "trail",
+      "nature",
+      "valley",
+      "viewpoint",
+      "moderate"
+    ],
+    locality: "\u017Burrieq",
+    showLabel: false,
+    thumb: "/assets/images/places/babu/babu-1-thumb.webp"
+  },
+  {
+    id: 60,
+    title: "G\u0127ar \u0126asan Trail & Irdum ta\u2019 \u0126al Far",
+    slug: "ghar-hasan-trail-irdum-ta-hal-far",
+    description: "This wild coastal trail in south Malta starts near the legendary G\u0127ar \u0126asan Cave and continues along the untouched cliffs of \u0126al Far. Though the cave itself is sealed, its mythical presence adds depth to the hike. As you follow the unmarked trail west, you'll pass jagged ridgelines, wind-blasted plateaus, and sweeping sea views. Perfect for solo hikers, photographers, or anyone craving quiet and raw coastal energy. No crowds, no fences\u2014just nature, legend, and horizon.",
+    img: "/assets/images/places/ghar-hasan-hal-far.webp",
+    lon: 14.5156606,
+    lat: 35.8062448,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "G\u0127ar \u0126asan, Irdum ta\u2019 \u0126al Far, Malta, cliff trail, hidden hike, southern coast, secret spots, cave legends, sea cliffs, wild Malta, Bir\u017Cebbu\u0121a",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.5156606,
+        lat: 35.8062448,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "hiking",
+      "trail",
+      "cliffs",
+      "nature",
+      "cave",
+      "hard"
+    ],
+    locality: "Bir\u017Cebbu\u0121a",
+    showLabel: false,
+    thumb: "/assets/images/places/ghar-hasan-hal-far-thumb.webp"
+  },
+  {
+    id: 61,
+    title: "Hidden Sea Cave near Fort Ricasoli",
+    slug: "hidden-sea-cave-near-fort-ricasoli",
+    description: "Tucked beneath the towering walls of Fort Ricasoli, this unnamed sea cave is accessible only by kayak or a confident swim. Inside, you\u2019ll find crystal\u2011clear water, perfect reflections, and a quiet stone alcove bathed in morning light. No footpaths, no crowds\u2014just pure coastal magic.",
+    img: "/assets/images/places/hidden-fort-ricasoli-cave.webp",
+    lon: 14.52721934757467,
+    lat: 35.8972558894685,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-hidden-ricasoli-cave.webp",
+    keywords: "Hidden Sea Cave, Fort Ricasoli, Malta, sea cave, kayaking, swimming spot, secret cave, coastal adventure",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.52721934757467,
+        lat: 35.8972558894685,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "swimming",
+      "kayak",
+      "hard"
+    ],
+    locality: "Kalkara",
+    showLabel: false,
+    thumb: "/assets/images/places/hidden-fort-ricasoli-cave-thumb.webp"
+  },
+  {
+    id: 24,
+    title: "IX-Xaqqa",
+    slug: "ix-xaqqa",
+    description: "IX-Xaqqa is a picturesque coastal feature located on the southwestern coast of Malta. Known for its rugged cliffs and clear blue waters, IX-Xaqqa offers spectacular views and a peaceful environment away from the more touristy areas. It is a great spot for hiking, rock climbing, and diving, with its dramatic landscape and rich marine life. The area's natural beauty and tranquility make it an ideal destination for outdoor enthusiasts and photographers seeking to capture the essence of Malta's coastal charm.",
+    img: "/assets/images/places/Ix-Xaqqa-Valley.webp",
+    lon: 14.4155089,
+    lat: 35.8337247,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "IX-Xaqqa, Malta, coastal, rugged cliffs, clear blue waters, hiking, diving",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.4155089,
+        lat: 35.8337247,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "nature",
+      "landmark",
+      "cliffs",
+      "hiking",
+      "diving",
+      "hard"
+    ],
+    locality: "Si\u0121\u0121iewi",
+    showLabel: false,
+    thumb: "/assets/images/places/Ix-Xaqqa-Valley-thumb.webp"
+  },
+  {
+    id: 62,
+    title: "Santa Maria Caves (Comino)",
+    slug: "santa-maria-caves-comino",
+    description: "A network of light-filled sea caves on the north side of Comino, famous for easy swim\u2011throughs, natural tunnels, and shoals of fish. Best explored by boat or kayak, the caves offer calm, clear water for snorkeling and beginner dives, with dramatic limestone entrances and beautiful reflections.",
+    img: "/assets/images/places/santa-maria-caves.webp",
+    lon: 14.34050708347769,
+    lat: 36.01822697957711,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    recommendedRoute: "/assets/images/recommendedRoute-santa-maria-caves.webp",
+    keywords: "Santa Maria Caves, Santa Marija Caves, Comino, Malta, sea caves, swim-throughs, snorkeling, diving, kayak",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.34050708347769,
+        lat: 36.01822697957711,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: false,
+    tags: [
+      "cave",
+      "sea-cave",
+      "swimming",
+      "snorkeling",
+      "kayak",
+      "comino",
+      "moderate"
+    ],
+    locality: "Comino",
+    showLabel: false,
+    thumb: "/assets/images/places/santa-maria-caves-thumb.webp"
+  },
+  {
+    id: 63,
+    title: "Wied il-G\u0127asri",
+    slug: "wied-il-ghasri",
+    description: "A narrow, winding valley that opens dramatically into a small pebbled cove on Gozo\u2019s north coast. Wied il-G\u0127asri is a favorite among locals and divers for its turquoise water, sea caves, and peaceful isolation. Perfect for swimming, snorkeling, or simply enjoying nature away from the crowds. The steep staircase leading down adds to the adventure and rewards you with one of Malta\u2019s most photogenic hidden spots.",
+    img: "/assets/images/places/wied-il-ghasri.webp",
+    lon: 14.228241487512033,
+    lat: 36.07868696547658,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Wied il-G\u0127asri, Gozo, Malta, hidden valley, swimming spot, snorkeling, sea caves, nature, cliffs, adventure",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.228241487512033,
+        lat: 36.07868696547658,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "beach",
+      "swimming",
+      "snorkeling",
+      "valley",
+      "gozo",
+      "moderate"
+    ],
+    locality: "Gozo-Gharb",
+    showLabel: false,
+    thumb: "/assets/images/places/wied-il-ghasri-thumb.webp"
+  },
+  {
+    id: 64,
+    title: "Cittadella (Victoria, Gozo)",
+    slug: "cittadella-victoria-gozo",
+    description: "Perched above Victoria, the Cittadella is Gozo\u2019s ancient hilltop fortress. It\u2019s a peaceful place filled with narrow golden streets, quiet squares, and wide views across the island. Walk along the walls, explore old chapels, and enjoy the calm beauty of Gozo\u2019s history.",
+    img: "/assets/images/places/cittadella-gozo.webp",
+    lon: 14.239692599336166,
+    lat: 36.04619855306464,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Cittadella, Citadel, Victoria, Gozo, Malta, fortress, bastions, panoramic views, historic site, medieval streets, heritage",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.239692599336166,
+        lat: 36.04619855306464,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "fortress",
+      "viewpoint",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Victoria",
+    showLabel: false,
+    thumb: "/assets/images/places/cittadella-gozo-thumb.webp"
+  },
+  {
+    id: 65,
+    title: "Gozo Salt Pans (Xwejni)",
+    slug: "gozo-salt-pans-xwejni",
+    description: "Along Gozo\u2019s northern coast, the salt pans near Xwejni form a striking geometric landscape carved directly into the rock. Still used today by local families, these shallow pools fill with seawater and slowly turn it into sea salt under the sun. The area is quiet, scenic, and perfect for a coastal walk with uninterrupted sea views and a strong sense of tradition.",
+    img: "/assets/images/places/gozo-salt-pans.webp",
+    lon: 14.246784722313562,
+    lat: 36.07957876800282,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Gozo salt pans, Xwejni, Malta, sea salt, coastal walk, tradition, limestone pools, Mediterranean, photography spot",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.246784722313562,
+        lat: 36.07957876800282,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "nature",
+      "cultural",
+      "landscape",
+      "coastal-walk",
+      "photography",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Marsalforn",
+    showLabel: false,
+    thumb: "/assets/images/places/gozo-salt-pans-thumb.webp"
+  },
+  {
+    id: 66,
+    title: "Ramla Bay (Gozo)",
+    slug: "ramla-bay-gozo",
+    description: "Ramla Bay is Gozo\u2019s most iconic beach, known for its unique reddish-golden sand and wide open shoreline. Surrounded by gentle hills and natural landscapes, it offers calm waters ideal for swimming and relaxing. The area feels spacious and peaceful, making it perfect for slow walks, morning swims, and enjoying Gozo\u2019s natural colors.",
+    img: "/assets/images/places/ramla-bay-gozo.webp",
+    lon: 14.283815437475868,
+    lat: 36.0615465214957,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Ramla Bay, Gozo, Malta, red sand beach, swimming, nature, coastal walk, peaceful beach, island life",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.283815437475868,
+        lat: 36.0615465214957,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "beach",
+      "swimming",
+      "nature",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Xag\u0127ra",
+    showLabel: false,
+    thumb: "/assets/images/places/ramla-bay-gozo-thumb.webp"
+  },
+  {
+    id: 67,
+    title: "Argotti Botanic Gardens",
+    slug: "argotti-botanic-gardens",
+    description: "Located in Floriana near Valletta, Argotti Botanic Gardens is a peaceful green escape filled with rare plants, palm trees, and Mediterranean species. Originally created in the 18th century for the study of botany, the gardens offer quiet paths, shaded corners, and elevated views over the Grand Harbour area. It\u2019s a calm and refreshing break from the city\u2019s busy streets.",
+    img: "/assets/images/places/argotti-botanic-gardens.webp",
+    lon: 14.5024164,
+    lat: 35.8924255,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Argotti Botanic Gardens, Floriana, Malta, botanical garden, plants, peaceful park, green space, Valletta, Grand Harbour views",
+    rating: 4.6,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.5024164,
+        lat: 35.8924255,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "garden",
+      "park",
+      "nature",
+      "scenic-walk",
+      "easy"
+    ],
+    locality: "Valletta",
+    showLabel: false,
+    thumb: "/assets/images/places/argotti-botanic-gardens-thumb.webp"
+  },
+  {
+    id: 68,
+    title: "Hondoq ir-Rummien",
+    slug: "hondoq-ir-rummien",
+    description: "Located on the southeastern coast of Gozo, <b>Hondoq ir-Rummien</b> is known for its crystal-clear turquoise waters and open views towards Comino. This coastal spot combines easy access with raw natural beauty, offering both a small beach area and rocky edges perfect for swimming and exploring. On calm days, the water becomes incredibly clear, making it ideal for snorkeling and relaxing by the sea. Its peaceful atmosphere outside peak season makes it a perfect escape to enjoy Gozo\u2019s slower, quieter side.",
+    img: "/assets/images/places/hondoq-ir-rummien.webp",
+    lon: 14.322285709701077,
+    lat: 36.027896947001096,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Hondoq ir-Rummien, Gozo, Malta, turquoise water, swimming, snorkeling, beach, coastal views, Comino",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.322285709701077,
+        lat: 36.027896947001096,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "beach",
+      "swimming",
+      "snorkeling",
+      "gozo",
+      "easy"
+    ],
+    locality: "Gozo-Qala",
+    showLabel: false,
+    thumb: "/assets/images/places/hondoq-ir-rummien-thumb.webp"
+  },
+  {
+    id: 69,
+    title: "Rdum il-Qammieh Viewpoint",
+    slug: "rdum-il-qammieh-viewpoint",
+    description: "Perched on Malta\u2019s northern cliffs, Rdum il-Qammieh is a simple but powerful viewpoint known for a bench facing the open sea. With wide, uninterrupted views and complete silence, it\u2019s a place to slow down and take in the horizon. Whether you visit at sunrise or sunset, the atmosphere here is calm, raw, and unforgettable.",
+    img: "/assets/images/places/rdum-il-qammieh.webp",
+    lon: 14.333700098346794,
+    lat: 35.97229128888981,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Rdum il-Qammieh, Malta, viewpoint, bench, cliffs, sunset, northern Malta, scenic view, peaceful spot",
+    rating: 4.9,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.333700098346794,
+        lat: 35.97229128888981,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "viewpoint",
+      "cliffs",
+      "nature",
+      "sunset",
+      "hard"
+    ],
+    locality: "Mellie\u0127a",
+    showLabel: false,
+    thumb: "/assets/images/places/rdum-il-qammieh-thumb.webp"
+  },
+  {
+    id: 70,
+    title: "Hidden Rocky Beach near Gnejna",
+    slug: "hidden-rocky-beach-near-gnejna",
+    description: "A hidden rocky beach tucked along the coastline near Gnejna Bay, this spot offers a raw and untouched experience of Malta\u2019s natural beauty. Surrounded by cliffs and accessible only by a coastal walk, it features clear blue water, rugged limestone formations, and complete silence away from the usual crowds. It\u2019s an ideal place for swimming, exploring, and disconnecting in one of Malta\u2019s lesser-known coastal corners.",
+    img: "/assets/images/places/hidden-rocky-beach-gnejna.webp",
+    lon: 14.336092753697839,
+    lat: 35.92229016523285,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "hidden rocky beach, Gnejna, Malta, secret beach, coastal walk, swimming spot, cliffs, raw coastline, hidden Malta",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "\u0120nejna Bay car park",
+        description: "Park here before starting the coastal hike.",
+        lon: 14.344498626957746,
+        lat: 35.92051841887867,
+        type: "parking"
+      },
+      {
+        lat: 35.9201820632405,
+        lon: 14.342592253561783,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92016385851133,
+        lon: 14.341710054897167,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92032137808043,
+        lon: 14.34127390702734,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92069323674545,
+        lon: 14.340689320075917,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92090023434103,
+        lon: 14.340343556045045,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92120780172358,
+        lon: 14.340002193314156,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92136383400161,
+        lon: 14.339851343996855,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921412251896385,
+        lon: 14.3399396843751,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92145044302826,
+        lon: 14.339844637254021,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921372108753474,
+        lon: 14.339767300125732,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921414840407024,
+        lon: 14.33961032042631,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921574012430696,
+        lon: 14.339369506441479,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92170505010262,
+        lon: 14.339119942253113,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92176802279259,
+        lon: 14.338950230221592,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921745914461724,
+        lon: 14.338902077903912,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92193950005874,
+        lon: 14.338661892676221,
+        type: "waypoint"
+      },
+      {
+        lat: 35.921965469857284,
+        lon: 14.338397971866478,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92210028352733,
+        lon: 14.338111206213961,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92236426644422,
+        lon: 14.337811760625774,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92229187385287,
+        lon: 14.337411871084386,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92222576145191,
+        lon: 14.337009833289434,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92217025754499,
+        lon: 14.33662529590156,
+        type: "waypoint"
+      },
+      {
+        lat: 35.922083394701176,
+        lon: 14.33629011594922,
+        type: "waypoint"
+      },
+      {
+        lat: 35.92211123155842,
+        lon: 14.336149641124736,
+        type: "waypoint"
+      },
+      {
+        label: "Hidden Rocky Beach",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.336092753697839,
+        lat: 35.92229016523285,
+        type: "destination"
+      }
+    ],
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "beach",
+      "swimming",
+      "hiking",
+      "cliffs",
+      "hard"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/hidden-rocky-beach-gnejna-thumb.webp"
+  },
+  {
+    id: 71,
+    title: "Blata tal-Mel\u0127 Rock Passage",
+    slug: "blata-tal-melh-rock-passage",
+    description: "Blata tal-Mel\u0127 features a narrow, man-made cut through the coastal limestone that forms a straight corridor leading from the cliff edge toward the sea. Likely created for access by fishermen, this unique formation stands out for its symmetry and raw appearance. The passage is surrounded by rugged cliffs and offers a striking visual line toward the open Mediterranean. Access is challenging and requires careful movement across uneven terrain, making it suitable only for experienced explorers.",
+    img: "/assets/images/places/blata/blata-tal-melh-passage.webp",
+    lon: 14.330087005026344,
+    lat: 35.89534595568553,
+    rating: 4.7,
+    recommendedRoute: "/assets/images/recommendedRoute-blata.webp",
+    mapPoints: [
+      {
+        label: "Park here near the M\u0121arr cliffs road",
+        description: "Park here. Google Maps may try to send you through private or rough paths.",
+        lon: 14.334066172771909,
+        lat: 35.90319495943615,
+        type: "parking"
+      },
+      {
+        lat: 35.902668319900044,
+        lon: 14.33263303896851,
+        type: "waypoint"
+      },
+      {
+        lat: 35.902237929919295,
+        lon: 14.33199495526371,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90214213175207,
+        lon: 14.331712056467602,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90186216444546,
+        lon: 14.33166579042134,
+        type: "waypoint"
+      },
+      {
+        lat: 35.901386014013724,
+        lon: 14.331209627115877,
+        type: "waypoint"
+      },
+      {
+        lat: 35.9010930132648,
+        lon: 14.331114056030511,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90054457305028,
+        lon: 14.330704001582017,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90035029840902,
+        lon: 14.330651238378639,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90029562807226,
+        lon: 14.330926424420486,
+        type: "waypoint"
+      },
+      {
+        lat: 35.90020156783923,
+        lon: 14.331164723376755,
+        type: "waypoint"
+      },
+      {
+        lat: 35.900084034836794,
+        lon: 14.330887441477772,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89991569365611,
+        lon: 14.330525015382674,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89951572274319,
+        lon: 14.330198900012444,
+        type: "waypoint"
+      },
+      {
+        lat: 35.899260110431584,
+        lon: 14.329907890249228,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89902822495192,
+        lon: 14.32972843248203,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89875913318741,
+        lon: 14.329565951733622,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89849267875917,
+        lon: 14.329482840926431,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89833661358682,
+        lon: 14.329532768297783,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89816002872874,
+        lon: 14.329819485360826,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89803429809666,
+        lon: 14.329984671895557,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89785667672609,
+        lon: 14.32960595451774,
+        type: "waypoint"
+      },
+      {
+        lat: 35.8975426691847,
+        lon: 14.329531246121826,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89729160036747,
+        lon: 14.329620323858762,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89686275917468,
+        lon: 14.329723953597838,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89655760604401,
+        lon: 14.329840180136147,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89635841759096,
+        lon: 14.32983561433466,
+        type: "waypoint"
+      },
+      {
+        lat: 35.896172533679476,
+        lon: 14.329789206710595,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89629857262523,
+        lon: 14.329526025735344,
+        type: "waypoint"
+      },
+      {
+        lat: 35.8963938608058,
+        lon: 14.329354024497249,
+        type: "waypoint"
+      },
+      {
+        lat: 35.89632231186981,
+        lon: 14.329244922285604,
+        type: "waypoint"
+      },
+      {
+        lat: 35.896108161543054,
+        lon: 14.3293164077447,
+        type: "waypoint"
+      },
+      {
+        lat: 35.895928073864425,
+        lon: 14.329445953843601,
+        type: "waypoint"
+      },
+      {
+        lat: 35.895684607038135,
+        lon: 14.329644532135127,
+        type: "waypoint"
+      },
+      {
+        label: "Final location",
+        description: "Walk from the parking spot to this exact rock passage.",
+        lon: 14.330087005026344,
+        lat: 35.89534595568553,
+        type: "destination"
+      }
+    ],
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "rock-formation",
+      "viewpoint",
+      "hiking",
+      "cliffs",
+      "hard"
+    ],
+    images: [
+      "/assets/images/places/blata/blata-tal-melh-passage.webp",
+      "/assets/images/places/blata/batal-stairs-2.webp",
+      "/assets/images/places/blata/batal-stairs-3.webp"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/blata/blata-tal-melh-passage-thumb.webp"
+  },
+  {
+    id: 72,
+    title: "Qarraba Cliffs",
+    slug: "qarraba-cliffs",
+    description: "Qarraba Cliffs, also known as Il-Qarraba, is a dramatic coastal headland on Malta\u2019s north-west coast between G\u0127ajn Tuffie\u0127a Bay and \u0120nejna Bay. This spot is known for its raw cliff views, clay slopes, rugged paths, and wide open views over the Mediterranean. It forms part of one of Malta\u2019s most scenic coastal walks, connecting Golden Bay, G\u0127ajn Tuffie\u0127a, Qarraba and \u0120nejna Bay. The route is beautiful but exposed, with uneven ground and steep sections, so it is best explored with proper shoes and extra care, especially on windy days or after rain.",
+    img: "/assets/images/places/qarraba-cliffs/qarraba-cliffs.webp",
+    lon: 14.3406,
+    lat: 35.9275,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Qarraba Cliffs, Il-Qarraba, Malta, G\u0127ajn Tuffie\u0127a, \u0120nejna Bay, Golden Bay, coastal walk, cliffs, hiking, viewpoint, north west Malta",
+    rating: 4.8,
+    mapPoints: [
+      {
+        label: "Final location",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.3406,
+        lat: 35.9275,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: false,
+    tags: [
+      "hiking",
+      "trail",
+      "nature",
+      "coastal-walk",
+      "viewpoint",
+      "cliffs",
+      "sunset",
+      "moderate"
+    ],
+    locality: "M\u0121arr",
+    showLabel: false,
+    thumb: "/assets/images/places/qarraba-cliffs/qarraba-cliffs-thumb.webp"
+  },
+  {
+    id: 73,
+    title: "Xlendi Tower Coastal Path",
+    slug: "xlendi-tower-coastal-path",
+    description: "Xlendi Tower Coastal Path is a scenic cliffside walk from Xlendi Bay toward Torri tax-Xlendi, a historic coastal watchtower overlooking the entrance to the bay. The route includes stone steps, open sea views, limestone cliffs, and one of Gozo\u2019s most important coastal landmarks. Xlendi Tower was built in 1650 during the rule of Grand Master Lascaris as part of the Knights of St John\u2019s coastal defence system, helping protect Xlendi Bay from pirates, smugglers, and quarantine evaders. The walk is short and beautiful, but some parts can be uneven and exposed, so comfortable shoes are recommended.",
+    img: "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path.webp",
+    lon: 14.212852058914873,
+    lat: 36.02744422603632,
+    url: "https://www.instagram.com/johnfabiomb/embed",
+    keywords: "Xlendi Tower, Torri tax-Xlendi, Xlendi Bay, Gozo, Malta, coastal path, cliff stairs, stone steps, Lascaris tower, Knights of St John, coastal walk, watchtower, Ras il-Bajda",
+    rating: 4.7,
+    recommendedRoute: "/assets/images/recommendedRoute-xlendi-tower.png",
+    mapPoints: [
+      {
+        label: "Park here near Xlendi village",
+        description: "Park here before starting the coastal walk toward Xlendi Tower.",
+        lat: 36.02871017107773,
+        lon: 14.215572361306917,
+        type: "parking"
+      },
+      {
+        lat: 36.02851801166642,
+        lon: 14.215690906746273,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02846177634454,
+        lon: 14.215740756114394,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02845509937016,
+        lon: 14.215678604302376,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02828204013137,
+        lon: 14.215682711434933,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02798784533165,
+        lon: 14.215904622321398,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027868506321454,
+        lon: 14.215901814383837,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02766361969799,
+        lon: 14.21602016685662,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027544924176254,
+        lon: 14.216062872653277,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027425686176244,
+        lon: 14.216196731646926,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02725472609106,
+        lon: 14.216284573992166,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02713955491252,
+        lon: 14.216561721620533,
+        type: "waypoint"
+      },
+      {
+        lat: 36.026993743484994,
+        lon: 14.216516459343406,
+        type: "waypoint"
+      },
+      {
+        lat: 36.026944936252335,
+        lon: 14.21642119901386,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02697971140873,
+        lon: 14.216251591203184,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027080918550354,
+        lon: 14.215844943170817,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027143622173,
+        lon: 14.215632881020577,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02722778052433,
+        lon: 14.215399361198218,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02727014776343,
+        lon: 14.215322080050976,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02734390059889,
+        lon: 14.214271576126489,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02747496762281,
+        lon: 14.214074601401956,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02757346263613,
+        lon: 14.213965678570242,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027626370608644,
+        lon: 14.213832322490784,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02760389912946,
+        lon: 14.213694482093128,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02759498510201,
+        lon: 14.21359167805073,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02770676625538,
+        lon: 14.213295252045068,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02775686097186,
+        lon: 14.213044381683142,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027880640202355,
+        lon: 14.213032856566283,
+        type: "waypoint"
+      },
+      {
+        lat: 36.027737439952276,
+        lon: 14.212932692823383,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02770883376459,
+        lon: 14.212824440543919,
+        type: "waypoint"
+      },
+      {
+        lat: 36.02760135710653,
+        lon: 14.21277649605778,
+        type: "waypoint"
+      },
+      {
+        label: "Xlendi Tower",
+        description: "Historic coastal watchtower overlooking the entrance to Xlendi Bay.",
+        lat: 36.02744422603632,
+        lon: 14.212852058914873,
+        type: "destination"
+      }
+    ],
+    difficulty: "easy",
+    hidden: false,
+    tags: [
+      "historical",
+      "cultural",
+      "tower",
+      "coastal-walk",
+      "viewpoint",
+      "cliffs",
+      "gozo",
+      "easy"
+    ],
+    images: [
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path.webp",
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path2.webp",
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path3.webp",
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path4.webp",
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path5.webp",
+      "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path6.webp"
+    ],
+    locality: "Gozo-Munxar",
+    showLabel: false,
+    thumb: "/assets/images/places/xlendi-tower-coastal-path/xlendi-tower-coastal-path-thumb.webp"
+  },
+  {
+    id: 74,
+    title: "G\u0127ar \u0126anex",
+    slug: "ghar-hanex",
+    img: "/assets/images/places/ghar-hanex/ghar-hanex.webp",
+    thumb: "/assets/images/places/ghar-hanex/ghar-hanex-thumb.webp",
+    images: [
+      "/assets/images/places/ghar-hanex/ghar-hanex.webp",
+      "/assets/images/places/ghar-hanex/ghar-hanex-2.webp",
+      "/assets/images/places/ghar-hanex/ghar-hanex-3.webp"
+    ],
+    description: "G\u0127ar \u0126anex is a rugged coastal area in Qrendi, along Malta\u2019s southern coastline between G\u0127ar Lapsi and Wied i\u017C-\u017Burrieq. The main G\u0127ar \u0126anex cave/window collapsed in 2019 due to rough seas and coastal erosion, but the surrounding coastline remains a dramatic nature spot with limestone cliffs, wild sea views, a hidden rocky bay, and a smaller cave section nearby. The area is best explored with care, as access can be uneven, exposed, and unsuitable in rough weather or strong wind.",
+    lon: 14.4388,
+    lat: 35.8232,
+    keywords: "G\u0127ar \u0126anex, Malta, Qrendi, sea cave, collapsed arch, natural arch, coastal hike, kayak, \u0126a\u0121ar Qim, Filfla, hidden gem",
+    rating: 4.5,
+    difficulty: "hard",
+    hidden: true,
+    tags: [
+      "hidden",
+      "cave",
+      "sea-cave",
+      "natural-arch",
+      "hiking",
+      "coastal-walk",
+      "swimming",
+      "kayak",
+      "hard"
+    ],
+    locality: "Qrendi",
+    showLabel: false,
+    routes: [
+      {
+        label: "On foot & Kayak",
+        emoji: "\u{1F6A3}",
+        mapPoints: [
+          {
+            label: "\u0126a\u0121ar Qim car park",
+            description: "Park at the \u0126a\u0121ar Qim Visitor Centre, then follow the coastal path south past Mnajdra Temples.",
+            lon: 14.444267085996483,
+            lat: 35.82733470952982,
+            type: "parking"
+          },
+          {
+            lat: 35.82746291126993,
+            lon: 14.442778213270046,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827430282721295,
+            lon: 14.442724448178728,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82721026482085,
+            lon: 14.442692638856192,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82701125357593,
+            lon: 14.442368130254811,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82694106240875,
+            lon: 14.441818762942367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82699015304679,
+            lon: 14.441762231009163,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82733313575018,
+            lon: 14.441391209087053,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826808420514325,
+            lon: 14.437065070976338,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826204343651725,
+            lon: 14.437372440424214,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8256493849136,
+            lon: 14.437828984997731,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82557025425973,
+            lon: 14.437814119753265,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82551914434812,
+            lon: 14.43791013277314,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543976961698,
+            lon: 14.437863908258102,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543501341543,
+            lon: 14.437796176716807,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82520644703607,
+            lon: 14.437640621492204,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82483145104226,
+            lon: 14.437436258129434,
+            type: "waypoint"
+          },
+          {
+            lon: 14.43735796054233,
+            lat: 35.82463603665428,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437320891575554,
+            lat: 35.82454230070627,
+            type: "waypoint"
+          },
+          {
+            lon: 14.43731253062714,
+            lat: 35.82439866378587,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437328540062197,
+            lat: 35.82423280308676,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437543892109433,
+            lat: 35.824126578658536,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437714191427121,
+            lat: 35.82404767481657,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437826152698733,
+            lat: 35.82396041156149,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437588085693905,
+            lat: 35.82390718024918,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437416340497919,
+            lat: 35.8239710816064,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437312425853351,
+            lat: 35.823874439491306,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437231037573556,
+            lat: 35.823805678758646,
+            type: "waypoint"
+          },
+          {
+            label: "Kayak launch point",
+            description: "Reach the water here \u2014 hire a kayak or SUP to continue to the cave.",
+            lon: 14.437209894222805,
+            lat: 35.823671198428585,
+            type: "waypoint",
+            showPin: true,
+            segmentColor: "#22c55e",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.437214755726641,
+            lat: 35.823469910767216,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.437442387262022,
+            lat: 35.82297972976569,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.437902658519931,
+            lat: 35.822387634653126,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.438252896343954,
+            lat: 35.82216671924684,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.438643115846103,
+            lat: 35.82227996353092,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.438874896423556,
+            lat: 35.82245014398468,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.438881413353268,
+            lat: 35.82263262541571,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.4387249022663,
+            lat: 35.82283721140769,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.43853459115479,
+            lat: 35.82300107011771,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            lon: 14.438378499162978,
+            lat: 35.82327592858168,
+            type: "waypoint",
+            lineStyle: "dashed"
+          },
+          {
+            label: "G\u0127ar \u0126anex",
+            description: "The collapsed sea cave \u2014 explore the turquoise water and dramatic cliffs.",
+            lon: 14.438320140162146,
+            lat: 35.8233758166385,
+            type: "destination"
+          }
+        ]
+      },
+      {
+        label: "Fully on foot (risky)",
+        emoji: "\u{1F6B6}",
+        mapPoints: [
+          {
+            label: "\u0126a\u0121ar Qim car park",
+            description: "Park at the \u0126a\u0121ar Qim Visitor Centre, then follow the coastal path south past Mnajdra Temples.",
+            lon: 14.444267085996483,
+            lat: 35.82733470952982,
+            type: "parking"
+          },
+          {
+            lat: 35.82746291126993,
+            lon: 14.442778213270046,
+            type: "waypoint"
+          },
+          {
+            lat: 35.827430282721295,
+            lon: 14.442724448178728,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82721026482085,
+            lon: 14.442692638856192,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82701125357593,
+            lon: 14.442368130254811,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82694106240875,
+            lon: 14.441818762942367,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82699015304679,
+            lon: 14.441762231009163,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82733313575018,
+            lon: 14.441391209087053,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826808420514325,
+            lon: 14.437065070976338,
+            type: "waypoint"
+          },
+          {
+            lat: 35.826204343651725,
+            lon: 14.437372440424214,
+            type: "waypoint"
+          },
+          {
+            lat: 35.8256493849136,
+            lon: 14.437828984997731,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82557025425973,
+            lon: 14.437814119753265,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82551914434812,
+            lon: 14.43791013277314,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543976961698,
+            lon: 14.437863908258102,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82543501341543,
+            lon: 14.437796176716807,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82520644703607,
+            lon: 14.437640621492204,
+            type: "waypoint"
+          },
+          {
+            lat: 35.82483145104226,
+            lon: 14.437436258129434,
+            type: "waypoint"
+          },
+          {
+            lon: 14.43735796054233,
+            lat: 35.82463603665428,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437320891575554,
+            lat: 35.82454230070627,
+            type: "waypoint"
+          },
+          {
+            lon: 14.43731253062714,
+            lat: 35.82439866378587,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437328540062197,
+            lat: 35.82423280308676,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437543892109433,
+            lat: 35.824126578658536,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437714191427121,
+            lat: 35.82404767481657,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437826152698733,
+            lat: 35.82396041156149,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437588085693905,
+            lat: 35.82390718024918,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437416340497919,
+            lat: 35.8239710816064,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437312425853351,
+            lat: 35.823874439491306,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437231037573556,
+            lat: 35.823805678758646,
+            type: "waypoint"
+          },
+          {
+            label: "Caution \u2014 risky terrain ahead",
+            lon: 14.43726937252161,
+            lat: 35.82371050778049,
+            type: "waypoint",
+            showPin: true
+          },
+          {
+            lon: 14.437333516831394,
+            lat: 35.82366060250746,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437388425932523,
+            lat: 35.823636145724535,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437502807157491,
+            lat: 35.823591128223114,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437572060306106,
+            lat: 35.82351152404226,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437754253725155,
+            lat: 35.82341043812873,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437881166888113,
+            lat: 35.823346719226365,
+            type: "waypoint"
+          },
+          {
+            lon: 14.437957340985063,
+            lat: 35.82333692584966,
+            type: "waypoint"
+          },
+          {
+            lon: 14.438130823178918,
+            lat: 35.82334266374143,
+            type: "waypoint"
+          },
+          {
+            lon: 14.438309545207474,
+            lat: 35.823386902164344,
+            type: "waypoint"
+          },
+          {
+            label: "G\u0127ar \u0126anex",
+            description: "The collapsed sea cave \u2014 explore the turquoise water and dramatic cliffs.",
+            lon: 14.438320140162146,
+            lat: 35.8233758166385,
+            type: "destination"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 75,
+    title: "Il-Kalanka",
+    slug: "il-kalanka",
+    description: "Tucked away on the rugged Delimara peninsula in Malta's south-east, just beyond the better-known <b>St Peter's Pool</b>, Il-Kalanka is a small, untouched bay reached by a short stepped path of around 50 metres. At the bottom you'll find a natural swimming spot framed by low limestone cliffs and crystal-clear, deep turquoise water. It's one of the quietest corners of the south \u2014 even at weekends there's usually room for a peaceful swim, a snorkel along the rocky edges, or a cliff jump (the drops here are higher than at St Peter's Pool, so take care). There are no facilities and parking is limited but free, so bring water, food, and a pair of water shoes \u2014 the rocks can be sharp.",
+    img: "/assets/images/places/il-kalanka/il-kalanka.webp",
+    thumb: "/assets/images/places/il-kalanka/il-kalanka-thumb.webp",
+    images: [
+      "/assets/images/places/il-kalanka/il-kalanka.webp",
+      "/assets/images/places/il-kalanka/il-kalanka-2.webp",
+      "/assets/images/places/il-kalanka/il-kalanka-3.webp"
+    ],
+    lon: 14.56000054368117,
+    lat: 35.82427093452978,
+    keywords: "Il-Kalanka, Kalanka Bay, Delimara, Marsaxlokk, Malta, hidden beach, swimming, snorkeling, cliff jumping, turquoise water, St Peter's Pool",
+    rating: 4.7,
+    mapPoints: [
+      {
+        label: "Park here off Triq Delimara",
+        description: "Park here, then follow the path down to the bay.",
+        lon: 14.558888589241777,
+        lat: 35.82473003762925,
+        type: "parking"
+      },
+      {
+        lon: 14.559083455946702,
+        lat: 35.824741012439446,
+        type: "waypoint"
+      },
+      {
+        lon: 14.559345978017397,
+        lat: 35.82473027184777,
+        type: "waypoint"
+      },
+      {
+        lon: 14.559501392843387,
+        lat: 35.82462785136636,
+        type: "waypoint"
+      },
+      {
+        lon: 14.559573036025428,
+        lat: 35.824525910344335,
+        type: "waypoint"
+      },
+      {
+        lon: 14.559675440397145,
+        lat: 35.824450224069736,
+        type: "waypoint"
+      },
+      {
+        lon: 14.559803380544112,
+        lat: 35.82436516893942,
+        type: "waypoint"
+      },
+      {
+        label: "Il-Kalanka",
+        description: "Open this exact spot in Google Maps.",
+        lon: 14.56000054368117,
+        lat: 35.82427093452978,
+        type: "destination"
+      }
+    ],
+    difficulty: "moderate",
+    hidden: true,
+    tags: [
+      "hidden",
+      "bay",
+      "swimming",
+      "snorkeling",
+      "cliff-jumping",
+      "moderate"
+    ],
+    locality: "Marsaxlokk",
+    showLabel: false
+  }
+];
+
+export {
+  locations
+};
+//# sourceMappingURL=chunk-GIBKMPXG.js.map

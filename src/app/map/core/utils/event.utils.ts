@@ -1,5 +1,7 @@
-import { EventVenuePin, MaltaEvent } from '@map/core/models';
+import { EventVenuePin, Location, MaltaEvent } from '@map/core/models';
 import { EventCategory } from '@map/core/models/enums';
+import { haversineKm } from '@map/core/utils/geo.utils';
+import { NEAR_LOCATION_KM } from '@map/core/utils/provider.utils';
 
 interface CategoryMeta { label: string; icon: string; color: string; }
 
@@ -36,6 +38,29 @@ export const PERIOD_FILTERS: { id: string; label: string }[] = [
   { id: '30d', label: 'Next 30 days' },
 ];
 
+// Day-of-week filter (e.g. "all Mondays"). ids are JS getDay() values as strings.
+export const DAY_FILTERS: { id: string; label: string }[] = [
+  { id: 'all', label: 'Any day' },
+  { id: '1', label: 'Mondays' },
+  { id: '2', label: 'Tuesdays' },
+  { id: '3', label: 'Wednesdays' },
+  { id: '4', label: 'Thursdays' },
+  { id: '5', label: 'Fridays' },
+  { id: '6', label: 'Saturdays' },
+  { id: '0', label: 'Sundays' },
+];
+
+/** True if any of the event's dates falls on the given weekday ('all' or a getDay() id). */
+export function matchesDay(event: MaltaEvent, dayId: string): boolean {
+  if (dayId === 'all') return true;
+  const wd = Number(dayId);
+  return event.dates.some(d => {
+    if (!d.start) return false;
+    const dt = new Date(d.start);
+    return !isNaN(dt.getTime()) && dt.getDay() === wd;
+  });
+}
+
 /** Local day-start cutoff ("YYYY-MM-DDT00:00") — events stay visible all of their day. */
 function dayCutoff(now: Date): string {
   const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
@@ -43,7 +68,7 @@ function dayCutoff(now: Date): string {
 }
 
 /** True while the event still has a date today or later. */
-export function hasUpcomingDate(event: MaltaEvent, now: Date): boolean {
+function hasUpcomingDate(event: MaltaEvent, now: Date): boolean {
   const cutoff = dayCutoff(now);
   return event.dates.some(d => d.start != null && d.start >= cutoff);
 }
@@ -88,19 +113,44 @@ export function matchesPeriod(event: MaltaEvent, period: string, now: Date): boo
   return starts.some(s => s >= fromIso && s < toIso);
 }
 
-/** Human date label, e.g. "Fri 26 Jun · 23:00". Falls back to the raw label. */
-export function formatEventDate(iso: string | null, raw: string): string {
+/** Human date label — "Today · 23:00" / "Tomorrow · 23:00", else "Fri 26 Jun · 23:00". */
+export function formatEventDate(iso: string | null, raw: string, now?: Date): string {
   if (!iso) return raw;
   const d = new Date(iso);
   if (isNaN(d.getTime())) return raw;
-  const date = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
   const time = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+  if (now) {
+    const dayDiff = Math.round(
+      (new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() -
+       new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()) / 86400000,
+    );
+    if (dayDiff === 0) return `Today · ${time}`;
+    if (dayDiff === 1) return `Tomorrow · ${time}`;
+  }
+  const date = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
   return `${date} · ${time}`;
 }
 
 /** Always link out via the affiliate url. */
 export function eventBookUrl(event: MaltaEvent): string {
   return event.affiliateUrl || event.url;
+}
+
+/** The `max` closest upcoming events within range of a location (for the location panel). */
+export function getEventsNearLocation(
+  location: Location,
+  events: MaltaEvent[],
+  now: Date,
+  max = 2,
+): MaltaEvent[] {
+  return upcomingEvents(events, now)
+    .filter(e => e.lat != null && e.lon != null)
+    .map(e => ({ e, d: haversineKm(location.lat, location.lon, e.lat!, e.lon!) }))
+    .filter(x => x.d <= NEAR_LOCATION_KM)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, max)
+    .map(x => x.e);
 }
 
 /** One pin per venue, aggregating every event held there (events with coords only). */

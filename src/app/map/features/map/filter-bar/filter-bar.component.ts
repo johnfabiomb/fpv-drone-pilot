@@ -3,14 +3,14 @@ import { NgFor } from '@angular/common';
 import { MapBridgeService, MapLayers } from '@map/core/services/map-bridge.service';
 import { FEATURES } from '../../../feature-flags';
 
-interface Chip { id: string; emoji: string; label: string; promo?: boolean; }
+interface Chip { id: string; emoji: string; label: string; requiresPromotions?: boolean; }
 
 /** One simple single-select row. Content types first, then a few gem themes. */
 const CHIPS: Chip[] = [
   { id: 'all',         emoji: '🗺️', label: 'All' },
   { id: 'gems',        emoji: '💎',  label: 'Gems' },
-  { id: 'experiences', emoji: '🤿',  label: 'Experiences', promo: true },
-  { id: 'events',      emoji: '🎟️', label: 'Events',      promo: true },
+  { id: 'experiences', emoji: '🤿',  label: 'Experiences', requiresPromotions: true },
+  { id: 'events',      emoji: '🎟️', label: 'Events',      requiresPromotions: true },
   { id: 'cave',        emoji: '🪨',  label: 'Caves' },
   { id: 'beach',       emoji: '🏖️', label: 'Beaches' },
   { id: 'historical',  emoji: '🏛️', label: 'Historical' },
@@ -30,7 +30,7 @@ const TYPE_IDS = ['all', 'gems', 'experiences', 'events'];
 export class FilterBarComponent {
   readonly bridge = inject(MapBridgeService);
 
-  readonly chips: Chip[] = CHIPS.filter(c => FEATURES.PROMOTIONS || !c.promo);
+  readonly chips: Chip[] = CHIPS.filter(c => FEATURES.PROMOTIONS || !c.requiresPromotions);
 
   /** Derived from bridge state so the bar always reflects the map (survives re-creation). */
   get selected(): string {

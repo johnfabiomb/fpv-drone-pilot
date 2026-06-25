@@ -31,11 +31,12 @@ export class MapExploreComponent implements OnInit {
   private readonly nav         = inject(NavigationService);
 
   constructor() {
-    // Single source of truth for explore promo pins: reflect which content types are shown.
+    // Single source of truth for explore overlay pins (experiences + events): reflect which content types are shown.
     const allProviders = providers as Provider[];
     const allEvents = upcomingEvents(events as MaltaEvent[], new Date()); // past events drop out
     effect(() => {
       const layers = this.bridge.mapLayers();
+      this.bridge.showGems.set(layers.gems);
       this.bridge.experiencePins.set(layers.experiences ? getExperiencePins(allProviders) : []);
       this.bridge.eventVenuePins.set(layers.events ? getEventVenuePins(allEvents) : []);
     });

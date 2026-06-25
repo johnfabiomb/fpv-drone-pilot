@@ -32,6 +32,7 @@ const ICON_TAIL_H = 18;
 const PROVIDER_PIN_SIZE = 80;
 const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → individual pins
 const PROVIDER_PIN_CLUSTER_SCALE = 0.7; // scale multiplier applied to provider pins when clusters are visible
+const PIN_CLUSTER_PX = 64; // overlay pins within this many screen px merge into a count cluster
 
 @Component({
   selector: 'app-map',
@@ -58,7 +59,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private providerCanvasCache = new Map<string, HTMLCanvasElement>();
   private providerImageCache = new Map<string, HTMLImageElement>();
 
-  // Experience promo pins live in the cluster layer/source so they interleave with
+  // Experience & event pins live in the cluster layer/source so they interleave with
   // location pins by latitude (separate layers can't z-order against each other in OL).
   private experienceFeatures: Feature[] = [];
   private experienceCanvasCache = new Map<string, HTMLCanvasElement>();
@@ -66,7 +67,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // Event pins (one per venue) — also live in the cluster layer/source.
   private eventFeatures: Feature[] = [];
-  private eventCanvas: HTMLCanvasElement | null = null;
+  private eventCanvasCache = new Map<string, HTMLCanvasElement>();
+  private eventImageCache = new Map<string, HTMLImageElement>();
+  private pinClusterCanvasCache = new Map<string, HTMLCanvasElement>();
+  private clusterCoverCache = new Map<string, HTMLImageElement>(); // decoded cluster cover images by src
+  private clusterCoverLoading = new Set<string>();
 
   private routeSource = new VectorSource();
   private routeLabelSource = new VectorSource();
@@ -117,7 +122,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
   private _eventPins: EventVenuePin[] = [];
 
-  /** Gems layer toggle — when false the location/cluster pins are hidden (promo pins stay). */
+  /** Gems layer toggle — when false the location/cluster pins are hidden (overlay pins stay). */
   @Input() set showGems(v: boolean) {
     this._showGems = v;
     if (this.map) this.refreshLayer(true);
@@ -229,6 +234,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
+      if (feature.get('type') === 'pin-cluster') {
+        this.expandPinCluster(feature.get('members'));
+        return;
+      }
+
       if (feature.get('type') === 'locality-cluster') {
         const sub: Feature[] = feature.get('features');
         const coords = sub.map(f => (f.getGeometry() as Point).getCoordinates());
@@ -275,25 +285,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   // ── Icon preloading ───────────────────────────────────────
 
   private preloadIcons(): void {
+    // Only cache the loaded bitmap here. The teardrop pin canvas is built lazily at
+    // render time in individualPinStyle — building eagerly inside onload/decode is too
+    // early in Safari: drawImage() paints the white backing but not the photo, and that
+    // blank pin gets cached for the session.
     (locations as Location[]).forEach(location => {
-      const img = new Image();
-
-      // Only cache the loaded bitmap here. The teardrop pin canvas is built
-      // lazily at render time in individualPinStyle — the same deferred approach
-      // the locality clusters use (buildLocalityCanvas). Building eagerly inside
-      // onload/decode is too early in Safari: drawImage() paints the white
-      // backing but not the photo, and that blank pin gets cached for the session.
-      const onReady = () => {
-        if (!img.naturalWidth) return;
+      this.loadPinImage(location.thumb || location.img, img => {
         this.rawImageCache.set(location.img, img);
         this.iconCache.delete(String(location.id)); // force rebuild from the ready bitmap
         this.localityIconCache.clear();
         this.clusterLayer.changed();
-      };
-
-      img.onload = onReady;
-      img.src = location.thumb || location.img;
-      img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
+      });
     });
   }
 
@@ -318,12 +320,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.refreshLayer(true);
   }
 
-  // Switches between locality-cluster features and individual pin features based on zoom
-  private refreshLayer(force = false): void {
+  // Rebuilds the cluster layer: locality vs individual gem pins by zoom, plus
+  // proximity-clustered overlay pins (which re-cluster as you zoom, so it runs every refresh).
+  private refreshLayer(_force = false): void {
     if (!this.clusterSource || !this.map) return;
     const zoom = this.map.getView().getZoom() ?? 10;
     const shouldCluster = zoom < CLUSTER_ZOOM;
-    if (!force && shouldCluster === this.showingClusters) return;
     this.showingClusters = shouldCluster;
     this.clusterSource.clear();
     if (this._showGems) {
@@ -334,13 +336,91 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.clusterSource.addFeatures(this.filteredFeatures);
       }
     }
-    // Promo pins share this layer so they mix in with the location pins by latitude.
-    if (FEATURES.PROMOTIONS && this.experienceFeatures.length) {
-      this.clusterSource.addFeatures(this.experienceFeatures);
+    // Overlay pins cluster by proximity with a count badge, so dense areas don't pile up.
+    if (FEATURES.PROMOTIONS) {
+      if (this.experienceFeatures.length) this.clusterSource.addFeatures(this.clusterNearbyPins(this.experienceFeatures, 'experience'));
+      if (this.eventFeatures.length) this.clusterSource.addFeatures(this.clusterNearbyPins(this.eventFeatures, 'event'));
     }
-    if (FEATURES.PROMOTIONS && this.eventFeatures.length) {
-      this.clusterSource.addFeatures(this.eventFeatures);
+  }
+
+  // Greedy proximity clustering for overlay pins at the current resolution.
+  // Returns individual features for singletons, or a 'pin-cluster' feature with a count.
+  private clusterNearbyPins(features: Feature[], kind: 'event' | 'experience'): Feature[] {
+    const res = this.map.getView().getResolution() ?? 1;
+    const dist = PIN_CLUSTER_PX * res;
+    const out: Feature[] = [];
+    const used = new Set<number>();
+    for (let i = 0; i < features.length; i++) {
+      if (used.has(i)) continue;
+      used.add(i);
+      const ci = (features[i].getGeometry() as Point).getCoordinates();
+      const group = [features[i]];
+      for (let j = i + 1; j < features.length; j++) {
+        if (used.has(j)) continue;
+        const cj = (features[j].getGeometry() as Point).getCoordinates();
+        if (Math.hypot(ci[0] - cj[0], ci[1] - cj[1]) <= dist) { group.push(features[j]); used.add(j); }
+      }
+      if (group.length === 1) { out.push(features[i]); continue; }
+      const cx = group.reduce((s, f) => s + (f.getGeometry() as Point).getCoordinates()[0], 0) / group.length;
+      const cy = group.reduce((s, f) => s + (f.getGeometry() as Point).getCoordinates()[1], 0) / group.length;
+      const count = kind === 'event'
+        ? group.reduce((s, f) => s + (f.get('venuePin') as EventVenuePin).events.length, 0)
+        : group.length;
+      const image = this.clusterRepImage(group, kind);
+      this.ensureClusterCover(image);
+      out.push(new Feature({ geometry: new Point([cx, cy]), type: 'pin-cluster', kind, count, members: group, image }));
     }
+    return out;
+  }
+
+  // Zooms to the level that's guaranteed to break a pin cluster apart (members exceed
+  // PIN_CLUSTER_PX), centred on the group. Always zooms in, so a tap never no-ops.
+  private expandPinCluster(members: Feature[]): void {
+    const coords = members.map(f => (f.getGeometry() as Point).getCoordinates());
+    const cx = coords.reduce((s, c) => s + c[0], 0) / coords.length;
+    const cy = coords.reduce((s, c) => s + c[1], 0) / coords.length;
+
+    let minD = Infinity;
+    for (let i = 0; i < coords.length; i++) {
+      for (let j = i + 1; j < coords.length; j++) {
+        minD = Math.min(minD, Math.hypot(coords[i][0] - coords[j][0], coords[i][1] - coords[j][1]));
+      }
+    }
+
+    const view = this.map.getView();
+    const maxZoom = view.getMaxZoom();
+    const current = view.getZoom() ?? 10;
+    let zoom = maxZoom;
+    if (Number.isFinite(minD) && minD > 0) {
+      // Resolution at which the two closest members sit just beyond the cluster radius.
+      const targetRes = minD / (PIN_CLUSTER_PX * 1.6);
+      zoom = Math.min(view.getZoomForResolution(targetRes) ?? maxZoom, maxZoom);
+    }
+    zoom = Math.max(zoom, current + 0.6); // guarantee we always move in
+    view.animate({ center: [cx, cy], zoom, duration: 400 });
+  }
+
+  // Representative cover for a cluster: soonest event's poster, or any experience image.
+  private clusterRepImage(group: Feature[], kind: 'event' | 'experience'): string | null {
+    if (kind === 'event') {
+      const all = group.flatMap(f => (f.get('venuePin') as EventVenuePin).events);
+      const minStart = (e: { dates: { start: string | null }[] }) =>
+        e.dates.map(d => d.start).filter((s): s is string => !!s).sort()[0] ?? '￿';
+      const soonest = [...all].sort((a, b) => minStart(a).localeCompare(minStart(b)))[0];
+      return soonest?.image ?? null;
+    }
+    const withImg = group.map(f => f.get('experience') as Experience).find(e => e.coverImage);
+    return withImg?.coverImage ?? null;
+  }
+
+  private ensureClusterCover(src: string | null): void {
+    if (!src || this.clusterCoverCache.has(src) || this.clusterCoverLoading.has(src)) return;
+    this.clusterCoverLoading.add(src);
+    this.loadPinImage(src, img => {
+      this.clusterCoverCache.set(src, img);
+      this.clusterCoverLoading.delete(src);
+      this.clusterLayer.changed();
+    });
   }
 
   // One feature per locality, positioned at centroid, with highest-id location as representative
@@ -379,9 +459,75 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private featureStyle(feature: FeatureLike): Style {
     const type = feature.get('type');
     if (type === 'locality-cluster') return this.localityClusterStyle(feature);
+    if (type === 'pin-cluster') return this.pinClusterStyle(feature);
     if (type === 'experience-pin') return this.experiencePinStyle(feature);
     if (type === 'event-pin') return this.eventPinStyle(feature);
     return this.individualPinStyle(feature);
+  }
+
+  // ── Shared pin-style helpers (provider/experience/event/cluster pins share this) ──
+  /** Zoom-aware scale for the overlay pin family (matches the locality cluster sizing). */
+  private pinScale(): number {
+    const zoom = this.map.getView().getZoom() ?? 10;
+    return zoom < CLUSTER_ZOOM
+      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
+      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
+  }
+
+  /** A bottom-anchored Icon style with latitude-based z-index (so pins interleave by position). */
+  private pinIconStyle(canvas: HTMLCanvasElement, feature: FeatureLike): Style {
+    const coords = (feature.getGeometry() as Point).getCoordinates();
+    return new Style({
+      image: new Icon({
+        img: canvas,
+        size: [canvas.width, canvas.height],
+        scale: this.pinScale(),
+        anchor: [0.5, 1.0],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+      }),
+      zIndex: -Math.round(coords[1] / 1000),
+    });
+  }
+
+  /** Loads + decodes a pin image, calling back once it's canvas-ready (Safari-safe deferral). */
+  private loadPinImage(src: string, onReady: (img: HTMLImageElement) => void): void {
+    const img = new Image();
+    const done = () => { if (img.naturalWidth) onReady(img); };
+    img.onload = done;
+    img.src = src;
+    img.decode?.().then(done).catch(() => { /* onload covers it */ });
+  }
+
+  // Cluster pin: a cover photo (with type badge) + the count pill above; icon disc until the image loads.
+  private buildPinClusterCanvas(count: number, kind: 'event' | 'experience', img?: HTMLImageElement): HTMLCanvasElement {
+    const color = kind === 'event' ? EVENTS_ACCENT : '#0ea5e9';
+    const icon = kind === 'event' ? '🎟️' : '🤿';
+    const label = `${count} ${kind === 'event' ? 'events' : 'experiences'}`;
+    let pin: HTMLCanvasElement;
+    if (img) {
+      pin = this.buildCirclePin(img, PROVIDER_PIN_SIZE, '#fff');
+      this.addEmojiBadge(pin, icon);
+    } else {
+      pin = this.buildEmojiTeardropPin(color, icon, 0.5);
+    }
+    return this.buildPillPin(pin, label, true, color);
+  }
+
+  private pinClusterStyle(feature: FeatureLike): Style {
+    const kind: 'event' | 'experience' = feature.get('kind');
+    const count: number = feature.get('count');
+    const src: string | null = feature.get('image');
+    const img = src ? this.clusterCoverCache.get(src) : undefined;
+    const ready = img?.complete && img.naturalWidth ? img : undefined;
+
+    const key = `${kind}-${count}-${ready ? src : 'icon'}`;
+    let canvas = this.pinClusterCanvasCache.get(key);
+    if (!canvas) {
+      canvas = this.buildPinClusterCanvas(count, kind, ready);
+      if (ready || !src) this.pinClusterCanvasCache.set(key, canvas); // don't cache the loading state
+    }
+    return this.pinIconStyle(canvas, feature);
   }
 
   private individualPinStyle(feature: FeatureLike): Style {
@@ -601,16 +747,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (p.coverImage) {
         // Defer the canvas build to render time (providerPinStyle) so the cover
         // photo is only drawn once Safari has decoded it — same fix as preloadIcons.
-        const img = new Image();
-        const onReady = () => {
-          if (!img.naturalWidth) return;
+        this.loadPinImage(p.coverImage, img => {
           this.providerImageCache.set(p.id, img);
           this.providerCanvasCache.delete(p.id);
           this.providerLayer.changed();
-        };
-        img.onload = onReady;
-        img.src = p.coverImage;
-        img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
+        });
       } else {
         // No photo → no decode race; build synchronously.
         this.providerCanvasCache.set(p.id, this.buildProviderCanvas(p));
@@ -691,7 +832,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     pc.font = `${Math.round(W * fontScale)}px serif`;
     pc.textAlign = 'center';
     pc.textBaseline = 'middle';
-    pc.fillText(emoji, cx, cy + 1);
+    // Re-centre by the glyph's actual ink box: iOS gives some emoji (e.g. 🎟️) an
+    // asymmetric left bearing that otherwise pushes them off-centre / out of the pin.
+    const m = pc.measureText(emoji);
+    const dx = Number.isFinite(m.actualBoundingBoxLeft) && Number.isFinite(m.actualBoundingBoxRight)
+      ? (m.actualBoundingBoxLeft - m.actualBoundingBoxRight) / 2
+      : 0;
+    pc.fillText(emoji, cx + dx, cy + 1);
 
     return canvas;
   }
@@ -748,16 +895,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       if (experience.coverImage) {
         // Defer canvas build until the cover is decoded (Safari paints nothing otherwise).
-        const img = new Image();
-        const onReady = () => {
-          if (!img.naturalWidth) return;
+        this.loadPinImage(experience.coverImage, img => {
           this.experienceImageCache.set(experience.id, img);
           this.experienceCanvasCache.delete(experience.id);
           this.clusterLayer.changed();
-        };
-        img.onload = onReady;
-        img.src = experience.coverImage;
-        img.decode?.().then(onReady).catch(() => { /* onload covers it */ });
+        });
       } else {
         // Icon-only → no decode race; build synchronously.
         this.experienceCanvasCache.set(experience.id, this.buildExperienceCanvas(experience, pin.provider));
@@ -777,32 +919,36 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.experienceCanvasCache.set(experience.id, canvas);
       }
     }
-    const zoom = this.map.getView().getZoom() ?? 10;
-    const scale = zoom < CLUSTER_ZOOM
-      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
-      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
-    // Same latitude-based ordering as location pins so the two interleave by position.
-    const coords = (feature.getGeometry() as Point).getCoordinates();
-    const zIndex = -Math.round(coords[1] / 1000);
     if (!canvas) {
-      const r = Math.round(36 * scale);
-      return new Style({ image: new CircleStyle({ radius: r, fill: new Fill({ color: this.lightenColor(experienceColor(provider), 0.55) }), stroke: new Stroke({ color: '#fff', width: 2 }) }), zIndex });
+      // Neutral placeholder dot while the cover photo decodes.
+      const coords = (feature.getGeometry() as Point).getCoordinates();
+      const r = Math.round(36 * this.pinScale());
+      return new Style({
+        image: new CircleStyle({ radius: r, fill: new Fill({ color: this.lightenColor(experienceColor(provider), 0.55) }), stroke: new Stroke({ color: '#fff', width: 2 }) }),
+        zIndex: -Math.round(coords[1] / 1000),
+      });
     }
-    return new Style({
-      image: new Icon({
-        img: canvas,
-        size: [canvas.width, canvas.height],
-        scale,
-        anchor: [0.5, 1.0],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
-      }),
-      zIndex,
-    });
+    return this.pinIconStyle(canvas, feature);
   }
 
   // ── Event venue pins ──────────────────────────────────────
-  // One pin per venue (a ticket disc), built into the cluster layer like experiences.
+  // One pin per venue: a photo circle (the next event's poster) with a 🎟️ badge,
+  // falling back to a ticket disc until the local image decodes.
+
+  private eventKey(pin: EventVenuePin): string { return pin.venue || `${pin.lat},${pin.lon}`; }
+
+  private buildEventCanvas(pin: EventVenuePin, img?: HTMLImageElement): HTMLCanvasElement {
+    const n = pin.events.length;
+    const label = `🎟️ ${n} event${n === 1 ? '' : 's'}`;
+    let canvas: HTMLCanvasElement;
+    if (img) {
+      canvas = this.buildCirclePin(img, PROVIDER_PIN_SIZE, '#fff');
+      this.addEmojiBadge(canvas, '🎟️');
+    } else {
+      canvas = this.buildEmojiTeardropPin(EVENTS_ACCENT, '🎟️', 0.5);
+    }
+    return this.buildPillPin(canvas, label, true, EVENTS_ACCENT);
+  }
 
   private rebuildEventFeatures(): void {
     this.eventFeatures = this._eventPins.map(pin => new Feature({
@@ -810,32 +956,30 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       type: 'event-pin',
       venuePin: pin,
     }));
-    if (!this.eventCanvas) {
-      this.eventCanvas = this.buildPillPin(
-        this.buildEmojiTeardropPin(EVENTS_ACCENT, '🎟️', 0.5), '🎟️ Events', true, EVENTS_ACCENT,
-      );
+    for (const pin of this._eventPins) {
+      const key = this.eventKey(pin);
+      const src = pin.events[0]?.image;
+      if (!src || this.eventCanvasCache.has(key) || this.eventImageCache.has(key)) continue;
+      // Defer the photo build until the image decodes (local asset → no CORS taint).
+      this.loadPinImage(src, img => {
+        this.eventImageCache.set(key, img);
+        this.clusterLayer.changed();
+      });
     }
     this.refreshLayer(true);
   }
 
   private eventPinStyle(feature: FeatureLike): Style {
-    const zoom = this.map.getView().getZoom() ?? 10;
-    const scale = zoom < CLUSTER_ZOOM
-      ? this.getLocalityScale(zoom) * PROVIDER_PIN_CLUSTER_SCALE
-      : this.getIconSize(zoom) / ICON_CANVAS_SIZE;
-    const coords = (feature.getGeometry() as Point).getCoordinates();
-    const canvas = this.eventCanvas!;
-    return new Style({
-      image: new Icon({
-        img: canvas,
-        size: [canvas.width, canvas.height],
-        scale,
-        anchor: [0.5, 1.0],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
-      }),
-      zIndex: -Math.round(coords[1] / 1000),
-    });
+    const pin: EventVenuePin = feature.get('venuePin');
+    const key = this.eventKey(pin);
+    let canvas = this.eventCanvasCache.get(key);
+    if (!canvas) {
+      const img = this.eventImageCache.get(key);
+      const ready = img?.complete && img.naturalWidth ? img : undefined;
+      canvas = this.buildEventCanvas(pin, ready);
+      if (ready) this.eventCanvasCache.set(key, canvas); // cache only the final photo pin
+    }
+    return this.pinIconStyle(canvas, feature);
   }
 
   // Wraps any pin canvas with a label pill above it (shared by location + provider pins).

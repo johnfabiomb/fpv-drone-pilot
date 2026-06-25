@@ -13,14 +13,16 @@ import { NavigationService } from '@map/core/services/navigation.service';
 import { AuthService } from '@map/core/services/auth.service';
 import { UserDataService } from '@map/core/services/user-data.service';
 import { InteractionTrackingService } from '@map/core/services/interaction-tracking.service';
-import { Experience, Location as AppLocation, Provider } from '@map/core/models';
+import { Experience, Location as AppLocation, MaltaEvent, Provider } from '@map/core/models';
 import { FEATURES } from '../../../feature-flags';
 import { haversineKm } from '@map/core/utils/geo.utils';
 import { getProvidersNearLocation } from '@map/core/utils/provider.utils';
 import { getExperiencePins } from '@map/core/utils/experience.utils';
+import { getEventsNearLocation } from '@map/core/utils/event.utils';
 import { LocationPublicStats, locationPublicStats, fmtStatCount } from '@map/core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
+import { events } from '@assets/events.json';
 
 @Component({
   selector: 'app-location-page',
@@ -108,7 +110,8 @@ import { providers } from '@assets/providers.json';
         (close)="onClose()"
         (explore)="onClose()"
         (navRequested)="onNavRequested($event)"
-        (experienceSelected)="openExperience($event)">
+        (experienceSelected)="openExperience($event)"
+        (eventSelected)="openEvent($event)">
       </app-location-detail>
 
     </app-panel-shell>
@@ -302,6 +305,10 @@ export class LocationPageComponent implements OnInit {
     this.bridge.pendingNavUrl.set(url);
   }
 
+  openEvent(event: MaltaEvent): void {
+    this.router.navigate(['/malta/events'], { queryParams: { venue: event.venue } });
+  }
+
   openExperience(experience: Experience): void {
     this.router.navigate(['/malta/experiences', experience.id], {
       queryParams: this.buildProviderParams(),
@@ -336,6 +343,7 @@ export class LocationPageComponent implements OnInit {
 
     if (!FEATURES.PROMOTIONS || !this.location) {
       this.bridge.interstitialProviders.set([]);
+      this.bridge.interstitialEvent.set(null);
       this.bridge.interstitialLabel.set(null);
       return;
     }
@@ -344,8 +352,9 @@ export class LocationPageComponent implements OnInit {
     const all = providers as Provider[];
     const nearSpot = getProvidersNearLocation(loc, all);
 
+    // Interstitial shows ONE deal (top) + ONE event (bottom).
     if (nearSpot.length > 0) {
-      this.bridge.interstitialProviders.set(nearSpot.slice(0, 2));
+      this.bridge.interstitialProviders.set(nearSpot.slice(0, 1));
       this.bridge.interstitialLabel.set(null);
     } else if (this.userLat !== null && this.userLon !== null) {
       const nearUser = all
@@ -354,12 +363,15 @@ export class LocationPageComponent implements OnInit {
           haversineKm(this.userLat!, this.userLon!, a.lat!, a.lon!) -
           haversineKm(this.userLat!, this.userLon!, b.lat!, b.lon!),
         );
-      this.bridge.interstitialProviders.set(nearUser.slice(0, 2));
+      this.bridge.interstitialProviders.set(nearUser.slice(0, 1));
       this.bridge.interstitialLabel.set(nearUser.length > 0 ? 'Near you' : null);
     } else {
       this.bridge.interstitialProviders.set([]);
       this.bridge.interstitialLabel.set(null);
     }
+
+    const nearbyEvent = getEventsNearLocation(loc, events as MaltaEvent[], new Date(), 1);
+    this.bridge.interstitialEvent.set(nearbyEvent[0] ?? null);
 
     this.bridge.navDuration.set(3);
   }

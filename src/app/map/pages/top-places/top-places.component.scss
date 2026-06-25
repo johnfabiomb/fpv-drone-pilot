@@ -206,8 +206,10 @@
 
   &--groups,
   &--deals,
+  &--events,
   &--map    { border-left: 3px solid var(--color-primary); }
-  &--deals  { background: var(--color-bg-light); }
+  &--deals,
+  &--events { background: var(--color-bg-light); }
   &--map    { background: var(--color-bg-muted); }
 }
 

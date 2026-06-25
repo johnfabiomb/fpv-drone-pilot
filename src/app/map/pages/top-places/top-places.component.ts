@@ -34,6 +34,7 @@ const REVEALED: TrendLocation[] = [
   { num: 21, name: 'Għar Ħanex Sea Cave',              id: 74 },
   { num: 22, name: 'Carolina Grotto, Xlendi',          id: 58 },
   { num: 23, name: 'Il-Kalanka, Delimara',             id: 75 },
+  { num: 24, name: 'Paradise Bay',                     id: 55 },
 ];
 
 const TOTAL = 30;

@@ -9,11 +9,13 @@ import { SeoService } from '@map/core/services/seo.service';
 import { InteractionTrackingService } from '@map/core/services/interaction-tracking.service';
 import { MapBridgeService } from '@map/core/services/map-bridge.service';
 import { NavigationService } from '@map/core/services/navigation.service';
-import { Location as AppLocation, Provider } from '@map/core/models';
+import { Location as AppLocation, MaltaEvent, Provider } from '@map/core/models';
 import { providers } from '@assets/providers.json';
 import { locations } from '@assets/locations.json';
 import { buildBookingUrl } from '@map/core/utils/provider.utils';
 import { getExperiencePins } from '@map/core/utils/experience.utils';
+import { getEventVenuePins, upcomingEvents } from '@map/core/utils/event.utils';
+import { events } from '@assets/events.json';
 
 @Component({
   selector: 'app-provider-page',
@@ -79,7 +81,10 @@ export class ProviderPageComponent implements OnInit {
         : null;
 
       this.bridge.enterPanelMode([], { label: 'Back' }, fromLoc, null);
+      // Show experiences + events here (no gems).
+      this.bridge.showGems.set(false);
       this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
+      this.bridge.eventVenuePins.set(getEventVenuePins(upcomingEvents(events as MaltaEvent[], new Date())));
 
       this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.goBack());

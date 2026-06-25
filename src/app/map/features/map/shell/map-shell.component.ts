@@ -9,9 +9,11 @@ import { MapComponent } from '@map/features/map/map/map.component';
 import { NavInterstitialComponent } from '@map/layout/nav-interstitial/nav-interstitial.component';
 import { CouponReminderComponent } from '@map/layout/coupon-reminder/coupon-reminder.component';
 import { ProviderCardComponent } from '@map/features/providers/provider-card/provider-card.component';
+import { EventCardComponent } from '@map/features/events/event-card/event-card.component';
 import { AuthService } from '@map/core/services/auth.service';
 import { MapBridgeService } from '@map/core/services/map-bridge.service';
-import { Provider, Route } from '@map/core/models';
+import { MaltaEvent, Provider, Route } from '@map/core/models';
+import { eventBookUrl } from '@map/core/utils/event.utils';
 import { PanelResize } from '@map/core/utils/panel-resize.util';
 import { ROUTE_COLORS } from '@map/core/utils/route-drawing';
 import { version } from '../../../../../../package.json';
@@ -20,7 +22,7 @@ import { version } from '../../../../../../package.json';
   selector: 'app-map-shell',
   standalone: true,
   providers: [MapBridgeService],
-  imports: [CommonModule, RouterOutlet, RouterLink, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, MapComponent, FilterBarComponent, NavInterstitialComponent, CouponReminderComponent, ProviderCardComponent, EventCardComponent, FooterComponent],
   templateUrl: './map-shell.component.html',
   styleUrl: './map-shell.component.scss',
 })
@@ -34,6 +36,7 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
   private readonly router     = inject(Router);
 
   readonly version = version;
+  readonly now = new Date();
   isOnline = true;
   showDevAbout = false;
   spotPickWrongTap = false;
@@ -128,6 +131,11 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
 
   onInterstitialProviderSelected(provider: Provider): void {
     this.bridge.interstitialProviderSelected$.next(provider);
+    this.bridge.clearInterstitial();
+  }
+
+  onInterstitialEventSelected(event: MaltaEvent): void {
+    window.open(eventBookUrl(event), '_blank', 'noopener');
     this.bridge.clearInterstitial();
   }
 }

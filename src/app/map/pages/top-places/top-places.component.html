@@ -62,6 +62,17 @@
       </svg>
     </a>
 
+    <a *ngIf="features.PROMOTIONS" class="trend-cta trend-cta--events" routerLink="/malta/events">
+      <span class="trend-cta__emoji">🎟️</span>
+      <div class="trend-cta__body">
+        <span class="trend-cta__label">What's On in Malta</span>
+        <span class="trend-cta__desc">Parties, pool days &amp; live nights across the island — browse by date and grab tickets</span>
+      </div>
+      <svg class="trend-cta__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+
     <a class="trend-cta trend-cta--map" routerLink="/malta">
       <span class="trend-cta__emoji">🗺️</span>
       <div class="trend-cta__body">

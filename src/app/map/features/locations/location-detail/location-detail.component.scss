@@ -2,7 +2,6 @@
 
 :host {
   display: block;
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -157,7 +156,40 @@ app-ad-banner {
 
 // ── Nearby experiences ────────────────────────────────────────────────────────
 
-.nearby-experiences {
+// ── My Map / Google Maps tabs (minimal underline style) ─────────────────────────
+.loc-tabs {
+  display: flex;
+  padding: 0 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.loc-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 8px;
+  border: none;
+  background: none;
+  color: var(--color-text-light);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; // sit on top of the row's bottom border
+  transition: color var(--transition), border-color var(--transition);
+
+  i { font-size: 13px; }
+
+  &.active {
+    color: var(--color-text-base);
+    border-bottom-color: var(--color-primary);
+  }
+}
+
+.nearby {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -165,7 +197,7 @@ app-ad-banner {
   margin-bottom: 20px;
 }
 
-.nearby-experiences__label {
+.nearby__label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -173,12 +205,12 @@ app-ad-banner {
   color: var(--color-text-light);
 }
 
-.nearby-experiences__all {
+.nearby__all {
   display: block;
   text-align: right;
   font-size: 0.78rem;
   color: var(--color-text-muted);
-  padding: 2px 0;
+  padding: 2px 0 4px;
   text-decoration: none;
   &:hover { color: var(--color-primary); }
 }

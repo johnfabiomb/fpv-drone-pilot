@@ -9,17 +9,17 @@
   (bodyDragEnd)="bridge.panel.onDragEnd($event)">
 
   <div class="events">
-    <p class="events__intro">Parties, pool days &amp; live nights across Malta — tap a card for tickets, or a map pin to see what's on at that venue.</p>
-
-    <!-- Period chips -->
-    <div class="events__chips">
-      <div class="chip" *ngFor="let p of periodFilters"
-        [class.active]="activePeriod() === p.id" (click)="setPeriod(p.id)">{{ p.label }}</div>
-    </div>
-    <!-- Category chips -->
-    <div class="events__chips events__chips--cat">
-      <div class="chip" *ngFor="let c of categoryFilters"
-        [class.active]="activeCategory() === c.id" (click)="setCategory(c.id)">{{ c.label }}</div>
+    <!-- Compact filters: three small dropdowns -->
+    <div class="events__filters">
+      <select class="events__select" aria-label="When" (change)="setPeriod($any($event.target).value)">
+        <option *ngFor="let p of periodFilters" [value]="p.id" [selected]="activePeriod() === p.id">{{ p.label }}</option>
+      </select>
+      <select class="events__select" aria-label="Day" (change)="setDay($any($event.target).value)">
+        <option *ngFor="let d of dayFilters" [value]="d.id" [selected]="activeDay() === d.id">{{ d.label }}</option>
+      </select>
+      <select class="events__select" aria-label="Type" (change)="setCategory($any($event.target).value)">
+        <option *ngFor="let c of categoryFilters" [value]="c.id" [selected]="activeCategory() === c.id">{{ c.id === 'all' ? 'All types' : c.label }}</option>
+      </select>
     </div>
 
     <!-- Venue filter active -->

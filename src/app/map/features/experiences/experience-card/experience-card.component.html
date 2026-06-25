@@ -5,7 +5,14 @@
 
     <!-- Experience identity -->
     <div class="exp-card__header">
-      <span class="exp-card__icon" [style.background]="accentColor">{{ icon }}</span>
+      <!-- Photo + icon badge (like the map pin) when there's a cover; else icon disc. -->
+      <span class="exp-card__icon" [style.background]="accentColor">
+        <ng-container *ngIf="experience.coverImage; else iconOnly">
+          <img class="exp-card__icon-img" [src]="experience.coverImage" [alt]="experience.title">
+          <span class="exp-card__icon-badge" [style.background]="accentColor">{{ icon }}</span>
+        </ng-container>
+        <ng-template #iconOnly>{{ icon }}</ng-template>
+      </span>
 
       <div class="exp-card__info">
         <span class="exp-card__title">{{ experience.title }}</span>

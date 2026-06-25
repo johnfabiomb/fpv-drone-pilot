@@ -1,6 +1,6 @@
 import { ElementRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Experience, EventVenuePin, Location, MapPoint, Provider } from '@map/core/models';
+import { Experience, EventVenuePin, Location, MaltaEvent, MapPoint, Provider } from '@map/core/models';
 import { PanelResize } from '@map/core/utils/panel-resize.util';
 import { ExperiencePin } from '@map/core/utils/experience.utils';
 
@@ -42,12 +42,14 @@ export class MapBridgeService {
   // ── Map inputs (children write, shell binds to <app-map>) ──
   readonly filters          = signal<string[]>([]);
   readonly providerPins     = signal<Provider[]>([]);
-  /** Promo pins on the explore map, one per experience spot (replaces provider self-pins). */
+  /** Experience pins on the explore map, one per experience spot (replaces provider self-pins). */
   readonly experiencePins   = signal<ExperiencePin[]>([]);
   /** Event pins on the map, one per venue (the events page sets these). */
   readonly eventVenuePins   = signal<EventVenuePin[]>([]);
   /** Which content types show on the explore map (single-select bar; all on by default). */
   readonly mapLayers        = signal<MapLayers>({ gems: true, experiences: true, events: true });
+  /** Whether location (gem) pins show. Explore follows mapLayers; the events/provider/experience pages turn it off. */
+  readonly showGems         = signal(true);
   readonly selectedLocation = signal<Location | null>(null);
   /** When set, map fits view to the route (or location pin) AND this coordinate. Cleared by mode presets. */
   readonly fitPoint         = signal<{ lat: number; lon: number } | null>(null);
@@ -66,6 +68,8 @@ export class MapBridgeService {
   readonly interstitialProviders = signal<Provider[]>([]);
   /** Set when Book Now triggers the interstitial — shows coupon instead of ads. */
   readonly interstitialProvider  = signal<Provider | null>(null);
+  /** Nearest upcoming event shown as the second ad card in the nav interstitial. */
+  readonly interstitialEvent     = signal<MaltaEvent | null>(null);
   /** "Near you" when fallback GPS providers are shown; null for spot-based ads. */
   readonly interstitialLabel     = signal<string | null>(null);
 
@@ -147,6 +151,7 @@ export class MapBridgeService {
     this.fitPoint.set(null);
     this.activeRouteIndex.set(-1);
     this.showFilterBar.set(true);
+    this.showGems.set(true); // explore effect refines this from mapLayers
     this.providerPins.set([]);
     this.panelOpen.set(false);
     this.mapOnly.set(false);
@@ -161,6 +166,7 @@ export class MapBridgeService {
     this.fitPoint.set(null);
     this.activeRouteIndex.set(-1);
     this.showFilterBar.set(false);
+    this.showGems.set(true);
     this.panelOpen.set(true);
     this.mapOnly.set(false);
     this.floatingBackBtn.set(backBtn);
@@ -184,6 +190,7 @@ export class MapBridgeService {
     this.selectedLocation.set(location);
     this.fitPoint.set(fitPoint);
     this.showFilterBar.set(false);
+    this.showGems.set(true); // events/provider/experience pages override to false after calling this
     this.providerPins.set(providerPins);
     this.experiencePins.set([]);
     this.eventVenuePins.set([]);

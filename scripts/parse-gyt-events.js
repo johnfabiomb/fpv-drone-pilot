@@ -127,5 +127,6 @@ const totalOccurrences = events.reduce((n, e) => n + e.dates.length, 0);
 // Wrapped in { events } to match the app's `import { events } from '@assets/events.json'`.
 fs.writeFileSync(outFile, JSON.stringify({ events }, null, 2));
 console.log(`Parsed ${events.length} unique Malta events (${totalOccurrences} dated occurrences) → ${path.relative(process.cwd(), outFile)}`);
+console.log('Next: node scripts/download-event-images.js  →  node scripts/convert-to-webp.js');
 const venues = [...new Set(events.map(e => e.venue).filter(Boolean))];
 console.log(`Distinct venues (${venues.length}): ${venues.join(', ')}`);

@@ -3,24 +3,27 @@ import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ImageGalleryComponent } from '@map/ui/image-gallery/image-gallery.component';
 import { ExperienceCardComponent } from '@map/features/experiences/experience-card/experience-card.component';
+import { EventCardComponent } from '@map/features/events/event-card/event-card.component';
 import { ShareButtonComponent } from '@map/ui/share-button/share-button.component';
 import { ConfirmPopupComponent } from '@map/ui/confirm-popup/confirm-popup.component';
 import { AnalyticsService } from '@map/core/services/analytics.service';
 import { UserDataService } from '@map/core/services/user-data.service';
 import { AuthService } from '@map/core/services/auth.service';
 import { GroupsSectionComponent } from '@map/features/groups/groups-section/groups-section.component';
-import { Experience, Location, Provider, MapPoint, MapPointType, Route } from '@map/core/models';
+import { Experience, Location, MaltaEvent, Provider, MapPoint, MapPointType, Route } from '@map/core/models';
 import { haversineKm, haversineM } from '@map/core/utils/geo.utils';
 import { getAllExperiences, getExperiencesNearLocation } from '@map/core/utils/experience.utils';
+import { getEventsNearLocation } from '@map/core/utils/event.utils';
 import { getIsland } from '@map/core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
 import { providers } from '@assets/providers.json';
+import { events } from '@assets/events.json';
 import { FEATURES } from '../../../feature-flags';
 
 @Component({
   selector: 'app-location-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImageGalleryComponent, ExperienceCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
+  imports: [CommonModule, RouterLink, ImageGalleryComponent, ExperienceCardComponent, EventCardComponent, ShareButtonComponent, ConfirmPopupComponent, GroupsSectionComponent],
   templateUrl: './location-detail.component.html',
   styleUrl: './location-detail.component.scss',
 })
@@ -35,6 +38,7 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   @Output() explore = new EventEmitter<void>();
   @Output() navRequested = new EventEmitter<string>();
   @Output() experienceSelected = new EventEmitter<Experience>();
+  @Output() eventSelected = new EventEmitter<MaltaEvent>();
 
   readonly userDataService  = inject(UserDataService);
   readonly authService      = inject(AuthService);
@@ -86,6 +90,10 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
   showNearbyPrompt = false;
   closestLocations: { location: Location; distanceKm: string }[] = [];
   nearbyExperiences: { experience: Experience; provider: Provider }[] = [];
+  nearbyEvents: MaltaEvent[] = [];
+  readonly now = new Date();
+  /** Which navigation view is shown — the in-app map content, or Google Maps directions. */
+  tab: 'mymap' | 'google' = 'mymap';
 
   private prevLocationId: number | null = null;
   private dismissedNearby = false;
@@ -110,13 +118,16 @@ export class LocationDetailComponent implements OnChanges, OnDestroy {
       this.nearbyMode = false;
       this.showNearbyPrompt = false;
       this.dismissedNearby = false;
+      this.tab = 'mymap';
       this.closestLocations = this.getClosestLocations();
       if (FEATURES.PROMOTIONS) {
         const all = providers as Provider[];
         const near = getExperiencesNearLocation(location, all);
-        this.nearbyExperiences = (near.length > 0 ? near : this.getClosestExperiences(location, all)).slice(0, 3);
+        this.nearbyExperiences = (near.length > 0 ? near : this.getClosestExperiences(location, all)).slice(0, 2);
+        this.nearbyEvents = getEventsNearLocation(location, events as MaltaEvent[], this.now, 1);
       } else {
         this.nearbyExperiences = [];
+        this.nearbyEvents = [];
       }
 
       if (isPlatformBrowser(this.platformId)) {
