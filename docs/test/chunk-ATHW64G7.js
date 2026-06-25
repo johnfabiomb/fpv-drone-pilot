@@ -28,7 +28,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-NEIQXCSA.js";
+} from "./chunk-4ERQ5SHQ.js";
 import {
   AppModalComponent
 } from "./chunk-LD2MK2E3.js";
@@ -27276,28 +27276,22 @@ var MapComponent = class _MapComponent {
     }
     return out;
   }
-  // Zooms to the level that's guaranteed to break a pin cluster apart (members exceed
-  // PIN_CLUSTER_PX), centred on the group. Always zooms in, so a tap never no-ops.
+  // Frame exactly the cluster's members — no more, no less. Fitting their bounding box
+  // spreads them across the viewport, which also drops them out of the cluster. maxZoom
+  // only caps the tiny-extent case (near-identical coords) so a tap never slams all the
+  // way in. Single member → just centre on it.
   expandPinCluster(members) {
-    const coords = members.map((f) => f.getGeometry().getCoordinates());
-    const cx = coords.reduce((s, c) => s + c[0], 0) / coords.length;
-    const cy = coords.reduce((s, c) => s + c[1], 0) / coords.length;
-    let minD = Infinity;
-    for (let i = 0; i < coords.length; i++) {
-      for (let j = i + 1; j < coords.length; j++) {
-        minD = Math.min(minD, Math.hypot(coords[i][0] - coords[j][0], coords[i][1] - coords[j][1]));
-      }
-    }
     const view = this.map.getView();
-    const maxZoom = view.getMaxZoom();
-    const current = view.getZoom() ?? 10;
-    let zoom = maxZoom;
-    if (Number.isFinite(minD) && minD > 0) {
-      const targetRes = minD / (PIN_CLUSTER_PX * 1.6);
-      zoom = Math.min(view.getZoomForResolution(targetRes) ?? maxZoom, maxZoom);
+    const coords = members.map((f) => f.getGeometry().getCoordinates());
+    if (coords.length === 1) {
+      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, 15), duration: 400 });
+      return;
     }
-    zoom = Math.max(zoom, current + 0.6);
-    view.animate({ center: [cx, cy], zoom, duration: 400 });
+    view.fit(boundingExtent(coords), {
+      padding: [70, 60, 70, 60],
+      duration: 400,
+      maxZoom: 17
+    });
   }
   // Representative cover for a cluster: soonest event's poster, or any experience image.
   clusterRepImage(group, kind) {
@@ -27770,7 +27764,7 @@ var MapComponent = class _MapComponent {
   }
   buildEventCanvas(pin, img) {
     const n = pin.events.length;
-    const label = `\u{1F39F}\uFE0F ${n} event${n === 1 ? "" : "s"}`;
+    const label = `${n} event${n === 1 ? "" : "s"}`;
     let canvas;
     if (img) {
       canvas = this.buildCirclePin(img, PROVIDER_PIN_SIZE, "#fff");
@@ -27933,7 +27927,9 @@ var MapComponent = class _MapComponent {
     pc.font = `${Math.round(W * 0.18)}px serif`;
     pc.textAlign = "center";
     pc.textBaseline = "middle";
-    pc.fillText(emoji, bx, by + 1);
+    const m = pc.measureText(emoji);
+    const dx = Number.isFinite(m.actualBoundingBoxLeft) && Number.isFinite(m.actualBoundingBoxRight) ? (m.actualBoundingBoxLeft - m.actualBoundingBoxRight) / 2 : 0;
+    pc.fillText(emoji, bx + dx, by + 1);
   }
   // Draws a dark scrim + white "users" SVG icon over an existing pin canvas (group pins).
   addGroupIconOverlay(pin) {
@@ -29236,4 +29232,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-KMJDWFUB.js.map
+//# sourceMappingURL=chunk-ATHW64G7.js.map
