@@ -33,6 +33,12 @@ const PROVIDER_PIN_SIZE = 80;
 const CLUSTER_ZOOM = 12; // below this zoom → locality clusters; above → individual pins
 const PROVIDER_PIN_CLUSTER_SCALE = 0.7; // scale multiplier applied to provider pins when clusters are visible
 const PIN_CLUSTER_PX = 64; // overlay pins within this many screen px merge into a count cluster
+// view.fit padding [top, right, bottom, left] for promo pin/cluster fits — extra top so pins
+// (and their pills) clear the overlaid filter bar. One place to tweak it.
+const PIN_FIT_PADDING = [150, 60, 80, 60];
+// Base z-offset so promo (experience/event) pins + clusters always sit ABOVE the location
+// pins/clusters in the shared cluster layer, while keeping their own latitude ordering.
+const PROMO_Z_BASE = 1_000_000;
 
 @Component({
   selector: 'app-map',
@@ -141,12 +147,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
     this.localityIconCache.clear();
     this.refreshLayer(true);
-    // Only zoom to Malta overview when a filter is actively applied, not when clearing.
-    // Clearing happens during navigation (e.g. LocationPageComponent sets filters=[]) and
-    // we must not override the subsequent zoom-to-location animation.
-    if (this.map && filters.length > 0) {
-      this.map.getView().animate({ center: this.getMaltaViewCoordinates(), zoom: 10.2, duration: 600 });
+    // Framing is handled by fitVisiblePins(), triggered explicitly when the user taps a
+    // filter chip — so we don't fight the zoom-to-location animation during navigation.
+  }
+
+  /** Fits the view to whatever pins are currently visible (gems + experiences + events). */
+  fitVisiblePins(): void {
+    if (!this.map) return;
+    const coords: number[][] = [];
+    if (this._showGems) {
+      for (const f of this.filteredFeatures) coords.push((f.getGeometry() as Point).getCoordinates());
     }
+    for (const p of this._experiencePins) coords.push(getCoordinatesfromLonLat(p.spot.lon, p.spot.lat));
+    for (const pin of this._eventPins) coords.push(getCoordinatesfromLonLat(pin.lon, pin.lat));
+    if (coords.length === 0) return;
+    this.map.getView().fit(boundingExtent(coords), {
+      padding: PIN_FIT_PADDING,
+      duration: 500,
+      maxZoom: 15,
+    });
   }
 
   @Input() set pickModeActive(v: boolean) {
@@ -368,7 +387,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         : group.length;
       const image = this.clusterRepImage(group, kind);
       this.ensureClusterCover(image);
-      out.push(new Feature({ geometry: new Point([cx, cy]), type: 'pin-cluster', kind, count, members: group, image }));
+      // Use a real member's icon (events are all tickets; experiences vary by activity).
+      const icon = kind === 'event' ? '🎟️' : experienceIcon(group[0].get('experience') as Experience);
+      out.push(new Feature({ geometry: new Point([cx, cy]), type: 'pin-cluster', kind, count, members: group, image, icon }));
     }
     return out;
   }
@@ -385,7 +406,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       return;
     }
     view.fit(boundingExtent(coords), {
-      padding: [70, 60, 70, 60],
+      padding: PIN_FIT_PADDING,
       duration: 400,
       maxZoom: 17,
     });
@@ -477,7 +498,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction',
       }),
-      zIndex: -Math.round(coords[1] / 1000),
+      // Above location pins/clusters; latitude keeps southern promo pins in front of northern ones.
+      zIndex: PROMO_Z_BASE - Math.round(coords[1] / 1000),
     });
   }
 
@@ -491,9 +513,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   // Cluster pin: a cover photo (with type badge) + the count pill above; icon disc until the image loads.
-  private buildPinClusterCanvas(count: number, kind: 'event' | 'experience', img?: HTMLImageElement): HTMLCanvasElement {
+  private buildPinClusterCanvas(count: number, kind: 'event' | 'experience', icon: string, img?: HTMLImageElement): HTMLCanvasElement {
     const color = kind === 'event' ? EVENTS_ACCENT : '#0ea5e9';
-    const icon = kind === 'event' ? '🎟️' : '🤿';
     const label = `${count} ${kind === 'event' ? 'events' : 'experiences'}`;
     let pin: HTMLCanvasElement;
     if (img) {
@@ -508,14 +529,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private pinClusterStyle(feature: FeatureLike): Style {
     const kind: 'event' | 'experience' = feature.get('kind');
     const count: number = feature.get('count');
+    const icon: string = feature.get('icon');
     const src: string | null = feature.get('image');
     const img = src ? this.clusterCoverCache.get(src) : undefined;
     const ready = img?.complete && img.naturalWidth ? img : undefined;
 
-    const key = `${kind}-${count}-${ready ? src : 'icon'}`;
+    const key = `${kind}-${count}-${icon}-${ready ? src : 'icon'}`;
     let canvas = this.pinClusterCanvasCache.get(key);
     if (!canvas) {
-      canvas = this.buildPinClusterCanvas(count, kind, ready);
+      canvas = this.buildPinClusterCanvas(count, kind, icon, ready);
       if (ready || !src) this.pinClusterCanvasCache.set(key, canvas); // don't cache the loading state
     }
     return this.pinIconStyle(canvas, feature);

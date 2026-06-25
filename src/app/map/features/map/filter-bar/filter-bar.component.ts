@@ -56,5 +56,7 @@ export class FilterBarComponent {
 
     this.bridge.mapLayers.set(layers);
     this.bridge.filters.set(isTheme ? [id] : []);
+    // Frame whatever is now visible — zoom to fit that layer, no more, no less.
+    this.bridge.fitVisiblePins();
   }
 }

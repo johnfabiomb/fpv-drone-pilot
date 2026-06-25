@@ -161,7 +161,7 @@ Non-map routes (`/malta/30-places-2026`, `/malta/plan`) are direct siblings of t
 - Provided in `MapShellComponent` (scoped, not root)
 - Child components inject the bridge to configure map inputs (`filters`, `providerPins`, `selectedLocation`) and UI state (`showFilterBar`, `panelOpen`, `mapOnly`, `floatingBackBtn`)
 - Map events flow to children via Subjects: `locationSelected$`, `providerPinSelected$`, `gpsCoord$`
-- Children emit via: `floatingBackBtnClicked$`, `scrollToTop$`, `interstitialProviderSelected$`
+- Children emit via: `floatingBackBtnClicked$`, `scrollToTop$`
 - `bridge.panel` is the shared `PanelResize` instance — all three children call `bridge.panel.expand()`, `bridge.panel.minimize()`, `bridge.panel.onDragStart/Move/End()`
 
 **Panel visibility** — critical design:

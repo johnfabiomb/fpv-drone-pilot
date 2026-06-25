@@ -13,15 +13,16 @@
     <app-coupon-reminder [provider]="bridge.interstitialProvider()!"></app-coupon-reminder>
   </div>
 
-  <!-- Ads mode: nearby provider card (slot-top) -->
-  <div slot-top *ngIf="!bridge.interstitialProvider() && bridge.interstitialProviders()[0]">
+  <!-- Ads mode: nearby experience deal (slot-top) -->
+  <div slot-top *ngIf="!bridge.interstitialProvider() && bridge.interstitialExperience() as ex">
     <p *ngIf="bridge.interstitialLabel()" class="interstitial-near-label">
       {{ bridge.interstitialLabel() }}
     </p>
-    <app-provider-card
-      [provider]="bridge.interstitialProviders()[0]"
-      (selected)="onInterstitialProviderSelected($event)">
-    </app-provider-card>
+    <app-experience-card
+      [experience]="ex.experience"
+      [provider]="ex.provider"
+      (selected)="onInterstitialExperienceSelected($event)">
+    </app-experience-card>
   </div>
 
   <!-- slot-bottom: a nearby event (party) -->

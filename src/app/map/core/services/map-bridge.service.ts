@@ -1,4 +1,5 @@
 import { ElementRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 import { Experience, EventVenuePin, Location, MaltaEvent, MapPoint, Provider } from '@map/core/models';
 import { PanelResize } from '@map/core/utils/panel-resize.util';
@@ -17,6 +18,7 @@ interface MapRef {
   drawAllRoutes?(): void;
   closeLocation?(): void;
   resetToMalta?(): void;
+  fitVisiblePins?(): void;
 }
 
 /**
@@ -65,12 +67,13 @@ export class MapBridgeService {
   // ── Nav interstitial ───────────────────────────────────────
   readonly pendingNavUrl         = signal<string | null>(null);
   readonly navDuration           = signal(3);
-  readonly interstitialProviders = signal<Provider[]>([]);
+  /** Nearest experience deal shown as the top ad card in the nav interstitial. */
+  readonly interstitialExperience = signal<{ experience: Experience; provider: Provider } | null>(null);
   /** Set when Book Now triggers the interstitial — shows coupon instead of ads. */
   readonly interstitialProvider  = signal<Provider | null>(null);
   /** Nearest upcoming event shown as the second ad card in the nav interstitial. */
   readonly interstitialEvent     = signal<MaltaEvent | null>(null);
-  /** "Near you" when fallback GPS providers are shown; null for spot-based ads. */
+  /** "Near you" when the fallback (GPS-nearest) deal is shown; null for spot-based ads. */
   readonly interstitialLabel     = signal<string | null>(null);
 
   clearInterstitial(): void {
@@ -103,7 +106,6 @@ export class MapBridgeService {
   readonly meetingPointClicked$   = new Subject<{ lat: number; lon: number }>();
 
   // ── Events: panels → shell ─────────────────────────────────
-  readonly interstitialProviderSelected$ = new Subject<Provider>();
   readonly floatingBackBtnClicked$       = new Subject<void>();
   readonly scrollToTop$                  = new Subject<void>();
 
@@ -123,6 +125,11 @@ export class MapBridgeService {
   resetToMalta():                      void { this.mapRef?.resetToMalta?.(); }
   closeLocation(): void { this.mapRef?.closeLocation?.(); }
   updateSize():    void { this.mapRef?.updateSize?.(); }
+  /** Frame the currently-visible pins. Deferred so the map's inputs reflect the new layer first. */
+  fitVisiblePins(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    requestAnimationFrame(() => this.mapRef?.fitVisiblePins?.());
+  }
 
   // ── Panel helpers ──────────────────────────────────────────
   openPanel(): void {
@@ -202,7 +209,8 @@ export class MapBridgeService {
   }
 
   private clearNavState(): void {
-    this.interstitialProviders.set([]);
+    this.interstitialExperience.set(null);
+    this.interstitialEvent.set(null);
     this.interstitialProvider.set(null);
     this.interstitialLabel.set(null);
     this.pendingNavUrl.set(null);

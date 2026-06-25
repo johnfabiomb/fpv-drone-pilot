@@ -6,6 +6,12 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Added
+- **Tapping a main filter chip frames that layer.** Selecting Gems / Experiences / Events / a gem theme / All now fits the map to exactly those pins (like opening a cluster) via `fitVisiblePins()` — no more, no less. Replaces the old fixed zoom-to-Malta on filter change.
+
+### Changed
+- **Nav interstitial fully off providers → experiences.** The countdown modal's top card is now the nearest **experience** deal (was a provider card); `bridge.interstitialExperience` replaces `interstitialProviders`. Removed the now-dead `ProviderCardComponent`, `interstitialProviderSelected$`, and the provider-near-location lookup — experiences are the model everywhere now.
+
 ### Changed
 - **Map filter bar simplified to one single-select row.** Replaced the old type/difficulty/island mix (and a short-lived two-tier layer version) with a single straightforward row: `🗺️ All · 💎 Gems · 🤿 Experiences · 🎟️ Events · 🪨 Caves · 🏖️ Beaches · 🏛️ Historical · ⛵ Gozo · 🏝️ Comino` — pick one. Content types first (show only that type's pins), then a few gem themes (show gems filtered to that theme). "Deals" dropped (it's the Experiences type now); Easy/Hard dropped from the map bar (still on the `/malta/list` page). Drives `bridge.mapLayers` + `bridge.filters`; the bar reflects bridge state (no local selection to drift). `MapExploreComponent`'s `effect()` maps the active types → `experiencePins`/`eventVenuePins`; the map's `showGems` input hides location pins when Gems isn't shown. All types visible by default.
 

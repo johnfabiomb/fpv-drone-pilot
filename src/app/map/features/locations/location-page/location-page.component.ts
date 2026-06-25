@@ -15,9 +15,7 @@ import { UserDataService } from '@map/core/services/user-data.service';
 import { InteractionTrackingService } from '@map/core/services/interaction-tracking.service';
 import { Experience, Location as AppLocation, MaltaEvent, Provider } from '@map/core/models';
 import { FEATURES } from '../../../feature-flags';
-import { haversineKm } from '@map/core/utils/geo.utils';
-import { getProvidersNearLocation } from '@map/core/utils/provider.utils';
-import { getExperiencePins } from '@map/core/utils/experience.utils';
+import { getExperiencePins, getExperiencesNearLocation } from '@map/core/utils/experience.utils';
 import { getEventsNearLocation } from '@map/core/utils/event.utils';
 import { LocationPublicStats, locationPublicStats, fmtStatCount } from '@map/core/utils/location-filter.util';
 import { locations } from '@assets/locations.json';
@@ -249,7 +247,7 @@ export class LocationPageComponent implements OnInit {
         .subscribe(coord => {
           this.userLat = coord.lat;
           this.userLon = coord.lon;
-          this.syncInterstitialProviders();
+          this.syncInterstitialAds();
         });
 
       this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
@@ -289,7 +287,7 @@ export class LocationPageComponent implements OnInit {
     void this.userData.awardXp('location_viewed', this.location.slug);
     this.tracking.trackLocation(this.location.slug, 'viewed');
     this.bridge.enterLocationMode(this.location, this.resolveBackBtn());
-    this.syncInterstitialProviders();
+    this.syncInterstitialAds();
   }
 
   onClose(): void {
@@ -336,13 +334,13 @@ export class LocationPageComponent implements OnInit {
     return { label: 'Back' };
   }
 
-  private syncInterstitialProviders(): void {
-    // Map shows experience pins (not provider pins); the interstitial ad below stays provider-based.
+  private syncInterstitialAds(): void {
+    // Map shows experience pins (not provider pins).
     this.bridge.providerPins.set([]);
     this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
 
     if (!FEATURES.PROMOTIONS || !this.location) {
-      this.bridge.interstitialProviders.set([]);
+      this.bridge.interstitialExperience.set(null);
       this.bridge.interstitialEvent.set(null);
       this.bridge.interstitialLabel.set(null);
       return;
@@ -350,25 +348,11 @@ export class LocationPageComponent implements OnInit {
 
     const loc = this.location;
     const all = providers as Provider[];
-    const nearSpot = getProvidersNearLocation(loc, all);
 
-    // Interstitial shows ONE deal (top) + ONE event (bottom).
-    if (nearSpot.length > 0) {
-      this.bridge.interstitialProviders.set(nearSpot.slice(0, 1));
-      this.bridge.interstitialLabel.set(null);
-    } else if (this.userLat !== null && this.userLon !== null) {
-      const nearUser = all
-        .filter(p => p.lat && p.lon)
-        .sort((a, b) =>
-          haversineKm(this.userLat!, this.userLon!, a.lat!, a.lon!) -
-          haversineKm(this.userLat!, this.userLon!, b.lat!, b.lon!),
-        );
-      this.bridge.interstitialProviders.set(nearUser.slice(0, 1));
-      this.bridge.interstitialLabel.set(nearUser.length > 0 ? 'Near you' : null);
-    } else {
-      this.bridge.interstitialProviders.set([]);
-      this.bridge.interstitialLabel.set(null);
-    }
+    // Interstitial shows ONE experience deal (top) + ONE event (bottom).
+    const near = getExperiencesNearLocation(loc, all);
+    this.bridge.interstitialExperience.set(near[0] ?? null);
+    this.bridge.interstitialLabel.set(null);
 
     const nearbyEvent = getEventsNearLocation(loc, events as MaltaEvent[], new Date(), 1);
     this.bridge.interstitialEvent.set(nearbyEvent[0] ?? null);

@@ -93,10 +93,6 @@ export class MapExploreComponent implements OnInit {
     this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(pin => this.router.navigate(['/malta/events'], { queryParams: { venue: pin.venue } }));
 
-    // Interstitial: user picks a provider from the nav overlay
-    this.bridge.interstitialProviderSelected$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(p => this.router.navigate(['/malta/providers', p.id]));
-
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(loc => { if (loc) this.router.navigate(['/malta/locations', loc.slug]); });
   }
