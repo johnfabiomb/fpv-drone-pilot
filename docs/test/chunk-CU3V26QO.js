@@ -69,11 +69,15 @@ var LandingComponent = class _LandingComponent {
     this.paused = false;
   }
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId) && this.isLegacyUrl()) {
+      window.location.replace("/malta" + window.location.search + window.location.hash);
+      return;
+    }
     this.title.setTitle("John Monta\xF1o \u2014 Drone Pilot & Content Creator in Malta");
     const desc = "Malta-based content creator and drone pilot. Cinematic aerial video, social content and destination promotion \u2014 plus an interactive map of the 30 best places to visit in Malta.";
     const ogTitle = "John Monta\xF1o \u2014 Content Creator & Drone Pilot, Malta";
     const img = "https://johnfabiomb.com/assets/og-john.jpg";
-    const imgAlt = "John Monta\xF1o \u2014 content creator & drone pilot in Malta";
+    const imgAlt = "John Monta\xF1o in Valletta, Malta \u2014 content creator & drone pilot";
     this.meta.updateTag({ name: "description", content: desc });
     this.meta.updateTag({ property: "og:type", content: "website" });
     this.meta.updateTag({ property: "og:site_name", content: "John Monta\xF1o" });
@@ -172,6 +176,12 @@ var LandingComponent = class _LandingComponent {
       this.paused = true;
       setTimeout(() => this.paused = false, 8e3);
     }
+  }
+  /** True for old-style links that belong to the map app, not this landing. */
+  isLegacyUrl() {
+    const hash = window.location.hash;
+    const q = new URLSearchParams(window.location.search);
+    return hash.startsWith("#/") || hash.includes("access_token=") || q.has("locationId") || q.has("title") || q.has("redirect") || q.has("code") || q.has("ref");
   }
   scrollTo(id) {
     this.menuOpen.set(false);
@@ -643,4 +653,4 @@ var LandingComponent = class _LandingComponent {
 export {
   LandingComponent
 };
-//# sourceMappingURL=chunk-O7JHURY7.js.map
+//# sourceMappingURL=chunk-CU3V26QO.js.map

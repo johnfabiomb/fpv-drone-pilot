@@ -199,14 +199,14 @@ var routes = [
   __spreadValues({
     path: "",
     pathMatch: "full",
-    loadComponent: () => import("./chunk-O7JHURY7.js").then((m) => m.LandingComponent)
+    loadComponent: () => import("./chunk-CU3V26QO.js").then((m) => m.LandingComponent)
   }, false ? { \u0275entryName: "src/app/landing/landing.component.ts" } : {}),
   // Map routes are loaded lazily so the map Supabase client (and the full
   // AuthService / UserDataService chain) is never initialised on booking pages.
   // Handles /malta, /privacy, /contact, /pay, … (everything except the bare root).
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-YQ2J7XTB.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-VZZTM4JM.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 

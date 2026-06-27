@@ -45,13 +45,22 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   private onScroll?: () => void;
 
   ngOnInit(): void {
+    // Legacy-URL compatibility. Old shared/indexed links hit the bare root with a hash route
+    // (#/malta?…), query params (?locationId / ?title / ?redirect), or auth tokens — these used
+    // to be handled by the map root when "/" redirected there. Now "/" is this landing, so
+    // forward such URLs to /malta (keeping the query + hash) where MapRootComponent handles them.
+    if (isPlatformBrowser(this.platformId) && this.isLegacyUrl()) {
+      window.location.replace('/malta' + window.location.search + window.location.hash);
+      return;
+    }
+
     this.title.setTitle('John Montaño — Drone Pilot & Content Creator in Malta');
     const desc =
       'Malta-based content creator and drone pilot. Cinematic aerial video, social content ' +
       'and destination promotion — plus an interactive map of the 30 best places to visit in Malta.';
     const ogTitle = 'John Montaño — Content Creator & Drone Pilot, Malta';
     const img = 'https://johnfabiomb.com/assets/og-john.jpg';
-    const imgAlt = 'John Montaño — content creator & drone pilot in Malta';
+    const imgAlt = 'John Montaño in Valletta, Malta — content creator & drone pilot';
 
     this.meta.updateTag({ name: 'description', content: desc });
     // Open Graph (overrides the site-wide map defaults baked into index.html)
@@ -148,6 +157,15 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     else if (dir === -1 && el.scrollLeft <= 8) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
     else el.scrollBy({ left: dir * step, behavior: 'smooth' });
     if (manual) { this.paused = true; setTimeout(() => this.paused = false, 8000); } // give them time to browse
+  }
+
+  /** True for old-style links that belong to the map app, not this landing. */
+  private isLegacyUrl(): boolean {
+    const hash = window.location.hash;
+    const q = new URLSearchParams(window.location.search);
+    return hash.startsWith('#/')          // old hash routes: /#/malta?…
+      || hash.includes('access_token=')   // auth redirect landed on /
+      || q.has('locationId') || q.has('title') || q.has('redirect') || q.has('code') || q.has('ref');
   }
 
   scrollTo(id: string): void {
