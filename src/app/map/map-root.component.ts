@@ -132,9 +132,11 @@ export class MapRootComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      // Resolve a legacy location link FIRST (it reads the param from the query OR the old
+      // hash route), so it isn't lost when handleLegacyHashUrls async-rewrites the URL.
+      if (this.handleLegacyLocationParams()) return;
       this.handleLegacyHashUrls();
       this.handleRedirectParam();
-      this.handleLegacyLocationParams();
       this.handleAuthRedirect();
       this.captureReferralCode();
     }
@@ -145,11 +147,15 @@ export class MapRootComponent implements OnInit {
   // for MapExploreComponent, because in-app browsers (Instagram/Facebook) drop the query
   // string on the internal "/" → "/malta" router redirect, so by the time MapExplore
   // runs the param is already gone. Reading the raw URL once at startup is immune to that.
-  private handleLegacyLocationParams(): void {
-    const params = new URLSearchParams(window.location.search);
+  private handleLegacyLocationParams(): boolean {
+    // The param may be in the real query (?title=…) or inside an old hash route
+    // (#/malta?title=…) — read whichever is present.
+    const hash = window.location.hash;
+    const hashQuery = hash.includes('?') ? hash.slice(hash.indexOf('?')) : '';
+    const params = new URLSearchParams(window.location.search || hashQuery);
     const locId = params.get('locationId');
     const rawTitle = params.get('title');
-    if (!locId && !rawTitle) return;
+    if (!locId && !rawTitle) return false;
 
     const all = locations as Location[];
     let loc: Location | undefined;
@@ -163,13 +169,14 @@ export class MapRootComponent implements OnInit {
       const target = this.slugNorm(this.fullyDecode(rawTitle));
       loc = all.find(l => l.slug === target || this.slugNorm(l.title) === target);
     }
-    if (!loc) return;
+    if (!loc) return false;
 
     const backTo = params.get('backTo');
     this.router.navigate(['/malta/locations', loc.slug], {
       replaceUrl: true,
       queryParams: backTo ? { backTo } : {},
     });
+    return true;
   }
 
   /** Decode a value that may have been percent-encoded more than once (in-app browsers). */
