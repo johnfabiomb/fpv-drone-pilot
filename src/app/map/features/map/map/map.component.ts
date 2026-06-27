@@ -135,6 +135,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
   private _showGems = true;
 
+  /** When false, promo pins render individually (no proximity clustering) — Events/Deals pages. */
+  @Input() set clusterPins(v: boolean) {
+    this._clusterPins = v;
+    if (this.map) this.refreshLayer(true);
+  }
+  private _clusterPins = true;
+
   @Input() set activeFilters(filters: string[]) {
     if (filters.length === 1 && filters[0] === 'deals') {
       this.filteredFeatures = [];
@@ -355,10 +362,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.clusterSource.addFeatures(this.filteredFeatures);
       }
     }
-    // Overlay pins cluster by proximity with a count badge, so dense areas don't pile up.
+    // Overlay pins cluster by proximity (count badge) on the explore map; the Events/Deals
+    // pages turn clustering off (clusterPins=false) to show every pin individually.
     if (FEATURES.PROMOTIONS) {
-      if (this.experienceFeatures.length) this.clusterSource.addFeatures(this.clusterNearbyPins(this.experienceFeatures, 'experience'));
-      if (this.eventFeatures.length) this.clusterSource.addFeatures(this.clusterNearbyPins(this.eventFeatures, 'event'));
+      const addPromo = (feats: Feature[], kind: 'event' | 'experience') =>
+        this.clusterSource.addFeatures(this._clusterPins ? this.clusterNearbyPins(feats, kind) : feats);
+      if (this.experienceFeatures.length) addPromo(this.experienceFeatures, 'experience');
+      if (this.eventFeatures.length) addPromo(this.eventFeatures, 'event');
     }
   }
 

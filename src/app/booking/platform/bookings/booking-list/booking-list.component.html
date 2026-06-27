@@ -49,13 +49,16 @@
     <!-- Tabs + search -->
     <div class="toolbar">
       <div class="tabs" role="tablist">
-        @for (t of tabs; track t.key) {
-          <button class="tab" [class.tab--active]="tab() === t.key" (click)="setTab(t.key)" role="tab">
-            <span>{{ t.label }}</span>
-            @if (counts()[t.key]) {
-              <span class="tab__count" [class.tab__count--alert]="t.key === 'pending'">{{ counts()[t.key] }}</span>
-            }
-          </button>
+        @for (group of tabGroups; track $index; let gi = $index) {
+          @if (gi > 0) { <span class="tabs__sep" aria-hidden="true"></span> }
+          @for (t of group; track t.key) {
+            <button class="tab" [class.tab--active]="tab() === t.key" (click)="setTab(t.key)" role="tab">
+              <span>{{ t.label }}</span>
+              @if (counts()[t.key]) {
+                <span class="tab__count" [class.tab__count--alert]="t.key === 'pending'">{{ counts()[t.key] }}</span>
+              }
+            </button>
+          }
         }
       </div>
       <label class="search">

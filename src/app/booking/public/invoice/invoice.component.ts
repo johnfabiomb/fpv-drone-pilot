@@ -4,13 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { InvoiceDetails } from '@booking/core/services/booking-admin.service';
 import { downloadElementAsPdf } from '@booking/core/utils/pdf.util';
+import { renderInvoiceFooter } from '@booking/core/utils/invoice-footer.util';
 
 export interface InvoiceLineItem { description: string; amount: number; }
 
 interface InvoiceBundle {
   org: { name: string; currency: string; invoice_details: InvoiceDetails };
   client: { name: string; company: string | null; vat_number: string | null; billing_address: string | null; email: string | null; phone: string | null } | null;
-  booking: { id: string; booking_ref: string; location: string | null; start_at: string; end_at: string; status: string; price_total: number };
+  booking: { id: string; booking_ref: string; location: string | null; start_at: string; end_at: string; status: string; price_total: number; deposit_percent: number | null };
   invoice: { line_items: InvoiceLineItem[]; notes: string | null; issue_date: string | null; customized: boolean; total: number };
   total_paid: number;
   payments: { amount: number; method: string; paid_at: string | null }[];
@@ -57,6 +58,14 @@ export class InvoiceComponent implements OnInit {
 
   // ── Derived invoice values ──────────────────────────────────────────
   get inv(): InvoiceDetails { return this.data()?.org.invoice_details ?? {}; }
+  /** Footer with {deposit}/{balance}/{depositPercent}/{total} keys filled from this booking. */
+  get footerText(): string {
+    return renderInvoiceFooter(this.inv.invoice_footer, {
+      total: this.total,
+      depositPercent: this.data()?.booking.deposit_percent ?? null,
+      currency: this.currency,
+    });
+  }
   get currency(): string { return this.data()?.org.currency ?? 'EUR'; }
   get supplierName(): string { return this.inv.legal_name?.trim() || this.data()?.org.name || ''; }
   get vatRegistered(): boolean { return !!this.inv.vat_registered; }

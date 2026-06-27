@@ -29,6 +29,7 @@ export class BookingInvoiceComponent {
   @Input() backLabel = '← Back to explore';
 
   get typeLabel(): string {
-    return this.invoice?.paymentType === 'deposit' ? 'Deposit (30%)' : 'Full payment';
+    // No hardcoded percentage — the deposit % varies per booking; the amount is shown alongside.
+    return this.invoice?.paymentType === 'deposit' ? 'Deposit' : 'Full payment';
   }
 }

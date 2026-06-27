@@ -367,8 +367,11 @@ CREATE TRIGGER bookings_updated_at BEFORE UPDATE ON public.bookings
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- Per-ORG booking ref (BK-YYYY-NNN, numbered within the org).
+-- SECURITY DEFINER so the MAX scan sees ALL bookings incl. soft-deleted ones — otherwise the
+-- restrictive hide_deleted RLS hides them and a deleted row's ref gets reused → UNIQUE violation.
 CREATE OR REPLACE FUNCTION public.set_booking_ref() RETURNS TRIGGER
-LANGUAGE plpgsql AS $$
+LANGUAGE plpgsql
+SECURITY DEFINER SET search_path = public AS $$
 DECLARE y TEXT := to_char(now(),'YYYY'); seq INT;
 BEGIN
   IF NEW.booking_ref IS NULL OR NEW.booking_ref = '' THEN
@@ -870,7 +873,7 @@ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
 AS $$
 DECLARE b RECORD; org RECORD; cl RECORD; ov RECORD; items JSONB; total NUMERIC; paid NUMERIC; pays JSONB;
 BEGIN
-  SELECT id, org_id, client_id, contact_name, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status
+  SELECT id, org_id, client_id, contact_name, booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, status, deposit_percent
     INTO b FROM bookings WHERE id = p_booking AND deleted_at IS NULL;
   IF NOT FOUND THEN RETURN NULL; END IF;
 
@@ -908,7 +911,8 @@ BEGIN
           'billing_address', NULL, 'email', NULL, 'phone', NULL)
         ELSE NULL END,
     'booking', jsonb_build_object('id', b.id, 'booking_ref', b.booking_ref, 'location', b.location,
-        'start_at', b.start_at, 'end_at', b.end_at, 'status', b.status, 'price_total', b.price_total),
+        'start_at', b.start_at, 'end_at', b.end_at, 'status', b.status, 'price_total', b.price_total,
+        'deposit_percent', b.deposit_percent),
     'invoice', jsonb_build_object('line_items', items, 'notes', ov.notes, 'issue_date', ov.issue_date,
         'customized', (ov.line_items IS NOT NULL AND jsonb_array_length(ov.line_items) > 0), 'total', total),
     'total_paid', paid, 'payments', pays);

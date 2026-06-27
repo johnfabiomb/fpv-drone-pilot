@@ -101,13 +101,15 @@
 .done__actions { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
 
 .linkbox {
-  display: flex; gap: 8px; max-width: 460px; margin: 0 auto;
+  display: flex; gap: 8px; max-width: 460px; margin: 0 auto 6px;
   &__input {
     flex: 1; padding: 10px 12px; font-size: 13px; color: $text;
     border: 1px solid $border; border-radius: $radius-md; background: $bg;
     font-family: 'SF Mono', 'Fira Mono', monospace;
   }
+  &__btn { cursor: pointer; min-width: 92px; justify-content: center; }
 }
+.done__sub--gap { margin-top: 14px; }
 
 // ── Loading ─────────────────────────────────────────────────────────────
 .loading { display: flex; justify-content: center; padding: 60px; }

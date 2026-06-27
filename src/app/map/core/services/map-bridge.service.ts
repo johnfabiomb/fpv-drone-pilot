@@ -52,6 +52,8 @@ export class MapBridgeService {
   readonly mapLayers        = signal<MapLayers>({ gems: true, experiences: true, events: true });
   /** Whether location (gem) pins show. Explore follows mapLayers; the events/provider/experience pages turn it off. */
   readonly showGems         = signal(true);
+  /** Whether promo pins cluster by proximity. The Events/Deals pages turn it off (show every pin). */
+  readonly clusterPins      = signal(true);
   readonly selectedLocation = signal<Location | null>(null);
   /** When set, map fits view to the route (or location pin) AND this coordinate. Cleared by mode presets. */
   readonly fitPoint         = signal<{ lat: number; lon: number } | null>(null);
@@ -159,6 +161,7 @@ export class MapBridgeService {
     this.activeRouteIndex.set(-1);
     this.showFilterBar.set(true);
     this.showGems.set(true); // explore effect refines this from mapLayers
+    this.clusterPins.set(true);
     this.providerPins.set([]);
     this.panelOpen.set(false);
     this.mapOnly.set(false);
@@ -174,6 +177,7 @@ export class MapBridgeService {
     this.activeRouteIndex.set(-1);
     this.showFilterBar.set(false);
     this.showGems.set(true);
+    this.clusterPins.set(true);
     this.panelOpen.set(true);
     this.mapOnly.set(false);
     this.floatingBackBtn.set(backBtn);
@@ -198,6 +202,7 @@ export class MapBridgeService {
     this.fitPoint.set(fitPoint);
     this.showFilterBar.set(false);
     this.showGems.set(true); // events/provider/experience pages override to false after calling this
+    this.clusterPins.set(true); // Events/Deals pages override to false after calling this
     this.providerPins.set(providerPins);
     this.experiencePins.set([]);
     this.eventVenuePins.set([]);

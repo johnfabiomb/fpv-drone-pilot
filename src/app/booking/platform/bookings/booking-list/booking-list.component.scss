@@ -44,10 +44,18 @@
   margin-bottom: 18px; flex-wrap: wrap;
 }
 .tabs {
-  display: flex; gap: 2px; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 2px;
   background: $bg; border: 1px solid $border; border-radius: $radius-lg; padding: 4px;
+  flex-wrap: nowrap; overflow-x: auto; max-width: 100%; min-width: 0;
+  scrollbar-width: none;                    // Firefox: keep scroll, hide the bar
+  &::-webkit-scrollbar { display: none; }   // WebKit
+}
+// Thin separator between logical tab groups (schedule | money | other | all).
+.tabs__sep {
+  flex: 0 0 auto; align-self: stretch; width: 1px; margin: 3px 5px; background: $border;
 }
 .tab {
+  flex: 0 0 auto;
   display: inline-flex; align-items: center; gap: 7px;
   padding: 7px 14px; border: none; background: none; cursor: pointer;
   font-family: $font; font-size: 13px; font-weight: 600; color: $text-2;

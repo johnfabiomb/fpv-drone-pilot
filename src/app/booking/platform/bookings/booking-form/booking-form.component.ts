@@ -220,10 +220,26 @@ export class BookingFormComponent implements OnInit {
     return error ?? 'Something went wrong. Please try again.';
   }
 
-  async copyLink(): Promise<void> {
+  /** Shareable invoice link (anon, token-based) — derived from the payment link. */
+  get invoiceLink(): string | null {
     const link = this.created()?.link;
-    if (link) await navigator.clipboard.writeText(link);
+    return link ? link.replace('/book/', '/book/invoice?token=') : null;
   }
+
+  /** Which link was just copied — drives the "✓ Copied" button feedback. */
+  readonly copied = signal<'pay' | 'invoice' | null>(null);
+
+  private async copyTo(text: string | null | undefined, which: 'pay' | 'invoice'): Promise<void> {
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      this.copied.set(which);
+      setTimeout(() => { if (this.copied() === which) this.copied.set(null); }, 1600);
+    } catch { /* clipboard blocked — input stays selectable for manual copy */ }
+  }
+
+  copyLink(): void { void this.copyTo(this.created()?.link, 'pay'); }
+  copyInvoiceLink(): void { void this.copyTo(this.invoiceLink, 'invoice'); }
 
   reset(): void {
     this.editingId.set(null);

@@ -18,7 +18,8 @@ const PAYMENT_CLASSES: Record<PaymentStatus, string> = {
   unpaid: 'badge--unpaid', partial: 'badge--partial', paid: 'badge--paid', external: 'badge--external',
 };
 
-const TAB_KEYS: BookingTab[] = ['upcoming', 'pending', 'unpaid', 'paid', 'past', 'external', 'cancelled', 'all'];
+// 'external' is intentionally not a selectable tab — those bookings still show under Upcoming/Past/All.
+const TAB_KEYS: BookingTab[] = ['upcoming', 'pending', 'unpaid', 'paid', 'past', 'cancelled', 'all'];
 const EMPTY_COUNTS: Record<BookingTab, number> =
   { upcoming: 0, pending: 0, unpaid: 0, paid: 0, past: 0, external: 0, cancelled: 0, all: 0 };
 
@@ -53,24 +54,31 @@ export class BookingListComponent {
   goDetail(b: BookingSummary): void { this.router.navigate(['/bookings', b.id]); }
 
   // ── Tabs (URL-driven) + per-tab server queries ───────────────────────
-  readonly tabs: ReadonlyArray<{ key: BookingTab; label: string }> = [
-    { key: 'upcoming',  label: 'Upcoming' },
-    { key: 'pending',   label: 'Pending' },
-    { key: 'unpaid',    label: 'Unpaid' },
-    { key: 'paid',      label: 'Paid' },
-    { key: 'past',      label: 'Past' },
-    { key: 'external',  label: 'External' },
-    { key: 'cancelled', label: 'Cancelled' },
-    { key: 'all',       label: 'All' },
+  // Grouped by intent so the row reads logically: when → money/workflow → other → all.
+  readonly tabGroups: ReadonlyArray<ReadonlyArray<{ key: BookingTab; label: string }>> = [
+    [{ key: 'upcoming',  label: 'Upcoming' }, { key: 'past', label: 'Past' }],
+    [{ key: 'pending',   label: 'Pending' }, { key: 'unpaid', label: 'Unpaid' }, { key: 'paid', label: 'Paid' }],
+    [{ key: 'cancelled', label: 'Cancelled' }, { key: 'all', label: 'All' }],
   ];
 
-  /** The active tab lives in the URL (?tab=…) so it's shareable + survives reload/back. */
+  /** Remember the last tab so returning from edit/detail lands you back where you were. */
+  private readonly TAB_STORE = 'jm.bookings.tab';
+  private readPersistedTab(): BookingTab {
+    try {
+      const t = localStorage.getItem(this.TAB_STORE) as BookingTab | null;
+      if (t && TAB_KEYS.includes(t)) return t;
+    } catch { /* SSR / storage blocked */ }
+    return 'upcoming';
+  }
+
+  /** The active tab lives in the URL (?tab=…) so it's shareable + survives reload/back;
+   *  with no param we fall back to the last tab the user was on (not always "Upcoming"). */
   readonly tab = toSignal(
     this.route.queryParamMap.pipe(map(p => {
       const t = p.get('tab') as BookingTab | null;
-      return t && TAB_KEYS.includes(t) ? t : 'upcoming';
+      return t && TAB_KEYS.includes(t) ? t : this.readPersistedTab();
     })),
-    { initialValue: 'upcoming' as BookingTab });
+    { initialValue: this.readPersistedTab() });
 
   readonly search = signal('');
   private readonly debouncedSearch = toSignal(
@@ -82,6 +90,13 @@ export class BookingListComponent {
   readonly counts = signal<Record<BookingTab, number>>(EMPTY_COUNTS);
 
   constructor() {
+    // Arrived without an explicit tab (e.g. back from an edit)? Restore the last one into the URL.
+    if (!this.route.snapshot.queryParamMap.get('tab')) {
+      const restored = this.readPersistedTab();
+      if (restored !== 'upcoming') {
+        void this.router.navigate([], { queryParams: { tab: restored }, queryParamsHandling: 'merge', replaceUrl: true });
+      }
+    }
     // Re-query whenever the tab (URL) or the debounced search changes.
     effect(() => {
       const tab = this.tab();
@@ -91,8 +106,9 @@ export class BookingListComponent {
     void this.refreshCounts();
   }
 
-  /** Navigate to a tab — pushes ?tab=… so it's a real, linkable URL. */
+  /** Navigate to a tab — pushes ?tab=… so it's a real, linkable URL, and remembers it. */
   setTab(tab: BookingTab): void {
+    try { localStorage.setItem(this.TAB_STORE, tab); } catch { /* storage blocked */ }
     this.router.navigate([], { queryParams: { tab }, queryParamsHandling: 'merge' });
   }
 

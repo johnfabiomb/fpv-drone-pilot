@@ -1,0 +1,236 @@
+<!-- ── Inline icon sprite (stable across every OS — no emoji) ───────── -->
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21s-6-5.4-6-10a6 6 0 1 1 12 0c0 4.6-6 10-6 10Z"/><circle cx="12" cy="11" r="2.2"/>
+  </symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Z"/><path d="M9 4v13M15 6.5v13"/>
+  </symbol>
+  <symbol id="i-drone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="5" cy="5" r="2.1"/><circle cx="19" cy="5" r="2.1"/><circle cx="5" cy="19" r="2.1"/><circle cx="19" cy="19" r="2.1"/>
+    <path d="m6.6 6.6 2.4 2.4M17.4 6.6 15 9M6.6 17.4 9 15M17.4 17.4 15 15"/><rect x="9" y="9" width="6" height="6" rx="1.5"/>
+  </symbol>
+  <symbol id="i-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-2.5v9L16 14"/>
+  </symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="7" width="18" height="12" rx="2.5"/><circle cx="12" cy="13" r="3.2"/><path d="M8.6 7 9.8 5h4.4l1.2 2"/>
+  </symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/>
+  </symbol>
+</svg>
+
+<!-- ── Nav ─────────────────────────────────────────────────────────── -->
+<header class="nav" [class.nav--solid]="scrolled()" [class.nav--open]="menuOpen()">
+  <div class="nav__inner">
+    <a class="brand" (click)="scrollTo('top')">
+      <span class="brand__mark"><img src="assets/landing/john-badge.jpg" alt="John Montaño" width="40" height="40" /></span>
+      <span class="brand__name">John&nbsp;Montaño</span>
+    </a>
+
+    <nav class="nav__links" [class.open]="menuOpen()">
+      <a (click)="scrollTo('map')">30 Places to Visit</a>
+      <a (click)="scrollTo('work')">Reels</a>
+      <a (click)="scrollTo('services')">Services</a>
+      <a (click)="scrollTo('about')">About</a>
+      <a (click)="scrollTo('contact')">Contact</a>
+      <a class="nav__cta" routerLink="/malta">Launch Malta Map →</a>
+    </nav>
+
+    <button class="nav__burger" (click)="menuOpen.set(!menuOpen())" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="landing">
+
+  <!-- ── Hero ──────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow"><svg class="ico"><use href="#i-pin"></use></svg> Content creator &amp; drone pilot · Malta</p>
+        <h1 class="hero__title">
+          See the most beautiful side of <span class="accent">Malta</span>.
+        </h1>
+        <p class="hero__sub">
+          I'm John. Visiting Malta? Explore the 30 best places to see on my interactive map.
+          Running a brand, hotel or experience here? I'll put it in front of the people who matter —
+          with cinematic drone &amp; content.
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" routerLink="/malta"><svg class="ico"><use href="#i-map"></use></svg> Launch Malta Map</a>
+          <button class="btn btn--ghost" (click)="scrollTo('contact')">Work with me</button>
+        </div>
+        <ul class="hero__tags">
+          <li><svg class="ico"><use href="#i-drone"></use></svg> Aerial &amp; drone</li>
+          <li><svg class="ico"><use href="#i-film"></use></svg> Content creation</li>
+          <li><svg class="ico"><use href="#i-pin"></use></svg> Destination promotion</li>
+          <li><svg class="ico"><use href="#i-map"></use></svg> 30 places to visit</li>
+        </ul>
+      </div>
+
+      <div class="hero__photo reveal">
+        <img src="assets/landing/john-hero.jpg" alt="John Montaño in Valletta, Malta"
+             width="882" height="1040" fetchpriority="high" />
+        <div class="hero__photo-glow" aria-hidden="true"></div>
+        <div class="hero__badge">
+          <strong>Valletta · Malta</strong>
+          <span>Content creator &amp; pilot</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="hero__scroll" (click)="scrollTo('map')" aria-label="Scroll down">
+      <span></span>
+    </button>
+  </section>
+
+  <!-- ── Trust strip (full-bleed dark band) ────────────────────────── -->
+  <section class="strip reveal">
+    <div class="strip__inner">
+      <div class="strip__item"><strong>70+</strong><span>Malta spots filmed &amp; mapped</span></div>
+      <div class="strip__item"><strong>30</strong><span>must-see places to visit</span></div>
+      <div class="strip__item"><strong>4K</strong><span>cinematic aerials</span></div>
+      <div class="strip__item"><strong>Malta</strong><span>based &amp; explored</span></div>
+    </div>
+  </section>
+
+  <!-- ── 30 places to visit — the centerpiece (ShadowMap-style) ─────── -->
+  <section id="map" class="mapcta reveal">
+    <div class="mapcta__inner">
+      <p class="kicker kicker--light">Visiting Malta in 2026?</p>
+      <h2>The 30 best places to visit in Malta.</h2>
+      <p>My hand-picked <strong>2026 guide</strong> to Malta's must-see spots — sea caves, cliffs, hidden
+        bays and viewpoints — on a fast, mobile-friendly map I built and filmed myself.</p>
+      <div class="mapcta__cta">
+        <a class="btn btn--primary btn--lg mapcta__launch" routerLink="/malta/30-places-2026"><svg class="ico"><use href="#i-map"></use></svg> See the 30 places →</a>
+        <a class="mapcta__alt" routerLink="/malta">or explore the full interactive map →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reels (the proof) ─────────────────────────────────────────── -->
+  <section id="work" class="section">
+    <header class="section__head reveal">
+      <p class="kicker">Selected reels</p>
+      <h2>Malta from above.</h2>
+      <p class="section__lead">A few of my favourite drone shots — captured, edited and colour-graded by me.</p>
+    </header>
+
+    <div class="carousel reveal" (pointerenter)="paused = true" (pointerleave)="paused = false">
+      <button class="carousel__nav carousel__nav--prev" (click)="advanceReels(-1)" aria-label="Previous reel">‹</button>
+      <div class="reels" #reelTrack>
+        @for (reel of reels; track $index) {
+          <div class="reel">
+            <iframe [src]="reel" loading="lazy" scrolling="no" allowfullscreen
+                    title="Drone reel by John Montaño"></iframe>
+          </div>
+        }
+      </div>
+      <button class="carousel__nav carousel__nav--next" (click)="advanceReels(1)" aria-label="Next reel">›</button>
+    </div>
+
+    <div class="reels__more reveal">
+      <a class="btn btn--ghost btn--dark" href="https://www.instagram.com/johnfabiomb/" target="_blank" rel="noopener">
+        <svg class="ico"><use href="#i-camera"></use></svg> See more on Instagram →
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Services ──────────────────────────────────────────────────── -->
+  <section id="services" class="section">
+    <header class="section__head reveal">
+      <p class="kicker">What I do</p>
+      <h2>Malta, made unmissable.</h2>
+      <p class="section__lead">Cinematic content that gets places, brands and experiences noticed.</p>
+    </header>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card__icon"><svg><use href="#i-drone"></use></svg></div>
+        <h3>Aerial &amp; Drone</h3>
+        <p>Cinematic 4K aerials that show Malta — or your venue — at its absolute best. My signature look.</p>
+        <ul><li>4K aerial filming</li><li>Hotels, venues &amp; real estate</li><li>Tourism &amp; events</li></ul>
+      </article>
+
+      <article class="card reveal">
+        <div class="card__icon"><svg><use href="#i-film"></use></svg></div>
+        <h3>Content Creation</h3>
+        <p>Social-first video &amp; photo built to convert — reels and stories shot, edited and ready to post.</p>
+        <ul><li>Short-form &amp; reels</li><li>Brand &amp; product films</li><li>Photography</li></ul>
+      </article>
+
+      <article class="card reveal">
+        <div class="card__icon"><svg><use href="#i-pin"></use></svg></div>
+        <h3>Destination Promotion</h3>
+        <p>Got a brand, hotel or experience in Malta? I put it in front of the travellers already planning their visit.</p>
+        <ul><li>Place &amp; brand promos</li><li>UGC &amp; on-camera</li><li>Campaigns for visitors</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── About ─────────────────────────────────────────────────────── -->
+  <section id="about" class="about">
+    <div class="about__photo reveal">
+      <img src="assets/landing/john-about.jpg" alt="John Montaño flying FPV at golden hour" width="900" height="900" loading="lazy" />
+    </div>
+    <div class="about__copy reveal">
+      <p class="kicker">About me</p>
+      <h2>I don't just film Malta — <span class="accent">I know it</span>.</h2>
+      <p>
+        I'm a content creator and drone pilot based in Malta. I've explored every corner of these
+        islands — the caves, the cliffs, the bays most visitors never find — and I capture them the
+        way they deserve to be seen.
+      </p>
+      <p>
+        That local eye is what makes the difference: whether you're a traveller planning a trip or a
+        brand that wants Malta's visitors to notice you, you get content from someone who genuinely
+        lives and breathes this place.
+      </p>
+      <div class="about__pills">
+        <span>Content creator</span><span>Drone pilot</span><span>Aerial cinematography</span>
+        <span>Destination promotion</span><span>Malta explorer</span>
+      </div>
+      <button class="btn btn--primary" (click)="scrollTo('contact')">Work with me</button>
+    </div>
+  </section>
+
+  <!-- ── CTA / Contact ─────────────────────────────────────────────── -->
+  <section id="contact" class="cta reveal">
+    <div class="cta__inner">
+      <p class="kicker kicker--light">Let's talk</p>
+      <h2>Got something worth filming in Malta?</h2>
+      <p>Tell me about your brand, hotel, event or experience. I reply personally.</p>
+      <div class="cta__actions">
+        <a class="btn btn--primary btn--lg" href="mailto:creator@johnfabiomb.com"><svg class="ico"><use href="#i-mail"></use></svg> creator&#64;johnfabiomb.com</a>
+        <a class="btn btn--ghost btn--lg" href="https://www.instagram.com/johnfabiomb/" target="_blank" rel="noopener"><svg class="ico"><use href="#i-camera"></use></svg> &#64;johnfabiomb</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────────────── -->
+  <footer class="foot">
+    <div class="foot__inner">
+      <div class="foot__brand">
+        <span class="brand__mark"><img src="assets/landing/john-badge.jpg" alt="John Montaño" width="40" height="40" /></span>
+        <div>
+          <strong>John Montaño</strong>
+          <span>Content creator · Drone pilot — Malta</span>
+        </div>
+      </div>
+      <div class="foot__links">
+        <a (click)="scrollTo('work')">Reels</a>
+        <a (click)="scrollTo('services')">Services</a>
+        <a (click)="scrollTo('about')">About</a>
+        <a routerLink="/malta">Launch Malta Map</a>
+        <a href="mailto:creator@johnfabiomb.com">Email</a>
+        <a href="https://www.instagram.com/johnfabiomb/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <p class="foot__copy">© {{ year }} John Montaño. Made &amp; shot in Malta.</p>
+  </footer>
+
+</main>

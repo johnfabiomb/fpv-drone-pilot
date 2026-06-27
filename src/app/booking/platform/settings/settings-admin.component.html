@@ -105,7 +105,16 @@
             </div>
           </div>
           <label class="field"><span>Invoice footer <span class="opt">(optional)</span></span>
-            <textarea rows="2" [(ngModel)]="invoiceFooter" placeholder="Payment terms, bank details, thank-you note…"></textarea>
+            <textarea rows="3" [(ngModel)]="invoiceFooter" placeholder="Payment terms, bank details, thank-you note…"></textarea>
+            <span class="hint hint--keys">
+              Tip: use these keys and each invoice fills in its own figures —
+              <code>{{ '{depositPercent}' }}</code> deposit % (e.g. 30%),
+              <code>{{ '{deposit}' }}</code> deposit amount,
+              <code>{{ '{balancePercent}' }}</code> remaining % (e.g. 70%),
+              <code>{{ '{balance}' }}</code> remaining amount,
+              <code>{{ '{total}' }}</code> full total.
+              <br>e.g. “{{ '{depositPercent}' }} upfront payment is required to begin the project. The remaining {{ '{balancePercent}' }} balance is due upon completion.”
+            </span>
           </label>
 
           <div class="actions">

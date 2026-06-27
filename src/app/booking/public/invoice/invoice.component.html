@@ -108,7 +108,7 @@
 
         <!-- Payment terms + bank details only while a balance is still owed. -->
         @if (inv.invoice_footer && !fullyPaid) {
-          <footer class="inv-footer pre">{{ inv.invoice_footer }}</footer>
+          <footer class="inv-footer pre">{{ footerText }}</footer>
         }
       </div>
     }

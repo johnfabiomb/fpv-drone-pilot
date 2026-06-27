@@ -22,8 +22,21 @@
       @if (done.link) {
         <div class="linkbox">
           <input class="linkbox__input" [value]="done.link" readonly (focus)="$any($event.target).select()" />
-          <button class="btn btn--primary" (click)="copyLink()">Copy</button>
+          <button type="button" class="btn btn--primary linkbox__btn" (click)="copyLink()">
+            {{ copied() === 'pay' ? '✓ Copied' : 'Copy' }}
+          </button>
         </div>
+
+        <!-- Invoice link to send to the client (view / download) -->
+        @if (invoiceLink) {
+          <p class="done__sub done__sub--gap">…or send them the invoice:</p>
+          <div class="linkbox">
+            <input class="linkbox__input" [value]="invoiceLink" readonly (focus)="$any($event.target).select()" />
+            <button type="button" class="btn btn--primary linkbox__btn" (click)="copyInvoiceLink()">
+              {{ copied() === 'invoice' ? '✓ Copied' : 'Copy' }}
+            </button>
+          </div>
+        }
       } @else {
         <p class="muted">Booking saved, but the payment link couldn’t be generated. You can copy it from the bookings list.</p>
       }
