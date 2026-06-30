@@ -4128,6 +4128,170 @@
             ],
             "locality": "Marsaxlokk",
             "showLabel": false
+        },
+        {
+            "id": 76,
+            "title": "Imġiebaħ Beach",
+            "slug": "imgiebah-beach",
+            "description": "Hidden away beneath the wild Selmun headland in Malta's far north, <b>Imġiebaħ Bay</b> (also spelt Mġiebaħ or Imgiebah) is one of the island's last truly remote sandy beaches. There's no bus, no kiosk and no road to the water — you leave the car up by Selmun and walk down a path of roughly 700 metres, dropping through open countryside until a crescent of soft reddish-gold sand opens up below you. The reward is a quiet, shallow bay with clear turquoise water that's ideal for a long swim or a snorkel along the rocky sides, and far fewer people than the big northern beaches. There are no facilities of any kind, so bring water, food, shade and everything you'll need — and take it all back out with you. The walk back up is the real workout, so leave a little energy (and time before sunset) for the climb.",
+            "img": "/assets/images/places/imgiebah-beach/imgiebah-beach.webp",
+            "thumb": "/assets/images/places/imgiebah-beach/imgiebah-beach-thumb.webp",
+            "images": [
+                "/assets/images/places/imgiebah-beach/imgiebah-beach.webp",
+                "/assets/images/places/imgiebah-beach/imgiebah-beach-2.webp",
+                "/assets/images/places/imgiebah-beach/imgiebah-beach-3.webp"
+            ],
+            "lon": 14.379700801430404,
+            "lat": 35.969633958474375,
+            "keywords": "Imġiebaħ Beach, Imgiebah Bay, Mġiebaħ, Selmun, Mellieħa, Malta, hidden beach, sandy beach, red sand, remote beach, swimming, snorkeling",
+            "rating": 4.6,
+            "mapPoints": [
+                {
+                    "label": "Park here near Selmun",
+                    "description": "Park here, then follow the path down to the bay.",
+                    "lon": 14.372437184503584,
+                    "lat": 35.968947468146595,
+                    "type": "parking"
+                },
+                {
+                    "lon": 14.372525163127621,
+                    "lat": 35.96896732320329,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.372540643686904,
+                    "lat": 35.96893622280257,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.372643234323995,
+                    "lat": 35.96899934347678,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.373795884580844,
+                    "lat": 35.969191309808636,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.375056566661451,
+                    "lat": 35.96959401072145,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.375599139827909,
+                    "lat": 35.9698488578817,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.376974751011188,
+                    "lat": 35.97020688486651,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.377143951480505,
+                    "lat": 35.97017299433324,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.377397285979518,
+                    "lat": 35.97023266191994,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.37780819775565,
+                    "lat": 35.97057866688577,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378345649053896,
+                    "lat": 35.970609198182814,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.37848452704158,
+                    "lat": 35.97056003183306,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378642947319449,
+                    "lat": 35.97056794888873,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378695507139126,
+                    "lat": 35.97048562594088,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378663013291916,
+                    "lat": 35.970407416477045,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378821548524433,
+                    "lat": 35.97032198234223,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.378988667037346,
+                    "lat": 35.970243059558214,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.37895851060132,
+                    "lat": 35.969949754680755,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379028454118338,
+                    "lat": 35.96990679965691,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379267686617606,
+                    "lat": 35.96974777599134,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379374259394094,
+                    "lat": 35.969957731073066,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379442582527334,
+                    "lat": 35.97002099705681,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379525536671656,
+                    "lat": 35.969914283559675,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.379615855501381,
+                    "lat": 35.969682052364774,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Imġiebaħ Beach",
+                    "description": "Open this exact spot in Google Maps.",
+                    "lon": 14.379700801430404,
+                    "lat": 35.969633958474375,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "beach",
+                "swimming",
+                "snorkeling",
+                "moderate"
+            ],
+            "locality": "Mellieħa",
+            "showLabel": false
         }
     ]
 }

@@ -1,14 +1,8 @@
-@use '../../../booking.styles' as *;
+@use '../../admin.shared' as *;   // canonical .page / .page__head / .head-actions / .page__title / .page__sub
+@use '../../table-cards' as tc;
 
-.page {
-  max-width: 1100px;
-  padding: 36px 40px;
-  @media (max-width: 900px) { padding: 24px 20px; }
-}
-
-.page__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-.page__title { font-size: 22px; font-weight: 700; color: $text; margin: 0 0 4px; letter-spacing: -0.02em; }
-.page__sub   { font-size: 13.5px; color: $text-2; margin: 0; }
+// Wide list page — only the width differs from the shared .page.
+.page { max-width: 1100px; }
 
 .table-wrap {
   background: $card;
@@ -16,11 +10,14 @@
   border-radius: $radius-lg;
   overflow: hidden;
   overflow-x: auto;
+  // On mobile the table becomes cards (each row its own card), so the wrapper steps back.
+  @media (max-width: 760px) { border: none; background: none; overflow: visible; }
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  @include tc.table-cards;   // → labelled cards on mobile
 
   th {
     padding: 10px 14px;

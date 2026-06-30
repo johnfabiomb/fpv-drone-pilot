@@ -47,6 +47,9 @@
       </div>
     </div>
 
+    <div class="detail-grid">
+    <div class="detail-col">
+
     <!-- What's billed — invoice line items (source of truth for the total) -->
     @if (lineItems().length) {
       <div class="card">
@@ -87,6 +90,9 @@
         <div class="fact"><span class="fact__k">Email</span><span class="fact__v">{{ b.client_email }}</span></div>
       }
     </div>
+    </div><!-- /detail-col (left: billing + facts) -->
+
+    <div class="detail-col">
 
     <!-- Payments ledger -->
     <div class="card">
@@ -156,6 +162,9 @@
         </div>
       </form>
     </div>
+
+    </div><!-- /detail-col (right: payments) -->
+    </div><!-- /detail-grid -->
     }
   }
 </div>

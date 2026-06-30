@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { ensureBookingEvent } from '../_shared/booking-event.ts';
+import { deleteCalendarEvent } from '../_shared/google-calendar.ts';
 
 // Admin-only. Refreshes a booking's Google Calendar event description so it mirrors
 // the current payment + production state. Called after the admin records a cash
@@ -17,7 +18,7 @@ Deno.serve(async (req) => {
   try {
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) return json({ error: 'auth required' }, 401);
-    const { bookingId } = await req.json() as { bookingId: string };
+    const { bookingId, deleteEventIds } = await req.json() as { bookingId: string; deleteEventIds?: string[] };
     if (!bookingId) return json({ error: 'bookingId required' }, 400);
 
     const url = Deno.env.get('SUPABASE_URL')!;
@@ -34,6 +35,12 @@ Deno.serve(async (req) => {
       .select('role').eq('org_id', booking.org_id).eq('user_id', user.id).maybeSingle();
     if (!member || !['owner', 'admin'].includes(member.role)) return json({ error: 'forbidden' }, 403);
 
+    // Delete calendar events orphaned by an edit (time blocks that were moved or removed),
+    // then re-sync so the remaining/new events match the booking's current slots + title.
+    for (const eid of (deleteEventIds ?? [])) {
+      if (!eid) continue;
+      try { await deleteCalendarEvent(eid); } catch (e) { console.error('orphan event delete failed:', (e as Error).message); }
+    }
     const eventId = await ensureBookingEvent(service, bookingId);
     return json({ ok: true, event_id: eventId });
   } catch (err) {

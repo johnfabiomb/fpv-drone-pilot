@@ -3,552 +3,558 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://johnfabiomb.com/malta</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://johnfabiomb.com/assets/map-min.png</image:loc>
       <image:title>Explore Malta - Interactive Map of Hidden Gems</image:title>
-      <image:caption>Free interactive map of Malta featuring 66+ hidden gems, caves, beaches and historical sites by FPV drone pilot John Montaño</image:caption>
+      <image:caption>Free interactive map of Malta featuring 67+ hidden gems, caves, beaches and historical sites by FPV drone pilot John Montaño</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/list</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/deals</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/events</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/groups</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/30-places-2026</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/about</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/contact</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/privacy</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/cookies</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/blue-grotto</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/il-mara</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ghar-ir-rih</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ras-il-mignuna-window</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ras-id-dawwara</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/popeye-village</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/elephant-rock</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/munxar-path</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/munxar-window</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/hofriet-window</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/bighi-cot-lift</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/wied-il-ghasel</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/coral-lagoon</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/il-gebla-l-imtaqqba</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/natural-window</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/mistra-bay</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/dingli-cliffs</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/st-marks-tower</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ghar-ic-comb</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/fungus-rock</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/birgu-vittoriosa</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/wied-il-mielah-window</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/fort-of-st-angelo</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/shrine-of-our-lady-of-mount-carmel</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/la-guardiola</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/mdina-the-silent-city</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/victoria-lines-top-of-the-world</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/migra-l-ferha</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ras-id-dawwara-cave</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/fomm-ir-rih</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ghajn-tuffieha-cave</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/inland-sea</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/blata-tal-melh</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/tal-mixta-cave</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/secret-spot-cliffside-cave-above-pullicino-s-cove</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/lower-kalkara-gardens</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ta-marija-cave</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/cave-facing-fungus-rock</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/chinese-garden-of-serenity</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ta-kalanka-sea-cave</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/xlendi-bay</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/l-ghar-ta-bla-saqaf</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/mini-inland-sea</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/st-michael-bastion</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/l-ghawseg</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/paradise-bay</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/anchor-bay-popeye-cliffs</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/carolina-grotto</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/babu-valley</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ghar-hasan-trail-irdum-ta-hal-far</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/hidden-sea-cave-near-fort-ricasoli</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ix-xaqqa</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/santa-maria-caves-comino</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/wied-il-ghasri</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/cittadella-victoria-gozo</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/gozo-salt-pans-xwejni</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ramla-bay-gozo</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/argotti-botanic-gardens</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/hondoq-ir-rummien</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/rdum-il-qammieh-viewpoint</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/hidden-rocky-beach-near-gnejna</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/blata-tal-melh-rock-passage</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/qarraba-cliffs</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/xlendi-tower-coastal-path</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/ghar-hanex</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/locations/il-kalanka</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://johnfabiomb.com/malta/locations/imgiebah-beach</loc>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/providers/santa-maria-watersports</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/providers/block-hotel-gozo</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/providers/yippee-malta</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/santa-maria-wakeboard</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/santa-maria-wakesurf</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/santa-maria-wakefoil</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/santa-maria-tube</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/block-stay-xlendi</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/block-dive-gozo</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-buggy</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-quad</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-tuktuk</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-jeep</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-comino-boat</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-round-gozo-cruise</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

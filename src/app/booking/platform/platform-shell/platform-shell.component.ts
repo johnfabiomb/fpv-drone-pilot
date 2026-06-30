@@ -1,5 +1,6 @@
-import { Component, OnInit, computed, inject, effect } from '@angular/core';
-import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, computed, inject, effect, signal } from '@angular/core';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { BookingDataService } from '@booking/core/services/booking-data.service';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { ToastHostComponent } from '@booking/ui/toast/toast-host.component';
@@ -18,11 +19,17 @@ export class PlatformShellComponent implements OnInit {
   readonly data = inject(BookingDataService);
   private readonly router = inject(Router);
 
+  /** Mobile drawer open/closed. */
+  readonly menuOpen = signal(false);
+
   /** The currently-active org (shown as the sidebar link to /organizations). */
   readonly activeOrg = computed(() =>
     this.auth.orgs().find(o => o.id === this.auth.orgId()) ?? null);
 
   constructor() {
+    // Close the mobile drawer whenever a navigation completes.
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => this.menuOpen.set(false));
+
     // Redirect to login when auth resolves to a non-admin state.
     effect(() => {
       const s = this.auth.state();

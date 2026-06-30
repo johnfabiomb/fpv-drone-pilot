@@ -130,7 +130,7 @@ export class BookingDataService implements OnDestroy {
     depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ ok?: boolean; error?: string }> {
-    const { error } = await bookingsDb.rpc('update_booking', {
+    const { data, error } = await bookingsDb.rpc('update_booking', {
       p_booking_id: id,
       p_booking: {
         staff_id: input.staffId, service_id: input.serviceId,
@@ -144,7 +144,9 @@ export class BookingDataService implements OnDestroy {
       p_slots: input.slots,
     });
     if (error) return { error: this.overlapOr(error) };
-    this.syncBookingEvent(id);
+    // `data` = google_event_ids orphaned by moved/removed time blocks → delete them while
+    // re-syncing so the calendar matches the new slots (no stale or duplicate events).
+    this.syncBookingEvent(id, (data as string[] | null) ?? undefined);
     await this.fetchBookings();
     return { ok: true };
   }
@@ -339,9 +341,10 @@ export class BookingDataService implements OnDestroy {
     if (error) console.warn('[BookingData] confirmToCalendar:', error.message);
   }
 
-  /** Fire-and-forget: refresh the booking's calendar event description (payment + progress). */
-  private syncBookingEvent(bookingId: string): void {
-    void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId } })
+  /** Fire-and-forget: re-sync the booking's calendar event(s) to its current slots/title.
+   *  `deleteEventIds` removes events orphaned by an edit (moved/removed time blocks). */
+  private syncBookingEvent(bookingId: string, deleteEventIds?: string[]): void {
+    void bookingsDb.functions.invoke('sync-booking-event', { body: { bookingId, deleteEventIds } })
       .then(({ error }) => { if (error) console.warn('[BookingData] calendar sync failed:', error.message); });
   }
 

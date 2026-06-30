@@ -4,12 +4,14 @@
       <h1 class="page__title">Bookings</h1>
       <p class="page__sub">All jobs, shoots and appointments</p>
     </div>
-    <a class="btn btn--primary" routerLink="/bookings/new">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M8 3v10M3 8h10"/>
-      </svg>
-      New booking
-    </a>
+    <div class="head-actions">
+      <a class="btn btn--primary" routerLink="/bookings/new">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 3v10M3 8h10"/>
+        </svg>
+        New booking
+      </a>
+    </div>
   </div>
 
   <!-- Stats -->
@@ -105,19 +107,19 @@
           <tbody>
             @for (b of rows(); track b.id) {
               <tr [class.row--external]="b.is_external" [class.row--next]="b.id === nextId()">
-                <td class="cell--mono">
+                <td class="cell--mono" data-label="Ref">
                   <button class="ref-link" (click)="goDetail(b)">{{ b.booking_ref }}</button>
                   @if (b.id === nextId()) { <span class="next-badge">NEXT</span> }
                 </td>
-                <td class="cell--title">{{ b.title }}</td>
-                <td class="cell--client">{{ b.client_name ?? '—' }}</td>
-                <td class="cell--date">
+                <td class="cell--title" data-label="Job">{{ b.title }}</td>
+                <td class="cell--client" data-label="Client">{{ b.client_name ?? '—' }}</td>
+                <td class="cell--date" data-label="When">
                   <span class="when__abs">{{ b.start_at | date:'EEE d MMM, HH:mm' }}</span>
                   @if (b.slot_count > 1) { <span class="when__blocks" title="Split into multiple time blocks">+{{ b.slot_count - 1 }} block{{ b.slot_count > 2 ? 's' : '' }}</span> }
                   @if (relative(b)) { <span class="when__rel">{{ relative(b) }}</span> }
                 </td>
-                <td>{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</td>
-                <td>
+                <td data-label="Total">{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</td>
+                <td data-label="Payment">
                   <div class="pay-cell">
                     <span class="badge" [ngClass]="paymentClass(b.payment_status)">{{ paymentLabel(b.payment_status) }}</span>
                     @if (!b.is_external && b.payment_status !== 'paid') {
@@ -125,8 +127,8 @@
                     }
                   </div>
                 </td>
-                <td><span class="badge badge--status">{{ b.status }}</span></td>
-                <td class="cell--actions">
+                <td data-label="Status"><span class="badge badge--status">{{ b.status }}</span></td>
+                <td class="cell--actions" data-label="">
                   @if (!b.is_external) {
                     <div class="row-actions">
                       <button class="link-btn" (click)="copyLink(b.id)">{{ copiedId() === b.id ? '✓ Copied' : 'Copy link' }}</button>

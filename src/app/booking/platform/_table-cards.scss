@@ -1,0 +1,64 @@
+@use '../booking.styles' as *;
+
+// Reusable responsive-table behaviour: a normal <table class="table"> collapses into
+// stacked, labelled cards below $bp (so every column stays visible on a phone, like the
+// Invoices list). Desktop is untouched. Each <td> must carry a data-label="Column"
+// (use data-label="" for action/icon cells so they render label-less, right-aligned).
+//
+// Usage in a component .scss:
+//   @use '../../platform/table-cards' as *;   // adjust the relative path
+//   .table { @include table-cards; }
+@mixin table-cards($bp: 760px) {
+  @media (max-width: $bp) {
+    thead { display: none; }
+
+    tbody tr {
+      display: block;
+      background: $card;
+      border: 1px solid $border;
+      border-radius: $radius-lg;
+      padding: 10px 14px;
+      margin: 0 0 10px;
+      &:last-child { margin-bottom: 0; }
+    }
+
+    tbody td {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      border: none;
+      text-align: right;
+      white-space: normal;
+      & + td { border-top: 1px solid $border; }
+
+      // Column label pinned left; the value(s) group on the right (margin-right:auto on the
+      // label takes the free space, so multi-part cells don't get spread/centered).
+      &::before {
+        content: attr(data-label);
+        margin-right: auto;
+        flex: none;
+        font-size: 12px;
+        font-weight: 600;
+        color: $text-2;
+        text-align: left;
+      }
+    }
+
+    // Beat cell-specific constraints (e.g. .cell--title's max-width / nowrap / ellipsis) so
+    // every value fills the card width, sits on the right and wraps. `td[data-label]` (attr
+    // selector) outranks a single utility class like .cell--title.
+    tbody td[data-label] {
+      max-width: none;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    // Action / icon cells (data-label="") — no label, content on the right.
+    tbody td[data-label=''] {
+      justify-content: flex-end;
+      &::before { content: none; }
+    }
+  }
+}

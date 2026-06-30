@@ -65,8 +65,9 @@ export class EventsComponent implements OnInit {
     const backTo = this.route.snapshot.queryParamMap.get('backTo');
     const backBtn = backTo === 'list' ? { label: 'Back', accent: true } : { label: 'Back to map' };
     this.bridge.enterPanelMode([], backBtn);
-    // This view shows events + experiences (providers), no gems.
+    // This view shows events + experiences (providers), no gems; every pin individually (no clusters).
     this.bridge.showGems.set(false);
+    this.bridge.clusterPins.set(false);
     this.bridge.experiencePins.set(getExperiencePins(providers as Provider[]));
     this.bridge.eventVenuePins.set(getEventVenuePins(this.allEvents));
 

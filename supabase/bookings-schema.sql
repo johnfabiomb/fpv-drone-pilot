@@ -242,6 +242,7 @@ ALTER TABLE public.booking_slots ENABLE ROW LEVEL SECURITY;
 CREATE POLICY bs_admin ON public.booking_slots FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.booking_slots TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.booking_slots TO service_role;  -- Edge Functions (calendar sync, cancel, purge)
 
 -- Atomic create/update of a booking + its slots (envelope = min/max of slots).
 -- p_slots = [{ "start": iso, "end": iso }, …]. SQLSTATE 23P01 propagates on overlap.
@@ -275,9 +276,11 @@ BEGIN
 END $$;
 GRANT EXECUTE ON FUNCTION public.create_booking(jsonb,jsonb) TO authenticated;
 
+-- Returns the google_event_ids of OLD time blocks no longer in the new slot set — the caller
+-- (sync-booking-event) deletes them so a moved/removed block doesn't leave a stale calendar event.
 CREATE OR REPLACE FUNCTION public.update_booking(p_booking_id uuid, p_booking jsonb, p_slots jsonb)
-RETURNS void LANGUAGE plpgsql SECURITY INVOKER SET search_path=public AS $$
-DECLARE v_org uuid; v_staff uuid; v_start timestamptz; v_end timestamptz; v_slot jsonb; v_old jsonb;
+RETURNS text[] LANGUAGE plpgsql SECURITY INVOKER SET search_path=public AS $$
+DECLARE v_org uuid; v_staff uuid; v_start timestamptz; v_end timestamptz; v_slot jsonb; v_old jsonb; v_orphans text[];
 BEGIN
   SELECT org_id INTO v_org FROM bookings WHERE id = p_booking_id;
   v_staff := (p_booking->>'staff_id')::uuid;
@@ -288,6 +291,13 @@ BEGIN
   -- (matched by exact start/end) instead of being recreated/orphaned on every edit.
   SELECT COALESCE(jsonb_agg(jsonb_build_object('s', start_at, 'e', end_at, 'g', google_event_id)), '[]'::jsonb)
     INTO v_old FROM booking_slots WHERE booking_id = p_booking_id;
+  -- Events for OLD blocks not present in the NEW slot set → orphans for the caller to delete.
+  SELECT COALESCE(array_agg(o->>'g'), '{}') INTO v_orphans
+    FROM jsonb_array_elements(v_old) o
+    WHERE o->>'g' IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements(p_slots) e
+        WHERE (e->>'start')::timestamptz = (o->>'s')::timestamptz
+          AND (e->>'end')::timestamptz = (o->>'e')::timestamptz);
   DELETE FROM booking_slots WHERE booking_id = p_booking_id;
   UPDATE bookings SET staff_id=v_staff, service_id=(p_booking->>'service_id')::uuid,
     client_id=(p_booking->>'client_id')::uuid, contact_name=NULLIF(p_booking->>'contact_name',''),
@@ -306,6 +316,7 @@ BEGIN
           AND (o->>'e')::timestamptz = (v_slot->>'end')::timestamptz
           AND o->>'g' IS NOT NULL LIMIT 1));
   END LOOP;
+  RETURN v_orphans;
 END $$;
 GRANT EXECUTE ON FUNCTION public.update_booking(uuid,jsonb,jsonb) TO authenticated;
 
@@ -746,6 +757,7 @@ ALTER TABLE public.work_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY work_items_admin ON public.work_items FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.work_items TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.work_items TO service_role;  -- created after the blanket service_role grant, so grant explicitly
 
 -- The board reads tasks by work_item_id; booking_id stays for back-compat. (Added
 -- after work_items so the FK target exists.)
@@ -859,6 +871,7 @@ CREATE POLICY inv_admin ON public.invoices FOR ALL
   WITH CHECK (public.is_org_admin(org_id)
               AND EXISTS (SELECT 1 FROM public.bookings b WHERE b.id = booking_id AND b.org_id = org_id));
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.invoices TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.invoices TO service_role;  -- created after the blanket service_role grant, so grant explicitly
 CREATE TRIGGER invoices_updated BEFORE UPDATE ON public.invoices
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 

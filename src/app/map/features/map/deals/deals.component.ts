@@ -51,8 +51,9 @@ export class DealsComponent implements OnInit {
 
     const backTo = this.route.snapshot.queryParamMap.get('backTo');
     const backBtn = backTo === 'list' ? { label: 'Back', accent: true } : { label: 'Back to map' };
-    // Panel open, but the map shows experience pins (not provider self-pins).
+    // Panel open, but the map shows experience pins (not provider self-pins) — individually, no clusters.
     this.bridge.enterPanelMode([], backBtn);
+    this.bridge.clusterPins.set(false);
     this.bridge.experiencePins.set(getExperiencePins(this.allProviders));
 
     this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef))

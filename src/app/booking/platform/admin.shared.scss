@@ -3,8 +3,17 @@
 @forward '../booking.styles';
 @use '../booking.styles' as *;
 
-.page { padding: 32px 36px; max-width: 720px; }
-.page__head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page { padding: 32px 40px; max-width: 1200px;
+  @media (max-width: 760px) { padding: 20px 16px; }
+}
+.page__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 24px;
+  flex-wrap: wrap;   // title + action stack instead of overflowing on narrow screens
+}
+// Canonical page-header action group — use on EVERY page's header (single button or several).
+// Wraps within the screen on mobile so it never forces horizontal overflow.
+.head-actions { display: flex; flex-wrap: wrap; gap: 8px; flex-shrink: 0;
+  @media (max-width: 640px) { width: 100%; .btn { flex: 1 1 auto; justify-content: center; } }
+}
 .page__title { font-size: 22px; font-weight: 800; color: $text; margin: 0 0 4px; letter-spacing: -0.02em; }
 .page__sub { font-size: 13.5px; color: $text-2; margin: 0; }
 .muted { color: $text-2; font-size: 14px; }

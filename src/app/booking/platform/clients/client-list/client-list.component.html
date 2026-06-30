@@ -4,10 +4,12 @@
       <h1 class="page__title">Clients</h1>
       <p class="page__sub">Everyone you've worked with</p>
     </div>
-    <button class="btn btn--primary" (click)="openNew()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>
-      New client
-    </button>
+    <div class="head-actions">
+      <button class="btn btn--primary" (click)="openNew()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>
+        New client
+      </button>
+    </div>
   </div>
 
   @if (data.clients().length === 0) {
@@ -29,13 +31,13 @@
         <tbody>
           @for (c of data.clients(); track c.id) {
             <tr class="row" (click)="openEdit(c)">
-              <td class="cell--client">{{ c.name }}</td>
-              <td>{{ c.email ?? '—' }}</td>
-              <td>{{ c.phone ?? '—' }}</td>
-              <td>{{ c.company ?? '—' }}</td>
-              <td>{{ c.vat_number ?? '—' }}</td>
-              <td class="cell--date">{{ c.created_at | date:'d MMM yy' }}</td>
-              <td class="cell--edit"><span class="link">Edit</span></td>
+              <td class="cell--client" data-label="Name">{{ c.name }}</td>
+              <td data-label="Email">{{ c.email ?? '—' }}</td>
+              <td data-label="Phone">{{ c.phone ?? '—' }}</td>
+              <td data-label="Company">{{ c.company ?? '—' }}</td>
+              <td data-label="VAT">{{ c.vat_number ?? '—' }}</td>
+              <td class="cell--date" data-label="Since">{{ c.created_at | date:'d MMM yy' }}</td>
+              <td class="cell--edit" data-label=""><span class="link">Edit</span></td>
             </tr>
           }
         </tbody>
