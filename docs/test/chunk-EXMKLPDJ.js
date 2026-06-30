@@ -13,7 +13,7 @@ import {
   getIslandLabel,
   matchesFilter,
   normalizeForSearch
-} from "./chunk-7R4CYAI3.js";
+} from "./chunk-OTAIUBJR.js";
 import "./chunk-GCGHXSHH.js";
 import {
   providers
@@ -495,4 +495,4 @@ var LocationListComponent = class _LocationListComponent {
 export {
   LocationListComponent
 };
-//# sourceMappingURL=chunk-WHUVGLW2.js.map
+//# sourceMappingURL=chunk-EXMKLPDJ.js.map

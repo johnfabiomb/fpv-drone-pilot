@@ -66,20 +66,13 @@ function difficultyColor(difficulty) {
       return "#f59e0b";
   }
 }
-function slugHash(slug, seed) {
-  let h = seed;
-  for (let i = 0; i < slug.length; i++) {
-    h = h * 31 + slug.charCodeAt(i) | 0;
-  }
-  return Math.abs(h);
-}
 function locationPublicStats(slug) {
   return {
-    views: slugHash(slug, 5381) % 2e3 + 500,
+    views: 0,
     // 500–2499
-    saves: slugHash(slug, 7919) % 270 + 30,
+    saves: 0,
     // 30–299
-    shares: slugHash(slug, 3307) % 95 + 8
+    shares: 0
     // 8–102
   };
 }
@@ -97,4 +90,4 @@ export {
   locationPublicStats,
   fmtStatCount
 };
-//# sourceMappingURL=chunk-7R4CYAI3.js.map
+//# sourceMappingURL=chunk-OTAIUBJR.js.map

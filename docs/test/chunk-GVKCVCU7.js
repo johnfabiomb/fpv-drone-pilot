@@ -4,7 +4,7 @@ import {
 import {
   difficultyColor,
   getIslandLabel
-} from "./chunk-7R4CYAI3.js";
+} from "./chunk-OTAIUBJR.js";
 import {
   UserDataService
 } from "./chunk-XVTWIPJM.js";
@@ -275,4 +275,4 @@ var SavedPlacesComponent = class _SavedPlacesComponent {
 export {
   SavedPlacesComponent
 };
-//# sourceMappingURL=chunk-GBWENWMI.js.map
+//# sourceMappingURL=chunk-GVKCVCU7.js.map

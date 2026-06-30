@@ -166,7 +166,8 @@ var REVEALED = [
   { num: 21, name: "G\u0127ar \u0126anex Sea Cave", id: 74 },
   { num: 22, name: "Carolina Grotto, Xlendi", id: 58 },
   { num: 23, name: "Il-Kalanka, Delimara", id: 75 },
-  { num: 24, name: "Paradise Bay", id: 55 }
+  { num: 24, name: "Paradise Bay", id: 55 },
+  { num: 25, name: "Im\u0121ieba\u0127 Beach", id: 76 }
 ];
 var TOTAL = 30;
 var TopPlacesComponent = class _TopPlacesComponent {
@@ -303,9 +304,9 @@ var TopPlacesComponent = class _TopPlacesComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/map/pages/top-places/top-places.component.ts", lineNumber: 49 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/map/pages/top-places/top-places.component.ts", lineNumber: 50 });
 })();
 export {
   TopPlacesComponent
 };
-//# sourceMappingURL=chunk-WSKONABB.js.map
+//# sourceMappingURL=chunk-O2ZB5QNK.js.map

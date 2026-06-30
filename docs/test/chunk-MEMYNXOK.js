@@ -54,7 +54,7 @@ var mapRoutes = [
         children: [
           {
             path: "",
-            loadComponent: () => import("./chunk-A2EJ6O4N.js").then((m) => m.MapShellComponent),
+            loadComponent: () => import("./chunk-WGBHDBDK.js").then((m) => m.MapShellComponent),
             children: [
               {
                 path: "",
@@ -63,7 +63,7 @@ var mapRoutes = [
               },
               {
                 path: "list",
-                loadComponent: () => import("./chunk-WHUVGLW2.js").then((m) => m.LocationListComponent)
+                loadComponent: () => import("./chunk-EXMKLPDJ.js").then((m) => m.LocationListComponent)
               },
               {
                 path: "deals",
@@ -83,11 +83,11 @@ var mapRoutes = [
               },
               {
                 path: "locations/:slug",
-                loadComponent: () => import("./chunk-SKIJ4VIW.js").then((m) => m.LocationPageComponent)
+                loadComponent: () => import("./chunk-U4LTT3PC.js").then((m) => m.LocationPageComponent)
               },
               {
                 path: "saved",
-                loadComponent: () => import("./chunk-GBWENWMI.js").then((m) => m.SavedPlacesComponent)
+                loadComponent: () => import("./chunk-GVKCVCU7.js").then((m) => m.SavedPlacesComponent)
               },
               {
                 path: "admin",
@@ -102,7 +102,7 @@ var mapRoutes = [
               {
                 path: "groups/:id",
                 canMatch: [() => FEATURES.GROUPS],
-                loadComponent: () => import("./chunk-BGGGS7OH.js").then((m) => m.GroupDetailComponent)
+                loadComponent: () => import("./chunk-HRKZAOX2.js").then((m) => m.GroupDetailComponent)
               },
               {
                 path: "notifications",
@@ -112,7 +112,7 @@ var mapRoutes = [
           },
           {
             path: "30-places-2026",
-            loadComponent: () => import("./chunk-WSKONABB.js").then((m) => m.TopPlacesComponent)
+            loadComponent: () => import("./chunk-O2ZB5QNK.js").then((m) => m.TopPlacesComponent)
           },
           {
             path: "leaderboard",
@@ -135,4 +135,4 @@ var mapRoutes = [
 export {
   mapRoutes
 };
-//# sourceMappingURL=chunk-CFGAEWEE.js.map
+//# sourceMappingURL=chunk-MEMYNXOK.js.map

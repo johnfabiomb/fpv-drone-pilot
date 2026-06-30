@@ -14,7 +14,7 @@ import {
 } from "./chunk-MPKSAMEJ.js";
 import {
   normalizeForSearch
-} from "./chunk-7R4CYAI3.js";
+} from "./chunk-OTAIUBJR.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -3107,4 +3107,4 @@ var GroupDetailComponent = class _GroupDetailComponent {
 export {
   GroupDetailComponent
 };
-//# sourceMappingURL=chunk-BGGGS7OH.js.map
+//# sourceMappingURL=chunk-HRKZAOX2.js.map

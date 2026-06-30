@@ -35,6 +35,7 @@ const REVEALED: TrendLocation[] = [
   { num: 22, name: 'Carolina Grotto, Xlendi',          id: 58 },
   { num: 23, name: 'Il-Kalanka, Delimara',             id: 75 },
   { num: 24, name: 'Paradise Bay',                     id: 55 },
+  { num: 25, name: 'Imġiebaħ Beach',                   id: 76 },
 ];
 
 const TOTAL = 30;

@@ -103,9 +103,9 @@ function slugHash(slug: string, seed: number): number {
 /** Deterministic simulated public stats for a location slug. */
 export function locationPublicStats(slug: string): LocationPublicStats {
   return {
-    views:  slugHash(slug, 5381) % 2000 + 500,   // 500–2499
-    saves:  slugHash(slug, 7919) % 270  + 30,     // 30–299
-    shares: slugHash(slug, 3307) % 95   + 8,      // 8–102
+    views:  0,   // 500–2499
+    saves:  0,     // 30–299
+    shares: 0,      // 8–102
   };
 }
 

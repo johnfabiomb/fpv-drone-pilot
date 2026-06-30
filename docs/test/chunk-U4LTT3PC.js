@@ -30,7 +30,7 @@ import {
   fmtStatCount,
   getIsland,
   locationPublicStats
-} from "./chunk-7R4CYAI3.js";
+} from "./chunk-OTAIUBJR.js";
 import "./chunk-6YZJQBTJ.js";
 import {
   UserDataService
@@ -1381,4 +1381,4 @@ var LocationPageComponent = class _LocationPageComponent {
 export {
   LocationPageComponent
 };
-//# sourceMappingURL=chunk-SKIJ4VIW.js.map
+//# sourceMappingURL=chunk-U4LTT3PC.js.map
