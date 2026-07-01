@@ -14,7 +14,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-S4VZANIJ.js";
+} from "./chunk-ZFAP7T6G.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -27263,7 +27263,7 @@ var MapComponent = class _MapComponent {
       }
     }
     if (FEATURES.PROMOTIONS) {
-      const addPromo = (feats, kind) => this.clusterSource.addFeatures(this._clusterPins ? this.clusterNearbyPins(feats, kind) : feats);
+      const addPromo = (feats, kind) => this.clusterSource.addFeatures(this._clusterPins && shouldCluster ? this.clusterNearbyPins(feats, kind) : feats);
       if (this.experienceFeatures.length)
         addPromo(this.experienceFeatures, "experience");
       if (this.eventFeatures.length)
@@ -27306,21 +27306,26 @@ var MapComponent = class _MapComponent {
     }
     return out;
   }
-  // Frame exactly the cluster's members — no more, no less. Fitting their bounding box
-  // spreads them across the viewport, which also drops them out of the cluster. maxZoom
-  // only caps the tiny-extent case (near-identical coords) so a tap never slams all the
-  // way in. Single member → just centre on it.
+  // Expand a cluster to its individual pins in a single tap. Fit frames the members; the
+  // callback then guarantees the final zoom is at or above CLUSTER_ZOOM — where overlay
+  // pins never cluster — so a wide cluster can't land back below the threshold and re-form
+  // a smaller cluster. Mirrors the locality-cluster click handler. Single member → centre.
   expandPinCluster(members) {
     const view = this.map.getView();
     const coords = members.map((f) => f.getGeometry().getCoordinates());
     if (coords.length === 1) {
-      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, 15), duration: 400 });
+      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, CLUSTER_ZOOM), duration: 400 });
       return;
     }
     view.fit(boundingExtent(coords), {
       padding: PIN_FIT_PADDING,
       duration: 400,
-      maxZoom: 17
+      maxZoom: 16,
+      callback: () => {
+        const z = view.getZoom() ?? 0;
+        if (z < CLUSTER_ZOOM)
+          view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
+      }
     });
   }
   // Representative cover for a cluster: soonest event's poster, or any experience image.
@@ -29181,4 +29186,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-WGBHDBDK.js.map
+//# sourceMappingURL=chunk-O6SG36ZF.js.map

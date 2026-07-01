@@ -362,11 +362,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.clusterSource.addFeatures(this.filteredFeatures);
       }
     }
-    // Overlay pins cluster by proximity (count badge) on the explore map; the Events/Deals
-    // pages turn clustering off (clusterPins=false) to show every pin individually.
+    // Overlay pins follow the same single-level model as gems: a proximity count cluster
+    // only below CLUSTER_ZOOM, individual pins above it (so a tap on a cluster expands
+    // straight to its pins — never a nested smaller cluster). The Events/Deals pages turn
+    // clustering off entirely (clusterPins=false) to show every pin individually.
     if (FEATURES.PROMOTIONS) {
       const addPromo = (feats: Feature[], kind: 'event' | 'experience') =>
-        this.clusterSource.addFeatures(this._clusterPins ? this.clusterNearbyPins(feats, kind) : feats);
+        this.clusterSource.addFeatures(
+          this._clusterPins && shouldCluster ? this.clusterNearbyPins(feats, kind) : feats,
+        );
       if (this.experienceFeatures.length) addPromo(this.experienceFeatures, 'experience');
       if (this.eventFeatures.length) addPromo(this.eventFeatures, 'event');
     }
@@ -404,21 +408,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return out;
   }
 
-  // Frame exactly the cluster's members — no more, no less. Fitting their bounding box
-  // spreads them across the viewport, which also drops them out of the cluster. maxZoom
-  // only caps the tiny-extent case (near-identical coords) so a tap never slams all the
-  // way in. Single member → just centre on it.
+  // Expand a cluster to its individual pins in a single tap. Fit frames the members; the
+  // callback then guarantees the final zoom is at or above CLUSTER_ZOOM — where overlay
+  // pins never cluster — so a wide cluster can't land back below the threshold and re-form
+  // a smaller cluster. Mirrors the locality-cluster click handler. Single member → centre.
   private expandPinCluster(members: Feature[]): void {
     const view = this.map.getView();
     const coords = members.map(f => (f.getGeometry() as Point).getCoordinates());
     if (coords.length === 1) {
-      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, 15), duration: 400 });
+      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, CLUSTER_ZOOM), duration: 400 });
       return;
     }
     view.fit(boundingExtent(coords), {
       padding: PIN_FIT_PADDING,
       duration: 400,
-      maxZoom: 17,
+      maxZoom: 16,
+      callback: () => {
+        const z = view.getZoom() ?? 0;
+        if (z < CLUSTER_ZOOM) view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
+      },
     });
   }
 

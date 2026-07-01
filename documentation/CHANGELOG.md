@@ -6,6 +6,9 @@ All notable changes to Venture Map are recorded here.
 
 ## [Unreleased]
 
+### Fixed
+- **Event/experience map clusters are now single-level, like locations.** They cluster by proximity only below `CLUSTER_ZOOM` and show individual pins above it; tapping a cluster animates once to ≥ `CLUSTER_ZOOM` and expands straight to its pins — no more nested "cluster inside a cluster" on zoom-in. (`map.component.ts`: `refreshLayer` gates pin clustering by `shouldCluster`; `expandPinCluster` fits-then-bumps to the threshold.)
+
 ### Added
 - **New hidden-gem location: Imġiebaħ Beach (id 76)** — remote sandy bay below Selmun (Mellieħa), with a ~700 m parking→beach walking route. Added to `locations.json`, `prerender-routes.txt`, and the sitemap. _Photos pending._
 - **Events & Deals pages show every pin (no clustering).** A `clusterPins` flag (default on) is turned off on `/malta/events` and `/malta/deals` so each event / experience renders as its own pin; the explore map still clusters.
