@@ -22,7 +22,7 @@ import {
 var mapRoutes = [
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-4VJ2WSWI.js").then((m) => m.MapRootComponent),
+    loadComponent: () => import("./chunk-DKRCXVJ4.js").then((m) => m.MapRootComponent),
     children: [
       {
         path: "",
@@ -54,7 +54,7 @@ var mapRoutes = [
         children: [
           {
             path: "",
-            loadComponent: () => import("./chunk-O6SG36ZF.js").then((m) => m.MapShellComponent),
+            loadComponent: () => import("./chunk-SRI2MMFP.js").then((m) => m.MapShellComponent),
             children: [
               {
                 path: "",
@@ -135,4 +135,4 @@ var mapRoutes = [
 export {
   mapRoutes
 };
-//# sourceMappingURL=chunk-KYK4DD5H.js.map
+//# sourceMappingURL=chunk-56PQ46JA.js.map
