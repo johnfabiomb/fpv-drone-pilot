@@ -38,4 +38,22 @@ function rewriteMeta(shell, m) {
   return html;
 }
 
-module.exports = { rewriteMeta };
+// A minimal boot loader that replaces the prerendered page DOM inside <app-root> in
+// the fallback/share shells. Without this, docs/404.html (a copy of the prerendered
+// landing page) paints the LANDING for a frame before Angular boots and routes to the
+// real page. Angular clears <app-root>'s children on bootstrap, so the spinner + its
+// <style> vanish once the app renders. Head/scripts/base-href are left untouched.
+const BOOT_LOADER =
+  '<style>@keyframes jm-spin{to{transform:rotate(360deg)}}</style>' +
+  '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#fff">' +
+  '<div style="width:34px;height:34px;border:3px solid #e5e7eb;border-top-color:#F4A922;border-radius:50%;animation:jm-spin .7s linear infinite"></div>' +
+  '</div>';
+
+// Strip the prerendered page DOM from inside <app-root>, leaving a clean root + boot
+// loader. Preserves <head>, <base href>, and every <script>/<link> bundle tag (outside
+// <app-root>), so the SPA still boots in place at the requested URL.
+function stripAppShell(html) {
+  return html.replace(/<app-root[\s\S]*?<\/app-root>/i, `<app-root>${BOOT_LOADER}</app-root>`);
+}
+
+module.exports = { rewriteMeta, stripAppShell };

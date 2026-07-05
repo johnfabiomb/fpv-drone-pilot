@@ -81,18 +81,8 @@ export class MapExploreComponent implements OnInit {
     this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.nav.back(params));
 
-    // Provider pin tapped on map → navigate to provider page
-    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(p => this.router.navigate(['/malta/providers', p.id]));
-
-    // Experience pin tapped on map → navigate to the experience page
-    this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(e => this.router.navigate(['/malta/experiences', e.id]));
-
-    // Event venue pin tapped on map → open the events page pre-filtered to that venue
-    this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(pin => this.router.navigate(['/malta/events'], { queryParams: { venue: pin.venue } }));
-
+    // Provider / experience / event pin taps are handled globally by the persistent shell
+    // (MapShellComponent) so a re-selection works from any panel, not just here.
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(loc => { if (loc) this.router.navigate(['/malta/locations', loc.slug]); });
   }

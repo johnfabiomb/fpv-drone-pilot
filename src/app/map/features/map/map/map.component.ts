@@ -237,7 +237,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: FeatureLike) => f);
+      // hitTolerance gives taps a few px of slop so a click near a pin (or on a
+      // transparent part of a cluster's photo/count canvas) still registers — the promo
+      // clusters used to silently miss on their transparent areas.
+      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f: FeatureLike) => f, { hitTolerance: 8 });
       if (!feature) { this.mapTapped.emit(); return; }
 
       if (feature.get('type') === 'meeting-point') {
@@ -260,32 +263,24 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      if (feature.get('type') === 'pin-cluster') {
-        this.expandPinCluster(feature.get('members'));
+      // Both cluster kinds — location localities and event/experience proximity groups —
+      // expand identically: frame the members, then land at/above CLUSTER_ZOOM (where
+      // nothing re-clusters). One shared path so promo clusters behave exactly like the
+      // location clusters that already work. Members live under 'features' (locality) or
+      // 'members' (promo).
+      const type = feature.get('type');
+      if (type === 'locality-cluster' || type === 'pin-cluster') {
+        this.zoomToCluster(feature.get('features') ?? feature.get('members'));
         return;
       }
 
-      if (feature.get('type') === 'locality-cluster') {
-        const sub: Feature[] = feature.get('features');
-        const coords = sub.map(f => (f.getGeometry() as Point).getCoordinates());
-        const extent = boundingExtent(coords);
-        this.map.getView().fit(extent, {
-          padding: [80, 80, 80, 80], duration: 400, maxZoom: 14, callback: () => {
-            const z = this.map.getView().getZoom() ?? 0;
-            if (z < CLUSTER_ZOOM) {
-              this.map.getView().animate({ zoom: CLUSTER_ZOOM, duration: 200 });
-            }
-          },
-        });
-      } else {
-        const location = feature.get('location');
-        if (location) this.clickon(location);
-        else this.mapTapped.emit();
-      }
+      const location = feature.get('location');
+      if (location) this.clickon(location);
+      else this.mapTapped.emit();
     });
 
     this.map.on('pointermove', (evt: MapBrowserEvent<UIEvent>) => {
-      const hit = this.map.hasFeatureAtPixel(evt.pixel);
+      const hit = this.map.hasFeatureAtPixel(evt.pixel, { hitTolerance: 8 });
       (this.map.getTargetElement() as HTMLElement).style.cursor = hit ? 'pointer' : '';
     });
 
@@ -408,26 +403,22 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return out;
   }
 
-  // Expand a cluster to its individual pins in a single tap. Fit frames the members; the
-  // callback then guarantees the final zoom is at or above CLUSTER_ZOOM — where overlay
-  // pins never cluster — so a wide cluster can't land back below the threshold and re-form
-  // a smaller cluster. Mirrors the locality-cluster click handler. Single member → centre.
-  private expandPinCluster(members: Feature[]): void {
+  // Expand ANY cluster (location locality or event/experience proximity group) to its
+  // individual pins in a single tap: frame the members, then guarantee the final zoom is
+  // at or above CLUSTER_ZOOM — where nothing re-clusters — so a wide cluster can't land
+  // back below the threshold and re-form a smaller cluster. Single member → centre on it.
+  private zoomToCluster(members: Feature[]): void {
     const view = this.map.getView();
     const coords = members.map(f => (f.getGeometry() as Point).getCoordinates());
+    const settle = () => {
+      const z = view.getZoom() ?? 0;
+      if (z < CLUSTER_ZOOM) view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
+    };
     if (coords.length === 1) {
-      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, CLUSTER_ZOOM), duration: 400 });
+      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? CLUSTER_ZOOM, CLUSTER_ZOOM), duration: 400 });
       return;
     }
-    view.fit(boundingExtent(coords), {
-      padding: PIN_FIT_PADDING,
-      duration: 400,
-      maxZoom: 16,
-      callback: () => {
-        const z = view.getZoom() ?? 0;
-        if (z < CLUSTER_ZOOM) view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
-      },
-    });
+    view.fit(boundingExtent(coords), { padding: [80, 80, 80, 80], duration: 400, maxZoom: 15, callback: settle });
   }
 
   // Representative cover for a cluster: soonest event's poster, or any experience image.

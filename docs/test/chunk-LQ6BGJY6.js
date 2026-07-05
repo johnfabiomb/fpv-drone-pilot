@@ -14,7 +14,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-VPFMQFMV.js";
+} from "./chunk-BGWUBK6Y.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -27150,7 +27150,7 @@ var MapComponent = class _MapComponent {
         this.coordPicked.emit({ lat, lon });
         return;
       }
-      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f) => f);
+      const feature = this.map.forEachFeatureAtPixel(evt.pixel, (f) => f, { hitTolerance: 8 });
       if (!feature) {
         this.mapTapped.emit();
         return;
@@ -27171,35 +27171,19 @@ var MapComponent = class _MapComponent {
         this.eventVenueSelected.emit(feature.get("venuePin"));
         return;
       }
-      if (feature.get("type") === "pin-cluster") {
-        this.expandPinCluster(feature.get("members"));
+      const type = feature.get("type");
+      if (type === "locality-cluster" || type === "pin-cluster") {
+        this.zoomToCluster(feature.get("features") ?? feature.get("members"));
         return;
       }
-      if (feature.get("type") === "locality-cluster") {
-        const sub = feature.get("features");
-        const coords = sub.map((f) => f.getGeometry().getCoordinates());
-        const extent = boundingExtent(coords);
-        this.map.getView().fit(extent, {
-          padding: [80, 80, 80, 80],
-          duration: 400,
-          maxZoom: 14,
-          callback: () => {
-            const z = this.map.getView().getZoom() ?? 0;
-            if (z < CLUSTER_ZOOM) {
-              this.map.getView().animate({ zoom: CLUSTER_ZOOM, duration: 200 });
-            }
-          }
-        });
-      } else {
-        const location = feature.get("location");
-        if (location)
-          this.clickon(location);
-        else
-          this.mapTapped.emit();
-      }
+      const location = feature.get("location");
+      if (location)
+        this.clickon(location);
+      else
+        this.mapTapped.emit();
     });
     this.map.on("pointermove", (evt) => {
-      const hit = this.map.hasFeatureAtPixel(evt.pixel);
+      const hit = this.map.hasFeatureAtPixel(evt.pixel, { hitTolerance: 8 });
       this.map.getTargetElement().style.cursor = hit ? "pointer" : "";
     });
     if (this._selectedLocation)
@@ -27306,27 +27290,23 @@ var MapComponent = class _MapComponent {
     }
     return out;
   }
-  // Expand a cluster to its individual pins in a single tap. Fit frames the members; the
-  // callback then guarantees the final zoom is at or above CLUSTER_ZOOM — where overlay
-  // pins never cluster — so a wide cluster can't land back below the threshold and re-form
-  // a smaller cluster. Mirrors the locality-cluster click handler. Single member → centre.
-  expandPinCluster(members) {
+  // Expand ANY cluster (location locality or event/experience proximity group) to its
+  // individual pins in a single tap: frame the members, then guarantee the final zoom is
+  // at or above CLUSTER_ZOOM — where nothing re-clusters — so a wide cluster can't land
+  // back below the threshold and re-form a smaller cluster. Single member → centre on it.
+  zoomToCluster(members) {
     const view = this.map.getView();
     const coords = members.map((f) => f.getGeometry().getCoordinates());
+    const settle = () => {
+      const z = view.getZoom() ?? 0;
+      if (z < CLUSTER_ZOOM)
+        view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
+    };
     if (coords.length === 1) {
-      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? 14, CLUSTER_ZOOM), duration: 400 });
+      view.animate({ center: coords[0], zoom: Math.max(view.getZoom() ?? CLUSTER_ZOOM, CLUSTER_ZOOM), duration: 400 });
       return;
     }
-    view.fit(boundingExtent(coords), {
-      padding: PIN_FIT_PADDING,
-      duration: 400,
-      maxZoom: 16,
-      callback: () => {
-        const z = view.getZoom() ?? 0;
-        if (z < CLUSTER_ZOOM)
-          view.animate({ zoom: CLUSTER_ZOOM, duration: 200 });
-      }
-    });
+    view.fit(boundingExtent(coords), { padding: [80, 80, 80, 80], duration: 400, maxZoom: 15, callback: settle });
   }
   // Representative cover for a cluster: soonest event's poster, or any experience image.
   clusterRepImage(group, kind) {
@@ -29024,6 +29004,9 @@ var MapShellComponent = class _MapShellComponent {
     this.bridge.scrollToTop$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.panelWrap?.nativeElement?.scrollTo({ top: 0 });
     });
+    this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((e) => this.router.navigate(["/malta/experiences", e.id]));
+    this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((pin) => this.router.navigate(["/malta/events"], { queryParams: { venue: pin.venue } }));
+    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((p) => this.router.navigate(["/malta/providers", p.id]));
   }
   ngOnDestroy() {
     this.bridge.destroy();
@@ -29186,4 +29169,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-SRI2MMFP.js.map
+//# sourceMappingURL=chunk-LQ6BGJY6.js.map

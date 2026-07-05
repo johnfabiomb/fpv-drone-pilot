@@ -89,9 +89,6 @@ var MapExploreComponent = class _MapExploreComponent {
     }
     this.bridge.enterExploreMode(this.mapProviders, this.resolveBackBtn(backTo));
     this.bridge.floatingBackBtnClicked$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.nav.back(params));
-    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((p) => this.router.navigate(["/malta/providers", p.id]));
-    this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((e) => this.router.navigate(["/malta/experiences", e.id]));
-    this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((pin) => this.router.navigate(["/malta/events"], { queryParams: { venue: pin.venue } }));
     this.bridge.locationSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loc) => {
       if (loc)
         this.router.navigate(["/malta/locations", loc.slug]);
@@ -120,4 +117,4 @@ var MapExploreComponent = class _MapExploreComponent {
 export {
   MapExploreComponent
 };
-//# sourceMappingURL=chunk-7NHUAGIN.js.map
+//# sourceMappingURL=chunk-OTVVTPOO.js.map

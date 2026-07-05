@@ -84,6 +84,19 @@ export class MapShellComponent implements AfterViewInit, OnDestroy {
     this.bridge.scrollToTop$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.panelWrap?.nativeElement?.scrollTo({ top: 0 });
     });
+
+    // Promo/provider pin taps navigate from the PERSISTENT shell, so a selection works from
+    // any panel — including a detail page (experience/event) that keeps its pins visible,
+    // where the explore child that used to own this is already destroyed. Detail pages then
+    // react to their own route param, so tapping a second pin switches instead of sticking.
+    // (Location taps stay per-page: location pins are hidden while a location panel is open,
+    // so there's nothing to re-tap there.)
+    this.bridge.experienceSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(e => this.router.navigate(['/malta/experiences', e.id]));
+    this.bridge.eventVenueSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(pin => this.router.navigate(['/malta/events'], { queryParams: { venue: pin.venue } }));
+    this.bridge.providerPinSelected$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(p => this.router.navigate(['/malta/providers', p.id]));
   }
 
   ngOnDestroy(): void {

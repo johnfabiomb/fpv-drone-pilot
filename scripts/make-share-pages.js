@@ -11,10 +11,12 @@
 // Token-in-PATH links like /book/:token (pay link) can't have a per-file page;
 // they fall back to docs/404.html, which make-404.js gives a branded booking card.
 //
-// Each page is the built SPA shell (docs/index.html) with its head meta swapped.
+// Each page is the built SPA shell (docs/index.html, the prerendered LANDING page)
+// with its landing DOM stripped to a neutral boot loader (stripAppShell) and its head
+// meta swapped — so the human sees a brief spinner, not a flash of the landing page.
 const fs = require('fs');
 const path = require('path');
-const { rewriteMeta } = require('./og-meta');
+const { rewriteMeta, stripAppShell } = require('./og-meta');
 
 const docs = path.join(__dirname, '..', 'docs');
 const ORIGIN = 'https://johnfabiomb.com';
@@ -42,7 +44,7 @@ const PAGES = [
   },
 ];
 
-const shell = fs.readFileSync(path.join(docs, 'index.html'), 'utf8');
+const shell = stripAppShell(fs.readFileSync(path.join(docs, 'index.html'), 'utf8'));
 for (const p of PAGES) {
   const outDir = path.join(docs, p.dir);
   fs.mkdirSync(outDir, { recursive: true });
