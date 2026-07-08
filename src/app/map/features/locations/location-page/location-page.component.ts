@@ -260,10 +260,10 @@ export class LocationPageComponent implements OnInit {
   }
 
   private loadLocation(slug: string): void {
-    // Support both slug and numeric-id (for any lingering old links)
+    // Resolve by canonical slug, a retired slug alias, or numeric id (lingering old links)
     const numId = parseInt(slug, 10);
     this.location = isNaN(numId)
-      ? (locations as AppLocation[]).find(l => l.slug === slug) ?? null
+      ? (locations as AppLocation[]).find(l => l.slug === slug || l.slugAliases?.includes(slug)) ?? null
       : (locations as AppLocation[]).find(l => l.id === numId) ?? null;
 
     if (!this.location) {
@@ -271,8 +271,9 @@ export class LocationPageComponent implements OnInit {
       return;
     }
 
-    // Canonical redirect: numeric id → slug URL (paramMap will fire again with the slug)
-    if (!isNaN(numId)) {
+    // Canonical redirect: numeric id or an old slug alias → the canonical slug URL
+    // (paramMap fires again with the canonical slug, which then loads normally).
+    if (slug !== this.location.slug) {
       this.router.navigate(
         ['/malta/locations', this.location.slug],
         { replaceUrl: true, queryParamsHandling: 'preserve' },

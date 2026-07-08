@@ -41,6 +41,7 @@ export const ExperienceType = {
   TukTuk:    'tuktuk',
   Jeep:      'jeep',
   Boat:      'boat',
+  Kayak:     'kayak',
   Dive:      'dive',
   Stay:      'stay',
 } as const;

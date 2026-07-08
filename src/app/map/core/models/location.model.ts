@@ -22,6 +22,7 @@ export interface Location {
   id: number;
   title: string;
   slug: string;
+  slugAliases?: string[];  // old slugs kept alive — resolve here, then redirect to `slug`
   description: string;
   img: string;
   thumb?: string;

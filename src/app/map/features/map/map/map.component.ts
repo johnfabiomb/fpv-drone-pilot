@@ -736,7 +736,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   // pins, and lazily at render time for photo pins once the cover is decoded.
   private buildProviderCanvas(p: Provider, img?: HTMLImageElement): HTMLCanvasElement {
     const savings = p.discount && isDiscountValid(p.discount) ? p.discount.shortLabel : undefined;
-    const label = savings ?? p.mapLabel ?? '🏷️ Deal';
+    const label = savings ?? p.mapLabel ?? 'Deal';
     const pillColor = p.category === 'group' ? '#D4900A' : (savings ? '#D4A017' : undefined);
 
     let pin: HTMLCanvasElement;
@@ -888,7 +888,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private buildExperienceCanvas(experience: Experience, provider: Provider, img?: HTMLImageElement): HTMLCanvasElement {
     const discount = resolveExperienceDiscount(experience, provider);
     const savings = discount && isDiscountValid(discount) ? discount.shortLabel : undefined;
-    const label = savings ?? '🏷️ Deal';
+    const label = savings ?? 'Deal';
     const pillColor = savings ? '#D4A017' : undefined;
 
     let canvas: HTMLCanvasElement;

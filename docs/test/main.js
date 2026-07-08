@@ -207,7 +207,7 @@ var routes = [
   // Handles /malta, /privacy, /contact, /pay, … (everything except the bare root).
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-BPGFHXUW.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-6ICQSMJ5.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 

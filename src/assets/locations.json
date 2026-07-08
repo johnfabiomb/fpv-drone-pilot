@@ -4295,19 +4295,20 @@
         },
         {
             "id": 77,
-            "title": "Hidden Sea Cave near Xlendi",
-            "slug": "hidden-sea-cave-near-xlendi",
-            "description": "On Gozo's south coast, west of <b>Xlendi Bay</b>, a huge natural sea arch cuts into the rugged cliffs — a cathedral-like cave of raw, weathered rock quite unlike the smooth pale grottoes elsewhere on the island. It has no official name and no path from land: the only way in is by water. Launch a kayak from Xlendi Bay and paddle roughly a kilometre along the Sanap cliffs, and you'll round into a wide, shaded chamber opening onto deep turquoise water. Inside there's room to swim, snorkel along the rocky edges, or climb the pitted ledges for a cliff jump into the clear blue below. There are no facilities and the sea is the only access, so pick a calm day, bring water and shoes with grip, and check the swell and wind before you set off.",
-            "img": "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi.webp",
-            "thumb": "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-thumb.webp",
+            "title": "L-Għar ta' Santa Katarina",
+            "slug": "l-ghar-ta-santa-katarina",
+            "slugAliases": ["hidden-sea-cave-near-xlendi"],
+            "description": "Tucked into the rugged cliffs west of <b>Xlendi Bay</b>, on Gozo's wild southern coast, <b>L-Għar ta' Santa Katarina</b> — Saint Catherine's Cave — is one of those places you only ever stumble on from the water. There's no path down and no sign pointing the way: you rent a kayak or paddleboard in Xlendi and follow the cliffs for fifteen or twenty minutes until a gargantuan cavern opens up ahead, complete with its own little rock beach hidden inside. The rock here is raw and weathered — nothing like the smooth pale grottoes elsewhere on the island — and the water glows an unreal turquoise beneath the arch. It's a dream spot to swim, snorkel the small reef and canyon along the edges, or scramble up the pitted ledges for a cliff jump into the deep blue. Look closely at the walls and you'll find graffiti carved into the rock a century ago by earlier visitors. Bring everything you need — there are no facilities out here — pick a calm day, and keep an eye on the swell and wind before you set off.",
+            "img": "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina.webp",
+            "thumb": "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina-thumb.webp",
             "images": [
-                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi.webp",
-                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-2.webp",
-                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-3.webp"
+                "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina.webp",
+                "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina-2.webp",
+                "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina-3.webp"
             ],
             "lon": 14.209393688978437,
             "lat": 36.03273534625865,
-            "keywords": "hidden sea cave Gozo, Xlendi sea cave, Sanap cliffs, Gozo kayaking cave, sea arch, cliff jumping, swimming, snorkeling, Xlendi Bay, Munxar, Malta",
+            "keywords": "L-Għar ta' Santa Katarina, Santa Katarina cave, Saint Catherine's cave Gozo, Xlendi sea cave, Għar Santa Katarina, Gozo kayaking cave, sea arch, cliff jumping, snorkeling, Xlendi Bay, Munxar, Gozo, Malta",
             "rating": 4.7,
             "mapPoints": [
                 {
@@ -4403,7 +4404,7 @@
                     "type": "waypoint"
                 },
                 {
-                    "label": "Hidden Sea Cave",
+                    "label": "L-Għar ta' Santa Katarina",
                     "description": "Open this exact spot in Google Maps.",
                     "lon": 14.209393688978437,
                     "lat": 36.03273534625865,

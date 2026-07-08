@@ -91,6 +91,9 @@
 /malta/locations/ghar-hanex
 /malta/locations/il-kalanka
 /malta/locations/imgiebah-beach
+/malta/locations/l-ghar-ta-santa-katarina
 /malta/locations/hidden-sea-cave-near-xlendi
 /malta/providers/yippee-malta
+/malta/providers/gozo-kayak-tours
+/malta/experiences/gozo-kayak-sea-caves
 /malta/leaderboard

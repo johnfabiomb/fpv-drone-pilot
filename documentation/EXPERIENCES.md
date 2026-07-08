@@ -42,7 +42,7 @@ Add an `experiences` array to a provider. Example:
 | `id` | Yes | Unique across **all** providers. Used in `/malta/experiences/:id` — freeze it once published. |
 | `providerId` | Yes | Must equal the parent provider's `id`. |
 | `title` | Yes | Display name. |
-| `type` | Yes | Drives the pin icon. One of `ExperienceType` (`enums.ts`): `wakeboard`, `wakesurf`, `wakefoil`, `tube`, `buggy`, `quad`, `tuktuk`, `jeep`, `boat`, `dive`, `stay`. |
+| `type` | Yes | Drives the pin icon. One of `ExperienceType` (`enums.ts`): `wakeboard`, `wakesurf`, `wakefoil`, `tube`, `buggy`, `quad`, `tuktuk`, `jeep`, `boat`, `kayak`, `dive`, `stay`. |
 | `emoji` | No | Explicit pin icon, overrides the `type` default. |
 | `tagline` | Yes | One-line hook. |
 | `description` | Yes | HTML allowed. |

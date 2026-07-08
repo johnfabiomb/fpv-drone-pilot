@@ -469,7 +469,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnfabiomb.com/malta/locations/hidden-sea-cave-near-xlendi</loc>
+    <loc>https://johnfabiomb.com/malta/locations/l-ghar-ta-santa-katarina</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -488,6 +488,12 @@
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/providers/yippee-malta</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://johnfabiomb.com/malta/providers/gozo-kayak-tours</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -560,6 +566,12 @@
   </url>
   <url>
     <loc>https://johnfabiomb.com/malta/experiences/yippee-round-gozo-cruise</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://johnfabiomb.com/malta/experiences/gozo-kayak-sea-caves</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

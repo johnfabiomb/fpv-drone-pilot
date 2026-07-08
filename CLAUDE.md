@@ -528,7 +528,7 @@ Old `?locationId=X` and `?title=X` query-param URLs are still handled by `MapExp
 | `website` / `instagram` / `phone` | `string?` | Contact links |
 | `lat` / `lon` | `number?` | Required for map pin (`showOnMap: true`) |
 | `showOnMap` | `boolean?` | Whether a pin appears on the deals map |
-| `mapLabel` | `string?` | Text on the map pin pill (defaults to `'🏷️ Deal'`) |
+| `mapLabel` | `string?` | Text on the map pin pill (defaults to `'Deal'`) |
 | `nearLocationIds` | `number[]?` | Location IDs this provider is shown alongside in the location panel |
 | `experiences` | `Experience[]?` | What the provider lets you *do* — promoted as map pins (see below) |
 

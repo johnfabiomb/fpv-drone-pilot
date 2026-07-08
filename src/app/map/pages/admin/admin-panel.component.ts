@@ -110,7 +110,7 @@ import { ReportRow } from '@map/core/models/group.model';
               <option value="announcement">📢 Announcement</option>
               <option value="info">🔔 Info</option>
               <option value="new_location">📍 New location</option>
-              <option value="deal">🏷️ Deal</option>
+              <option value="deal">Deal</option>
               <option value="achievement">🏆 Achievement</option>
             </select>
 

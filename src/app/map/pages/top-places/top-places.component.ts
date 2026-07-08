@@ -36,7 +36,7 @@ const REVEALED: TrendLocation[] = [
   { num: 23, name: 'Il-Kalanka, Delimara',             id: 75 },
   { num: 24, name: 'Paradise Bay',                     id: 55 },
   { num: 25, name: 'Imġiebaħ Beach',                   id: 76 },
-  { num: 26, name: 'Hidden Sea Cave near Xlendi',      id: 77 },
+  { num: 26, name: "L-Għar ta' Santa Katarina",        id: 77 },
 ];
 
 const TOTAL = 30;

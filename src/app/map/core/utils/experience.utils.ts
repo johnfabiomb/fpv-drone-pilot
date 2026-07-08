@@ -14,6 +14,7 @@ const EXPERIENCE_ICONS: Record<ExperienceType, string> = {
   [ExperienceType.TukTuk]:    '🛺',
   [ExperienceType.Jeep]:      '🛻',
   [ExperienceType.Boat]:      '⛵',
+  [ExperienceType.Kayak]:     '🛶',
   [ExperienceType.Dive]:      '🤿',
   [ExperienceType.Stay]:      '🏨',
 };
@@ -72,20 +73,22 @@ export function resolveExperienceBookUrl(experience: Experience, provider: Provi
 
 /**
  * Experiences relevant to a location: any whose spot is tagged with the
- * location id, or whose nearest spot sits within NEAR_LOCATION_KM. Sorted by
- * distance from the location to that experience's closest spot.
+ * location id, or whose nearest spot sits within NEAR_LOCATION_KM.
+ * Explicitly-tagged experiences rank first (an intentional "this belongs here"
+ * beats a proximity coincidence); ties then break by distance.
  */
 export function getExperiencesNearLocation(
   location: Location,
   providers: Provider[],
 ): { experience: Experience; provider: Provider }[] {
   return getAllExperiences(providers)
-    .map(entry => ({ ...entry, dist: nearestSpotKm(location, entry.experience) }))
-    .filter(({ experience, dist }) =>
-      experience.spots.some(s => s.nearLocationIds?.includes(location.id)) ||
-      dist <= NEAR_LOCATION_KM,
-    )
-    .sort((a, b) => a.dist - b.dist)
+    .map(entry => ({
+      ...entry,
+      dist: nearestSpotKm(location, entry.experience),
+      tagged: entry.experience.spots.some(s => s.nearLocationIds?.includes(location.id)),
+    }))
+    .filter(({ tagged, dist }) => tagged || dist <= NEAR_LOCATION_KM)
+    .sort((a, b) => Number(b.tagged) - Number(a.tagged) || a.dist - b.dist)
     .map(({ experience, provider }) => ({ experience, provider }));
 }
 

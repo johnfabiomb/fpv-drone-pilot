@@ -15,7 +15,7 @@
       "lat": 35.8890523,
       "lon": 14.5077708,
       "showOnMap": true,
-      "mapLabel": "🏷️ Deal",
+      "mapLabel": "Deal",
       "nearLocationIds": [
         61,
         49,
@@ -118,7 +118,7 @@
       "lat": 36.03116279176611,
       "lon": 14.217932769075253,
       "showOnMap": true,
-      "mapLabel": "🏷️ Deal",
+      "mapLabel": "Deal",
       "nearLocationIds": [50, 73, 8, 9, 25, 23, 46, 38, 41, 63, 64, 65, 66, 68],
       "discount": {
         "label": "15% off Superior Rooms (Front & Rear) — Jun–Oct 2026",
@@ -185,7 +185,7 @@
       "lat": 36.0246,
       "lon": 14.2986,
       "showOnMap": true,
-      "mapLabel": "🏷️ Deal",
+      "mapLabel": "Deal",
       "nearLocationIds": [7, 14, 16, 17, 23, 25, 38, 41, 46, 50, 58, 62, 63, 64, 65, 66, 68, 73],
       "discount": {
         "label": "10% off any Gozo & Comino tour",
@@ -304,6 +304,58 @@
           "spots": [
             { "lat": 36.0480, "lon": 14.1880, "label": "Round Gozo & Comino" }
           ]
+        }
+      ]
+    },
+    {
+      "id": "gozo-kayak-tours",
+      "name": "Gozo Kayak Tours",
+      "category": "tours",
+      "color": "#0ea5e9",
+      "emoji": "🛶",
+      "tagline": "Guided sea-cave kayak tours from Xlendi Bay, Gozo",
+      "description": "<p><b>Gozo Kayak Tours</b> runs small-group guided kayak adventures from <b>Xlendi Bay</b>, based on the waterfront opposite The Boathouse Restaurant. Paddle Gozo's dramatic south coast to sea caves and hidden corners only reachable by water, through crystal-clear turquoise seas — with two swim stops inside the caves and plenty of time for photos.</p><p>Every tour is guided from start to finish: think sea caves, coastal adventures and calm, clear water. Great for beginners, couples, families and groups, with all the gear included — life jackets, snorkelling masks and dry bags, plus a small locker on land. Booking is quick and easy over WhatsApp.</p>",
+      "coverImage": "/assets/images/providers/gozo-kayak-tours/gozo-kayak-tour.webp",
+      "instagram": "gozokayaktours",
+      "phone": "+356 7750 4345",
+      "lat": 36.030503684908055,
+      "lon": 14.21660362034368,
+            "mapLabel": "Deal",
+      "highlights": [
+        "Guided kayak tours from Xlendi Bay, Gozo",
+        "Sea caves only reachable by kayak",
+        "Crystal-clear turquoise waters & coastal adventures",
+        "Great for beginners, couples, families & groups",
+        "Two swim stops inside the caves",
+        "Life jackets, snorkel masks & dry bags provided"
+      ],
+      "experiences": [
+        {
+          "id": "gozo-kayak-sea-caves",
+          "providerId": "gozo-kayak-tours",
+          "title": "Sea Cave Kayak Tour",
+          "type": "kayak",
+          "tagline": "Paddle Xlendi's cliffs to hidden sea caves",
+          "description": "<p>A guided kayak tour along Gozo's dramatic south coast from Xlendi, paddling to sea caves you can only reach by water — including the huge <b>L-Għar ta' Santa Katarina</b>. Crystal-clear turquoise water the whole way, two swim stops inside the caves, and plenty of time for photos. Suitable for beginners, couples, families and groups — life jackets, snorkelling masks and dry bags are all provided. Book in seconds over WhatsApp.</p>",
+          "coverImage": "/assets/images/providers/gozo-kayak-tours/gozo-kayak-tour.webp",
+          "images": [
+            "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina.webp",
+            "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina-2.webp",
+            "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina-3.webp"
+          ],
+          "spots": [
+            {
+              "lat": 36.02903985350436,
+              "lon": 14.210555103124504,
+              "label": "Gozo Kayak Tours · Xlendi",
+              "nearLocationIds": [
+                77,
+                58,
+                50
+              ]
+            }
+          ],
+          "bookUrl": "https://wa.me/35677504345?text=Hi%20Gozo%20Kayak%20Tours!%20I%20would%20like%20to%20book%20a%20sea-cave%20kayak%20tour"
         }
       ]
     }
