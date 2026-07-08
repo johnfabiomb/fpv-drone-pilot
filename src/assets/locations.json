@@ -4292,6 +4292,139 @@
             ],
             "locality": "Mellieħa",
             "showLabel": false
+        },
+        {
+            "id": 77,
+            "title": "Hidden Sea Cave near Xlendi",
+            "slug": "hidden-sea-cave-near-xlendi",
+            "description": "On Gozo's south coast, west of <b>Xlendi Bay</b>, a huge natural sea arch cuts into the rugged cliffs — a cathedral-like cave of raw, weathered rock quite unlike the smooth pale grottoes elsewhere on the island. It has no official name and no path from land: the only way in is by water. Launch a kayak from Xlendi Bay and paddle roughly a kilometre along the Sanap cliffs, and you'll round into a wide, shaded chamber opening onto deep turquoise water. Inside there's room to swim, snorkel along the rocky edges, or climb the pitted ledges for a cliff jump into the clear blue below. There are no facilities and the sea is the only access, so pick a calm day, bring water and shoes with grip, and check the swell and wind before you set off.",
+            "img": "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi.webp",
+            "thumb": "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-thumb.webp",
+            "images": [
+                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi.webp",
+                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-2.webp",
+                "/assets/images/places/hidden-sea-cave-near-xlendi/hidden-sea-cave-near-xlendi-3.webp"
+            ],
+            "lon": 14.209393688978437,
+            "lat": 36.03273534625865,
+            "keywords": "hidden sea cave Gozo, Xlendi sea cave, Sanap cliffs, Gozo kayaking cave, sea arch, cliff jumping, swimming, snorkeling, Xlendi Bay, Munxar, Malta",
+            "rating": 4.7,
+            "mapPoints": [
+                {
+                    "label": "Kayak launch · Xlendi Bay",
+                    "description": "Launch your kayak here from Xlendi Bay and follow the coast west.",
+                    "lon": 14.21660362034368,
+                    "lat": 36.030503684908055,
+                    "type": "parking"
+                },
+                {
+                    "lon": 14.216488765774486,
+                    "lat": 36.03038425207086,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.216343943825684,
+                    "lat": 36.03020216462053,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.215688110780853,
+                    "lat": 36.030008602271366,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.21489479473733,
+                    "lat": 36.02979762984785,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.214329304168333,
+                    "lat": 36.0294391890954,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.213958393629865,
+                    "lat": 36.0291944837946,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.213561405355351,
+                    "lat": 36.02895246833724,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.213126890582616,
+                    "lat": 36.0290338392676,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.212655289648662,
+                    "lat": 36.02942856523322,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.212195161940048,
+                    "lat": 36.02974904122014,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.211246651564906,
+                    "lat": 36.03012951944467,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.2102848332269,
+                    "lat": 36.03064800511493,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.209535306252356,
+                    "lat": 36.03138343066827,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.20896609728197,
+                    "lat": 36.03189801081267,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.208852343555291,
+                    "lat": 36.032182471631856,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.20884989723859,
+                    "lat": 36.032534905668,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.209160457144,
+                    "lat": 36.03267562166302,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Hidden Sea Cave",
+                    "description": "Open this exact spot in Google Maps.",
+                    "lon": 14.209393688978437,
+                    "lat": 36.03273534625865,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "cave",
+                "sea-cave",
+                "swimming",
+                "snorkeling",
+                "cliff-jumping",
+                "kayak",
+                "gozo",
+                "hard"
+            ],
+            "locality": "Gozo-Munxar",
+            "showLabel": false
         }
     ]
 }

@@ -91,5 +91,6 @@
 /malta/locations/ghar-hanex
 /malta/locations/il-kalanka
 /malta/locations/imgiebah-beach
+/malta/locations/hidden-sea-cave-near-xlendi
 /malta/providers/yippee-malta
 /malta/leaderboard

@@ -12,6 +12,7 @@ All notable changes to Venture Map are recorded here.
 - **Event/experience map clusters are now single-level, like locations.** They cluster by proximity only below `CLUSTER_ZOOM` and show individual pins above it; tapping a cluster animates once to ≥ `CLUSTER_ZOOM` and expands straight to its pins — no more nested "cluster inside a cluster" on zoom-in. (`map.component.ts`: `refreshLayer` gates pin clustering by `shouldCluster`; `expandPinCluster` fits-then-bumps to the threshold.)
 
 ### Added
+- **New hidden-gem location: Hidden Sea Cave near Xlendi (id 77)** — an unnamed Gozo sea arch on the Sanap cliffs west of Xlendi, reached only by water via a ~1 km kayak route launched from Xlendi Bay. Cover + 3-photo gallery, added to `prerender-routes.txt` and the sitemap.
 - **New hidden-gem location: Imġiebaħ Beach (id 76)** — remote sandy bay below Selmun (Mellieħa), with a ~700 m parking→beach walking route. Added to `locations.json`, `prerender-routes.txt`, and the sitemap. _Photos pending._
 - **Events & Deals pages show every pin (no clustering).** A `clusterPins` flag (default on) is turned off on `/malta/events` and `/malta/deals` so each event / experience renders as its own pin; the explore map still clusters.
 - **Tapping a main filter chip frames that layer.** Selecting Gems / Experiences / Events / a gem theme / All now fits the map to exactly those pins (like opening a cluster) via `fitVisiblePins()` — no more, no less. Replaces the old fixed zoom-to-Malta on filter change.
