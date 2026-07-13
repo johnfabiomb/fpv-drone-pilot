@@ -45,10 +45,15 @@ export class AuthService {
     });
   }
 
-  async sendEmailSignInLink(email: string): Promise<void> {
+  async sendEmailSignInLink(email: string, captchaToken?: string): Promise<void> {
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: this.redirectUrl },
+      options: {
+        emailRedirectTo: this.redirectUrl,
+        // Bot protection: when Turnstile is configured, Supabase (Auth → Attack
+        // Protection) requires this token before it will send the magic-link email.
+        ...(captchaToken ? { captchaToken } : {}),
+      },
     });
     if (error) throw error;
   }

@@ -8,6 +8,18 @@ import { InAppBrowserService } from '@map/core/services/in-app-browser.service';
 
 export type FormState = 'default' | 'android-redirect' | 'email-input' | 'email-sent';
 
+/**
+ * Cloudflare Turnstile site key (public — safe to ship). Leave '' to keep the
+ * magic-link flow exactly as before (no widget). When set, a Turnstile challenge
+ * must pass before an email is sent — and the matching *secret* key must be
+ * enabled in Supabase → Auth → Attack Protection, or sends will be rejected.
+ * Cloudflare's always-passing test key is '1x00000000000000000000AA'.
+ */
+const TURNSTILE_SITE_KEY = '0x4AAAAAAD1QUPJ4RDPH36N4';
+
+/** Basic but strict enough email shape check — blocks typos/garbage before a send. */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 @Component({
   selector: 'app-sign-in-form',
   standalone: true,
@@ -37,7 +49,8 @@ export type FormState = 'default' | 'android-redirect' | 'email-input' | 'email-
         inputmode="email"
         (keydown.enter)="sendLink(emailDefault.value, 'default')">
       <p *ngIf="emailError" class="sf-error">{{ emailError }}</p>
-      <button class="sf-btn sf-btn--secondary" (click)="sendLink(emailDefault.value, 'default')" [disabled]="busy">
+      <div id="cf-turnstile-slot" class="sf-turnstile" *ngIf="captchaEnabled"></div>
+      <button class="sf-btn sf-btn--secondary" (click)="sendLink(emailDefault.value, 'default')" [disabled]="busy || (captchaEnabled && !captchaToken())">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
         </svg>
@@ -64,7 +77,8 @@ export type FormState = 'default' | 'android-redirect' | 'email-input' | 'email-
         inputmode="email"
         (keydown.enter)="sendLink(emailIab.value, 'email-input')">
       <p *ngIf="emailError" class="sf-error">{{ emailError }}</p>
-      <button class="sf-btn sf-btn--primary" (click)="sendLink(emailIab.value, 'email-input')" [disabled]="loadingEmail">
+      <div id="cf-turnstile-slot" class="sf-turnstile" *ngIf="captchaEnabled"></div>
+      <button class="sf-btn sf-btn--primary" (click)="sendLink(emailIab.value, 'email-input')" [disabled]="loadingEmail || (captchaEnabled && !captchaToken())">
         {{ loadingEmail ? 'Sending…' : 'Send sign-in link' }}
       </button>
     </ng-container>
@@ -207,6 +221,15 @@ export type FormState = 'default' | 'android-redirect' | 'email-input' | 'email-
       &::placeholder { color: var(--color-text-light); }
     }
 
+    // ── Turnstile ─────────────────────────────────────────────
+
+    .sf-turnstile {
+      display: flex;
+      justify-content: center;
+      min-height: 65px;
+      margin-bottom: 12px;
+    }
+
     // ── Messages ──────────────────────────────────────────────
 
     .sf-error {
@@ -312,17 +335,34 @@ export class SignInFormComponent implements OnInit {
   emailError = '';
   checkError = '';
 
+  /** Turnstile token for the current challenge; required before a send when enabled. */
+  readonly captchaToken = signal('');
+  private widgetId: string | null = null;
+  private scriptPromise: Promise<void> | null = null;
+
+  get captchaEnabled(): boolean {
+    return !!TURNSTILE_SITE_KEY && isPlatformBrowser(this.platformId);
+  }
+
   get busy(): boolean { return this.loadingGoogle || this.loadingEmail; }
+
+  private isEmailState(s: FormState): boolean {
+    return s === 'default' || s === 'email-input';
+  }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.iab.isInAppBrowser()) return;
-    if (this.iab.isAndroid()) {
-      this.setState('android-redirect');
-      setTimeout(() => this.iab.openInChrome(), 400);
-    } else {
+    if (this.iab.isInAppBrowser()) {
+      if (this.iab.isAndroid()) {
+        this.setState('android-redirect');
+        setTimeout(() => this.iab.openInChrome(), 400);
+        return;
+      }
       this.setState('email-input');
+      return;
     }
+    // Normal browser: the 'default' state is already active — mount the widget for it.
+    this.scheduleTurnstileRender();
   }
 
   async signInWithGoogle(): Promise<void> {
@@ -345,19 +385,24 @@ export class SignInFormComponent implements OnInit {
   async sendLink(email: string, from: FormState = 'default'): Promise<void> {
     if (this.busy) return;
     const trimmed = email.trim();
-    if (!trimmed.includes('@')) {
+    if (!EMAIL_RE.test(trimmed)) {
       this.emailError = 'Please enter a valid email address.';
+      return;
+    }
+    if (this.captchaEnabled && !this.captchaToken()) {
+      this.emailError = 'Please complete the verification first.';
       return;
     }
     this.loadingEmail = true;
     this.emailError = '';
     try {
-      await this.auth.sendEmailSignInLink(trimmed);
+      await this.auth.sendEmailSignInLink(trimmed, this.captchaToken() || undefined);
       this.emailAddress.set(trimmed);
       this.backToState.set(from);
       this.setState('email-sent');
     } catch {
       this.emailError = 'Could not send the link. Please try again.';
+      this.resetTurnstile(); // Turnstile tokens are single-use — refresh for a retry.
     } finally {
       this.loadingEmail = false;
     }
@@ -379,8 +424,71 @@ export class SignInFormComponent implements OnInit {
   }
 
   private setState(s: FormState): void {
+    const leavingEmail = this.isEmailState(this.state()) && !this.isEmailState(s);
     this.state.set(s);
     this.stateChange.emit(s);
+    // The Turnstile slot only exists in the email states. Drop the widget when we
+    // leave (so a later return re-renders a fresh one), or mount it when we enter.
+    if (leavingEmail) this.teardownTurnstile();
+    else if (this.isEmailState(s)) this.scheduleTurnstileRender();
+  }
+
+  // ── Cloudflare Turnstile ──────────────────────────────────────
+  // Loaded lazily and rendered explicitly into #cf-turnstile-slot. All no-ops
+  // when TURNSTILE_SITE_KEY is unset, so the flow is unchanged until configured.
+
+  private loadTurnstileScript(): Promise<void> {
+    if (this.scriptPromise) return this.scriptPromise;
+    this.scriptPromise = new Promise<void>((resolve, reject) => {
+      if ((window as any).turnstile) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.defer = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('Turnstile failed to load'));
+      document.head.appendChild(s);
+    });
+    return this.scriptPromise;
+  }
+
+  /** Render into the active slot once the email-state DOM has been laid out. */
+  private scheduleTurnstileRender(): void {
+    if (!this.captchaEnabled) return;
+    setTimeout(() => void this.renderTurnstile(), 0);
+  }
+
+  private async renderTurnstile(): Promise<void> {
+    if (!this.captchaEnabled || this.widgetId !== null) return;
+    try {
+      await this.loadTurnstileScript();
+    } catch {
+      return; // Script blocked — send button stays gated; a reload can retry.
+    }
+    const el = document.getElementById('cf-turnstile-slot');
+    const turnstile = (window as any).turnstile;
+    if (!el || !turnstile || this.widgetId !== null) return;
+    this.widgetId = turnstile.render(el, {
+      sitekey: TURNSTILE_SITE_KEY,
+      callback: (token: string) => this.captchaToken.set(token),
+      'expired-callback': () => this.captchaToken.set(''),
+      'error-callback': () => this.captchaToken.set(''),
+    });
+  }
+
+  private resetTurnstile(): void {
+    this.captchaToken.set('');
+    const turnstile = (window as any).turnstile;
+    if (this.widgetId !== null && turnstile) turnstile.reset(this.widgetId);
+  }
+
+  private teardownTurnstile(): void {
+    const turnstile = (window as any).turnstile;
+    if (this.widgetId !== null && turnstile) {
+      try { turnstile.remove(this.widgetId); } catch {}
+    }
+    this.widgetId = null;
+    this.captchaToken.set('');
   }
 
   private resolveGoogleError(message?: string): string {
