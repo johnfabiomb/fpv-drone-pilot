@@ -167,9 +167,10 @@ CREATE TABLE public.bookings (
   status          booking_status NOT NULL DEFAULT 'booked',
   hold_expires_at TIMESTAMPTZ,
   created_by      TEXT NOT NULL DEFAULT 'admin' CHECK (created_by IN ('admin','client')),
-  -- Which payment options the client sees on the /book/:token link. If only
-  -- allow_inperson is on, the client's confirmation books the job directly
-  -- (terms-acceptance); if both are on, "pay later" is a request the admin approves.
+  -- Which payment options the client sees on the /book/:token link. "Pay later"
+  -- (in-person: cash/Revolut/bank) is ALWAYS a request the admin confirms; paying by
+  -- card auto-confirms. A booking created tentative (status 'pending', created_by
+  -- 'admin') is held until the admin confirms it.
   allow_card      BOOLEAN NOT NULL DEFAULT true,
   allow_inperson  BOOLEAN NOT NULL DEFAULT true,
   google_event_id TEXT,
@@ -208,11 +209,16 @@ CREATE TABLE public.booking_slots (
 CREATE INDEX booking_slots_booking_idx ON public.booking_slots(booking_id);
 CREATE INDEX booking_slots_staff_idx   ON public.booking_slots(staff_id);
 
--- A slot reserves the worker only while its booking is in a blocking status.
+-- A slot reserves the worker while its booking is in a blocking status OR it's an
+-- ADMIN-created tentative booking (status 'pending', created_by 'admin'): the admin
+-- deliberately picked that time, so it's held until they confirm/decline. Self-serve
+-- client cash-requests (created_by 'client') stay NON-blocking — many clients may
+-- request the same slot and the first one approved wins.
 CREATE OR REPLACE FUNCTION public.slot_set_blocking() RETURNS TRIGGER
 LANGUAGE plpgsql AS $f$
 BEGIN
-  SELECT (status IN ('hold','booked','in_progress','done')) INTO NEW.blocking
+  SELECT (status IN ('hold','booked','in_progress','done')
+          OR (status = 'pending' AND created_by = 'admin')) INTO NEW.blocking
     FROM public.bookings WHERE id = NEW.booking_id;
   RETURN NEW;
 END $f$;
@@ -225,7 +231,8 @@ CREATE OR REPLACE FUNCTION public.bookings_sync_slot_blocking() RETURNS TRIGGER
 LANGUAGE plpgsql AS $f$
 BEGIN
   UPDATE public.booking_slots
-     SET blocking = (NEW.status IN ('hold','booked','in_progress','done'))
+     SET blocking = (NEW.status IN ('hold','booked','in_progress','done')
+                     OR (NEW.status = 'pending' AND NEW.created_by = 'admin'))
    WHERE booking_id = NEW.id;
   RETURN NEW;
 END $f$;

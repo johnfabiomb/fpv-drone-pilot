@@ -137,15 +137,21 @@ export class BookPageComponent implements OnInit {
       if (availError) throw availError;
       const { available, paymentStatus, totalPaid } = availData;
 
-      if (paymentStatus === 'paid')    { this.totalPaid.set(totalPaid); this.state.set('paid');    return; }
-      if (paymentStatus === 'partial') { this.totalPaid.set(totalPaid); this.state.set('partial'); return; }
-      // A confirmed booking with NOTHING left to pay online (pay-later only, no card) →
-      // show the confirmed state + invoice, not the "Confirm booking" action. A booking
-      // that accepts CARD stays payable even once confirmed (deposit/balance), so it must
-      // fall through to the pay options. (Status is the source of truth; google_event_id
-      // is a secondary signal — the calendar push can be off/fail.)
+      this.totalPaid.set(totalPaid);
+      if (paymentStatus === 'paid')    { this.state.set('paid');    return; }
+      if (paymentStatus === 'partial') { this.state.set('partial'); return; }
+
+      // A CONFIRMED booking is already agreed → show the invoice. If card is enabled and a
+      // balance remains, also load Stripe so the client can optionally pay online. (Status
+      // is the source of truth; google_event_id is a secondary signal — the calendar push
+      // can be off/fail.) A TENTATIVE booking (pending) shows the pay / "pay later" options
+      // so the client can confirm — unless its slot was taken meanwhile.
       const confirmed = CONFIRMED_STATUSES.includes(b.status) || !!b.google_event_id;
-      if (confirmed && !b.allow_card) { this.state.set('confirmed'); return; }
+      if (confirmed) {
+        if (b.allow_card && this.remainingAmount > 0) await this.loadStripeJs();
+        this.state.set('confirmed');
+        return;
+      }
       if (!available) { this.state.set('unavailable'); return; }
 
       await this.loadStripeJs();

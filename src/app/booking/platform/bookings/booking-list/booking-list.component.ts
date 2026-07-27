@@ -25,7 +25,7 @@ const EMPTY_COUNTS: Record<BookingTab, number> =
 
 const EMPTY_TEXT: Record<BookingTab, string> = {
   upcoming: 'No upcoming bookings. Your schedule is clear.',
-  pending: 'No requests waiting for approval.',
+  pending: 'No bookings waiting to be confirmed.',
   unpaid: 'Nothing outstanding — every job is paid. 🎉',
   paid: 'No fully-paid bookings yet.',
   past: 'No past bookings.',
@@ -57,7 +57,7 @@ export class BookingListComponent {
   // Grouped by intent so the row reads logically: when → money/workflow → other → all.
   readonly tabGroups: ReadonlyArray<ReadonlyArray<{ key: BookingTab; label: string }>> = [
     [{ key: 'upcoming',  label: 'Upcoming' }, { key: 'past', label: 'Past' }],
-    [{ key: 'pending',   label: 'Pending' }, { key: 'unpaid', label: 'Unpaid' }, { key: 'paid', label: 'Paid' }],
+    [{ key: 'pending',   label: 'To confirm' }, { key: 'unpaid', label: 'Unpaid' }, { key: 'paid', label: 'Paid' }],
     [{ key: 'cancelled', label: 'Cancelled' }, { key: 'all', label: 'All' }],
   ];
 

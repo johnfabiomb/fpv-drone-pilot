@@ -485,3 +485,5 @@
   line-height: 1;
   text-decoration: none;
 }
+/* Optional "pay online" affordance under a confirmed booking. */
+.pay-optional { margin: 20px 0 8px; font-weight: 600; color: var(--book-muted, #6b7280); }

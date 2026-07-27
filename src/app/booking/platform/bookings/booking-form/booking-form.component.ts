@@ -64,7 +64,7 @@ export class BookingFormComponent implements OnInit {
   depositMode: 'deposit' | 'full' = 'deposit';
   depositPercent = 30;
   needsProduction = false;   // add to the Work board (editing → delivery)?
-  addToCalendar = true;      // confirm now → push to Google Calendar immediately
+  confirmed = false;         // OFF (default) → tentative booking (held, awaits confirmation); ON → booked + calendar now
 
   private orgDefaults = { depositPercent: 30, depositAllowed: true };
 
@@ -198,12 +198,13 @@ export class BookingFormComponent implements OnInit {
         return;
       }
 
-      const res = await this.data.createBooking({ orgId: org, ...shared });
+      const res = await this.data.createBooking({ orgId: org, ...shared, confirmed: this.confirmed });
       if (res.error || !res.id) { this.errorMsg.set(this.errorText(res.error)); return; }
       // Persist the line-item breakdown as the invoice (source of truth).
       await this.data.saveInvoice(org, res.id, { lineItems: items, notes: null, issueDate: null });
-      // Confirmed → push to Google Calendar now (don't wait for the client to pay/confirm).
-      if (this.addToCalendar) await this.data.confirmToCalendar(res.id);
+      // Confirmed → push to Google Calendar now. Tentative bookings are pushed only once
+      // confirmed (by you, or when the client pays by card).
+      if (this.confirmed) await this.data.confirmToCalendar(res.id);
       // Opted into post-production → drop a linked card on the Work board (seeds the
       // service's task checklist). The board is otherwise managed manually.
       if (this.needsProduction) await this.admin.addWorkItem(org, res.id, '');
@@ -255,7 +256,7 @@ export class BookingFormComponent implements OnInit {
     this.depositMode = this.orgDefaults.depositAllowed ? 'deposit' : 'full';
     this.depositPercent = this.orgDefaults.depositPercent;
     this.needsProduction = false;
-    this.addToCalendar = true;
+    this.confirmed = false;
     this.created.set(null); this.errorMsg.set('');
   }
 

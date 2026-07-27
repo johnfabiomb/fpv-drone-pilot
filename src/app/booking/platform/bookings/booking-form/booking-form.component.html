@@ -3,7 +3,7 @@
     <div>
       <h1 class="page__title">{{ isEditing ? 'Edit booking' : 'New booking' }}</h1>
       <p class="page__sub">
-        {{ isEditing ? 'Update the details of this booking.' : 'Create a confirmed job and send the client a payment link.' }}
+        {{ isEditing ? 'Update the details of this booking.' : 'Create a booking and send the client a link to confirm or pay.' }}
       </p>
     </div>
     <a class="btn btn--ghost" routerLink="/bookings/list">Back to list</a>
@@ -181,13 +181,15 @@
         <textarea [(ngModel)]="notes" name="notes" rows="2" placeholder="Anything to remember about this job"></textarea>
       </div>
 
-      <!-- Confirm → calendar (new bookings only; edits always re-sync) -->
+      <!-- Confirmed vs tentative (new bookings only; edits keep their status) -->
       @if (!isEditing) {
         <label class="check">
-          <input type="checkbox" [(ngModel)]="addToCalendar" name="addToCalendar" />
+          <input type="checkbox" [(ngModel)]="confirmed" name="confirmed" />
           <span>
-            <strong>Confirmed — add to my calendar now</strong>
-            <span class="check__hint">Pushes it to your Google Calendar straight away. Uncheck to wait until the client pays / confirms.</span>
+            <strong>This booking is already confirmed</strong>
+            <span class="check__hint">
+              Leave unchecked to send it as a <strong>request</strong>: the slot is held for you, the client sees their invoice and can pay or ask to pay later, and it lands in your <em>To confirm</em> list to accept. Check it if it's already agreed — it's added to your Google Calendar now and the client just gets the invoice.
+            </span>
           </span>
         </label>
       }

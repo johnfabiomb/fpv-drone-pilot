@@ -25,15 +25,18 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-async function checkSlotAvailability(startAt: string, endAt: string, excludeEventId?: string): Promise<boolean> {
-  const token = await getAccessToken();
+// Events on the owner's calendar overlapping [startAt, endAt).
+async function calendarEventsInRange(accessToken: string, startAt: string, endAt: string): Promise<Array<{ id: string; status: string }>> {
   const calId = encodeURIComponent(Deno.env.get('GOOGLE_CALENDAR_ID')!);
   const url = `${CALENDAR_BASE}/calendars/${calId}/events?timeMin=${encodeURIComponent(startAt)}&timeMax=${encodeURIComponent(endAt)}&singleEvents=true`;
-  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
   const data = await res.json();
-  const events: Array<{ id: string; status: string }> = data.items ?? [];
-  const blocking = events.filter(e => e.status !== 'cancelled' && e.id !== excludeEventId);
-  return blocking.length === 0;
+  return (data.items ?? []) as Array<{ id: string; status: string }>;
+}
+
+// A range is free when no non-cancelled event OTHER than the booking's own blocks it.
+function rangeIsFree(events: Array<{ id: string; status: string }>, excludeIds: Set<string>): boolean {
+  return events.filter(e => e.status !== 'cancelled' && !excludeIds.has(e.id)).length === 0;
 }
 
 Deno.serve(async (req) => {
@@ -89,10 +92,31 @@ Deno.serve(async (req) => {
     }
 
     // Only the calendar-owning org does a live Google check; others rely on the DB.
+    // A booking has one or more time blocks (booking_slots). Check EACH block's own range
+    // and exclude ALL of this booking's own calendar events (one per block) — otherwise a
+    // multi-block booking reads its own later blocks as a conflict and falsely reports the
+    // slot as taken (each block only lives in its own range, so a single whole-span query
+    // that excludes just the first event flags the rest).
     const calendarOrg = Deno.env.get('CALENDAR_ORG_ID');
-    const available = (calendarOrg && booking.org_id !== calendarOrg)
-      ? true
-      : await checkSlotAvailability(booking.start_at, booking.end_at, booking.google_event_id ?? undefined);
+    let available = true;
+    if (!(calendarOrg && booking.org_id !== calendarOrg)) {
+      const { data: slotRows } = await supabase
+        .from('booking_slots')
+        .select('start_at, end_at, google_event_id')
+        .eq('booking_id', booking.id)
+        .is('deleted_at', null);
+      const slots = (slotRows && slotRows.length)
+        ? slotRows
+        : [{ start_at: booking.start_at, end_at: booking.end_at, google_event_id: booking.google_event_id }];
+      const excludeIds = new Set<string>(
+        [booking.google_event_id, ...slots.map(s => s.google_event_id)].filter((x): x is string => !!x),
+      );
+      const accessToken = await getAccessToken();
+      for (const s of slots) {
+        const events = await calendarEventsInRange(accessToken, s.start_at, s.end_at);
+        if (!rangeIsFree(events, excludeIds)) { available = false; break; }
+      }
+    }
 
     return new Response(
       JSON.stringify({ available, paymentStatus, totalPaid, priceTotal }),

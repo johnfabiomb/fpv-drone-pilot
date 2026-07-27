@@ -1,15 +1,13 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { ensureBookingEvent } from '../_shared/booking-event.ts';
 
 // Public, token-gated. A client opens an admin-sent link and chooses to settle in
 // person (cash / Revolut / bank transfer) instead of paying by card.
 //
-// Behaviour depends on what the admin offered on the link:
-//  • Card + pay-later both offered → this is a REQUEST: demote to 'pending' so the
-//    admin approves it; the calendar event is created only on approval.
-//  • Pay-later is the ONLY option → this is the client CONFIRMING the booking
-//    (terms-acceptance: "I agree to pay by cash/Revolut/bank"). Confirm it directly
-//    and create the calendar event now.
+// This is always a REQUEST the admin confirms — never a direct booking. It marks the
+// booking 'pending' (held) and stamps a note that the client agreed to pay in person,
+// so it surfaces in the admin's "To confirm" list. The admin's confirm (approve-cash-
+// booking) is what books it and pushes the Google Calendar event. If the booking is
+// already confirmed (paid, or the admin pre-confirmed it), this is a no-op.
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,23 +43,19 @@ Deno.serve(async (req) => {
 
     if (!b.allow_inperson) return json({ error: 'not_allowed' });
     if (b.status === 'cancelled' || b.status === 'expired') return json({ error: 'cancelled' });
-    // Already on the calendar (paid, or already accepted/confirmed) → no-op.
-    if (b.google_event_id) return json({ ok: true, already: true });
+    // Already confirmed (admin pre-confirmed, or paid → on the calendar) → nothing to request.
+    const CONFIRMED = ['booked', 'in_progress', 'done'];
+    if (CONFIRMED.includes(b.status) || b.google_event_id) return json({ ok: true, already: true, confirmed: true });
 
+    // Raise (or re-affirm) the request: hold it as 'pending' and stamp that the client
+    // agreed to pay in person, so the admin sees it in "To confirm". Idempotent — a repeat
+    // click just refreshes the note. The calendar event is created on the admin's confirm.
     const stamp = `Client agreed to pay in person (cash / Revolut / bank transfer). ${new Date().toISOString().slice(0, 10)}`;
-    const notes = b.notes ? `${b.notes}\n${stamp}` : stamp;
-
-    // Pay-later is the only option → the client's acceptance confirms the booking.
-    if (!b.allow_card) {
-      await supabase.from('bookings').update({ notes, status: 'booked' }).eq('id', b.id);
-      await ensureBookingEvent(supabase, b.id);
-      return json({ ok: true, confirmed: true });
-    }
-
-    // Both options offered → this is a request the admin must accept.
-    if (b.status === 'pending') return json({ ok: true, already: true });
+    const notes = b.notes && b.notes.includes('Client agreed to pay in person')
+      ? b.notes
+      : (b.notes ? `${b.notes}\n${stamp}` : stamp);
     await supabase.from('bookings').update({ status: 'pending', notes }).eq('id', b.id);
-    return json({ ok: true, confirmed: false });
+    return json({ ok: true, confirmed: false, requested: true });
   } catch (err) {
     return json({ error: (err as Error).message }, 500);
   }

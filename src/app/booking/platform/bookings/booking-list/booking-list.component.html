@@ -88,7 +88,7 @@
             <div class="request__price">{{ b.price_total | currency:'EUR':'symbol':'1.0-0' }}</div>
             <div class="request__actions">
               <button class="btn btn--sm btn--primary" [disabled]="busyId() === b.id" (click)="approve(b)">
-                {{ busyId() === b.id ? '…' : 'Approve' }}
+                {{ busyId() === b.id ? '…' : 'Confirm' }}
               </button>
               <button class="btn btn--sm btn--ghost" [disabled]="busyId() === b.id" (click)="decline(b)">Decline</button>
             </div>

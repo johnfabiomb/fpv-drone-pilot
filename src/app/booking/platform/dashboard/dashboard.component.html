@@ -30,7 +30,7 @@
       </div>
       <div class="kpi" [class.kpi--accent]="requests().length > 0">
         <span class="kpi__value">{{ requests().length }}</span>
-        <span class="kpi__label">Requests to approve</span>
+        <span class="kpi__label">To confirm</span>
       </div>
       @if (workEnabled()) {
         <div class="kpi">
@@ -101,7 +101,7 @@
 
         @if (requests().length > 0) {
           <div class="attn">
-            <div class="attn__head">Cash requests <span class="attn__count">{{ requests().length }}</span></div>
+            <div class="attn__head">Bookings to confirm <span class="attn__count">{{ requests().length }}</span></div>
             @for (b of requests(); track b.id) {
               <div class="req">
                 <div class="req__main">
@@ -110,7 +110,7 @@
                 </div>
                 <div class="req__actions">
                   <button class="btn btn--sm btn--primary" [disabled]="busyId() === b.id" (click)="approve(b)">
-                    {{ busyId() === b.id ? '…' : 'Approve' }}
+                    {{ busyId() === b.id ? '…' : 'Confirm' }}
                   </button>
                   <button class="btn btn--sm btn--ghost" [disabled]="busyId() === b.id" (click)="decline(b)">Decline</button>
                 </div>

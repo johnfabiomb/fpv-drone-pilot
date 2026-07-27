@@ -84,6 +84,7 @@ export class BookingDataService implements OnDestroy {
     title: string; description: string; slots: BookingSlot[]; priceTotal: number;
     allowCard: boolean; allowInperson: boolean;
     depositAllowed: boolean; depositPercent: number; needsProduction: boolean;
+    confirmed: boolean;
     location?: string | null; notes?: string | null;
   }): Promise<{ id?: string; ref?: string; error?: string }> {
     const { data, error } = await bookingsDb.rpc('create_booking', {
@@ -91,7 +92,9 @@ export class BookingDataService implements OnDestroy {
         org_id: input.orgId, staff_id: input.staffId, service_id: input.serviceId,
         client_id: input.clientId, contact_name: input.contactName ?? null,
         title: input.title, description: input.description, price_total: input.priceTotal,
-        status: 'booked', created_by: 'admin',
+        // Confirmed → 'booked' (reserved + calendar). Tentative → 'pending': held for the
+        // admin (created_by 'admin' makes pending block the slot) until they confirm.
+        status: input.confirmed ? 'booked' : 'pending', created_by: 'admin',
         allow_card: input.allowCard, allow_inperson: input.allowInperson,
         deposit_allowed: input.depositAllowed, deposit_percent: input.depositPercent,
         needs_production: input.needsProduction, is_external: false,

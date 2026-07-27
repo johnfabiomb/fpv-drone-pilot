@@ -31,18 +31,28 @@
   <div class="book-state" *ngIf="state() === 'confirmed'">
     <div class="state-icon">✓</div>
     <h2>Booking confirmed</h2>
-    <p>You're all set! John will arrange payment (cash, Revolut or bank transfer) with you. See you then.</p>
+    <p>You're all set! Here's your invoice.<span *ngIf="showInperson"> John will arrange payment (cash, Revolut or bank transfer) with you.</span></p>
     <div class="invoice-actions">
       <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
       <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
     </div>
+    @if (showCard && remainingAmount > 0) {
+      <p class="pay-optional">Prefer to pay online?</p>
+      <button class="btn btn--primary" [disabled]="cardLoading()" (click)="selectPayment('full')">
+        Pay {{ remainingAmount | currency:'EUR':'symbol':'1.0-2' }} by card
+      </button>
+    }
   </div>
 
   <!-- In-person request sent (awaiting John's acceptance) -->
   <div class="book-state" *ngIf="state() === 'requested'">
     <div class="state-icon">📩</div>
     <h2>Request sent</h2>
-    <p>Thanks! John will confirm your booking shortly and arrange cash, Revolut or bank-transfer payment with you. You'll hear back soon.</p>
+    <p>Thanks! John will confirm your booking shortly and arrange cash, Revolut or bank-transfer payment with you. You'll hear back soon — meanwhile here's your invoice.</p>
+    <div class="invoice-actions">
+      <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
+      <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
+    </div>
   </div>
 
   <!-- Already paid — full invoice -->
