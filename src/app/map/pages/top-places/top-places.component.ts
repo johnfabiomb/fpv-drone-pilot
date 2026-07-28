@@ -37,6 +37,7 @@ const REVEALED: TrendLocation[] = [
   { num: 24, name: 'Paradise Bay',                     id: 55 },
   { num: 25, name: 'Imġiebaħ Beach',                   id: 76 },
   { num: 26, name: "L-Għar ta' Santa Katarina",        id: 77 },
+  { num: 27, name: 'Tas-Simar Natural Arch',           id: 78 },
 ];
 
 const TOTAL = 30;

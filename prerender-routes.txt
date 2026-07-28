@@ -93,6 +93,7 @@
 /malta/locations/imgiebah-beach
 /malta/locations/l-ghar-ta-santa-katarina
 /malta/locations/hidden-sea-cave-near-xlendi
+/malta/locations/tas-simar-natural-arch
 /malta/providers/yippee-malta
 /malta/providers/gozo-kayak-tours
 /malta/experiences/gozo-kayak-sea-caves

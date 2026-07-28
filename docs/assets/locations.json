@@ -4426,6 +4426,179 @@
             ],
             "locality": "Gozo-Munxar",
             "showLabel": false
+        },
+        {
+            "id": 78,
+            "title": "Tas-Simar Natural Arch",
+            "slug": "tas-simar-natural-arch",
+            "description": "On the wild north-east coast of Gozo, in the limits of <b>Qala</b> just beyond <b>Daħlet Qorrot</b> bay, Tas-Simar is a striking natural arch — a slender bridge of weathered rock the sea has carved clean through the cliff, with clear turquoise water swirling in the inlet below. It's a hidden, unmarked spot: park at Daħlet Qorrot (the little bay lined with boathouses cut into the limestone) and follow the rocky coastline south for roughly a kilometre, picking your way over open rock until the arch appears above a secluded cove. On calm days the sheltered inlet is a gorgeous place for a swim or a snorkel. The rock is rugged and can be slippery near the water, and the arch itself is a real cliff edge with big drops — unbeatable for photos, but take genuine care and don't trust the span in strong wind. No facilities and no shade, so bring water, grippy shoes and everything you'll need.",
+            "img": "/assets/images/places/tas-simar-natural-arch/tas-simar-natural-arch.webp",
+            "thumb": "/assets/images/places/tas-simar-natural-arch/tas-simar-natural-arch-thumb.webp",
+            "images": [
+                "/assets/images/places/tas-simar-natural-arch/tas-simar-natural-arch.webp",
+                "/assets/images/places/tas-simar-natural-arch/tas-simar-natural-arch-2.webp",
+                "/assets/images/places/tas-simar-natural-arch/tas-simar-natural-arch-3.webp"
+            ],
+            "lon": 14.327798593611272,
+            "lat": 36.04261674786717,
+            "keywords": "Tas-Simar Natural Arch, Tas-Simar Gozo, Daħlet Qorrot, Qala, Gozo natural arch, rock bridge, coastal walk, swimming, snorkeling, hidden gem, Malta",
+            "rating": 4.7,
+            "mapPoints": [
+                {
+                    "label": "Park at Daħlet Qorrot",
+                    "description": "Park at Daħlet Qorrot bay, then follow the rocky coast south to the arch.",
+                    "lon": 14.316599569456754,
+                    "lat": 36.0487924665717,
+                    "type": "parking"
+                },
+                {
+                    "lon": 14.316942719907287,
+                    "lat": 36.04887248609157,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.317312094175284,
+                    "lat": 36.04975915646912,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.318072859242733,
+                    "lat": 36.0498944519378,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.318696296874188,
+                    "lat": 36.04996939220898,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.319167983269322,
+                    "lat": 36.04992605874489,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.319640272330206,
+                    "lat": 36.04987362976918,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.319983550742474,
+                    "lat": 36.049649912923414,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.320425425271749,
+                    "lat": 36.04930964250754,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.320694374907951,
+                    "lat": 36.04899623509908,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.32110189748937,
+                    "lat": 36.048657228748766,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.321404395519092,
+                    "lat": 36.048370553496625,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.32173537955002,
+                    "lat": 36.04793409045088,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.322108188584131,
+                    "lat": 36.04725109694208,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.322430333517365,
+                    "lat": 36.04658778356719,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.32303082967253,
+                    "lat": 36.04633335873578,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.323364425255052,
+                    "lat": 36.04606548410361,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.323458400934628,
+                    "lat": 36.045832400596325,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.324061749707688,
+                    "lat": 36.045576414012075,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.324528534421372,
+                    "lat": 36.0452890128539,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.3248164479399,
+                    "lat": 36.045009667148605,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.324927338438245,
+                    "lat": 36.044781193525964,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.325493241579256,
+                    "lat": 36.04411230419005,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.326178593072287,
+                    "lat": 36.043705412681135,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.326773745591133,
+                    "lat": 36.04335066004498,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.327649085136906,
+                    "lat": 36.042532374104354,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Tas-Simar Natural Arch",
+                    "description": "Open this exact spot in Google Maps.",
+                    "lon": 14.327798593611272,
+                    "lat": 36.04261674786717,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "moderate",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "rock-formation",
+                "natural-arch",
+                "viewpoint",
+                "coastal-walk",
+                "swimming",
+                "cliffs",
+                "gozo",
+                "moderate"
+            ],
+            "locality": "Gozo-Qala",
+            "showLabel": false
         }
     ]
 }
