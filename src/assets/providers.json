@@ -286,7 +286,7 @@
             "/assets/images/providers/yippee-malta/yippee-blue-lagoon-cruise.webp"
           ],
           "spots": [
-            { "lat": 36.0146, "lon": 14.3286, "label": "Blue Lagoon, Comino", "nearLocationIds": [52] }
+            { "lat": 36.003082367829464, "lon": 14.347934659739774, "label": "Blue Lagoon, Comino", "nearLocationIds": [52] }
           ]
         },
         {
