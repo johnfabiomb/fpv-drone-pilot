@@ -22,7 +22,7 @@ import {
 var mapRoutes = [
   __spreadValues({
     path: "",
-    loadComponent: () => import("./chunk-BC4RAYTG.js").then((m) => m.MapRootComponent),
+    loadComponent: () => import("./chunk-YXUDINNR.js").then((m) => m.MapRootComponent),
     children: [
       {
         path: "",
@@ -54,36 +54,36 @@ var mapRoutes = [
         children: [
           {
             path: "",
-            loadComponent: () => import("./chunk-4UWOZKLP.js").then((m) => m.MapShellComponent),
+            loadComponent: () => import("./chunk-3C3UWUFR.js").then((m) => m.MapShellComponent),
             children: [
               {
                 path: "",
                 pathMatch: "full",
-                loadComponent: () => import("./chunk-ZVB66EBC.js").then((mod) => mod.MapExploreComponent)
+                loadComponent: () => import("./chunk-QMQ5SSJF.js").then((mod) => mod.MapExploreComponent)
               },
               {
                 path: "list",
-                loadComponent: () => import("./chunk-WOSV4QF2.js").then((m) => m.LocationListComponent)
+                loadComponent: () => import("./chunk-SVZ3HH4I.js").then((m) => m.LocationListComponent)
               },
               {
                 path: "deals",
-                loadComponent: () => import("./chunk-F63DA5ZW.js").then((m) => m.DealsComponent)
+                loadComponent: () => import("./chunk-XRCWPLVU.js").then((m) => m.DealsComponent)
               },
               {
                 path: "events",
-                loadComponent: () => import("./chunk-LZ54ALIK.js").then((m) => m.EventsComponent)
+                loadComponent: () => import("./chunk-UAKVTQLF.js").then((m) => m.EventsComponent)
               },
               {
                 path: "providers/:id",
-                loadComponent: () => import("./chunk-AM24OTMM.js").then((m) => m.ProviderPageComponent)
+                loadComponent: () => import("./chunk-5Y4A7GKX.js").then((m) => m.ProviderPageComponent)
               },
               {
                 path: "experiences/:id",
-                loadComponent: () => import("./chunk-BZIWQ5RO.js").then((m) => m.ExperiencePageComponent)
+                loadComponent: () => import("./chunk-UXYV5RPR.js").then((m) => m.ExperiencePageComponent)
               },
               {
                 path: "locations/:slug",
-                loadComponent: () => import("./chunk-REXROJRM.js").then((m) => m.LocationPageComponent)
+                loadComponent: () => import("./chunk-XXTZH3GX.js").then((m) => m.LocationPageComponent)
               },
               {
                 path: "saved",
@@ -135,4 +135,4 @@ var mapRoutes = [
 export {
   mapRoutes
 };
-//# sourceMappingURL=chunk-XHCZ6J32.js.map
+//# sourceMappingURL=chunk-K4ZDZCIE.js.map

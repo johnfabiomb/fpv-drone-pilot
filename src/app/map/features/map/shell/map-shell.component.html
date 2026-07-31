@@ -8,8 +8,8 @@
   (signInRequested)="auth.openLoginModal()"
   (closed)="onInterstitialClosed()">
 
-  <!-- Book Now mode: show coupon reminder -->
-  <div slot-top *ngIf="bridge.interstitialProvider()">
+  <!-- Book Now mode: coupon reminder only when the provider actually has a code -->
+  <div slot-top *ngIf="bridge.interstitialProvider()?.discount">
     <app-coupon-reminder [provider]="bridge.interstitialProvider()!"></app-coupon-reminder>
   </div>
 

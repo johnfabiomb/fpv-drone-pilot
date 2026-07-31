@@ -12,7 +12,7 @@ import {
 } from "./chunk-372PF7SV.js";
 import {
   providers
-} from "./chunk-QAQXGI3Q.js";
+} from "./chunk-TQBWL2QT.js";
 import {
   SeoService
 } from "./chunk-WFXQZ6RY.js";
@@ -308,4 +308,4 @@ var EventsComponent = class _EventsComponent {
 export {
   EventsComponent
 };
-//# sourceMappingURL=chunk-LZ54ALIK.js.map
+//# sourceMappingURL=chunk-UAKVTQLF.js.map

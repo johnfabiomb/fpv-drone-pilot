@@ -6,7 +6,7 @@ import { ImageGalleryComponent } from '@map/ui/image-gallery/image-gallery.compo
 import { ShareButtonComponent } from '@map/ui/share-button/share-button.component';
 import { ProviderAvatarComponent } from '@map/features/providers/provider-avatar/provider-avatar.component';
 import { DealBoxComponent } from '@map/ui/deal-box/deal-box.component';
-import { experienceColor, experienceIcon, resolveExperienceDiscount } from '@map/core/utils/experience.utils';
+import { experienceColor, experienceIcon, resolveExperienceBookUrl, resolveExperienceDiscount } from '@map/core/utils/experience.utils';
 import { getProviderCategoryLabel } from '@map/core/utils/provider.utils';
 import { AuthService } from '@map/core/services/auth.service';
 
@@ -46,6 +46,14 @@ export class ExperienceDetailComponent {
   }
 
   book(): void {
+    // No coupon (e.g. an affiliate link like Viator): send the visitor straight to
+    // the booking URL — no login gate and no coupon-reminder interstitial to sit
+    // through. Providers WITH a discount keep the reminder flow so the code is copied.
+    if (!this.discount) {
+      const url = resolveExperienceBookUrl(this.experience, this.provider);
+      if (url && isPlatformBrowser(this.platformId)) window.open(url, '_blank', 'noopener');
+      return;
+    }
     if (!this.authService.isLoggedIn()) { this.authService.openLoginModal(); return; }
     this.bookRequested.emit(this.provider);
   }

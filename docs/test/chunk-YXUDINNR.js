@@ -2,7 +2,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-Q5J65LXX.js";
+} from "./chunk-QPBP53Z3.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -576,7 +576,7 @@ function SignInFormComponent_ng_container_3_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r1.isIabFlow());
   }
 }
-var TURNSTILE_SITE_KEY = "0x4AAAAAAD1QUPJ4RDPH36N4";
+var TURNSTILE_SITE_KEY = "";
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 var SignInFormComponent = class _SignInFormComponent {
   constructor() {
@@ -781,7 +781,7 @@ var SignInFormComponent = class _SignInFormComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignInFormComponent, { className: "SignInFormComponent", filePath: "src/app/map/ui/sign-in-form/sign-in-form.component.ts", lineNumber: 320 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignInFormComponent, { className: "SignInFormComponent", filePath: "src/app/map/ui/sign-in-form/sign-in-form.component.ts", lineNumber: 324 });
 })();
 
 // src/app/map/ui/benefits-list/benefits-list.component.ts
@@ -1864,4 +1864,4 @@ var MapRootComponent = class _MapRootComponent {
 export {
   MapRootComponent
 };
-//# sourceMappingURL=chunk-BC4RAYTG.js.map
+//# sourceMappingURL=chunk-YXUDINNR.js.map

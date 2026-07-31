@@ -17,7 +17,7 @@ import {
 import "./chunk-GCGHXSHH.js";
 import {
   providers
-} from "./chunk-QAQXGI3Q.js";
+} from "./chunk-TQBWL2QT.js";
 import {
   SeoService
 } from "./chunk-WFXQZ6RY.js";
@@ -495,4 +495,4 @@ var LocationListComponent = class _LocationListComponent {
 export {
   LocationListComponent
 };
-//# sourceMappingURL=chunk-WOSV4QF2.js.map
+//# sourceMappingURL=chunk-SVZ3HH4I.js.map

@@ -9,7 +9,7 @@ import {
 } from "./chunk-372PF7SV.js";
 import {
   providers
-} from "./chunk-QAQXGI3Q.js";
+} from "./chunk-TQBWL2QT.js";
 import {
   SeoService
 } from "./chunk-WFXQZ6RY.js";
@@ -171,4 +171,4 @@ var DealsComponent = class _DealsComponent {
 export {
   DealsComponent
 };
-//# sourceMappingURL=chunk-F63DA5ZW.js.map
+//# sourceMappingURL=chunk-XRCWPLVU.js.map

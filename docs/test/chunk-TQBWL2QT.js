@@ -313,10 +313,8 @@ var providers = [
     color: "#0ea5e9",
     emoji: "\u{1F6F6}",
     tagline: "Guided sea-cave kayak tours from Xlendi Bay, Gozo",
-    description: "<p><b>Gozo Kayak Tours</b> runs small-group guided kayak adventures from <b>Xlendi Bay</b>, based on the waterfront opposite The Boathouse Restaurant. Paddle Gozo's dramatic south coast to sea caves and hidden corners only reachable by water, through crystal-clear turquoise seas \u2014 with two swim stops inside the caves and plenty of time for photos.</p><p>Every tour is guided from start to finish: think sea caves, coastal adventures and calm, clear water. Great for beginners, couples, families and groups, with all the gear included \u2014 life jackets, snorkelling masks and dry bags, plus a small locker on land. Booking is quick and easy over WhatsApp.</p>",
+    description: "<p><b>Gozo Kayak Tours</b> runs small-group guided kayak adventures from <b>Xlendi Bay</b>, based on the waterfront opposite The Boathouse Restaurant. Paddle Gozo's dramatic south coast to sea caves and hidden corners only reachable by water, through crystal-clear turquoise seas \u2014 with two swim stops inside the caves and plenty of time for photos.</p><p>Every tour is guided from start to finish: think sea caves, coastal adventures and calm, clear water. Great for beginners, couples, families and groups, with all the gear included \u2014 life jackets, snorkelling masks and dry bags, plus a small locker on land. Book securely online through Viator.</p>",
     coverImage: "/assets/images/providers/gozo-kayak-tours/gozo-kayak-tour.webp",
-    instagram: "gozokayaktours",
-    phone: "+356 7750 4345",
     lat: 36.030503684908055,
     lon: 14.21660362034368,
     mapLabel: "Deal",
@@ -335,7 +333,7 @@ var providers = [
         title: "Sea Cave Kayak Tour",
         type: "kayak",
         tagline: "Paddle Xlendi's cliffs to hidden sea caves",
-        description: "<p>A guided kayak tour along Gozo's dramatic south coast from Xlendi, paddling to sea caves you can only reach by water \u2014 including the huge <b>L-G\u0127ar ta' Santa Katarina</b>. Crystal-clear turquoise water the whole way, two swim stops inside the caves, and plenty of time for photos. Suitable for beginners, couples, families and groups \u2014 life jackets, snorkelling masks and dry bags are all provided. Book in seconds over WhatsApp.</p>",
+        description: "<p>A guided kayak tour along Gozo's dramatic south coast from Xlendi, paddling to sea caves you can only reach by water \u2014 including the huge <b>L-G\u0127ar ta' Santa Katarina</b>. Crystal-clear turquoise water the whole way, two swim stops inside the caves, and plenty of time for photos. Suitable for beginners, couples, families and groups \u2014 life jackets, snorkelling masks and dry bags are all provided. Book securely online through Viator.</p>",
         coverImage: "/assets/images/providers/gozo-kayak-tours/gozo-kayak-tour.webp",
         images: [
           "/assets/images/places/l-ghar-ta-santa-katarina/l-ghar-ta-santa-katarina.webp",
@@ -354,7 +352,7 @@ var providers = [
             ]
           }
         ],
-        bookUrl: "https://wa.me/35677504345?text=Hi%20Gozo%20Kayak%20Tours!%20I%20would%20like%20to%20book%20a%20sea-cave%20kayak%20tour"
+        bookUrl: "https://www.viator.com/tours/Gozo/Gozo-Kayak-Tours/d28021-5655916P4?pid=P00308916&mcid=42383&medium=link&campaign=map"
       }
     ]
   }
@@ -363,4 +361,4 @@ var providers = [
 export {
   providers
 };
-//# sourceMappingURL=chunk-QAQXGI3Q.js.map
+//# sourceMappingURL=chunk-TQBWL2QT.js.map

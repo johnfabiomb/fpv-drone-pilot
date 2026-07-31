@@ -15,7 +15,11 @@ export type FormState = 'default' | 'android-redirect' | 'email-input' | 'email-
  * enabled in Supabase → Auth → Attack Protection, or sends will be rejected.
  * Cloudflare's always-passing test key is '1x00000000000000000000AA'.
  */
-const TURNSTILE_SITE_KEY = '0x4AAAAAAD1QUPJ4RDPH36N4';
+// Turnstile disabled: the widget errored out for the vast majority of users and
+// blocked sign-in. Set back to the site key ('0x4AAAAAAD1QUPJ4RDPH36N4') to re-enable
+// — but only alongside a fix for the failures, and CAPTCHA must also be turned on in
+// Supabase → Auth → Attack Protection (an empty key here means no token is sent).
+const TURNSTILE_SITE_KEY = '';
 
 /** Basic but strict enough email shape check — blocks typos/garbage before a send. */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

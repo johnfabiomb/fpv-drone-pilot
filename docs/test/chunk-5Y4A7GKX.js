@@ -24,7 +24,7 @@ import {
 } from "./chunk-372PF7SV.js";
 import {
   providers
-} from "./chunk-QAQXGI3Q.js";
+} from "./chunk-TQBWL2QT.js";
 import {
   SeoService
 } from "./chunk-WFXQZ6RY.js";
@@ -445,4 +445,4 @@ var ProviderPageComponent = class _ProviderPageComponent {
 export {
   ProviderPageComponent
 };
-//# sourceMappingURL=chunk-AM24OTMM.js.map
+//# sourceMappingURL=chunk-5Y4A7GKX.js.map

@@ -14,7 +14,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-Q5J65LXX.js";
+} from "./chunk-QPBP53Z3.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -28704,10 +28704,11 @@ function MapShellComponent_app_nav_interstitial_0_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
+    let tmp_8_0;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275property("url", ctx_r2.bridge.pendingNavUrl())("duration", ctx_r2.bridge.interstitialProvider() ? 0 : ctx_r2.bridge.navDuration())("buttonLabel", ctx_r2.bridge.interstitialProvider() ? "Book Now" : "Open Google Maps")("openNewTab", true)("showGuestNudge", !ctx_r2.bridge.interstitialProvider() && !ctx_r2.auth.isLoggedIn());
     \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ctx_r2.bridge.interstitialProvider());
+    \u0275\u0275property("ngIf", (tmp_8_0 = ctx_r2.bridge.interstitialProvider()) == null ? null : tmp_8_0.discount);
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", !ctx_r2.bridge.interstitialProvider() && ctx_r2.bridge.interstitialExperience());
     \u0275\u0275advance();
@@ -29169,4 +29170,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-4UWOZKLP.js.map
+//# sourceMappingURL=chunk-3C3UWUFR.js.map

@@ -24,7 +24,7 @@ import {
 } from "./chunk-372PF7SV.js";
 import {
   providers
-} from "./chunk-QAQXGI3Q.js";
+} from "./chunk-TQBWL2QT.js";
 import {
   SeoService
 } from "./chunk-WFXQZ6RY.js";
@@ -193,6 +193,12 @@ var ExperienceDetailComponent = class _ExperienceDetailComponent {
     this.router.navigate(["/malta/providers", this.provider.id]);
   }
   book() {
+    if (!this.discount) {
+      const url = resolveExperienceBookUrl(this.experience, this.provider);
+      if (url && isPlatformBrowser(this.platformId))
+        window.open(url, "_blank", "noopener");
+      return;
+    }
     if (!this.authService.isLoggedIn()) {
       this.authService.openLoginModal();
       return;
@@ -433,4 +439,4 @@ var ExperiencePageComponent = class _ExperiencePageComponent {
 export {
   ExperiencePageComponent
 };
-//# sourceMappingURL=chunk-BZIWQ5RO.js.map
+//# sourceMappingURL=chunk-UXYV5RPR.js.map
