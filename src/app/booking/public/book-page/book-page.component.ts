@@ -192,10 +192,16 @@ export class BookPageComponent implements OnInit {
         body: { token: this.token, paymentType: type },
       });
       if (error) throw error;
-      const { clientSecret, stripeAccount } = data;
+      const { clientSecret, stripeAccount } = data ?? {};
+      if (!clientSecret) throw new Error('Could not start the payment. Please try again.');
 
-      // Re-init Stripe.js bound to the org's connected account for this direct charge.
+      // Make sure Stripe.js is initialized before we use it (idempotent). On the
+      // platform-account path `stripeAccount` is null, so nothing re-inits it — load the
+      // base instance now so `this.stripe` is never null. For a connected account, rebind
+      // Stripe.js to it so the direct charge renders on the right account.
+      await this.loadStripeJs();
       if (stripeAccount) this.initStripe(stripeAccount);
+      if (!this.stripe) throw new Error('Payment could not load. Please refresh and try again.');
 
       this.elements = this.stripe.elements({ clientSecret, appearance: { theme: 'stripe' } });
       this.paymentElement = this.elements.create('payment');

@@ -249,19 +249,93 @@
             "id": 8,
             "title": "Munxar Path",
             "slug": "munxar-path",
+            "slugAliases": ["munxar-window"],
             "description": "Munxar Path is a scenic coastal walk in Marsaskala, offering breathtaking views of the Mediterranean Sea and the rugged Maltese coastline. This trail is perfect for nature enthusiasts and walkers who enjoy peaceful, picturesque landscapes. Along the path, hikers can observe local flora and fauna, explore small, hidden coves, and enjoy tranquil moments by the sea.",
-            "img": "/assets/images/places/8.webp",
-            "lon": 14.570848,
-            "lat": 35.849367,
+            "img": "/assets/images/places/munxar-path/munxar-path.webp",
+            "thumb": "/assets/images/places/munxar-path/munxar-path-thumb.webp",
+            "images": [
+                "/assets/images/places/munxar-path/munxar-path.webp",
+                "/assets/images/places/munxar-path/munxar-path-2.webp",
+                "/assets/images/places/munxar-path/munxar-path-3.webp"
+            ],
+            "lon": 14.56897423289742,
+            "lat": 35.850134841767456,
             "url": "https://www.instagram.com/johnfabiomb/embed",
             "keywords": "Munxar Path, Malta, coastal walk, hiking, nature, scenic, Mediterranean",
             "rating": 4.6,
             "mapPoints": [
                 {
-                    "label": "Final location",
+                    "label": "Park here",
+                    "description": "Park near the beach, then follow the coast up to the viewpoint.",
+                    "type": "parking",
+                    "lon": 14.564809799531579,
+                    "lat": 35.84990942028499
+                },
+                {
+                    "lon": 14.56521919328045,
+                    "lat": 35.84970000953574,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.565442821155647,
+                    "lat": 35.84958681860107,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.565633959544956,
+                    "lat": 35.849648746229775,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.56574160573241,
+                    "lat": 35.84969625932165,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.566022876981307,
+                    "lat": 35.84995491688311,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.566443241871417,
+                    "lat": 35.85008681804756,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.566771132788702,
+                    "lat": 35.85004959599543,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.56700040431091,
+                    "lat": 35.84995692395741,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.567553177163092,
+                    "lat": 35.84997595466828,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.567897568426549,
+                    "lat": 35.850032900804635,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.568401065347246,
+                    "lat": 35.850089956376664,
+                    "type": "waypoint"
+                },
+                {
+                    "lon": 14.568741404683946,
+                    "lat": 35.850128346159636,
+                    "type": "waypoint"
+                },
+                {
+                    "label": "Munxar Path viewpoint",
                     "description": "Open this exact spot in Google Maps.",
-                    "lon": 14.570848,
-                    "lat": 35.849367,
+                    "lon": 14.56897423289742,
+                    "lat": 35.850134841767456,
                     "type": "destination"
                 }
             ],
@@ -276,42 +350,7 @@
                 "moderate"
             ],
             "locality": "Marsaskala",
-            "showLabel": false,
-            "thumb": "/assets/images/places/8-thumb.webp"
-        },
-        {
-            "id": 9,
-            "title": "Munxar Window",
-            "slug": "munxar-window",
-            "description": "The Munxar Window is a striking natural arch located along the rugged coastline of Malta, near Marsaskala. This impressive geological formation offers a unique sight, especially popular among photographers and nature enthusiasts. The area around the Munxar Window is ideal for scenic hikes and provides panoramic views of the surrounding sea and landscape, making it a must-visit for those seeking the beauty of Malta's natural wonders.",
-            "img": "/assets/images/places/9.webp",
-            "lon": 14.5698237,
-            "lat": 35.8499062,
-            "url": "https://www.instagram.com/johnfabiomb/embed",
-            "keywords": "Munxar Window, Malta, natural arch, coastal views, hiking, photography",
-            "rating": 4.7,
-            "mapPoints": [
-                {
-                    "label": "Final location",
-                    "description": "Open this exact spot in Google Maps.",
-                    "lon": 14.5698237,
-                    "lat": 35.8499062,
-                    "type": "destination"
-                }
-            ],
-            "difficulty": "moderate",
-            "hidden": true,
-            "tags": [
-                "hidden",
-                "rock-formation",
-                "natural-arch",
-                "viewpoint",
-                "hiking",
-                "moderate"
-            ],
-            "locality": "Marsaskala",
-            "showLabel": false,
-            "thumb": "/assets/images/places/9-thumb.webp"
+            "showLabel": false
         },
         {
             "id": 10,

@@ -89,8 +89,11 @@ Deno.serve(async (req) => {
     }
 
     // ── 2. Pull: import GCal events not yet in Supabase ──
-    // Look back ~4 months as well as forward, so past jobs are imported too.
-    const timeMin = new Date(Date.now() - 120 * 864e5).toISOString();
+    // Only FUTURE events (from the start of today): past meetings shouldn't be pulled in,
+    // and it keeps the import surface small.
+    const startOfToday = new Date();
+    startOfToday.setUTCHours(0, 0, 0, 0);
+    const timeMin = startOfToday.toISOString();
     const timeMax = new Date(Date.now() + 90 * 864e5).toISOString();
     const events = await listEvents(timeMin, timeMax) as Array<{
       id: string; status: string; summary?: string;
@@ -98,13 +101,23 @@ Deno.serve(async (req) => {
       end?: { dateTime?: string; date?: string };
     }>;
 
-    const { data: existing } = await supabase
-      .from('bookings')
-      .select('google_event_id')
-      .not('google_event_id', 'is', null);
-
-    const knownIds = new Set((existing ?? []).map(b => b.google_event_id as string));
-    const toImport = events.filter(e => e.status !== 'cancelled' && !knownIds.has(e.id));
+    // Known event ids come from BOTH tables: bookings.google_event_id holds only a
+    // booking's FIRST block, while every block's id lives on booking_slots — so a
+    // multi-block booking's later-block events must be recognised via booking_slots,
+    // otherwise they get re-imported as duplicate "external" bookings on every sync.
+    const [{ data: bkIds }, { data: slotIds }] = await Promise.all([
+      supabase.from('bookings').select('google_event_id').not('google_event_id', 'is', null),
+      supabase.from('booking_slots').select('google_event_id').not('google_event_id', 'is', null),
+    ]);
+    const knownIds = new Set(
+      [...(bkIds ?? []), ...(slotIds ?? [])].map(r => r.google_event_id as string),
+    );
+    // Belt-and-suspenders: our own events carry the booking-ref stamp ("… [BK-2026-010] …")
+    // — never re-import one even if its id somehow isn't tracked.
+    const APP_EVENT = /\[BK-\d{4}-\d+\]/;
+    const toImport = events.filter(e =>
+      e.status !== 'cancelled' && !knownIds.has(e.id) && !APP_EVENT.test(e.summary ?? ''),
+    );
 
     let pulled = 0;
     const pullErrors: string[] = [];
