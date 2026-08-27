@@ -14,7 +14,7 @@ import {
   LevelsModalService,
   UserProfileCardComponent,
   version
-} from "./chunk-YTMXNDNN.js";
+} from "./chunk-EWE33KWE.js";
 import {
   AppModalComponent
 } from "./chunk-L4TGBWZQ.js";
@@ -26643,14 +26643,14 @@ var createMap = (center, zoom, target) => new Map_default2({
   controls: defaults({ rotate: false, zoom: false }),
   layers: [
     new Tile_default3({
+      // Standard OpenStreetMap raster tiles — keyless. Replaced CARTO Voyager,
+      // which retired free anonymous tiles and now stamps unauthenticated
+      // requests with an "API KEY REQUIRED" watermark. To restore the cleaner
+      // Voyager look, get a free key at carto.com/basemaps/apikey and append
+      // `?api_key=…` to the rastertiles/voyager URLs.
       source: new XYZ_default({
-        urls: [
-          "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-          "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-          "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-          "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
-        ],
-        attributions: '\xA9 <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors \xA9 <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+        url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attributions: '\xA9 <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
         maxZoom: 19
       })
     })
@@ -29170,4 +29170,4 @@ var MapShellComponent = class _MapShellComponent {
 export {
   MapShellComponent
 };
-//# sourceMappingURL=chunk-MMTL3QS7.js.map
+//# sourceMappingURL=chunk-S6OMZ6T5.js.map

@@ -544,6 +544,8 @@ Malta events (parties, pool days, concerts) from the GetYourTickets **affiliate*
 
 ## OL Map Controls
 
+**Basemap tiles:** keyless **OpenStreetMap** raster (`tile.openstreetmap.org`), set in `map-functions.ts`. We used CARTO Voyager until CARTO retired free anonymous tiles and started watermarking them "API KEY REQUIRED". To go back to the cleaner Voyager look, get a free key at `carto.com/basemaps/apikey` and append `?api_key=…` to the `rastertiles/voyager` URLs.
+
 Map controls (compass, zoom, locate) are styled globally in `styles.scss` under `.ol-rotate`, `.ol-zoom`, `.ol-attribution`.
 
 - Compass always visible (`autoHide: false`), uses `fa-compass` icon

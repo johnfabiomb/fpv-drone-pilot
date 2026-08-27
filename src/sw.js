@@ -1,5 +1,5 @@
 const SHELL_CACHE = 'shell-v1';
-const TILE_CACHE  = 'map-tiles-v1';
+const TILE_CACHE  = 'map-tiles-v2'; // v2: switched CARTO Voyager → OpenStreetMap tiles; purge old watermarked tiles
 const IMG_CACHE   = 'location-imgs-v1';
 const MAX_TILES   = 1200;
 const MAX_IMGS    = 300;
@@ -72,7 +72,7 @@ self.addEventListener('fetch', event => {
 
 function isTile(url) {
   return (
-    url.hostname.endsWith('.basemaps.cartocdn.com') ||
+    url.hostname === 'tile.openstreetmap.org' ||
     url.hostname.endsWith('.tile.openstreetmap.org')
   );
 }
