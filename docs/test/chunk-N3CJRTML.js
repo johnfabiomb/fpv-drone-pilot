@@ -169,7 +169,9 @@ var REVEALED = [
   { num: 24, name: "Paradise Bay", id: 55 },
   { num: 25, name: "Im\u0121ieba\u0127 Beach", id: 76 },
   { num: 26, name: "L-G\u0127ar ta' Santa Katarina", id: 77 },
-  { num: 27, name: "Tas-Simar Natural Arch", id: 78 }
+  { num: 27, name: "Tas-Simar Natural Arch", id: 78 },
+  { num: 28, name: "Munxar Path", id: 8 },
+  { num: 29, name: "Dingli Cliffs", id: 19 }
 ];
 var TOTAL = 30;
 var TopPlacesComponent = class _TopPlacesComponent {
@@ -306,9 +308,9 @@ var TopPlacesComponent = class _TopPlacesComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/map/pages/top-places/top-places.component.ts", lineNumber: 52 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TopPlacesComponent, { className: "TopPlacesComponent", filePath: "src/app/map/pages/top-places/top-places.component.ts", lineNumber: 54 });
 })();
 export {
   TopPlacesComponent
 };
-//# sourceMappingURL=chunk-MKJUQCJ7.js.map
+//# sourceMappingURL=chunk-N3CJRTML.js.map

@@ -487,3 +487,27 @@
 }
 /* Optional "pay online" affordance under a confirmed booking. */
 .pay-optional { margin: 20px 0 8px; font-weight: 600; color: var(--book-muted, #6b7280); }
+
+/* Back to the invoice view from the confirmed-booking card chooser. */
+.book-back { display: block; margin: 16px auto 0; }
+
+/* Itemised payment receipts (amount · method · date) shown under the paid total. */
+.paid-log {
+  list-style: none;
+  margin: 10px 0 18px;
+  padding: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.paid-log__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  & + & { border-top: 1px solid #e5e7eb; }
+}
+.paid-log__amount { font-weight: 700; color: #111827; }
+.paid-log__meta   { font-size: 13px; color: #6b7280; text-align: right; }

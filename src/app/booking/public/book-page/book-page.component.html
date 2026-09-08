@@ -38,9 +38,7 @@
     </div>
     @if (showCard && remainingAmount > 0) {
       <p class="pay-optional">Prefer to pay online?</p>
-      <button class="btn btn--primary" [disabled]="cardLoading()" (click)="selectPayment('full')">
-        Pay {{ remainingAmount | currency:'EUR':'symbol':'1.0-2' }} by card
-      </button>
+      <button class="btn btn--primary" (click)="openCardChooser()">Pay by card</button>
     }
   </div>
 
@@ -61,6 +59,7 @@
       <div class="paid-icon">✓</div>
       <h2>Booking confirmed</h2>
       <p>This booking has been paid in full. Here's your receipt.</p>
+      <ng-container *ngTemplateOutlet="paidRecords"></ng-container>
       <div class="invoice-actions">
         <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
         <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
@@ -70,7 +69,7 @@
   </div>
 
   <!-- Booking details + payment choice -->
-  <ng-container *ngIf="state() === 'ready' || state() === 'paying' || state() === 'partial'">
+  <ng-container *ngIf="state() === 'ready' || state() === 'choose' || state() === 'paying' || state() === 'partial'">
     <div class="book-card" *ngIf="booking() as b">
 
       <!-- Header -->
@@ -102,8 +101,9 @@
         </div>
       </div>
 
-      <!-- Payment choice (ready state) -->
-      <ng-container *ngIf="state() === 'ready'">
+      <!-- Payment choice. 'ready' = tentative booking (card + pay-later). 'choose' = an
+           already-confirmed booking picking a card amount (no pay-later — nothing to confirm). -->
+      <ng-container *ngIf="state() === 'ready' || state() === 'choose'">
         <div class="book-divider"></div>
 
         <!-- Card payment -->
@@ -127,8 +127,8 @@
           <p class="book-secure">🔒 Secure payment via Stripe</p>
         </ng-container>
 
-        <!-- Pay later (cash / Revolut / bank) -->
-        <ng-container *ngIf="showInperson">
+        <!-- Pay later (cash / Revolut / bank) — only while the booking still needs confirming -->
+        <ng-container *ngIf="showInperson && state() === 'ready'">
           <ng-container *ngIf="payLaterOnly; else askLater">
             <!-- Only option → confirming = terms acceptance, books straight away -->
             <h2 class="book-section-title">Confirm your booking</h2>
@@ -149,6 +149,9 @@
           </ng-template>
         </ng-container>
 
+        <!-- Confirmed booking → let them step back to the invoice view -->
+        <button class="btn btn--ghost book-back" *ngIf="state() === 'choose'" (click)="state.set('confirmed')">← Back</button>
+
         <p class="book-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
       </ng-container>
 
@@ -157,8 +160,9 @@
         <div class="book-divider"></div>
         <div class="deposit-paid-banner">
           <span class="deposit-paid-banner__dot"></span>
-          Deposit of {{ totalPaid() | currency:'EUR':'symbol':'1.2-2' }} already paid
+          {{ totalPaid() | currency:'EUR':'symbol':'1.2-2' }} already paid
         </div>
+        <ng-container *ngTemplateOutlet="paidRecords"></ng-container>
 
         <div class="payment-options">
           <button class="pay-option" (click)="selectPayment('remainder')">
@@ -208,5 +212,18 @@
 
     </div>
   </ng-container>
+
+  <!-- Itemised receipts behind the paid total — reused by the 'partial' and 'paid' views so
+       the client sees each payment (amount · method · date), not just one lumped figure. -->
+  <ng-template #paidRecords>
+    <ul class="paid-log" *ngIf="payments().length">
+      <li class="paid-log__row" *ngFor="let p of payments()">
+        <span class="paid-log__amount">{{ p.amount | currency:'EUR':'symbol':'1.2-2' }}</span>
+        <span class="paid-log__meta">
+          {{ methodLabel(p.method) }}<span *ngIf="p.paid_at"> · {{ p.paid_at | date:'d MMM yyyy' }}</span>
+        </span>
+      </li>
+    </ul>
+  </ng-template>
 
 </div>

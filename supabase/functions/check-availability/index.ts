@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
 
     const { data: link } = await supabase
       .from('booking_links')
-      .select('is_active, expires_at, bookings(id, org_id, start_at, end_at, google_event_id, price_total, payments(amount, status))')
+      .select('is_active, expires_at, bookings(id, org_id, start_at, end_at, google_event_id, price_total, payments(amount, status, type, method, paid_at))')
       .eq('token', token)
       .single();
 
@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
       end_at: string;
       google_event_id: string | null;
       price_total: number;
-      payments: Array<{ amount: number; status: string }>;
+      payments: Array<{ amount: number; status: string; type: string; method: string; paid_at: string | null }>;
     };
 
     // Compute payment status from payments table
@@ -118,8 +118,15 @@ Deno.serve(async (req) => {
       }
     }
 
+    // The individual receipts (oldest first) so the client sees WHAT was paid, when and how
+    // — not just one lumped total. Deliberately only amount/type/method/date: no Stripe ids
+    // and no internal notes.
+    const paymentRecords = completedPayments
+      .map(p => ({ amount: p.amount, type: p.type, method: p.method, paid_at: p.paid_at }))
+      .sort((a, b) => (a.paid_at ?? '').localeCompare(b.paid_at ?? ''));
+
     return new Response(
-      JSON.stringify({ available, paymentStatus, totalPaid, priceTotal }),
+      JSON.stringify({ available, paymentStatus, totalPaid, priceTotal, payments: paymentRecords }),
       { headers: corsHeaders },
     );
   } catch (err) {

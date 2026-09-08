@@ -90,7 +90,7 @@ var bookingRoutes = [
   }, false ? { \u0275entryName: "src/app/booking/public/invoice/invoice.component.ts" } : {}),
   __spreadValues({
     path: "book/:token",
-    loadComponent: () => import("./chunk-26ARYN36.js").then((m) => m.BookPageComponent)
+    loadComponent: () => import("./chunk-D6LIYB5Y.js").then((m) => m.BookPageComponent)
   }, false ? { \u0275entryName: "src/app/booking/public/book-page/book-page.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
@@ -207,7 +207,7 @@ var routes = [
   // Handles /malta, /privacy, /contact, /pay, … (everything except the bare root).
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-ZHUR5D4D.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-5QR57YZ4.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 

@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { bookingsDb as supabase } from '@booking/core/db/supabase.bookings';
 import { BookingInvoiceComponent, type InvoiceData } from '@booking/ui/booking-invoice/booking-invoice.component';
 
-type PageState = 'loading' | 'invalid' | 'unavailable' | 'paid' | 'partial' | 'ready' | 'paying' | 'requested' | 'confirmed' | 'error';
+// 'choose' = the card amount chooser reached from an already-CONFIRMED booking: same
+// options as 'ready' but without the pay-later action (there's nothing left to confirm).
+type PageState = 'loading' | 'invalid' | 'unavailable' | 'paid' | 'partial' | 'ready' | 'choose' | 'paying' | 'requested' | 'confirmed' | 'error';
 type PaymentType = 'deposit' | 'full' | 'remainder';
 
 const STRIPE_PK = 'pk_live_51ShRJTAXI0tdCXi3HuEvh9PuIVMFTjqRlMQwsg8pqMlhACOXGKAiATxj9MzW268hs9RV6RvCb5FP1bIFHuNlZkBG007LHcSnOB';
@@ -29,6 +31,18 @@ interface BookingDetails {
 // Statuses that mean the booking is already confirmed (nothing left to accept).
 const CONFIRMED_STATUSES = ['booked', 'in_progress', 'done'];
 
+/** One completed payment as shown to the client (from check-availability). */
+interface PaidRecord {
+  amount: number;
+  type: string;
+  method: string;
+  paid_at: string | null;
+}
+
+const METHOD_LABELS: Record<string, string> = {
+  card: 'Card', cash: 'Cash', revolut: 'Revolut', bank: 'Bank transfer', other: 'Other',
+};
+
 @Component({
   selector: 'app-book-page',
   standalone: true,
@@ -46,6 +60,7 @@ export class BookPageComponent implements OnInit {
   selectedType = signal<PaymentType | null>(null);
   errorMessage = signal<string>('');
   totalPaid = signal<number>(0);
+  payments = signal<PaidRecord[]>([]);   // itemised receipts behind totalPaid
   confirming = signal<boolean>(false);
   cardLoading = signal<boolean>(false);   // creating intent + Stripe form rendering
   processing = signal<boolean>(false);    // final "Pay now" confirm in flight
@@ -79,6 +94,22 @@ export class BookPageComponent implements OnInit {
 
   /** Show the deposit option only when card is on, a deposit is allowed, and the date is future. */
   get showDeposit(): boolean { return this.showCard && this.depositAllowed && !this.isPast; }
+
+  /** Already confirmed (agreed / on the calendar) — paying online is optional, so the
+   *  chooser and any back-navigation return to 'choose', never the pay-later 'ready' view. */
+  get isConfirmedBooking(): boolean {
+    const b = this.booking();
+    return !!b && (CONFIRMED_STATUSES.includes(b.status) || !!b.google_event_id);
+  }
+
+  /** Human label for a payment method ('card' → 'Card', 'bank' → 'Bank transfer'). */
+  methodLabel(method: string): string { return METHOD_LABELS[method] ?? 'Payment'; }
+
+  /** Confirmed booking → "Pay by card" opens the amount chooser instead of charging in full. */
+  openCardChooser(): void {
+    this.errorMessage.set('');
+    this.state.set('choose');
+  }
 
   get depositAmount(): number {
     return Math.round((this.booking()?.price_total ?? 0) * this.depositPercent) / 100;
@@ -138,6 +169,7 @@ export class BookPageComponent implements OnInit {
       const { available, paymentStatus, totalPaid } = availData;
 
       this.totalPaid.set(totalPaid);
+      this.payments.set((availData.payments ?? []) as PaidRecord[]);
       if (paymentStatus === 'paid')    { this.state.set('paid');    return; }
       if (paymentStatus === 'partial') { this.state.set('partial'); return; }
 
@@ -214,7 +246,7 @@ export class BookPageComponent implements OnInit {
     } catch (err: any) {
       this.errorMessage.set(err.message ?? 'Something went wrong.');
       this.cardLoading.set(false);
-      this.state.set('ready');
+      this.state.set(this.isConfirmedBooking ? 'choose' : 'ready');
     }
   }
 
@@ -273,7 +305,7 @@ export class BookPageComponent implements OnInit {
   }
 
   goBack(): void {
-    this.state.set('ready');
+    this.state.set(this.isConfirmedBooking ? 'choose' : 'ready');
     this.selectedType.set(null);
     if (this.paymentElement) { this.paymentElement.destroy(); this.paymentElement = null; }
   }
