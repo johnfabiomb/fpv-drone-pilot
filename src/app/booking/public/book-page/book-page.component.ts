@@ -66,6 +66,10 @@ export class BookPageComponent implements OnInit {
   processing = signal<boolean>(false);    // final "Pay now" confirm in flight
 
   private token = '';
+  // The view the client left to open the Stripe form ('ready' | 'choose' | 'partial').
+  // Back / a failed intent must return THERE — a partial-paid booking has to land back on
+  // its remaining-balance view, not on a fresh full/deposit chooser.
+  private returnState: PageState = 'ready';
   private stripe: any = null;
   private elements: any = null;
   private paymentElement: any = null;
@@ -94,13 +98,6 @@ export class BookPageComponent implements OnInit {
 
   /** Show the deposit option only when card is on, a deposit is allowed, and the date is future. */
   get showDeposit(): boolean { return this.showCard && this.depositAllowed && !this.isPast; }
-
-  /** Already confirmed (agreed / on the calendar) — paying online is optional, so the
-   *  chooser and any back-navigation return to 'choose', never the pay-later 'ready' view. */
-  get isConfirmedBooking(): boolean {
-    const b = this.booking();
-    return !!b && (CONFIRMED_STATUSES.includes(b.status) || !!b.google_event_id);
-  }
 
   /** Human label for a payment method ('card' → 'Card', 'bank' → 'Bank transfer'). */
   methodLabel(method: string): string { return METHOD_LABELS[method] ?? 'Payment'; }
@@ -214,6 +211,7 @@ export class BookPageComponent implements OnInit {
   }
 
   async selectPayment(type: PaymentType): Promise<void> {
+    if (this.state() !== 'paying') this.returnState = this.state();
     this.selectedType.set(type);
     this.state.set('paying');
     this.cardLoading.set(true);   // show a spinner until the secure form is ready
@@ -246,7 +244,7 @@ export class BookPageComponent implements OnInit {
     } catch (err: any) {
       this.errorMessage.set(err.message ?? 'Something went wrong.');
       this.cardLoading.set(false);
-      this.state.set(this.isConfirmedBooking ? 'choose' : 'ready');
+      this.state.set(this.returnState);
     }
   }
 
@@ -305,7 +303,7 @@ export class BookPageComponent implements OnInit {
   }
 
   goBack(): void {
-    this.state.set(this.isConfirmedBooking ? 'choose' : 'ready');
+    this.state.set(this.returnState);
     this.selectedType.set(null);
     if (this.paymentElement) { this.paymentElement.destroy(); this.paymentElement = null; }
   }
