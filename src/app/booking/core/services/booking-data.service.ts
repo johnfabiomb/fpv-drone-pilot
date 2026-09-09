@@ -3,6 +3,7 @@ import { bookingsDb } from '@booking/core/db/supabase.bookings';
 import { BookingsAuthService } from '@booking/core/services/bookings-auth.service';
 import { BookingSummary, BookingSlot, BookingTab, Client, EditableBooking, Payment, PaymentMethod, WorkerBusy } from '@booking/core/interfaces/booking.interface';
 import { LineItem } from '@booking/core/interfaces/invoice.interface';
+import { Delivery, DeliveryLink } from '@booking/core/interfaces/delivery.interface';
 import { subscribeToChanges, RealtimeHandle } from '@booking/core/utils/realtime.util';
 
 // Scoped to PlatformShellComponent — provided there, not root.
@@ -335,6 +336,57 @@ export class BookingDataService implements OnDestroy {
    *  collide with UNIQUE(booking_id)). */
   async resetInvoice(bookingId: string): Promise<void> {
     await bookingsDb.from('invoices').update({ line_items: [], notes: null, issue_date: null }).eq('booking_id', bookingId);
+  }
+
+  // ── Delivery (what the client receives once paid) ─────────────────────────
+  // One row per booking. The client-facing read is the `get_delivery_by_token` RPC,
+  // which applies the paid-in-full gate in SQL — never re-implement that check here.
+
+  /** The delivery attached to a booking (admin view), or null if none. */
+  async getDelivery(bookingId: string): Promise<Delivery | null> {
+    const { data, error } = await bookingsDb
+      .from('deliveries')
+      .select('id, booking_id, message, links, released_at, updated_at')
+      .eq('booking_id', bookingId)
+      .maybeSingle();
+    if (error) { console.error('[BookingData] getDelivery:', error.message); return null; }
+    return (data as Delivery) ?? null;
+  }
+
+  /** Create or replace the delivery content. Deliberately does NOT send `released_at`:
+   *  PostgREST's upsert only updates the columns supplied, so editing the message or
+   *  links can never silently re-lock (or unlock) an already-released delivery. */
+  async saveDelivery(orgId: string, bookingId: string, input: {
+    message: string | null; links: DeliveryLink[];
+  }): Promise<{ ok?: boolean; error?: string }> {
+    const { error } = await bookingsDb.from('deliveries').upsert({
+      org_id: orgId, booking_id: bookingId,
+      message: input.message, links: input.links,
+    }, { onConflict: 'booking_id' });
+    if (error) return { error: error.message };
+    return { ok: true };
+  }
+
+  /** Manual override — show the delivery before the booking is paid in full (goodwill
+   *  early delivery, and €0/comped bookings which can never read as "paid"). */
+  async setDeliveryReleased(orgId: string, bookingId: string, released: boolean): Promise<{ ok?: boolean; error?: string }> {
+    const { error } = await bookingsDb.from('deliveries').upsert({
+      org_id: orgId, booking_id: bookingId,
+      released_at: released ? new Date().toISOString() : null,
+    }, { onConflict: 'booking_id' });
+    if (error) return { error: error.message };
+    return { ok: true };
+  }
+
+  /** Clear the delivery in place (content + release). The row is kept, like resetInvoice —
+   *  and it must be: an upsert can't resolve its ON CONFLICT target against a
+   *  soft-deleted row, since `hide_deleted` makes that row invisible. */
+  async clearDelivery(orgId: string, bookingId: string): Promise<{ ok?: boolean; error?: string }> {
+    const { error } = await bookingsDb.from('deliveries').upsert({
+      org_id: orgId, booking_id: bookingId, message: null, links: [], released_at: null,
+    }, { onConflict: 'booking_id' });
+    if (error) return { error: error.message };
+    return { ok: true };
   }
 
   /** Admin "confirm now": create/refresh this booking's Google Calendar event immediately

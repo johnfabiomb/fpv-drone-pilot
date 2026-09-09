@@ -3,6 +3,7 @@ import { isPlatformBrowser, CommonModule, DatePipe, CurrencyPipe } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { bookingsDb as supabase } from '@booking/core/db/supabase.bookings';
 import { BookingInvoiceComponent, type InvoiceData } from '@booking/ui/booking-invoice/booking-invoice.component';
+import { PublicDelivery } from '@booking/core/interfaces/delivery.interface';
 
 // 'choose' = the card amount chooser reached from an already-CONFIRMED booking: same
 // options as 'ready' but without the pay-later action (there's nothing left to confirm).
@@ -61,6 +62,9 @@ export class BookPageComponent implements OnInit {
   errorMessage = signal<string>('');
   totalPaid = signal<number>(0);
   payments = signal<PaidRecord[]>([]);   // itemised receipts behind totalPaid
+  // Rendering is driven by delivery().unlocked — NEVER by state(): a manually released
+  // delivery (or a €0 booking) unlocks a booking that is not in the 'paid' state.
+  delivery = signal<PublicDelivery | null>(null);
   confirming = signal<boolean>(false);
   cardLoading = signal<boolean>(false);   // creating intent + Stripe form rendering
   processing = signal<boolean>(false);    // final "Pay now" confirm in flight
@@ -147,38 +151,48 @@ export class BookPageComponent implements OnInit {
 
   private async loadBooking(): Promise<void> {
     try {
-      const { data: link, error } = await supabase
-        .from('booking_links')
-        .select('is_active, expires_at, bookings(booking_ref, title, description, location, start_at, end_at, price_total, price_expenses, allow_card, allow_inperson, deposit_percent, deposit_allowed, status, google_event_id)')
-        .eq('token', this.token)
-        .single();
+      // Token resolution happens INSIDE the RPC (SECURITY DEFINER), where it is a real
+      // predicate. RLS cannot see a client-side `.eq('token', …)` filter, so the previous
+      // direct query needed an anon SELECT grant on bookings/booking_links — which let
+      // anyone with the publishable key enumerate every active pay link. The RPC also owns
+      // the is_active / expiry / soft-delete checks and returns only the fields shown here.
+      const { data: b, error } = await supabase.rpc('get_booking_by_token', { p_token: this.token });
+      if (error) throw error;
+      if (!b) { this.state.set('invalid'); return; }   // unknown, inactive, expired or deleted
+      this.booking.set(b as BookingDetails);
 
-      if (error || !link || !link.is_active) { this.state.set('invalid'); return; }
-      if (link.expires_at && new Date(link.expires_at) < new Date()) { this.state.set('invalid'); return; }
-
-      const b = link.bookings as unknown as BookingDetails;
-      this.booking.set(b);
-
-      const { data: availData, error: availError } = await supabase.functions.invoke('check-availability', {
-        body: { token: this.token },
-      });
-      if (availError) throw availError;
+      // Availability/payment state and the delivery are independent reads — fetch together.
+      // get_delivery_by_token applies the paid-in-full gate in SQL: when locked it returns
+      // no message and no links, so the content never reaches this browser.
+      const [avail, deliv] = await Promise.all([
+        supabase.functions.invoke('check-availability', { body: { token: this.token } }),
+        supabase.rpc('get_delivery_by_token', { p_token: this.token }),
+      ]);
+      if (avail.error) throw avail.error;
+      const availData = avail.data;
       const { available, paymentStatus, totalPaid } = availData;
+      this.delivery.set((deliv.data ?? null) as PublicDelivery | null);
 
       this.totalPaid.set(totalPaid);
       this.payments.set((availData.payments ?? []) as PaidRecord[]);
       if (paymentStatus === 'paid')    { this.state.set('paid');    return; }
       if (paymentStatus === 'partial') { this.state.set('partial'); return; }
 
-      // A CONFIRMED booking is already agreed → show the invoice. If card is enabled and a
-      // balance remains, also load Stripe so the client can optionally pay online. (Status
-      // is the source of truth; google_event_id is a secondary signal — the calendar push
-      // can be off/fail.) A TENTATIVE booking (pending) shows the pay / "pay later" options
-      // so the client can confirm — unless its slot was taken meanwhile.
+      // A CONFIRMED booking is already agreed. What it should open on depends on how it can
+      // be settled (status is the source of truth; google_event_id is a secondary signal —
+      // the calendar push can be off/fail):
+      //   • card is the ONLY option and nothing is paid → the whole point of the link is to
+      //     pay, so open the amount chooser directly (the invoice is still one tap away
+      //     via its Back button) rather than an invoice-first page that buries the action;
+      //   • otherwise (pay-later allowed, or nothing left to pay) → the invoice view, with
+      //     card offered as an optional extra when it's enabled and a balance remains.
+      // A TENTATIVE booking (pending) instead shows the pay / "pay later" options so the
+      // client can confirm — unless its slot was taken meanwhile.
       const confirmed = CONFIRMED_STATUSES.includes(b.status) || !!b.google_event_id;
       if (confirmed) {
-        if (b.allow_card && this.remainingAmount > 0) await this.loadStripeJs();
-        this.state.set('confirmed');
+        const payable = b.allow_card && this.remainingAmount > 0;
+        if (payable) await this.loadStripeJs();
+        this.state.set(payable && !b.allow_inperson ? 'choose' : 'confirmed');
         return;
       }
       if (!available) { this.state.set('unavailable'); return; }

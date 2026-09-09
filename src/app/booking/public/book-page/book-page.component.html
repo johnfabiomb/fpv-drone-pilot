@@ -36,6 +36,7 @@
       <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
       <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
     </div>
+    <ng-container *ngTemplateOutlet="deliveryBlock"></ng-container>
     @if (showCard && remainingAmount > 0) {
       <p class="pay-optional">Prefer to pay online?</p>
       <button class="btn btn--primary" (click)="openCardChooser()">Pay by card</button>
@@ -51,6 +52,7 @@
       <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
       <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
     </div>
+    <ng-container *ngTemplateOutlet="deliveryBlock"></ng-container>
   </div>
 
   <!-- Already paid — full invoice -->
@@ -65,6 +67,7 @@
         <a class="btn btn--ghost invoice-dl" [href]="invoiceUrl + '&auto=print'" target="_blank" rel="noopener">🖨 Print invoice</a>
       </div>
     </div>
+    <ng-container *ngTemplateOutlet="deliveryBlock"></ng-container>
     <app-booking-invoice [invoice]="paidInvoice()" />
   </div>
 
@@ -100,6 +103,10 @@
           <span class="detail-value detail-value--price">{{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</span>
         </div>
       </div>
+
+      <!-- Teaser sits above the payment options so it motivates the final payment.
+           Hidden while the Stripe form is mounted so it doesn't compete with it. -->
+      <ng-container *ngIf="state() !== 'paying'" [ngTemplateOutlet]="deliveryBlock"></ng-container>
 
       <!-- Payment choice. 'ready' = tentative booking (card + pay-later). 'choose' = an
            already-confirmed booking picking a card amount (no pay-later — nothing to confirm). -->
@@ -149,8 +156,9 @@
           </ng-template>
         </ng-container>
 
-        <!-- Confirmed booking → let them step back to the invoice view -->
-        <button class="btn btn--ghost book-back" *ngIf="state() === 'choose'" (click)="state.set('confirmed')">← Back</button>
+        <!-- Confirmed booking → the invoice view is always one tap away, whether they came
+             from it or landed straight here (card-only booking with a balance due). -->
+        <button class="btn btn--ghost book-back" *ngIf="state() === 'choose'" (click)="state.set('confirmed')">← Back to invoice</button>
 
         <p class="book-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
       </ng-container>
@@ -164,15 +172,24 @@
         </div>
         <ng-container *ngTemplateOutlet="paidRecords"></ng-container>
 
-        <div class="payment-options">
-          <button class="pay-option" (click)="selectPayment('remainder')">
-            <div class="pay-option__label">Pay remaining balance</div>
-            <div class="pay-option__amount">{{ remainingAmount | currency:'EUR':'symbol':'1.2-2' }}</div>
-            <div class="pay-option__note">Completes your booking — total {{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</div>
-          </button>
-        </div>
+        <!-- Only offer the online balance when card is actually enabled — otherwise the
+             intent is rejected server-side ("Card payment is not enabled for this booking"). -->
+        @if (showCard) {
+          <div class="payment-options">
+            <button class="pay-option" (click)="selectPayment('remainder')">
+              <div class="pay-option__label">Pay remaining balance</div>
+              <div class="pay-option__amount">{{ remainingAmount | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="pay-option__note">Completes your booking — total {{ b.price_total | currency:'EUR':'symbol':'1.2-2' }}</div>
+            </button>
+          </div>
 
-        <p class="book-secure">🔒 Secure payment via Stripe</p>
+          <p class="book-secure">🔒 Secure payment via Stripe</p>
+        } @else {
+          <p class="book-secure">
+            {{ remainingAmount | currency:'EUR':'symbol':'1.2-2' }} remaining — John will arrange this with you
+            (cash, Revolut or bank transfer).
+          </p>
+        }
 
         <div class="invoice-actions">
           <a class="btn btn--primary invoice-dl" [href]="invoiceUrl + '&auto=download'" target="_blank" rel="noopener">⬇ Download invoice (PDF)</a>
@@ -212,6 +229,40 @@
 
     </div>
   </ng-container>
+
+  <!-- Delivery. Rendered off the server's `unlocked` flag, never off state(): a manual
+       release (or a €0 booking) unlocks a booking that isn't in the 'paid' state. When
+       locked, the payload carries no message and no links — only a count — so there is
+       nothing here to reveal. -->
+  <ng-template #deliveryBlock>
+    @if (delivery(); as d) {
+      @if (d.exists && d.unlocked) {
+        <div class="delivery no-print">
+          <h2 class="delivery__title">Your delivery</h2>
+          @if (d.message) { <p class="delivery__msg text-multiline">{{ d.message }}</p> }
+          @if (d.links.length) {
+            <ul class="delivery__links">
+              @for (l of d.links; track $index) {
+                <li>
+                  <a class="delivery__link" [href]="l.url" target="_blank" rel="noopener noreferrer">
+                    {{ l.label || l.url }}
+                  </a>
+                </li>
+              }
+            </ul>
+          }
+          @if (d.updated_at) { <p class="delivery__meta">Prepared {{ d.updated_at | date:'d MMM yyyy' }}</p> }
+        </div>
+      } @else if (d.exists) {
+        <div class="delivery delivery--locked no-print">
+          <h2 class="delivery__title">🔒 Your delivery is ready</h2>
+          <p class="delivery__msg">
+            {{ d.link_count === 1 ? '1 link' : d.link_count + ' links' }} waiting — unlocks once this booking is paid in full@if (d.remaining > 0) {<span> ({{ d.remaining | currency:'EUR':'symbol':'1.2-2' }} remaining)</span>}.
+          </p>
+        </div>
+      }
+    }
+  </ng-template>
 
   <!-- Itemised receipts behind the paid total — reused by the 'partial' and 'paid' views so
        the client sees each payment (amount · method · date), not just one lumped figure. -->

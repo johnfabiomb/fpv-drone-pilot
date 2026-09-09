@@ -1,0 +1,45 @@
+@use '../../booking.styles' as *;
+
+:host { display: block; }
+
+.items { display: flex; flex-direction: column; gap: 8px; }
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 30px;
+  gap: 8px;
+  align-items: start;
+}
+
+.item__label,
+.item__url {
+  font-family: $font; font-size: 14px; color: $text;
+  border: 1.5px solid $border; border-radius: $radius-md; padding: 9px 12px; background: $card;
+  min-width: 0;                       // let the inputs shrink inside the grid
+  &:focus { outline: none; border-color: $accent; }
+}
+.item__url--invalid { border-color: $red; }
+
+.item__warn { margin: -2px 0 0; font-size: 12px; color: $red; }
+
+.item__remove {
+  width: 30px; height: 40px; padding: 0; background: none; border: none; cursor: pointer;
+  color: $text-3; font-size: 20px; line-height: 1; border-radius: $radius-sm;
+  &:hover { color: $red; background: rgba(239, 68, 68, 0.08); }
+}
+
+.items-empty {
+  margin: 0 0 4px; padding: 12px; border: 1.5px dashed $border; border-radius: $radius-md;
+  text-align: center; font-size: 13px; color: $text-3;
+}
+
+.add {
+  margin-top: 10px; background: none; border: none; padding: 4px 0; cursor: pointer;
+  font-family: $font; font-size: 13px; font-weight: 700; color: $accent;
+  &:hover { text-decoration: underline; }
+}
+
+@media (max-width: 560px) {
+  .item { grid-template-columns: 1fr 30px; }
+  .item__url { grid-column: 1 / -1; }   // stack label above URL on narrow screens
+}

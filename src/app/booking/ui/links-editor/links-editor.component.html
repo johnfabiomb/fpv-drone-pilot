@@ -1,0 +1,21 @@
+@if (links().length) {
+  <div class="items">
+    @for (link of links(); track $index) {
+      <div class="item">
+        <input class="item__label" type="text" placeholder="Label (e.g. Full gallery)"
+               [ngModel]="link.label" (ngModelChange)="setLabel($index, $event)" [name]="'linkLabel' + $index" />
+        <input class="item__url" type="url" placeholder="https://…"
+               [class.item__url--invalid]="invalid(link)"
+               [ngModel]="link.url" (ngModelChange)="setUrl($index, $event)" [name]="'linkUrl' + $index" />
+        <button type="button" class="item__remove" (click)="remove($index)" aria-label="Remove link">×</button>
+      </div>
+      @if (invalid(link)) {
+        <p class="item__warn">Must start with http:// or https://</p>
+      }
+    }
+  </div>
+} @else {
+  <p class="items-empty">No links yet — add the gallery, Drive folder or download link.</p>
+}
+
+<button type="button" class="add" (click)="add()">+ Add link</button>

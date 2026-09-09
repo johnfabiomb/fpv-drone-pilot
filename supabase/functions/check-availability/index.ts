@@ -55,11 +55,23 @@ Deno.serve(async (req) => {
 
     const { data: link } = await supabase
       .from('booking_links')
-      .select('is_active, expires_at, bookings(id, org_id, start_at, end_at, google_event_id, price_total, payments(amount, status, type, method, paid_at))')
+      .select('is_active, expires_at, bookings(id, org_id, start_at, end_at, google_event_id, price_total, deleted_at)')
       .eq('token', token)
       .single();
 
-    if (!link || !link.is_active) {
+    const booking = link?.bookings as {
+      id: string;
+      org_id: string;
+      start_at: string;
+      end_at: string;
+      google_event_id: string | null;
+      price_total: number;
+      deleted_at: string | null;
+    } | undefined;
+
+    // A soft-deleted booking must not keep serving a live pay page (this client runs as
+    // service_role, which bypasses the `hide_deleted` RESTRICTIVE policy, so check it here).
+    if (!link || !link.is_active || !booking || booking.deleted_at) {
       return new Response(JSON.stringify({ available: false, reason: 'invalid_link' }), { headers: corsHeaders });
     }
 
@@ -67,18 +79,18 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ available: false, reason: 'expired' }), { headers: corsHeaders });
     }
 
-    const booking = link.bookings as {
-      id: string;
-      org_id: string;
-      start_at: string;
-      end_at: string;
-      google_event_id: string | null;
-      price_total: number;
-      payments: Array<{ amount: number; status: string; type: string; method: string; paid_at: string | null }>;
-    };
+    // Payments are read separately (not as an embed) so we can filter soft-deleted rows.
+    // Service_role bypasses RLS, so without `.is('deleted_at', null)` a payment the admin
+    // removed would still count — leaving the page reporting "paid in full" and inflating
+    // the receipt list. Mirrors the booking_slots query below, which already does this.
+    const { data: payRows } = await supabase
+      .from('payments')
+      .select('amount, type, method, paid_at')
+      .eq('booking_id', booking.id)
+      .eq('status', 'completed')
+      .is('deleted_at', null);
 
-    // Compute payment status from payments table
-    const completedPayments = booking.payments.filter(p => p.status === 'completed');
+    const completedPayments = payRows ?? [];
     const totalPaid = completedPayments.reduce((sum, p) => sum + p.amount, 0);
     const priceTotal = booking.price_total;
 

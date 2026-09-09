@@ -90,7 +90,49 @@
         <div class="fact"><span class="fact__k">Email</span><span class="fact__v">{{ b.client_email }}</span></div>
       }
     </div>
-    </div><!-- /detail-col (left: billing + facts) -->
+
+    <!-- Delivery — what the client receives on their booking link once it's paid in full
+         (or released early). The paid-gate itself is enforced server-side. -->
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__title">Delivery</h2>
+        @if (clientCanSee()) {
+          <span class="tag tag--live">Visible to client</span>
+        } @else if (hasDelivery()) {
+          <span class="tag">Locked · {{ balance() | currency:'EUR':'symbol':'1.0-2' }} due</span>
+        }
+      </div>
+
+      <div class="field">
+        <label>Message <span class="opt">(optional)</span></label>
+        <textarea rows="3" [(ngModel)]="deliveryMessage" name="deliveryMessage"
+                  placeholder="e.g. Here are your final edits — please download within 30 days."></textarea>
+      </div>
+
+      <label class="sub-label">Links</label>
+      <app-links-editor [(links)]="deliveryLinks" />
+
+      <div class="delivery-actions">
+        <button type="button" class="btn btn--primary" [disabled]="savingDelivery() || !deliveryValid" (click)="saveDelivery()">
+          {{ savingDelivery() ? 'Saving…' : 'Save delivery' }}
+        </button>
+        @if (hasDelivery() && !paidInFull()) {
+          <button type="button" class="link-btn" [disabled]="releasing()" (click)="toggleRelease()">
+            {{ released() ? 'Lock again' : 'Release now (before payment)' }}
+          </button>
+        }
+        @if (hasDelivery()) {
+          <button type="button" class="link-btn link-btn--danger" (click)="clearDelivery()">Remove</button>
+        }
+      </div>
+
+      <p class="empty-line">
+        @if (!hasDelivery()) { Nothing attached yet — the client sees no delivery section. }
+        @else if (clientCanSee()) { Live on the client's booking link now. }
+        @else { Hidden until the booking is paid in full — or use "Release now". }
+      </p>
+    </div>
+    </div><!-- /detail-col (left: billing + facts + delivery) -->
 
     <div class="detail-col">
 

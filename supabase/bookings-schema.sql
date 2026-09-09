@@ -20,6 +20,7 @@
 
 -- ── 0. RESET (comment out to keep data) ────────────────────────────────────
 DROP VIEW  IF EXISTS public.booking_summary CASCADE;
+DROP TABLE IF EXISTS public.deliveries      CASCADE;
 DROP TABLE IF EXISTS public.invoices        CASCADE;
 DROP TABLE IF EXISTS public.work_items      CASCADE;
 DROP TABLE IF EXISTS public.tasks           CASCADE;
@@ -972,6 +973,43 @@ END;
 $$;
 GRANT EXECUTE ON FUNCTION public.get_invoice_by_token(TEXT) TO anon, authenticated;
 
+-- Token accessor for the PAY PAGE (/book/:token). Replaces the old anon SELECT on
+-- bookings/booking_links: RLS cannot see the client's `.eq('token', …)` filter, so a
+-- token-less policy plus an anon table grant let anyone with the publishable key
+-- enumerate every active pay link platform-wide. Resolution happens in here instead,
+-- where the token IS a predicate. Returns exactly the fields the page renders — built
+-- with an explicit jsonb_build_object (never to_jsonb(row)) so a future column can't
+-- silently start leaking. Also filters both soft-delete flags, so a deleted booking's
+-- link correctly reads as invalid.
+CREATE OR REPLACE FUNCTION public.get_booking_by_token(p_token TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+AS $$
+DECLARE b RECORD;
+BEGIN
+  SELECT bk.booking_ref, bk.title, bk.description, bk.location,
+         bk.start_at, bk.end_at, bk.price_total, bk.price_expenses,
+         bk.allow_card, bk.allow_inperson, bk.deposit_percent, bk.deposit_allowed,
+         bk.status, bk.google_event_id
+    INTO b
+    FROM booking_links bl
+    JOIN bookings bk ON bk.id = bl.booking_id AND bk.deleted_at IS NULL
+   WHERE bl.token = p_token
+     AND bl.is_active
+     AND bl.deleted_at IS NULL
+     AND (bl.expires_at IS NULL OR bl.expires_at > now());
+  IF NOT FOUND THEN RETURN NULL; END IF;
+
+  RETURN jsonb_build_object(
+    'booking_ref', b.booking_ref, 'title', b.title, 'description', b.description,
+    'location', b.location, 'start_at', b.start_at, 'end_at', b.end_at,
+    'price_total', b.price_total, 'price_expenses', b.price_expenses,
+    'allow_card', b.allow_card, 'allow_inperson', b.allow_inperson,
+    'deposit_percent', b.deposit_percent, 'deposit_allowed', b.deposit_allowed,
+    'status', b.status, 'google_event_id', b.google_event_id);
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_booking_by_token(TEXT) TO anon, authenticated;
+
 
 -- ── 16. Org creation & membership (platform-admin gated) ───────────────────
 -- Orgs are NOT self-serve: only a platform admin can create one. The creator
@@ -1030,6 +1068,95 @@ END $$;
 GRANT EXECUTE ON FUNCTION public.list_org_members(UUID) TO authenticated;
 
 
+-- ── 17. Client deliveries ──────────────────────────────────────────────────
+-- What the client GETS after the job: a free-text message and/or N labelled links
+-- (Drive / WeTransfer / gallery). Keyed 1:1 to the booking and edited as a whole on
+-- the booking-detail screen — same shape as invoices (§15). No file uploads.
+-- `links` shape: [{ "label": text, "url": text }, …].
+-- VISIBILITY: the client sees it on /book/:token only when the booking is paid in full
+-- OR `released_at` is set (goodwill early delivery, and €0-comped bookings which can
+-- never be "paid in full"). Enforced server-side in get_delivery_by_token below —
+-- locked content NEVER reaches the browser.
+CREATE TABLE public.deliveries (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  org_id      UUID NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
+  booking_id  UUID NOT NULL REFERENCES public.bookings(id) ON DELETE CASCADE,
+  message     TEXT,
+  links       JSONB NOT NULL DEFAULT '[]'::jsonb,
+  released_at TIMESTAMPTZ,                       -- manual override: visible regardless of payment
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  updated_at  TIMESTAMPTZ DEFAULT now(),
+  deleted_at  TIMESTAMPTZ,
+  UNIQUE (booking_id)                            -- also provides the booking_id index
+);
+CREATE INDEX deliveries_org_idx ON public.deliveries(org_id);
+
+ALTER TABLE public.deliveries ENABLE ROW LEVEL SECURITY;
+-- WITH CHECK also verifies the booking belongs to org_id, so an admin of org A can't
+-- attach a delivery to org B's booking (cross-tenant integrity) — mirrors inv_admin.
+CREATE POLICY del_admin ON public.deliveries FOR ALL
+  USING (public.is_org_admin(org_id))
+  WITH CHECK (public.is_org_admin(org_id)
+              AND EXISTS (SELECT 1 FROM public.bookings b WHERE b.id = booking_id AND b.org_id = org_id));
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.deliveries TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.deliveries TO service_role;  -- created after the blanket service_role grant
+-- deliberately NOTHING to anon: the public page reads via get_delivery_by_token only.
+
+CREATE TRIGGER deliveries_updated BEFORE UPDATE ON public.deliveries
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- Token accessor: anon-safe. Returns the delivery behind an active pay link. Content
+-- (message + links) is returned ONLY when unlocked; when locked it still reports
+-- `exists` + `link_count` + `remaining` so the page can render a teaser without ever
+-- receiving the content. SECURITY DEFINER bypasses RLS, so every table it reads
+-- filters deleted_at itself (§18 rule).
+CREATE OR REPLACE FUNCTION public.get_delivery_by_token(p_token TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+AS $$
+DECLARE
+  b RECORD; d RECORD;
+  v_paid NUMERIC; v_has BOOLEAN; v_unlocked BOOLEAN;
+BEGIN
+  SELECT bk.id, bk.price_total INTO b
+    FROM booking_links bl
+    JOIN bookings bk ON bk.id = bl.booking_id AND bk.deleted_at IS NULL
+   WHERE bl.token = p_token
+     AND bl.is_active
+     AND bl.deleted_at IS NULL
+     AND (bl.expires_at IS NULL OR bl.expires_at > now());
+  IF NOT FOUND THEN RETURN NULL; END IF;                 -- unresolved / expired token
+
+  SELECT id, message, links, released_at, updated_at INTO d
+    FROM deliveries WHERE booking_id = b.id AND deleted_at IS NULL;
+
+  -- "Attached" means there is something to show — a cleared row must look like no row.
+  v_has := d.id IS NOT NULL
+       AND (NULLIF(btrim(COALESCE(d.message, '')), '') IS NOT NULL
+            OR jsonb_array_length(COALESCE(d.links, '[]'::jsonb)) > 0);
+  IF NOT v_has THEN RETURN jsonb_build_object('exists', false); END IF;
+
+  SELECT COALESCE(SUM(amount), 0) INTO v_paid
+    FROM payments
+   WHERE booking_id = b.id AND status = 'completed' AND deleted_at IS NULL;
+
+  -- Paid in full (card OR admin-recorded cash/bank — same ledger), or manually released.
+  v_unlocked := d.released_at IS NOT NULL
+             OR (v_paid >= b.price_total AND b.price_total > 0);
+
+  RETURN jsonb_build_object(
+    'exists',     true,
+    'unlocked',   v_unlocked,
+    'remaining',  GREATEST(0, ROUND(b.price_total - v_paid, 2)),
+    'link_count', jsonb_array_length(COALESCE(d.links, '[]'::jsonb)),
+    'message',    CASE WHEN v_unlocked THEN d.message ELSE NULL END,
+    'links',      CASE WHEN v_unlocked THEN COALESCE(d.links, '[]'::jsonb) ELSE '[]'::jsonb END,
+    'updated_at', CASE WHEN v_unlocked THEN d.updated_at ELSE NULL END);
+END;
+$$;
+GRANT EXECUTE ON FUNCTION public.get_delivery_by_token(TEXT) TO anon, authenticated;
+
+
 -- ── 18. Soft delete (DB-enforced) ──────────────────────────────────────────
 -- Items are never hard-deleted: every item table has `deleted_at` (defined inline
 -- above), and deleting sets it. Reads exclude deleted rows at the DB level via a
@@ -1045,7 +1172,7 @@ GRANT EXECUTE ON FUNCTION public.list_org_members(UUID) TO authenticated;
 DO $$
 DECLARE t text;
 BEGIN
-  FOREACH t IN ARRAY ARRAY['bookings','booking_slots','booking_links','payments','invoices',
+  FOREACH t IN ARRAY ARRAY['bookings','booking_slots','booking_links','payments','invoices','deliveries',
                            'clients','services','staff','staff_services','tasks','work_items'] LOOP
     EXECUTE format('DROP POLICY IF EXISTS hide_deleted ON public.%I', t);
     EXECUTE format('CREATE POLICY hide_deleted ON public.%I AS RESTRICTIVE FOR SELECT USING (deleted_at IS NULL)', t);
@@ -1062,6 +1189,7 @@ BEGIN
     UPDATE public.booking_links SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
     UPDATE public.payments      SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
     UPDATE public.invoices      SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
+    UPDATE public.deliveries    SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
     UPDATE public.tasks         SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
     UPDATE public.work_items    SET deleted_at = NEW.deleted_at WHERE booking_id = NEW.id AND deleted_at IS NULL;
   END IF;
@@ -1098,7 +1226,10 @@ SET search_path = public
 AS $f$
 DECLARE v_org uuid;
 BEGIN
-  IF p_table NOT IN ('bookings','payments','services','staff','work_items','tasks') THEN
+  -- NOTE re 'deliveries': allowed here for completeness/manual use, but the app must NOT
+  -- wire a delete button to it — an upsert(onConflict:booking_id) can't resolve its conflict
+  -- target against a soft-deleted row (hide_deleted hides it), so "Remove" clears in place.
+  IF p_table NOT IN ('bookings','payments','services','staff','work_items','tasks','deliveries') THEN
     RAISE EXCEPTION 'soft_delete: table % not allowed', p_table USING errcode = '42501';
   END IF;
   EXECUTE format('SELECT org_id FROM public.%I WHERE id = $1 AND deleted_at IS NULL', p_table)
