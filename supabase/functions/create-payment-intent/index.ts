@@ -52,11 +52,15 @@ Deno.serve(async (req) => {
 
     let amount: number;
     if (paymentType === 'remainder') {
+      // `.is('deleted_at', null)` is REQUIRED: this client is service_role, which bypasses
+      // the `hide_deleted` RESTRICTIVE policy. Without it a payment the admin removed still
+      // counts toward totalPaid and the remainder is charged SHORT.
       const { data: priorPayments } = await supabase
         .from('payments')
         .select('amount')
         .eq('booking_id', booking.id)
-        .eq('status', 'completed');
+        .eq('status', 'completed')
+        .is('deleted_at', null);
       const totalPaid = (priorPayments ?? []).reduce((sum, p) => sum + p.amount, 0);
       amount = Math.round((booking.price_total - totalPaid) * 100) / 100;
       if (amount <= 0) {

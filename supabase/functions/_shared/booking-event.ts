@@ -47,13 +47,15 @@ interface BookingRow {
   notes: string | null;
   client: unknown;
   service: unknown;
-  payments: Array<{ amount: number; status: string; method: string }> | null;
+  payments: Array<{ amount: number; status: string; method: string; deleted_at: string | null }> | null;
   slots: SlotRow[] | null;
 }
 
 function composeDescription(b: BookingRow): string {
+  // deleted_at is checked here because this runs as service_role, which bypasses the
+  // `hide_deleted` policy — a removed payment would otherwise inflate the calendar line.
   const totalPaid = (b.payments ?? [])
-    .filter(p => p.status === 'completed')
+    .filter(p => p.status === 'completed' && !p.deleted_at)
     .reduce((s, p) => s + Number(p.amount), 0);
 
   let payment: string;
@@ -87,7 +89,7 @@ function composeDescription(b: BookingRow): string {
  */
 export async function ensureBookingEvent(service: SupabaseClient, bookingId: string): Promise<string | null> {
   const { data } = await service.from('bookings')
-    .select('id, org_id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method), slots:booking_slots(id, start_at, end_at, google_event_id)')
+    .select('id, org_id, booking_ref, title, description, location, start_at, end_at, price_total, status, production_status, google_event_id, notes, client:client_id(name), service:service_id(name), payments(amount, status, method, deleted_at), slots:booking_slots(id, start_at, end_at, google_event_id)')
     .eq('id', bookingId)
     .single();
   if (!data) return null;

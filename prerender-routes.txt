@@ -98,3 +98,4 @@
 /malta/providers/gozo-kayak-tours
 /malta/experiences/gozo-kayak-sea-caves
 /malta/leaderboard
+/malta/locations/hidden-pool-qala

@@ -55,13 +55,13 @@
     </div>
 
     <a class="dl-btn" [href]="invoiceLink" target="_blank" rel="noopener">⬇ Download Invoice (PDF)</a>
-    <a class="back-link" href="/malta">← Back to explore</a>
+    <a class="back-link" [href]="backLink">← Back to your booking</a>
 
   } @else {
     <div class="loading-state">
       <h2>Payment received</h2>
       <p>We couldn't load the receipt details here, but your payment went through.</p>
-      <a class="back-link" href="/malta">← Back to explore</a>
+      <a class="back-link" [href]="backLink">← Back to your booking</a>
     </div>
   }
 

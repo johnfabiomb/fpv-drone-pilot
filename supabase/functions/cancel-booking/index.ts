@@ -38,9 +38,12 @@ Deno.serve(async (req) => {
     // Optional refund of completed card payments
     let refunded = 0;
     if (refund) {
+      // Soft-deleted payments must not be refunded — service_role bypasses `hide_deleted`,
+      // so a payment the admin already removed would otherwise be sent to Stripe.
       const { data: pays } = await service.from('payments')
         .select('id, amount, stripe_payment_intent_id')
-        .eq('booking_id', bookingId).eq('status', 'completed').eq('method', 'card');
+        .eq('booking_id', bookingId).eq('status', 'completed').eq('method', 'card')
+        .is('deleted_at', null);
       const stripe = platformStripe();
       // Direct charges live on the connected account, so refunds must target it too.
       // Options must be undefined (never `{}`) for the platform account, or the SDK

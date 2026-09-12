@@ -25,8 +25,11 @@ export interface InvoiceData {
 })
 export class BookingInvoiceComponent {
   @Input() invoice: InvoiceData | null = null;
-  @Input() backLink: string | null = '/malta';
-  @Input() backLabel = '← Back to explore';
+  // Opt-in: a booking invoice has no business defaulting to a link back to the Malta map
+  // (a client who just paid for a shoot isn't a map visitor). Callers that want a "back"
+  // affordance pass their own destination; otherwise the template renders none.
+  @Input() backLink: string | null = null;
+  @Input() backLabel = '← Back';
 
   get typeLabel(): string {
     // No hardcoded percentage — the deposit % varies per booking; the amount is shown alongside.

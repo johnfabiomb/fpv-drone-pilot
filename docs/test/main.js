@@ -90,11 +90,11 @@ var bookingRoutes = [
   }, false ? { \u0275entryName: "src/app/booking/public/invoice/invoice.component.ts" } : {}),
   __spreadValues({
     path: "book/:token",
-    loadComponent: () => import("./chunk-YN2GHTIP.js").then((m) => m.BookPageComponent)
+    loadComponent: () => import("./chunk-YG7ZDSR6.js").then((m) => m.BookPageComponent)
   }, false ? { \u0275entryName: "src/app/booking/public/book-page/book-page.component.ts" } : {}),
   __spreadValues({
     path: "pay/success",
-    loadComponent: () => import("./chunk-HNSCKKBL.js").then((m) => m.PaymentSuccessComponent)
+    loadComponent: () => import("./chunk-UCG36PDA.js").then((m) => m.PaymentSuccessComponent)
   }, false ? { \u0275entryName: "src/app/booking/public/payment-success/payment-success.component.ts" } : {}),
   // ── Per-org public booking (slug-driven) ──────────────────────────
   // `:org/book*` — the `book` second segment can't collide with the map app
@@ -207,7 +207,7 @@ var routes = [
   // Handles /malta, /privacy, /contact, /pay, … (everything except the bare root).
   __spreadValues({
     path: "",
-    loadChildren: () => import("./chunk-3FHN36OB.js").then((m) => m.mapRoutes)
+    loadChildren: () => import("./chunk-AKNK2AMJ.js").then((m) => m.mapRoutes)
   }, false ? { \u0275entryName: "src/app/map/map.routes.ts" } : {})
 ];
 

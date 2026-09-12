@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
     // ── 1. Push: create calendar events for paid bookings that are missing them ──
     const { data: unpushed } = await supabase
       .from('bookings')
-      .select('id, booking_ref, title, description, location, start_at, end_at, payments(status)')
+      .select('id, booking_ref, title, description, location, start_at, end_at, payments(status, deleted_at)')
       .eq('org_id', calendarOrg)
       .is('google_event_id', null)
       .eq('is_external', false);
@@ -68,8 +68,9 @@ Deno.serve(async (req) => {
     const pushErrors: string[] = [];
 
     for (const booking of unpushed ?? []) {
-      const payments = booking.payments as Array<{ status: string }>;
-      const hasPaidPayment = payments.some(p => p.status === 'completed');
+      const payments = booking.payments as Array<{ status: string; deleted_at: string | null }>;
+      // service_role bypasses `hide_deleted` → ignore payments the admin removed.
+      const hasPaidPayment = payments.some(p => p.status === 'completed' && !p.deleted_at);
       if (!hasPaidPayment) continue;
 
       try {

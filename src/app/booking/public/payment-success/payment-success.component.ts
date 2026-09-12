@@ -84,6 +84,11 @@ export class PaymentSuccessComponent implements OnInit {
     return dash >= 0 ? `${prefix}-${ref.slice(dash + 1)}` : `${prefix}-${ref}`;
   }
 
+  /** Back to the client's OWN booking page — where their receipt, invoice and (once paid
+   *  in full) their delivery live. Previously this pointed at the public Malta map, which
+   *  is nothing to do with someone who just paid for a shoot. */
+  get backLink(): string { return this.tok ? `/book/${this.tok}` : '/book/mine'; }
+
   /** Full printable invoice — by token for anon customers, by id for signed-in. */
   get invoiceLink(): string {
     return this.tok ? `/book/invoice?token=${this.tok}` : `/book/invoice/${this.bookingId}`;

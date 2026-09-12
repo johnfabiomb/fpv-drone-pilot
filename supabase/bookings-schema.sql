@@ -611,10 +611,11 @@ CREATE POLICY bk_client_r ON public.bookings FOR SELECT
 CREATE POLICY bk_client_i ON public.bookings FOR INSERT
   WITH CHECK (client_id = public.current_client_id(org_id)
               AND created_by = 'client' AND status IN ('pending','hold'));
-CREATE POLICY bk_token_r ON public.bookings FOR SELECT
-  USING (EXISTS (SELECT 1 FROM booking_links bl
-                 WHERE bl.booking_id = bookings.id AND bl.is_active
-                   AND (bl.expires_at IS NULL OR bl.expires_at > now())));
+-- NOTE: there is deliberately NO token-read policy here. RLS cannot see the client's
+-- `.eq('token', …)` filter, so any such policy is token-LESS in practice — it once let
+-- anyone with the publishable key enumerate every booking behind an active link. Public
+-- token access goes through get_booking_by_token / get_invoice_by_token /
+-- get_delivery_by_token (SECURITY DEFINER), where the token IS a predicate.
 
 -- payments: org admin all; client reads payments on their own bookings
 CREATE POLICY pay_admin  ON public.payments FOR ALL
@@ -622,11 +623,10 @@ CREATE POLICY pay_admin  ON public.payments FOR ALL
 CREATE POLICY pay_client_r ON public.payments FOR SELECT
   USING (booking_id IN (SELECT id FROM bookings WHERE client_id = public.current_client_id(org_id)));
 
--- booking_links: org admin all; anon/auth read an active link by token
+-- booking_links: org admin only. No token policy — see the note above bookings; the
+-- public pay flow resolves tokens inside SECURITY DEFINER functions instead.
 CREATE POLICY bl_admin ON public.booking_links FOR ALL
   USING (public.is_org_admin(org_id)) WITH CHECK (public.is_org_admin(org_id));
-CREATE POLICY bl_token ON public.booking_links FOR SELECT
-  USING (is_active AND (expires_at IS NULL OR expires_at > now()));
 
 
 -- ── 11. Grants ─────────────────────────────────────────────────────────────
@@ -638,8 +638,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON
   public.booking_links TO authenticated;
 GRANT SELECT ON public.platform_admins, public.booking_summary TO authenticated;
 
--- anon: token pay flow only (public service/staff lists are served via Edge Functions)
-GRANT SELECT ON public.bookings, public.booking_links TO anon;
+-- anon gets NO table grants. Everything public is served through SECURITY DEFINER RPCs
+-- (get_booking_by_token / get_invoice_by_token / get_delivery_by_token, get_busy_ranges,
+-- service_price) or Edge Functions running as service_role. Granting anon SELECT on
+-- bookings/booking_links is what made pay-link tokens enumerable — don't reintroduce it.
+-- (On an existing database: REVOKE SELECT ON public.bookings, public.booking_links FROM anon;)
 
 GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
 

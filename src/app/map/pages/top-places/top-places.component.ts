@@ -40,6 +40,7 @@ const REVEALED: TrendLocation[] = [
   { num: 27, name: 'Tas-Simar Natural Arch',           id: 78 },
   { num: 28, name: 'Munxar Path',                       id: 8  },
   { num: 29, name: 'Dingli Cliffs',                     id: 19 },
+  { num: 30, name: 'Hidden Pool, Qala',                 id: 79 },
 ];
 
 const TOTAL = 30;

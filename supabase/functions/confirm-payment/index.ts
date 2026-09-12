@@ -38,8 +38,11 @@ Deno.serve(async (req) => {
     await recordSucceededIntent(service, intent);
 
     // Fresh totals for the receipt.
+    // service_role bypasses `hide_deleted`, so filter soft-deleted payments explicitly —
+    // otherwise a removed payment inflates the receipt's paid total / balance due.
     const { data: pays } = await service.from('payments')
-      .select('amount').eq('booking_id', booking.id).eq('status', 'completed');
+      .select('amount').eq('booking_id', booking.id).eq('status', 'completed')
+      .is('deleted_at', null);
     const paid = (pays ?? []).reduce((s: number, p: { amount: number }) => s + Number(p.amount), 0);
     return json({
       recorded: true,

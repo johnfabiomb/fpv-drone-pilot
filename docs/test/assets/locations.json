@@ -4638,6 +4638,82 @@
             ],
             "locality": "Gozo-Qala",
             "showLabel": false
+        },
+        {
+            "id": 79,
+            "title": "Hidden Pool",
+            "slug": "hidden-pool-qala",
+            "description": "Tucked into the cliffs on the wild eastern tip of Gozo near Qala, this unnamed sea pool is one of those places that barely feels real — a pocket of glassy, electric-turquoise water sitting inside a huge limestone grotto, with a natural rock window letting the light pour straight in. There's no sign and no official name for it, so I just call it the <b>Hidden Pool</b>. Getting to it is the catch: it's easily the hardest spot on this whole list to reach. The rock around the pool drops straight into deep water, so the honest way in is to <b>swim</b> — paddle around the coast, or come by kayak or boat and slip inside. Some people scramble down the rocks with a bit of climbing, but I really wouldn't recommend it unless you know exactly what you're doing; wet limestone is unforgiving. There are no facilities of any kind out here, so bring water, decent shoes and take everything back out with you. Make the effort, though, and you get this quiet, cathedral-like pool almost entirely to yourself.",
+            "img": "/assets/images/places/hidden-pool-qala/hidden-pool-qala.webp",
+            "thumb": "/assets/images/places/hidden-pool-qala/hidden-pool-qala-thumb.webp",
+            "images": [
+                "/assets/images/places/hidden-pool-qala/hidden-pool-qala.webp",
+                "/assets/images/places/hidden-pool-qala/hidden-pool-qala-2.webp",
+                "/assets/images/places/hidden-pool-qala/hidden-pool-qala-3.webp"
+            ],
+            "lon": 14.33263528794896,
+            "lat": 36.038907952561686,
+            "keywords": "Hidden Pool, Qala, Gozo, Malta, hidden sea pool, sea cave, grotto, cave pool, turquoise water, swimming, snorkeling, cliff jumping, hidden gem, hard access",
+            "rating": 4.7,
+            "mapPoints": [
+                {
+                    "label": "Park here",
+                    "description": "Park here, then follow the coast southeast toward the pool.",
+                    "lon": 14.317163605623612,
+                    "lat": 36.049385881998845,
+                    "type": "parking"
+                },
+                { "lon": 14.317307394708957, "lat": 36.049767592916794, "type": "waypoint" },
+                { "lon": 14.318052545483773, "lat": 36.04992814620816,  "type": "waypoint" },
+                { "lon": 14.318742562928824, "lat": 36.04989973641652,  "type": "waypoint" },
+                { "lon": 14.319780652059166, "lat": 36.04974241614988,  "type": "waypoint" },
+                { "lon": 14.320218783357967, "lat": 36.049555756999794, "type": "waypoint" },
+                { "lon": 14.320592634979862, "lat": 36.049104189298234, "type": "waypoint" },
+                { "lon": 14.320863451937642, "lat": 36.048858644618846, "type": "waypoint" },
+                { "lon": 14.32111635907148,  "lat": 36.048650796072735, "type": "waypoint" },
+                { "lon": 14.321475831784838, "lat": 36.04825428982795,  "type": "waypoint" },
+                { "lon": 14.32178646725856,  "lat": 36.04784897638382,  "type": "waypoint" },
+                { "lon": 14.322004916061292, "lat": 36.047386633092856, "type": "waypoint" },
+                { "lon": 14.322191517057224, "lat": 36.04704539466927,  "type": "waypoint" },
+                { "lon": 14.322436095536046, "lat": 36.04663190397859,  "type": "waypoint" },
+                { "lon": 14.32290009585015,  "lat": 36.04646296932859,  "type": "waypoint" },
+                { "lon": 14.323173432457796, "lat": 36.04622997190883,  "type": "waypoint" },
+                { "lon": 14.323512509610413, "lat": 36.04580426415393,  "type": "waypoint" },
+                { "lon": 14.324578226735927, "lat": 36.04521083369886,  "type": "waypoint" },
+                { "lon": 14.324885266795494, "lat": 36.04481732608079,  "type": "waypoint" },
+                { "lon": 14.325286805528854, "lat": 36.04434588797835,  "type": "waypoint" },
+                { "lon": 14.3256582960491,   "lat": 36.04401583181786,  "type": "waypoint" },
+                { "lon": 14.326156322336193, "lat": 36.04370520224498,  "type": "waypoint" },
+                { "lon": 14.326591618274982, "lat": 36.04346107009751,  "type": "waypoint" },
+                { "lon": 14.327270740143424, "lat": 36.04318325313845,  "type": "waypoint" },
+                { "lon": 14.328055971444211, "lat": 36.04238973957014,  "type": "waypoint" },
+                { "lon": 14.328545074648343, "lat": 36.04222792388647,  "type": "waypoint" },
+                { "lon": 14.329391584952619, "lat": 36.041272626507876, "type": "waypoint" },
+                { "lon": 14.329682445205124, "lat": 36.040760571215,    "type": "waypoint" },
+                { "lon": 14.331331070460855, "lat": 36.039652595443215, "type": "waypoint" },
+                { "lon": 14.331745617544078, "lat": 36.03948308076838,  "type": "waypoint" },
+                { "lon": 14.332437532748338, "lat": 36.03903090945472,  "type": "waypoint" },
+                {
+                    "label": "Hidden Pool (Qala)",
+                    "description": "Open this exact spot in Google Maps. The coast walk gets you above the pool; the final drop to the water is a swim or a careful scramble.",
+                    "lon": 14.33263528794896,
+                    "lat": 36.038907952561686,
+                    "type": "destination"
+                }
+            ],
+            "difficulty": "hard",
+            "hidden": true,
+            "tags": [
+                "hidden",
+                "sea-cave",
+                "cave",
+                "swimming",
+                "snorkeling",
+                "hard",
+                "gozo"
+            ],
+            "locality": "Gozo-Qala",
+            "showLabel": false
         }
     ]
 }
